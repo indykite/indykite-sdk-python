@@ -1,0 +1,4 @@
+# Global rule:
+* @indykite/indykite @indykite/profiq
+
+/.github/** @indykite/actions @maprokes
