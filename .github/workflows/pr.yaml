@@ -1,0 +1,23 @@
+name: PR Tests
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install pipenv
+        run: pipx install pipenv
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.8"
+          cache: "pipenv"
+      - name: "Install"
+        run: pipenv install
+      - name: "Tests"
+        env:
+          INDYKITE_APPLICATION_CREDENTIALS: ${{ secrets.JARVIS_CREDENTIALS }}
+        run: pipenv run pytest
