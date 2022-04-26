@@ -1,0 +1,15 @@
+name: Release notes
+on:
+  push:
+    branches:
+      - master
+jobs:
+  release-please:
+    name: Prepare Release notes
+    runs-on: ubuntu-latest
+    steps:
+      - id: release-please
+        uses: maprokes/release-please-action@main
+        with:
+          release-type: python
+          package-name: jarvis-sdk-python
