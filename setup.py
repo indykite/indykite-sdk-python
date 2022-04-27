@@ -1,11 +1,11 @@
 import setuptools
-with open("version.py") as fp:
+with open("version.py", encoding="utf8") as fp:
     exec(fp.read())
 
 long_description = (
-    open('README.md').read()
+    open('README.md', encoding="utf8").read()
     + '\n\n' +
-    open('CHANGELOG.md').read()
+    open('CHANGELOG.md', encoding="utf8").read()
     + '\n')
 
 
