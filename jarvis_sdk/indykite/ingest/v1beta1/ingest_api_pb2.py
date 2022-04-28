@@ -12,8 +12,8 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from indykite.objects.v1beta1 import struct_pb2 as indykite_dot_objects_dot_v1beta1_dot_struct__pb2
-from validate import validate_pb2 as validate_dot_validate__pb2
+from jarvis_sdk.indykite.objects.v1beta1 import struct_pb2 as indykite_dot_objects_dot_v1beta1_dot_struct__pb2
+from jarvis_sdk.validate import validate_pb2 as validate_dot_validate__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n(indykite/ingest/v1beta1/ingest_api.proto\x12\x17indykite.ingest.v1beta1\x1a%indykite/objects/v1beta1/struct.proto\x1a\x17validate/validate.proto\"\xa1\x02\n\x14StreamRecordsRequest\x12P\n\x11mapping_config_id\x18\x01 \x01(\tB$\xfa\x42!r\x1f\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$R\x0fmappingConfigId\x12[\n\x06record\x18\x02 \x03(\x0b\x32\x39.indykite.ingest.v1beta1.StreamRecordsRequest.RecordEntryB\x08\xfa\x42\x05\x9a\x01\x02\x08\x01R\x06record\x1aZ\n\x0bRecordEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueR\x05value:\x02\x38\x01\"8\n\x15StreamRecordsResponse\x12\x1f\n\x0bnum_records\x18\x01 \x01(\rR\nnumRecords2}\n\tIngestAPI\x12p\n\rStreamRecords\x12-.indykite.ingest.v1beta1.StreamRecordsRequest\x1a..indykite.ingest.v1beta1.StreamRecordsResponse(\x01\x42\xab\x01\n\x1b\x63om.indykite.ingest.v1beta1B\x0eIngestApiProtoP\x01\xa2\x02\x03IIX\xaa\x02\x17Indykite.Ingest.V1beta1\xca\x02\x17Indykite\\Ingest\\V1beta1\xe2\x02#Indykite\\Ingest\\V1beta1\\GPBMetadata\xea\x02\x19Indykite::Ingest::V1beta1b\x06proto3')

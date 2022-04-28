@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from indykite.ingest.v1beta1 import ingest_api_pb2 as indykite_dot_ingest_dot_v1beta1_dot_ingest__api__pb2
+from jarvis_sdk.indykite.ingest.v1beta1 import ingest_api_pb2 as indykite_dot_ingest_dot_v1beta1_dot_ingest__api__pb2
 
 
 class IngestAPIStub(object):
