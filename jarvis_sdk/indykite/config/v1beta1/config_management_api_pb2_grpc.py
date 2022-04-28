@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from indykite.config.v1beta1 import config_management_api_pb2 as indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2
+from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2
 
 
 class ConfigManagementAPIStub(object):
