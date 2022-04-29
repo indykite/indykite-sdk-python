@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.0.2](https://github.com/indykite/jarvis-sdk-python/compare/v1.0.1...v1.0.2) (2022-04-29)
+
+
+### Bug Fixes
+
+* add imports from root package ([9ea91f6](https://github.com/indykite/jarvis-sdk-python/commit/9ea91f63eaa490ce173d9a23243dd13ad5bbe6c6))
+* do not include tests in build files ([5d06b72](https://github.com/indykite/jarvis-sdk-python/commit/5d06b7280323cc5a81c1e5464e8504c1be0d3b8d))
+
 ### [1.0.1](https://github.com/indykite/jarvis-sdk-python/compare/v1.0.0...v1.0.1) (2022-04-27)
 
 
