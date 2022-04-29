@@ -82,7 +82,7 @@ import uuid
 from authlib.jose import JsonWebKey, jwt
 from datetime import datetime, timedelta, timezone
 
-from jarvis_sdk.identity.v1 import identity_management_api_pb2_grpc as pb2_grpc
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2_grpc as pb2_grpc
 
 def __init__(self, credential_json=None, credential_file=None):
     if credential_json is None:
@@ -160,7 +160,7 @@ If the token was not valid, then the `response.active` attribute is false and no
 
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
 def introspect_token(self, user_token):
     response = self.stub.TokenIntrospect(
@@ -177,9 +177,9 @@ It is possible to get an existing user's properties like it's email, mobile, nic
 #### Admin service
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import model_pb2 as model
-from jarvis_sdk.identity.v1 import attributes_pb2 as attributes
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
 
 def get_digital_twin(self, digital_twin_id, tenant_id, field_name):
     response = self.stub.GetDigitalTwin(
@@ -204,8 +204,8 @@ def get_digital_twin(self, digital_twin_id, tenant_id, field_name):
 #### Self-service
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import attributes_pb2 as attributes
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
 
 def get_digital_twin(self, token, field_name):
     response = self.stub.GetDigitalTwin(
@@ -230,10 +230,10 @@ protected. Also, the `PatchDigitalTwin` allows to send multiple operations in on
 #### Admin service
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import model_pb2 as model
-from jarvis_sdk.identity.v1 import attributes_pb2 as attributes
-from jarvis_sdk.objects import struct_pb2 as objects
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from jarvis_sdk.indykite.objects import struct_pb2 as objects
 
 def patch_property_add(self, digital_twin_id, tenant_id, property_name, value):
     response = self.stub.PatchDigitalTwin(
@@ -259,10 +259,10 @@ def patch_property_add(self, digital_twin_id, tenant_id, property_name, value):
 ```
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import model_pb2 as model
-from jarvis_sdk.identity.v1 import attributes_pb2 as attributes
-from jarvis_sdk.objects import struct_pb2 as objects
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from jarvis_sdk.indykite.objects import struct_pb2 as objects
 
 def patch_property_replace(self, digital_twin_id, tenant_id, property_id, value):
     response = self.stub.PatchDigitalTwin(
@@ -288,9 +288,9 @@ def patch_property_replace(self, digital_twin_id, tenant_id, property_id, value)
 ```
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import model_pb2 as model
-from jarvis_sdk.identity.v1 import attributes_pb2 as attributes
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
 
 def patch_property_remove(self, digital_twin_id, tenant_id, property_id):
     response = self.stub.PatchDigitalTwin(
@@ -317,10 +317,10 @@ def patch_property_remove(self, digital_twin_id, tenant_id, property_id):
 #### Self-service
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import model_pb2 as model
-from jarvis_sdk.identity.v1 import attributes_pb2 as attributes
-from jarvis_sdk.objects import struct_pb2 as objects
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from jarvis_sdk.indykite.objects import struct_pb2 as objects
 
 def patch_property_add_replace_remove(self, token, add_name, add_value, replace_id, replace_value, remove_id):
     response = self.stub.PatchDigitalTwin(
@@ -359,8 +359,8 @@ It is allowed to send a delete user request which deletes the digital twin and a
 #### Admin service
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import model_pb2 as model
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
 
 def del_user(self, digital_twin_id, tenant_id):
     response = self.stub.DeleteDigitalTwin(
@@ -380,7 +380,7 @@ def del_user(self, digital_twin_id, tenant_id):
 #### Self-service
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
 def del_user(self, token):
     response = self.stub.DeleteDigitalTwin(
@@ -397,7 +397,7 @@ registered email address. The email should contain a token which can be sent to 
 set the digital twin's email as verified email.
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
 def verify_email(self, token):
     response = self.stub.VerifyDigitalTwinEmail(
@@ -412,8 +412,8 @@ it is necessary to send out a new, valid verification email. Calling the `StartD
 sends out another verification email to the registered address with a new token.
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import model_pb2 as model
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
 
 def new_verification_email(self, digital_twin_id, tenant_id, email):
     response = self.stub.StartDigitalTwinEmailVerification(
@@ -435,8 +435,8 @@ and tenant ID (Admin service), or the user (self-service) with his active token 
 #### Admin service
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.identity.v1 import model_pb2 as model
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
 
 def change_password(self, digital_twin_id, tenant_id, new_password):
     response = self.stub.ChangePassword(
@@ -455,7 +455,7 @@ def change_password(self, digital_twin_id, tenant_id, new_password):
 #### Self-service
 
 ```python
-from jarvis_sdk.identity.v1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
 def change_password(self, token, new_password):
     response = self.stub.ChangePassword(
