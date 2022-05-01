@@ -11,6 +11,14 @@ from google.protobuf.json_format import MessageToJson
 from jarvis_sdk.cmd import IdentityClient
 
 
+class ParseKwargs(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, dict())
+        for value in values:
+            key, value = value.split('=')
+            getattr(namespace, self.dest)[key] = value
+
+
 def main():
     # Create parent parser
     parser = argparse.ArgumentParser(description="Identity client API.")
@@ -91,6 +99,14 @@ Property ID and value of the property where the value is a reference
     # DELETE-USER-BY-TOKEN (self-service)
     del_dt_by_token = subparsers.add_parser("del-dt-by-token")
     del_dt_by_token.add_argument("user_token", help="JWT bearer token")
+
+    # ENRICH-TOKEN
+    enrich_token = subparsers.add_parser("enrich-token")
+    enrich_token.add_argument("user_token", help="JWT bearer token")
+    enrich_token.add_argument("--token_claims", nargs='*',
+                              help="Token claims to add (--token_claims key=value)", action=ParseKwargs)
+    enrich_token.add_argument("--session_claims", nargs='*',
+                              help="Session claims to add (--session_claims key=value)", action=ParseKwargs)
 
     args = parser.parse_args()
 
@@ -213,6 +229,16 @@ Property ID and value of the property where the value is a reference
         if dt is not None:
             print_response(dt)
 
+    elif command == "enrich-token":
+        user_token = args.user_token
+        token_claims = args.token_claims
+        session_claims = args.session_claims
+        response = client.enrich_token(user_token, token_claims, session_claims)
+        if response is not None:
+            print("Successfully enriched token")
+        else:
+            print("Invalid token")
+
 
 def print_verify_info(digital_twin_info):
     print("Digital twin info")
@@ -247,9 +273,10 @@ def prettify(js):
         elif isinstance(v, type(list())):
             for val in v:
                 if isinstance(val, type(str())):
-                    js[k] = format_convert(k, v)
+                    val = format_convert(k, val)
                     pass
-                elif isinstance(val, type(list())):
+                elif isinstance(val, type(list())) | isinstance(val, type(float())) | isinstance(val, type(
+                    bool())) | isinstance(val, type(None)):
                     pass
                 else:
                     prettify(val)

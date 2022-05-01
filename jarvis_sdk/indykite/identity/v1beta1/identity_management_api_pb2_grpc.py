@@ -120,6 +120,11 @@ class IdentityManagementAPIStub(object):
                 request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.CancelInvitationRequest.SerializeToString,
                 response_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.CancelInvitationResponse.FromString,
                 )
+        self.IsAuthorized = channel.unary_unary(
+                '/indykite.identity.v1beta1.IdentityManagementAPI/IsAuthorized',
+                request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.IsAuthorizedRequest.SerializeToString,
+                response_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.IsAuthorizedResponse.FromString,
+                )
         self.GetPasswordCredential = channel.unary_unary(
                 '/indykite.identity.v1beta1.IdentityManagementAPI/GetPasswordCredential',
                 request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.GetPasswordCredentialRequest.SerializeToString,
@@ -139,6 +144,11 @@ class IdentityManagementAPIStub(object):
                 '/indykite.identity.v1beta1.IdentityManagementAPI/SessionIntrospect',
                 request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SessionIntrospectRequest.SerializeToString,
                 response_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SessionIntrospectResponse.FromString,
+                )
+        self.EnrichToken = channel.unary_unary(
+                '/indykite.identity.v1beta1.IdentityManagementAPI/EnrichToken',
+                request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.EnrichTokenRequest.SerializeToString,
+                response_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.EnrichTokenResponse.FromString,
                 )
 
 
@@ -334,6 +344,12 @@ class IdentityManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def IsAuthorized(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def GetPasswordCredential(self, request, context):
         """Experimental functions
 
@@ -359,6 +375,13 @@ class IdentityManagementAPIServicer(object):
 
     def SessionIntrospect(self, request, context):
         """SessionIntrospect is Experimental and not implemented yet
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def EnrichToken(self, request, context):
+        """EnrichToken allows a session and an access token to be enriched with additional data
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -472,6 +495,11 @@ def add_IdentityManagementAPIServicer_to_server(servicer, server):
                     request_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.CancelInvitationRequest.FromString,
                     response_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.CancelInvitationResponse.SerializeToString,
             ),
+            'IsAuthorized': grpc.unary_unary_rpc_method_handler(
+                    servicer.IsAuthorized,
+                    request_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.IsAuthorizedRequest.FromString,
+                    response_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.IsAuthorizedResponse.SerializeToString,
+            ),
             'GetPasswordCredential': grpc.unary_unary_rpc_method_handler(
                     servicer.GetPasswordCredential,
                     request_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.GetPasswordCredentialRequest.FromString,
@@ -491,6 +519,11 @@ def add_IdentityManagementAPIServicer_to_server(servicer, server):
                     servicer.SessionIntrospect,
                     request_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SessionIntrospectRequest.FromString,
                     response_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SessionIntrospectResponse.SerializeToString,
+            ),
+            'EnrichToken': grpc.unary_unary_rpc_method_handler(
+                    servicer.EnrichToken,
+                    request_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.EnrichTokenRequest.FromString,
+                    response_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.EnrichTokenResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -861,6 +894,23 @@ class IdentityManagementAPI(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def IsAuthorized(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta1.IdentityManagementAPI/IsAuthorized',
+            indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.IsAuthorizedRequest.SerializeToString,
+            indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.IsAuthorizedResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def GetPasswordCredential(request,
             target,
             options=(),
@@ -925,5 +975,22 @@ class IdentityManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta1.IdentityManagementAPI/SessionIntrospect',
             indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SessionIntrospectRequest.SerializeToString,
             indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SessionIntrospectResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def EnrichToken(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta1.IdentityManagementAPI/EnrichToken',
+            indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.EnrichTokenRequest.SerializeToString,
+            indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.EnrichTokenResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
