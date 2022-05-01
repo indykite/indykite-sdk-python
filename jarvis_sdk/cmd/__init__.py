@@ -62,3 +62,4 @@ class IdentityClient(object):
     from ._delete import \
         del_digital_twin, \
         del_digital_twin_by_token
+    from ._enrich_token import enrich_token

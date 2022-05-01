@@ -47,3 +47,24 @@ def digital_twin_by_token():
             if (property.object_value and property.object_value.string_value):
                 print("Value: " + property.object_value.string_value)
             print()
+
+def enrich_token():
+    token = "JWT TOKEN"
+    claims = {
+        "string_claim": "string_value",
+        "number_claim": 42,
+        "bool_claim": True,
+        "null_claim": None,
+        "map_claim": {
+            "key": "value",
+        },
+        "array_claim": [
+            "string_value",
+        ]
+    }
+    client = IdentityClient()
+    response = client.enrich_token(token, claims, claims)
+    if response is not None:
+        print("Successfully enriched token")
+    else:
+        print("Invalid token")

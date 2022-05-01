@@ -278,7 +278,23 @@ optional arguments:
   -h, --help  show this help message and exit
 ```
       
-12. To see all available options, run
+12. Enrich token
+
+Sends out a enrich token request with the specified active token (login token).
+
+```shell
+usage: api.py enrich-token [-h] user_token --token_claims key=value --session_claims key=value
+
+positional arguments:
+  user_token        JWT bearer token
+
+optional arguments:
+  --token_claims    token claims to be added
+  --session_claims  session claims to be added
+  -h, --help        show this help message and exit
+```
+
+13. To see all available options, run
     
 ```shell
 python3 api.py --help
@@ -300,13 +316,13 @@ optional arguments:
   -l, --local           make the request to localhost
 ```
    
-11. To see the subcommands help page, run
+14. To see the subcommands help page, run
    
 ```shell
 python3 api.py <sub_command> --help 
 ```
    
-12. To execute the functions against the local instance, add the `-l` flag to the command:
+15. To execute the functions against the local instance, add the `-l` flag to the command:
 
 ```shell
 python api.py -l introspect USER_TOKEN
