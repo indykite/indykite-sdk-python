@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/indykite/jarvis-sdk-python/compare/v1.0.2...v1.1.0) (2022-05-04)
+
+
+### Features
+
+* add enrich token method ([1298a5e](https://github.com/indykite/jarvis-sdk-python/commit/1298a5e3e0fbbd1fe5804a3ce4389145df0e9798))
+
 ### [1.0.2](https://github.com/indykite/jarvis-sdk-python/compare/v1.0.1...v1.0.2) (2022-04-29)
 
 
