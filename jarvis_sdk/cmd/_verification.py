@@ -2,6 +2,7 @@ import uuid
 
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from jarvis_sdk.model.digital_twin import DigitalTwinCore
 
 
 def verify_digital_twin_email(self, token):
@@ -23,7 +24,7 @@ def verify_digital_twin_email(self, token):
     if not response:
         return None
 
-    return response
+    return DigitalTwinCore.deserialize(response.digital_twin)
 
 
 def start_digital_twin_email_verification(self, dt_id, tenant_id, email):

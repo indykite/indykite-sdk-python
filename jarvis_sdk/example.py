@@ -13,12 +13,12 @@ def introspect_token_example():
     token_info = client.introspect_token(token)
     if token_info is not None:
         print("Token info")
-        print("Tenant: " + str(UUID(bytes=token_info.subject.tenant_id)))
-        print("Customer: " + str(UUID(bytes=token_info.customer_id)))
-        print("App space: " + str(UUID(bytes=token_info.app_space_id)))
-        print("Application: " + str(UUID(bytes=token_info.application_id)))
-        print("Subject: " + str(UUID(bytes=token_info.subject.id)))
-        print("Expire time: " + str(datetime.fromtimestamp(token_info.expire_time.seconds)))
+        print("Tenant: " + token_info.subject.tenantId)
+        print("Customer: " + token_info.customerId)
+        print("App space: " + token_info.appSpaceId)
+        print("Application: " + token_info.applicationId)
+        print("Subject: " + token_info.subject.id)
+        print("Expire time: " + str(token_info.expireTime))
 
 
 def verify_digital_twin_email_example():
@@ -27,26 +27,32 @@ def verify_digital_twin_email_example():
     digital_twin_info = client.verify_digital_twin_email(token)
     if digital_twin_info is not None:
         print("Digital twin info")
-        print("Tenant: " + str(UUID(bytes=digital_twin_info.tenant_id)))
-        print("Digital twin: " + str(UUID(bytes=digital_twin_info.digital_twin_id)))
+        print("Tenant: " + digital_twin_info.tenantId)
+        print("Digital twin: " + digital_twin_info.id)
 
 def digital_twin_by_token():
     token = "JWT TOKEN"
     client = IdentityClient()
-    response = client.get_digital_twin_by_token(token, ["email"])
-    dt = response.digital_twin
-    print(response)
-    if response is not None:
-        print("Digital Twin info")
-        print("Digital Twin: " + str(UUID(bytes=dt.digital_twin.id)))
-        print("Tenant: " + str(UUID(bytes=dt.digital_twin.tenant_id)))
-        print("\nProperties:")
-        for property in dt.properties:
-            print("Property: " + property.definition.property)
-            print("ID: " + property.id)
-            if (property.object_value and property.object_value.string_value):
-                print("Value: " + property.object_value.string_value)
-            print()
+    digital_twin = client.get_digital_twin_by_token(token, ["email"])
+    if digital_twin is not None:
+        if "digitalTwin" in digital_twin:
+            print(digital_twin["digitalTwin"])
+        if "tokenInfo" in digital_twin:
+            print("\nToken info:")
+            print(digital_twin["tokenInfo"])
+
+def digital_twin():
+    dt_id = "DIGITAL TWIN ID"
+    tenant_id = "TENANT ID"
+    client = IdentityClient()
+    digital_twin = client.get_digital_twin(dt_id, tenant_id, ["email", "address"])
+    print("Digital Twin info")
+    if digital_twin is not None:
+        if "digitalTwin" in digital_twin:
+            print(digital_twin["digitalTwin"])
+        if "tokenInfo" in digital_twin:
+            print("\nToken info:")
+            print(digital_twin["tokenInfo"])
 
 def enrich_token():
     token = "JWT TOKEN"

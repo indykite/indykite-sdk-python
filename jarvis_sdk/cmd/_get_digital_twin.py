@@ -3,6 +3,9 @@ import uuid
 from jarvis_sdk.cmd import helper
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from jarvis_sdk.model.digital_twin import DigitalTwin
+from jarvis_sdk.model.token_info import TokenInfo
+from jarvis_sdk.utils.deserialize_digital_twin_with_token_info import deserialize_digital_twin_with_token_info
 
 
 def get_digital_twin(self, digital_twin_id, tenant_id, fields):
@@ -36,10 +39,7 @@ def get_digital_twin(self, digital_twin_id, tenant_id, fields):
         print(exception)
         return None
 
-    if not response:
-        return None
-
-    return response
+    return deserialize_digital_twin_with_token_info(response)
 
 
 def get_digital_twin_by_token(self, token, fields):
@@ -61,7 +61,4 @@ def get_digital_twin_by_token(self, token, fields):
         print(exception)
         return None
 
-    if not response:
-        return None
-
-    return response
+    return deserialize_digital_twin_with_token_info(response)

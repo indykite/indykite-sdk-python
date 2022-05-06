@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 from uuid import UUID
 from google.protobuf.json_format import MessageToJson
+from google.protobuf import message
 
 from jarvis_sdk.cmd import IdentityClient
 
@@ -127,7 +128,7 @@ Property ID and value of the property where the value is a reference
         verification_token = args.verification_token
         digital_twin_info = client.verify_digital_twin_email(verification_token)
         if digital_twin_info is not None:
-            print_response(digital_twin_info)
+            print_response({ "digitalTwin": digital_twin_info })
 
     elif command == "change-password":
         user_token = args.user_token
@@ -221,13 +222,13 @@ Property ID and value of the property where the value is a reference
         tenant_id = args.tenant_id
         dt = client.del_digital_twin(digital_twin_id, tenant_id)
         if dt is not None:
-            print_response(dt)
+            print_response({ "digitalTwin": dt })
 
     elif command == "del-dt-by-token":
         user_token = args.user_token
         dt = client.del_digital_twin_by_token(user_token)
         if dt is not None:
-            print_response(dt)
+            print_response({ "digitalTwin": dt })
 
     elif command == "enrich-token":
         user_token = args.user_token
@@ -259,10 +260,19 @@ def print_token_info(token_info):
 
 
 def print_response(resp):
-    js = MessageToJson(resp)
-    js_dict = json.loads(js)
-    prettify(js_dict)
-    pretty_response = json.dumps(js_dict, indent=4, separators=(',', ': '))
+    def get_default(x):
+        if type(x) is datetime:
+            return str(x)
+        else:
+            return x.__dict__
+
+    if hasattr(resp, "DESCRIPTOR"):
+        js = MessageToJson(resp)
+        js_dict = json.loads(js)
+        prettify(js_dict)
+    else:
+        js_dict = resp
+    pretty_response = json.dumps(js_dict, indent=4, separators=(',', ': '), default=get_default)        
     print(pretty_response)
 
 

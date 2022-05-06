@@ -78,14 +78,14 @@ def test_get_dt_success(prepare, login, capsys):
     x = json.loads(captured.out[len(prefix):])
 
     # Assert
-    assert x["digitalTwin"]["digitalTwin"]["id"] == dt_id
-    assert x["digitalTwin"]["digitalTwin"]["tenantId"] == tenant_id
+    assert x["digitalTwin"]["id"] == dt_id
+    assert x["digitalTwin"]["tenantId"] == tenant_id
     assert len(x["digitalTwin"]["createTime"]) != 0
     for e in x["digitalTwin"]["properties"]:
         assert e["id"] != ""
-        assert e["definition"]["property"] == "email"
+        assert e["property"] == "email"
         # assert e["meta"]["primary"] in [True, False]
-        assert len(e["objectValue"]["stringValue"]) != 0
+        assert len(e["value"]) != 0
 
 
 @pytest.mark.usefixtures("login")
@@ -101,14 +101,14 @@ def test_get_dt_by_token_success(prepare, login, capsys):
     x = json.loads(captured.out[len(prefix):])
 
     # Assert
-    assert is_uuid4(x["digitalTwin"]["digitalTwin"]["id"])
-    assert is_uuid4(x["digitalTwin"]["digitalTwin"]["tenantId"])
+    assert is_uuid4(x["digitalTwin"]["id"])
+    assert is_uuid4(x["digitalTwin"]["tenantId"])
     assert len(x["digitalTwin"]["createTime"]) != 0
     for e in x["digitalTwin"]["properties"]:
         assert e["id"] != 0
-        assert e["definition"]["property"] == "email"
+        assert e["property"] == "email"
         # assert e["meta"]["primary"] in [True, False]
-        assert len(e["objectValue"]["stringValue"]) != 0
+        assert len(e["value"]) != 0
 
 
 @pytest.mark.usefixtures("registration")
@@ -214,7 +214,7 @@ def test_patch_properties_remove_success(prepare, registration, capsys):
     captured = capsys.readouterr()
     sp = captured.out.split("['email']")
     x = json.loads(sp[1])
-    email = x["digitalTwin"]["properties"][0]["objectValue"]["stringValue"]
+    email = x["digitalTwin"]["properties"][0]["value"]
     prop_id = x["digitalTwin"]["properties"][0]["id"]
 
     assert sp[0].count("success") == 1
@@ -264,9 +264,9 @@ def test_change_password_of_user_success(prepare, registration, capsys):
     prefix = "['email']\n"
     x = json.loads(captured.out[len(prefix):])
 
-    email = x["digitalTwin"]["properties"][0]["objectValue"]["stringValue"]
-    dt_id = x["digitalTwin"]["digitalTwin"]["id"]
-    tenant_id = x["digitalTwin"]["digitalTwin"]["tenantId"]
+    email = x["digitalTwin"]["properties"][0]["value"]
+    dt_id = x["digitalTwin"]["id"]
+    tenant_id = x["digitalTwin"]["tenantId"]
 
     sys.argv = ["this_is_skipped", "change-password-of-user", dt_id, tenant_id, data.get_new_password()]
 
@@ -292,7 +292,7 @@ def test_change_password_success(prepare, registration, capsys):
     prefix = "['email']\n"
     x = json.loads(captured.out[len(prefix):])
 
-    email = x["digitalTwin"]["properties"][0]["objectValue"]["stringValue"]
+    email = x["digitalTwin"]["properties"][0]["value"]
 
     sys.argv = ["this_is_skipped", "change-password", token, data.get_new_password()]
 
@@ -324,7 +324,6 @@ def test_verify_success(prepare, registration_until_email_arrives, capsys):
     assert is_uuid4(x["digitalTwin"]["tenantId"])
 
 
-@pytest.mark.usefixtures("registration")
 def test_start_dt_email_verification_success(prepare, registration, capsys):
     # Prepare
     token = registration[0]
@@ -335,9 +334,9 @@ def test_start_dt_email_verification_success(prepare, registration, capsys):
     prefix = "['email']\n"
     x = json.loads(captured.out[len(prefix):])
 
-    email = x["digitalTwin"]["properties"][0]["objectValue"]["stringValue"]
-    dt_id = x["digitalTwin"]["digitalTwin"]["id"]
-    tenant_id = x["digitalTwin"]["digitalTwin"]["tenantId"]
+    email = x["digitalTwin"]["properties"][0]["value"]
+    dt_id = x["digitalTwin"]["id"]
+    tenant_id = x["digitalTwin"]["tenantId"]
 
     sys.argv = ["this_is_skipped", "start-dt-email-verification", dt_id, tenant_id, email]
 
