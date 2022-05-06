@@ -1,4 +1,5 @@
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from jarvis_sdk.model.token_info import TokenInfo
 
 
 def introspect_token(self, user_token):
@@ -16,4 +17,4 @@ def introspect_token(self, user_token):
     if not response.active:
         return None
 
-    return response.token_info
+    return TokenInfo.deserialize(response.token_info)
