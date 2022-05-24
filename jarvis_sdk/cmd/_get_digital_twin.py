@@ -3,8 +3,6 @@ import uuid
 from jarvis_sdk.cmd import helper
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
-from jarvis_sdk.model.digital_twin import DigitalTwin
-from jarvis_sdk.model.token_info import TokenInfo
 from jarvis_sdk.utils.deserialize_digital_twin_with_token_info import deserialize_digital_twin_with_token_info
 
 
