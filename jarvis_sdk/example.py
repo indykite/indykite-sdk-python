@@ -1,8 +1,6 @@
 """
 This file contains examples of Identify API usage.
 """
-from datetime import datetime
-from uuid import UUID
 
 from jarvis_sdk.cmd import IdentityClient
 

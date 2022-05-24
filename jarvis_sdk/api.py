@@ -7,7 +7,6 @@ import json
 from datetime import datetime
 from uuid import UUID
 from google.protobuf.json_format import MessageToJson
-from google.protobuf import message
 
 from jarvis_sdk.cmd import IdentityClient
 
