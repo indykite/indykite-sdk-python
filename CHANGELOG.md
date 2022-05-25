@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/indykite/jarvis-sdk-python/compare/v1.1.0...v1.2.0) (2022-05-25)
+
+
+### Features
+
+* get digital twin with properties ([c515e56](https://github.com/indykite/jarvis-sdk-python/commit/c515e56e052ec8d06824eae39540653c5eaf0145))
+
 ## [1.1.0](https://github.com/indykite/jarvis-sdk-python/compare/v1.0.2...v1.1.0) (2022-05-04)
 
 
