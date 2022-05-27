@@ -39,7 +39,8 @@ jobs:
         env:
           CU_list: "186335199"
           CU_token: ${{ secrets.CLICKUPPAT }}
+          CU_status: "DEPLOYED"
           APP_NAME: "Python SDK"
           APP_TAG: "jarvis-sdk-python"
         run: |
-          CU_tags="$APP_TAG,$VERSION" cu-cli create -d "Release of $APP_NAME available here: https://pypi.org/project/$APP_TAG/$VERSION/" "$APP_NAME - release $VERSION"
+          CU_tags="$APP_TAG,$VERSION,public" cu-cli create -d "Release of $APP_NAME available here: https://pypi.org/project/$APP_TAG/$VERSION/" "$APP_NAME - release $VERSION"
