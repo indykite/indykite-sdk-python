@@ -4,7 +4,8 @@ This project serves as a Software Development Kit for developers of Indykite app
 
 ## Requirements
 
-Python 3.8
+* Python 3.8
+* [Buf](https://github.com/bufbuild/buf)
 
 ## Used terminology
 
@@ -24,9 +25,9 @@ Python 3.8
 
 1. You need to have a configuration json file to be able to use the Jarvis Proto SDK. You can get it from your
    Indykite contact or from Indykite console if you have access to it.
-   
+
     Example configuration file:
-   
+
 ```json
 {
   "appSpaceId": "696e6479-6b69-4465-8000-010100000002",
@@ -54,19 +55,61 @@ Conditionally optional parameters:
 - baseUrl
 - defaultTenantId
 - endpoint
-   
+
+Use your own credentials for development. For running tests, however, you will need the Wonka credentials.
+
 2. You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_APPLICATION_CREDENTIALS`
 environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environment variable to the configuration file's path.
-   
+
    - on Linux and OSX
-    `export INDYKITE_APPLICATION_CREDENTIALS='{"appSpaceId":"00000000-0000-4000-a000-000000000000","appAgentId":"00000000-0000-4000-a000-000000000001","endpoint": "application.indykite.com","privateKeyJWK":{"kty":"EC","d": "abcdef","use": "sig","crv": "P-256","kid":"efghij","x":"klmnop","y":"qrstvw","alg":"ES256"}}'`
+
+       ```
+        export INDYKITE_APPLICATION_CREDENTIALS='{
+        "appSpaceId":"00000000-0000-4000-a000-000000000000",
+        "appAgentId":"00000000-0000-4000-a000-000000000001",
+        "endpoint": "application.indykite.com",
+        "privateKeyJWK":{
+          "kty":"EC",
+          "d": "abcdef",
+          "use": "sig",
+          "crv": "P-256",
+          "kid":"efghij",
+          "x":"klmnop",
+          "y":"qrstvw",
+          "alg":"ES256"
+          }
+        }'
+        ```
+
      or
-    `export INDYKITE_APPLICATION_CREDENTIALS_FILE=/Users/xx/configuration.json`
+
+      `export INDYKITE_APPLICATION_CREDENTIALS_FILE=/Users/xx/configuration.json`
+
    - on Windows command line
-    `setex INDYKITE_APPLICATION_CREDENTIALS='{"appSpaceId":"00000000-0000-4000-a000-000000000000","appAgentId":"00000000-0000-4000-a000-000000000001","endpoint": "application.indykite.com","privateKeyJWK":{"kty":"EC","d": "abcdef","use": "sig","crv": "P-256","kid":"efghij","x":"klmnop","y":"qrstvw","alg":"ES256"}}'`
+
+
+       ```
+        setex INDYKITE_APPLICATION_CREDENTIALS='{
+        "appSpaceId":"00000000-0000-4000-a000-000000000000",
+        "appAgentId":"00000000-0000-4000-a000-000000000001",
+        "endpoint": "application.indykite.com",
+        "privateKeyJWK":{
+          "kty":"EC",
+          "d": "abcdef",
+          "use": "sig",
+          "crv": "P-256",
+          "kid":"efghij",
+          "x":"klmnop",
+          "y":"qrstvw",
+          "alg":"ES256"
+          }
+        }'
+        ```
+
      or
-    `setex INDYKITE_APPLICATION_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
-     
+
+      `setex INDYKITE_APPLICATION_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
+
 3. Initialize a client to establish the connection. This client instance's `self.stub` will be used by the other functions.
 
 *Note:* The client is opening a GRPC channel and the client *must* close the channel, too! If the client doesn't close the channel
@@ -92,7 +135,7 @@ def __init__(self, credential_json=None, credential_file=None):
             credentials = json.loads(raw_content)
     else:
         credentials = json.loads(credential_json)
-        
+
     # Create JWT token out of the credentials
     jwk = credentials.get('private_key_jwk')
     key = JsonWebKey.import_key(jwk)
@@ -104,7 +147,7 @@ def __init__(self, credential_json=None, credential_file=None):
             'jti': str(uuid.uuid4()),
             'sub': credentials.get('app_agent_id'),
         }
-    
+
     jwt_token = jwt.encode({
             'alg': 'ES256',
             'cty': 'JWT',
@@ -154,7 +197,7 @@ Currently available functions:
 
 ### Introspect token
 
-“Token introspection” occurs when a resource server sends the token to the authorization server that originally issued the token, 
+“Token introspection” occurs when a resource server sends the token to the authorization server that originally issued the token,
 and receives a response from the authorization server with detail on whether the token is active or expired and what attributes are included in the token.
 If the token was not valid, then the `response.active` attribute is false and no other information is in the response.
 
@@ -166,7 +209,7 @@ def introspect_token(self, user_token):
     response = self.stub.TokenIntrospect(
                 pb2.TokenIntrospectRequest(token=user_token)
             )
-    
+
     print (response)
 ```
 
@@ -197,7 +240,7 @@ def get_digital_twin(self, digital_twin_id, tenant_id, field_name):
                 ]
             )
         )
-    
+
     print (response)
 ```
 
@@ -254,7 +297,7 @@ def patch_property_add(self, digital_twin_id, tenant_id, property_name, value):
                 ]
             )
         )
-    
+
     print (response)
 ```
 
@@ -283,7 +326,7 @@ def patch_property_replace(self, digital_twin_id, tenant_id, property_id, value)
                 ]
             )
         )
-    
+
     print (response)
 ```
 
@@ -310,7 +353,7 @@ def patch_property_remove(self, digital_twin_id, tenant_id, property_id):
                 ]
             )
         )
-    
+
     print (response)
 ```
 
@@ -347,7 +390,7 @@ def patch_property_add_replace_remove(self, token, add_name, add_value, replace_
                 ]
             )
         )
-    
+
     print (response)
 
 ```
@@ -392,8 +435,8 @@ def del_user(self, token):
 
 ### Verify email
 
-When the registration required an email verification to complete the registration, the system sends a verification email to the 
-registered email address. The email should contain a token which can be sent to the SDK via `VerifyDigitalTwinEmail` function to 
+When the registration required an email verification to complete the registration, the system sends a verification email to the
+registered email address. The email should contain a token which can be sent to the SDK via `VerifyDigitalTwinEmail` function to
 set the digital twin's email as verified email.
 
 ```python
@@ -448,7 +491,7 @@ def change_password(self, digital_twin_id, tenant_id, new_password):
                 password=new_password
             )
         )
-    
+
     print (response)
 ```
 

@@ -1,0 +1,8 @@
+coverage:
+  status:
+    patch:
+      default:
+        target: 20%
+
+ignore:
+  - "jarvis_sdk/indykite"
