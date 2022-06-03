@@ -3,6 +3,9 @@ on:
   pull_request:
     branches: [master]
 
+env:
+  INDYKITE_APPLICATION_CREDENTIALS: ${{ secrets.JARVIS_CREDENTIALS }}
+
 jobs:
   tests:
     name: Run tests
@@ -15,9 +18,15 @@ jobs:
         with:
           python-version: "3.8"
           cache: "pipenv"
-      - name: "Install"
+      - name: Install
         run: pipenv install
-      - name: "Tests"
-        env:
-          INDYKITE_APPLICATION_CREDENTIALS: ${{ secrets.JARVIS_CREDENTIALS }}
+      - name: Tests
         run: pipenv run pytest
+      - name: Run Script
+        run:
+          pipenv run pytest --cov . --cov-report xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unittests
+          files: coverage.xml

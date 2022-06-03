@@ -18,6 +18,7 @@ protobuf = "*"
 jarvis-sdk = {editable = true, path = "."}
 requests = "*"
 pytest = "*"
+pytest-cov = "*"
 authlib = "*"
 
 [requires]
