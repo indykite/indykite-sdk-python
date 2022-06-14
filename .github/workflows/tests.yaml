@@ -1,7 +1,13 @@
-name: PR Tests
+name: Tests
 on:
   pull_request:
     branches: [master]
+  push:
+    branches: [master]
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   INDYKITE_APPLICATION_CREDENTIALS: ${{ secrets.JARVIS_CREDENTIALS }}
@@ -18,11 +24,11 @@ jobs:
         with:
           python-version: "3.8"
           cache: "pipenv"
-      - name: Install
+      - name: Install project
         run: pipenv install
-      - name: Tests
+      - name: Run tests
         run: pipenv run pytest
-      - name: Run Script
+      - name: Run script
         run:
           pipenv run pytest --cov . --cov-report xml
       - name: Upload coverage to Codecov
