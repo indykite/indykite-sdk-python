@@ -2,6 +2,8 @@
 
 This project serves as a Software Development Kit for developers of Indykite applications.
 
+[![codecov](https://codecov.io/gh/indykite/jarvis-sdk-python/branch/master/graph/badge.svg?token=8u4yvyi5PN)](https://codecov.io/gh/indykite/jarvis-sdk-python)
+
 ## Requirements
 
 * Python 3.8
