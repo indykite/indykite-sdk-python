@@ -1,0 +1,33 @@
+name: Analytics
+
+on:
+  push:
+    branches: 
+      - IK-3254-enable-deployment-analytics-action
+
+env:
+    BIGQUERY_TABLE: jarvis-dev-268314.deployment_analytics.deployment_events
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_KEY }}
+      - name: Checkout Analytics Repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          repository: indykite/analytics-prototype
+          ref: v1.0.1
+          path: deployment-analytics
+      - name: Save Deployment Metadata
+        if: ${{ always() }}
+        uses: ./deployment-analytics
+        with:
+          version: ${{ env.VERSION }}
+          status: ${{ job.status }}
+          bigquery_table: ${{ env.BIGQUERY_TABLE }}
+
