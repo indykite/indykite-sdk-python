@@ -28,7 +28,7 @@ file
 ```shell
 python3 api.py introspect USER_TOKEN
 ```
-   
+
 ```shell
 usage: api.py introspect [-h] user_token
 
@@ -41,11 +41,11 @@ optional arguments:
 ```
 
 2. To verify a digital twin email, execute
-   
+
 ```shell
 python3 api.py verify VERIFICATION_TOKEN
 ```
-   
+
 ```shell
 usage: api.py verify [-h] verification_token
 
@@ -59,11 +59,11 @@ optional arguments:
 3. Change password using the bearer token
 
     - The password should be in single quotation marks
-   
+
 ```shell
 python3 api.py change-password BEARER_TOKEN 'NEW_PASSWORD'
 ```
-   
+
 ```shell
 usage: api.py change-password [-h] user_token new_password
 
@@ -76,14 +76,14 @@ optional arguments:
 ```
 
 4. Change password using the bearer token and the user's digital twin ID
-    
+
     - The digital twin ID should be in UUID4 format
     - The password should be in single quotation marks
-   
+
 ```shell
 python3 api.py change-password-of-user BEARER_TOKEN DIGITAL_TWIN_ID 'NEW_PASSWORD'
 ```
-   
+
 ```shell
 usage: api.py change-password-of-user [-h] user_token digital_twin_id new_password
 
@@ -99,7 +99,7 @@ optional arguments:
 5. Get digital twin information
     - The digital twin ID should be in UUID4 format
     - The tenant ID should be in UUID4 format
-    
+
 ```shell
 python3 api.py get-dt DIGITAL_TWIN_ID TENANT_ID property_list PROPERTY_NAMES
 ```
@@ -126,7 +126,7 @@ python3 api.py get-dt DT_UUID4 TENANT_UUID4 property_list email mobile
 ```shell
 python3 api.py get-dt-by-token BEARER_TOKEN property_list PROPERTY_NAMES
 ```
-   
+
 ```shell
 usage: api.py get-dt-by-token [-h] user_token property_list [property_list ...]
 
@@ -171,12 +171,12 @@ optional arguments:
 python3 api.py patch-properties DIGITAL_TWIN_ID TENANT_ID --add email xx@xx.xx
 ```
     - replace: Requires the property's ID and the new value
-        example: 
+        example:
 ```shell
 python3 api.py patch-properties DIGITAL_TWIN_ID TENANT_ID --replace 3838323232 xx@xx.xx
 ```
     - remove: Requires the property's ID to remove
-        example: 
+        example:
 ```shell
 python3 api.py patch-properties DIGITAL_TWIN_ID TENANT_ID --remove 3838323232
 ```
@@ -215,20 +215,20 @@ optional arguments:
 python3 api.py patch-properties-by-token TOKEN --add email xx@xx.xx
 ```
     - replace: Requires the property's ID and the new value
-        example: 
+        example:
 ```shell
 python3 api.py patch-properties-by-token TOKEN --replace 3838323232 xx@xx.xx
 ```
     - remove: Requires the property's ID to remove
-        example: 
+        example:
 ```shell
 python3 api.py patch-properties-by-token TOKEN --remove 3838323232
 ```
 
 You can combine the subcommands, it will compile in the following order: add, replace, remove
 
-9. Send verification email 
-   
+9. Send verification email
+
 Sends out a verification email for the specified digital twin to the given email
 
     - the digital twin should be in UUID4 form
@@ -277,7 +277,7 @@ positional arguments:
 optional arguments:
   -h, --help  show this help message and exit
 ```
-      
+
 12. Enrich token
 
 Sends out a enrich token request with the specified active token (login token).
@@ -295,11 +295,11 @@ optional arguments:
 ```
 
 13. To see all available options, run
-    
+
 ```shell
 python3 api.py --help
 ```
-   
+
 ```shell
 usage: api.py [-h] [-l]
               {introspect,verify,change-password,change-password-of-user,get-dt,get-dt-by-token,patch-properties,patch-properties-by-token,start-dt-email-verification}
@@ -315,13 +315,13 @@ optional arguments:
   -h, --help            show this help message and exit
   -l, --local           make the request to localhost
 ```
-   
+
 14. To see the subcommands help page, run
-   
+
 ```shell
-python3 api.py <sub_command> --help 
+python3 api.py <sub_command> --help
 ```
-   
+
 15. To execute the functions against the local instance, add the `-l` flag to the command:
 
 ```shell
@@ -333,9 +333,9 @@ python api.py -l introspect USER_TOKEN
 To develop this project locally:
 
 * Make sure you have `pipenv` installed on your system
-  
+
 * Clone this repository and enter it
-  
+
       git clone https://github.com/indykite/jarvis-sdk-python-proto.git
       cd jarvis-sdk-python-proto
 
