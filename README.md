@@ -218,7 +218,6 @@ def introspect_token(self, user_token):
 It is possible to get an existing user's properties like it's email, mobile, nickname, givenname, familyname ...etc.
 
 #### Admin service
-
 ```python
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
@@ -245,7 +244,6 @@ def get_digital_twin(self, digital_twin_id, tenant_id, field_name):
 ```
 
 #### Self-service
-
 ```python
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
@@ -271,7 +269,6 @@ It is possible to add a property to a digital twin, modify an existing property 
 protected. Also, the `PatchDigitalTwin` allows to send multiple operations in one request
 
 #### Admin service
-
 ```python
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
@@ -358,7 +355,6 @@ def patch_property_remove(self, digital_twin_id, tenant_id, property_id):
 ```
 
 #### Self-service
-
 ```python
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
@@ -400,7 +396,6 @@ def patch_property_add_replace_remove(self, token, add_name, add_value, replace_
 It is allowed to send a delete user request which deletes the digital twin and all of it's connected properties from the system.
 
 #### Admin service
-
 ```python
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
@@ -421,7 +416,6 @@ def del_user(self, digital_twin_id, tenant_id):
 ```
 
 #### Self-service
-
 ```python
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
@@ -476,7 +470,6 @@ Where there is a password, there is a high chance to forget it. With the `Change
 and tenant ID (Admin service), or the user (self-service) with his active token can change it.
 
 #### Admin service
-
 ```python
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
@@ -496,7 +489,6 @@ def change_password(self, digital_twin_id, tenant_id, new_password):
 ```
 
 #### Self-service
-
 ```python
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
