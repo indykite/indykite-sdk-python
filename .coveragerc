@@ -1,0 +1,9 @@
+[run]
+omit =
+  setup.py
+  version.py
+  jarvis_sdk/example.py
+  jarvis_sdk/indykite/*
+  jarvis_sdk/validate/*
+  tests/fixtures/*
+  tests/helpers/*
