@@ -73,10 +73,6 @@ def second_login(thread_id, email, password):
     return send_post(body)
 
 
-def get_mailbox_token(email):
-    send_get_mailbox(email)
-
-
 def send_post(body):
     x = requests.post(data.get_url()+"/auth/"+data.get_application(), json=body)
     return x.json()
