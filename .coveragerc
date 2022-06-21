@@ -5,5 +5,8 @@ omit =
   jarvis_sdk/example.py
   jarvis_sdk/indykite/*
   jarvis_sdk/validate/*
-  tests/fixtures/*
-  tests/helpers/*
+  tests/*
+
+[report]
+exclude_lines =
+    pragma: no cover

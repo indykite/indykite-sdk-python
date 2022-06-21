@@ -19,7 +19,7 @@ def mocked_introspect(this, token):
 @pytest.fixture(name="prepare")
 def prepare():
   IdentityClient.introspect_token = original_introspect
-  
+
 
 def test_introspect_token(prepare, capsys):
   # Prepare

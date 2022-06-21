@@ -12,7 +12,7 @@ from jarvis_sdk.cmd import IdentityClient
 
 
 class ParseKwargs(argparse.Action):
-    def __call__(self, parser, namespace, values, option_string=None):
+    def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
         setattr(namespace, self.dest, dict())
         for value in values:
             key, value = value.split('=')
@@ -240,14 +240,14 @@ Property ID and value of the property where the value is a reference
             print("Invalid token")
 
 
-def print_verify_info(digital_twin_info):
+def print_verify_info(digital_twin_info):  # pragma: no cover
     print("Digital twin info")
     print("=================")
     print("Tenant: " + str(UUID(bytes=digital_twin_info.digital_twin.tenant_id)))
     print("Digital twin: " + str(UUID(bytes=digital_twin_info.digital_twin.id)))
 
 
-def print_token_info(token_info):
+def print_token_info(token_info):  # pragma: no cover
     print("Token info")
     print("==========")
     print("Tenant: " + str(UUID(bytes=token_info.tenant_id)))
@@ -258,7 +258,7 @@ def print_token_info(token_info):
     print("Expire time: " + str(datetime.fromtimestamp(token_info.expire_time.seconds)))
 
 
-def print_response(resp):
+def print_response(resp):  # pragma: no cover
     def get_default(x):
         if type(x) is datetime:
             return str(x)
@@ -271,11 +271,11 @@ def print_response(resp):
         prettify(js_dict)
     else:
         js_dict = resp
-    pretty_response = json.dumps(js_dict, indent=4, separators=(',', ': '), default=get_default)        
+    pretty_response = json.dumps(js_dict, indent=4, separators=(',', ': '), default=get_default)
     print(pretty_response)
 
 
-def prettify(js):
+def prettify(js):  # pragma: no cover
     for k, v in js.items():
         if isinstance(v, type(dict())):
             prettify(v)
@@ -294,7 +294,7 @@ def prettify(js):
                 js[k] = format_convert(k, v)
 
 
-def format_convert(k, v):
+def format_convert(k, v):  # pragma: no cover
     try:
         if "id" in k:
             i = int(v)
@@ -304,7 +304,7 @@ def format_convert(k, v):
     return str(base64_to_uuid(v))
 
 
-def base64_to_uuid(b):
+def base64_to_uuid(b):  # pragma: no cover
     try:
         s = b.encode('ascii')
         uid = UUID(bytes=base64.b64decode(s))
@@ -313,7 +313,7 @@ def base64_to_uuid(b):
     return uid
 
 
-def add_args_to_dict(all_args, action, values):
+def add_args_to_dict(all_args, action, values):  # pragma: no cover
     if action == "add" and values is not None:
         for v in values:
             all_args["add"].append(v)
@@ -333,5 +333,5 @@ def add_args_to_dict(all_args, action, values):
     return all_args
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     main()
