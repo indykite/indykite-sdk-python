@@ -168,3 +168,13 @@ def test_map():
   # Assert
   assert value['first'] == "1s"
   assert value['second'] == 15.7
+
+def test_unknown():
+  # Prepare
+  test_object = ObjectTest('unknown_value', 'UNKNOWN')
+
+  # Act
+  value = object_to_value(test_object)
+
+  # Assert
+  assert value == None

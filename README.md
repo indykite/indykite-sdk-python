@@ -12,9 +12,9 @@ This project serves as a Software Development Kit for developers of Indykite app
 | Definition | Description |
 | ---------- | ----------- |
 | Digital Twin | A digital twin is the digital identity of a physical entity on/in a software/identity system |
-| Application Space ID | ID of the application where the digital twin belongs to |
+| Application Space ID | ID of the application space the digital twin belongs to |
 | Application Agent ID | ID of the agent which makes the application available for the different calls |
-| Tenant ID | ID of the tenant where the digital twin belongs to. The tenant is belong to an application space |
+| Tenant ID | ID of the tenant the digital twin belongs to. The tenant belongs to an application space |
 | Private Key and Settings | The secret which required to reach the system. Indykite provides the necessary secrets |
 | Property | The digital twin's property (eg.: email, name) |
 | JWT | JSON Web Tokens |

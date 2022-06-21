@@ -3,6 +3,7 @@ coverage:
     project:
       default:
         target: 75%
+        threshold: 1%
 
 ignore:
   - "setup.py"
@@ -10,5 +11,4 @@ ignore:
   - "jarvis_sdk/example.py"
   - "jarvis_sdk/indykite"
   - "jarvis_sdk/validate"
-  - "tests/fixtures"
-  - "tests/helpers"
+  - "tests"
