@@ -32,7 +32,7 @@ class PostalAddress:
         postal_code,
         street_address,
         formatted
-    ):
+    ):  # pragma: no cover
         self.addressType = address_type
         self.addressCountry = address_country
         self.addressCountryCode = address_country_code
