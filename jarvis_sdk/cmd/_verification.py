@@ -31,7 +31,7 @@ def start_digital_twin_email_verification(self, dt_id, tenant_id, email):
     try:
         dt = uuid.UUID(dt_id, version=4)
     except Exception as exception:
-        print("The digital twin is not in UUID4 format:")
+        print("The digital twin id is not in UUID4 format:")
         print(exception)
         return None
 
