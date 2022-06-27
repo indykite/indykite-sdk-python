@@ -34,14 +34,14 @@ def change_password_of_user(self, digital_twin_id, tenant_id, new_password):
     try:
         digital_twin = uuid.UUID(digital_twin_id, version=4)
     except Exception as exception:
-        print("The digital twin is not in UUID4 format:")
+        print("The digital twin id is not in UUID4 format:")
         print(exception)
         return None
 
     try:
         tenant = uuid.UUID(tenant_id, version=4)
     except Exception as exception:
-        print("The digital twin is not in UUID4 format:")
+        print("The tenant id is not in UUID4 format:")
         print(exception)
         return None
 
