@@ -1,0 +1,15 @@
+[run]
+omit =
+  setup.py
+  version.py
+  jarvis_sdk/example.py
+  jarvis_sdk/indykite/*
+  jarvis_sdk/validate/*
+  tests/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def deserialize
+    def __init__
+    def __str__

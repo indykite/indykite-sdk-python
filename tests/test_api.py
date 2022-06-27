@@ -58,6 +58,20 @@ def test_introspect_success(prepare, login, capsys):
 
 
 @pytest.mark.usefixtures("login")
+def test_introspect_failure(prepare, login, capsys):
+    # Prepare
+    token = "INVALID TOKEN"
+    sys.argv = ["this_is_skipped", "introspect", token]
+
+    # Act
+    api.main()
+    captured = capsys.readouterr()
+
+    # Assert
+    assert captured.out == "Invalid token\n"
+
+
+@pytest.mark.usefixtures("login")
 def test_get_dt_success(prepare, login, capsys):
     # Prepare
     token = login[0]
@@ -136,7 +150,7 @@ def test_del_dt_success(prepare, registration, capsys):
 
 
 @pytest.mark.usefixtures("registration")
-def test_del_dt_success(prepare, registration, capsys):
+def test_del_dt_by_token_success(prepare, registration, capsys):
     # Prepare
     token = registration[0]
     sys.argv = ["this_is_skipped", "del-dt-by-token", token]
@@ -345,4 +359,32 @@ def test_start_dt_email_verification_success(prepare, registration, capsys):
     captured = capsys.readouterr()
 
     # Assert
-    assert "Email was sent to: "+email in captured.out
+    assert "Email was sent to: " + email in captured.out
+
+
+@pytest.mark.usefixtures("login")
+def test_enrich_token_success(prepare, login, capsys):
+    # Prepare
+    token = login[0]
+    sys.argv = ["this_is_skipped", "enrich-token", token, "--token_claims", "key=value"]
+
+    # Act
+    api.main()
+    captured = capsys.readouterr()
+
+    # Assert
+    assert captured.out == "Successfully enriched token\n"
+
+
+@pytest.mark.usefixtures("login")
+def test_enrich_token_failure(prepare, login, capsys):
+    # Prepare
+    token = "INVALID TOKEN"
+    sys.argv = ["this_is_skipped", "enrich-token", token, "--token_claims", "key=value"]
+
+    # Act
+    api.main()
+    captured = capsys.readouterr()
+
+    # Assert
+    assert "Invalid token" in captured.out

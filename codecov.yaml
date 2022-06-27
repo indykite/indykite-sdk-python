@@ -1,8 +1,14 @@
 coverage:
   status:
-    patch:
+    project:
       default:
-        target: 20%
+        target: 75%
+        threshold: 1%
 
 ignore:
+  - "setup.py"
+  - "version.py"
+  - "jarvis_sdk/example.py"
   - "jarvis_sdk/indykite"
+  - "jarvis_sdk/validate"
+  - "tests"
