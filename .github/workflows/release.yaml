@@ -50,12 +50,11 @@ jobs:
         run: |
           CU_tags="$APP_TAG,$VERSION" cu-cli create -d "Release of $APP_NAME available here: https://pypi.org/project/$APP_TAG/$VERSION/" "$APP_NAME - release $VERSION"
 
-      # Publish deployment metadata
       - name: Authenticate to Google Cloud
         if: ${{ always() }}
         uses: google-github-actions/auth@v0
         with:
-          credentials_json: ${{ secrets.GCP_SECRET_KEY }}
+          credentials_json: ${{ secrets.GCP_SERVICE_KEY_BQ }}
       - name: Publish Deployment Metadata
         if: ${{ always() }}
         uses: indykite/metadata-publisher@v0
