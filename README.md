@@ -181,6 +181,16 @@ def open_and_close_channel():
     client.channel.close()
 ```
 
+## Running tests
+
+To run unit tests, simply execute
+
+    pytest
+
+To display code coverage, enter
+
+    pytest --cov .
+
 ## Functions to call
 
 Most of the calls can be executed in two ways:

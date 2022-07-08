@@ -16,7 +16,6 @@ Contributors guide: ./CONTRIBUTING.md
 - [ ] `make test` passes
 - [ ] tests and/or benchmarks are included
 - [ ] documentation is changed or added
-- [ ] commit message follows [commit guidelines](./doc/guides/commit-message.md#commit-message-guidelines)
 
 <!-- _NOTE: these things are not required to open a PR and can be done afterwards / while the PR is open._ -->
 

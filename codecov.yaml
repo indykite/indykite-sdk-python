@@ -8,6 +8,7 @@ coverage:
 ignore:
   - "setup.py"
   - "version.py"
+  - "jarvis_sdk/api.py"
   - "jarvis_sdk/example.py"
   - "jarvis_sdk/indykite"
   - "jarvis_sdk/validate"
