@@ -1,6 +1,7 @@
 import pytest
 
 from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.model.digital_twin import DigitalTwinCore
 from tests.helpers import data
 
 def test_del_digital_twin_wrong_twin_id(capsys):
@@ -45,6 +46,18 @@ def test_del_digital_twin_nonexisting_twin_id(capsys):
     assert response is None
 
 
+# Currently, this test would delete existing digital twin in Jarvis Dev.
+#  def test_del_digital_twin_success(capsys):
+#      digital_twin_id = data.get_digital_twin()
+#      tenant_id = data.get_tenant()
+
+#      client = IdentityClient()
+#      assert client is not None
+
+#      response = client.del_digital_twin(digital_twin_id, tenant_id)
+#      assert isinstance(response, DigitalTwinCore)
+
+
 def test_del_digital_twin_by_token_short_token(capsys):
     token = "short_token"
     password = data.get_new_password()
@@ -72,13 +85,14 @@ def test_del_digital_twin_by_token_expired_token(capsys):
     assert response is None
 
 
-# TODO
-#  def test_del_digital_twin_by_token(registration):
+# Currently, this test would delete existing digital twin in Jarvis Dev.
+#  def test_del_digital_twin_by_token_success(registration):
 #      token = registration[0]
 
 #      client = IdentityClient()
 #      assert client is not None
 
 #      response = client.del_digital_twin_by_token(token)
+#      assert isinstance(response, DigitalTwinCore)
 
 

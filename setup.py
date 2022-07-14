@@ -33,5 +33,5 @@ setuptools.setup(
         'google-cloud-storage',
         'protobuf',
     ],
-    python_requires='~=3.8',
+    python_requires='~=3.10',
 )

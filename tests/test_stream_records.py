@@ -37,7 +37,7 @@ def test_stream_record_wrong_external_id(capsys):
     client.ingest_records(config_id, [record])
     captured = capsys.readouterr()
 
-    assert "found no matching ingest mapping entity for the record externalId: wrongId" in captured.out
+    assert "found no matching ingest mapping entity for the record external_id: wrongId" in captured.out
 
 
 def test_stream_record_success(capsys):

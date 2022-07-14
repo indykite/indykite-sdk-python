@@ -6,8 +6,18 @@ This project serves as a Software Development Kit for developers of Indykite app
 
 ## Requirements
 
-* Python 3.8
+* Python 3.10
 * [Buf](https://github.com/bufbuild/buf)
+
+## Installation
+
+* Create virtual env and install dependencies
+
+        pipenv install
+
+* Generate protobufs
+
+        ./gen_proto.sh
 
 ## Used terminology
 
