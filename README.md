@@ -206,6 +206,7 @@ Currently available functions:
 - [Verify email](#verify-email)
 - [Send new verification email](#send-new-verification-email-admin-service)
 - [Change password](#change-password)
+- [Ingest records](#ingest-records)
 
 ### Introspect token
 
@@ -522,6 +523,17 @@ def change_password(self, token, new_password):
         )
 
     print(response)
+```
+
+### Ingest records
+
+```python
+def ingest_records(self, config_id, records):
+    record_iterator = self.generate_records_request(config_id, records)
+    response_iterator = self.stub.StreamRecords(record_iterator)
+
+    for response in response_iterator:
+      print(response)
 ```
 
 Happy hacking!

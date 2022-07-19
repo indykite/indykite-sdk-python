@@ -48,18 +48,10 @@ class IdentityClient(object):
         self.stub = pb2_grpc.IdentityManagementAPIStub(channel=self.channel)
 
     # Imported methods
-    from ._change_password import \
-        change_password_of_user, \
-        change_password
-    from ._get_digital_twin import \
-        get_digital_twin_by_token, \
-        get_digital_twin
+    from ._change_password import change_password_of_user, change_password
+    from ._get_digital_twin import get_digital_twin_by_token, get_digital_twin
     from ._introspect_token import introspect_token
     from ._patch_properties import patch_properties_by_token, patch_properties
-    from ._verification import \
-        start_digital_twin_email_verification, \
-        verify_digital_twin_email
-    from ._delete import \
-        del_digital_twin, \
-        del_digital_twin_by_token
+    from ._verification import start_digital_twin_email_verification, verify_digital_twin_email
+    from ._delete import del_digital_twin, del_digital_twin_by_token
     from ._enrich_token import enrich_token
