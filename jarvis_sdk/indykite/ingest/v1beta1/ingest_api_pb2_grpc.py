@@ -15,7 +15,7 @@ class IngestAPIStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.StreamRecords = channel.stream_unary(
+        self.StreamRecords = channel.stream_stream(
                 '/indykite.ingest.v1beta1.IngestAPI/StreamRecords',
                 request_serializer=indykite_dot_ingest_dot_v1beta1_dot_ingest__api__pb2.StreamRecordsRequest.SerializeToString,
                 response_deserializer=indykite_dot_ingest_dot_v1beta1_dot_ingest__api__pb2.StreamRecordsResponse.FromString,
@@ -35,7 +35,7 @@ class IngestAPIServicer(object):
 
 def add_IngestAPIServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'StreamRecords': grpc.stream_unary_rpc_method_handler(
+            'StreamRecords': grpc.stream_stream_rpc_method_handler(
                     servicer.StreamRecords,
                     request_deserializer=indykite_dot_ingest_dot_v1beta1_dot_ingest__api__pb2.StreamRecordsRequest.FromString,
                     response_serializer=indykite_dot_ingest_dot_v1beta1_dot_ingest__api__pb2.StreamRecordsResponse.SerializeToString,
@@ -62,7 +62,7 @@ class IngestAPI(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_unary(request_iterator, target, '/indykite.ingest.v1beta1.IngestAPI/StreamRecords',
+        return grpc.experimental.stream_stream(request_iterator, target, '/indykite.ingest.v1beta1.IngestAPI/StreamRecords',
             indykite_dot_ingest_dot_v1beta1_dot_ingest__api__pb2.StreamRecordsRequest.SerializeToString,
             indykite_dot_ingest_dot_v1beta1_dot_ingest__api__pb2.StreamRecordsResponse.FromString,
             options, channel_credentials,

@@ -16,7 +16,7 @@ in the [example_config.json](jarvis-proto-sdk/config_example.json) file.
 If you run the package against a local system, then it requires an additional ca.pem file. To set the file's path,
 please use the `CAPEM` variable point to the `ca.pem` file.
 
-It is highly suggested that you use absolute paths for the files
+It is highly suggested that you use absolute paths for the files.
 
 ### Running the sdk with the api.py script
 

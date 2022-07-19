@@ -3,6 +3,7 @@
 import grpc
 
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2
+from jarvis_sdk.indykite.identity.v1beta1 import import_pb2 as indykite_dot_identity_dot_v1beta1_dot_import__pb2
 
 
 class IdentityManagementAPIStub(object):
@@ -44,6 +45,11 @@ class IdentityManagementAPIStub(object):
                 '/indykite.identity.v1beta1.IdentityManagementAPI/SelfServiceTerminateSession',
                 request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SelfServiceTerminateSessionRequest.SerializeToString,
                 response_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SelfServiceTerminateSessionResponse.FromString,
+                )
+        self.ImportDigitalTwins = channel.unary_unary(
+                '/indykite.identity.v1beta1.IdentityManagementAPI/ImportDigitalTwins',
+                request_serializer=indykite_dot_identity_dot_v1beta1_dot_import__pb2.ImportDigitalTwinsRequest.SerializeToString,
+                response_deserializer=indykite_dot_identity_dot_v1beta1_dot_import__pb2.ImportDigitalTwinsResponse.FromString,
                 )
         self.GetDigitalTwin = channel.unary_unary(
                 '/indykite.identity.v1beta1.IdentityManagementAPI/GetDigitalTwin',
@@ -214,6 +220,15 @@ class IdentityManagementAPIServicer(object):
 
         This is a protected operation and it can be accessed by both credentials,
         with valid agent or DigitalTwin credential.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ImportDigitalTwins(self, request, context):
+        """ImportDigitalTwins imports multiple DigitalTwin into the IndyKite database.
+
+        No more than 1000 users can be imported in a single call.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -419,6 +434,11 @@ def add_IdentityManagementAPIServicer_to_server(servicer, server):
                     servicer.SelfServiceTerminateSession,
                     request_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SelfServiceTerminateSessionRequest.FromString,
                     response_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SelfServiceTerminateSessionResponse.SerializeToString,
+            ),
+            'ImportDigitalTwins': grpc.unary_unary_rpc_method_handler(
+                    servicer.ImportDigitalTwins,
+                    request_deserializer=indykite_dot_identity_dot_v1beta1_dot_import__pb2.ImportDigitalTwinsRequest.FromString,
+                    response_serializer=indykite_dot_identity_dot_v1beta1_dot_import__pb2.ImportDigitalTwinsResponse.SerializeToString,
             ),
             'GetDigitalTwin': grpc.unary_unary_rpc_method_handler(
                     servicer.GetDigitalTwin,
@@ -635,6 +655,23 @@ class IdentityManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta1.IdentityManagementAPI/SelfServiceTerminateSession',
             indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SelfServiceTerminateSessionRequest.SerializeToString,
             indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.SelfServiceTerminateSessionResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ImportDigitalTwins(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta1.IdentityManagementAPI/ImportDigitalTwins',
+            indykite_dot_identity_dot_v1beta1_dot_import__pb2.ImportDigitalTwinsRequest.SerializeToString,
+            indykite_dot_identity_dot_v1beta1_dot_import__pb2.ImportDigitalTwinsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
