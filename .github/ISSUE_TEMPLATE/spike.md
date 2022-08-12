@@ -1,7 +1,6 @@
 ---
 name: SPIKE
-about: A spike is a user story that needs more information so the team can estimate
-  how long the story will take to complete
+about: Find out the missing element of the story
 title: ''
 labels: spike
 assignees: ''

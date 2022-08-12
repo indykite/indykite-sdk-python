@@ -1,7 +1,7 @@
 ---
 name: EPIC
-about: epic is a body of work that can be broken down into specific tasks (user stories)
-  based on the needs/requests of customers or end-users
+about: An epic is a larger body of work that can be broken down into a number of smaller
+  user stories
 title: ''
 labels: epic
 assignees: ''
