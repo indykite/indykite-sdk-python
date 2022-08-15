@@ -18,3 +18,7 @@ WHEN
 THEN
 * <expected outcome 1>
 * <expected outcome 2>
+
+STEPS FOR VERIFICATION
+* <step 1>
+* <step 2>
