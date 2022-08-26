@@ -97,8 +97,9 @@ def test_password_of_user_success(capsys):
     tenant_id = data.get_tenant()
     password = data.get_new_password()
 
-    client = IdentityClient()
-    assert client is not None
+    with patch("jarvis_sdk.cmd.IdentityClient") as mock:
+        mock.return_value.stub.ChangePassword.return_value = pb2.ChangePasswordResponse()
+        client = IdentityClient()
+        response = client.change_password_of_user(digital_twin_id, tenant_id, password)
 
-    response = client.change_password_of_user(digital_twin_id, tenant_id, password)
-    assert response == "The password has been changed successfully"
+        assert response == "The password has been changed successfully"
