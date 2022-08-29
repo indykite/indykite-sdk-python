@@ -6,6 +6,7 @@ EMAIL_TOKEN = "MNvLADeDKphk7NoEbczc"
 APPLICATION = "696e6479-6b69-4465-8000-020F00000000"
 TENANT = "696e6479-6b69-4465-8000-030F00000001"
 TENANT_EMAIL = "696e6479-6b69-4465-8000-030F00000002"
+DIGITAL_TWIN = "998e8a93-8967-40b4-87f9-100add37853b"
 CODE_VERIFIER = "AAAAAAAAAAEAAAAAAAAAAgAAAAAAAAADAAAAAAAAAAQ"
 CODE_CHALLENGE = "cjbADBcANsbeEzqHghDd1YVnqh0GGaD3D2njiub5Fuk"
 # this is changes, if test starts failing, check it!!!
@@ -52,6 +53,10 @@ def get_tenant():
 
 def get_tenant_email():
     return TENANT_EMAIL
+
+
+def get_digital_twin():
+    return DIGITAL_TWIN
 
 
 def get_url():

@@ -9,6 +9,16 @@ This project serves as a Software Development Kit for developers of Indykite app
 * Python 3.8
 * [Buf](https://github.com/bufbuild/buf)
 
+## Installation
+
+* Create virtual env and install dependencies
+
+        pipenv install
+
+* Generate protobufs
+
+        ./gen_proto.sh
+
 ## Used terminology
 
 | Definition | Description |

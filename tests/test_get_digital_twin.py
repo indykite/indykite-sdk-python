@@ -1,6 +1,8 @@
 import pytest
 
 from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.model.digital_twin import DigitalTwin
+from jarvis_sdk.model.token_info import TokenInfo
 from tests.helpers import data
 
 
@@ -62,6 +64,19 @@ def test_get_digital_twin_unknown_property(capsys):
     assert response is None
 
 
+def test_get_digital_twin_success(capsys):
+    digital_twin_id = data.get_digital_twin()
+    tenant_id = data.get_tenant()
+
+    client = IdentityClient()
+    assert client is not None
+
+    response = client.get_digital_twin(digital_twin_id, tenant_id, [])
+    captured = capsys.readouterr()
+
+    assert isinstance(response["digitalTwin"], DigitalTwin)
+
+
 def test_get_digital_twin_by_token_short_token(capsys):
     token = "short_token"
     password = data.get_new_password()
@@ -87,3 +102,15 @@ def test_get_digital_twin_by_token_expired_token(capsys):
 
     assert "invalid or expired access_token" in captured.out
     assert response is None
+
+
+def test_get_digital_twin_by_token_success(registration):
+    token = registration[0]
+
+    client = IdentityClient()
+    assert client is not None
+
+    response = client.get_digital_twin_by_token(token, [])
+
+    assert isinstance(response["digitalTwin"], DigitalTwin)
+    assert isinstance(response["tokenInfo"], TokenInfo)
