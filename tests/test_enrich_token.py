@@ -1,6 +1,7 @@
 from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
+
 def test_enrich_token_error():
     client = IdentityClient()
     assert client is not None
@@ -14,6 +15,7 @@ def test_enrich_token_error():
 
     assert response is None
 
+
 def test_enrich_token():
     token = "mocked-token"
     client = IdentityClient()
@@ -25,6 +27,6 @@ def test_enrich_token():
 
     client.stub.EnrichToken = mocked_enrich_token
 
-    response = client.enrich_token(token, None, None)
+    response = client.enrich_token(token, {"t_claim": "test"}, {"s_claim": "test"})
 
     assert response is not None

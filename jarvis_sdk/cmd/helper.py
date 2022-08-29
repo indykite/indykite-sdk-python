@@ -33,7 +33,6 @@ def create_agent_jwt(credentials):
 
 def create_jwt_message(credentials):
     message = {
-            'aud': credentials.get('appSpaceId'),
             'exp': get_int_from_datetime(datetime.now(timezone.utc) + timedelta(hours=24)),
             'iat': get_int_from_datetime(datetime.now(timezone.utc)),
             'iss': credentials.get('appAgentId'),

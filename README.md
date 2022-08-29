@@ -152,7 +152,6 @@ def __init__(self, credential_json=None, credential_file=None):
     jwk = credentials.get('private_key_jwk')
     key = JsonWebKey.import_key(jwk)
     message = {
-            'aud': credentials.get('app_space_id'),
             'exp': int(time.mktime((datetime.now(timezone.utc) + timedelta(hours=24)).timetuple())),
             'iat': int(time.mktime((datetime.now(timezone.utc)).timetuple())),
             'iss': credentials.get('app_agent_id'),

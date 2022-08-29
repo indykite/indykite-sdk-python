@@ -2,7 +2,9 @@ import pytest
 import re
 
 from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from tests.helpers import data
+from uuid import UUID
 
 
 def test_patch_properties_wrong_twin_id(capsys):
@@ -35,13 +37,17 @@ def test_patch_properties_wrong_tenant_id(capsys):
     assert response is None
 
 
-def test_patch_properties_unknown_property():
+def test_patch_properties_error():
     digital_twin_id = data.get_digital_twin()
     tenant_id = data.get_tenant()
 
     client = IdentityClient()
     assert client is not None
 
+    def mocked_patch_properties_error(request: pb2.PatchDigitalTwinRequest):
+        raise Exception("something went very wrong")
+
+    client.stub.PatchDigitalTwin = mocked_patch_properties_error
     response = client.patch_properties(
         digital_twin_id,
         tenant_id,
@@ -54,7 +60,7 @@ def test_patch_properties_unknown_property():
         },
     )
 
-    assert "unemail: unknown property \\'unemail\\'" in str(response)
+    assert response is None
 
 
 def test_patch_properties_success():
@@ -64,6 +70,14 @@ def test_patch_properties_success():
     client = IdentityClient()
     assert client is not None
 
+    def mocked_patch_properties(request: pb2.PatchDigitalTwinRequest):
+        digital_twin_bytes_uuid = UUID(digital_twin_id, version=4).bytes
+        tenant_bytes_uuid = UUID(tenant_id, version=4).bytes
+        assert request.id.digital_twin.id == digital_twin_bytes_uuid
+        assert request.id.digital_twin.tenant_id == tenant_bytes_uuid
+        return pb2.PatchDigitalTwinResponse()
+
+    client.stub.PatchDigitalTwin = mocked_patch_properties
     response = client.patch_properties(
         digital_twin_id,
         tenant_id,
@@ -76,7 +90,7 @@ def test_patch_properties_success():
         },
     )
 
-    assert re.match(r'result {\n  success {\n    property_id: "[a-zA-Z0-9]+"\n  }\n}\n', str(response))
+    assert response is not None
 
 
 def test_patch_properties_by_token_short_token(capsys):
@@ -123,6 +137,11 @@ def test_patch_properties_by_token_success(registration):
     client = IdentityClient()
     assert client is not None
 
+    def mocked_patch_properties_by_token(request: pb2.PatchDigitalTwinRequest):
+        assert request.id.access_token == token
+        return pb2.PatchDigitalTwinResponse()
+
+    client.stub.PatchDigitalTwin = mocked_patch_properties_by_token
     response = client.patch_properties_by_token(
         token,
         {
@@ -134,7 +153,5 @@ def test_patch_properties_by_token_success(registration):
         },
     )
 
-    assert re.match(
-        r'The patch operation was success: result {\n  success {\n    property_id: "[a-zA-Z0-9]+"\n  }\n}\n',
-        str(response),
-    )
+    assert response is not None
+    assert "The patch operation was success" in response

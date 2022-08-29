@@ -41,6 +41,11 @@ def test_change_password_success(registration):
     client = IdentityClient()
     assert client is not None
 
+    def mocked_change_password(request: pb2.ChangePasswordRequest):
+        assert request.token == token
+        return pb2.ChangePasswordResponse()
+
+    client.stub.ChangePassword = mocked_change_password
     response = client.change_password(token, password)
     assert response == "The password has been changed successfully"
 
@@ -100,5 +105,12 @@ def test_password_of_user_success(capsys):
     client = IdentityClient()
     assert client is not None
 
+    def mocked_change_password_of_user(request: pb2.ChangePasswordRequest):
+        assert request.password == password
+        return pb2.ChangePasswordResponse()
+
+    client.stub.ChangePassword = mocked_change_password_of_user
     response = client.change_password_of_user(digital_twin_id, tenant_id, password)
+
+    assert response is not None
     assert response == "The password has been changed successfully"

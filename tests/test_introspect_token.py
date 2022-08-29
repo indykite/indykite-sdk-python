@@ -3,6 +3,7 @@ import pytest
 import json
 from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk import api
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
 from jarvis_sdk.model.token_info import TokenInfo
 from tests.helpers import data
@@ -21,40 +22,30 @@ def test_introspect_token_short_token(capsys):
     assert response is None
 
 
-def test_introspec_token_success(registration):
+def test_introspect_token_error(registration):
     token = registration[0]
-
     client = IdentityClient()
     assert client is not None
 
+    def mocked_introspect_token_error(request: pb2.TokenIntrospectRequest):
+        raise Exception("something went wrong")
+
+    client.stub.TokenIntrospect = mocked_introspect_token_error
     response = client.introspect_token(token)
-    assert isinstance(response, TokenInfo)
+
+    response is None
 
 
-original_introspect = IdentityClient.introspect_token
-app_space_id = uuid4()
+def test_introspec_token_success(registration):
+    token = registration[0]
+    client = IdentityClient()
+    assert client is not None
 
-def mocked_introspect(this, token):
-  assert token == "mocked-token"
+    def mocked_introspect_token(request: pb2.TokenIntrospectRequest):
+        assert request.access_token == token
+        return pb2.TokenIntrospectResponse()
 
-  return model.IdentityTokenInfo(
-    app_space_id=app_space_id.bytes
-  )
+    client.stub.TokenIntrospect = mocked_introspect_token
+    response = client.introspect_token(token)
 
-@pytest.fixture(name="prepare")
-def prepare():
-  IdentityClient.introspect_token = original_introspect
-
-
-def test_introspect_token(prepare, capsys):
-  # Prepare
-  IdentityClient.introspect_token = mocked_introspect
-  sys.argv = ["this_is_skipped", "introspect", "mocked-token"]
-
-  # Act
-  api.main()
-  captured = capsys.readouterr()
-  x = json.loads(captured.out)
-
-  # Assert
-  assert x["appSpaceId"] == str(app_space_id)
+    response is not None
