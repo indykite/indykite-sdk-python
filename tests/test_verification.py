@@ -1,6 +1,7 @@
 import pytest
 
 from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.model.digital_twin import DigitalTwinCore
 from tests.helpers import data
 
 
@@ -17,7 +18,7 @@ def test_verify_digital_twin_email_short_token(capsys):
     assert response is None
 
 
-def test_digital_twin_email_invalid_token(capsys):
+def test_verify_digital_twin_email_invalid_token(capsys):
     token = data.get_expired_token()
 
     client = IdentityClient()
@@ -28,6 +29,17 @@ def test_digital_twin_email_invalid_token(capsys):
 
     assert "invalid token format" in captured.out
     assert response is None
+
+
+def test_verify_digital_twin_email_success(registration_until_email_arrives):
+    token = registration_until_email_arrives
+
+    client = IdentityClient()
+    assert client is not None
+
+    response = client.verify_digital_twin_email(token)
+
+    assert isinstance(response, DigitalTwinCore)
 
 
 def test_start_digital_twin_email_verification_wrong_twin_id(capsys):
@@ -89,4 +101,19 @@ def test_start_digital_twin_email_verification_invalid_email_address(capsys):
     captured = capsys.readouterr()
 
     assert "value must be a valid email address" in captured.out
+    assert response is None
+
+
+def test_start_digital_twin_email_verification_email_not_found(capsys):
+    digital_twin_id = data.get_digital_twin()
+    tenant_id = data.get_tenant()
+    email = data.get_new_email()
+
+    client = IdentityClient()
+    assert client is not None
+
+    response = client.start_digital_twin_email_verification(digital_twin_id, tenant_id, email)
+    captured = capsys.readouterr()
+
+    assert "email address is not found" in captured.out
     assert response is None
