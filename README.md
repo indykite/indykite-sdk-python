@@ -537,7 +537,7 @@ def change_password(self, token, new_password):
 ### Ingest records
 
 ```python
-def ingest_records(self, config_id, records):
+def stream_records(self, config_id, records):
     record_iterator = self.generate_records_request(config_id, records)
     response_iterator = self.stub.StreamRecords(record_iterator)
 
