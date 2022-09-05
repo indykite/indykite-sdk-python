@@ -54,15 +54,21 @@ class IngestClient(object):
             record_request = pb2.StreamRecordsRequest(mapping_config_id=config_id, record=record)
             yield record_request
 
-    def ingest_records(self, config_id, records):
+    def stream_records(self, config_id, records):
         record_iterator = self.generate_records_request(config_id, records)
         response_iterator = self.stub.StreamRecords(record_iterator)
+        responses = []
 
         try:
             for response in response_iterator:
-                print(response)
+                if not response.record_error.property_errors:
+                    print(f"Record {response.record_id} ingested successfully")
+                else:
+                    print(f"Record {response.record_id} has errors: \n{response.record_error}")
+
+                responses.append(response)
         except Exception as exception:
             print(exception)
             return None
 
-        return "Data has been ingested successfully"
+        return responses
