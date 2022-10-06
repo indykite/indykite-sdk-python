@@ -15,19 +15,12 @@ def get_digital_twin(self, digital_twin_id, tenant_id, fields):
         return None
 
     try:
-        tenant = uuid.UUID(tenant_id, version=4)
-    except Exception as exception:
-        print("The tenant id is not in UUID4 format:")
-        print(exception)
-        return None
-
-    try:
         response = self.stub.GetDigitalTwin(
             pb2.GetDigitalTwinRequest(
                 id=pb2.DigitalTwinIdentifier(
                     digital_twin=model.DigitalTwin(
                         id=digital_twin.bytes,
-                        tenant_id=tenant.bytes
+                        tenant_id=tenant_id.bytes
                     )
                 ),
                 properties=helper.create_property_mask(fields)
@@ -41,12 +34,6 @@ def get_digital_twin(self, digital_twin_id, tenant_id, fields):
 
 
 def get_digital_twin_by_token(self, token, fields):
-    try:
-        if len(token) < 32:
-            raise Exception("Token must be 32 chars or more.")
-    except Exception as exception:
-        print(exception)
-        return None
 
     try:
         response = self.stub.GetDigitalTwin(

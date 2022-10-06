@@ -4,7 +4,6 @@ import os
 
 from jarvis_sdk.cmd import helper
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2_grpc as pb2_grpc
-from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2_grpc as config_pb2_grpc
 
 
 class IdentityClient(object):
@@ -47,7 +46,6 @@ class IdentityClient(object):
 
         self.channel = grpc.secure_channel(endpoint, composite_credentials)
         self.stub = pb2_grpc.IdentityManagementAPIStub(channel=self.channel)
-        self.config_stub = config_pb2_grpc.ConfigManagementAPIStub(channel=self.channel)
 
     # Imported methods
     from ._change_password import change_password_of_user, change_password
@@ -57,4 +55,3 @@ class IdentityClient(object):
     from ._verification import start_digital_twin_email_verification, verify_digital_twin_email
     from ._delete import del_digital_twin, del_digital_twin_by_token
     from ._enrich_token import enrich_token
-    from ._customer import get_customer_by_id
