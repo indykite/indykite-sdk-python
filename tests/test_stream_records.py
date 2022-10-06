@@ -7,7 +7,7 @@ from tests.helpers import data
 
 
 def test_stream_record_nonexisting_config_id(capsys):
-    config_id = "gid:AAAAFBtaAlxjDE8GuIWAPEFoSPs"
+    config_id = "gid:AAAAFBtaAlxjDE8GuIWAPEFoSPsopup"
     record_data = {
         "playerId": struct_pb2.Value(string_value="125"),
         "firstname": struct_pb2.Value(string_value="Marius"),
@@ -21,7 +21,7 @@ def test_stream_record_nonexisting_config_id(capsys):
     client.stream_records(config_id, [record])
     captured = capsys.readouterr()
 
-    assert "Ingest mapping config 'gid:AAAAFBtaAlxjDE8GuIWAPEFoSPs' not found" in captured.out
+    assert "no Knowledge Graph exists for this AppSpace" in captured.out
 
 
 def test_stream_record_error():
