@@ -24,7 +24,7 @@ def test_get_app_space_id_success(capsys):
     client = ConfigClient()
     assert client is not None
 
-    app_space_id = "gid:AAAAArGbyJWf_kv1omngBqtHEmg"
+    app_space_id = "gid:AAAAAmluZHlraURlgAABDwAAAAA"
     app_space = client.get_app_space_by_id(app_space_id)
     captured = capsys.readouterr()
 
