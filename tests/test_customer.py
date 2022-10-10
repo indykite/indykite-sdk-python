@@ -25,16 +25,7 @@ def test_get_customer_id_success(capsys):
     assert client is not None
 
     customer_id = data.get_customer_id()
-
-    try:
-        service_account = client.get_service_account()
-    except Exception as exception:
-        print(exception)
-        return None
-
-    customer = client.get_customer_by_id(service_account.customer_id)
-
-    #customer = client.get_customer_by_id(customer_id)
+    customer = client.get_customer_by_id(customer_id)
     captured = capsys.readouterr()
 
     # assert customer is not None
