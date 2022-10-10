@@ -9,7 +9,6 @@ omit =
   jarvis_sdk/cmd/helper.py
   jarvis_sdk/cmdconfig/helper.py
   jarvis_sdk/model/unique_name_identifier.py
-
   tests/*
 
 [report]
@@ -18,3 +17,5 @@ exclude_lines =
     def deserialize
     def __init__
     def __str__
+
+show_missing = true

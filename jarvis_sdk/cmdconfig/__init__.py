@@ -53,5 +53,8 @@ class ConfigClient(object):
     from ._service_account import get_service_account
     from ._app_space import get_app_space_by_id, get_app_space_by_name, create_app_space, update_app_space, list_app_spaces, delete_app_space
     from ._tenant import get_tenant_by_id, get_tenant_by_name, create_tenant, update_tenant, list_tenants, delete_tenant
+    from ._application import get_application_by_id, get_application_by_name, create_application, update_application, list_applications, delete_application
+    from ._application_agent import get_application_agent_by_id, get_application_agent_by_name, create_application_agent, update_application_agent, \
+        list_application_agents, delete_application_agent
 
 

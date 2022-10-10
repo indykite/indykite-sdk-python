@@ -186,6 +186,72 @@ Property ID and value of the property where the value is a reference
     delete_tenant_parser.add_argument("tenant_id", help="Tenant Id")
     delete_tenant_parser.add_argument("etag", nargs='?', help="Optional Etag")
 
+    # application_id
+    application_id_parser = subparsers.add_parser("application_id")
+    application_id_parser.add_argument("application_id", help="Application id (gid)")
+
+    # application_name
+    application_name_parser = subparsers.add_parser("application_name")
+    application_name_parser.add_argument("application_name", help="Application name (not display name)")
+    application_name_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+
+    # create_application
+    create_application_parser = subparsers.add_parser("create_application")
+    create_application_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+    create_application_parser.add_argument("application_name", help="Application name (not display name)")
+    create_application_parser.add_argument("display_name", help="Display Name")
+
+    # update_application
+    update_application_parser = subparsers.add_parser("update_application")
+    update_application_parser.add_argument("application_id", help="Application Id")
+    update_application_parser.add_argument("etag", help="Etag")
+    update_application_parser.add_argument("display_name", help="Display Name")
+
+    # list_applications
+    list_applications_parser = subparsers.add_parser("list_applications")
+    list_applications_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+    list_applications_parser.add_argument("match_list", help="Matching names separated by ,",
+                                     type=lambda s: [str(item) for item in s.split(',')])
+    list_applications_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
+
+    # delete_application
+    delete_application_parser = subparsers.add_parser("delete_application")
+    delete_application_parser.add_argument("application_id", help="Application Id")
+    delete_application_parser.add_argument("etag", nargs='?', help="Optional Etag")
+
+    # application_agent_id
+    application_agent_id_parser = subparsers.add_parser("application_agent_id")
+    application_agent_id_parser.add_argument("application_agent_id", help="Application agent id (gid)")
+
+    # application_agent_name
+    application_agent_name_parser = subparsers.add_parser("application_agent_name")
+    application_agent_name_parser.add_argument("application_agent_name", help="Application agent name (not display name)")
+    application_agent_name_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+
+    # create_application_agent
+    create_application_agent_parser = subparsers.add_parser("create_application_agent")
+    create_application_agent_parser.add_argument("application_id", help="Application Id (gid)")
+    create_application_agent_parser.add_argument("application_agent_name", help="Application agent name (not display name)")
+    create_application_agent_parser.add_argument("display_name", help="Display Name")
+
+    # update_application_agent
+    update_application_agent_parser = subparsers.add_parser("update_application_agent")
+    update_application_agent_parser.add_argument("application_agent_id", help="Application Agent Id")
+    update_application_agent_parser.add_argument("etag", help="Etag")
+    update_application_agent_parser.add_argument("display_name", help="Display Name")
+
+    # list_application_agents
+    list_application_agents_parser = subparsers.add_parser("list_application_agents")
+    list_application_agents_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+    list_application_agents_parser.add_argument("match_list", help="Matching names separated by ,",
+                                          type=lambda s: [str(item) for item in s.split(',')])
+    list_application_agents_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
+
+    # delete_application_agent
+    delete_application_agent_parser = subparsers.add_parser("delete_application_agent")
+    delete_application_agent_parser.add_argument("application_agent_id", help="Application Agent Id")
+    delete_application_agent_parser.add_argument("etag", nargs='?', help="Optional Etag")
+
     args = parser.parse_args()
 
     local = args.local
@@ -482,6 +548,142 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid delete_tenant_response response")
         return delete_tenant_response
+
+    elif command == "application_id":
+        application_id = args.application_id
+        application = client_config.get_application_by_id(application_id)
+        if application:
+            print_response(application)
+        else:
+            print("Invalid application id")
+
+    elif command == "application_name":
+        application_name = args.application_name
+        app_space_id = args.app_space_id
+        application = client_config.get_application_by_name(app_space_id, application_name)
+        if application:
+            print_response(application)
+        else:
+            print("Invalid application name")
+
+    elif command == "create_application":
+        app_space_id = args.app_space_id
+        application_name = args.application_name
+        display_name = args.display_name
+        application_response = client_config.create_application(app_space_id, application_name, display_name,
+                                                                "description", [])
+        if application_response:
+            print_response(application_response)
+        else:
+            print("Invalid application response")
+        return application_response
+
+    elif command == "update_application":
+        application_id = args.application_id
+        etag = args.etag
+        display_name = args.display_name
+        application_response = client_config.update_application(application_id, etag, display_name,"description update", [])
+        if application_response:
+            print_response(application_response)
+        else:
+            print("Invalid application response")
+        return application_response
+
+    elif command == "list_applications":
+        app_space_id = args.app_space_id
+        match_list = args.match_list
+        if args.bookmark:
+            bookmark = args.bookmark
+        else:
+            bookmark = []
+        list_applications_response = client_config.list_applications(app_space_id, match_list, bookmark)
+        if list_applications_response:
+            print(list_applications_response)
+        else:
+            print("Invalid list_applications response")
+        return list_applications_response
+
+    elif command == "delete_application":
+        application_id = args.application_id
+        if args.etag:
+            etag = args.etag
+        else:
+            etag = None
+
+        delete_application_response = client_config.delete_application(application_id, etag, [])
+        if delete_application_response:
+            print(delete_application_response)
+        else:
+            print("Invalid delete_application_response response")
+        return delete_application_response
+
+    elif command == "application_agent_id":
+        application_agent_id = args.application_agent_id
+        application_agent = client_config.get_application_agent_by_id(application_agent_id)
+        if application_agent:
+            print_response(application_agent)
+        else:
+            print("Invalid application agent id")
+
+    elif command == "application_agent_name":
+        application_agent_name = args.application_agent_name
+        app_space_id = args.app_space_id
+        application_agent = client_config.get_application_agent_by_name(app_space_id, application_agent_name)
+        if application_agent:
+            print_response(application_agent)
+        else:
+            print("Invalid application agent name")
+
+    elif command == "create_application_agent":
+        application_id = args.application_id
+        application_agent_name = args.application_agent_name
+        display_name = args.display_name
+        application_agent_response = client_config.create_application_agent(application_id, application_agent_name, display_name,
+                                                                "description", [])
+        if application_agent_response:
+            print_response(application_agent_response)
+        else:
+            print("Invalid application agent response")
+        return application_agent_response
+
+    elif command == "update_application_agent":
+        application_agent_id = args.application_agent_id
+        etag = args.etag
+        display_name = args.display_name
+        application_agent_response = client_config.update_application_agent(application_agent_id, etag, display_name,"description update", [])
+        if application_agent_response:
+            print_response(application_agent_response)
+        else:
+            print("Invalid application agent response")
+        return application_agent_response
+
+    elif command == "list_application_agents":
+        app_space_id = args.app_space_id
+        match_list = args.match_list
+        if args.bookmark:
+            bookmark = args.bookmark
+        else:
+            bookmark = []
+        list_application_agents_response = client_config.list_application_agents(app_space_id, match_list, bookmark)
+        if list_application_agents_response:
+            print(list_application_agents_response)
+        else:
+            print("Invalid list_application_agents response")
+        return list_application_agents_response
+
+    elif command == "delete_application_agent":
+        application_agent_id = args.application_agent_id
+        if args.etag:
+            etag = args.etag
+        else:
+            etag = None
+
+        delete_application_agent_response = client_config.delete_application_agent(application_agent_id, etag, [])
+        if delete_application_agent_response:
+            print(delete_application_agent_response)
+        else:
+            print("Invalid delete_application_response_agent response")
+        return delete_application_agent_response
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
