@@ -23,8 +23,8 @@ def test_get_digital_twin_wrong_twin_id(capsys):
 
 
 def test_get_digital_twin_wrong_tenant_id(capsys):
-    digital_twin_id = "696e6479-6b69-4465-8000-010f00000000"
-    tenant_id = "696e6479-6b6-4465-8000-010f00000000"
+    digital_twin_id = "534729fb-f1b9-43ad-b1c5-9bbc75ae7de8"
+    tenant_id = "534729fb-f1b9-43ad-b1c5-9bbc75ae7de8"
 
     client = IdentityClient()
     assert client is not None
@@ -32,12 +32,12 @@ def test_get_digital_twin_wrong_tenant_id(capsys):
     response = client.get_digital_twin(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    assert captured.out == "The tenant id is not in UUID4 format:\nbadly formed hexadecimal UUID string\n"
+    assert "digital_twin was not found" in captured.out
     assert response is None
 
 
 def test_get_digital_twin_nonexisting_twin_id(capsys):
-    digital_twin_id = "e1e9f07d-fc6e-4629-84d1-8d23836524ba"
+    digital_twin_id = "696e6479-6b69-4465-8000-030f00000001"
     tenant_id = data.get_tenant()
 
     client = IdentityClient()
@@ -71,9 +71,10 @@ def test_get_digital_twin_success(capsys):
     client = IdentityClient()
     assert client is not None
 
-    response = client.get_digital_twin(digital_twin_id, tenant_id, [])
+    response = client.get_digital_twin("6cdf1133-ba32-4dbb-a977-60b0d5d5e713", "696e6479-6b69-4465-8000-030f00000001", [])
     captured = capsys.readouterr()
 
+    assert response is not None
     assert isinstance(response["digitalTwin"], DigitalTwin)
 
 
@@ -112,5 +113,6 @@ def test_get_digital_twin_by_token_success(registration):
 
     response = client.get_digital_twin_by_token(token, [])
 
+    assert response is not None
     assert isinstance(response["digitalTwin"], DigitalTwin)
     assert isinstance(response["tokenInfo"], TokenInfo)
