@@ -22,6 +22,10 @@ APP_SPACE_ID = "gid:AAAAAmluZHlraURlgAABDwAAAAA"
 ISSUER_ID = "gid:AAAAD2hBE6FIJk2giSaKTPc1pKk"
 TENANT_ID = "gid:AAAAA2luZHlraURlgAADDwAAAAE"
 TENANT_NAME = "wonka-1"
+APPLICATION_ID = "gid:AAAABGluZHlraURlgAACDwAAAAA"
+APPLICATION_NAME = "wonka-bars"
+APPLICATION_AGENT_ID = "gid:AAAABZSZy0CF-U2zrr5OOw1EMP8"
+APPLICATION_AGENT_NAME = "agent-sdk"
 
 
 PASSWORD = "Password"
@@ -127,3 +131,19 @@ def get_tenant_id():
 
 def get_tenant_name():
     return TENANT_NAME
+
+
+def get_application_id():
+    return APPLICATION_ID
+
+
+def get_application_name():
+    return APPLICATION_NAME
+
+
+def get_application_agent_id():
+    return APPLICATION_AGENT_ID
+
+
+def get_application_agent_name():
+    return APPLICATION_AGENT_NAME
