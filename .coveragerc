@@ -7,6 +7,7 @@ omit =
   jarvis_sdk/indykite/*
   jarvis_sdk/validate/*
   jarvis_sdk/cmd/helper.py
+  jarvis_sdk/cmdconfig/helper.py
   tests/*
 
 [report]

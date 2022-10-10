@@ -3,16 +3,21 @@ from datetime import datetime
 URL = "https://jarvis-dev.indykite.com"
 EMAIL_URL = "https://super-octo-waffle.indykite.com"
 EMAIL_TOKEN = "MNvLADeDKphk7NoEbczc"
-APPLICATION = "696e6479-6b69-4465-8000-020F00000000"
-TENANT = "696e6479-6b69-4465-8000-030F00000001"
+APPLICATION = "gid:AAAABGluZHlraURlgAACDwAAAAA"
+TENANT = "696e6479-6b69-4465-8000-030f00000001"
 TENANT_EMAIL = "696e6479-6b69-4465-8000-030F00000002"
-DIGITAL_TWIN = "998e8a93-8967-40b4-87f9-100add37853b"
+DIGITAL_TWIN = "6cdf1133-ba32-4dbb-a977-60b0d5d5e713"
 CODE_VERIFIER = "AAAAAAAAAAEAAAAAAAAAAgAAAAAAAAADAAAAAAAAAAQ"
 CODE_CHALLENGE = "cjbADBcANsbeEzqHghDd1YVnqh0GGaD3D2njiub5Fuk"
 # this is changes, if test starts failing, check it!!!
 VERIFICATION_BEARER = "eyJhbGciOiJFUzI1NiIsImN0eSI6IkpXVCIsImtpZCI6IkVmVUVpRm5PekE1UENwOFNTa3NwN2lYdjdjSFJlaENzSUdvNk5BUTlIN3ciLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiI2OTZlNjQ3OS02YjY5LTQ0NjUtODAwMC0wMTBmMDAwMDAwMDAiLCJleHAiOjE2Mjk2MjkzNDcsImlhdCI6MTYxMzY0NTM0NywiaXNzIjoiNjk2ZTY0NzktNmI2OS00NDY1LTgwMDAtMDUwZjAwMDAwMDAwIiwianRpIjoiMWMwYWMwNGEtM2ZiOC00N2IxLWJjNzQtYjkwNWE1ZmI0ZDBmIiwic3ViIjoiNjk2ZTY0NzktNmI2OS00NDY1LTgwMDAtMDUwZjAwMDAwMDAwIn0.VX1SAdIzzoRd4Jd-f-_X8sD5Y6al4K05UWtw-Ekn_9y3xgwwmPEXJ0a-HYrkR9vA7BPs6XQngYn0locsIWinEA"
 EXPIRED_TOKEN = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJpYmlzLWluLWdvbGQiLCJleHAiOjE2NDkxNzMzNzQsImlhdCI6MTY0Njc1NDE3NCwiaXNzIjoiaWJpcy1pbi1nb2xkIiwianRpIjoiZGRlZDhkMDgtYjIxZi00Y2E2LTk0OTgtNDE0NTcxMzIyYzgxIiwibmJmIjoxNjQ2NzU0MTczLCJzdWIiOiJkWE5sY2pvNE16TTJPRGcxWXkwMk16WXlMVFJoT1RndE9UVXpNUzFtT0RVek9EUmtZalprTm1JPSIsInR5cCI6ImFjY2VzcyJ9.2FPjAT2Lo9T-1FZ4iBVLCZwCWHLzuSa9yJlsArUDWfMFsRyb9tqzyzcZ-IrBOQoIIBI3s5ksiFnVdrxp-zXTmQ"
 CONFIG_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
+ACCOUNT_ID= "gid:AAAAEvQjp80tGkaYgkn48BAyZb8"
+WRONG_ACCOUNT_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
+CUSTOMER_NAME = "wonka"
+APP_SPACE_NAME = "factory"
+CUSTOMER_ID = "gid:AAAAAWluZHlraURlgAAAAAAAAA8"
 
 PASSWORD = "Password"
 NEW_PASSWORD = "Password1"
@@ -74,8 +79,30 @@ def get_email_token():
 def get_verification_bearer():
     return VERIFICATION_BEARER
 
+
 def get_expired_token():
     return EXPIRED_TOKEN
 
+
 def get_config_id():
     return CONFIG_ID
+
+
+def get_wrong_account_id():
+    return WRONG_ACCOUNT_ID
+
+
+def get_account_id():
+    return ACCOUNT_ID
+
+
+def get_customer_name():
+    return CUSTOMER_NAME
+
+
+def get_customer_id():
+    return CUSTOMER_ID
+
+
+def get_app_space_name():
+    return APP_SPACE_NAME
