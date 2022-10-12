@@ -9,7 +9,8 @@ from uuid import UUID
 from google.protobuf.json_format import MessageToJson
 
 from jarvis_sdk.cmd import IdentityClient
-
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
@@ -108,10 +109,31 @@ Property ID and value of the property where the value is a reference
     enrich_token.add_argument("--session_claims", nargs='*',
                               help="Session claims to add (--session_claims key=value)", action=ParseKwargs)
 
+    # customer_id
+    customer_id_parser = subparsers.add_parser("customer_id")
+    #customer_parser.add_argument("access_token", help="JWT bearer token")
+
+    # customer_name
+    customer_name_parser = subparsers.add_parser("customer_name")
+    customer_name_parser.add_argument("customer_name", help="Customer name (not display name)")
+
+    # service_account
+    service_account_parser = subparsers.add_parser("service_account")
+
+    # app_space_id
+    app_space_id_parser = subparsers.add_parser("app_space_id")
+    app_space_id_parser.add_argument("app_space_id", help="App Space id (gid)")
+
+    # app_space_name
+    app_space_name_parser = subparsers.add_parser("app_space_name")
+    app_space_name_parser.add_argument("app_space_name", help="App Space name (not display name)")
+    app_space_name_parser.add_argument("customer_id", help="Customer Id (gid)")
+
     args = parser.parse_args()
 
     local = args.local
     client = IdentityClient(local)
+    client_config = ConfigClient(local)
 
     command = args.command
 
@@ -238,6 +260,54 @@ Property ID and value of the property where the value is a reference
             print("Successfully enriched token")
         else:
             print("Invalid token")
+
+    elif command == "customer_id":
+
+        try:
+            service_account = client_config.get_service_account()
+        except Exception as exception:
+            print(exception)
+            return None
+
+        print(service_account.customer_id)
+        customer = client_config.get_customer_by_id(service_account.customer_id)
+        if customer:
+            print_response(customer)
+        else:
+            print("Invalid customer id")
+
+    elif command == "customer_name":
+        customer_name = args.customer_name
+        customer = client_config.get_customer_by_name(customer_name)
+        if customer:
+            print_response(customer)
+        else:
+            print("Invalid customer id")
+
+    elif command == "service_account":
+
+        service_account = client_config.get_service_account()
+        if service_account:
+            print_response(service_account)
+        else:
+            print("Invalid service account")
+
+    elif command == "app_space_id":
+        app_space_id = args.app_space_id
+        app_space = client_config.get_app_space_by_id(app_space_id)
+        if app_space:
+            print_response(app_space)
+        else:
+            print("Invalid app_space id")
+
+    elif command == "app_space_name":
+        app_space_name = args.app_space_name
+        customer_id = args.customer_id
+        app_space = client_config.get_app_space_by_name(customer_id, app_space_name)
+        if app_space:
+            print_response(app_space)
+        else:
+            print("Invalid app_space name")
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover

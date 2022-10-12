@@ -1,4 +1,5 @@
-from utils.deserialize_digital_twin_with_token_info import deserialize_digital_twin_with_token_info
+from jarvis_sdk.utils.deserialize_digital_twin_with_token_info import deserialize_digital_twin_with_token_info
+
 
 def test_no_response():
     # Prepare
