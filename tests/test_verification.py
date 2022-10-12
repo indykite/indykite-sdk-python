@@ -115,5 +115,5 @@ def test_start_digital_twin_email_verification_email_not_found(capsys):
     response = client.start_digital_twin_email_verification(digital_twin_id, tenant_id, email)
     captured = capsys.readouterr()
 
-    assert "email address is not found" in captured.out
+    assert "email address is not found" or "digital_twin was not found" in captured.out
     assert response is None

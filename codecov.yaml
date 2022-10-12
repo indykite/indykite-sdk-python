@@ -13,4 +13,6 @@ ignore:
   - "jarvis_sdk/indykite"
   - "jarvis_sdk/validate"
   - "jarvis_sdk/cmd/helper.py"
+  - "jarvis_sdk/cmdconfig/helper.py"
+  - "jarvis_sdk/model/unique_name_identifier.py"
   - "tests"

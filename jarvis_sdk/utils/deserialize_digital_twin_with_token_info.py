@@ -1,6 +1,7 @@
 from jarvis_sdk.model.digital_twin import DigitalTwin
 from jarvis_sdk.model.token_info import TokenInfo
 
+
 def deserialize_digital_twin_with_token_info(response):
     if not response:
         return None
