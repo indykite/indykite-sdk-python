@@ -85,7 +85,7 @@ def test_get_digital_twin_success(capsys):
     client = IdentityClient()
     assert client is not None
 
-    response = client.get_digital_twin("6cdf1133-ba32-4dbb-a977-60b0d5d5e713", "696e6479-6b69-4465-8000-030f00000001", [])
+    response = client.get_digital_twin(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
     assert response is not None

@@ -39,7 +39,7 @@ def test_verify_digital_twin_email_success(registration_until_email_arrives):
 
     response = client.verify_digital_twin_email(token)
 
-    #assert isinstance(response, DigitalTwinCore)
+    assert isinstance(response, DigitalTwinCore)
 
 
 def test_start_digital_twin_email_verification_wrong_twin_id(capsys):

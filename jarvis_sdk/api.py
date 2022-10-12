@@ -115,19 +115,19 @@ Property ID and value of the property where the value is a reference
 
     # customer_name
     customer_name_parser = subparsers.add_parser("customer_name")
-    customer_name_parser.add_argument("customer_name", help="Customer name")
+    customer_name_parser.add_argument("customer_name", help="Customer name (not display name)")
 
     # service_account
     service_account_parser = subparsers.add_parser("service_account")
 
     # app_space_id
     app_space_id_parser = subparsers.add_parser("app_space_id")
-    app_space_id_parser.add_argument("app_space_id", help="App Space id")
+    app_space_id_parser.add_argument("app_space_id", help="App Space id (gid)")
 
     # app_space_name
     app_space_name_parser = subparsers.add_parser("app_space_name")
-    app_space_name_parser.add_argument("app_space_name", help="App Space name")
-    app_space_name_parser.add_argument("customer_id", help="Customer Id")
+    app_space_name_parser.add_argument("app_space_name", help="App Space name (not display name)")
+    app_space_name_parser.add_argument("customer_id", help="Customer Id (gid)")
 
     args = parser.parse_args()
 
