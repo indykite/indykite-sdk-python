@@ -111,23 +111,80 @@ Property ID and value of the property where the value is a reference
 
     # customer_id
     customer_id_parser = subparsers.add_parser("customer_id")
-    #customer_parser.add_argument("access_token", help="JWT bearer token")
+    # customer_parser.add_argument("access_token", help="JWT bearer token")
 
     # customer_name
     customer_name_parser = subparsers.add_parser("customer_name")
-    customer_name_parser.add_argument("customer_name", help="Customer name")
+    customer_name_parser.add_argument("customer_name", help="Customer name (not display name)")
 
     # service_account
     service_account_parser = subparsers.add_parser("service_account")
 
     # app_space_id
     app_space_id_parser = subparsers.add_parser("app_space_id")
-    app_space_id_parser.add_argument("app_space_id", help="App Space id")
+    app_space_id_parser.add_argument("app_space_id", help="App Space id (gid)")
 
     # app_space_name
     app_space_name_parser = subparsers.add_parser("app_space_name")
-    app_space_name_parser.add_argument("app_space_name", help="App Space name")
-    app_space_name_parser.add_argument("customer_id", help="Customer Id")
+    app_space_name_parser.add_argument("app_space_name", help="App Space name (not display name)")
+    app_space_name_parser.add_argument("customer_id", help="Customer Id (gid)")
+
+    # create_app_space
+    create_app_space_parser = subparsers.add_parser("create_app_space")
+    create_app_space_parser.add_argument("customer_id", help="Customer Id (gid)")
+    create_app_space_parser.add_argument("app_space_name", help="App Space name (not display name)")
+    create_app_space_parser.add_argument("display_name", help="Display Name")
+
+    # update_app_space
+    update_app_space_parser = subparsers.add_parser("update_app_space")
+    update_app_space_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+    update_app_space_parser.add_argument("etag", help="Etag")
+    update_app_space_parser.add_argument("display_name", help="Display Name")
+
+    # list_app_spaces
+    list_app_spaces_parser = subparsers.add_parser("list_app_spaces")
+    list_app_spaces_parser.add_argument("customer_id", help="Customer Id (gid)")
+    list_app_spaces_parser.add_argument("match_list", help="Matching names separated by ,",
+                                        type=lambda s: [str(item) for item in s.split(',')])
+    list_app_spaces_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
+
+    # delete_app_space
+    delete_app_space_parser = subparsers.add_parser("delete_app_space")
+    delete_app_space_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+    delete_app_space_parser.add_argument("etag", nargs='?', help="Optional Etag")
+
+    # tenant_id
+    tenant_id_parser = subparsers.add_parser("tenant_id")
+    tenant_id_parser.add_argument("tenant_id", help="Tenant id (gid)")
+
+    # tenant_name
+    tenant_name_parser = subparsers.add_parser("tenant_name")
+    tenant_name_parser.add_argument("tenant_name", help="Tenant name (not display name)")
+    tenant_name_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+
+    # create_tenant
+    create_tenant_parser = subparsers.add_parser("create_tenant")
+    create_tenant_parser.add_argument("issuer_id", help="Issuer Id (gid)")
+    create_tenant_parser.add_argument("tenant_name", help="Tenant name (not display name)")
+    create_tenant_parser.add_argument("display_name", help="Display Name")
+
+    # update_tenant
+    update_tenant_parser = subparsers.add_parser("update_tenant")
+    update_tenant_parser.add_argument("tenant_id", help="Tenant Id")
+    update_tenant_parser.add_argument("etag", help="Etag")
+    update_tenant_parser.add_argument("display_name", help="Display Name")
+
+    # list_tenants
+    list_tenants_parser = subparsers.add_parser("list_tenants")
+    list_tenants_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+    list_tenants_parser.add_argument("match_list", help="Matching names separated by ,",
+                                        type=lambda s: [str(item) for item in s.split(',')])
+    list_tenants_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
+
+    # delete_tenant
+    delete_tenant_parser = subparsers.add_parser("delete_tenant")
+    delete_tenant_parser.add_argument("tenant_id", help="Tenant Id")
+    delete_tenant_parser.add_argument("etag", nargs='?', help="Optional Etag")
 
     args = parser.parse_args()
 
@@ -308,6 +365,123 @@ Property ID and value of the property where the value is a reference
             print_response(app_space)
         else:
             print("Invalid app_space name")
+
+    elif command == "create_app_space":
+        app_space_name = args.app_space_name
+        customer_id = args.customer_id
+        display_name = args.display_name
+        app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name,"description", [])
+        if app_space_response:
+            print_response(app_space_response)
+        else:
+            print("Invalid app_space response")
+        return app_space_response
+
+    elif command == "update_app_space":
+        app_space_id = args.app_space_id
+        etag = args.etag
+        display_name = args.display_name
+        app_space_response = client_config.update_app_space(app_space_id, etag, display_name,"description update", [])
+        if app_space_response:
+            print_response(app_space_response)
+        else:
+            print("Invalid app_space response")
+        return app_space_response
+
+    elif command == "list_app_spaces":
+        customer_id = args.customer_id
+        match_list = args.match_list
+        if args.bookmark:
+            bookmark = args.bookmark
+        else:
+            bookmark = []
+        list_app_spaces_response = client_config.list_app_spaces(customer_id, match_list, bookmark)
+        if list_app_spaces_response:
+            print(list_app_spaces_response)
+        else:
+            print("Invalid list_app_spaces response")
+        return list_app_spaces_response
+
+    elif command == "delete_app_space":
+        app_space_id = args.app_space_id
+        if args.etag:
+            etag = args.etag
+        else:
+            etag = None
+
+        delete_app_space_response = client_config.delete_app_space(app_space_id, etag, [])
+        if delete_app_space_response:
+            print(delete_app_space_response)
+        else:
+            print("Invalid delete_app_space_response response")
+        return delete_app_space_response
+
+    elif command == "tenant_id":
+        tenant_id = args.tenant_id
+        tenant = client_config.get_tenant_by_id(tenant_id)
+        if tenant:
+            print_response(tenant)
+        else:
+            print("Invalid tenant id")
+
+    elif command == "tenant_name":
+        tenant_name = args.tenant_name
+        app_space_id = args.app_space_id
+        tenant = client_config.get_tenant_by_name(app_space_id, tenant_name)
+        if tenant:
+            print_response(tenant)
+        else:
+            print("Invalid tenant name")
+
+    elif command == "create_tenant":
+        tenant_name = args.tenant_name
+        issuer_id = args.issuer_id
+        display_name = args.display_name
+        tenant_response = client_config.create_tenant(issuer_id, tenant_name, display_name,"description", [])
+        if tenant_response:
+            print_response(tenant_response)
+        else:
+            print("Invalid tenant response")
+        return tenant_response
+
+    elif command == "update_tenant":
+        tenant_id = args.tenant_id
+        etag = args.etag
+        display_name = args.display_name
+        tenant_response = client_config.update_tenant(tenant_id, etag, display_name,"description update", [])
+        if tenant_response:
+            print_response(tenant_response)
+        else:
+            print("Invalid tenant response")
+        return tenant_response
+
+    elif command == "list_tenants":
+        app_space_id = args.app_space_id
+        match_list = args.match_list
+        if args.bookmark:
+            bookmark = args.bookmark
+        else:
+            bookmark = []
+        list_tenants_response = client_config.list_tenants(app_space_id, match_list, bookmark)
+        if list_tenants_response:
+            print(list_tenants_response)
+        else:
+            print("Invalid list_tenants response")
+        return list_tenants_response
+
+    elif command == "delete_tenant":
+        tenant_id = args.tenant_id
+        if args.etag:
+            etag = args.etag
+        else:
+            etag = None
+
+        delete_tenant_response = client_config.delete_tenant(tenant_id, etag, [])
+        if delete_tenant_response:
+            print(delete_tenant_response)
+        else:
+            print("Invalid delete_tenant_response response")
+        return delete_tenant_response
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
