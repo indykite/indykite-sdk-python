@@ -1,18 +1,18 @@
 from jarvis_sdk.cmdconfig import helper
 from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from jarvis_sdk.indykite.config.v1beta1 import model_pb2 as model
-from jarvis_sdk.model.app_space import ApplicationSpace
+from jarvis_sdk.model.tenant import Tenant
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
-from jarvis_sdk.model.create_app_space import CreateApplicationSpace
-from jarvis_sdk.model.update_app_space import UpdateApplicationSpace
+from jarvis_sdk.model.create_tenant import CreateTenant
+from jarvis_sdk.model.update_tenant import UpdateTenant
 
 
-def get_app_space_by_id(self, app_space_id):
+def get_tenant_by_id(self, tenant_id):
     try:
-        response = self.stub.ReadApplicationSpace(
-            pb2.ReadApplicationSpaceRequest(
-                id=str(app_space_id)
+        response = self.stub.ReadTenant(
+            pb2.ReadTenantRequest(
+                id=str(tenant_id)
             )
         )
     except Exception as exception:
@@ -22,15 +22,15 @@ def get_app_space_by_id(self, app_space_id):
     if not response:
         return None
 
-    return ApplicationSpace.deserialize(response.app_space)
+    return Tenant.deserialize(response.tenant)
 
 
-def get_app_space_by_name(self, customer_id, app_space_name):
+def get_tenant_by_name(self, app_space_id, tenant_name):
 
     try:
-        response = self.stub.ReadApplicationSpace(
-            pb2.ReadApplicationSpaceRequest(
-                name=UniqueNameIdentifier(location = customer_id, name = app_space_name)
+        response = self.stub.ReadTenant(
+            pb2.ReadTenantRequest(
+                name=UniqueNameIdentifier(location = app_space_id, name = tenant_name)
             )
         )
     except Exception as exception:
@@ -40,15 +40,15 @@ def get_app_space_by_name(self, customer_id, app_space_name):
     if not response:
         return None
 
-    return ApplicationSpace.deserialize(response.app_space)
+    return Tenant.deserialize(response.tenant)
 
 
-def create_app_space(self, customer_id, name, display_name, description="", bookmarks=[]):
+def create_tenant(self, issuer_id, name, display_name, description="", bookmarks=[]):
 
     try:
-        response = self.stub.CreateApplicationSpace(
-            pb2.CreateApplicationSpaceRequest(
-                customer_id=customer_id,name=name, display_name=wrappers.StringValue(value=display_name),
+        response = self.stub.CreateTenant(
+            pb2.CreateTenantRequest(
+                issuer_id=issuer_id,name=name, display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description), bookmarks=bookmarks
             )
         )
@@ -59,15 +59,15 @@ def create_app_space(self, customer_id, name, display_name, description="", book
     if not response:
         return None
 
-    return CreateApplicationSpace.deserialize(response)
+    return CreateTenant.deserialize(response)
 
 
-def update_app_space(self, app_space_id, etag, display_name, description="", bookmarks=[]):
+def update_tenant(self, tenant_id, etag, display_name, description="", bookmarks=[]):
 
     try:
-        response = self.stub.UpdateApplicationSpace(
-            pb2.UpdateApplicationSpaceRequest(
-                id=app_space_id,etag=wrappers.StringValue(value=etag),
+        response = self.stub.UpdateTenant(
+            pb2.UpdateTenantRequest(
+                id=tenant_id,etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description), bookmarks=bookmarks
             )
@@ -79,15 +79,15 @@ def update_app_space(self, app_space_id, etag, display_name, description="", boo
     if not response:
         return None
 
-    return UpdateApplicationSpace.deserialize(response)
+    return UpdateTenant.deserialize(response)
 
 
-def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
+def list_tenants(self, app_space_id, match=[], bookmarks=[]):
 
     try:
-        streams = self.stub.ListApplicationSpaces(
-            pb2.ListApplicationSpacesRequest(
-                customer_id=customer_id,match=match,
+        streams = self.stub.ListTenants(
+            pb2.ListTenantsRequest(
+                app_space_id=app_space_id,match=match,
                 bookmarks=bookmarks
             )
         )
@@ -109,12 +109,12 @@ def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
     return responses
 
 
-def delete_app_space(self, app_space_id, etag, bookmarks):
+def delete_tenant(self, tenant_id, etag, bookmarks):
 
     try:
-        response = self.stub.DeleteApplicationSpace(
-            pb2.DeleteApplicationSpaceRequest(
-                id=app_space_id, etag=wrappers.StringValue(value=etag),
+        response = self.stub.DeleteTenant(
+            pb2.DeleteTenantRequest(
+                id=tenant_id, etag=wrappers.StringValue(value=etag),
                 bookmarks=bookmarks
             )
         )

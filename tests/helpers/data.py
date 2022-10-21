@@ -18,6 +18,11 @@ WRONG_ACCOUNT_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
 CUSTOMER_NAME = "wonka"
 APP_SPACE_NAME = "factory"
 CUSTOMER_ID = "gid:AAAAAWluZHlraURlgAAAAAAAAA8"
+APP_SPACE_ID = "gid:AAAAAmluZHlraURlgAABDwAAAAA"
+ISSUER_ID = "gid:AAAAD2hBE6FIJk2giSaKTPc1pKk"
+TENANT_ID = "gid:AAAAA2luZHlraURlgAADDwAAAAE"
+TENANT_NAME = "wonka-1"
+
 
 PASSWORD = "Password"
 NEW_PASSWORD = "Password1"
@@ -106,3 +111,19 @@ def get_customer_id():
 
 def get_app_space_name():
     return APP_SPACE_NAME
+
+
+def get_app_space_id():
+    return APP_SPACE_ID
+
+
+def get_issuer_id():
+    return ISSUER_ID
+
+
+def get_tenant_id():
+    return TENANT_ID
+
+
+def get_tenant_name():
+    return TENANT_NAME

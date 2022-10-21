@@ -252,7 +252,7 @@ class ConfigManagementAPIServicer(object):
     """
 
     def ReadCustomer(self, request, context):
-        """ReadCustomer by ID or name and returns all attributes.
+        """ReadCustomer by ID or name, or gets it from a service account and returns all attributes.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
