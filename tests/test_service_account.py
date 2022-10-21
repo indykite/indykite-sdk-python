@@ -83,7 +83,7 @@ def test_service_account_error_credentials_empty(capsys):
     assert response is None
     assert "Missing service account" in captured.out
 
-    
+
 def test_service_account_success():
     client = ConfigClient()
     assert client is not None
@@ -105,4 +105,17 @@ def test_service_account_success_with_param():
     response = client.get_service_account(config_id)
     assert response is not None
     assert isinstance(response, ServiceAccount)
+
+
+def test_service_account_empty():
+    client = ConfigClient()
+    assert client is not None
+
+    def mocked_get_service_account(request: pb2.ReadServiceAccountRequest):
+        return None
+
+    client.stub.ReadServiceAccount = mocked_get_service_account
+    response = client.get_service_account()
+
+    assert response is None
 
