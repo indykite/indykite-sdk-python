@@ -58,4 +58,3 @@ class ConfigClient(object):
         list_application_agents, delete_application_agent
 
 
-
