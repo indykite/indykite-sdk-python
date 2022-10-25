@@ -12,6 +12,7 @@ from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk.cmdconfig import ConfigClient
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
+
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
         setattr(namespace, self.dest, dict())
@@ -251,6 +252,26 @@ Property ID and value of the property where the value is a reference
     delete_application_agent_parser = subparsers.add_parser("delete_application_agent")
     delete_application_agent_parser.add_argument("application_agent_id", help="Application Agent Id")
     delete_application_agent_parser.add_argument("etag", nargs='?', help="Optional Etag")
+
+    # application_agent_credential
+    application_agent_credential_parser = subparsers.add_parser("application_agent_credential")
+    application_agent_credential_parser.add_argument("application_agent_credential_id", help="Application agent credential id")
+
+    # register_application_agent_credential_jwk
+    register_application_agent_credential_jwk_parser = subparsers.add_parser("register_application_agent_credential_jwk")
+    register_application_agent_credential_jwk_parser.add_argument("application_agent_id", help="Application agent credential id")
+    register_application_agent_credential_jwk_parser.add_argument("display_name", help="Display name")
+    register_application_agent_credential_jwk_parser.add_argument("default_tenant_id", help="Default tenant id")
+
+    # register_application_agent_credential_pem
+    register_application_agent_credential_pem_parser = subparsers.add_parser("register_application_agent_credential_pem")
+    register_application_agent_credential_pem_parser.add_argument("application_agent_id", help="Application agent credential id")
+    register_application_agent_credential_pem_parser.add_argument("display_name", help="Display name")
+    register_application_agent_credential_pem_parser.add_argument("default_tenant_id", help="Default tenant id")
+
+    # delete_application_agent_credential
+    delete_application_agent_credential_parser = subparsers.add_parser("delete_application_agent_credential")
+    delete_application_agent_credential_parser.add_argument("application_agent_credential_id", help="Application agent credential id")
 
     args = parser.parse_args()
 
@@ -685,12 +706,75 @@ Property ID and value of the property where the value is a reference
             print("Invalid delete_application_response_agent response")
         return delete_application_agent_response
 
+    elif command == "application_agent_credential":
+        application_agent_credential_id = args.application_agent_credential_id
+        application_agent_credential = client_config.get_application_agent_credential(application_agent_credential_id)
+        if application_agent_credential:
+            print_response(application_agent_credential)
+        else:
+            print("Invalid application agent id")
+
+    elif command == "register_application_agent_credential_jwk":
+        application_agent_id = args.application_agent_id
+        display_name = args.display_name
+        default_tenant_id = args.default_tenant_id
+        jwk = None
+        t = datetime.now().timestamp()
+        expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        application_agent_credential_response = client_config.register_application_agent_credential_jwk(application_agent_id,
+                                                                                             display_name, jwk,
+                                                                                             expire_time_in_seconds,
+                                                                                             default_tenant_id, [])
+        if application_agent_credential_response:
+            print_credential(application_agent_credential_response)
+        else:
+            print("Invalid application agent response")
+        return application_agent_credential_response
+
+    elif command == "register_application_agent_credential_pem":
+        application_agent_id = args.application_agent_id
+        display_name = args.display_name
+        default_tenant_id = args.default_tenant_id
+        pem = None
+        t = datetime.now().timestamp()
+        expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        application_agent_credential_response = client_config.register_application_agent_credential_jwk(application_agent_id,
+                                                                                             display_name, pem,
+                                                                                             expire_time_in_seconds,
+                                                                                             default_tenant_id, [])
+        if application_agent_credential_response:
+            print_credential(application_agent_credential_response)
+        else:
+            print("Invalid application agent response")
+        return application_agent_credential_response
+
+    elif command == "delete_application_agent_credential":
+        application_agent_credential_id = args.application_agent_credential_id
+
+        delete_application_agent_credential_response = client_config.delete_application_agent_credential(application_agent_credential_id, [])
+        if delete_application_agent_credential_response:
+            print(delete_application_agent_credential_response)
+        else:
+            print("Invalid delete_application_agent_credential_response response")
+        return delete_application_agent_credential_response
+
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
     print("Digital twin info")
     print("=================")
     print("Tenant: " + str(UUID(bytes=digital_twin_info.digital_twin.tenant_id)))
     print("Digital twin: " + str(UUID(bytes=digital_twin_info.digital_twin.id)))
+
+
+def print_credential(credential):  # pragma: no cover
+    print("Credential")
+    print("==========")
+    print("Credential id: " + str(credential.id))
+    print("Kid: " + str(credential.kid))
+    print("Agent config: " + str(credential.agent_config))
+    print("Bookmark: " + str(credential.bookmark))
+    print("Create time: " + str(credential.create_time))
+    print("Expire time: " + str(credential.expire_time))
 
 
 def print_token_info(token_info):  # pragma: no cover
