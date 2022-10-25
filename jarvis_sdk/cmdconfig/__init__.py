@@ -56,5 +56,6 @@ class ConfigClient(object):
     from ._application import get_application_by_id, get_application_by_name, create_application, update_application, list_applications, delete_application
     from ._application_agent import get_application_agent_by_id, get_application_agent_by_name, create_application_agent, update_application_agent, \
         list_application_agents, delete_application_agent
+    from ._application_agent_credential import get_application_agent_credential, register_application_agent_credential_jwk, register_application_agent_credential_pem, delete_application_agent_credential
 
 
