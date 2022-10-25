@@ -738,7 +738,7 @@ Property ID and value of the property where the value is a reference
         pem = None
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
-        application_agent_credential_response = client_config.register_application_agent_credential_jwk(application_agent_id,
+        application_agent_credential_response = client_config.register_application_agent_credential_pem(application_agent_id,
                                                                                              display_name, pem,
                                                                                              expire_time_in_seconds,
                                                                                              default_tenant_id, [])
