@@ -26,7 +26,7 @@ APPLICATION_ID = "gid:AAAABGluZHlraURlgAACDwAAAAA"
 APPLICATION_NAME = "wonka-bars"
 APPLICATION_AGENT_ID = "gid:AAAABZSZy0CF-U2zrr5OOw1EMP8"
 APPLICATION_AGENT_NAME = "agent-sdk"
-
+APPLICATION_AGENT_CREDENTIAL_ID = "gid:AAAABtGBMvCtJ0LRlJqWs9C2EbQ"
 
 PASSWORD = "Password"
 NEW_PASSWORD = "Password1"
@@ -147,3 +147,7 @@ def get_application_agent_id():
 
 def get_application_agent_name():
     return APPLICATION_AGENT_NAME
+
+
+def get_application_agent_credential_id():
+    return APPLICATION_AGENT_CREDENTIAL_ID
