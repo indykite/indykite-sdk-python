@@ -10,13 +10,13 @@ The api.py script runs on python3.8
 
 ### Mandatory environment variables
 
-For normal usage `INDYKITE_APPLICATION_CREDENTIALS_FILE` should contain the path to the json configuration file. You can find an example .json
-in the [example_config.json](jarvis-proto-sdk/config_example.json) file.
+For normal usage `INDYKITE_APPLICATION_CREDENTIALS_FILE` should contain the path to the json configuration file for identity. 
+The config file is generated in the [admin console](https://console.indykite.id/) when you create an application -> applicationAgent and applicationAgentCredential. 
 
-If you run the package against a local system, then it requires an additional ca.pem file. To set the file's path,
-please use the `CAPEM` variable point to the `ca.pem` file.
+`INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE` should contain the path to the json configuration file for config.
+The config file is generated in the [admin console](https://console.indykite.id/) when you create a service account.
 
-It is highly suggested that you use absolute paths for the files.
+You should use absolute paths for the files.
 
 ### Running the sdk with the api.py script
 
@@ -294,7 +294,400 @@ optional arguments:
   -h, --help        show this help message and exit
 ```
 
-13. To see all available options, run
+13. Get service account
+
+```shell
+python3 api.py service_account 
+```
+
+14. Get customer by id
+
+```shell
+python3 api.py customer_id 
+```
+
+15. Get customer by name
+
+```shell
+python3 api.py customer_name CUSTOMER_NAME
+```
+
+```shell
+positional arguments:
+  customer_name     String
+```
+
+16. Get AppSpace by id
+
+```shell
+python3 api.py app_space_id APPSPACE_ID
+```
+
+```shell
+positional arguments:
+  app_space_id     String
+```
+
+17. Get AppSpace by name
+
+```shell
+python3 api.py app_space_name APPSPACE_NAME CUSTOMER_ID
+```
+
+```shell
+positional arguments:
+  app_space_name     String
+  customer_id        String
+```
+
+18. Create AppSpace 
+
+```shell
+python3 api.py create_app_space CUSTOMER_ID APPSPACE_NAME DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  customer_id        String
+  app_space_name     String
+  display_name       String
+```
+
+19. Update AppSpace 
+
+```shell
+python3 api.py update_app_space APPSPACE_ID ETAG DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  app_space_id   String
+  etag           String
+  display_name   String
+```
+
+20. List AppSpaces 
+
+```shell
+python3 api.py list_app_spaces CUSTOMER_ID MATCH_LIST 
+```
+
+```shell
+positional arguments:
+  customer_id   String
+  match_list    Strings separated by ,
+optional arguments:
+  bookmarks     List of Strings
+```
+
+21. Delete AppSpace
+
+```shell
+python3 api.py delete_app_space APPSPACE_ID ETAG
+```
+
+```shell
+positional arguments:
+  app_space_id   String
+optional arguments:
+  etag          String
+  bookmarks     List of Strings
+```
+
+
+22. Get Tenant by id
+
+```shell
+python3 api.py tenant_id TENANT_ID
+```
+
+```shell
+positional arguments:
+  tenant_id     String
+```
+
+23. Get Tenant by name
+
+```shell
+python3 api.py tenant_name TENANT_NAME APPSPACE_ID
+```
+
+```shell
+positional arguments:
+  tenant_name     String
+  app_space_id    String
+```
+
+24. Create Tenant 
+
+```shell
+python3 api.py create_tenant ISSUER_ID TENANT_NAME DISPLAY_NAME 
+```
+
+```shell
+positional arguments:
+  issuer_id        String
+  tenant_name     String
+  display_name     String
+```
+
+25. Update Tenant 
+
+```shell
+python3 api.py update_tenant TENANT_ID ETAG DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  tenant_id      String
+  etag           String
+  display_name   String
+```
+
+26. List Tenants 
+
+```shell
+python3 api.py list_tenants APPSPACE_ID MATCH_LIST 
+```
+
+```shell
+positional arguments:
+  app_space_id   String
+  match_list     Strings separated by ,
+optional arguments:
+  bookmarks      List of Strings
+```
+
+27. Delete Tenant
+
+```shell
+python3 api.py delete_tenant TENANT_ID ETAG
+```
+
+```shell
+positional arguments:
+  tenant_id   String
+optional arguments:
+  etag          String
+  bookmarks     List of Strings
+```
+
+
+
+28. Get Application by id
+
+```shell
+python3 api.py application_id APPLICATION_ID
+```
+
+```shell
+positional arguments:
+  application_id     String
+```
+
+29. Get Application by name
+
+```shell
+python3 api.py application_name APPLICATION_NAME APP_SPACE_ID
+```
+
+```shell
+positional arguments:
+  application_name     String
+  app_space_id         String
+```
+
+30. Create Application 
+
+```shell
+python3 api.py create_application APP_SPACE_ID APPLICATION_NAME DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  app_space_id        String
+  application_name    String
+  display_name        String
+```
+
+31. Update Application 
+
+```shell
+python3 api.py update_application APPLICATION_ID ETAG DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  application_id   String
+  etag           String
+  display_name   String
+```
+
+32. List Applications 
+
+```shell
+python3 api.py list_applications APP_SPACE_ID MATCH_LIST 
+```
+
+```shell
+positional arguments:
+  app_space_id  String
+  match_list    Strings separated by ,
+optional arguments:
+  bookmarks     List of Strings
+```
+
+33. Delete Application
+
+```shell
+python3 api.py delete_application APPLICATION_ID ETAG
+```
+
+```shell
+positional arguments:
+  application_id   String
+optional arguments:
+  etag          String
+  bookmarks     List of String
+```
+
+
+34. Get ApplicationAgent by id
+
+```shell
+python3 api.py application_agent_id APPLICATION_AGENT_ID
+```
+
+```shell
+positional arguments:
+  application_agent_id     String
+```
+
+35. Get ApplicationAgent by name
+
+```shell
+python3 api.py application_agent_name APPLICATION_AGENT_NAME APP_SPACE_ID
+```
+
+```shell
+positional arguments:
+  application_agent_name     String
+  app_space_id         String
+```
+
+36. Create ApplicationAgent 
+
+```shell
+python3 api.py create_application_agent APPLICATION_ID APPLICATION_AGENT_NAME DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  application_id        String
+  application_agent_name    String
+  display_name        String
+```
+
+37. Update ApplicationAgent 
+
+```shell
+python3 api.py update_application_agent APPLICATION_AGENT_ID ETAG DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  application_agent_id   String
+  etag           String
+  display_name   String
+```
+
+38. List ApplicationAgents 
+
+```shell
+python3 api.py list_application_agents APP_SPACE_ID MATCH_LIST 
+```
+
+```shell
+positional arguments:
+  app_space_id  String
+  match_list    Strings separated by ,
+optional arguments:
+  bookmarks     List of Strings
+```
+
+39. Delete ApplicationAgent
+
+```shell
+python3 api.py delete_application_agent APPLICATION_AGENT_ID ETAG
+```
+
+```shell
+positional arguments:
+  application_agent_id   String
+optional arguments:
+  etag          String
+  bookmarks     List of String
+```
+
+40. Get ApplicationAgentCredential by id
+
+```shell
+python3 api.py application_agent_credential APPLICATION_AGENT_CREDENTIAL_ID
+```
+
+```shell
+positional arguments:
+  application_agent_credential_id     String
+```
+
+41. Register ApplicationAgentCredential with jwk 
+
+```shell
+python3 api.py register_application_agent_credential_jwk APPLICATION_AGENT_ID DISPLAY_NAME DEFAULT_TENANT_ID
+```
+
+```shell
+positional arguments:
+ application_agent_id     String
+ display_name             String
+ jwk                      Bytes
+ expire_time_in_seconds   Int
+ default_tenant_id        String
+ optional arguments:
+  bookmarks               List of String 
+```
+
+42. Register ApplicationAgentCredential with pem 
+
+```shell
+python3 api.py register_application_agent_credential_pem APPLICATION_AGENT_ID DISPLAY_NAME DEFAULT_TENANT_ID
+```
+
+```shell
+positional arguments:
+ application_agent_id     String
+ display_name             String
+ pem                      Bytes
+ expire_time_in_seconds   Int
+ default_tenant_id        String
+ optional arguments:
+  bookmarks               List of String 
+```
+
+43. Delete ApplicationAgentCredential
+
+```shell
+python3 api.py delete_application_agent_credential APPLICATION_AGENT_CREDENTIAL_ID
+```
+
+```shell
+positional arguments:
+  application_agent_credential_id   String
+optional arguments:
+  bookmarks     List of String
+```
+
+44. To see all available options, run
 
 ```shell
 python3 api.py --help
@@ -316,13 +709,13 @@ optional arguments:
   -l, --local           make the request to localhost
 ```
 
-14. To see the subcommands help page, run
+45. To see the subcommands help page, run
 
 ```shell
 python3 api.py <sub_command> --help
 ```
 
-15. To execute the functions against the local instance, add the `-l` flag to the command:
+46. To execute the functions against the local instance, add the `-l` flag to the command:
 
 ```shell
 python api.py -l introspect USER_TOKEN
@@ -336,8 +729,8 @@ To develop this project locally:
 
 * Clone this repository and enter it
 
-      git clone https://github.com/indykite/jarvis-sdk-python-proto.git
-      cd jarvis-sdk-python-proto
+      git clone https://github.com/indykite/jarvis-sdk-python.git
+      cd jarvis-sdk-python
 
 * Create a virtual environment and install project dependencies
 
