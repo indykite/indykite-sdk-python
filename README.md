@@ -43,11 +43,11 @@ This project serves as a Software Development Kit for developers of Indykite app
 ```json
 {
   "appSpaceId": "696e6479-6b69-4465-8000-010100000002",
-  "baseUrl": "https://jarvis-dev.indykite.com",
+  "baseUrl": "https://jarvis.indykite.com",
   "applicationId": "696e6479-6b69-4465-8000-020100000002",
   "defaultTenantId": "696e6479-6b69-4465-8000-030100000002",
   "appAgentId": "696e6479-6b69-4465-8000-050100000002",
-  "endpoint": "jarvis-dev.indykite.com",
+  "endpoint": "jarvis.indykite.com",
   "privateKeyJWK": {
     "kty": "EC",
     "d": "aa",
@@ -68,10 +68,12 @@ Conditionally optional parameters:
 - defaultTenantId
 - endpoint
 
-Use your own credentials for development. For running tests, however, you will need the Wonka credentials.
 
-2. You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_APPLICATION_CREDENTIALS`
-environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environment variable to the configuration file's path.
+
+2. Credentials 
+    #### Identity
+    You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_APPLICATION_CREDENTIALS`
+    environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environment variable to the configuration file's path.
 
    - on Linux and OSX
 
@@ -121,6 +123,60 @@ environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environm
      or
 
       `setex INDYKITE_APPLICATION_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
+
+
+
+
+#### Config
+You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS`
+environment variable or set the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE` environment variable to the configuration file's path.
+
+   - on Linux and OSX
+       ```
+        export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
+        "serviceAccountId":"gid:AAAAEg5K78iO852lPKlg25Ui6Nm",
+        "endpoint":"jarvis.indykite.com",
+         "privateKeyJWK":{
+            "kty": "EC",
+            "d": "Uio125jfi8Oph5hIoj4KLnw6Ha96qhGgh2yUIJki66gYuNjkMg",
+            "use": "sig",
+            "crv": "P-256",
+            "kid": "ph5hIoj4KLnw6HUio125jfi8Oph5hIoj4Khy5Plmy5uk8t7",
+            "x": "fr8f5LjhrtjJkyui66gt5i8ff5jflsHtgd3nf",
+            "y": "445mfgykk4hisfYyrej4HygTjg46Sqw69gHYh",
+            "alg": "ES256"
+         }
+        }'
+        ```
+
+     or
+
+      `export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE=/Users/xx/configuration.json`
+
+   - on Windows command line
+
+
+       ```
+        setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
+        "serviceAccountId":"gid:AAAAEg5K78iO852lPKlg25Ui6Nm",
+        "endpoint":"jarvis.indykite.com",
+         "privateKeyJWK":{
+            "kty": "EC",
+            "d": "Uio125jfi8Oph5hIoj4KLnw6Ha96qhGgh2yUIJki66gYuNjkMg",
+            "use": "sig",
+            "crv": "P-256",
+            "kid": "ph5hIoj4KLnw6HUio125jfi8Oph5hIoj4Khy5Plmy5uk8t7",
+            "x": "fr8f5LjhrtjJkyui66gt5i8ff5jflsHtgd3nf",
+            "y": "445mfgykk4hisfYyrej4HygTjg46Sqw69gHYh",
+            "alg": "ES256"
+         }
+        }'
+        ```
+
+     or
+
+      `setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
+
 
 3. Initialize a client to establish the connection. This client instance's `self.stub` will be used by the other functions.
 
@@ -545,5 +601,445 @@ def stream_records(self, config_id, records):
       print(response)
 ```
 
-Happy hacking!
+### Get customer information
 
+It is possible to get an existing customer's information.
+If we don't have its id or name, we can get its id through service_account
+The service account id is in the config file.
+The ServiceAccount class will also return the customer id
+
+#### Read service account
+
+```python
+from jarvis_sdk.cmdconfig import helper
+from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from jarvis_sdk.indykite.config.v1beta1 import model_pb2 as model
+from jarvis_sdk.model.service_account import ServiceAccount
+
+
+def get_service_account(self,service_account_id):
+        response = self.stub.ReadServiceAccount(
+            pb2.ReadServiceAccountRequest(
+                id=str(service_account_id)
+            )
+        )
+        print(response)
+```
+
+#### Read customer id with service_account request
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_customer(self, local):
+    client_config = ConfigClient(local)
+    service_account = client_config.get_service_account()
+    print(service_account.customer_id)
+    customer = client_config.get_customer_by_id(service_account.customer_id)
+    print(customer)
+```
+
+#### Read customer name
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_customer(self, local, customer_name):
+    client_config = ConfigClient(local)
+    customer = client_config.get_customer_by_name(customer_name)
+    print(customer)
+```
+
+### Get AppSpace information
+
+It is possible to get an existing AppSpace's information from customer, AppSpaceId and AppSpace name.
+#### Read appspace with id
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_app_space(self, local, app_space_id):
+    client_config = ConfigClient(local)
+    app_space = client_config.get_app_space_by_id(app_space_id)
+    print(app_space)
+```
+
+#### Read appspace with name
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_app_space(self, local, customer_id, app_space_name):
+    client_config = ConfigClient(local)
+    app_space = client_config.get_app_space_by_name(customer_id, app_space_name)
+    print(app_space)
+```
+
+#### List appspaces 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_app_spaces(self, local, customer_id, match_list, bookmarks=[]):
+    #match_list is a nonempty list of app_spaces names
+    client_config = ConfigClient(local)
+    list_app_spaces_response = client_config.list_app_spaces(customer_id, match_list, bookmarks)
+    print(list_app_spaces_response)
+```
+
+### Create, update, delete AppSpace information
+delete is not yet implemented in the IK platform
+
+#### Create appspace 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def create_app_space(self, local, customer_id, app_space_name, display_name, description):
+    client_config = ConfigClient(local)
+    app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name,description, [])
+    print(app_space_response)
+```
+
+#### Update appspace 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def update_app_space(self, local, app_space_id, etag, display_name, description, bookmarks = []):
+    #etag and bookmarks can be retrieved from a get_app_space or with a create_app_space or update_app_space
+    client_config = ConfigClient(local)
+    app_space_response = client_config.update_app_space(app_space_id, etag, display_name, description, bookmarks)
+    print(app_space_response)
+```
+
+#### Delete appspace 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def delete_app_space(self, local, app_space_id, etag, bookmarks = []):
+    #etag and bookmarks can be retrieved from a get_app_space or with a create_app_space or update_app_space
+    client_config = ConfigClient(local)
+    delete_app_space_response = client_config.delete_app_space(app_space_id, etag, bookmarks)
+    print(delete_app_space_response)
+```
+
+### Get Tenant information
+
+It is possible to get an existing Tenant's information from appSpace, TenantId and Tenant name.
+A tenant is a grouping of Digital Twins (DT -> digital users) in an appSpace
+#### Read tenant with id
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_tenant(self, local, tenant_id):
+    client_config = ConfigClient(local)
+    tenant = client_config.get_tenant_by_id(tenant_id)
+    print(tenant)
+```
+
+#### Read tenant with name
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_app_space(self, local, app_space_id, tenant_name):
+    client_config = ConfigClient(local)
+    tenant = client_config.get_tenant_by_name(app_space_id, tenant_name)
+    print(tenant)
+```
+
+#### List tenants 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_tenants(self, local, app_space_id, match_list, bookmarks=[]):
+    #match_list is a nonempty list of tenants names
+    client_config = ConfigClient(local)
+    list_tenants_response = client_config.list_tenants(app_space_id, match_list, bookmarks)
+    print(list_tenants_response)
+```
+
+### Create, update, delete Tenant information
+delete is not yet implemented in the IK platform
+
+#### Create tenant 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def create_tenant(self, local, issuer_id, tenant_name, display_name, description):
+    client_config = ConfigClient(local)
+    tenant_response = client_config.create_tenant(issuer_id, tenant_name, display_name, description, [])
+    print(tenant_response)
+```
+
+#### Update tenant 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def update_tenant(self, local, tenant_id, etag, display_name, description, bookmarks = []):
+    #etag and bookmarks can be retrieved from a get_tenant or with a create_tenant or update_tenant
+    client_config = ConfigClient(local)
+    tenant_response = client_config.update_tenant(tenant_id, etag, display_name,"description update", [])
+    print(tenant_response)
+```
+
+#### Delete tenant 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def delete_tenant(self, local, tenant_id, etag, bookmarks = []):
+    #etag and bookmarks can be retrieved from a get_tenant or with a create_tenant or update_tenant
+    client_config = ConfigClient(local)
+    delete_tenant_response = client_config.delete_tenant(tenant_id, etag, bookmarks)
+    print(delete_tenant_response)
+```
+
+### Get Application information
+
+It is possible to get an existing Application's information from appSpace, Application id and Application name.
+An application is created in an appSpace
+#### Read application with id
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_application(self, local, application_id):
+    client_config = ConfigClient(local)
+    application = client_config.get_application_by_id(application_id)
+    print(application)
+```
+
+#### Read application with name
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_application(self, local, app_space_id, application_name):
+    client_config = ConfigClient(local)
+    application = client_config.get_application_by_name(app_space_id, application_name)
+    print(application)
+```
+
+#### List applications 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_applications(self, local, app_space_id, match_list, bookmarks=[]):
+    #match_list is a nonempty list of applications names
+    client_config = ConfigClient(local)
+    list_applications_response = client_config.list_applications(app_space_id, match_list, bookmarks)
+    print(list_applications_response)
+```
+
+### Create, update, delete Application information
+delete is not yet implemented in the IK platform
+
+#### Create application 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def create_application(self, local, app_space_id, application_name, display_name, description):
+    client_config = ConfigClient(local)
+    application_response = client_config.create_application(app_space_id, application_name, display_name, description, [])
+    print(application_response)
+```
+
+#### Update application 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def update_application(self, local, application_id, etag, display_name, description, bookmarks = []):
+    #etag and bookmarks can be retrieved from a get_application or with a create_application or update_application
+    client_config = ConfigClient(local)
+    application_response = client_config.update_application(application_id, etag, display_name,description, bookmarks)
+    print(application_response)
+```
+
+#### Delete application 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def delete_application(self, local, application_id, etag, bookmarks = []):
+    #etag and bookmarks can be retrieved from a get_application or with a create_application or update_application
+    client_config = ConfigClient(local)
+    delete_application_response = client_config.delete_application(application_id, etag, bookmarks)
+    print(delete_application_response)
+```
+
+
+### Get ApplicationAgent information
+
+It is possible to get an existing ApplicationAgent's information from Application, ApplicationAgent id and ApplicationAgent name.
+An applicationAgent is created for an Application
+#### Read applicationAgent with id
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_application_agent(self, local, application_agent_id):
+    client_config = ConfigClient(local)
+    application_agent = client_config.get_application_agent_by_id(application_agent_id)
+    print(application_agent)
+```
+
+#### Read applicationAgent with name
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_application_agent(self, local, app_space_id, application_agent_name):
+    client_config = ConfigClient(local)
+    application_agent = client_config.get_application_agent_by_name(app_space_id, application_agent_name)
+    print(application_agent)
+```
+
+#### List applicationAgents 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_application_agents(self, local, app_space_id, match_list, bookmarks=[]):
+    #match_list is a nonempty list of application agents names
+    client_config = ConfigClient(local)
+    list_application_agents_response = client_config.list_application_agents(app_space_id, match_list, bookmarks)
+    print(list_application_agents_response)
+```
+
+### Create, update, delete ApplicationAgent information
+delete is not yet implemented in the IK platform
+
+#### Create applicationAgent 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def create_application_agent(self, local, application_id, application_agent_name, display_name, description):
+    client_config = ConfigClient(local)
+    application_agent_response = client_config.create_application_agent(application_id, application_agent_name, display_name,
+                                                                description, [])
+    print(application_agent_response)
+```
+
+#### Update applicationAgent 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def update_application_agent(self, local, application_agent_id, etag, display_name, description, bookmarks = []):
+    #etag and bookmarks can be retrieved from a get_application_agent or with a create_application_agent or update_application_agent
+    client_config = ConfigClient(local)
+    application_agent_response = client_config.update_application_agent(application_agent_id, etag, display_name, description, bookmarks)
+    print(application_agent_response)
+```
+
+#### Delete applicationAgent 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def delete_application_agent(self, local, application_agent_id, etag, bookmarks = []):
+    #etag and bookmarks can be retrieved from a get_application_agent or with a create_application_agent or update_application_agent
+    client_config = ConfigClient(local)
+    delete_application_agent_response = client_config.delete_application_agent(application_agent_id, etag, bookmarks)
+    print(delete_application_agent_response)
+```
+
+### Get ApplicationAgentCredential information
+
+It is possible to get an existing ApplicationAgentCredential's information from ApplicationAgent and ApplicationAgentCredential id.
+An applicationAgentCredential is created for an ApplicationAgent
+#### Read applicationAgentCredential with id
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def get_application_agent_credential(self, local, application_agent_credential_id):
+    client_config = ConfigClient(local)
+    application_agent_credential = client_config.get_application_agent_credential(application_agent_credential_id)
+    print(application_agent_credential)
+```
+
+### Create, delete ApplicationAgentCredential information
+delete is not yet implemented in the IK platform
+
+#### Register applicationAgentCredential with jwk
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def create_application_agent_credential(self, local, application_agent_id, display_name, jwk, expire_time_in_seconds, default_tenant_id):
+    client_config = ConfigClient(local)
+    application_agent_credential_response = client_config.register_application_agent_credential_jwk(application_agent_id,
+                                                                                             display_name, jwk,
+                                                                                             expire_time_in_seconds,
+                                                                                             default_tenant_id, [])
+    print(application_agent_credential_response)
+```
+
+#### Register applicationAgentCredential with pem
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def create_application_agent_credential(self, local, application_agent_id, display_name, pem, expire_time_in_seconds, default_tenant_id):
+    client_config = ConfigClient(local)
+    application_agent_credential_response = client_config.register_application_agent_credential_pem(application_agent_id,
+                                                                                             display_name, pem,
+                                                                                             expire_time_in_seconds,
+                                                                                             default_tenant_id, [])
+    print(application_agent_credential_response)
+```
+
+
+#### Delete applicationAgentCredential 
+```python
+from jarvis_sdk.cmd import IdentityClient
+from jarvis_sdk.cmdconfig import ConfigClient
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+
+def delete_application_agent_credential(self, local, application_agent_credential_id, bookmarks = []):
+    #bookmarks can be retrieved from a get_application_agent_credential or with a create_application_agent 
+    client_config = ConfigClient(local)
+    delete_application_agent_credential_response = client_config.delete_application_agent_credential(application_agent_credential_id, bookmarks)
+    print(delete_application_agent_credential_response)
+```
