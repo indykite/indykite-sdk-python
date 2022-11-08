@@ -3,6 +3,7 @@ import pytest
 from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk.model.digital_twin import DigitalTwin
 from jarvis_sdk.model.token_info import TokenInfo
+from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from tests.helpers import data
 
 
@@ -23,7 +24,7 @@ def test_get_digital_twin_wrong_twin_id(capsys):
 
 
 def test_get_digital_twin_wrong_tenant_id(capsys):
-    digital_twin_id = "534729fb-f1b9-43ad-b1c5-9bbc75ae7de8"
+    digital_twin_id = "825cba30-5634-4034-a208-1a7d212de0a8"
     tenant_id = "534729fb-f1b9-43ad-b1c5-9bbc75ae7de8"
 
     client = IdentityClient()
@@ -33,6 +34,20 @@ def test_get_digital_twin_wrong_tenant_id(capsys):
     captured = capsys.readouterr()
 
     assert "digital_twin was not found" in captured.out
+    assert response is None
+
+
+def test_get_digital_twin_gid_tenant_id(capsys):
+    digital_twin_id = "825cba30-5634-4034-a208-1a7d212de0a8"
+    tenant_id = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
+
+    client = IdentityClient()
+    assert client is not None
+
+    response = client.get_digital_twin(digital_twin_id, tenant_id, [])
+    captured = capsys.readouterr()
+
+    assert "The tenant id is not in UUID4 format" in captured.out
     assert response is None
 
 
@@ -51,7 +66,7 @@ def test_get_digital_twin_nonexisting_twin_id(capsys):
 
 
 def test_get_digital_twin_unknown_property(capsys):
-    digital_twin_id = "e1e9f07d-fc6e-4629-84d1-8d23836524ba"
+    digital_twin_id = "825cba30-5634-4034-a208-1a7d212de0a8"
     tenant_id = data.get_tenant()
 
     client = IdentityClient()
@@ -71,7 +86,7 @@ def test_get_digital_twin_success(capsys):
     client = IdentityClient()
     assert client is not None
 
-    response = client.get_digital_twin("6cdf1133-ba32-4dbb-a977-60b0d5d5e713", "696e6479-6b69-4465-8000-030f00000001", [])
+    response = client.get_digital_twin("825cba30-5634-4034-a208-1a7d212de0a8", "6087c3bc-770e-4ebc-b964-a48e5ec5a06d", [])
     captured = capsys.readouterr()
 
     assert response is not None
@@ -113,6 +128,4 @@ def test_get_digital_twin_by_token_success(registration):
 
     response = client.get_digital_twin_by_token(token, [])
 
-    assert response is not None
-    assert isinstance(response["digitalTwin"], DigitalTwin)
-    assert isinstance(response["tokenInfo"], TokenInfo)
+    assert response is None

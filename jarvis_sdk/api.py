@@ -273,6 +273,33 @@ Property ID and value of the property where the value is a reference
     delete_application_agent_credential_parser = subparsers.add_parser("delete_application_agent_credential")
     delete_application_agent_credential_parser.add_argument("application_agent_credential_id", help="Application agent credential id")
 
+    # service_account_id
+    service_account_id_parser = subparsers.add_parser("service_account_id")
+    service_account_id_parser.add_argument("service_account_id", help="Service account id (gid)")
+
+    # service_account_name
+    service_account_name_parser = subparsers.add_parser("service_account_name")
+    service_account_name_parser.add_argument("customer_id", help="Customer Id (gid)")
+    service_account_name_parser.add_argument("service_account_name", help="Service account name (not display name)")
+
+    # create_service_account
+    create_service_account_parser = subparsers.add_parser("create_service_account")
+    create_service_account_parser.add_argument("customer_id", help="Customer id (gid)")
+    create_service_account_parser.add_argument("service_account_name", help="Service account name (not display name)")
+    create_service_account_parser.add_argument("display_name", help="Display Name")
+    create_service_account_parser.add_argument("role", choices=["all_editor", "all_viewer", "app_editor", "app_viewer", "authn_viewer", "authn_editor"],  help="Roles: all_editor all_viewer app_editor app_viewer authn_viewer authn_editor")
+
+    # update_service_account
+    update_service_account_parser = subparsers.add_parser("update_service_account")
+    update_service_account_parser.add_argument("service_account_id", help="Service account Id")
+    update_service_account_parser.add_argument("etag", help="Etag")
+    update_service_account_parser.add_argument("display_name", help="Display Name")
+
+    # delete_service_account
+    delete_service_account_parser = subparsers.add_parser("delete_service_account")
+    delete_service_account_parser.add_argument("service_account_id", help="Service account Id")
+    delete_service_account_parser.add_argument("etag", nargs='?', help="Optional Etag")
+
     args = parser.parse_args()
 
     local = args.local
@@ -757,6 +784,60 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid delete_application_agent_credential_response response")
         return delete_application_agent_credential_response
+
+    elif command == "service_account_id":
+        service_account_id = args.service_account_id
+        service_account = client_config.get_service_account(service_account_id)
+        if service_account:
+            print_response(service_account)
+        else:
+            print("Invalid service account")
+
+    elif command == "service_account_name":
+        customer_id = args.customer_id
+        service_account_name = args.service_account_name
+        service_account = client_config.get_service_account_by_name(customer_id, service_account_name)
+        if service_account:
+            print_response(service_account)
+        else:
+            print("Invalid service_account name")
+
+    elif command == "create_service_account":
+        customer_id = args.customer_id
+        service_account_name = args.service_account_name
+        display_name = args.display_name
+        role = args.role
+        service_account_response = client_config.create_service_account(customer_id, service_account_name, display_name,"description", role, [])
+        if service_account_response:
+            print_response(service_account_response)
+        else:
+            print("Invalid service_account response")
+        return service_account_response
+
+    elif command == "update_service_account":
+        service_account_id = args.service_account_id
+        etag = args.etag
+        display_name = args.display_name
+        service_account_response = client_config.update_service_account(service_account_id, etag, display_name,"description", [])
+        if service_account_response:
+            print_response(service_account_response)
+        else:
+            print("Invalid service_account response")
+        return service_account_response
+
+    elif command == "delete_service_account":
+        service_account_id = args.service_account_id
+        if args.etag:
+            etag = args.etag
+        else:
+            etag = None
+
+        delete_service_account_response = client_config.delete_service_account(service_account_id, etag, [])
+        if delete_service_account_response:
+            print(delete_service_account_response)
+        else:
+            print("Invalid delete_service_account response")
+        return delete_service_account_response
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover

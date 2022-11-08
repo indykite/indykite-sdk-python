@@ -21,7 +21,7 @@ def test_stream_record_nonexisting_config_id(capsys):
     client.stream_records(config_id, [record])
     captured = capsys.readouterr()
 
-    assert "Ingest mapping config 'gid:AAAAFBtaAlxjDE8GuIWAPEFoSPs' not found" in captured.out
+    assert "no Knowledge Graph exists for this AppSpace" in captured.out
 
 
 def test_stream_record_error():
