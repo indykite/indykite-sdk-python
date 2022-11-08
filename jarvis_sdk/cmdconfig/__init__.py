@@ -50,7 +50,7 @@ class ConfigClient(object):
 
     # Imported methods
     from ._customer import get_customer_by_id, get_customer_by_name
-    from ._service_account import get_service_account
+    from ._service_account import get_service_account, get_service_account_by_name, create_service_account, update_service_account, delete_service_account
     from ._app_space import get_app_space_by_id, get_app_space_by_name, create_app_space, update_app_space, list_app_spaces, delete_app_space
     from ._tenant import get_tenant_by_id, get_tenant_by_name, create_tenant, update_tenant, list_tenants, delete_tenant
     from ._application import get_application_by_id, get_application_by_name, create_application, update_application, list_applications, delete_application

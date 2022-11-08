@@ -160,7 +160,7 @@ def test_create_tenant_already_exists(capsys):
 
     issuer_id = data.get_issuer_id()
 
-    tenant = client.create_tenant(issuer_id, "tenant-test-sdk", "Tenant test sdk", "description", [])
+    tenant = client.create_tenant(issuer_id, "sdk-test-tenant", "SDK Test Tenant", "description", [])
     captured = capsys.readouterr()
 
     assert "config entity with given name already exist" in captured.out
@@ -172,7 +172,7 @@ def test_create_tenant_fail_invalid_issuer_id(capsys):
 
     issuer_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
 
-    tenant = client.create_tenant(issuer_id, "tenant-test", "Tenant test", "description", [])
+    tenant = client.create_tenant(issuer_id, "sdk-test-tenant", "SDK Test Tenant", "description", [])
     captured = capsys.readouterr()
 
     assert tenant is None
