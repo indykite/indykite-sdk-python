@@ -16,6 +16,7 @@ CONFIG_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
 ACCOUNT_ID= "gid:AAAAEgGym_wUPEZfjV8TIdsImsE"
 WRONG_ACCOUNT_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
 SERVICE_ACCOUNT_NAME = "serviceaccount-sdk"
+TEST_SERVICE_ACCOUNT = "gid:AAAAEiuyZi3zVE9hvsu0gSqgi-g"
 CUSTOMER_NAME = "sdk-customer"
 APP_SPACE_NAME = "sdk-appspace"
 CUSTOMER_ID = "gid:AAAAAbHLUExsxkqsqRoI93amR30"
@@ -28,6 +29,7 @@ APPLICATION_NAME = "application-sdk"
 APPLICATION_AGENT_ID = "gid:AAAABbPQM7m4OUbXnsfyef2zOc0"
 APPLICATION_AGENT_NAME = "appagent-sdk"
 APPLICATION_AGENT_CREDENTIAL_ID = "gid:AAAABhgLSrxgg0_nuVeZppYYSGs"
+SERVICE_ACCOUNT_CREDENTIAL_ID = "gid:AAAAE0rMcwG_RUbSjzclsV7bdjg"
 
 PASSWORD = "Password"
 NEW_PASSWORD = "Password1"
@@ -155,8 +157,11 @@ def get_application_agent_credential_id():
 
 
 def get_service_account_id():
-    return ACCOUNT_ID
+    return TEST_SERVICE_ACCOUNT
 
 
 def get_service_account_name():
     return SERVICE_ACCOUNT_NAME
+
+def get_service_account_credential_id():
+    return SERVICE_ACCOUNT_CREDENTIAL_ID

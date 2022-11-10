@@ -300,6 +300,30 @@ Property ID and value of the property where the value is a reference
     delete_service_account_parser.add_argument("service_account_id", help="Service account Id")
     delete_service_account_parser.add_argument("etag", nargs='?', help="Optional Etag")
 
+    # application_agent_credential
+    application_agent_credential_parser = subparsers.add_parser("application_agent_credential")
+    application_agent_credential_parser.add_argument("application_agent_credential_id",
+                                                     help="Application agent credential id")
+
+    # register_service_account_credential_jwk
+    register_service_account_credential_jwk_parser = subparsers.add_parser(
+        "register_service_account_credential_jwk")
+    register_service_account_credential_jwk_parser.add_argument("service_account_id",
+                                                                  help="Service account credential id")
+    register_service_account_credential_jwk_parser.add_argument("display_name", help="Display name")
+
+    # register_service_account_credential_pem
+    register_service_account_credential_pem_parser = subparsers.add_parser(
+        "register_service_account_credential_pem")
+    register_service_account_credential_pem_parser.add_argument("service_account_id",
+                                                                  help="Service account credential id")
+    register_service_account_credential_pem_parser.add_argument("display_name", help="Display name")
+
+    # delete_service_account_credential
+    delete_service_account_credential_parser = subparsers.add_parser("delete_service_account_credential")
+    delete_service_account_credential_parser.add_argument("service_account_credential_id",
+                                                          help="Service account credential id")
+
     args = parser.parse_args()
 
     local = args.local
@@ -839,6 +863,57 @@ Property ID and value of the property where the value is a reference
             print("Invalid delete_service_account response")
         return delete_service_account_response
 
+    elif command == "service_account_credential":
+        service_account_credential_id = args.service_account_credential_id
+        service_account_credential = client_config.get_service_account_credential(service_account_credential_id)
+        if service_account_credential:
+            print_response(service_account_credential)
+        else:
+            print("Invalid service account id")
+
+    elif command == "register_service_account_credential_jwk":
+        service_account_id = args.service_account_id
+        display_name = args.display_name
+        jwk = None
+        t = datetime.now().timestamp()
+        expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        service_account_credential_response = client_config.register_service_account_credential_jwk(service_account_id,
+                                                                                                    display_name, jwk,
+                                                                                                    expire_time_in_seconds,
+                                                                                                    [])
+        if service_account_credential_response:
+            print_credential(service_account_credential_response)
+        else:
+            print("Invalid service account response")
+        return service_account_credential_response
+
+    elif command == "register_service_account_credential_pem":
+        service_account_id = args.service_account_id
+        display_name = args.display_name
+        default_tenant_id = args.default_tenant_id
+        pem = None
+        t = datetime.now().timestamp()
+        expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        service_account_credential_response = client_config.register_service_account_credential_pem(service_account_id,
+                                                                                             display_name, pem,
+                                                                                             expire_time_in_seconds,
+                                                                                             default_tenant_id, [])
+        if service_account_credential_response:
+            print_credential(service_account_credential_response)
+        else:
+            print("Invalid service account response")
+        return service_account_credential_response
+
+    elif command == "delete_service_account_credential":
+        service_account_credential_id = args.service_account_credential_id
+
+        delete_service_account_credential_response = client_config.delete_service_account_credential(service_account_credential_id, [])
+        if delete_service_account_credential_response:
+            print(delete_service_account_credential_response)
+        else:
+            print("Invalid delete_service_account_credential_response response")
+        return delete_service_account_credential_response
+
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
     print("Digital twin info")
@@ -852,7 +927,10 @@ def print_credential(credential):  # pragma: no cover
     print("==========")
     print("Credential id: " + str(credential.id))
     print("Kid: " + str(credential.kid))
-    print("Agent config: " + str(credential.agent_config))
+    if hasattr(credential, 'agent_config'):
+        print("Agent config: " + str(credential.agent_config))
+    elif hasattr(credential, 'service_account_config'):
+        print("Service account config: " + str(credential.service_account_config))
     print("Bookmark: " + str(credential.bookmark))
     print("Create time: " + str(credential.create_time))
     print("Expire time: " + str(credential.expire_time))
