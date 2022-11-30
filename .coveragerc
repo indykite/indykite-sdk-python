@@ -9,6 +9,17 @@ omit =
   jarvis_sdk/cmd/helper.py
   jarvis_sdk/cmdconfig/helper.py
   jarvis_sdk/model/unique_name_identifier.py
+  jarvis_sdk/cmdconfig/_config_node.py
+  jarvis_sdk/model/config_node.py
+  jarvis_sdk/model/create_config_node.py
+  jarvis_sdk/model/email.py
+  jarvis_sdk/model/email_attachment.py
+  jarvis_sdk/model/email_message.py
+  jarvis_sdk/model/email_service_config.py
+  jarvis_sdk/model/email_template.py
+  jarvis_sdk/model/sendgrid_email_provider.py
+  jarvis_sdk/model/update_config_node.py
+
   tests/*
 
 [report]

@@ -10,7 +10,10 @@ from google.protobuf.json_format import MessageToJson
 
 from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig, EmailDefinition, EmailServiceConfig)
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate
+from jarvis_sdk.model.sendgrid_email_provider import SendgridEmailProvider
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 
 class ParseKwargs(argparse.Action):
@@ -324,8 +327,30 @@ Property ID and value of the property where the value is a reference
     delete_service_account_credential_parser.add_argument("service_account_credential_id",
                                                           help="Service account credential id")
 
-    args = parser.parse_args()
+    # create_email_service_config_node
+    create_email_service_config_node_parser = subparsers.add_parser("create_email_service_config_node")
+    create_email_service_config_node_parser.add_argument("customer_id", help="Customer id (gid)")
+    create_email_service_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_email_service_config_node_parser.add_argument("display_name", help="Display name")
+    create_email_service_config_node_parser.add_argument("description", help="Description")
 
+    # read_email_service_config_node
+    read_email_service_config_node_parser = subparsers.add_parser("read_email_service_config_node")
+    read_email_service_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+
+    # update_email_service_config_node
+    update_email_service_config_node_parser = subparsers.add_parser("update_email_service_config_node")
+    update_email_service_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_email_service_config_node_parser.add_argument("etag", help="Etag")
+    update_email_service_config_node_parser.add_argument("display_name", help="Display name")
+    update_email_service_config_node_parser.add_argument("description", help="Description")
+
+    # delete_email_service_config_node
+    delete_email_service_config_node_parser = subparsers.add_parser("delete_email_service_config_node")
+    delete_email_service_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    delete_email_service_config_node_parser.add_argument("etag", help="Etag")
+
+    args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
     client_config = ConfigClient(local)
@@ -913,6 +938,108 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid delete_service_account_credential_response response")
         return delete_service_account_credential_response
+
+    elif command == "create_email_service_config_node":
+        location = args.customer_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+
+        default_from_address_address="test+config@indykite.com"
+        default_from_address_name="Test Config"
+
+        sendgrid = SendGridProviderConfig(
+            api_key="263343b5-983e-4d73-b666-069a98f1ef55",
+            sandbox_mode=True,
+            ip_pool_name=wrappers.StringValue(value="100.45.21.65.25"),
+            host=wrappers.StringValue(value="https://api.sendgrid.com")
+        )
+
+        message_from = Email(address='test+from@indykite.com', name='Test From')
+        message_to = [Email(address='test+to@indykite.com', name='Test To')]
+        message_subject = "subject"
+        message_text_content = "content text"
+        message_html_content = "<html><body>content html</body></html>"
+
+        email_service_config = EmailServiceConfig(
+            default_from_address=Email(address=default_from_address_address,name=default_from_address_name),
+            default=wrappers.BoolValue(value=True),
+            sendgrid=sendgrid,
+            authentication_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
+                                                                          subject=message_subject,
+                                                                          text_content=message_text_content,
+                                                                          html_content=message_html_content))
+        )
+
+        create_email_service_config_node_response = client_config.create_email_service_config_node(location, name,
+                                                                                                   display_name,
+                                                                                                   description,
+                                                                                                   email_service_config,
+                                                                                                   [])
+        if create_email_service_config_node_response:
+            print_response(create_email_service_config_node_response)
+        else:
+            print("Invalid create email service config node response")
+        return create_email_service_config_node_response
+
+    elif command == "read_email_service_config_node":
+        config_node_id = args.config_node_id
+        config_node = client_config.read_email_service_config_node(config_node_id,[])
+        if config_node:
+            print_response(config_node)
+        else:
+            print("Invalid config node id")
+
+    elif command == "update_email_service_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+
+        default_from_address_address="test+config@indykite.com"
+        default_from_address_name="Test Config"
+
+        sendgrid = SendGridProviderConfig(
+            api_key="263343b5-983e-4d73-b666-069a98f1ef55",
+            sandbox_mode=True,
+            ip_pool_name=wrappers.StringValue(value="100.45.21.65.28"),
+            host=wrappers.StringValue(value="https://api.sendgrid.com")
+        )
+
+        message_to = [Email(address='test+to@indykite.com', name='Test To')]
+        message_subject = "subject2"
+        message_text_content = "content text"
+        message_html_content = "<html><body>content html</body></html>"
+
+        email_service_config = EmailServiceConfig(
+            default_from_address=Email(address=default_from_address_address,name=default_from_address_name),
+            default=wrappers.BoolValue(value=True),
+            sendgrid=sendgrid,
+            authentication_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
+                                                                          subject=message_subject,
+                                                                          text_content=message_text_content,
+                                                                          html_content=message_html_content))
+        )
+
+        update_email_service_config_node_response = client_config.update_email_service_config_node(config_node_id, etag,
+                                                                                                   display_name,
+                                                                                                   description,
+                                                                                                   email_service_config,
+                                                                                                   [])
+        if update_email_service_config_node_response:
+            print_response(update_email_service_config_node_response)
+        else:
+            print("Invalid update email service config node response")
+        return update_email_service_config_node_response
+
+    elif command == "delete_email_service_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        config_node = client_config.delete_email_service_config_node(config_node_id, etag, [])
+        if config_node:
+            print_response(config_node)
+        else:
+            print("Invalid delete email service config node response")
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
