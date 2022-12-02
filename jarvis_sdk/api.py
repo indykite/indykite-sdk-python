@@ -10,7 +10,12 @@ from google.protobuf.json_format import MessageToJson
 
 from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, SendGridProviderConfig, MailJetProviderConfig,
+                                                          AmazonSESProviderConfig, MailgunProviderConfig,EmailServiceConfig,
+                                                          AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig)
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
+from jarvis_sdk.model.sendgrid_email_provider import SendgridEmailProvider
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 
 class ParseKwargs(argparse.Action):
@@ -324,8 +329,72 @@ Property ID and value of the property where the value is a reference
     delete_service_account_credential_parser.add_argument("service_account_credential_id",
                                                           help="Service account credential id")
 
-    args = parser.parse_args()
+    # create_email_service_config_node
+    create_email_service_config_node_parser = subparsers.add_parser("create_email_service_config_node")
+    create_email_service_config_node_parser.add_argument("customer_id", help="Customer id (gid)")
+    create_email_service_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_email_service_config_node_parser.add_argument("display_name", help="Display name")
+    create_email_service_config_node_parser.add_argument("description", help="Description")
 
+    # read_config_node
+    read_config_node_parser = subparsers.add_parser("read_config_node")
+    read_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+
+    # update_email_service_config_node
+    update_email_service_config_node_parser = subparsers.add_parser("update_email_service_config_node")
+    update_email_service_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_email_service_config_node_parser.add_argument("etag", help="Etag")
+    update_email_service_config_node_parser.add_argument("display_name", help="Display name")
+    update_email_service_config_node_parser.add_argument("description", help="Description")
+
+    # delete_email_service_config_node
+    delete_config_node_parser = subparsers.add_parser("delete_config_node")
+    delete_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    delete_config_node_parser.add_argument("etag", help="Etag")
+
+    # create_auth_flow_config_node
+    create_auth_flow_config_node_parser = subparsers.add_parser("create_auth_flow_config_node")
+    create_auth_flow_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_auth_flow_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_auth_flow_config_node_parser.add_argument("display_name", help="Display name")
+    create_auth_flow_config_node_parser.add_argument("description", help="Description")
+
+    # update_auth_flow_config_node
+    update_auth_flow_config_node_parser = subparsers.add_parser("update_auth_flow_config_node")
+    update_auth_flow_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_auth_flow_config_node_parser.add_argument("etag", help="Etag")
+    update_auth_flow_config_node_parser.add_argument("display_name", help="Display name")
+    update_auth_flow_config_node_parser.add_argument("description", help="Description")
+
+    # create_oauth2_client_config_node
+    create_oauth2_client_config_node_parser = subparsers.add_parser("create_oauth2_client_config_node")
+    create_oauth2_client_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_oauth2_client_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_oauth2_client_config_node_parser.add_argument("display_name", help="Display name")
+    create_oauth2_client_config_node_parser.add_argument("description", help="Description")
+
+    # update_oauth2_client_config_node
+    update_oauth2_client_config_node_parser = subparsers.add_parser("update_oauth2_client_config_node")
+    update_oauth2_client_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_oauth2_client_config_node_parser.add_argument("etag", help="Etag")
+    update_oauth2_client_config_node_parser.add_argument("display_name", help="Display name")
+    update_oauth2_client_config_node_parser.add_argument("description", help="Description")
+
+    # create_ingest_mapping_config_node
+    create_ingest_mapping_config_node_parser = subparsers.add_parser("create_ingest_mapping_config_node")
+    create_ingest_mapping_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_ingest_mapping_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_ingest_mapping_config_node_parser.add_argument("display_name", help="Display name")
+    create_ingest_mapping_config_node_parser.add_argument("description", help="Description")
+
+    # update_ingest_mapping_config_node
+    update_ingest_mapping_config_node_parser = subparsers.add_parser("update_ingest_mapping_config_node")
+    update_ingest_mapping_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_ingest_mapping_config_node_parser.add_argument("etag", help="Etag")
+    update_ingest_mapping_config_node_parser.add_argument("display_name", help="Display name")
+    update_ingest_mapping_config_node_parser.add_argument("description", help="Description")
+
+    args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
     client_config = ConfigClient(local)
@@ -913,6 +982,290 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid delete_service_account_credential_response response")
         return delete_service_account_credential_response
+
+    elif command == "create_email_service_config_node":
+        location = args.customer_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+
+        default_from_address_address="test+config@indykite.com"
+        default_from_address_name="Test Config"
+
+        sendgrid = SendGridProviderConfig(
+            api_key="263343b5-983e-4d73-b666-069a98f1ef55",
+            sandbox_mode=True,
+            ip_pool_name=wrappers.StringValue(value="100.45.21.65.25"),
+            host=wrappers.StringValue(value="https://api.sendgrid.com")
+        )
+
+        message_from = Email(address='test+from@indykite.com', name='Test From')
+        message_to = [Email(address='test+to@indykite.com', name='Test To')]
+        message_subject = "subject"
+        message_text_content = "content text"
+        message_html_content = "<html><body>content html</body></html>"
+
+        email_service_config = EmailServiceConfig(
+            default_from_address=Email(address=default_from_address_address,name=default_from_address_name),
+            default=wrappers.BoolValue(value=True),
+            sendgrid=sendgrid,
+            authentication_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
+                                                                          subject=message_subject,
+                                                                          text_content=message_text_content,
+                                                                          html_content=message_html_content))
+        )
+
+        create_email_service_config_node_response = client_config.create_email_service_config_node(location, name,
+                                                                                                   display_name,
+                                                                                                   description,
+                                                                                                   email_service_config,
+                                                                                                   [])
+        if create_email_service_config_node_response:
+            print_response(create_email_service_config_node_response)
+        else:
+            print("Invalid create email service config node response")
+        return create_email_service_config_node_response
+
+    elif command == "read_config_node":
+        config_node_id = args.config_node_id
+        config_node = client_config.read_config_node(config_node_id,[])
+        if config_node:
+            print_response(config_node)
+            if config_node.auth_flow_config:
+                source = config_node.auth_flow_config.source
+                if source:
+                    print(json.loads(source.decode('utf-8')))
+        else:
+            print("Invalid config node id")
+
+    elif command == "update_email_service_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+
+        default_from_address_address="test+config@indykite.com"
+        default_from_address_name="Test Config"
+
+        sendgrid = SendGridProviderConfig(
+            api_key="263343b5-983e-4d73-b666-069a98f1ef55",
+            sandbox_mode=True,
+            ip_pool_name=wrappers.StringValue(value="100.45.21.65.28"),
+            host=wrappers.StringValue(value="https://api.sendgrid.com")
+        )
+
+        message_to = [Email(address='test+to@indykite.com', name='Test To')]
+        message_subject = "subject2"
+        message_text_content = "content text"
+        message_html_content = "<html><body>content html</body></html>"
+
+        email_service_config = EmailServiceConfig(
+            default_from_address=Email(address=default_from_address_address,name=default_from_address_name),
+            default=wrappers.BoolValue(value=True),
+            sendgrid=sendgrid,
+            authentication_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
+                                                                          subject=message_subject,
+                                                                          text_content=message_text_content,
+                                                                          html_content=message_html_content))
+        )
+
+        update_email_service_config_node_response = client_config.update_email_service_config_node(config_node_id, etag,
+                                                                                                   display_name,
+                                                                                                   description,
+                                                                                                   email_service_config,
+                                                                                                   [])
+        if update_email_service_config_node_response:
+            print_response(update_email_service_config_node_response)
+        else:
+            print("Invalid update email service config node response")
+        return update_email_service_config_node_response
+
+    elif command == "delete_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        config_node = client_config.delete_config_node(config_node_id, etag, [])
+        if config_node:
+            print_response(config_node)
+        else:
+            print("Invalid delete config node response")
+
+    elif command == "create_auth_flow_config_node":
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+
+        with open("utils/sdk_simple_flow.json") as f:
+            file_data = f.read()
+        user_dict = json.loads(file_data)
+        user_dict = json.dumps(user_dict, indent=4, separators=(',', ': ')).encode('utf-8')
+
+        #only bare JSON or YAML source_format is support as input
+        auth_flow_config = AuthFlowConfig(
+            source_format="FORMAT_BARE_JSON",
+            source=bytes(user_dict),
+            default=wrappers.BoolValue(value=False)
+        )
+
+        create_auth_flow_config_node_response = client_config.create_auth_flow_config_node(location, name, display_name,
+                                                                                           description, auth_flow_config,
+                                                                                           [])
+        if create_auth_flow_config_node_response:
+            print_response(create_auth_flow_config_node_response)
+        else:
+            print("Invalid create auth flow config node response")
+        return create_auth_flow_config_node_response
+
+    elif command == "update_auth_flow_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+
+        with open("utils/sdk_simple_flow.json") as f:
+            file_data = f.read()
+        user_dict = json.loads(file_data)
+        user_dict = json.dumps(user_dict, indent=4, separators=(',', ': ')).encode('utf-8')
+
+        auth_flow_config = AuthFlowConfig(
+            source_format="FORMAT_BARE_JSON",
+            source=bytes(user_dict),
+            default=wrappers.BoolValue(value=False)
+        )
+
+        update_auth_flow_config_node_response = client_config.update_auth_flow_config_node(config_node_id, etag,display_name,
+                                                                                           description, auth_flow_config, [])
+        if update_auth_flow_config_node_response:
+            print_response(update_auth_flow_config_node_response)
+        else:
+            print("Invalid update auth flow config node response")
+        return update_auth_flow_config_node_response
+
+    elif command == "create_oauth2_client_config_node":
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+
+        oauth2_client_config = OAuth2ClientConfig(
+            provider_type="PROVIDER_TYPE_GOOGLE_COM",
+            client_id="gt41g2ju85ol1j2u1t",
+            client_secret="e45454JIIH45ven9e8sbfdv4d5",
+            default_scopes=["openid", "profile", "email"],
+            allowed_scopes=["openid", "profile", "email"]
+        )
+
+        create_oauth2_client_config_node_response = client_config.create_oauth2_client_config_node(location, name,
+                                                                                                   display_name,
+                                                                                                   description,
+                                                                                                   oauth2_client_config, [])
+        if create_oauth2_client_config_node_response:
+            print_response(create_oauth2_client_config_node_response)
+        else:
+            print("Invalid create oauth2 client config node response")
+        return create_oauth2_client_config_node_response
+
+    elif command == "update_oauth2_client_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+
+        oauth2_client_config = OAuth2ClientConfig(
+            provider_type="PROVIDER_TYPE_GOOGLE_COM",
+            client_id="gt41g2ju85ol1j2u1t",
+            client_secret="e45454JIIH45ven9e8sbfdv4d5",
+            default_scopes=["openid", "profile", "email"],
+            allowed_scopes=["openid", "profile", "email"]
+        )
+
+        update_oauth2_client_config_node_response = client_config.update_oauth2_client_config_node(config_node_id, etag,
+                                                                                                   display_name,
+                                                                                                   description,
+                                                                                                   oauth2_client_config, [])
+        if update_oauth2_client_config_node_response:
+            print_response(update_oauth2_client_config_node_response)
+        else:
+            print("Invalid update oauth2 client config node response")
+        return update_oauth2_client_config_node_response
+
+    elif command == "create_ingest_mapping_config_node":
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+
+        ingest_mapping_config=IngestMappingConfig(
+            upsert=IngestMappingConfig.UpsertData(
+                entities=[IngestMappingConfig.Entity(
+                    tenant_id="gid:AAAAA9Q51FULGECVrvbfN0kUbSk",
+                    labels=["DigitalTwin","Client"],
+                    external_id=IngestMappingConfig.Property(
+                        source_name="client",
+                        mapped_name="user",
+                        is_required=True),
+                    properties=[IngestMappingConfig.Property(
+                        source_name="family",
+                        mapped_name="family",
+                        is_required=False)],
+                    relationships=[IngestMappingConfig.Relationship(
+                        external_id="hetj4548484545f4",
+                        type="MOTHER_OF",
+                        direction="DIRECTION_INBOUND",
+                        match_label="Mothers")]
+                )]
+            )
+        )
+
+        create_ingest_mapping_config_node_response = client_config.create_ingest_mapping_config_node(
+            location, name, display_name, description, ingest_mapping_config, [])
+        if create_ingest_mapping_config_node_response:
+            print_response(create_ingest_mapping_config_node_response)
+        else:
+            print("Invalid create ingest mapping config node response")
+        return create_ingest_mapping_config_node_response
+
+    elif command == "update_ingest_mapping_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+
+        ingest_mapping_config = IngestMappingConfig(
+            upsert=IngestMappingConfig.UpsertData(
+                entities=[IngestMappingConfig.Entity(
+                    tenant_id="gid:AAAAA9Q51FULGECVrvbfN0kUbSk",
+                    labels=["DigitalTwin", "Client"],
+                    external_id=IngestMappingConfig.Property(
+                        source_name="client",
+                        mapped_name="user",
+                        is_required=True),
+                    properties=[IngestMappingConfig.Property(
+                        source_name="family",
+                        mapped_name="family",
+                        is_required=False)],
+                    relationships=[IngestMappingConfig.Relationship(
+                        external_id="hetj4548484545f4",
+                        type="MOTHER_OF",
+                        direction="DIRECTION_INBOUND",
+                        match_label="Mothers")]
+                )]
+            )
+        )
+
+        update_ingest_mapping_config_node_response = client_config.update_ingest_mapping_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            ingest_mapping_config,
+            [])
+
+        if update_ingest_mapping_config_node_response:
+            print_response(update_ingest_mapping_config_node_response)
+        else:
+            print("Invalid update ingest mapping config node response")
+        return update_ingest_mapping_config_node_response
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
