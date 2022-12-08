@@ -1,13 +1,5 @@
-import sys
-import pytest
-import json
 from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk import api
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
-from jarvis_sdk.model.token_info import TokenInfo
-from tests.helpers import data
-from uuid import UUID, uuid4
 
 
 def test_introspect_token_short_token(capsys):

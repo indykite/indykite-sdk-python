@@ -1,4 +1,4 @@
 # Global rule:
-* @indykite/indykite @indykite/profiq
+* @maprokes @LadislavFolta @indykite/python
 
-/.github/** @indykite/actions @maprokes
+/.github/** @maprokes @cowan-macady @LadislavFolta

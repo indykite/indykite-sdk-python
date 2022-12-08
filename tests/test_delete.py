@@ -1,5 +1,3 @@
-import pytest
-
 from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk.model.digital_twin import DigitalTwinCore
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2

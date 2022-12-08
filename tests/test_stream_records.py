@@ -1,5 +1,3 @@
-import pytest
-
 from jarvis_sdk.ingest import IngestClient
 from jarvis_sdk.indykite.ingest.v1beta1 import model_pb2, ingest_api_pb2 as pb2
 from jarvis_sdk.indykite.objects.v1beta1 import struct_pb2

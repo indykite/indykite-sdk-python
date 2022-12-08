@@ -61,6 +61,11 @@ class IdentityManagementAPIStub(object):
                 request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.ListDigitalTwinsRequest.SerializeToString,
                 response_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.ListDigitalTwinsResponse.FromString,
                 )
+        self.RegisterDigitalTwinWithoutCredential = channel.unary_unary(
+                '/indykite.identity.v1beta1.IdentityManagementAPI/RegisterDigitalTwinWithoutCredential',
+                request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.RegisterDigitalTwinWithoutCredentialRequest.SerializeToString,
+                response_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.RegisterDigitalTwinWithoutCredentialResponse.FromString,
+                )
         self.PatchDigitalTwin = channel.unary_unary(
                 '/indykite.identity.v1beta1.IdentityManagementAPI/PatchDigitalTwin',
                 request_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.PatchDigitalTwinRequest.SerializeToString,
@@ -245,6 +250,15 @@ class IdentityManagementAPIServicer(object):
 
     def ListDigitalTwins(self, request, context):
         """ListDigitalTwins lists DigitalTwins matching the filter.
+
+        This is a protected operation and it can be accessed only with valid agent credentials!
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RegisterDigitalTwinWithoutCredential(self, request, context):
+        """RegisterDigitalTwinWithoutCredential creates a DigitalTwin without credentials, but with properties
 
         This is a protected operation and it can be accessed only with valid agent credentials!
         """
@@ -449,6 +463,11 @@ def add_IdentityManagementAPIServicer_to_server(servicer, server):
                     servicer.ListDigitalTwins,
                     request_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.ListDigitalTwinsRequest.FromString,
                     response_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.ListDigitalTwinsResponse.SerializeToString,
+            ),
+            'RegisterDigitalTwinWithoutCredential': grpc.unary_unary_rpc_method_handler(
+                    servicer.RegisterDigitalTwinWithoutCredential,
+                    request_deserializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.RegisterDigitalTwinWithoutCredentialRequest.FromString,
+                    response_serializer=indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.RegisterDigitalTwinWithoutCredentialResponse.SerializeToString,
             ),
             'PatchDigitalTwin': grpc.unary_unary_rpc_method_handler(
                     servicer.PatchDigitalTwin,
@@ -706,6 +725,23 @@ class IdentityManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta1.IdentityManagementAPI/ListDigitalTwins',
             indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.ListDigitalTwinsRequest.SerializeToString,
             indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.ListDigitalTwinsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RegisterDigitalTwinWithoutCredential(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta1.IdentityManagementAPI/RegisterDigitalTwinWithoutCredential',
+            indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.RegisterDigitalTwinWithoutCredentialRequest.SerializeToString,
+            indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2.RegisterDigitalTwinWithoutCredentialResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
