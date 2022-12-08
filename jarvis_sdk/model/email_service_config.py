@@ -1,5 +1,4 @@
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import EmailServiceConfig, Email, SendGridProviderConfig, EmailDefinition, MailJetProviderConfig, MailgunProviderConfig, AmazonSESProviderConfig
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from jarvis_sdk.model.email_template import EmailTemplate
 from jarvis_sdk.model.email_message import EmailMessage
 

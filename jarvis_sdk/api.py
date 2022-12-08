@@ -14,7 +14,6 @@ from jarvis_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, 
                                                           AmazonSESProviderConfig, MailgunProviderConfig,EmailServiceConfig,
                                                           AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig)
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
-from jarvis_sdk.model.sendgrid_email_provider import SendgridEmailProvider
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 

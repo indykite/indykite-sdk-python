@@ -1,5 +1,3 @@
-from datetime import datetime
-from math import floor
 from google.protobuf.timestamp_pb2 import Timestamp
 
 

@@ -1,6 +1,4 @@
-from jarvis_sdk.cmdconfig import helper
 from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.indykite.config.v1beta1 import model_pb2 as model
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from jarvis_sdk.model.create_config_node import CreateConfigNode
 from jarvis_sdk.model.update_config_node import UpdateConfigNode

@@ -1,4 +1,3 @@
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailServiceConfig, SendGridProviderConfig
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 

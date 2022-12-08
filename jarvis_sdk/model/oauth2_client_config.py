@@ -1,5 +1,4 @@
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ClientConfig, ProviderType, AuthStyle
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 
 class OAuth2ClientConfig:

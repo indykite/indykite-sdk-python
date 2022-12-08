@@ -1,6 +1,4 @@
-from jarvis_sdk.cmdconfig import helper
 from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.indykite.config.v1beta1 import model_pb2 as model
 from jarvis_sdk.model.tenant import Tenant
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers

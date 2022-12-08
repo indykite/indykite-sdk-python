@@ -3,7 +3,6 @@ import pytest
 from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from tests.helpers import data
-from unittest.mock import patch
 
 
 def test_change_password_short_token(capsys):

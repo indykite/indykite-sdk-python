@@ -1,7 +1,4 @@
-import pytest
-
 from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.model.digital_twin import DigitalTwinCore
 from tests.helpers import data
 
 
