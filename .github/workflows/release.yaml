@@ -16,13 +16,13 @@ permissions:
 jobs:
   release:
     name: Release SDK to pypi repository
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - name: Install pipenv
         run: pipx install pipenv
 
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
           cache: "pipenv"
