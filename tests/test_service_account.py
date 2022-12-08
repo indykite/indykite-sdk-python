@@ -1,14 +1,10 @@
-import datetime
 import time
 from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk import api
 from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.indykite.config.v1beta1 import model_pb2 as model
 from jarvis_sdk.model.service_account import ServiceAccount
 from jarvis_sdk.model.create_service_account import CreateServiceAccount
 from jarvis_sdk.model.update_service_account import UpdateServiceAccount
 from tests.helpers import data
-from jarvis_sdk.utils import timestamp_to_date
 
 
 def test_service_account_short_id(capsys):

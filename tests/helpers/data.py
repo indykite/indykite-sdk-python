@@ -1,4 +1,13 @@
 from datetime import datetime
+import json
+import os
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, SendGridProviderConfig, MailJetProviderConfig,
+                                                          AmazonSESProviderConfig, MailgunProviderConfig,EmailServiceConfig,
+                                                          AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig)
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
+from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
+
 
 URL = "https://jarvis-dev.indykite.com"
 EMAIL_URL = "https://super-octo-waffle.indykite.com"
@@ -30,7 +39,12 @@ APPLICATION_AGENT_ID = "gid:AAAABbPQM7m4OUbXnsfyef2zOc0"
 APPLICATION_AGENT_NAME = "appagent-sdk"
 APPLICATION_AGENT_CREDENTIAL_ID = "gid:AAAABhgLSrxgg0_nuVeZppYYSGs"
 SERVICE_ACCOUNT_CREDENTIAL_ID = "gid:AAAAE0rMcwG_RUbSjzclsV7bdjg"
-
+EMAIL_SERVICE_CONFIG_NODE = "gid:AAAACMMM3RvRwkbPgJGsM-uJaDs"
+AUTH_FLOW_CONFIG_NODE = "gid:AAAAB3csFdhUY0SEvn_vJGKiA0c"
+OAUTH2_CLIENT_CONFIG_NODE = "gid:AAAACgrCyXGVWkWBuEXw7aUmnmw"
+INGEST_MAPPING_CONFIG_NODE = "gid:AAAAFKF1oNEdmEEArkQjezYRBPE"
+OAUTH2_PROVIDER = "gid:AAAAEezCvUQGV0HgotmCoeCJAck"
+OAUTH2_APPLICATION = "gid:AAAAC6mMTIwN40frlKWVz788QX8"
 PASSWORD = "Password"
 NEW_PASSWORD = "Password1"
 
@@ -163,5 +177,142 @@ def get_service_account_id():
 def get_service_account_name():
     return SERVICE_ACCOUNT_NAME
 
+
 def get_service_account_credential_id():
     return SERVICE_ACCOUNT_CREDENTIAL_ID
+
+
+def get_email_service_config_node_id():
+    return EMAIL_SERVICE_CONFIG_NODE
+
+
+def get_auth_flow_config_node_id():
+    return AUTH_FLOW_CONFIG_NODE
+
+
+def get_oauth2_client_config_node_id():
+    return OAUTH2_CLIENT_CONFIG_NODE
+
+
+def get_ingest_mapping_config_node_id():
+    return INGEST_MAPPING_CONFIG_NODE
+
+
+def get_oauth2_provider_id():
+    return OAUTH2_PROVIDER
+
+
+def get_oauth2_application_id():
+    return OAUTH2_APPLICATION
+
+
+def get_email_service():
+    default_from_address_address = "test+config@indykite.com"
+    default_from_address_name = "Test Config"
+
+    sendgrid = SendGridProviderConfig(
+        api_key="263343b5-983e-4d73-b666-069a98f1ef55",
+        sandbox_mode=True,
+        ip_pool_name=wrappers.StringValue(value="100.45.21.65.25"),
+        host=wrappers.StringValue(value="https://api.sendgrid.com")
+    )
+
+    message_to = [Email(address='test+to@indykite.com', name='Test To')]
+    message_subject = "subject"
+    message_text_content = "content text"
+    message_html_content = "<html><body>content html</body></html>"
+
+    email_service_config = EmailServiceConfig(
+        default_from_address=Email(address=default_from_address_address, name=default_from_address_name),
+        default=wrappers.BoolValue(value=True),
+        sendgrid=sendgrid,
+        authentication_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
+                                                                    subject=message_subject,
+                                                                    text_content=message_text_content,
+                                                                    html_content=message_html_content))
+    )
+    return email_service_config
+
+
+def get_auth_flow():
+    with open(os.path.dirname(__file__) + "/sdk_simple_flow.json") as f:
+        file_data = f.read()
+    user_dict = json.loads(file_data)
+    user_dict = json.dumps(user_dict, indent=4, separators=(',', ': ')).encode('utf-8')
+
+    auth_flow_config = AuthFlowConfig(
+        source_format="FORMAT_BARE_JSON",
+        source=bytes(user_dict),
+        default=wrappers.BoolValue(value=False)
+    )
+    return auth_flow_config
+
+
+def get_oauth2_client():
+    oauth2_client_config = OAuth2ClientConfig(
+        provider_type="PROVIDER_TYPE_GOOGLE_COM",
+        client_id="gt41g2ju85ol1j2u1t",
+        client_secret="e45454JIIH45ven9e8sbfdv4d5",
+        default_scopes=["openid", "profile", "email"],
+        allowed_scopes=["openid", "profile", "email"]
+    )
+    return oauth2_client_config
+
+
+def get_ingest_mapping():
+    ingest_mapping_config = IngestMappingConfig(
+        upsert=IngestMappingConfig.UpsertData(
+            entities=[IngestMappingConfig.Entity(
+                tenant_id="gid:AAAAA9Q51FULGECVrvbfN0kUbSk",
+                labels=["DigitalTwin", "Client"],
+                external_id=IngestMappingConfig.Property(
+                    source_name="client",
+                    mapped_name="user",
+                    is_required=True),
+                properties=[IngestMappingConfig.Property(
+                    source_name="family",
+                    mapped_name="family",
+                    is_required=False)],
+                relationships=[IngestMappingConfig.Relationship(
+                    external_id="hetj4548484545f4",
+                    type="MOTHER_OF",
+                    direction="DIRECTION_INBOUND",
+                    match_label="Mothers")]
+            )]
+        )
+    )
+    return ingest_mapping_config
+
+
+def get_oauth2_provider():
+    config = OAuth2ProviderConfig(
+        grant_types=["GRANT_TYPE_AUTHORIZATION_CODE"],
+        response_types=["RESPONSE_TYPE_CODE", "RESPONSE_TYPE_TOKEN"],
+        scopes=["openid", "profile", "email"],
+        token_endpoint_auth_method=["TOKEN_ENDPOINT_AUTH_METHOD_CLIENT_SECRET_BASIC",
+                                    "TOKEN_ENDPOINT_AUTH_METHOD_CLIENT_SECRET_POST"],
+        token_endpoint_auth_signing_alg=["ES256", "ES384", "ES512"],
+        front_channel_login_uri={"default": "http://localhost:3000/login/oauth2"},
+        front_channel_consent_uri={"default": "http://localhost:3000/consent"}
+    )
+    return config
+
+
+def get_oauth2_application():
+    config = OAuth2ApplicationConfig(
+        display_name="Oauth2 Application Config",
+        redirect_uris=["http://localhost:3000/redirect"],
+        owner="Owner",
+        policy_uri="http://localhost:3000/policy",
+        terms_of_service_uri="http://localhost:3000/policy",
+        client_uri="http://localhost:3000/client",
+        logo_uri="http://localhost:3000/logo",
+        user_support_email_address="test@example.com",
+        subject_type="CLIENT_SUBJECT_TYPE_PUBLIC",
+        scopes=["openid", "profile", "email"],
+        token_endpoint_auth_method="TOKEN_ENDPOINT_AUTH_METHOD_CLIENT_SECRET_BASIC",
+        token_endpoint_auth_signing_alg="ES256",
+        grant_types=["GRANT_TYPE_AUTHORIZATION_CODE"],
+        response_types=["RESPONSE_TYPE_CODE", "RESPONSE_TYPE_TOKEN"]
+    )
+    return config

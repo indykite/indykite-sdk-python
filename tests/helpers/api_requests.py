@@ -1,6 +1,5 @@
 from time import sleep
 
-import pytest
 import requests
 from tests.helpers import data
 

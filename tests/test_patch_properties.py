@@ -1,6 +1,3 @@
-import pytest
-import re
-
 from jarvis_sdk.cmd import IdentityClient
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from tests.helpers import data

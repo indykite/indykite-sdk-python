@@ -1,6 +1,5 @@
 import uuid
 
-from jarvis_sdk.cmd import helper
 from jarvis_sdk.model.digital_twin import DigitalTwinCore
 from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model

@@ -1,8 +1,4 @@
-import uuid
-
-from jarvis_sdk.cmdconfig import helper
 from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.indykite.config.v1beta1 import model_pb2 as model
 from jarvis_sdk.model.customer import Customer
 
 

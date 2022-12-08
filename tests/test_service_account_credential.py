@@ -1,11 +1,7 @@
 import time
-import pytest
-import sys
 
 from jarvis_sdk.cmdconfig import ConfigClient
 from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.indykite.config.v1beta1 import model_pb2 as model
-from jarvis_sdk.model.service_account_credential import ServiceAccountCredential
 from jarvis_sdk.model.register_service_account_credential import RegisterServiceAccountCredential
 from tests.helpers import data
 from datetime import datetime

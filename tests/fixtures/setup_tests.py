@@ -1,6 +1,4 @@
 import os
-from datetime import datetime
-
 import pytest
 
 from tests.helpers import api_requests as helper
