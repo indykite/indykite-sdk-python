@@ -11,7 +11,6 @@ class Email:
         self.name = name
 
     def __str__(self):
-        return (
-            "Address: " + self.address + "\n"
-            "Name: " + self.name
-        )
+        return (f"Address: {self.address} \n "
+                f"Name: {self.name} \n"
+                )
