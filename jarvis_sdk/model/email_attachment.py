@@ -17,9 +17,9 @@ class EmailAttachment:
 
     def __str__(self):
         return (
-            "Content type: " + self.content_type + "\n"
-            "Content id: " + self.content_id + "\n"
-            "Inline: " + self.inline + "\n"
-            "FileName: " + self.file_name + "\n"
-            "Content: " + self.content + "\n"
+            f"Content type: {self.content_type} \n"
+            f"Content id: {self.content_id} \n"
+            f"Inline: {self.inline} \n"
+            f"FileName: {self.file_name} \n"
+            f"Content: {self.content} \n"
         )
