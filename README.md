@@ -1,4 +1,4 @@
-# JARVIS Python SDK 🐍
+# IndyKite Python SDK 🐍
 
 This project serves as a Software Development Kit for developers of Indykite applications.
 
@@ -265,13 +265,22 @@ Most of the calls can be executed in two ways:
 
 Currently available functions:
 - [Introspect token](#introspect-token)
-- [Get user infromation](#get-user-information)
+- [Get user information](#get-user-information)
 - [Add, modify, delete a digital twin's property](#addmodifyremove-user-property-patch-property)
 - [Delete a digital twin](#delete-user)
 - [Verify email](#verify-email)
 - [Send new verification email](#send-new-verification-email-admin-service)
 - [Change password](#change-password)
 - [Ingest records](#ingest-records)
+- [Customers](#get-customer-information)
+- [AppSpaces](#get-appspace-information)
+- [Tenants](#get-tenant-information)
+- [Applications](#get-application-information)
+- [AppAgents](#get-applicationagent-information)
+- [Service accounts](#get-service-account-information)
+- [Config nodes](#get-configuration-nodes-information)
+- [OAuth2 providers](#get-oauth2-provider-information)
+- [OAuth2 applications](#get-oauth2-application-information)
 
 ### Introspect token
 
@@ -607,24 +616,6 @@ It is possible to get an existing customer's information.
 If we don't have its id or name, we can get its id through service_account
 The service account id is in the config file.
 The ServiceAccount class will also return the customer id
-
-#### Read service account
-
-```python
-from jarvis_sdk.cmdconfig import helper
-from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.indykite.config.v1beta1 import model_pb2 as model
-from jarvis_sdk.model.service_account import ServiceAccount
-
-
-def get_service_account(self,service_account_id):
-        response = self.stub.ReadServiceAccount(
-            pb2.ReadServiceAccountRequest(
-                id=str(service_account_id)
-            )
-        )
-        print(response)
-```
 
 #### Read customer id with service_account request
 ```python
@@ -1042,4 +1033,353 @@ def delete_application_agent_credential(self, local, application_agent_credentia
     client_config = ConfigClient(local)
     delete_application_agent_credential_response = client_config.delete_application_agent_credential(application_agent_credential_id, bookmarks)
     print(delete_application_agent_credential_response)
+```
+
+### Get Service Account information
+
+To use config methods (spaces), you need a service account, a service account credential and create a file with this credential.
+You can create it in the Admin Console or using the SDK.
+
+#### Read service account
+
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def get_service_account(self, local, service_account_id):
+    client_config = ConfigClient(local)
+    service_account_response = client_config.get_service_account(service_account_id)
+    print(service_account_response)
+
+```
+
+#### Create service account
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def create_service_account(self, local, customer_id, service_account_name, display_name, description, role, bookmarks):
+    client_config = ConfigClient(local)
+    service_account_response = client_config.create_service_account(customer_id, service_account_name, display_name, description, role, bookmarks)
+    print(service_account_response)
+```
+
+#### Update service account
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def update_service_account(self, local, service_account_id, etag, display_name, description, bookmarks):
+    client_config = ConfigClient(local)
+    service_account_response = client_config.create_service_account(service_account_id, etag, display_name, description, bookmarks)
+    print(service_account_response)
+```
+
+#### Delete service account
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def delete_service_account(self, local, service_account_id, etag, bookmarks):
+    client_config = ConfigClient(local)
+    delete_service_account_response = client_config.delete_service_account(service_account_id, etag, bookmarks)
+    print(delete_service_account_response)
+```
+
+#### Read service account credential
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def get_service_account_credential(self, local, service_account_credential_id):
+    client_config = ConfigClient(local)
+    service_account_credential_response = client_config.get_service_account_credential(service_account_credential_id)
+    print(service_account_credential_response)
+```
+
+#### Register service account credential with jwk
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def register_service_account_credential(self, local, service_account_id, display_name, 
+                                        public_key_jwk, expire_time_in_seconds, bookmarks):
+    client_config = ConfigClient(local)
+    service_account_credential_response = client_config.register_service_account_credential_jwk(service_account_id, 
+                                                                                                display_name, 
+                                                                                                public_key_jwk,
+                                                                                                expire_time_in_seconds,
+                                                                                                bookmarks)
+    print(service_account_credential_response)
+```
+
+#### Delete service account credential
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def delete_service_account_credential(self, local, service_account_credential_id, bookmarks):
+    client_config = ConfigClient(local)
+    delete_service_account_credential_response = client_config.delete_service_account_credential(service_account_credential_id, bookmarks)
+    print(delete_service_account_credential_response)
+```
+
+### Get Configuration nodes information
+
+On spaces, you can create configurations nodes like authentication flows, email services, oauth2...
+
+#### Read node configuration
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def get_config_node(self, local, config_node_id, bookmarks):
+    client_config = ConfigClient(local)
+    config_node = client_config.read_config_node(config_node_id, bookmarks)
+    print(config_node)
+```
+
+#### Delete node configuration
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def delete_config_node(self, local, config_node_id, etag, bookmarks):
+    client_config = ConfigClient(local)
+    config_node = client_config.delete_config_node(config_node_id, etag, bookmarks)
+    print(config_node)
+```
+
+#### Create email service config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def create_email_service(self, local, location, name, display_name, 
+                                        description, email_service_config, bookmarks):
+    client_config = ConfigClient(local)
+    create_email_service_config_node_response = client_config.create_email_service_config_node(location, 
+                                                                                               name, 
+                                                                                               display_name,
+                                                                                               description,
+                                                                                               email_service_config,
+                                                                                               bookmarks)
+    print(create_email_service_config_node_response)
+```
+
+#### Update email service config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def update_email_service(self, local, location, config_node_id, etag, display_name, 
+                                        description, email_service_config, bookmarks):
+    client_config = ConfigClient(local)
+    update_email_service_config_node_response = client_config.update_email_service_config_node(config_node_id, 
+                                                                                               etag,
+                                                                                               display_name,
+                                                                                               description,
+                                                                                               email_service_config,
+                                                                                               bookmarks)
+    print(update_email_service_config_node_response)
+```
+
+#### Create auth flow config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def create_auth_flow(self, local, location, name, display_name, 
+                                        description, auth_flow_config, bookmarks):
+    client_config = ConfigClient(local)
+    create_auth_flow_config_node_response = client_config.create_auth_flow_config_node(location, 
+                                                                                       name, 
+                                                                                       display_name,
+                                                                                       description, 
+                                                                                       auth_flow_config,
+                                                                                       bookmarks)
+    print(create_auth_flow_config_node_response)
+```
+
+#### Update auth flow config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def update_auth_flow(self, local, location, config_node_id, etag, display_name, 
+                                        description, auth_flow_config, bookmarks):
+    client_config = ConfigClient(local)
+    update_auth_flow_config_node_response = client_config.update_auth_flow_config_node(config_node_id, 
+                                                                                       etag, 
+                                                                                       display_name, 
+                                                                                       description, 
+                                                                                       auth_flow_config, 
+                                                                                       bookmarks)
+    print(update_auth_flow_config_node_response)
+```
+
+#### Create oauth2 client config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def create_oauth2_client(self, local, location, name, display_name, 
+                                        description, oauth2_client_config, bookmarks):
+    client_config = ConfigClient(local)
+    create_oauth2_client_config_node_response = client_config.create_oauth2_client_config_node(location, 
+                                                                                               name, 
+                                                                                               display_name, 
+                                                                                               description, oauth2_client_config, 
+                                                                                               bookmarks)
+    print(create_oauth2_client_config_node_response)
+```
+
+#### Update oauth2 client config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def update_oauth2_client(self, local, location, config_node_id, etag, display_name, 
+                                        description, oauth2_client_config, bookmarks):
+    client_config = ConfigClient(local)
+    update_oauth2_client_config_node_response = client_config.update_oauth2_client_config_node(config_node_id, 
+                                                                                               etag, 
+                                                                                               display_name, 
+                                                                                               description, 
+                                                                                               oauth2_client_config, 
+                                                                                               bookmarks)
+    print(update_oauth2_client_config_node_response)
+```
+
+#### Create ingest mapping config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def create_ingest_mapping(self, local, location, name, display_name, 
+                                        description, ingest_mapping_config, bookmarks):
+    client_config = ConfigClient(local)
+    create_ingest_mapping_config_node_response = client_config.create_ingest_mapping_config_node(location, 
+                                                                                                 name, 
+                                                                                                 display_name, 
+                                                                                                 description, 
+                                                                                                 ingest_mapping_config, 
+                                                                                                 bookmarks)
+    print(create_ingest_mapping_config_node_response)
+```
+
+#### Update ingest_mapping config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def update_auth_flow(self, local, location, config_node_id, etag, display_name, 
+                                        description, ingest_mapping_config, bookmarks):
+    client_config = ConfigClient(local)
+    update_ingest_mapping_config_node_response = client_config.update_ingest_mapping_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            ingest_mapping_config,
+            bookmarks)
+
+    print(update_ingest_mapping_config_node_response)
+```
+
+### Get OAuth2 provider information
+
+In an Apppace, you can create OAuth2 providers.
+An OAuth2 service provider is a named set of configuration options for OAuth2. 
+
+#### Read OAuth2 provider
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def get_oauth2_provider(self, local, oauth2_provider_id, bookmarks):
+    client_config = ConfigClient(local)
+    config = client_config.read_oauth2_provider(oauth2_provider_id, bookmarks)
+    print(config)
+```
+
+#### Create oauth2 provider config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def create_oauth2_provider(self, local, app_space_id, name, display_name, 
+                                        description, config, bookmarks):
+    client_config = ConfigClient(local)
+    create_oauth2_provider_response = client_config.create_oauth2_provider(app_space_id,
+                                                                               name,
+                                                                               display_name,
+                                                                               description,
+                                                                               config,
+                                                                               bookmarks)
+    print(create_oauth2_provider_response)
+```
+
+#### Update oauth2 provider config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def update_oauth2_provider(self, local, oauth2_provider_id, etag, display_name, 
+                                        description, config, bookmarks):
+    client_config = ConfigClient(local)
+    update_oauth2_provider_response = client_config.update_oauth2_provider(oauth2_provider_id,
+                                                                               etag,
+                                                                               display_name,
+                                                                               description,
+                                                                               config,
+                                                                               bookmarks)
+    print(update_oauth2_provider_response)
+```
+
+#### Delete OAuth2 provider
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def delete_oauth2_provider(self, local, oauth2_provider_id, etag, bookmarks):
+    client_config = ConfigClient(local)
+    config = client_config.delete_oauth2_provider(oauth2_provider_id, etag, bookmarks)
+    print(config)
+```
+
+### Get OAuth2 application information
+
+In an Apppace, you can create OAuth2 application under a given OAuth2 Provider.
+An OAuth2 service provider is a named set of configuration options for OAuth2. 
+
+#### Read OAuth2 application
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def get_oauth2_application(self, local, oauth2_application_id, bookmarks):
+    client_config = ConfigClient(local)
+    config = client_config.read_oauth2_application(oauth2_application_id, bookmarks)
+    print(config)
+```
+
+#### Create oauth2 application config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def create_oauth2_application(self, local, oauth2_provider_id, name, display_name, 
+                                        description, config, bookmarks):
+    client_config = ConfigClient(local)
+    create_oauth2_application_response = client_config.create_oauth2_application(oauth2_provider_id,
+                                                                                     name,
+                                                                                     display_name,
+                                                                                     description,
+                                                                                     config,
+                                                                                     bookmarks)
+    print(create_oauth2_application_response)
+```
+
+#### Update oauth2 application config
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def update_oauth2_application(self, local, oauth2_application_id, etag, display_name, 
+                                        description, config, bookmarks):
+    client_config = ConfigClient(local)
+    update_oauth2_application_response = client_config.update_oauth2_application(oauth2_application_id,
+                                                                                     etag,
+                                                                                     display_name,
+                                                                                     description,
+                                                                                     config,
+                                                                                     bookmarks)
+    print(update_oauth2_application_response)
+```
+
+#### Delete OAuth2 application
+```python
+from jarvis_sdk.cmdconfig import ConfigClient
+
+def delete_oauth2_application(self, local, oauth2_application_id, etag, bookmarks):
+    client_config = ConfigClient(local)
+    config = client_config.delete_oauth2_application(oauth2_application_id, etag, bookmarks)
+    print(config)
 ```
