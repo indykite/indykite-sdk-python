@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.0](https://github.com/indykite/jarvis-sdk-python/compare/v1.3.0...v1.4.0) (2022-12-09)
+
+
+### Features
+
+* config nodes and oauth2 ([5c3147f](https://github.com/indykite/jarvis-sdk-python/commit/5c3147fae5e08de1255c68f96321f2a25e675af5))
+* config nodes and oauth2 ([0d90b42](https://github.com/indykite/jarvis-sdk-python/commit/0d90b426c59293bdb3f29d46acdeea7c0cd4d9d2))
+* update documentation ([0ba7528](https://github.com/indykite/jarvis-sdk-python/commit/0ba7528a134a72bcc48de14fcb168bdd99540607))
+
 ## [1.3.0](https://github.com/indykite/jarvis-sdk-python/compare/v1.2.0...v1.3.0) (2022-11-11)
 
 
