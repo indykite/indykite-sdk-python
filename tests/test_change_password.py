@@ -1,6 +1,7 @@
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from tests.helpers import data
+from tests.helpers import api_requests
 
 
 def test_change_password_short_token(capsys):
@@ -48,7 +49,7 @@ def test_change_password_success(registration):
 
 
 def test_password_of_user_wrong_twin_id(capsys):
-    digital_twin_id = "696e6479-6b69-465-8000-010f00000000"
+    digital_twin_id = api_requests.generate_random_gid()
     tenant_id = data.get_tenant()
     password = data.get_new_password()
 
@@ -58,15 +59,13 @@ def test_password_of_user_wrong_twin_id(capsys):
     response = client.change_password_of_user(digital_twin_id, tenant_id, password)
     captured = capsys.readouterr()
 
-    assert (
-        captured.out == "The digital twin id is not in UUID4 format:\nbadly formed hexadecimal UUID string\n"
-    )
+    assert "StatusCode.INVALID_ARGUMENT" in captured.out
     assert response is None
 
 
 def test_password_of_user_wrong_tenant_id(capsys):
-    digital_twin_id = "696e6479-6b69-4465-8000-010f00000000"
-    tenant_id = "696e6479-6b6-4465-8000-010f00000000"
+    digital_twin_id = api_requests.generate_random_gid()
+    tenant_id = "gid:AAAAD1DBxqIze0UniM-vaogDx6Y"
     password = data.get_new_password()
 
     client = IdentityClient()
@@ -75,12 +74,12 @@ def test_password_of_user_wrong_tenant_id(capsys):
     response = client.change_password_of_user(digital_twin_id, tenant_id, password)
     captured = capsys.readouterr()
 
-    assert captured.out == "The tenant id is not in UUID4 format:\nbadly formed hexadecimal UUID string\n"
+    assert "StatusCode.INVALID_ARGUMENT" in captured.out
     assert response is None
 
 
 def test_password_of_user_nonexisting_twin_id(capsys):
-    digital_twin_id = "e1e9f07d-fc6e-4629-84d1-8d23836524ba"
+    digital_twin_id = api_requests.generate_random_gid()
     tenant_id = data.get_tenant()
     password = data.get_new_password()
 
@@ -90,7 +89,7 @@ def test_password_of_user_nonexisting_twin_id(capsys):
     response = client.change_password_of_user(digital_twin_id, tenant_id, password)
     captured = capsys.readouterr()
 
-    assert "digital_twin was not found" in captured.out
+    assert "StatusCode.INVALID_ARGUMENT" in captured.out
     assert response is None
 
 

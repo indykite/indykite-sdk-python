@@ -8,11 +8,11 @@ packages=("indykite" "validate")
 
 if [[ $OSTYPE == 'darwin'* ]]; then
         for package in ${packages[@]}; do
-                find jarvis_sdk/indykite/. -name '*.py' -exec sed -i '' -e "s/from ${package}/from jarvis_sdk.${package}/g" {} \;
+                find indykite_sdk/indykite/. -name '*.py' -exec sed -i '' -e "s/from ${package}/from indykite_sdk.${package}/g" {} \;
         done
 else
         for package in ${packages[@]}; do
-                find jarvis_sdk/indykite/. -name '*.py' -exec sed -i -e "s/from ${package}/from jarvis_sdk.${package}/g" {} \;
+                find indykite_sdk/indykite/. -name '*.py' -exec sed -i -e "s/from ${package}/from indykite_sdk.${package}/g" {} \;
         done
 fi
 

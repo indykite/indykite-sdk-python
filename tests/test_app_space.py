@@ -1,10 +1,10 @@
 import time
 
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.model.app_space import ApplicationSpace
-from jarvis_sdk.model.create_app_space import CreateApplicationSpace
-from jarvis_sdk.model.update_app_space import UpdateApplicationSpace
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.model.app_space import ApplicationSpace
+from indykite_sdk.model.create_app_space import CreateApplicationSpace
+from indykite_sdk.model.update_app_space import UpdateApplicationSpace
 from tests.helpers import data
 
 
@@ -197,7 +197,7 @@ def test_create_app_space_name_fail_type_parameter(capsys):
     captured = capsys.readouterr()
 
     assert app_space is None
-    assert "has type list, but expected one of: bytes, unicode" in captured.out
+    assert "bad argument type for built-in operation" in captured.out
 
 
 def test_update_app_space_success(capsys):
@@ -283,7 +283,7 @@ def test_update_app_space_name_fail_type_parameter(capsys):
     captured = capsys.readouterr()
 
     assert app_space is None
-    assert "has type list, but expected one of: bytes, unicode" in captured.out
+    assert "bad argument type for built-in operation" in captured.out
 
 
 def test_get_app_space_list_success(capsys):

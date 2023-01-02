@@ -1,4 +1,4 @@
-from jarvis_sdk.utils import timestamp_to_date, date_to_timestamp
+from indykite_sdk.utils import timestamp_to_date, date_to_timestamp
 from google.protobuf.timestamp_pb2 import Timestamp
 from datetime import datetime
 

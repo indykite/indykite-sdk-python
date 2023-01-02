@@ -1,8 +1,8 @@
 import time
 
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.model.register_service_account_credential import RegisterServiceAccountCredential
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.model.register_service_account_credential import RegisterServiceAccountCredential
 from tests.helpers import data
 from datetime import datetime
 
@@ -104,7 +104,7 @@ def test_register_service_account_credential_jwk_exception(capsys):
                                                                                     expire_time_in_seconds,[])
 
     captured = capsys.readouterr()
-    assert "expected one of: bytes" in captured.out
+    assert "expected bytes, str found" in captured.out
 
 
 def test_register_service_account_credential_pem_success(capsys):
@@ -163,7 +163,7 @@ def test_register_service_account_credential_pem_exception(capsys):
                                                                                     expire_time_in_seconds,[])
 
     captured = capsys.readouterr()
-    assert "expected one of: bytes" in captured.out
+    assert "expected bytes, str found" in captured.out
 
 
 def test_del_service_account_credential_success(capsys):

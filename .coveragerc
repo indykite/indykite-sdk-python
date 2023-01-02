@@ -2,27 +2,27 @@
 omit =
   setup.py
   version.py
-  jarvis_sdk/api.py
-  jarvis_sdk/example.py
-  jarvis_sdk/indykite/*
-  jarvis_sdk/validate/*
-  jarvis_sdk/cmd/helper.py
-  jarvis_sdk/cmdconfig/helper.py
-  jarvis_sdk/model/unique_name_identifier.py
-  jarvis_sdk/model/email.py
-  jarvis_sdk/model/email_attachment.py
-  jarvis_sdk/model/sendgrid_email_provider.py
-  jarvis_sdk/model/email_message.py
-  jarvis_sdk/model/email_service_config.py
-  jarvis_sdk/model/email_template.py
-  jarvis_sdk/model/ingest_mapping_config.py
-  jarvis_sdk/model/oauth2_application.py
-  jarvis_sdk/model/oauth2_application_config.py
-  jarvis_sdk/model/oauth2_client_config.py
-  jarvis_sdk/model/oauth2_provider.py
-  jarvis_sdk/model/oauth2_provider_config.py
-  jarvis_sdk/model/auth_flow_config.py
-  jarvis_sdk/model/config_node.py
+  indykite_sdk/api.py
+  indykite_sdk/example.py
+  indykite_sdk/indykite/*
+  indykite_sdk/validate/*
+  indykite_sdk/identity/helper.py
+  indykite_sdk/config/helper.py
+  indykite_sdk/model/unique_name_identifier.py
+  indykite_sdk/model/email.py
+  indykite_sdk/model/email_attachment.py
+  indykite_sdk/model/sendgrid_email_provider.py
+  indykite_sdk/model/email_message.py
+  indykite_sdk/model/email_service_config.py
+  indykite_sdk/model/email_template.py
+  indykite_sdk/model/ingest_mapping_config.py
+  indykite_sdk/model/oauth2_application.py
+  indykite_sdk/model/oauth2_application_config.py
+  indykite_sdk/model/oauth2_client_config.py
+  indykite_sdk/model/oauth2_provider.py
+  indykite_sdk/model/oauth2_provider_config.py
+  indykite_sdk/model/auth_flow_config.py
+  indykite_sdk/model/config_node.py
 
   tests/*
 

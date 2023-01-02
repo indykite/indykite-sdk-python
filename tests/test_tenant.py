@@ -1,10 +1,10 @@
 import time
 
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.model.tenant import Tenant
-from jarvis_sdk.model.create_tenant import CreateTenant
-from jarvis_sdk.model.update_tenant import UpdateTenant
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.model.tenant import Tenant
+from indykite_sdk.model.create_tenant import CreateTenant
+from indykite_sdk.model.update_tenant import UpdateTenant
 from tests.helpers import data
 
 
@@ -185,7 +185,7 @@ def test_create_tenant_name_fail_type_parameter(capsys):
     captured = capsys.readouterr()
 
     assert tenant is None
-    assert "has type list, but expected one of: bytes, unicode" in captured.out
+    assert "bad argument type for built-in operation" in captured.out
 
 
 def test_update_tenant_success(capsys):
@@ -254,7 +254,7 @@ def test_update_tenant_name_fail_type_parameter(capsys):
     captured = capsys.readouterr()
 
     assert tenant is None
-    assert "has type list, but expected one of: bytes, unicode" in captured.out
+    assert "bad argument type for built-in operation" in captured.out
 
 
 def test_get_tenant_list_success(capsys):

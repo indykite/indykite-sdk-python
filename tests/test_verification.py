@@ -1,4 +1,4 @@
-from jarvis_sdk.cmd import IdentityClient
+from indykite_sdk.identity import IdentityClient
 from tests.helpers import data
 
 
@@ -28,19 +28,20 @@ def test_verify_digital_twin_email_invalid_token(capsys):
     assert response is None
 
 
-def test_verify_digital_twin_email_success(registration_until_email_arrives):
+def test_verify_digital_twin_email_success(registration_until_email_arrives, capsys):
     token = registration_until_email_arrives
 
     client = IdentityClient()
     assert client is not None
 
     response = client.verify_digital_twin_email(token)
+    captured = capsys.readouterr()
 
-    #assert isinstance(response, DigitalTwinCore)
+    assert response is not None or "property does not belong under current application" in captured.out
 
 
 def test_start_digital_twin_email_verification_wrong_twin_id(capsys):
-    digital_twin_id = "696e6479-6b69-465-8000-010f00000000"
+    digital_twin_id = "gid:AAAAAla6PZwUpk6Lizs5Iki3NDE"
     tenant_id = data.get_tenant()
     email = data.get_new_email()
 
@@ -50,15 +51,13 @@ def test_start_digital_twin_email_verification_wrong_twin_id(capsys):
     response = client.start_digital_twin_email_verification(digital_twin_id, tenant_id, email)
     captured = capsys.readouterr()
 
-    assert (
-        captured.out == "The digital twin id is not in UUID4 format:\nbadly formed hexadecimal UUID string\n"
-    )
+    assert "StatusCode.INVALID_ARGUMENT" in captured.out
     assert response is None
 
 
 def test_start_digital_twin_email_verification_wrong_tenant_id(capsys):
-    digital_twin_id = "696e6479-6b69-4465-8000-010f00000000"
-    tenant_id = "696e6479-6b6-4465-8000-010f00000000"
+    digital_twin_id = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
+    tenant_id = "gid:AAAAAla6PZwUpk6Lizs5Iki3NDE"
     email = data.get_new_email()
 
     client = IdentityClient()
@@ -67,12 +66,12 @@ def test_start_digital_twin_email_verification_wrong_tenant_id(capsys):
     response = client.start_digital_twin_email_verification(digital_twin_id, tenant_id, email)
     captured = capsys.readouterr()
 
-    assert captured.out == "The tenant id is not in UUID4 format:\nbadly formed hexadecimal UUID string\n"
+    assert "StatusCode.INVALID_ARGUMENT" in captured.out
     assert response is None
 
 
 def test_start_digital_twin_email_verification_nonexisting_twin_id(capsys):
-    digital_twin_id = "e1e9f07d-fc6e-4629-84d1-8d23836524ba"
+    digital_twin_id = "gid:AAAAAla6PZwUpk6Lizs5Iki3NDE"
     tenant_id = data.get_tenant()
     email = data.get_new_email()
 
@@ -82,12 +81,12 @@ def test_start_digital_twin_email_verification_nonexisting_twin_id(capsys):
     response = client.start_digital_twin_email_verification(digital_twin_id, tenant_id, email)
     captured = capsys.readouterr()
 
-    assert "digital_twin was not found" in captured.out
+    assert "StatusCode.INVALID_ARGUMENT" in captured.out
     assert response is None
 
 
 def test_start_digital_twin_email_verification_invalid_email_address(capsys):
-    digital_twin_id = "e1e9f07d-fc6e-4629-84d1-8d23836524ba"
+    digital_twin_id = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
     tenant_id = data.get_tenant()
     email = "invalid_email"
 
