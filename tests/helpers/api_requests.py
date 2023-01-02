@@ -1,12 +1,14 @@
 from time import sleep
-
+import string
+import random
 import requests
 from tests.helpers import data
+
 
 def first_reg_request():
     body = {
             "cc": data.get_code_challenge(),
-            "~tenant": data.get_tenant(),
+            "~tenant": "696e6479-6b69-4465-8000-030f00000001",
             "~arg": {
                 "flow": "register"
             }
@@ -17,7 +19,7 @@ def first_reg_request():
 def first_reg_request_with_email():
     body = {
             "cc": data.get_code_challenge(),
-            "~tenant": data.get_tenant_email(),
+            "~tenant": "696e6479-6b69-4465-8000-030F00000002",
             "~arg": {
                 "flow": "register"
             }
@@ -49,14 +51,12 @@ def verify_request(thread_id):
     return send_post(body)
 
 
-
 def first_login():
     body = {
             "cc": data.get_code_challenge(),
             "~tenant": data.get_tenant()
         }
     return send_post(body)
-
 
 
 def second_login(thread_id, email, password):
@@ -127,3 +127,9 @@ def logout(refresh_token):
         "refreshToken": refresh_token
     }
     return send_post(body)
+
+
+def generate_random_gid():
+    num = 27
+    res = ''.join(random.choices(string.ascii_letters + string.digits + "_", k=num))
+    return 'gid:' + res

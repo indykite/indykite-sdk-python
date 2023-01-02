@@ -1,8 +1,8 @@
 import time
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.model.create_config_node import CreateConfigNode
-from jarvis_sdk.model.update_config_node import UpdateConfigNode
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.model.create_config_node import CreateConfigNode
+from indykite_sdk.model.update_config_node import UpdateConfigNode
 from tests.helpers import data
 
 
@@ -102,7 +102,7 @@ def test_create_email_service_config_node_exception(capsys):
                                                           [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.EmailServiceConfig got str" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.out
 
 
 def test_update_email_service_config_node_success(capsys):
@@ -171,7 +171,7 @@ def test_update_email_service_config_node_exception(capsys):
                                                                    [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.EmailServiceConfig got str" in captured.out
+    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.out
 
 
 def test_del_config_node_success(capsys):
@@ -269,7 +269,7 @@ def test_create_auth_flow_config_node_exception(capsys):
                                                       [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.AuthFlowConfig got str" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.out
 
 
 def test_update_auth_flow_config_node_success(capsys):
@@ -338,7 +338,7 @@ def test_update_auth_flow_config_node_exception(capsys):
                                                                [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.AuthFlowConfig got str" in captured.out
+    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.out
 
 
 def test_create_oauth2_client_config_node_success(capsys):
@@ -398,7 +398,7 @@ def test_create_oauth2_client_config_node_exception(capsys):
                                                           [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.OAuth2ClientConfig got str" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.out
 
 
 def test_update_oauth2_client_config_node_success(capsys):
@@ -467,7 +467,7 @@ def test_update_oauth2_client_config_node_exception(capsys):
                                                                    [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.OAuth2ClientConfig got str" in captured.out
+    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.out
 
 
 def test_create_ingest_mapping_config_node_success(capsys):
@@ -527,7 +527,7 @@ def test_create_ingest_mapping_config_node_exception(capsys):
                                                            [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.IngestMappingConfig got str" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.out
 
 
 def test_update_ingest_mapping_config_node_success(capsys):
@@ -596,5 +596,5 @@ def test_update_ingest_mapping_config_node_exception(capsys):
                                                                     [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.IngestMappingConfig got str" in captured.out
+    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.out
 

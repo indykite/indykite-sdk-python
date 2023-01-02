@@ -1,21 +1,21 @@
 from datetime import datetime
 import json
 import os
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, SendGridProviderConfig, MailJetProviderConfig,
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, SendGridProviderConfig, MailJetProviderConfig,
                                                           AmazonSESProviderConfig, MailgunProviderConfig,EmailServiceConfig,
                                                           AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig)
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 
 URL = "https://jarvis-dev.indykite.com"
 EMAIL_URL = "https://super-octo-waffle.indykite.com"
 EMAIL_TOKEN = "MNvLADeDKphk7NoEbczc"
 APPLICATION = "gid:AAAABGluZHlraURlgAACDwAAAAA"
-TENANT = "696e6479-6b69-4465-8000-030f00000001"
-TENANT_EMAIL = "696e6479-6b69-4465-8000-030F00000002"
-DIGITAL_TWIN = "6cdf1133-ba32-4dbb-a977-60b0d5d5e713"
+TENANT = "gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0"
+TENANT_EMAIL = "gid:AAAAA2luZHlraURlgAADDwAAAAI"
+DIGITAL_TWIN = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
 CODE_VERIFIER = "AAAAAAAAAAEAAAAAAAAAAgAAAAAAAAADAAAAAAAAAAQ"
 CODE_CHALLENGE = "cjbADBcANsbeEzqHghDd1YVnqh0GGaD3D2njiub5Fuk"
 # this is changes, if test starts failing, check it!!!
@@ -47,6 +47,7 @@ OAUTH2_PROVIDER = "gid:AAAAEezCvUQGV0HgotmCoeCJAck"
 OAUTH2_APPLICATION = "gid:AAAAC6mMTIwN40frlKWVz788QX8"
 PASSWORD = "Password"
 NEW_PASSWORD = "Password1"
+BCRYPT = "$2y$10$k64jP7oqwYfQpzmoqAN5OuhrtWI2wICn0wXUzYxMp.UA1PopI653G"
 
 
 def get_password():

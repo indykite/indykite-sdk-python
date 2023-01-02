@@ -1,5 +1,5 @@
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.model.digital_twin import DigitalTwin
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.model.digital_twin import DigitalTwin
 from tests.helpers import data
 
 
@@ -14,14 +14,14 @@ def test_get_digital_twin_wrong_twin_id(capsys):
     captured = capsys.readouterr()
 
     assert (
-        captured.out == "The digital twin id is not in UUID4 format:\nbadly formed hexadecimal UUID string\n"
+        "StatusCode.INVALID_ARGUMENT" in captured.out
     )
     assert response is None
 
 
 def test_get_digital_twin_wrong_tenant_id(capsys):
-    digital_twin_id = "825cba30-5634-4034-a208-1a7d212de0a8"
-    tenant_id = "534729fb-f1b9-43ad-b1c5-9bbc75ae7de8"
+    digital_twin_id = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
+    tenant_id = "gid:AAAAAbHLUExsxkqsqRoI93amR30"
 
     client = IdentityClient()
     assert client is not None
@@ -29,13 +29,13 @@ def test_get_digital_twin_wrong_tenant_id(capsys):
     response = client.get_digital_twin(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    assert "digital_twin was not found" in captured.out
+    assert "tenantId is not valid Tenant identifier" in captured.out
     assert response is None
 
 
-def test_get_digital_twin_gid_tenant_id(capsys):
-    digital_twin_id = "825cba30-5634-4034-a208-1a7d212de0a8"
-    tenant_id = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
+def test_get_digital_twin_uuid_tenant_id(capsys):
+    digital_twin_id = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
+    tenant_id = "696e6479-6b69-4465-8000-030f00000001"
 
     client = IdentityClient()
     assert client is not None
@@ -43,12 +43,12 @@ def test_get_digital_twin_gid_tenant_id(capsys):
     response = client.get_digital_twin(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    assert "The tenant id is not in UUID4 format" in captured.out
+    "invalid DigitalTwin.Id: value length must be 16 bytes" in captured.out
     assert response is None
 
 
 def test_get_digital_twin_nonexisting_twin_id(capsys):
-    digital_twin_id = "696e6479-6b69-4465-8000-030f00000001"
+    digital_twin_id = "gid:AAAAAbHLUExsxkqsqRoI93amR30"
     tenant_id = data.get_tenant()
 
     client = IdentityClient()
@@ -57,13 +57,13 @@ def test_get_digital_twin_nonexisting_twin_id(capsys):
     response = client.get_digital_twin(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    assert "digital_twin was not found" in captured.out
+    assert "StatusCode.INVALID_ARGUMENT" in captured.out
     assert response is None
 
 
 def test_get_digital_twin_unknown_property(capsys):
-    digital_twin_id = "825cba30-5634-4034-a208-1a7d212de0a8"
-    tenant_id = data.get_tenant()
+    digital_twin_id = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
+    tenant_id = "gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0"
 
     client = IdentityClient()
     assert client is not None
@@ -82,7 +82,7 @@ def test_get_digital_twin_success(capsys):
     client = IdentityClient()
     assert client is not None
 
-    response = client.get_digital_twin("825cba30-5634-4034-a208-1a7d212de0a8", "6087c3bc-770e-4ebc-b964-a48e5ec5a06d", [])
+    response = client.get_digital_twin("gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0", "gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0", [])
     captured = capsys.readouterr()
 
     assert response is not None

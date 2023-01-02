@@ -1,5 +1,5 @@
 import sys
-sys.path.append('./jarvis_sdk')
+sys.path.append('./indykite_sdk')
 
 import pytest
 

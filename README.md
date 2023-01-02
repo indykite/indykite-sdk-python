@@ -35,7 +35,7 @@ This project serves as a Software Development Kit for developers of Indykite app
 
 ## Initial settings
 
-1. You need to have a configuration json file to be able to use the Jarvis Proto SDK. You can get it from your
+1. You need to have a configuration json file to be able to use the IndyKite Proto SDK. You can get it from your
    Indykite contact or from Indykite console if you have access to it.
 
     Example configuration file:
@@ -193,7 +193,7 @@ import uuid
 from authlib.jose import JsonWebKey, jwt
 from datetime import datetime, timedelta, timezone
 
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2_grpc as pb2_grpc
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2_grpc as pb2_grpc
 
 def __init__(self, credential_json=None, credential_file=None):
     if credential_json is None:
@@ -239,7 +239,7 @@ def __init__(self, credential_json=None, credential_file=None):
 4. Close a GRPC channel
 You simple call the `close()` function on the channel (The `IdentityClient()` function below represents the def in the previous step)
 ```python
-from jarvis_sdk.cmd import IdentityClient
+from indykite_sdk.identity import IdentityClient
 
 def open_and_close_channel():
     client = IdentityClient()
@@ -290,7 +290,7 @@ If the token was not valid, then the `response.active` attribute is false and no
 
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
 def introspect_token(self, user_token):
     response = self.stub.TokenIntrospect(
@@ -307,9 +307,9 @@ It is possible to get an existing user's properties like it's email, mobile, nic
 #### Admin service
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
-from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from indykite_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
 
 def get_digital_twin(self, digital_twin_id, tenant_id, field_name):
     response = self.stub.GetDigitalTwin(
@@ -334,8 +334,8 @@ def get_digital_twin(self, digital_twin_id, tenant_id, field_name):
 #### Self-service
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
 
 def get_digital_twin(self, token, field_name):
     response = self.stub.GetDigitalTwin(
@@ -360,10 +360,10 @@ protected. Also, the `PatchDigitalTwin` allows to send multiple operations in on
 #### Admin service
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
-from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
-from jarvis_sdk.indykite.objects import struct_pb2 as objects
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from indykite_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from indykite_sdk.indykite.objects import struct_pb2 as objects
 
 def patch_property_add(self, digital_twin_id, tenant_id, property_name, value):
     response = self.stub.PatchDigitalTwin(
@@ -389,10 +389,10 @@ def patch_property_add(self, digital_twin_id, tenant_id, property_name, value):
 ```
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
-from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
-from jarvis_sdk.indykite.objects import struct_pb2 as objects
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from indykite_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from indykite_sdk.indykite.objects import struct_pb2 as objects
 
 def patch_property_replace(self, digital_twin_id, tenant_id, property_id, value):
     response = self.stub.PatchDigitalTwin(
@@ -418,9 +418,9 @@ def patch_property_replace(self, digital_twin_id, tenant_id, property_id, value)
 ```
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
-from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from indykite_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
 
 def patch_property_remove(self, digital_twin_id, tenant_id, property_id):
     response = self.stub.PatchDigitalTwin(
@@ -447,10 +447,10 @@ def patch_property_remove(self, digital_twin_id, tenant_id, property_id):
 #### Self-service
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
-from jarvis_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
-from jarvis_sdk.indykite.objects import struct_pb2 as objects
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from indykite_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
+from indykite_sdk.indykite.objects import struct_pb2 as objects
 
 def patch_property_add_replace_remove(self, token, add_name, add_value, replace_id, replace_value, remove_id):
     response = self.stub.PatchDigitalTwin(
@@ -489,8 +489,8 @@ It is allowed to send a delete user request which deletes the digital twin and a
 #### Admin service
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import model_pb2 as model
 
 def del_user(self, digital_twin_id, tenant_id):
     response = self.stub.DeleteDigitalTwin(
@@ -510,7 +510,7 @@ def del_user(self, digital_twin_id, tenant_id):
 #### Self-service
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
 def del_user(self, token):
     response = self.stub.DeleteDigitalTwin(
@@ -527,7 +527,7 @@ registered email address. The email should contain a token which can be sent to 
 set the digital twin's email as verified email.
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
 def verify_email(self, token):
     response = self.stub.VerifyDigitalTwinEmail(
@@ -542,8 +542,8 @@ it is necessary to send out a new, valid verification email. Calling the `StartD
 sends out another verification email to the registered address with a new token.
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import model_pb2 as model
 
 def new_verification_email(self, digital_twin_id, tenant_id, email):
     response = self.stub.StartDigitalTwinEmailVerification(
@@ -565,8 +565,8 @@ and tenant ID (Admin service), or the user (self-service) with his active token 
 #### Admin service
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
-from jarvis_sdk.indykite.identity.v1beta1 import model_pb2 as model
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import model_pb2 as model
 
 def change_password(self, digital_twin_id, tenant_id, new_password):
     response = self.stub.ChangePassword(
@@ -585,7 +585,7 @@ def change_password(self, digital_twin_id, tenant_id, new_password):
 #### Self-service
 
 ```python
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
 
 def change_password(self, token, new_password):
     response = self.stub.ChangePassword(
@@ -619,9 +619,9 @@ The ServiceAccount class will also return the customer id
 
 #### Read customer id with service_account request
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_customer(self, local):
     client_config = ConfigClient(local)
@@ -633,9 +633,9 @@ def get_customer(self, local):
 
 #### Read customer name
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_customer(self, local, customer_name):
     client_config = ConfigClient(local)
@@ -648,9 +648,9 @@ def get_customer(self, local, customer_name):
 It is possible to get an existing AppSpace's information from customer, AppSpaceId and AppSpace name.
 #### Read appspace with id
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_app_space(self, local, app_space_id):
     client_config = ConfigClient(local)
@@ -660,9 +660,9 @@ def get_app_space(self, local, app_space_id):
 
 #### Read appspace with name
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_app_space(self, local, customer_id, app_space_name):
     client_config = ConfigClient(local)
@@ -672,9 +672,9 @@ def get_app_space(self, local, customer_id, app_space_name):
 
 #### List appspaces 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_app_spaces(self, local, customer_id, match_list, bookmarks=[]):
     #match_list is a nonempty list of app_spaces names
@@ -688,9 +688,9 @@ delete is not yet implemented in the IK platform
 
 #### Create appspace 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def create_app_space(self, local, customer_id, app_space_name, display_name, description):
     client_config = ConfigClient(local)
@@ -700,9 +700,9 @@ def create_app_space(self, local, customer_id, app_space_name, display_name, des
 
 #### Update appspace 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def update_app_space(self, local, app_space_id, etag, display_name, description, bookmarks = []):
     #etag and bookmarks can be retrieved from a get_app_space or with a create_app_space or update_app_space
@@ -713,9 +713,9 @@ def update_app_space(self, local, app_space_id, etag, display_name, description,
 
 #### Delete appspace 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def delete_app_space(self, local, app_space_id, etag, bookmarks = []):
     #etag and bookmarks can be retrieved from a get_app_space or with a create_app_space or update_app_space
@@ -730,9 +730,9 @@ It is possible to get an existing Tenant's information from appSpace, TenantId a
 A tenant is a grouping of Digital Twins (DT -> digital users) in an appSpace
 #### Read tenant with id
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_tenant(self, local, tenant_id):
     client_config = ConfigClient(local)
@@ -742,9 +742,9 @@ def get_tenant(self, local, tenant_id):
 
 #### Read tenant with name
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_app_space(self, local, app_space_id, tenant_name):
     client_config = ConfigClient(local)
@@ -754,9 +754,9 @@ def get_app_space(self, local, app_space_id, tenant_name):
 
 #### List tenants 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_tenants(self, local, app_space_id, match_list, bookmarks=[]):
     #match_list is a nonempty list of tenants names
@@ -770,9 +770,9 @@ delete is not yet implemented in the IK platform
 
 #### Create tenant 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def create_tenant(self, local, issuer_id, tenant_name, display_name, description):
     client_config = ConfigClient(local)
@@ -782,9 +782,9 @@ def create_tenant(self, local, issuer_id, tenant_name, display_name, description
 
 #### Update tenant 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def update_tenant(self, local, tenant_id, etag, display_name, description, bookmarks = []):
     #etag and bookmarks can be retrieved from a get_tenant or with a create_tenant or update_tenant
@@ -795,9 +795,9 @@ def update_tenant(self, local, tenant_id, etag, display_name, description, bookm
 
 #### Delete tenant 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def delete_tenant(self, local, tenant_id, etag, bookmarks = []):
     #etag and bookmarks can be retrieved from a get_tenant or with a create_tenant or update_tenant
@@ -812,9 +812,9 @@ It is possible to get an existing Application's information from appSpace, Appli
 An application is created in an appSpace
 #### Read application with id
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_application(self, local, application_id):
     client_config = ConfigClient(local)
@@ -824,9 +824,9 @@ def get_application(self, local, application_id):
 
 #### Read application with name
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_application(self, local, app_space_id, application_name):
     client_config = ConfigClient(local)
@@ -836,9 +836,9 @@ def get_application(self, local, app_space_id, application_name):
 
 #### List applications 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_applications(self, local, app_space_id, match_list, bookmarks=[]):
     #match_list is a nonempty list of applications names
@@ -852,9 +852,9 @@ delete is not yet implemented in the IK platform
 
 #### Create application 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def create_application(self, local, app_space_id, application_name, display_name, description):
     client_config = ConfigClient(local)
@@ -864,9 +864,9 @@ def create_application(self, local, app_space_id, application_name, display_name
 
 #### Update application 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def update_application(self, local, application_id, etag, display_name, description, bookmarks = []):
     #etag and bookmarks can be retrieved from a get_application or with a create_application or update_application
@@ -877,9 +877,9 @@ def update_application(self, local, application_id, etag, display_name, descript
 
 #### Delete application 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def delete_application(self, local, application_id, etag, bookmarks = []):
     #etag and bookmarks can be retrieved from a get_application or with a create_application or update_application
@@ -895,9 +895,9 @@ It is possible to get an existing ApplicationAgent's information from Applicatio
 An applicationAgent is created for an Application
 #### Read applicationAgent with id
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_application_agent(self, local, application_agent_id):
     client_config = ConfigClient(local)
@@ -907,9 +907,9 @@ def get_application_agent(self, local, application_agent_id):
 
 #### Read applicationAgent with name
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_application_agent(self, local, app_space_id, application_agent_name):
     client_config = ConfigClient(local)
@@ -919,9 +919,9 @@ def get_application_agent(self, local, app_space_id, application_agent_name):
 
 #### List applicationAgents 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_application_agents(self, local, app_space_id, match_list, bookmarks=[]):
     #match_list is a nonempty list of application agents names
@@ -935,9 +935,9 @@ delete is not yet implemented in the IK platform
 
 #### Create applicationAgent 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def create_application_agent(self, local, application_id, application_agent_name, display_name, description):
     client_config = ConfigClient(local)
@@ -948,9 +948,9 @@ def create_application_agent(self, local, application_id, application_agent_name
 
 #### Update applicationAgent 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def update_application_agent(self, local, application_agent_id, etag, display_name, description, bookmarks = []):
     #etag and bookmarks can be retrieved from a get_application_agent or with a create_application_agent or update_application_agent
@@ -961,9 +961,9 @@ def update_application_agent(self, local, application_agent_id, etag, display_na
 
 #### Delete applicationAgent 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def delete_application_agent(self, local, application_agent_id, etag, bookmarks = []):
     #etag and bookmarks can be retrieved from a get_application_agent or with a create_application_agent or update_application_agent
@@ -978,9 +978,9 @@ It is possible to get an existing ApplicationAgentCredential's information from 
 An applicationAgentCredential is created for an ApplicationAgent
 #### Read applicationAgentCredential with id
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def get_application_agent_credential(self, local, application_agent_credential_id):
     client_config = ConfigClient(local)
@@ -993,9 +993,9 @@ delete is not yet implemented in the IK platform
 
 #### Register applicationAgentCredential with jwk
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def create_application_agent_credential(self, local, application_agent_id, display_name, jwk, expire_time_in_seconds, default_tenant_id):
     client_config = ConfigClient(local)
@@ -1008,9 +1008,9 @@ def create_application_agent_credential(self, local, application_agent_id, displ
 
 #### Register applicationAgentCredential with pem
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def create_application_agent_credential(self, local, application_agent_id, display_name, pem, expire_time_in_seconds, default_tenant_id):
     client_config = ConfigClient(local)
@@ -1024,9 +1024,9 @@ def create_application_agent_credential(self, local, application_agent_id, displ
 
 #### Delete applicationAgentCredential 
 ```python
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 def delete_application_agent_credential(self, local, application_agent_credential_id, bookmarks = []):
     #bookmarks can be retrieved from a get_application_agent_credential or with a create_application_agent 
@@ -1043,7 +1043,7 @@ You can create it in the Admin Console or using the SDK.
 #### Read service account
 
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def get_service_account(self, local, service_account_id):
     client_config = ConfigClient(local)
@@ -1054,7 +1054,7 @@ def get_service_account(self, local, service_account_id):
 
 #### Create service account
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def create_service_account(self, local, customer_id, service_account_name, display_name, description, role, bookmarks):
     client_config = ConfigClient(local)
@@ -1064,7 +1064,7 @@ def create_service_account(self, local, customer_id, service_account_name, displ
 
 #### Update service account
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def update_service_account(self, local, service_account_id, etag, display_name, description, bookmarks):
     client_config = ConfigClient(local)
@@ -1074,7 +1074,7 @@ def update_service_account(self, local, service_account_id, etag, display_name, 
 
 #### Delete service account
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def delete_service_account(self, local, service_account_id, etag, bookmarks):
     client_config = ConfigClient(local)
@@ -1084,7 +1084,7 @@ def delete_service_account(self, local, service_account_id, etag, bookmarks):
 
 #### Read service account credential
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def get_service_account_credential(self, local, service_account_credential_id):
     client_config = ConfigClient(local)
@@ -1094,7 +1094,7 @@ def get_service_account_credential(self, local, service_account_credential_id):
 
 #### Register service account credential with jwk
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def register_service_account_credential(self, local, service_account_id, display_name, 
                                         public_key_jwk, expire_time_in_seconds, bookmarks):
@@ -1109,7 +1109,7 @@ def register_service_account_credential(self, local, service_account_id, display
 
 #### Delete service account credential
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def delete_service_account_credential(self, local, service_account_credential_id, bookmarks):
     client_config = ConfigClient(local)
@@ -1123,7 +1123,7 @@ On spaces, you can create configurations nodes like authentication flows, email 
 
 #### Read node configuration
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def get_config_node(self, local, config_node_id, bookmarks):
     client_config = ConfigClient(local)
@@ -1133,7 +1133,7 @@ def get_config_node(self, local, config_node_id, bookmarks):
 
 #### Delete node configuration
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def delete_config_node(self, local, config_node_id, etag, bookmarks):
     client_config = ConfigClient(local)
@@ -1143,7 +1143,7 @@ def delete_config_node(self, local, config_node_id, etag, bookmarks):
 
 #### Create email service config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def create_email_service(self, local, location, name, display_name, 
                                         description, email_service_config, bookmarks):
@@ -1159,7 +1159,7 @@ def create_email_service(self, local, location, name, display_name,
 
 #### Update email service config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def update_email_service(self, local, location, config_node_id, etag, display_name, 
                                         description, email_service_config, bookmarks):
@@ -1175,7 +1175,7 @@ def update_email_service(self, local, location, config_node_id, etag, display_na
 
 #### Create auth flow config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def create_auth_flow(self, local, location, name, display_name, 
                                         description, auth_flow_config, bookmarks):
@@ -1191,7 +1191,7 @@ def create_auth_flow(self, local, location, name, display_name,
 
 #### Update auth flow config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def update_auth_flow(self, local, location, config_node_id, etag, display_name, 
                                         description, auth_flow_config, bookmarks):
@@ -1207,7 +1207,7 @@ def update_auth_flow(self, local, location, config_node_id, etag, display_name,
 
 #### Create oauth2 client config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def create_oauth2_client(self, local, location, name, display_name, 
                                         description, oauth2_client_config, bookmarks):
@@ -1222,7 +1222,7 @@ def create_oauth2_client(self, local, location, name, display_name,
 
 #### Update oauth2 client config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def update_oauth2_client(self, local, location, config_node_id, etag, display_name, 
                                         description, oauth2_client_config, bookmarks):
@@ -1238,7 +1238,7 @@ def update_oauth2_client(self, local, location, config_node_id, etag, display_na
 
 #### Create ingest mapping config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def create_ingest_mapping(self, local, location, name, display_name, 
                                         description, ingest_mapping_config, bookmarks):
@@ -1254,7 +1254,7 @@ def create_ingest_mapping(self, local, location, name, display_name,
 
 #### Update ingest_mapping config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def update_auth_flow(self, local, location, config_node_id, etag, display_name, 
                                         description, ingest_mapping_config, bookmarks):
@@ -1277,7 +1277,7 @@ An OAuth2 service provider is a named set of configuration options for OAuth2.
 
 #### Read OAuth2 provider
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def get_oauth2_provider(self, local, oauth2_provider_id, bookmarks):
     client_config = ConfigClient(local)
@@ -1287,7 +1287,7 @@ def get_oauth2_provider(self, local, oauth2_provider_id, bookmarks):
 
 #### Create oauth2 provider config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def create_oauth2_provider(self, local, app_space_id, name, display_name, 
                                         description, config, bookmarks):
@@ -1303,7 +1303,7 @@ def create_oauth2_provider(self, local, app_space_id, name, display_name,
 
 #### Update oauth2 provider config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def update_oauth2_provider(self, local, oauth2_provider_id, etag, display_name, 
                                         description, config, bookmarks):
@@ -1319,7 +1319,7 @@ def update_oauth2_provider(self, local, oauth2_provider_id, etag, display_name,
 
 #### Delete OAuth2 provider
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def delete_oauth2_provider(self, local, oauth2_provider_id, etag, bookmarks):
     client_config = ConfigClient(local)
@@ -1334,7 +1334,7 @@ An OAuth2 service provider is a named set of configuration options for OAuth2.
 
 #### Read OAuth2 application
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def get_oauth2_application(self, local, oauth2_application_id, bookmarks):
     client_config = ConfigClient(local)
@@ -1344,7 +1344,7 @@ def get_oauth2_application(self, local, oauth2_application_id, bookmarks):
 
 #### Create oauth2 application config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def create_oauth2_application(self, local, oauth2_provider_id, name, display_name, 
                                         description, config, bookmarks):
@@ -1360,7 +1360,7 @@ def create_oauth2_application(self, local, oauth2_provider_id, name, display_nam
 
 #### Update oauth2 application config
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def update_oauth2_application(self, local, oauth2_application_id, etag, display_name, 
                                         description, config, bookmarks):
@@ -1376,7 +1376,7 @@ def update_oauth2_application(self, local, oauth2_application_id, etag, display_
 
 #### Delete OAuth2 application
 ```python
-from jarvis_sdk.cmdconfig import ConfigClient
+from indykite_sdk.config import ConfigClient
 
 def delete_oauth2_application(self, local, oauth2_application_id, etag, bookmarks):
     client_config = ConfigClient(local)

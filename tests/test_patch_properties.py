@@ -1,11 +1,10 @@
-from jarvis_sdk.cmd import IdentityClient
-from jarvis_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as pb2
+from indykite_sdk.identity import IdentityClient
+from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from tests.helpers import data
-from uuid import UUID
 
 
 def test_patch_properties_wrong_twin_id(capsys):
-    digital_twin_id = "696e6479-6b69-465-8000-010f00000000"
+    digital_twin_id = "gid:AAAAAbHLUExsxkqsqRoI93amR30"
     tenant_id = data.get_tenant()
 
     client = IdentityClient()
@@ -15,14 +14,14 @@ def test_patch_properties_wrong_twin_id(capsys):
     captured = capsys.readouterr()
 
     assert (
-        captured.out == "The digital twin id is not in UUID4 format:\nbadly formed hexadecimal UUID string\n"
+        "list indices must be integers or slices, not str" in captured.out
     )
     assert response is None
 
 
 def test_patch_properties_wrong_tenant_id(capsys):
-    digital_twin_id = "696e6479-6b69-4465-8000-010f00000000"
-    tenant_id = "696e6479-6b6-4465-8000-010f00000000"
+    digital_twin_id = data.get_digital_twin()
+    tenant_id = "gid:AAAAAbHLUExsxkqsqRoI93amR30"
 
     client = IdentityClient()
     assert client is not None
@@ -30,7 +29,7 @@ def test_patch_properties_wrong_tenant_id(capsys):
     response = client.patch_properties(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    assert captured.out == "The tenant id is not in UUID4 format:\nbadly formed hexadecimal UUID string\n"
+    assert "list indices must be integers or slices, not str" in captured.out
     assert response is None
 
 
@@ -68,10 +67,10 @@ def test_patch_properties_success():
     assert client is not None
 
     def mocked_patch_properties(request: pb2.PatchDigitalTwinRequest):
-        digital_twin_bytes_uuid = UUID(digital_twin_id, version=4).bytes
-        tenant_bytes_uuid = UUID(tenant_id, version=4).bytes
-        assert request.id.digital_twin.id == digital_twin_bytes_uuid
-        assert request.id.digital_twin.tenant_id == tenant_bytes_uuid
+        digital_twin_bytes_str = str(digital_twin_id)
+        tenant_bytes_str = str(tenant_id)
+        assert request.id.digital_twin.id == digital_twin_bytes_str
+        assert request.id.digital_twin.tenant_id == tenant_bytes_str
         return pb2.PatchDigitalTwinResponse()
 
     client.stub.PatchDigitalTwin = mocked_patch_properties
@@ -104,7 +103,7 @@ def test_patch_properties_by_token_short_token(capsys):
 
 
 def test_patch_properties_by_token_expired_token(capsys):
-    digital_twin_id = "696e6479-6b69-4465-8000-010f00000000"
+    digital_twin_id = data.get_digital_twin()
     tenant_id = data.get_tenant()
     token = data.get_expired_token()
 

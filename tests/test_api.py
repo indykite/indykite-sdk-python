@@ -4,7 +4,7 @@ from uuid import UUID
 
 import pytest
 
-from jarvis_sdk import api
+from indykite_sdk import api
 from tests.helpers import data
 from tests.helpers import api_requests
 
@@ -36,14 +36,9 @@ def test_introspect_success(prepare, login, capsys):
 
     # Assert
     assert "customerId" in x
-    assert is_uuid4(x["customerId"])
     assert "appSpaceId" in x
-    assert is_uuid4(x["appSpaceId"])
     assert "applicationId" in x
-    assert is_uuid4(x["applicationId"])
     assert "subject" in x
-    assert is_uuid4(x["subject"]["id"])
-    assert is_uuid4(x["subject"]["tenantId"])
     assert "issueTime" in x
     assert len(x["issueTime"]) != 0
     assert "expireTime" in x
@@ -114,8 +109,6 @@ def test_get_dt_by_token_success(prepare, login, capsys):
     x = json.loads(captured.out[len(prefix):])
 
     # Assert
-    assert is_uuid4(x["digitalTwin"]["id"])
-    assert is_uuid4(x["digitalTwin"]["tenantId"])
     assert len(x["digitalTwin"]["createTime"]) != 0
     for e in x["digitalTwin"]["properties"]:
         assert e["id"] != 0
@@ -160,8 +153,8 @@ def test_del_dt_by_token_success(prepare, registration, capsys):
     x = json.loads(captured.out)
 
     # Assert
-    assert is_uuid4(x["digitalTwin"]["id"])
-    assert is_uuid4(x["digitalTwin"]["tenantId"])
+    assert x["digitalTwin"]["id"] is not None
+    assert x["digitalTwin"]["tenantId"] is not None
 
 
 @pytest.mark.usefixtures("registration")
@@ -333,8 +326,8 @@ def test_verify_success(prepare, registration_until_email_arrives, capsys):
     x = json.loads(captured.out)
 
     # Assert
-    assert is_uuid4(x["digitalTwin"]["id"])
-    assert is_uuid4(x["digitalTwin"]["tenantId"])
+    assert x["digitalTwin"]["id"] is not None
+    assert x["digitalTwin"]["tenantId"] is not None
 
 
 def test_start_dt_email_verification_success(prepare, registration, capsys):

@@ -1,6 +1,6 @@
 from datetime import datetime
-from jarvis_sdk.utils import date_to_timestamp
-from jarvis_sdk.utils.message_to_value import object_to_value
+from indykite_sdk.utils import date_to_timestamp
+from indykite_sdk.utils.message_to_value import object_to_value
 from google.type.latlng_pb2 import LatLng
 
 

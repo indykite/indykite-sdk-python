@@ -1,10 +1,10 @@
 import time
 import random
 
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.model.create_oauth2_provider import CreateOAuth2Provider
-from jarvis_sdk.model.update_oauth2_provider import UpdateOAuth2Provider
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.model.create_oauth2_provider import CreateOAuth2Provider
+from indykite_sdk.model.update_oauth2_provider import UpdateOAuth2Provider
 from tests.helpers import data
 
 
@@ -105,7 +105,7 @@ def test_create_oauth2_provider_exception(capsys):
                                            [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.OAuth2ProviderConfig got str" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateOAuth2ProviderRequest" in captured.out
 
 
 def test_update_oauth2_provider_success(capsys):
@@ -174,7 +174,7 @@ def test_update_oauth2_provider_exception(capsys):
                                                     [])
 
     captured = capsys.readouterr()
-    assert "expected indykite.config.v1beta1.OAuth2ProviderConfig got str" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.UpdateOAuth2ProviderRequest" in captured.out
 
 
 def test_del_oauth2_provider_success(capsys):

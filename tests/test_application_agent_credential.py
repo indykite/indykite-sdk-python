@@ -1,8 +1,8 @@
 import time
 
-from jarvis_sdk.cmdconfig import ConfigClient
-from jarvis_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from jarvis_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
+from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
 from tests.helpers import data
 from datetime import datetime
 
@@ -109,7 +109,7 @@ def test_register_application_agent_credential_jwk_exception(capsys):
                                                                                     default_tenant_id, [])
 
     captured = capsys.readouterr()
-    assert "expected one of: bytes" in captured.out
+    assert "expected bytes, str found" in captured.out
 
 
 def test_register_application_agent_credential_pem_success(capsys):
@@ -174,7 +174,7 @@ def test_register_application_agent_credential_pem_exception(capsys):
                                                                                     default_tenant_id, [])
 
     captured = capsys.readouterr()
-    assert "expected one of: bytes" in captured.out
+    assert "expected bytes, str found" in captured.out
 
 
 def test_del_application_agent_credential_success(capsys):
