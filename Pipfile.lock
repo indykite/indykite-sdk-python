@@ -458,7 +458,7 @@
             ],
             "version": "==3.4"
         },
-        "indykite-sdk": {
+        "indykite_sdk": {
             "editable": true,
             "path": "."
         },
@@ -476,10 +476,6 @@
             ],
             "index": "pypi",
             "version": "==1.0.23"
-        },
-        "jarvis-sdk": {
-            "editable": true,
-            "path": "."
         },
         "jinja2": {
             "hashes": [
