@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/indykite/jarvis-sdk-python/compare/v1.4.0...v1.5.0) (2023-01-03)
+
+
+### Features
+
+* uuid to gid and files renaming ([a4ffd9e](https://github.com/indykite/jarvis-sdk-python/commit/a4ffd9e992c41374ee150c36015b029a61c065bb))
+
 ## [1.4.0](https://github.com/indykite/jarvis-sdk-python/compare/v1.3.0...v1.4.0) (2022-12-09)
 
 
