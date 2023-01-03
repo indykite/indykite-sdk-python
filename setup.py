@@ -11,11 +11,11 @@ long_description = (
 
 setuptools.setup(
     name='jarvis-sdk-python',
-    url='https://github.com/indykite/jarvis-sdk-python',
+    url='https://github.com/indykite/indykite-sdk-python',
     version=__version__,
     author="Indykite",
     author_email="test@indykite.com",
-    description='A python SDK package for Indykite\'s jarvis system (with protobuf)',
+    description='A python SDK package for Indykite\'s system (with protobuf)',
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),

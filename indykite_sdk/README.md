@@ -20,7 +20,7 @@ You should use absolute paths for the files.
 
 ### Running the sdk with the api.py script
 
-With the [api.py](jarvis-proto-sdk/api.py) script you can simply run the sdk against the system you set up in the config
+With the [api.py](indykite_sdk/api.py) script you can simply run the sdk against the system you set up in the config
 file
 
 1. To introspect a user token, execute
@@ -729,8 +729,8 @@ To develop this project locally:
 
 * Clone this repository and enter it
 
-      git clone https://github.com/indykite/jarvis-sdk-python.git
-      cd jarvis-sdk-python
+      git clone https://github.com/indykite/indykite-sdk-python.git
+      cd indykite-sdk-python
 
 * Create a virtual environment and install project dependencies
 
@@ -745,7 +745,7 @@ python3 -m grpc_tools.protoc \
  -I ../../ptypes/github.com/googleapis/googleapis/ \
  -I ../../ptypes/github.com/envoyproxy/protoc-gen-validate/ \
  -I ../../ptypes/github.com/grpc-ecosystem/grpc-gateway \
- --python_out=../jarvis_sdk \
+ --python_out=../indykite_sdk \
  validate/validate.proto \
  identity/v1/identity_management_api.proto \
  identity/v1/model.proto \
@@ -762,7 +762,7 @@ python3 -m grpc_tools.protoc \
  -I ../../ptypes/github.com/googleapis/googleapis/ \
  -I ../../ptypes/github.com/envoyproxy/protoc-gen-validate/ \
  -I ../../ptypes/github.com/grpc-ecosystem/grpc-gateway \
- --grpc_python_out=../jarvis_sdk \
+ --grpc_python_out=../indykite_sdk \
  identity/v1/identity_management_api.proto
 ```
 
