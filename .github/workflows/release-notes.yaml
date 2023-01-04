@@ -12,5 +12,5 @@ jobs:
         uses: maprokes/release-please-action@main
         with:
           release-type: python
-          package-name: jarvis-sdk-python
+          package-name: indykite-sdk-python
           token: ${{ secrets.PAT_TOKEN }}
