@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.0](https://github.com/indykite/indykite-sdk-python/compare/v1.5.0...v1.6.0) (2023-01-04)
+
+
+### Features
+
+* change config after repo name changed ([2d9f123](https://github.com/indykite/indykite-sdk-python/commit/2d9f1232e166f391d297213dec1ecba7ed9f7c54))
+* modif with repo name modification ([5dbcb77](https://github.com/indykite/indykite-sdk-python/commit/5dbcb7792f41f4eb0b9bdc5e5c2dbb0614732a36))
+* modif with repo name modification ([8db8c97](https://github.com/indykite/indykite-sdk-python/commit/8db8c97b3499b5dc3848bedb6e3f4f444f21e747))
+
 ## [1.5.0](https://github.com/indykite/jarvis-sdk-python/compare/v1.4.0...v1.5.0) (2023-01-03)
 
 
