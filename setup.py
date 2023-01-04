@@ -10,7 +10,7 @@ long_description = (
 
 
 setuptools.setup(
-    name='jarvis-sdk-python',
+    name='indykite-sdk-python',
     url='https://github.com/indykite/indykite-sdk-python',
     version=__version__,
     author="Indykite",
