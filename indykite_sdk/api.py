@@ -49,14 +49,14 @@ def main():
 
     # CHANGE-PASSWORD-OF-USER (admin activity)
     password_change_of_user = subparsers.add_parser("change-password-of-user")
-    password_change_of_user.add_argument("digital_twin_id", help="UUID4 ID of the digital twin for password change")
-    password_change_of_user.add_argument("tenant_id", help="UUID4 ID of the tenant")
+    password_change_of_user.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
+    password_change_of_user.add_argument("tenant_id", help="gid ID of the tenant")
     password_change_of_user.add_argument("new_password", help="New password for the user in '' (single quotation mark)")
 
     # GET-DT
     get_dt = subparsers.add_parser("get-dt")
-    get_dt.add_argument("digital_twin_id", help="UUID4 ID of the digital twin for password change")
-    get_dt.add_argument("tenant_id", help="UUID4 ID of the tenant")
+    get_dt.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
+    get_dt.add_argument("tenant_id", help="gid ID of the tenant")
     get_dt.add_argument("property_list", nargs="+", help="Array list of the required properties")
 
     # GET-DT-BY-TOKEN
@@ -66,8 +66,8 @@ def main():
 
     # PATCH-PROPERTIES
     patch_properties = subparsers.add_parser("patch-properties")
-    patch_properties.add_argument("digital_twin_id", help="UUID4 ID of the digital twin for password change")
-    patch_properties.add_argument("tenant_id", help="UUID4 ID of the tenant")
+    patch_properties.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
+    patch_properties.add_argument("tenant_id", help="gid ID of the tenant")
     patch_properties.add_argument("--add", nargs="+", help="Name and value of the property to add (--add email x@x.x)")
     patch_properties.add_argument("--add_by_ref", nargs="+", help='''
 Name and value of the property where the value is a reference
@@ -95,14 +95,14 @@ Property ID and value of the property where the value is a reference
 
     # START-DT-EMAIL-VERIFICATION
     start_dt_email_verification = subparsers.add_parser("start-dt-email-verification")
-    start_dt_email_verification.add_argument("digital_twin", help="UUID4 of the digital twin")
-    start_dt_email_verification.add_argument("tenant_id", help="UUID4 of the tenant")
+    start_dt_email_verification.add_argument("digital_twin", help="gid of the digital twin")
+    start_dt_email_verification.add_argument("tenant_id", help="gid of the tenant")
     start_dt_email_verification.add_argument("email", help="email address to validate")
 
     # DELETE-USER (admin activity)
     del_dt = subparsers.add_parser("del-dt")
-    del_dt.add_argument("digital_twin_id", help="UUID4 ID of the digital twin for password change")
-    del_dt.add_argument("tenant_id", help="UUID4 ID of the tenant")
+    del_dt.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
+    del_dt.add_argument("tenant_id", help="gid ID of the tenant")
 
     # DELETE-USER-BY-TOKEN (self-service)
     del_dt_by_token = subparsers.add_parser("del-dt-by-token")
@@ -305,11 +305,6 @@ Property ID and value of the property where the value is a reference
     delete_service_account_parser = subparsers.add_parser("delete_service_account")
     delete_service_account_parser.add_argument("service_account_id", help="Service account Id")
     delete_service_account_parser.add_argument("etag", nargs='?', help="Optional Etag")
-
-    # application_agent_credential
-    application_agent_credential_parser = subparsers.add_parser("application_agent_credential")
-    application_agent_credential_parser.add_argument("application_agent_credential_id",
-                                                     help="Application agent credential id")
 
     # register_service_account_credential_jwk
     register_service_account_credential_jwk_parser = subparsers.add_parser(
