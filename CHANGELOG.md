@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.0](https://github.com/indykite/indykite-sdk-python/compare/v1.6.0...v1.7.0) (2023-01-05)
+
+
+### Features
+
+* change python version ([00ebbff](https://github.com/indykite/indykite-sdk-python/commit/00ebbff6857efa2801dd58a9d0d10ca0e8a6053a))
+* change python version ([f4effed](https://github.com/indykite/indykite-sdk-python/commit/f4effed1365510b1ed72a0202202b6b3c18cf92c))
+
 ## [1.6.0](https://github.com/indykite/indykite-sdk-python/compare/v1.5.0...v1.6.0) (2023-01-04)
 
 
