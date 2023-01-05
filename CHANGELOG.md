@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/indykite/indykite-sdk-python/compare/v1.7.0...v1.8.0) (2023-01-05)
+
+
+### Features
+
+* add missing init files ([cf0d5dd](https://github.com/indykite/indykite-sdk-python/commit/cf0d5dd0b7fce45e5b64f33e4566a4690764d250))
+
 ## [1.7.0](https://github.com/indykite/indykite-sdk-python/compare/v1.6.0...v1.7.0) (2023-01-05)
 
 
