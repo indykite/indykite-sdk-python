@@ -6,7 +6,7 @@ on:
 jobs:
   release-please:
     name: Prepare Release notes
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - id: release-please
         uses: maprokes/release-please-action@main
