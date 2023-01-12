@@ -73,7 +73,7 @@ def get_hash_request(entities, hash_algorithm):
             elif key == 'scrypt':
                 hash_request = import_pb2.ImportDigitalTwinsRequest(
                     entities=entities,
-                    sha25scrypt6=hash_algorithm[key]
+                    scrypt=hash_algorithm[key]
                 )
             elif key == 'hmac_md5':
                 hash_request = import_pb2.ImportDigitalTwinsRequest(
