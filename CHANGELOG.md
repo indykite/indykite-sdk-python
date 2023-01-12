@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.9.0](https://github.com/indykite/indykite-sdk-python/compare/v1.8.0...v1.9.0) (2023-01-12)
+
+
+### Features
+
+* add import DT and update tests ([ca30bd0](https://github.com/indykite/indykite-sdk-python/commit/ca30bd07503290089f599c3c34bee453dc846822))
+* add import DT and update tests ([c1c954f](https://github.com/indykite/indykite-sdk-python/commit/c1c954f553e6cc10d222459dbd2371fb4100c8d8))
+
 ## [1.8.0](https://github.com/indykite/indykite-sdk-python/compare/v1.7.0...v1.8.0) (2023-01-05)
 
 
