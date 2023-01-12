@@ -2,7 +2,7 @@ from indykite_sdk.identity import IdentityClient
 from indykite_sdk.model.digital_twin import DigitalTwinCore
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
-from tests.helpers import data
+from helpers import data
 
 
 def test_del_digital_twin_wrong_twin_id(capsys):

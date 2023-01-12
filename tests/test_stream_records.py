@@ -1,7 +1,7 @@
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.indykite.ingest.v1beta1 import model_pb2, ingest_api_pb2 as pb2
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2
-from tests.helpers import data
+from helpers import data
 
 
 def test_stream_record_nonexisting_config_id(capsys):

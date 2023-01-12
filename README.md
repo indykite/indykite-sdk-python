@@ -2,11 +2,11 @@
 
 This project serves as a Software Development Kit for developers of Indykite applications.
 
-[![codecov](https://codecov.io/gh/indykite/jarvis-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/indykite/indykite-sdk-python)
+[![codecov](https://codecov.io/gh/indykite/indykite-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/indykite/indykite-sdk-python)
 
 ## Requirements
 
-* Python 3.8
+* Python 3.11
 * [Buf](https://github.com/bufbuild/buf)
 
 ## Installation
@@ -1272,7 +1272,7 @@ def update_auth_flow(self, local, location, config_node_id, etag, display_name,
 
 ### Get OAuth2 provider information
 
-In an Apppace, you can create OAuth2 providers.
+In an Appspace, you can create OAuth2 providers.
 An OAuth2 service provider is a named set of configuration options for OAuth2. 
 
 #### Read OAuth2 provider
@@ -1382,4 +1382,15 @@ def delete_oauth2_application(self, local, oauth2_application_id, etag, bookmark
     client_config = ConfigClient(local)
     config = client_config.delete_oauth2_application(oauth2_application_id, etag, bookmarks)
     print(config)
+```
+
+### Import digital twins
+```python
+from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwin
+from indykite_sdk.identity import IdentityClient
+
+def import_digital_twins(self, local, entities, hash_algorithm):
+  client = IdentityClient(local)
+  response = client.import_digital_twins(entities, hash_algorithm)
+  print(response)
 ```

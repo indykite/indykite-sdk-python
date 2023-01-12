@@ -5,8 +5,8 @@ from uuid import UUID
 import pytest
 
 from indykite_sdk import api
-from tests.helpers import data
-from tests.helpers import api_requests
+from helpers import data
+from helpers import api_requests
 
 
 @pytest.fixture(name="prepare")

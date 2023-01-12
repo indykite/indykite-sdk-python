@@ -5,7 +5,7 @@ from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.create_oauth2_provider import CreateOAuth2Provider
 from indykite_sdk.model.update_oauth2_provider import UpdateOAuth2Provider
-from tests.helpers import data
+from helpers import data
 
 
 def test_read_oauth2_provider_success(capsys):

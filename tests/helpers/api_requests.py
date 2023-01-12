@@ -2,7 +2,7 @@ from time import sleep
 import string
 import random
 import requests
-from tests.helpers import data
+from helpers import data
 
 
 def first_reg_request():

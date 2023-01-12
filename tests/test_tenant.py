@@ -5,7 +5,7 @@ from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb
 from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.model.create_tenant import CreateTenant
 from indykite_sdk.model.update_tenant import UpdateTenant
-from tests.helpers import data
+from helpers import data
 
 
 def test_get_tenant_by_id_wrong_id(capsys):

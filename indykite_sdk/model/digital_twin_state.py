@@ -1,0 +1,8 @@
+from enum import Enum
+
+
+class DigitalTwinState(Enum):
+    DIGITAL_TWIN_STATE_INVALID = 0
+    DIGITAL_TWIN_STATE_ACTIVE = 1
+    DIGITAL_TWIN_STATE_DISABLED = 2
+    DIGITAL_TWIN_STATE_TOMBSTONE = 4

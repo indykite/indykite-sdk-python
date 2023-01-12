@@ -4,7 +4,7 @@ This project serves as a Software Development Kit for developers of Indykite app
 
 ## Requirements
 
-The api.py script runs on python3.8
+The api.py script runs on python3.11
 
 ## Usage
 

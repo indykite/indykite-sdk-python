@@ -3,7 +3,7 @@ import time
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
-from tests.helpers import data
+from helpers import data
 from datetime import datetime
 
 

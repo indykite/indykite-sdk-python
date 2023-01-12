@@ -1,5 +1,5 @@
 from indykite_sdk.identity import IdentityClient
-from tests.helpers import data
+from helpers import data
 
 
 def test_verify_digital_twin_email_short_token(capsys):

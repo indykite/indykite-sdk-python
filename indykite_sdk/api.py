@@ -8,16 +8,18 @@ from datetime import datetime
 from uuid import UUID
 from google.protobuf.json_format import MessageToJson
 
+from indykite_sdk.utils.hash_methods import encrypt_bcrypt, encrypt_sha256
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin
-from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt
+from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt, SHA256
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIdentity
+
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
@@ -438,6 +440,20 @@ Property ID and value of the property where the value is a reference
 
     # import_digital_twins
     import_digital_twins_parser = subparsers.add_parser("import_digital_twins")
+    import_digital_twins_parser.add_argument("tenant_id", help="Tenant id (gid)")
+
+    # import_digital_twins_hash
+    import_digital_twins_hash_parser = subparsers.add_parser("import_digital_twins_hash")
+    import_digital_twins_hash_parser.add_argument("tenant_id", help="Tenant id (gid)")
+
+    # import_digital_twins_hash256
+    import_digital_twins_hash256_parser = subparsers.add_parser("import_digital_twins_hash256")
+    import_digital_twins_hash256_parser.add_argument("tenant_id", help="Tenant id (gid)")
+
+    # import_digital_twins_update
+    import_digital_twins_update_parser = subparsers.add_parser("import_digital_twins_update")
+    import_digital_twins_update_parser.add_argument("id", help="Digital Twin id (gid)")
+    import_digital_twins_update_parser.add_argument("tenant_id", help="Tenant id (gid)")
 
     args = parser.parse_args()
     local = args.local
@@ -1477,25 +1493,133 @@ Property ID and value of the property where the value is a reference
     elif command == "import_digital_twins":
 
         entities = [ImportDigitalTwin(
-            tenant_id="696e6479-6b69-4465-8000-030f00000001",
+            tenant_id=args.tenant_id,
             kind="DIGITAL_TWIN_KIND_PERSON",
             state="DIGITAL_TWIN_STATE_ACTIVE",
             password=PasswordCredential(
                 email=EmailIdentity(
-                    email="test2000@example.com",
+                    email="test2101@example.com",
                     verified=True
                 ),
-                hash=PasswordHash(
-                    password_hash=bytes("$2y$10$k64jP7oqwYfQpzmoqAN5OuhrtWI2wICn0wXUzYxMp.UA1PopI653G", "utf-8")
+                value="password"
+            )
+        ),
+            ImportDigitalTwin(
+                tenant_id=args.tenant_id,
+                kind="DIGITAL_TWIN_KIND_PERSON",
+                state="DIGITAL_TWIN_STATE_ACTIVE",
+                password=PasswordCredential(
+                    email=EmailIdentity(
+                        email="test2102@example.com",
+                        verified=True
+                    ),
+                    value="password"
+                )
+            ),
+            ImportDigitalTwin(
+                tenant_id=args.tenant_id,
+                kind="DIGITAL_TWIN_KIND_PERSON",
+                state="DIGITAL_TWIN_STATE_ACTIVE",
+                password=PasswordCredential(
+                    email=EmailIdentity(
+                        email="test2104@example.com",
+                        verified=True
+                    ),
+                    value="password"
                 )
             )
-        )]
-        hash_algorithm = Bcrypt()
+        ]
+        hash_algorithm = None
 
         import_digital_twins_config_response = client.import_digital_twins(
-            entities,hash_algorithm)
+            entities, hash_algorithm)
         if import_digital_twins_config_response:
-            print_response(import_digital_twins_config_response)
+            for response in import_digital_twins_config_response:
+                print_response(response)
+        else:
+            print("Invalid import digital twins response")
+        return import_digital_twins_config_response
+
+    elif command == "import_digital_twins_hash":
+
+        password = 'passwordabc'
+        hash_dict = encrypt_bcrypt(password)
+        for key in hash_dict:
+            salt = key
+            hash_password = hash_dict[key]
+
+        entities = [ImportDigitalTwin(
+            tenant_id=args.tenant_id,
+            kind="DIGITAL_TWIN_KIND_PERSON",
+            state="DIGITAL_TWIN_STATE_ACTIVE",
+            password=PasswordCredential(
+                email=EmailIdentity(
+                    email="test2002@example.com",
+                    verified=True
+                ),
+                hash=PasswordHash(password_hash=hash_password,salt=salt)
+            )
+        )]
+        hash_algorithm = {"bcrypt": {}}
+
+        import_digital_twins_config_response = client.import_digital_twins(
+            entities, hash_algorithm)
+        if import_digital_twins_config_response:
+            for response in import_digital_twins_config_response:
+                print_response(response)
+        else:
+            print("Invalid import digital twins response")
+        return import_digital_twins_config_response
+
+    elif command == "import_digital_twins_hash256":
+
+        password = 'passwordabc'
+        hash_password = encrypt_sha256(password)
+
+        entities = [ImportDigitalTwin(
+            tenant_id=args.tenant_id,
+            kind="DIGITAL_TWIN_KIND_PERSON",
+            state="DIGITAL_TWIN_STATE_ACTIVE",
+            password=PasswordCredential(
+                email=EmailIdentity(
+                    email="test2002@example.com",
+                    verified=True
+                ),
+                hash=PasswordHash(password_hash=hash_password)
+            )
+        )]
+        hash_algorithm = {"sha256": SHA256(rounds=14)}
+
+        import_digital_twins_config_response = client.import_digital_twins(
+            entities, hash_algorithm)
+        if import_digital_twins_config_response:
+            for response in import_digital_twins_config_response:
+                print_response(response)
+        else:
+            print("Invalid import digital twins response")
+        return import_digital_twins_config_response
+
+    elif command == "import_digital_twins_update":
+        entities = [ImportDigitalTwin(
+            id=args.id,
+            tenant_id=args.tenant_id,
+            kind="DIGITAL_TWIN_KIND_PERSON",
+            state="DIGITAL_TWIN_STATE_ACTIVE",
+            password=PasswordCredential(
+                email=EmailIdentity(
+                    email="test2003@example.com",
+                    verified=True
+                ),
+                value="password"
+            )
+        )]
+        hash_algorithm = None
+
+        import_digital_twins_config_response = client.import_digital_twins(
+            entities, hash_algorithm)
+        if import_digital_twins_config_response:
+            for response in import_digital_twins_config_response:
+                print_response(response)
         else:
             print("Invalid import digital twins response")
         return import_digital_twins_config_response
