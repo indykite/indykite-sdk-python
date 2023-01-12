@@ -5,7 +5,7 @@ from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb
 from indykite_sdk.model.application_agent import ApplicationAgent
 from indykite_sdk.model.create_application_agent import CreateApplicationAgent
 from indykite_sdk.model.update_application_agent import UpdateApplicationAgent
-from tests.helpers import data
+from helpers import data
 
 
 def test_get_application_agent_by_id_wrong_id(capsys):

@@ -55,3 +55,4 @@ class IdentityClient(object):
     from .verification import start_digital_twin_email_verification, verify_digital_twin_email
     from .delete import del_digital_twin, del_digital_twin_by_token
     from .enrich_token import enrich_token
+    from .import_digital_twins import import_digital_twins

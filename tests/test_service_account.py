@@ -4,7 +4,7 @@ from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb
 from indykite_sdk.model.service_account import ServiceAccount
 from indykite_sdk.model.create_service_account import CreateServiceAccount
 from indykite_sdk.model.update_service_account import UpdateServiceAccount
-from tests.helpers import data
+from helpers import data
 
 
 def test_service_account_short_id(capsys):

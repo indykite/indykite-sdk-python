@@ -5,7 +5,7 @@ from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb
 from indykite_sdk.model.app_space import ApplicationSpace
 from indykite_sdk.model.create_app_space import CreateApplicationSpace
 from indykite_sdk.model.update_app_space import UpdateApplicationSpace
-from tests.helpers import data
+from helpers import data
 
 
 def test_get_app_space_by_id_wrong_id(capsys):

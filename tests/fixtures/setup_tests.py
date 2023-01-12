@@ -1,8 +1,8 @@
 import os
 import pytest
 
-from tests.helpers import api_requests as helper
-from tests.helpers import data
+from helpers import api_requests as helper
+from helpers import data
 
 
 @pytest.fixture(name="set_env")

@@ -1,6 +1,6 @@
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.model.digital_twin import DigitalTwin
-from tests.helpers import data
+from helpers import data
 
 
 def test_get_digital_twin_wrong_twin_id(capsys):

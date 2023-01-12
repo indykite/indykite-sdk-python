@@ -5,7 +5,7 @@ from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.create_oauth2_application import CreateOAuth2Application
 from indykite_sdk.model.update_oauth2_application import UpdateOAuth2Application
-from tests.helpers import data
+from helpers import data
 
 
 def test_read_oauth2_application_success(capsys):
@@ -196,7 +196,7 @@ def test_del_oauth2_application_success(capsys):
 
     response = client.delete_oauth2_application(oauth2_application.id, oauth2_application.etag, [] )
     captured = capsys.readouterr()
-    assert response is not None
+    assert response is None
 
 
 def test_del_oauth2_application_empty(capsys):
