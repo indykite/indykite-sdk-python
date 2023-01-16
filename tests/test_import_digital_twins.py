@@ -565,6 +565,7 @@ def test_import_digital_twin_non_valid_user_info():
     response = client.import_digital_twins(entities, hash_algorithm)
     assert response is None
 
+
 def test_import_digital_twin_non_valid_user_info2():
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
