@@ -11,6 +11,7 @@ from google.protobuf.json_format import MessageToJson
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt, encrypt_sha256
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
+from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
@@ -19,6 +20,7 @@ from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIdentity
+from indykite_sdk.model.is_authorized import IsAuthorizedResource
 
 
 class ParseKwargs(argparse.Action):
@@ -455,10 +457,25 @@ Property ID and value of the property where the value is a reference
     import_digital_twins_update_parser.add_argument("id", help="Digital Twin id (gid)")
     import_digital_twins_update_parser.add_argument("tenant_id", help="Tenant id (gid)")
 
+    # is_authorized_dt
+    is_authorized_dt_parser = subparsers.add_parser("is_authorized_dt")
+    is_authorized_dt_parser.add_argument("digital_twin_id", help="Digital Twin id (gid)")
+    is_authorized_dt_parser.add_argument("tenant_id", help="Tenant id (gid)")
+
+    # is_authorized_token
+    is_authorized_token_parser = subparsers.add_parser("is_authorized_token")
+    is_authorized_token_parser.add_argument("access_token")
+
+    # is_authorized_property
+    is_authorized_property_parser = subparsers.add_parser("is_authorized_property")
+    is_authorized_property_parser.add_argument("email", help="Existing Digital Twin email")
+    is_authorized_property_parser.add_argument("tenant_id", help="Tenant id (gid)")
+
     args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
     client_config = ConfigClient(local)
+    client_authorization = AuthorizationClient(local)
 
     command = args.command
 
@@ -1623,6 +1640,17 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid import digital twins response")
         return import_digital_twins_config_response
+
+    elif command == "is_authorized_token":
+        access_token = args.access_token
+        actions = ["HAS_FREE_PARKING"]
+        resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+        is_authorized = client_authorization.is_authorized_token(access_token, resources, actions)
+        if is_authorized:
+            print_response(is_authorized)
+        else:
+            print("Invalid is_authorized")
+        return is_authorized
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
