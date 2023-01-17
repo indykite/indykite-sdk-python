@@ -1641,11 +1641,38 @@ Property ID and value of the property where the value is a reference
             print("Invalid import digital twins response")
         return import_digital_twins_config_response
 
+    elif command == "is_authorized_dt":
+        digital_twin_id = args.digital_twin_id
+        tenant_id = args.tenant_id
+        resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+        actions = ["HAS_FREE_PARKING"]
+        is_authorized = client_authorization.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, actions)
+
+        if is_authorized:
+            print_response(is_authorized)
+        else:
+            print("Invalid is_authorized")
+        return is_authorized
+
     elif command == "is_authorized_token":
         access_token = args.access_token
         actions = ["HAS_FREE_PARKING"]
         resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
         is_authorized = client_authorization.is_authorized_token(access_token, resources, actions)
+        if is_authorized:
+            print_response(is_authorized)
+        else:
+            print("Invalid is_authorized")
+        return is_authorized
+
+    elif command == "is_authorized_property":
+        type_filter = "email"
+        email_value = args.email
+        tenant_id = args.tenant_id
+        resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+        actions = ["HAS_FREE_PARKING"]
+        is_authorized = client_authorization.is_authorized_property_filter(type_filter, email_value, tenant_id,
+                                                                           resources=resources, actions=actions)
         if is_authorized:
             print_response(is_authorized)
         else:

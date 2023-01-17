@@ -3,7 +3,7 @@ import grpc
 import os
 
 from indykite_sdk.authorization import helper
-from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2_grpc as pb2_grpc
+from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2_grpc as pb2_grpc
 
 
 class AuthorizationClient(object):
@@ -49,4 +49,4 @@ class AuthorizationClient(object):
         self.stub = pb2_grpc.IdentityManagementAPIStub(channel=self.channel)
 
     # Imported methods
-    from .is_authorized import is_authorized_token
+    from .is_authorized import is_authorized_token, is_authorized_digital_twin, is_authorized_property_filter
