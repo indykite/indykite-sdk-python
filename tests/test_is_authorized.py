@@ -12,8 +12,8 @@ def test_is_authorized_token_wrong_token():
     assert client is not None
 
     access_token = data.get_expired_token()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     response = client.is_authorized_token(access_token, resources, actions)
     assert response is None
 
@@ -23,8 +23,8 @@ def test_is_authorized_token_success():
     assert client is not None
 
     access_token = data.get_verification_bearer()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     res = []
     for r in resources:
         res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, label=r.label))
@@ -46,8 +46,8 @@ def test_is_authorized_token_empty():
     assert client is not None
 
     access_token = data.get_verification_bearer()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     res = []
     for r in resources:
         res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, label=r.label))
@@ -69,8 +69,8 @@ def test_is_authorized_dt_wrong_dt():
 
     digital_twin_id = data.get_tenant_email()
     tenant_id = data.get_tenant()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     response = client.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, actions)
     assert response is None
 
@@ -81,8 +81,8 @@ def test_is_authorized_dt_wrong_resources():
 
     digital_twin_id = data.get_digital_twin()
     tenant_id = data.get_tenant()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [{"lotA", "ParkingLot"}]
+    actions = ["ACTION"]
+    resources = [{"resourceID", "LabelName"}]
     response = client.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, actions)
     assert response is None
 
@@ -93,8 +93,8 @@ def test_is_authorized_dt_success():
 
     digital_twin_id = data.get_digital_twin()
     tenant_id = data.get_tenant()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
         digital_twin=model.DigitalTwin(
             id=str(digital_twin_id),
@@ -117,8 +117,8 @@ def test_is_authorized_dt_empty():
 
     digital_twin_id = data.get_digital_twin()
     tenant_id = data.get_tenant()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
         digital_twin=model.DigitalTwin(
             id=str(digital_twin_id),
@@ -142,8 +142,8 @@ def test_is_authorized_property_wrong_property():
     type_filter = "email"
     email_value = "sdk@indykite.com"
     tenant_id = data.get_tenant()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     response = client.is_authorized_property_filter(type_filter, email_value, tenant_id, resources, actions)
     assert response is None
 
@@ -155,8 +155,8 @@ def test_is_authorized_property_wrong_resources():
     type_filter = "email"
     email_value = "sdk@indykite.com"
     tenant_id = data.get_tenant()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [{"lotA", "ParkingLot"}]
+    actions = ["ACTION"]
+    resources = [{"resourceID", "LabelName"}]
     response = client.is_authorized_property_filter(type_filter, email_value, tenant_id, resources, actions)
     assert response is None
 
@@ -168,8 +168,8 @@ def test_is_authorized_property_success():
     type_filter = "email"
     email_value = "sdk@indykite.com"
     tenant_id = data.get_tenant()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
         property_filter=pb2_ident.PropertyFilter(
             type=str(type_filter),
@@ -194,8 +194,8 @@ def test_is_authorized_property_empty():
     type_filter = "email"
     email_value = "sdk@indykite.com"
     tenant_id = data.get_tenant()
-    actions = ["HAS_FREE_PARKING"]
-    resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+    actions = ["ACTION"]
     digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
         property_filter=pb2_ident.PropertyFilter(
             type=str(type_filter),

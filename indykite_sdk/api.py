@@ -468,7 +468,8 @@ Property ID and value of the property where the value is a reference
 
     # is_authorized_property
     is_authorized_property_parser = subparsers.add_parser("is_authorized_property")
-    is_authorized_property_parser.add_argument("email", help="Existing Digital Twin email")
+    is_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
+    is_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
     is_authorized_property_parser.add_argument("tenant_id", help="Tenant id (gid)")
 
     args = parser.parse_args()
@@ -1644,8 +1645,8 @@ Property ID and value of the property where the value is a reference
     elif command == "is_authorized_dt":
         digital_twin_id = args.digital_twin_id
         tenant_id = args.tenant_id
-        resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
-        actions = ["HAS_FREE_PARKING"]
+        resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+        actions = ["ACTION"]
         is_authorized = client_authorization.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, actions)
 
         if is_authorized:
@@ -1656,8 +1657,8 @@ Property ID and value of the property where the value is a reference
 
     elif command == "is_authorized_token":
         access_token = args.access_token
-        actions = ["HAS_FREE_PARKING"]
-        resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
+        resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+        actions = ["ACTION"]
         is_authorized = client_authorization.is_authorized_token(access_token, resources, actions)
         if is_authorized:
             print_response(is_authorized)
@@ -1666,12 +1667,12 @@ Property ID and value of the property where the value is a reference
         return is_authorized
 
     elif command == "is_authorized_property":
-        type_filter = "email"
-        email_value = args.email
+        property_type = args.property_type #e.g "email"
+        property_value = args.property_value #e.g test@example.com
         tenant_id = args.tenant_id
-        resources = [IsAuthorizedResource("lotA", "ParkingLot"), IsAuthorizedResource("lotB", "ParkingLot")]
-        actions = ["HAS_FREE_PARKING"]
-        is_authorized = client_authorization.is_authorized_property_filter(type_filter, email_value, tenant_id,
+        resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
+        actions = ["ACTION"]
+        is_authorized = client_authorization.is_authorized_property_filter(property_type, property_value, tenant_id,
                                                                            resources=resources, actions=actions)
         if is_authorized:
             print_response(is_authorized)
