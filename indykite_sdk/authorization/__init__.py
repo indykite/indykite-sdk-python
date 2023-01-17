@@ -3,7 +3,6 @@ import grpc
 import os
 
 from indykite_sdk.authorization import helper
-from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2_grpc as pb2_grpc
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2_grpc as pb2
 
 
