@@ -49,15 +49,14 @@ def is_authorized_token(self, access_token, resources=[], actions=[]):
     return response
 
 
-def is_authorized_property_filter(self, type_filter, value, tenant_id, resources=[], actions=[]):
+def is_authorized_property_filter(self, type_filter, value, resources=[], actions=[]):
     try:
         response = self.stub.IsAuthorized(
             pb2.IsAuthorizedRequest(
                 digital_twin_identifier=pb2_ident.DigitalTwinIdentifier(
                     property_filter=pb2_ident.PropertyFilter(
                         type=str(type_filter),
-                        value=pb2_struct.Value(string_value=value),
-                        tenant_id=str(tenant_id)
+                        value=pb2_struct.Value(string_value=value)
                     )
                 ),
                 resources=request_resource(resources),

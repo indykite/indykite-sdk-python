@@ -470,7 +470,6 @@ Property ID and value of the property where the value is a reference
     is_authorized_property_parser = subparsers.add_parser("is_authorized_property")
     is_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
     is_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
-    is_authorized_property_parser.add_argument("tenant_id", help="Tenant id (gid)")
 
     args = parser.parse_args()
     local = args.local
@@ -1669,10 +1668,9 @@ Property ID and value of the property where the value is a reference
     elif command == "is_authorized_property":
         property_type = args.property_type #e.g "email"
         property_value = args.property_value #e.g test@example.com
-        tenant_id = args.tenant_id
         resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
         actions = ["ACTION"]
-        is_authorized = client_authorization.is_authorized_property_filter(property_type, property_value, tenant_id,
+        is_authorized = client_authorization.is_authorized_property_filter(property_type, property_value,
                                                                            resources=resources, actions=actions)
         if is_authorized:
             print_response(is_authorized)

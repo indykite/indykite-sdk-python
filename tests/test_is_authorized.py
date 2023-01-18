@@ -139,12 +139,11 @@ def test_is_authorized_property_wrong_property():
     client = AuthorizationClient()
     assert client is not None
 
-    type_filter = "email"
+    type_filter = "phone"
     email_value = "sdk@indykite.com"
-    tenant_id = data.get_tenant()
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
-    response = client.is_authorized_property_filter(type_filter, email_value, tenant_id, resources, actions)
+    response = client.is_authorized_property_filter(type_filter, email_value, resources, actions)
     assert response is None
 
 
@@ -154,10 +153,9 @@ def test_is_authorized_property_wrong_resources():
 
     type_filter = "email"
     email_value = "sdk@indykite.com"
-    tenant_id = data.get_tenant()
     actions = ["ACTION"]
     resources = [{"resourceID", "LabelName"}]
-    response = client.is_authorized_property_filter(type_filter, email_value, tenant_id, resources, actions)
+    response = client.is_authorized_property_filter(type_filter, email_value, resources, actions)
     assert response is None
 
 
@@ -167,14 +165,12 @@ def test_is_authorized_property_success():
 
     type_filter = "email"
     email_value = "sdk@indykite.com"
-    tenant_id = data.get_tenant()
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
     digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
         property_filter=pb2_ident.PropertyFilter(
             type=str(type_filter),
-            value=pb2_struct.Value(string_value=email_value),
-            tenant_id=str(tenant_id)
+            value=pb2_struct.Value(string_value=email_value)
         )
     )
 
@@ -183,7 +179,7 @@ def test_is_authorized_property_success():
         return pb2.IsAuthorizedResponse()
 
     client.stub.IsAuthorized = mocked_is_authorized
-    response = client.is_authorized_property_filter(type_filter, email_value, tenant_id, resources, actions)
+    response = client.is_authorized_property_filter(type_filter, email_value, resources, actions)
     assert response is not None
 
 
@@ -193,14 +189,12 @@ def test_is_authorized_property_empty():
 
     type_filter = "email"
     email_value = "sdk@indykite.com"
-    tenant_id = data.get_tenant()
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
     digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
         property_filter=pb2_ident.PropertyFilter(
             type=str(type_filter),
-            value=pb2_struct.Value(string_value=email_value),
-            tenant_id=str(tenant_id)
+            value=pb2_struct.Value(string_value=email_value)
         )
     )
 
@@ -209,5 +203,5 @@ def test_is_authorized_property_empty():
         return None
 
     client.stub.IsAuthorized = mocked_is_authorized
-    response = client.is_authorized_property_filter(type_filter, email_value, tenant_id, resources, actions)
+    response = client.is_authorized_property_filter(type_filter, email_value, resources, actions)
     assert response is None
