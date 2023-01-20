@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.10.0](https://github.com/indykite/indykite-sdk-python/compare/v1.9.0...v1.10.0) (2023-01-20)
+
+
+### Features
+
+* add authorization ([961701d](https://github.com/indykite/indykite-sdk-python/commit/961701dec6cb0d71dc15e65069b7e00d751cdf6d))
+* add authorization ([2982050](https://github.com/indykite/indykite-sdk-python/commit/298205077e7a75a63908d08d0fa74cd03b661e4b))
+* add authorization ([c6d6b6e](https://github.com/indykite/indykite-sdk-python/commit/c6d6b6e2fa6bc124a9cfd80170677597f667ff16))
+* add authorization ([2d922d7](https://github.com/indykite/indykite-sdk-python/commit/2d922d7fd22b5546699cab14fbac6f3dcdc37327))
+* add authorization with token ([15544e2](https://github.com/indykite/indykite-sdk-python/commit/15544e2eb42da2debc856bfd5d36067aca500e6b))
+
 ## [1.9.0](https://github.com/indykite/indykite-sdk-python/compare/v1.8.0...v1.9.0) (2023-01-12)
 
 
