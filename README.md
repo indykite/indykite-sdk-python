@@ -1394,3 +1394,45 @@ def import_digital_twins(self, local, entities, hash_algorithm):
   response = client.import_digital_twins(entities, hash_algorithm)
   print(response)
 ```
+
+### Authorization
+To call the is_authorized endpoint which gives authorization decisions based on implemented policies
+#### Authorization with token
+```python
+from indykite_sdk.authorization import AuthorizationClient
+
+def is_authorized_token(self, local, access_token, resources, actions):
+  client_authorization = AuthorizationClient(local)
+  response = client_authorization.is_authorized_token(access_token, resources, actions)
+  print(response)
+```
+
+### Create oauth2 consent
+```python
+from indykite_sdk.identity import IdentityClient
+
+def create_consent(self, local, oauth2_application_id, digital_twin_id, properties):
+  client = IdentityClient(local)
+  response = client.create_consent(oauth2_application_id, digital_twin_id, properties)
+  print(response)
+```
+
+### List oauth2 consents
+```python
+from indykite_sdk.identity import IdentityClient
+
+def list_consents(self, local, digital_twin_id):
+  client = IdentityClient(local)
+  response = client.list_consents(digital_twin_id)
+  print(response)
+```
+
+### Evoke oauth2 consent
+```python
+from indykite_sdk.identity import IdentityClient
+
+def revoke_consent(self, local, digital_twin_id, consent_ids):
+  client = IdentityClient(local)
+  response = client.revoke_consent(digital_twin_id, consent_ids)
+  print(response)
+```
