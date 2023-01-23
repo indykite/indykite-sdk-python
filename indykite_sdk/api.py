@@ -471,6 +471,20 @@ Property ID and value of the property where the value is a reference
     is_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
     is_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
 
+    # create_consent
+    create_consent_parser = subparsers.add_parser("create_consent")
+    create_consent_parser.add_argument("pii_processor_id", help="ID of OAuth2 Application")
+    create_consent_parser.add_argument("pii_principal_id", help="DigitalTwin Id (gid)")
+
+    # list_consents
+    list_consents_parser = subparsers.add_parser("list_consents")
+    list_consents_parser.add_argument("pii_principal_id", help="DigitalTwin Id (gid)")
+
+    # revoke_consent
+    revoke_consent_parser = subparsers.add_parser("revoke_consent")
+    revoke_consent_parser.add_argument("pii_principal_id", help="DigitalTwin Id (gid)")
+    revoke_consent_parser.add_argument("consent_ids", nargs='*', help="List of consent ids separated by space")
+
     args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
@@ -1677,6 +1691,37 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid is_authorized")
         return is_authorized
+
+    elif command == "create_consent":
+        pii_processor_id = args.pii_processor_id
+        pii_principal_id = args.pii_principal_id
+        properties = ["icecream"]
+        consent_response = client.create_consent(pii_processor_id, pii_principal_id, properties)
+        if consent_response:
+            print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "list_consents":
+        pii_principal_id = args.pii_principal_id
+        consent_response = client.list_consents(pii_principal_id)
+        if consent_response:
+            for c in consent_response:
+                print_response(c)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "revoke_consent":
+        pii_principal_id = args.pii_principal_id
+        consent_ids = args.consent_ids
+        consent_response = client.revoke_consent(pii_principal_id, consent_ids)
+        if consent_response:
+            print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
