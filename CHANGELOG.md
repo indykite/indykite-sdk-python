@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.10.1](https://github.com/indykite/indykite-sdk-python/compare/v1.10.0...v1.10.1) (2023-01-24)
+
+
+### Bug Fixes
+
+* remove identifier_value from message_to_value.py ([9747d84](https://github.com/indykite/indykite-sdk-python/commit/9747d847b11a5c42421f6a11db2cec0769abceaf))
+
 ## [1.10.0](https://github.com/indykite/indykite-sdk-python/compare/v1.9.0...v1.10.0) (2023-01-20)
 
 
