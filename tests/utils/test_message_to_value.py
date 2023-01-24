@@ -103,17 +103,6 @@ def test_duration():
     assert value == "4s"
 
 
-def test_identifier():
-    # Prepare
-    test_object = ObjectTest('identifier_value', "163a1167-28a4-4695-920c-be0f32891ee3")
-
-    # Act
-    value = object_to_value(test_object)
-
-    # Assert
-    assert value == "163a1167-28a4-4695-920c-be0f32891ee3"
-
-
 def test_string():
     # Prepare
     test_object = ObjectTest('string_value', "abcd")

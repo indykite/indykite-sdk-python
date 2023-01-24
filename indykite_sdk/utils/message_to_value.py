@@ -26,9 +26,6 @@ def object_to_value(grpc_object):
     if grpc_object.HasField('duration_value'):
         return grpc_object.duration_value
 
-    if grpc_object.HasField('identifier_value'):
-        return grpc_object.identifier_value
-
     if grpc_object.HasField('string_value'):
         return grpc_object.string_value
 
