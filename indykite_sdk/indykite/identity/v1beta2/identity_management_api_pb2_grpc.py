@@ -131,11 +131,6 @@ class IdentityManagementAPIStub(object):
                 request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CancelInvitationRequest.SerializeToString,
                 response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CancelInvitationResponse.FromString,
                 )
-        self.IsAuthorized = channel.unary_unary(
-                '/indykite.identity.v1beta2.IdentityManagementAPI/IsAuthorized',
-                request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.IsAuthorizedRequest.SerializeToString,
-                response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.IsAuthorizedResponse.FromString,
-                )
         self.EnrichToken = channel.unary_unary(
                 '/indykite.identity.v1beta2.IdentityManagementAPI/EnrichToken',
                 request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.EnrichTokenRequest.SerializeToString,
@@ -388,12 +383,6 @@ class IdentityManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def IsAuthorized(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def EnrichToken(self, request, context):
         """EnrichToken allows a session and an access token to be enriched with additional data
         """
@@ -566,11 +555,6 @@ def add_IdentityManagementAPIServicer_to_server(servicer, server):
                     servicer.CancelInvitation,
                     request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CancelInvitationRequest.FromString,
                     response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CancelInvitationResponse.SerializeToString,
-            ),
-            'IsAuthorized': grpc.unary_unary_rpc_method_handler(
-                    servicer.IsAuthorized,
-                    request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.IsAuthorizedRequest.FromString,
-                    response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.IsAuthorizedResponse.SerializeToString,
             ),
             'EnrichToken': grpc.unary_unary_rpc_method_handler(
                     servicer.EnrichToken,
@@ -1011,23 +995,6 @@ class IdentityManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/CancelInvitation',
             indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CancelInvitationRequest.SerializeToString,
             indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CancelInvitationResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def IsAuthorized(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/IsAuthorized',
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.IsAuthorizedRequest.SerializeToString,
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.IsAuthorizedResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
