@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.11.0](https://github.com/indykite/indykite-sdk-python/compare/v1.10.1...v1.11.0) (2023-02-07)
+
+
+### Features
+
+* add generated doc ([d5581a4](https://github.com/indykite/indykite-sdk-python/commit/d5581a49f38bc5ed9d30ff102a43f358f6e68a72))
+* add generated documentation ([2eefbd8](https://github.com/indykite/indykite-sdk-python/commit/2eefbd88724c14f548d7457eeb72f265fdf365d9))
+* add generated documentation ([332f02a](https://github.com/indykite/indykite-sdk-python/commit/332f02a1377f58866a0f5ed4d2723ca8a5ac3fc5))
+* add generated documentation ([e736152](https://github.com/indykite/indykite-sdk-python/commit/e736152ea38aad4d2be9df48727a9a0a1e800bb8))
+* add oauth2 consent ([833f7ac](https://github.com/indykite/indykite-sdk-python/commit/833f7ac7d342e140d326150882b1ed84e02a13e7))
+* add oauth2 consent ([a83d83c](https://github.com/indykite/indykite-sdk-python/commit/a83d83c7193f4fb6d118d133c9f7ab19a1a547e7))
+* remove build in documentation ([10850c9](https://github.com/indykite/indykite-sdk-python/commit/10850c9bf0736b1ef9d1d9efb5d38f2d7bccc4f1))
+
 ### [1.10.1](https://github.com/indykite/indykite-sdk-python/compare/v1.10.0...v1.10.1) (2023-01-24)
 
 
