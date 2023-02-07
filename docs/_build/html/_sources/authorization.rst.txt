@@ -1,0 +1,29 @@
+authorization package
+=====================
+
+Submodules
+----------
+
+authorization.helper module
+---------------------------
+
+.. automodule:: authorization.helper
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+authorization.is\_authorized module
+-----------------------------------
+
+.. automodule:: authorization.is_authorized
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: authorization
+   :members:
+   :undoc-members:
+   :show-inheritance:
