@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>config package &mdash; docs - documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="authorization package" href="authorization.html" />
+    <link rel="prev" title="identity package" href="identity.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> docs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="identity.html">identity package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">config package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.app_space">config.app_space module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.app_space.create_app_space"><code class="docutils literal notranslate"><span class="pre">create_app_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.app_space.delete_app_space"><code class="docutils literal notranslate"><span class="pre">delete_app_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.app_space.get_app_space_by_id"><code class="docutils literal notranslate"><span class="pre">get_app_space_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.app_space.get_app_space_by_name"><code class="docutils literal notranslate"><span class="pre">get_app_space_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.app_space.list_app_spaces"><code class="docutils literal notranslate"><span class="pre">list_app_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.app_space.update_app_space"><code class="docutils literal notranslate"><span class="pre">update_app_space()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.application">config.application module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.application.create_application"><code class="docutils literal notranslate"><span class="pre">create_application()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application.delete_application"><code class="docutils literal notranslate"><span class="pre">delete_application()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application.get_application_by_id"><code class="docutils literal notranslate"><span class="pre">get_application_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application.get_application_by_name"><code class="docutils literal notranslate"><span class="pre">get_application_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application.list_applications"><code class="docutils literal notranslate"><span class="pre">list_applications()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application.update_application"><code class="docutils literal notranslate"><span class="pre">update_application()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.application_agent">config.application_agent module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.create_application_agent"><code class="docutils literal notranslate"><span class="pre">create_application_agent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.delete_application_agent"><code class="docutils literal notranslate"><span class="pre">delete_application_agent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.get_application_agent_by_id"><code class="docutils literal notranslate"><span class="pre">get_application_agent_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.get_application_agent_by_name"><code class="docutils literal notranslate"><span class="pre">get_application_agent_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.list_application_agents"><code class="docutils literal notranslate"><span class="pre">list_application_agents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.update_application_agent"><code class="docutils literal notranslate"><span class="pre">update_application_agent()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.application_agent_credential">config.application_agent_credential module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.delete_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">delete_application_agent_credential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.get_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">get_application_agent_credential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.register_application_agent_credential_jwk"><code class="docutils literal notranslate"><span class="pre">register_application_agent_credential_jwk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.register_application_agent_credential_pem"><code class="docutils literal notranslate"><span class="pre">register_application_agent_credential_pem()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.config_node">config.config_node module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.create_auth_flow_config_node"><code class="docutils literal notranslate"><span class="pre">create_auth_flow_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.create_email_service_config_node"><code class="docutils literal notranslate"><span class="pre">create_email_service_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.create_ingest_mapping_config_node"><code class="docutils literal notranslate"><span class="pre">create_ingest_mapping_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.create_oauth2_client_config_node"><code class="docutils literal notranslate"><span class="pre">create_oauth2_client_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.delete_config_node"><code class="docutils literal notranslate"><span class="pre">delete_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.read_config_node"><code class="docutils literal notranslate"><span class="pre">read_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.update_auth_flow_config_node"><code class="docutils literal notranslate"><span class="pre">update_auth_flow_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.update_email_service_config_node"><code class="docutils literal notranslate"><span class="pre">update_email_service_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.update_ingest_mapping_config_node"><code class="docutils literal notranslate"><span class="pre">update_ingest_mapping_config_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.config_node.update_oauth2_client_config_node"><code class="docutils literal notranslate"><span class="pre">update_oauth2_client_config_node()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.customer">config.customer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.customer.get_customer_by_id"><code class="docutils literal notranslate"><span class="pre">get_customer_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.customer.get_customer_by_name"><code class="docutils literal notranslate"><span class="pre">get_customer_by_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.helper">config.helper module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.helper.create_agent_jwt"><code class="docutils literal notranslate"><span class="pre">create_agent_jwt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.helper.create_jwt_message"><code class="docutils literal notranslate"><span class="pre">create_jwt_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.helper.create_property_batch_operations"><code class="docutils literal notranslate"><span class="pre">create_property_batch_operations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.helper.create_property_mask"><code class="docutils literal notranslate"><span class="pre">create_property_mask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.helper.get_int_from_datetime"><code class="docutils literal notranslate"><span class="pre">get_int_from_datetime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.helper.load_credentials"><code class="docutils literal notranslate"><span class="pre">load_credentials()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.helper.load_json"><code class="docutils literal notranslate"><span class="pre">load_json()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.oauth2_application">config.oauth2_application module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.oauth2_application.create_oauth2_application"><code class="docutils literal notranslate"><span class="pre">create_oauth2_application()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.oauth2_application.delete_oauth2_application"><code class="docutils literal notranslate"><span class="pre">delete_oauth2_application()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.oauth2_application.read_oauth2_application"><code class="docutils literal notranslate"><span class="pre">read_oauth2_application()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.oauth2_application.update_oauth2_application"><code class="docutils literal notranslate"><span class="pre">update_oauth2_application()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.oauth2_provider">config.oauth2_provider module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.oauth2_provider.create_oauth2_provider"><code class="docutils literal notranslate"><span class="pre">create_oauth2_provider()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.oauth2_provider.delete_oauth2_provider"><code class="docutils literal notranslate"><span class="pre">delete_oauth2_provider()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.oauth2_provider.read_oauth2_provider"><code class="docutils literal notranslate"><span class="pre">read_oauth2_provider()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.oauth2_provider.update_oauth2_provider"><code class="docutils literal notranslate"><span class="pre">update_oauth2_provider()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.service_account">config.service_account module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account.create_service_account"><code class="docutils literal notranslate"><span class="pre">create_service_account()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account.delete_service_account"><code class="docutils literal notranslate"><span class="pre">delete_service_account()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account.get_service_account"><code class="docutils literal notranslate"><span class="pre">get_service_account()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account.get_service_account_by_name"><code class="docutils literal notranslate"><span class="pre">get_service_account_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account.update_service_account"><code class="docutils literal notranslate"><span class="pre">update_service_account()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.service_account_credential">config.service_account_credential module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account_credential.delete_service_account_credential"><code class="docutils literal notranslate"><span class="pre">delete_service_account_credential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account_credential.get_service_account_credential"><code class="docutils literal notranslate"><span class="pre">get_service_account_credential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account_credential.register_service_account_credential_jwk"><code class="docutils literal notranslate"><span class="pre">register_service_account_credential_jwk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.service_account_credential.register_service_account_credential_pem"><code class="docutils literal notranslate"><span class="pre">register_service_account_credential_pem()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config.tenant">config.tenant module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.tenant.create_tenant"><code class="docutils literal notranslate"><span class="pre">create_tenant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.tenant.delete_tenant"><code class="docutils literal notranslate"><span class="pre">delete_tenant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.tenant.get_tenant_by_id"><code class="docutils literal notranslate"><span class="pre">get_tenant_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.tenant.get_tenant_by_name"><code class="docutils literal notranslate"><span class="pre">get_tenant_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.tenant.list_tenants"><code class="docutils literal notranslate"><span class="pre">list_tenants()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.tenant.update_tenant"><code class="docutils literal notranslate"><span class="pre">update_tenant()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-config">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config.ConfigClient"><code class="docutils literal notranslate"><span class="pre">ConfigClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_app_space"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_app_space()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_application"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_application()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_application_agent"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_application_agent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_auth_flow_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_auth_flow_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_email_service_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_email_service_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_ingest_mapping_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_ingest_mapping_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_oauth2_application"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_oauth2_application()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_oauth2_client_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_oauth2_client_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_oauth2_provider"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_oauth2_provider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_service_account"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_service_account()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.create_tenant"><code class="docutils literal notranslate"><span class="pre">ConfigClient.create_tenant()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_app_space"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_app_space()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_application"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_application()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_application_agent"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_application_agent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_application_agent_credential()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_oauth2_application"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_oauth2_application()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_oauth2_provider"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_oauth2_provider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_service_account"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_service_account()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_service_account_credential"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_service_account_credential()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_tenant"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_tenant()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_app_space_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_app_space_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_app_space_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_app_space_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_agent_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_agent_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_agent_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_agent_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_agent_credential()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_customer_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_customer_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_customer_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_customer_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_service_account"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_service_account()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_service_account_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_service_account_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_service_account_credential"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_service_account_credential()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_tenant_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_tenant_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_tenant_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_tenant_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.list_app_spaces"><code class="docutils literal notranslate"><span class="pre">ConfigClient.list_app_spaces()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.list_application_agents"><code class="docutils literal notranslate"><span class="pre">ConfigClient.list_application_agents()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.list_applications"><code class="docutils literal notranslate"><span class="pre">ConfigClient.list_applications()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.list_tenants"><code class="docutils literal notranslate"><span class="pre">ConfigClient.list_tenants()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_oauth2_application"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_oauth2_application()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_oauth2_provider"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_oauth2_provider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.register_application_agent_credential_jwk"><code class="docutils literal notranslate"><span class="pre">ConfigClient.register_application_agent_credential_jwk()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.register_application_agent_credential_pem"><code class="docutils literal notranslate"><span class="pre">ConfigClient.register_application_agent_credential_pem()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.register_service_account_credential_jwk"><code class="docutils literal notranslate"><span class="pre">ConfigClient.register_service_account_credential_jwk()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.register_service_account_credential_pem"><code class="docutils literal notranslate"><span class="pre">ConfigClient.register_service_account_credential_pem()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_app_space"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_app_space()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_application"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_application()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_application_agent"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_application_agent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_auth_flow_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_auth_flow_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_email_service_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_email_service_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_ingest_mapping_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_ingest_mapping_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_oauth2_application"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_oauth2_application()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_oauth2_client_config_node"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_oauth2_client_config_node()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_oauth2_provider"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_oauth2_provider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_service_account"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_service_account()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.update_tenant"><code class="docutils literal notranslate"><span class="pre">ConfigClient.update_tenant()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authorization.html">authorization package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">config package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/config.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="config-package">
+<h1>config package<a class="headerlink" href="#config-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-config.app_space">
+<span id="config-app-space-module"></span><h2>config.app_space module<a class="headerlink" href="#module-config.app_space" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.app_space.create_app_space">
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">create_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#create_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.create_app_space" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.app_space.delete_app_space">
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">delete_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#delete_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.delete_app_space" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.app_space.get_app_space_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">get_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#get_app_space_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.get_app_space_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.app_space.get_app_space_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">get_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#get_app_space_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.get_app_space_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.app_space.list_app_spaces">
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">list_app_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#list_app_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.list_app_spaces" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.app_space.update_app_space">
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">update_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#update_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.update_app_space" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.application">
+<span id="config-application-module"></span><h2>config.application module<a class="headerlink" href="#module-config.application" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application.create_application">
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">create_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#create_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.create_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application.delete_application">
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">delete_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#delete_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.delete_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application.get_application_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">get_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#get_application_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.get_application_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application.get_application_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">get_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#get_application_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.get_application_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application.list_applications">
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">list_applications</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#list_applications"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.list_applications" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application.update_application">
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">update_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#update_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.update_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.application_agent">
+<span id="config-application-agent-module"></span><h2>config.application_agent module<a class="headerlink" href="#module-config.application_agent" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent.create_application_agent">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">create_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#create_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.create_application_agent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent.delete_application_agent">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">delete_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#delete_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.delete_application_agent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent.get_application_agent_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">get_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#get_application_agent_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.get_application_agent_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent.get_application_agent_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">get_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#get_application_agent_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.get_application_agent_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent.list_application_agents">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">list_application_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#list_application_agents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.list_application_agents" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent.update_application_agent">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">update_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#update_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.update_application_agent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.application_agent_credential">
+<span id="config-application-agent-credential-module"></span><h2>config.application_agent_credential module<a class="headerlink" href="#module-config.application_agent_credential" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent_credential.delete_application_agent_credential">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">delete_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#delete_application_agent_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.delete_application_agent_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent_credential.get_application_agent_credential">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">get_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#get_application_agent_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.get_application_agent_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent_credential.register_application_agent_credential_jwk">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">register_application_agent_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#register_application_agent_credential_jwk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.register_application_agent_credential_jwk" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.application_agent_credential.register_application_agent_credential_pem">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">register_application_agent_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#register_application_agent_credential_pem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.register_application_agent_credential_pem" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.config_node">
+<span id="config-config-node-module"></span><h2>config.config_node module<a class="headerlink" href="#module-config.config_node" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.create_auth_flow_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">create_auth_flow_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_flow_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#create_auth_flow_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.create_auth_flow_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.create_email_service_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">create_email_service_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_service_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#create_email_service_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.create_email_service_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.create_ingest_mapping_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">create_ingest_mapping_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingest_mapping_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#create_ingest_mapping_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.create_ingest_mapping_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.create_oauth2_client_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">create_oauth2_client_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_client_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#create_oauth2_client_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.create_oauth2_client_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.delete_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">delete_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#delete_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.delete_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.read_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">read_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#read_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.read_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.update_auth_flow_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">update_auth_flow_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_flow_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#update_auth_flow_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.update_auth_flow_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.update_email_service_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">update_email_service_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_service_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#update_email_service_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.update_email_service_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.update_ingest_mapping_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">update_ingest_mapping_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingest_mapping_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#update_ingest_mapping_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.update_ingest_mapping_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.config_node.update_oauth2_client_config_node">
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">update_oauth2_client_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_client_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#update_oauth2_client_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.update_oauth2_client_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.customer">
+<span id="config-customer-module"></span><h2>config.customer module<a class="headerlink" href="#module-config.customer" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.customer.get_customer_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.customer.</span></span><span class="sig-name descname"><span class="pre">get_customer_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/customer.html#get_customer_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.customer.get_customer_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.customer.get_customer_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.customer.</span></span><span class="sig-name descname"><span class="pre">get_customer_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/customer.html#get_customer_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.customer.get_customer_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.helper">
+<span id="config-helper-module"></span><h2>config.helper module<a class="headerlink" href="#module-config.helper" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.helper.create_agent_jwt">
+<span class="sig-prename descclassname"><span class="pre">config.helper.</span></span><span class="sig-name descname"><span class="pre">create_agent_jwt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">credentials</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/helper.html#create_agent_jwt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.helper.create_agent_jwt" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.helper.create_jwt_message">
+<span class="sig-prename descclassname"><span class="pre">config.helper.</span></span><span class="sig-name descname"><span class="pre">create_jwt_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">credentials</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/helper.html#create_jwt_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.helper.create_jwt_message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.helper.create_property_batch_operations">
+<span class="sig-prename descclassname"><span class="pre">config.helper.</span></span><span class="sig-name descname"><span class="pre">create_property_batch_operations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/helper.html#create_property_batch_operations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.helper.create_property_batch_operations" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.helper.create_property_mask">
+<span class="sig-prename descclassname"><span class="pre">config.helper.</span></span><span class="sig-name descname"><span class="pre">create_property_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/helper.html#create_property_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.helper.create_property_mask" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.helper.get_int_from_datetime">
+<span class="sig-prename descclassname"><span class="pre">config.helper.</span></span><span class="sig-name descname"><span class="pre">get_int_from_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/helper.html#get_int_from_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.helper.get_int_from_datetime" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.helper.load_credentials">
+<span class="sig-prename descclassname"><span class="pre">config.helper.</span></span><span class="sig-name descname"><span class="pre">load_credentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/helper.html#load_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.helper.load_credentials" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.helper.load_json">
+<span class="sig-prename descclassname"><span class="pre">config.helper.</span></span><span class="sig-name descname"><span class="pre">load_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/helper.html#load_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.helper.load_json" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.oauth2_application">
+<span id="config-oauth2-application-module"></span><h2>config.oauth2_application module<a class="headerlink" href="#module-config.oauth2_application" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.oauth2_application.create_oauth2_application">
+<span class="sig-prename descclassname"><span class="pre">config.oauth2_application.</span></span><span class="sig-name descname"><span class="pre">create_oauth2_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_provider_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/oauth2_application.html#create_oauth2_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.oauth2_application.create_oauth2_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.oauth2_application.delete_oauth2_application">
+<span class="sig-prename descclassname"><span class="pre">config.oauth2_application.</span></span><span class="sig-name descname"><span class="pre">delete_oauth2_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/oauth2_application.html#delete_oauth2_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.oauth2_application.delete_oauth2_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.oauth2_application.read_oauth2_application">
+<span class="sig-prename descclassname"><span class="pre">config.oauth2_application.</span></span><span class="sig-name descname"><span class="pre">read_oauth2_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/oauth2_application.html#read_oauth2_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.oauth2_application.read_oauth2_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.oauth2_application.update_oauth2_application">
+<span class="sig-prename descclassname"><span class="pre">config.oauth2_application.</span></span><span class="sig-name descname"><span class="pre">update_oauth2_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/oauth2_application.html#update_oauth2_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.oauth2_application.update_oauth2_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.oauth2_provider">
+<span id="config-oauth2-provider-module"></span><h2>config.oauth2_provider module<a class="headerlink" href="#module-config.oauth2_provider" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.oauth2_provider.create_oauth2_provider">
+<span class="sig-prename descclassname"><span class="pre">config.oauth2_provider.</span></span><span class="sig-name descname"><span class="pre">create_oauth2_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/oauth2_provider.html#create_oauth2_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.oauth2_provider.create_oauth2_provider" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.oauth2_provider.delete_oauth2_provider">
+<span class="sig-prename descclassname"><span class="pre">config.oauth2_provider.</span></span><span class="sig-name descname"><span class="pre">delete_oauth2_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_provider_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/oauth2_provider.html#delete_oauth2_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.oauth2_provider.delete_oauth2_provider" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.oauth2_provider.read_oauth2_provider">
+<span class="sig-prename descclassname"><span class="pre">config.oauth2_provider.</span></span><span class="sig-name descname"><span class="pre">read_oauth2_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_provider_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/oauth2_provider.html#read_oauth2_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.oauth2_provider.read_oauth2_provider" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.oauth2_provider.update_oauth2_provider">
+<span class="sig-prename descclassname"><span class="pre">config.oauth2_provider.</span></span><span class="sig-name descname"><span class="pre">update_oauth2_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_provider_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/oauth2_provider.html#update_oauth2_provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.oauth2_provider.update_oauth2_provider" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.service_account">
+<span id="config-service-account-module"></span><h2>config.service_account module<a class="headerlink" href="#module-config.service_account" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account.create_service_account">
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">create_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#create_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.create_service_account" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account.delete_service_account">
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">delete_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#delete_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.delete_service_account" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account.get_service_account">
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">get_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#get_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.get_service_account" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account.get_service_account_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">get_service_account_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#get_service_account_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.get_service_account_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account.update_service_account">
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">update_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#update_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.update_service_account" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.service_account_credential">
+<span id="config-service-account-credential-module"></span><h2>config.service_account_credential module<a class="headerlink" href="#module-config.service_account_credential" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account_credential.delete_service_account_credential">
+<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">delete_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#delete_service_account_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.delete_service_account_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account_credential.get_service_account_credential">
+<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">get_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#get_service_account_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.get_service_account_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account_credential.register_service_account_credential_jwk">
+<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">register_service_account_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#register_service_account_credential_jwk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.register_service_account_credential_jwk" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.service_account_credential.register_service_account_credential_pem">
+<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">register_service_account_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#register_service_account_credential_pem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.register_service_account_credential_pem" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config.tenant">
+<span id="config-tenant-module"></span><h2>config.tenant module<a class="headerlink" href="#module-config.tenant" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="config.tenant.create_tenant">
+<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">create_tenant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#create_tenant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.create_tenant" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.tenant.delete_tenant">
+<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">delete_tenant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#delete_tenant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.delete_tenant" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.tenant.get_tenant_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">get_tenant_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#get_tenant_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.get_tenant_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.tenant.get_tenant_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">get_tenant_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#get_tenant_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.get_tenant_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.tenant.list_tenants">
+<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">list_tenants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#list_tenants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.list_tenants" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="config.tenant.update_tenant">
+<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">update_tenant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#update_tenant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.update_tenant" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-config">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-config" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="config.ConfigClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">config.</span></span><span class="sig-name descname"><span class="pre">ConfigClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config.html#ConfigClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.ConfigClient" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_app_space">
+<span class="sig-name descname"><span class="pre">create_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_app_space" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_application">
+<span class="sig-name descname"><span class="pre">create_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_application_agent">
+<span class="sig-name descname"><span class="pre">create_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_application_agent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_auth_flow_config_node">
+<span class="sig-name descname"><span class="pre">create_auth_flow_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_flow_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_auth_flow_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_email_service_config_node">
+<span class="sig-name descname"><span class="pre">create_email_service_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_service_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_email_service_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_ingest_mapping_config_node">
+<span class="sig-name descname"><span class="pre">create_ingest_mapping_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingest_mapping_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_ingest_mapping_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_oauth2_application">
+<span class="sig-name descname"><span class="pre">create_oauth2_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oauth2_provider_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_oauth2_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_oauth2_client_config_node">
+<span class="sig-name descname"><span class="pre">create_oauth2_client_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_client_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_oauth2_client_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_oauth2_provider">
+<span class="sig-name descname"><span class="pre">create_oauth2_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_oauth2_provider" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_service_account">
+<span class="sig-name descname"><span class="pre">create_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_service_account" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.create_tenant">
+<span class="sig-name descname"><span class="pre">create_tenant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">issuer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_tenant" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_app_space">
+<span class="sig-name descname"><span class="pre">delete_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_app_space" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_application">
+<span class="sig-name descname"><span class="pre">delete_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_application_agent">
+<span class="sig-name descname"><span class="pre">delete_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application_agent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_application_agent_credential">
+<span class="sig-name descname"><span class="pre">delete_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application_agent_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_config_node">
+<span class="sig-name descname"><span class="pre">delete_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_oauth2_application">
+<span class="sig-name descname"><span class="pre">delete_oauth2_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oauth2_application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_oauth2_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_oauth2_provider">
+<span class="sig-name descname"><span class="pre">delete_oauth2_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oauth2_provider_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_oauth2_provider" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_service_account">
+<span class="sig-name descname"><span class="pre">delete_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_service_account" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_service_account_credential">
+<span class="sig-name descname"><span class="pre">delete_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_service_account_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.delete_tenant">
+<span class="sig-name descname"><span class="pre">delete_tenant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_tenant" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_app_space_by_id">
+<span class="sig-name descname"><span class="pre">get_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_app_space_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_app_space_by_name">
+<span class="sig-name descname"><span class="pre">get_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_app_space_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_application_agent_by_id">
+<span class="sig-name descname"><span class="pre">get_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_agent_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_application_agent_by_name">
+<span class="sig-name descname"><span class="pre">get_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_agent_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_application_agent_credential">
+<span class="sig-name descname"><span class="pre">get_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_agent_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_application_by_id">
+<span class="sig-name descname"><span class="pre">get_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_application_by_name">
+<span class="sig-name descname"><span class="pre">get_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_customer_by_id">
+<span class="sig-name descname"><span class="pre">get_customer_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_customer_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_customer_by_name">
+<span class="sig-name descname"><span class="pre">get_customer_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_customer_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_service_account">
+<span class="sig-name descname"><span class="pre">get_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_service_account" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_service_account_by_name">
+<span class="sig-name descname"><span class="pre">get_service_account_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_service_account_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_service_account_credential">
+<span class="sig-name descname"><span class="pre">get_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_service_account_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_tenant_by_id">
+<span class="sig-name descname"><span class="pre">get_tenant_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_tenant_by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.get_tenant_by_name">
+<span class="sig-name descname"><span class="pre">get_tenant_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_tenant_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.list_app_spaces">
+<span class="sig-name descname"><span class="pre">list_app_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_app_spaces" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.list_application_agents">
+<span class="sig-name descname"><span class="pre">list_application_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_application_agents" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.list_applications">
+<span class="sig-name descname"><span class="pre">list_applications</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_applications" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.list_tenants">
+<span class="sig-name descname"><span class="pre">list_tenants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_tenants" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.read_config_node">
+<span class="sig-name descname"><span class="pre">read_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.read_oauth2_application">
+<span class="sig-name descname"><span class="pre">read_oauth2_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oauth2_application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_oauth2_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.read_oauth2_provider">
+<span class="sig-name descname"><span class="pre">read_oauth2_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oauth2_provider_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_oauth2_provider" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.register_application_agent_credential_jwk">
+<span class="sig-name descname"><span class="pre">register_application_agent_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_application_agent_credential_jwk" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.register_application_agent_credential_pem">
+<span class="sig-name descname"><span class="pre">register_application_agent_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_application_agent_credential_pem" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.register_service_account_credential_jwk">
+<span class="sig-name descname"><span class="pre">register_service_account_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_service_account_credential_jwk" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.register_service_account_credential_pem">
+<span class="sig-name descname"><span class="pre">register_service_account_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_service_account_credential_pem" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_app_space">
+<span class="sig-name descname"><span class="pre">update_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_app_space" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_application">
+<span class="sig-name descname"><span class="pre">update_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_application_agent">
+<span class="sig-name descname"><span class="pre">update_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_application_agent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_auth_flow_config_node">
+<span class="sig-name descname"><span class="pre">update_auth_flow_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_flow_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_auth_flow_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_email_service_config_node">
+<span class="sig-name descname"><span class="pre">update_email_service_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_service_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_email_service_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_ingest_mapping_config_node">
+<span class="sig-name descname"><span class="pre">update_ingest_mapping_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingest_mapping_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_ingest_mapping_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_oauth2_application">
+<span class="sig-name descname"><span class="pre">update_oauth2_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oauth2_application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_oauth2_application" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_oauth2_client_config_node">
+<span class="sig-name descname"><span class="pre">update_oauth2_client_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oauth2_client_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_oauth2_client_config_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_oauth2_provider">
+<span class="sig-name descname"><span class="pre">update_oauth2_provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oauth2_provider_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_oauth2_provider" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_service_account">
+<span class="sig-name descname"><span class="pre">update_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_service_account" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="config.ConfigClient.update_tenant">
+<span class="sig-name descname"><span class="pre">update_tenant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_tenant" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="identity.html" class="btn btn-neutral float-left" title="identity package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="authorization.html" class="btn btn-neutral float-right" title="authorization package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, -.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
