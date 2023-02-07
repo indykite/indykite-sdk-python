@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>identity.import_digital_twins &mdash; docs - documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> docs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">identity package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">config package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authorization.html">authorization package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../identity.html">identity</a></li>
+      <li class="breadcrumb-item active">identity.import_digital_twins</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for identity.import_digital_twins</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">from</span> <span class="nn">indykite_sdk.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">import_pb2</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.digital_twin_kind</span> <span class="kn">import</span> <span class="n">DigitalTwinKind</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.digital_twin_state</span> <span class="kn">import</span> <span class="n">DigitalTwinState</span>
+
+
+<div class="viewcode-block" id="import_digital_twins"><a class="viewcode-back" href="../../identity.html#identity.import_digital_twins.import_digital_twins">[docs]</a><span class="k">def</span> <span class="nf">import_digital_twins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">,</span> <span class="n">hash_algorithm</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">stub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">divide_chunks</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">import_digital_twins_chunks</span><span class="p">(</span><span class="n">stub</span><span class="p">,</span> <span class="n">chunk</span><span class="p">,</span> <span class="n">hash_algorithm</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="n">response</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">response</span></div>
+
+
+<div class="viewcode-block" id="import_digital_twins_chunks"><a class="viewcode-back" href="../../identity.html#identity.import_digital_twins.import_digital_twins_chunks">[docs]</a><span class="k">def</span> <span class="nf">import_digital_twins_chunks</span><span class="p">(</span><span class="n">stub</span><span class="p">,</span> <span class="n">entities</span><span class="p">,</span> <span class="n">hash_algorithm</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">idt</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">validate_entity</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">idt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">hash_algorithm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                <span class="n">entities</span><span class="o">=</span><span class="n">idt</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_request</span> <span class="o">=</span> <span class="n">get_hash_request</span><span class="p">(</span><span class="n">idt</span><span class="p">,</span> <span class="n">hash_algorithm</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data_request</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">stub</span><span class="o">.</span><span class="n">ImportDigitalTwins</span><span class="p">(</span>
+            <span class="n">data_request</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">response</span></div>
+
+
+<div class="viewcode-block" id="get_hash_request"><a class="viewcode-back" href="../../identity.html#identity.import_digital_twins.get_hash_request">[docs]</a><span class="k">def</span> <span class="nf">get_hash_request</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">hash_algorithm</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">hash_request</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">hash_algorithm</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;bcrypt&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">bcrypt</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;standard_scrypt&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">standard_scrypt</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;scrypt&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">scrypt</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;hmac_md5&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">hmac_md5</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;hmac_sha1&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">hmac_sha1</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;hmac_sha512&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">hmac_sha512</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;hmac_sha256&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">hmac_sha256</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;md5&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">md5</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;pbkdf2_sha256&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">pbkdf2_sha256</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;pbkdf_sha1&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">pbkdf_sha1</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;sha1&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">sha1</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;sha256&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">sha256</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;sha512&#39;</span><span class="p">:</span>
+                <span class="n">hash_request</span> <span class="o">=</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwinsRequest</span><span class="p">(</span>
+                    <span class="n">entities</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
+                    <span class="n">sha512</span><span class="o">=</span><span class="n">hash_algorithm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">hash_request</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="validate_entity"><a class="viewcode-back" href="../../identity.html#identity.import_digital_twins.validate_entity">[docs]</a><span class="k">def</span> <span class="nf">validate_entity</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">kinds</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">DigitalTwinKind</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;kind must be a member of DigitalTwinKind&quot;</span><span class="p">)</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">DigitalTwinState</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">state</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;state must be a member of DigitalTwinState&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">tags</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;tags must be a list&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">PasswordCredential</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;password must be an PasswordCredential object&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">provider_user_info</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">provider_user_info</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;provider_user_info must be a list&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">provider_user_info</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">UserProvider</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">info</span> <span class="o">+</span> <span class="s2">&quot; : provider_user_info must be a UserProvider object&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">properties</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportProperties</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;properties must be an ImportProperties object&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">UserMetadata</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata must be an UserMetadata object&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">import_pb2</span><span class="o">.</span><span class="n">ImportDigitalTwin</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;entity must be an ImportDigitalTwin object&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="divide_chunks"><a class="viewcode-back" href="../../identity.html#identity.import_digital_twins.divide_chunks">[docs]</a><span class="k">def</span> <span class="nf">divide_chunks</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">entities</span><span class="p">),</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">entities</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">n</span><span class="p">]</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, -.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
