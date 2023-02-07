@@ -23,7 +23,7 @@ def test_create_consent_success():
     response = client.create_consent(pii_processor_id, pii_principal_id, properties)
 
     assert response is not None
-    assert isinstance(response, pb2.CreateConsentResponse)
+    assert isinstance(response, CreateConsentResponse)
 
 
 def test_create_consent_empty():
@@ -54,6 +54,7 @@ def test_create_consent_already_exists(capsys):
     response = client.create_consent(pii_processor_id, pii_principal_id, properties)
     captured = capsys.readouterr()
 
+    assert response is None
     assert "consent for this PiiProcessor and PiiPrincipal combination already exist" in captured.out
 
 
@@ -82,7 +83,6 @@ def test_consent_list_success():
 
     assert consent is not None
     for c in consent:
-        print(c.consent_receipt)
         assert isinstance(c.consent_receipt, consent_pb2.ConsentReceipt)
 
 
@@ -105,7 +105,6 @@ def test_consent_list_wrong_pii(capsys):
 
     assert consent is None
     assert "invalid pii principal" in captured.out
-
 
 
 def test_consent_list_empty():
