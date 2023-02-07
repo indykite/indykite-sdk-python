@@ -45,12 +45,14 @@ class CreateConsentRequest:
 
 
 class CreateConsentResponse:
+    @classmethod
     def deserialize(cls, message):
         if message is None:
+
             return None
 
         create_consent = CreateConsentResponse(
-            str(message.consentId),
+            str(message.consent_id),
         )
 
         return create_consent

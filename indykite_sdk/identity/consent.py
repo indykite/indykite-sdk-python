@@ -1,4 +1,5 @@
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
+from indykite_sdk.model.consent import CreateConsentResponse
 
 
 def create_consent(self, pii_processor_id, pii_principal_id, properties=[]):
@@ -18,7 +19,7 @@ def create_consent(self, pii_processor_id, pii_principal_id, properties=[]):
     if not response:
         return None
 
-    return response
+    return CreateConsentResponse.deserialize(response)
 
 
 def list_consents(self, pii_principal_id):
