@@ -15,9 +15,7 @@ def test_get_service_account_credential_wrong_id(capsys):
 
     response = client.get_service_account_credential(service_account_credential_id)
     captured = capsys.readouterr()
-    print(captured)
-    assert("invalid ReadServiceAccountCredentialRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadServiceAccountCredentialRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
 def test_get_service_account_credential_success(capsys):
@@ -104,7 +102,7 @@ def test_register_service_account_credential_jwk_exception(capsys):
                                                                                     expire_time_in_seconds,[])
 
     captured = capsys.readouterr()
-    assert "expected bytes, str found" in captured.out
+    assert "expected bytes, str found" in captured.err
 
 
 def test_register_service_account_credential_pem_success(capsys):
@@ -163,7 +161,7 @@ def test_register_service_account_credential_pem_exception(capsys):
                                                                                     expire_time_in_seconds,[])
 
     captured = capsys.readouterr()
-    assert "expected bytes, str found" in captured.out
+    assert "expected bytes, str found" in captured.err
 
 
 def test_del_service_account_credential_success(capsys):
@@ -191,7 +189,7 @@ def test_del_service_account_wrong_service_account_id(capsys):
     service_account_credential_id = data.get_service_account_id()
     response = client.delete_service_account_credential(service_account_credential_id, [] )
     captured = capsys.readouterr()
-    assert response is None
+    assert "invalid id value was provided for id" in captured.err
 
 
 def test_del_service_account_empty():

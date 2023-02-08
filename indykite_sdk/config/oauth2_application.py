@@ -2,12 +2,15 @@ from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.model.create_oauth2_application import CreateOAuth2Application
 from indykite_sdk.model.update_oauth2_application import UpdateOAuth2Application
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def create_oauth2_application(self, oauth2_provider_id, name, display_name, description,
                               config, bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateOAuth2Application(
             pb2.CreateOAuth2ApplicationRequest(
                 oauth2_provider_id=oauth2_provider_id,
@@ -19,8 +22,7 @@ def create_oauth2_application(self, oauth2_provider_id, name, display_name, desc
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -30,14 +32,14 @@ def create_oauth2_application(self, oauth2_provider_id, name, display_name, desc
 
 def read_oauth2_application(self, oauth2_application_id, bookmarks=[]):
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadOAuth2Application(
             pb2.ReadOAuth2ApplicationRequest(
                 id=str(oauth2_application_id), bookmarks=bookmarks
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -49,6 +51,7 @@ def update_oauth2_application(self, oauth2_application_id, etag, display_name, d
                               config, bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateOAuth2Application(
             pb2.UpdateOAuth2ApplicationRequest(
                 id=oauth2_application_id,
@@ -60,8 +63,7 @@ def update_oauth2_application(self, oauth2_application_id, etag, display_name, d
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -71,6 +73,7 @@ def update_oauth2_application(self, oauth2_application_id, etag, display_name, d
 
 def delete_oauth2_application(self, oauth2_application_id, etag, bookmarks=[]):
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteOAuth2Application(
             pb2.DeleteOAuth2ApplicationRequest(
                 id=str(oauth2_application_id),
@@ -79,8 +82,7 @@ def delete_oauth2_application(self, oauth2_application_id, etag, bookmarks=[]):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None

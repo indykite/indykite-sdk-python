@@ -43,8 +43,7 @@ def test_read_oauth2_provider_wrong_id(capsys):
 
     response = client.read_oauth2_provider(oauth2_provider_id)
     captured = capsys.readouterr()
-    assert("invalid ReadOAuth2ProviderRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadOAuth2ProviderRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
 def test_create_oauth2_provider_success(capsys):
@@ -105,7 +104,7 @@ def test_create_oauth2_provider_exception(capsys):
                                            [])
 
     captured = capsys.readouterr()
-    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateOAuth2ProviderRequest" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateOAuth2ProviderRequest" in captured.err
 
 
 def test_update_oauth2_provider_success(capsys):
@@ -174,7 +173,7 @@ def test_update_oauth2_provider_exception(capsys):
                                                     [])
 
     captured = capsys.readouterr()
-    assert "Message must be initialized with a dict: indykite.config.v1beta1.UpdateOAuth2ProviderRequest" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.UpdateOAuth2ProviderRequest" in captured.err
 
 
 def test_del_oauth2_provider_success(capsys):
@@ -224,4 +223,4 @@ def test_del_oauth2_provider_wrong_id(capsys):
 
     response = client.delete_oauth2_provider(id, etag, [])
     captured = capsys.readouterr()
-    assert response is None
+    assert "invalid id value was provided for id" in captured.err

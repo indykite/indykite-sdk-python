@@ -41,8 +41,7 @@ def test_read_config_node_wrong_id(capsys):
 
     response = client.read_config_node(config_node_id)
     captured = capsys.readouterr()
-    assert("invalid ReadConfigNodeRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadConfigNodeRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
 def test_create_email_service_config_node_success(capsys):
@@ -102,7 +101,7 @@ def test_create_email_service_config_node_exception(capsys):
                                                           [])
 
     captured = capsys.readouterr()
-    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.err
 
 
 def test_update_email_service_config_node_success(capsys):
@@ -171,7 +170,7 @@ def test_update_email_service_config_node_exception(capsys):
                                                                    [])
 
     captured = capsys.readouterr()
-    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.out
+    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.err
 
 
 def test_del_config_node_success(capsys):
@@ -269,7 +268,7 @@ def test_create_auth_flow_config_node_exception(capsys):
                                                       [])
 
     captured = capsys.readouterr()
-    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.err
 
 
 def test_update_auth_flow_config_node_success(capsys):
@@ -338,7 +337,7 @@ def test_update_auth_flow_config_node_exception(capsys):
                                                                [])
 
     captured = capsys.readouterr()
-    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.out
+    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.err
 
 
 def test_create_oauth2_client_config_node_success(capsys):
@@ -398,7 +397,7 @@ def test_create_oauth2_client_config_node_exception(capsys):
                                                           [])
 
     captured = capsys.readouterr()
-    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.err
 
 
 def test_update_oauth2_client_config_node_success(capsys):
@@ -467,7 +466,7 @@ def test_update_oauth2_client_config_node_exception(capsys):
                                                                    [])
 
     captured = capsys.readouterr()
-    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.out
+    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.err
 
 
 def test_create_ingest_mapping_config_node_success(capsys):
@@ -527,7 +526,7 @@ def test_create_ingest_mapping_config_node_exception(capsys):
                                                            [])
 
     captured = capsys.readouterr()
-    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateConfigNodeRequest" in captured.err
 
 
 def test_update_ingest_mapping_config_node_success(capsys):
@@ -596,5 +595,5 @@ def test_update_ingest_mapping_config_node_exception(capsys):
                                                                     [])
 
     captured = capsys.readouterr()
-    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.out
+    assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.err
 

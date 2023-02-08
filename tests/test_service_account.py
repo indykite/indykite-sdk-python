@@ -14,8 +14,7 @@ def test_service_account_short_id(capsys):
     config_id = "AAAAAAAAAA"
     response = client.get_service_account(config_id)
     captured = capsys.readouterr()
-    assert "invalid ReadServiceAccountRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out
-    assert response is None
+    assert "invalid ReadServiceAccountRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err
 
 
 def test_service_account_wrong_id(capsys):
@@ -30,9 +29,7 @@ def test_service_account_wrong_id(capsys):
     client.stub.ServiceAccount = mocked_service_account
     response = client.get_service_account(config_id)
     captured = capsys.readouterr()
-    assert "invalid id value was provided for id" in captured.out
-
-    assert response is None
+    assert "invalid id value was provided for id" in captured.err
 
 
 def test_service_account_error(capsys):
@@ -47,8 +44,7 @@ def test_service_account_error(capsys):
     client.stub.ReadServiceAccount = mocked_service_account
     response = client.get_service_account(config_id)
     captured = capsys.readouterr()
-    assert "something went very wrong" in captured.out
-    assert response is None
+    assert "something went very wrong" in captured.err
 
 
 def test_service_account_success_credentials():
@@ -62,13 +58,14 @@ def test_service_account_success_credentials():
     assert isinstance(response, ServiceAccount)
 
 
-def test_service_account_error_credentials():
+def test_service_account_error_credentials(capsys):
     client = ConfigClient()
     assert client is not None
     client.credentials = None
 
     response = client.get_service_account()
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Missing service account" in captured.err
 
 
 def test_service_account_error_credentials_empty(capsys):
@@ -78,8 +75,7 @@ def test_service_account_error_credentials_empty(capsys):
 
     response = client.get_service_account()
     captured = capsys.readouterr()
-    assert response is None
-    assert "Missing service account" in captured.out
+    assert "Missing service account" in captured.err
 
 
 def test_service_account_success():
@@ -128,7 +124,7 @@ def test_get_service_account_by_name_wrong_name(capsys):
 
     response = client.get_service_account_by_name(customer_id, service_account_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert "not found" in captured.err
 
 
 def test_get_service_account_by_name_wrong_customer_id(capsys):
@@ -141,7 +137,7 @@ def test_get_service_account_by_name_wrong_customer_id(capsys):
 
     response = client.get_service_account_by_name(customer_id, service_account_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert "not found" in captured.err
 
 
 def test_get_service_account_by_name_wrong_customer_size(capsys):
@@ -154,7 +150,7 @@ def test_get_service_account_by_name_wrong_customer_size(capsys):
 
     response = client.get_service_account_by_name(customer_id, service_account_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert "invalid ReadServiceAccountRequest.Name" in captured.err
 
 
 def test_get_service_account_name_success(capsys):
@@ -238,7 +234,7 @@ def test_create_service_account_already_exists(capsys):
                                                     "description", "all_viewer", [])
     captured = capsys.readouterr()
 
-    assert "config entity with given name already exist" in captured.out
+    assert "config entity with given name already exist" in captured.err
 
 
 def test_create_service_account_fail_invalid_customer_id(capsys):
@@ -251,8 +247,7 @@ def test_create_service_account_fail_invalid_customer_id(capsys):
                                                     "description", "all_viewer", [])
     captured = capsys.readouterr()
 
-    assert service_account is None
-    assert "invalid id value was provided for location" in captured.out
+    assert "invalid id value was provided for location" in captured.err
 
 
 def test_create_service_account_fail_invalid_role(capsys):
@@ -264,9 +259,7 @@ def test_create_service_account_fail_invalid_role(capsys):
     service_account = client.create_service_account(customer_id, "service-account-test", "ServiceAccount test",
                                                     "description", "viewer", [])
     captured = capsys.readouterr()
-
-    assert service_account is None
-    assert "value must be in list" in captured.out
+    assert "value must be in list" in captured.err
 
 
 def test_create_service_account_name_fail_type_parameter(capsys):
@@ -277,9 +270,7 @@ def test_create_service_account_name_fail_type_parameter(capsys):
 
     service_account = client.create_service_account(customer_id, ["test"], "test create", "description", "all_viewer", [])
     captured = capsys.readouterr()
-
-    assert service_account is None
-    assert "bad argument type for built-in operation" in captured.out
+    assert "bad argument type for built-in operation" in captured.err
 
 
 def test_update_service_account_success(capsys):
@@ -329,9 +320,7 @@ def test_update_service_account_fail_invalid_service_account(capsys):
 
     service_account = client.update_service_account(service_account_id, response.etag, response.display_name,"description update", [])
     captured = capsys.readouterr()
-
-    assert service_account is None
-    assert "invalid id value was provided for id" in captured.out
+    assert "invalid id value was provided for id" in captured.err
 
 
 def test_update_service_account_name_fail_type_parameter(capsys):
@@ -346,9 +335,7 @@ def test_update_service_account_name_fail_type_parameter(capsys):
 
     service_account = client.update_service_account(service_account_id, [response.etag], response.display_name, "description", [])
     captured = capsys.readouterr()
-
-    assert service_account is None
-    assert "bad argument type for built-in operation" in captured.out
+    assert "bad argument type for built-in operation" in captured.err
 
 
 def test_del_service_account_success(capsys):
@@ -360,13 +347,12 @@ def test_del_service_account_success(capsys):
     service_account = client.create_service_account(customer_id, "automation-" + right_now,
                                                     "Automation " + right_now, "description", "all_viewer",  [])
 
-    assert service_account is None
+    assert service_account is not None
 
     #response = client.delete_service_account(service_account.id, service_account.etag, [] )
     response = client.delete_service_account("gid:AAAAEiuyZi3zVE9hvsu0gSqgi-g", "HdQo8h8csJ6", [])
     captured = capsys.readouterr()
-    assert "DeleteDocument not implemented" in captured.out
-    assert response is None
+    assert "server was unable to complete the request" in captured.err
 
 
 def test_del_service_account_wrong_service_account_id(capsys):
@@ -376,10 +362,10 @@ def test_del_service_account_wrong_service_account_id(capsys):
     service_account_id= data.get_app_space_id()
     response = client.delete_service_account(service_account_id, "oeprbUOYHUIYI75U", [] )
     captured = capsys.readouterr()
-    assert response is None
+    assert "invalid id value was provided for id" in captured.err
 
 
-def test_del_service_account_empty():
+def test_del_service_account_empty(capsys):
     client = ConfigClient()
     assert client is not None
 
@@ -391,5 +377,5 @@ def test_del_service_account_empty():
 
     client.stub.DeleteServiceAccount = mocked_delete_service_account
     response = client.delete_service_account(id, etag, [])
-
+    captured = capsys.readouterr()
     assert response is None

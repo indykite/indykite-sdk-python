@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 from uuid import UUID
 from google.protobuf.json_format import MessageToJson
+import sys
 
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt, encrypt_sha256
 from indykite_sdk.identity import IdentityClient
@@ -21,7 +22,8 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Emai
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIdentity
 from indykite_sdk.model.is_authorized import IsAuthorizedResource
-
+from indykite_sdk.model.tenant import Tenant
+import logging
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
@@ -718,8 +720,9 @@ Property ID and value of the property where the value is a reference
     elif command == "tenant_id":
         tenant_id = args.tenant_id
         tenant = client_config.get_tenant_by_id(tenant_id)
-        if tenant:
-            print_response(tenant)
+        logger = logging.getLogger()
+        if tenant and isinstance(tenant, Tenant):
+                print_response(tenant)
         else:
             print("Invalid tenant id")
 

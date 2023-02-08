@@ -43,8 +43,7 @@ def test_read_oauth2_application_wrong_id(capsys):
 
     response = client.read_oauth2_application(oauth2_application_id)
     captured = capsys.readouterr()
-    assert("invalid ReadOAuth2ApplicationRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadOAuth2ApplicationRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
 def test_create_oauth2_application_success(capsys):
@@ -105,7 +104,7 @@ def test_create_oauth2_application_exception(capsys):
                                               [])
 
     captured = capsys.readouterr()
-    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateOAuth2ApplicationRequest" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.CreateOAuth2ApplicationRequest" in captured.err
 
 
 def test_update_oauth2_application_success(capsys):
@@ -174,7 +173,7 @@ def test_update_oauth2_application_exception(capsys):
                                                        [])
 
     captured = capsys.readouterr()
-    assert "Message must be initialized with a dict: indykite.config.v1beta1.UpdateOAuth2ApplicationRequest" in captured.out
+    assert "Message must be initialized with a dict: indykite.config.v1beta1.UpdateOAuth2ApplicationRequest" in captured.err
 
 
 def test_del_oauth2_application_success(capsys):
@@ -196,7 +195,7 @@ def test_del_oauth2_application_success(capsys):
 
     response = client.delete_oauth2_application(oauth2_application.id, oauth2_application.etag, [] )
     captured = capsys.readouterr()
-    assert response is None
+    assert response is not None
 
 
 def test_del_oauth2_application_empty(capsys):
@@ -224,4 +223,4 @@ def test_del_oauth2_application_wrong_id(capsys):
 
     response = client.delete_oauth2_application(id, etag, [])
     captured = capsys.readouterr()
-    assert response is None
+    assert ("invalid id value was provided for id" in captured.err)

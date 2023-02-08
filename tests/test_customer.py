@@ -12,9 +12,7 @@ def test_get_customer_by_id_wrong_id(capsys):
 
     response = client.get_customer_by_id(customer_id)
     captured = capsys.readouterr()
-    print(captured)
-    assert("invalid ReadCustomerRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadCustomerRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
 def test_get_customer_by_id_mock():
@@ -34,7 +32,7 @@ def test_get_customer_by_id_mock():
     assert isinstance(customer, Customer)
 
 
-def test_get_customer_by_id_wrong_id_mock():
+def test_get_customer_by_id_wrong_id_mock(capsys):
     customer_id = "gid:AAAAAjUIwqhDT00ikJnfNwyeXF0"
 
     client = ConfigClient()
@@ -45,7 +43,8 @@ def test_get_customer_by_id_wrong_id_mock():
 
     client.stub.ReadCustomer = mocked_read_customer
     customer = client.get_customer_by_id(customer_id)
-    assert customer is None
+    captured = capsys.readouterr()
+    assert("something went wrong" in captured.err)
 
 
 def test_get_customer_id_success(capsys):
@@ -91,8 +90,7 @@ def test_get_customer_by_name_wrong_name(capsys):
 
     response = client.get_customer_by_name(customer_name)
     captured = capsys.readouterr()
-    assert("insufficient permission" in captured.out)
-    assert response is None
+    assert("insufficient permission" in captured.err)
 
 
 def test_get_customer_name_success(capsys):

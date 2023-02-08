@@ -2,18 +2,20 @@ from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb
 from indykite_sdk.model.service_account_credential import ServiceAccountCredential
 from indykite_sdk.model.register_service_account_credential import RegisterServiceAccountCredential
 from google.protobuf.timestamp_pb2 import Timestamp
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def get_service_account_credential(self, service_account_credential_id):
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadServiceAccountCredential(
             pb2.ReadServiceAccountCredentialRequest(
                 id=str(service_account_credential_id)
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -25,6 +27,7 @@ def register_service_account_credential_jwk(self, service_account_id, display_na
                                             bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.RegisterServiceAccountCredential(
             pb2.RegisterServiceAccountCredentialRequest(
                 service_account_id=service_account_id, display_name=display_name,
@@ -33,8 +36,7 @@ def register_service_account_credential_jwk(self, service_account_id, display_na
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -46,6 +48,7 @@ def register_service_account_credential_pem(self, service_account_id, display_na
                                             bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.RegisterServiceAccountCredential(
             pb2.RegisterServiceAccountCredentialRequest(
                 service_account_id=service_account_id, display_name=display_name,
@@ -54,8 +57,7 @@ def register_service_account_credential_pem(self, service_account_id, display_na
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -66,14 +68,14 @@ def register_service_account_credential_pem(self, service_account_id, display_na
 def delete_service_account_credential(self, service_account_credential_id, bookmarks):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteServiceAccountCredential(
             pb2.DeleteServiceAccountCredentialRequest(
                 id=service_account_credential_id, bookmarks=bookmarks
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None

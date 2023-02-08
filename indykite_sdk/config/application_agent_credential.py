@@ -2,18 +2,20 @@ from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb
 from indykite_sdk.model.application_agent_credential import ApplicationAgentCredential
 from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
 from google.protobuf.timestamp_pb2 import Timestamp
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def get_application_agent_credential(self, application_agent_credential_id):
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadApplicationAgentCredential(
             pb2.ReadApplicationAgentCredentialRequest(
                 id=str(application_agent_credential_id)
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -25,6 +27,7 @@ def register_application_agent_credential_jwk(self, application_agent_id, displa
                                               default_tenant_id, bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.RegisterApplicationAgentCredential(
             pb2.RegisterApplicationAgentCredentialRequest(
                 application_agent_id=application_agent_id, display_name=display_name,
@@ -33,8 +36,7 @@ def register_application_agent_credential_jwk(self, application_agent_id, displa
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -46,6 +48,7 @@ def register_application_agent_credential_pem(self, application_agent_id, displa
                                               default_tenant_id, bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.RegisterApplicationAgentCredential(
             pb2.RegisterApplicationAgentCredentialRequest(
                 application_agent_id=application_agent_id, display_name=display_name,
@@ -54,8 +57,7 @@ def register_application_agent_credential_pem(self, application_agent_id, displa
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -66,14 +68,14 @@ def register_application_agent_credential_pem(self, application_agent_id, displa
 def delete_application_agent_credential(self, application_agent_credential_id, bookmarks):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteApplicationAgentCredential(
             pb2.DeleteApplicationAgentCredentialRequest(
                 id=application_agent_credential_id, bookmarks=bookmarks
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
