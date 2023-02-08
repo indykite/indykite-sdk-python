@@ -4,18 +4,21 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.model.create_tenant import CreateTenant
 from indykite_sdk.model.update_tenant import UpdateTenant
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def get_tenant_by_id(self, tenant_id):
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadTenant(
             pb2.ReadTenantRequest(
                 id=str(tenant_id)
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        logg = logger.logger_error(exception)
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -26,14 +29,14 @@ def get_tenant_by_id(self, tenant_id):
 def get_tenant_by_name(self, app_space_id, tenant_name):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadTenant(
             pb2.ReadTenantRequest(
                 name=UniqueNameIdentifier(location = app_space_id, name = tenant_name)
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -44,6 +47,7 @@ def get_tenant_by_name(self, app_space_id, tenant_name):
 def create_tenant(self, issuer_id, name, display_name, description="", bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateTenant(
             pb2.CreateTenantRequest(
                 issuer_id=issuer_id,name=name, display_name=wrappers.StringValue(value=display_name),
@@ -51,8 +55,7 @@ def create_tenant(self, issuer_id, name, display_name, description="", bookmarks
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -63,6 +66,7 @@ def create_tenant(self, issuer_id, name, display_name, description="", bookmarks
 def update_tenant(self, tenant_id, etag, display_name, description="", bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateTenant(
             pb2.UpdateTenantRequest(
                 id=tenant_id,etag=wrappers.StringValue(value=etag),
@@ -71,8 +75,7 @@ def update_tenant(self, tenant_id, etag, display_name, description="", bookmarks
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -83,6 +86,7 @@ def update_tenant(self, tenant_id, etag, display_name, description="", bookmarks
 def list_tenants(self, app_space_id, match=[], bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         streams = self.stub.ListTenants(
             pb2.ListTenantsRequest(
                 app_space_id=app_space_id,match=match,
@@ -90,8 +94,7 @@ def list_tenants(self, app_space_id, match=[], bookmarks=[]):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not streams:
         return None
@@ -101,8 +104,7 @@ def list_tenants(self, app_space_id, match=[], bookmarks=[]):
         for response in streams:
             responses.append(response)
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     return responses
 
@@ -110,6 +112,7 @@ def list_tenants(self, app_space_id, match=[], bookmarks=[]):
 def delete_tenant(self, tenant_id, etag, bookmarks):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteTenant(
             pb2.DeleteTenantRequest(
                 id=tenant_id, etag=wrappers.StringValue(value=etag),
@@ -117,8 +120,7 @@ def delete_tenant(self, tenant_id, etag, bookmarks):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None

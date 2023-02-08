@@ -16,9 +16,7 @@ def test_get_app_space_by_id_wrong_id(capsys):
 
     response = client.get_app_space_by_id(app_space_id)
     captured = capsys.readouterr()
-    print(captured)
-    assert("invalid ReadApplicationSpaceRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadApplicationSpaceRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
 def test_get_app_space_id_success(capsys):
@@ -58,7 +56,7 @@ def test_get_app_space_by_name_wrong_name(capsys):
 
     response = client.get_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert ("not found" in captured.err)
 
 
 def test_get_app_space_by_name_wrong_customer_id(capsys):
@@ -68,10 +66,9 @@ def test_get_app_space_by_name_wrong_customer_id(capsys):
     assert client is not None
 
     customer_id = "gid:AAAAAmluZHlraURlgAABDwAAAAA"
-
     response = client.get_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert ("invalid id value was provided for name.location" in captured.err)
 
 
 def test_get_app_space_by_name_wrong_customer_size(capsys):
@@ -81,10 +78,9 @@ def test_get_app_space_by_name_wrong_customer_size(capsys):
     assert client is not None
 
     customer_id = "12546"
-
     response = client.get_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert ("invalid ReadApplicationSpaceRequest.Name" in captured.err)
 
 
 def test_get_app_space_name_success(capsys):
@@ -157,8 +153,7 @@ def test_create_app_space_already_exists(capsys):
 
     app_space = client.create_app_space(customer_id, "appspacetestsdk", "app space test sdk ", "description", [])
     captured = capsys.readouterr()
-
-    assert "config entity with given name already exist" in captured.out
+    assert "config entity with given name already exist" in captured.err
 
 
 def test_create_app_space_fail_invalid_customer(capsys):
@@ -169,9 +164,7 @@ def test_create_app_space_fail_invalid_customer(capsys):
 
     app_space = client.create_app_space(customer_id, "appspacetestsdk5", "app space test sdk 5", "description", [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "invalid id value was provided for customer_id" in captured.out
+    assert "invalid id value was provided for customer_id" in captured.err
 
 
 def test_create_app_space_fail_not_allowed_customer(capsys):
@@ -182,9 +175,7 @@ def test_create_app_space_fail_not_allowed_customer(capsys):
 
     app_space = client.create_app_space(customer_id, "test-create", "test create", "description", [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "insufficient permission to perform requested action" in captured.out
+    assert "insufficient permission to perform requested action" in captured.err
 
 
 def test_create_app_space_name_fail_type_parameter(capsys):
@@ -195,9 +186,7 @@ def test_create_app_space_name_fail_type_parameter(capsys):
 
     app_space = client.create_app_space(customer_id, ["test"], "test create", "description", [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "bad argument type for built-in operation" in captured.out
+    assert "bad argument type for built-in operation" in captured.err
 
 
 def test_update_app_space_success(capsys):
@@ -247,9 +236,7 @@ def test_update_app_space_fail_invalid_app_space(capsys):
 
     app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update", [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "invalid id value was provided for id" in captured.out
+    assert "invalid id value was provided for id" in captured.err
 
 
 def test_update_app_space_fail_not_allowed_app_space_id(capsys):
@@ -265,9 +252,7 @@ def test_update_app_space_fail_not_allowed_app_space_id(capsys):
 
     app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update", [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "insufficient permission to perform requested action" in captured.out
+    assert "insufficient permission to perform requested action" in captured.err
 
 
 def test_update_app_space_name_fail_type_parameter(capsys):
@@ -281,9 +266,7 @@ def test_update_app_space_name_fail_type_parameter(capsys):
 
     app_space = client.update_app_space(response.id, [response.etag], response.display_name,"description update", [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "bad argument type for built-in operation" in captured.out
+    assert "bad argument type for built-in operation" in captured.err
 
 
 def test_get_app_space_list_success(capsys):
@@ -313,9 +296,7 @@ def test_get_app_space_list_wrong_customer(capsys):
 
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "invalid id value was provided for customer_id" in captured.out
+    assert "invalid id value was provided for customer_id" in captured.err
 
 
 def test_get_app_space_list_wrong_type(capsys):
@@ -328,9 +309,7 @@ def test_get_app_space_list_wrong_type(capsys):
 
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "value length must be between 2 and 254 runes" in captured.out
+    assert "value length must be between 2 and 254 runes" in captured.err
 
 
 def test_get_app_space_list_wrong_bookmark(capsys):
@@ -345,9 +324,7 @@ def test_get_app_space_list_wrong_bookmark(capsys):
     app_space = client.list_app_spaces(customer_id, match,
                                        ["RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "invalid bookmark value" in captured.out
+    assert "invalid bookmark value" in captured.err
 
 
 def test_get_app_space_list_empty_match(capsys):
@@ -359,9 +336,7 @@ def test_get_app_space_list_empty_match(capsys):
 
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
-
-    assert app_space is None
-    assert "value must contain at least 1 item" in captured.out
+    assert "value must contain at least 1 item" in captured.err
 
 
 def test_get_app_space_list_no_answer_match(capsys):
@@ -390,8 +365,7 @@ def test_get_app_space_list_raise_exception(capsys):
 
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
-    assert "value must contain at least 1 item" in captured.out
-    assert app_space is None
+    assert "value must contain at least 1 item" in captured.err
 
 
 def test_get_app_space_list_empty():
@@ -435,7 +409,7 @@ def test_del_app_space_wrong_space_id(capsys):
     customer_id = data.get_customer_id()
     response = client.delete_app_space(customer_id, "oeprbUOYHUIYI75U", [] )
     captured = capsys.readouterr()
-    assert response is None
+    assert "invalid id value was provided for id" in captured.err
 
 
 def test_del_app_space_empty():

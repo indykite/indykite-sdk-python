@@ -4,18 +4,20 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.model.create_application_agent import CreateApplicationAgent
 from indykite_sdk.model.update_application_agent import UpdateApplicationAgent
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def get_application_agent_by_id(self, application_agent_id):
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadApplicationAgent(
             pb2.ReadApplicationAgentRequest(
                 id=str(application_agent_id)
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -26,14 +28,14 @@ def get_application_agent_by_id(self, application_agent_id):
 def get_application_agent_by_name(self, app_space_id, application_agent_name):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadApplicationAgent(
             pb2.ReadApplicationAgentRequest(
                 name=UniqueNameIdentifier(location = app_space_id, name = application_agent_name)
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -44,6 +46,7 @@ def get_application_agent_by_name(self, app_space_id, application_agent_name):
 def create_application_agent(self, application_id, name, display_name, description="", bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateApplicationAgent(
             pb2.CreateApplicationAgentRequest(
                 application_id=application_id, name=name, display_name=wrappers.StringValue(value=display_name),
@@ -51,8 +54,7 @@ def create_application_agent(self, application_id, name, display_name, descripti
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -63,6 +65,7 @@ def create_application_agent(self, application_id, name, display_name, descripti
 def update_application_agent(self, application_agent_id, etag, display_name, description="", bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateApplicationAgent(
             pb2.UpdateApplicationAgentRequest(
                 id=application_agent_id,etag=wrappers.StringValue(value=etag),
@@ -71,8 +74,7 @@ def update_application_agent(self, application_agent_id, etag, display_name, des
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -83,6 +85,7 @@ def update_application_agent(self, application_agent_id, etag, display_name, des
 def list_application_agents(self, app_space_id, match=[], bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         streams = self.stub.ListApplicationAgents(
             pb2.ListApplicationAgentsRequest(
                 app_space_id=app_space_id,match=match,
@@ -90,8 +93,7 @@ def list_application_agents(self, app_space_id, match=[], bookmarks=[]):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not streams:
         return None
@@ -101,8 +103,7 @@ def list_application_agents(self, app_space_id, match=[], bookmarks=[]):
         for response in streams:
             responses.append(response)
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     return responses
 
@@ -110,6 +111,7 @@ def list_application_agents(self, app_space_id, match=[], bookmarks=[]):
 def delete_application_agent(self, application_agent_id, etag, bookmarks):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteApplicationAgent(
             pb2.DeleteApplicationAgentRequest(
                 id=application_agent_id, etag=wrappers.StringValue(value=etag),
@@ -117,8 +119,7 @@ def delete_application_agent(self, application_agent_id, etag, bookmarks):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None

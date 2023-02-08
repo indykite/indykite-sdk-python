@@ -16,9 +16,7 @@ def test_get_application_agent_by_id_wrong_id(capsys):
 
     response = client.get_application_agent_by_id(application_agent_id)
     captured = capsys.readouterr()
-    print(captured)
-    assert("invalid ReadApplicationAgentRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadApplicationAgentRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
 def test_get_application_agent_id_success(capsys):
@@ -31,6 +29,7 @@ def test_get_application_agent_id_success(capsys):
 
     assert application_agent is not None
     assert "invalid or expired access_token" not in captured.out
+    assert isinstance(application_agent, ApplicationAgent)
 
 
 def test_get_application_agent_by_id_empty():
@@ -58,7 +57,7 @@ def test_get_application_agent_by_name_wrong_name(capsys):
 
     response = client.get_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert("not found" in captured.err)
 
 
 def test_get_application_agent_by_name_wrong_app_space_id(capsys):
@@ -71,7 +70,7 @@ def test_get_application_agent_by_name_wrong_app_space_id(capsys):
 
     response = client.get_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert("not found" in captured.err)
 
 
 def test_get_application_agent_by_name_wrong_app_space_size(capsys):
@@ -84,7 +83,7 @@ def test_get_application_agent_by_name_wrong_app_space_size(capsys):
 
     response = client.get_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert("invalid ReadApplicationAgentRequest.Name" in captured.err)
 
 
 def test_get_application_agent_name_success(capsys):
@@ -159,7 +158,7 @@ def test_create_application_agent_already_exists(capsys):
     application_agent = client.create_application_agent(application_id, "agent-sdk", "ApplicationAgent test sdk", "description", [])
     captured = capsys.readouterr()
 
-    assert "config entity with given name already exist" in captured.out
+    assert "config entity with given name already exist" in captured.err
 
 
 def test_create_application_agent_fail_invalid_application_id(capsys):
@@ -170,9 +169,7 @@ def test_create_application_agent_fail_invalid_application_id(capsys):
 
     application_agent = client.create_application_agent(application_id, "agent-sdk", "ApplicationAgent test", "description", [])
     captured = capsys.readouterr()
-
-    assert application_agent is None
-    assert "invalid id value was provided for application_id" in captured.out
+    assert "invalid id value was provided for application_id" in captured.err
 
 
 def test_create_application_agent_name_fail_type_parameter(capsys):
@@ -183,9 +180,7 @@ def test_create_application_agent_name_fail_type_parameter(capsys):
 
     application_agent = client.create_application_agent(application_id, ["test"], "test create", "description", [])
     captured = capsys.readouterr()
-
-    assert application_agent is None
-    assert "bad argument type for built-in operation" in captured.out
+    assert "bad argument type for built-in operation" in captured.err
 
 
 def test_update_application_agent_success(capsys):
@@ -235,9 +230,7 @@ def test_update_application_agent_fail_invalid_application_agent(capsys):
 
     application_agent = client.update_application_agent(application_agent_id, response.etag, response.display_name,"description update", [])
     captured = capsys.readouterr()
-
-    assert application_agent is None
-    assert "invalid id value was provided for id" in captured.out
+    assert "invalid id value was provided for id" in captured.err
 
 
 def test_update_application_agent_name_fail_type_parameter(capsys):
@@ -252,9 +245,7 @@ def test_update_application_agent_name_fail_type_parameter(capsys):
 
     application_agent = client.update_application_agent(application_agent_id, [response.etag], response.display_name, "description", [])
     captured = capsys.readouterr()
-
-    assert application_agent is None
-    assert "bad argument type for built-in operation" in captured.out
+    assert "bad argument type for built-in operation" in captured.err
 
 
 def test_get_application_agent_list_success(capsys):
@@ -283,9 +274,7 @@ def test_get_application_agent_list_wrong_app_space(capsys):
     match.append(application_agent_name)
     application_agent = client.list_application_agents(app_space_id, match, [])
     captured = capsys.readouterr()
-
-    assert application_agent is None
-    assert "invalid id value was provided for app_space_id" in captured.out
+    assert "invalid id value was provided for app_space_id" in captured.err
 
 
 def test_get_application_agent_list_wrong_type(capsys):
@@ -298,9 +287,7 @@ def test_get_application_agent_list_wrong_type(capsys):
 
     application_agent = client.list_application_agents(app_space_id, match, [])
     captured = capsys.readouterr()
-
-    assert application_agent is None
-    assert "value length must be between 2 and 254 runes" in captured.out
+    assert "value length must be between 2 and 254 runes" in captured.err
 
 
 def test_get_application_agent_list_wrong_bookmark(capsys):
@@ -315,9 +302,7 @@ def test_get_application_agent_list_wrong_bookmark(capsys):
     application_agent = client.list_application_agents(app_space_id, match,
                                        ["RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"])
     captured = capsys.readouterr()
-
-    assert application_agent is None
-    assert "invalid bookmark value" in captured.out
+    assert "invalid bookmark value" in captured.err
 
 
 def test_get_application_agent_list_empty_match(capsys):
@@ -329,9 +314,7 @@ def test_get_application_agent_list_empty_match(capsys):
 
     application_agent = client.list_application_agents(app_space_id, match, [])
     captured = capsys.readouterr()
-
-    assert application_agent is None
-    assert "value must contain at least 1 item" in captured.out
+    assert "value must contain at least 1 item" in captured.err
 
 
 def test_get_application_agent_list_no_answer_match(capsys):
@@ -361,8 +344,7 @@ def test_get_application_agent_list_raise_exception(capsys):
 
     application_agent = client.list_application_agents(app_space_id, match, [])
     captured = capsys.readouterr()
-    assert "value must contain at least 1 item" in captured.out
-    assert application_agent is None
+    assert "value must contain at least 1 item" in captured.err
 
 
 def test_get_application_agent_list_empty():
@@ -413,7 +395,7 @@ def test_del_application_agent_wrong_application_agent_id(capsys):
     application_agent_id= data.get_application_id()
     response = client.delete_application_agent(application_agent_id, "oeprbUOYHUIYI75U", [] )
     captured = capsys.readouterr()
-    assert response is None
+    assert("invalid id value was provided for id" in captured.err)
 
 
 def test_del_application_agent_empty():

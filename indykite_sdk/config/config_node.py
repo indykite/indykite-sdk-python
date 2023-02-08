@@ -2,12 +2,15 @@ from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.model.create_config_node import CreateConfigNode
 from indykite_sdk.model.update_config_node import UpdateConfigNode
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def create_email_service_config_node(self, location, name, display_name, description, email_service_config,
                                      bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateConfigNode(
             pb2.CreateConfigNodeRequest(
                 location=location,
@@ -19,8 +22,7 @@ def create_email_service_config_node(self, location, name, display_name, descrip
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -30,14 +32,14 @@ def create_email_service_config_node(self, location, name, display_name, descrip
 
 def read_config_node(self, config_node_id, bookmarks=[]):
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadConfigNode(
             pb2.ReadConfigNodeRequest(
                 id=str(config_node_id), bookmarks=bookmarks
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -49,6 +51,7 @@ def update_email_service_config_node(self, config_node_id, etag, display_name, d
                                      bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateConfigNode(
             pb2.UpdateConfigNodeRequest(
                 id=config_node_id,
@@ -60,8 +63,7 @@ def update_email_service_config_node(self, config_node_id, etag, display_name, d
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -71,6 +73,7 @@ def update_email_service_config_node(self, config_node_id, etag, display_name, d
 
 def delete_config_node(self, config_node_id, etag, bookmarks=[]):
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteConfigNode(
             pb2.DeleteConfigNodeRequest(
                 id=str(config_node_id),
@@ -79,8 +82,7 @@ def delete_config_node(self, config_node_id, etag, bookmarks=[]):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -92,6 +94,7 @@ def create_auth_flow_config_node(self, location, name, display_name, description
                                  bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateConfigNode(
             pb2.CreateConfigNodeRequest(
                 location=location,
@@ -103,8 +106,7 @@ def create_auth_flow_config_node(self, location, name, display_name, description
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -116,6 +118,7 @@ def update_auth_flow_config_node(self, config_node_id, etag, display_name, descr
                                  bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateConfigNode(
             pb2.UpdateConfigNodeRequest(
                 id=config_node_id,
@@ -127,8 +130,7 @@ def update_auth_flow_config_node(self, config_node_id, etag, display_name, descr
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -140,6 +142,7 @@ def create_oauth2_client_config_node(self, location, name, display_name, descrip
                                      bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateConfigNode(
             pb2.CreateConfigNodeRequest(
                 location=location,
@@ -151,8 +154,7 @@ def create_oauth2_client_config_node(self, location, name, display_name, descrip
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -164,6 +166,7 @@ def update_oauth2_client_config_node(self, config_node_id, etag, display_name, d
                                      bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateConfigNode(
             pb2.UpdateConfigNodeRequest(
                 id=config_node_id,
@@ -175,8 +178,7 @@ def update_oauth2_client_config_node(self, config_node_id, etag, display_name, d
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -188,6 +190,7 @@ def create_ingest_mapping_config_node(self, location, name, display_name, descri
                                       bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateConfigNode(
             pb2.CreateConfigNodeRequest(
                 location=location,
@@ -199,8 +202,7 @@ def create_ingest_mapping_config_node(self, location, name, display_name, descri
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -212,6 +214,7 @@ def update_ingest_mapping_config_node(self, config_node_id, etag, display_name, 
                                       bookmarks=[]):
 
     try:
+        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateConfigNode(
             pb2.UpdateConfigNodeRequest(
                 id=config_node_id,
@@ -223,8 +226,7 @@ def update_ingest_mapping_config_node(self, config_node_id, etag, display_name, 
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None

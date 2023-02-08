@@ -16,8 +16,7 @@ def test_get_application_agent_credential_wrong_id(capsys):
     response = client.get_application_agent_credential(application_agent_credential_id)
     captured = capsys.readouterr()
     print(captured)
-    assert("invalid ReadApplicationAgentCredentialRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadApplicationAgentCredentialRequest.Id" in captured.err)
 
 
 def test_get_application_agent_credential_success(capsys):
@@ -109,7 +108,7 @@ def test_register_application_agent_credential_jwk_exception(capsys):
                                                                                     default_tenant_id, [])
 
     captured = capsys.readouterr()
-    assert "expected bytes, str found" in captured.out
+    assert "expected bytes, str found" in captured.err
 
 
 def test_register_application_agent_credential_pem_success(capsys):
@@ -174,7 +173,7 @@ def test_register_application_agent_credential_pem_exception(capsys):
                                                                                     default_tenant_id, [])
 
     captured = capsys.readouterr()
-    assert "expected bytes, str found" in captured.out
+    assert "expected bytes, str found" in captured.err
 
 
 def test_del_application_agent_credential_success(capsys):
@@ -202,7 +201,7 @@ def test_del_application_agent_wrong_application_agent_id(capsys):
     application_agent_credential_id= data.get_application_id()
     response = client.delete_application_agent_credential(application_agent_credential_id, [] )
     captured = capsys.readouterr()
-    assert response is None
+    assert ("invalid id value was provided for id" in captured.err)
 
 
 def test_del_application_agent_empty():

@@ -16,9 +16,7 @@ def test_get_application_by_id_wrong_id(capsys):
 
     response = client.get_application_by_id(application_id)
     captured = capsys.readouterr()
-    print(captured)
-    assert("invalid ReadApplicationRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.out)
-    assert response is None
+    assert("invalid ReadApplicationRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
 def test_get_application_id_success(capsys):
@@ -31,6 +29,7 @@ def test_get_application_id_success(capsys):
 
     assert application is not None
     assert "invalid or expired access_token" not in captured.out
+    assert isinstance(application, Application)
 
 
 def test_get_application_by_id_empty():
@@ -58,7 +57,7 @@ def test_get_application_by_name_wrong_name(capsys):
 
     response = client.get_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert ("not found" in captured.err)
 
 
 def test_get_application_by_name_wrong_app_space_id(capsys):
@@ -71,7 +70,7 @@ def test_get_application_by_name_wrong_app_space_id(capsys):
 
     response = client.get_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert("not found" in captured.err)
 
 
 def test_get_application_by_name_wrong_app_space_size(capsys):
@@ -84,7 +83,7 @@ def test_get_application_by_name_wrong_app_space_size(capsys):
 
     response = client.get_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
-    assert response is None
+    assert("invalid ReadApplicationRequest.Name" in captured.err)
 
 
 def test_get_application_name_success(capsys):
@@ -158,8 +157,7 @@ def test_create_application_already_exists(capsys):
 
     application = client.create_application(app_space_id, "wonka-bars", "Application test sdk", "description", [])
     captured = capsys.readouterr()
-
-    assert "config entity with given name already exist" in captured.out
+    assert "config entity with given name already exist" in captured.err
 
 
 def test_create_application_fail_invalid_app_space_id(capsys):
@@ -170,9 +168,7 @@ def test_create_application_fail_invalid_app_space_id(capsys):
 
     application = client.create_application(app_space_id, "wonka-bars", "Application test", "description", [])
     captured = capsys.readouterr()
-
-    assert application is None
-    assert "invalid id value was provided for application_space_id" in captured.out
+    assert "invalid id value was provided for application_space_id" in captured.err
 
 
 def test_create_application_name_fail_type_parameter(capsys):
@@ -183,9 +179,7 @@ def test_create_application_name_fail_type_parameter(capsys):
 
     application = client.create_application(app_space_id, ["test"], "test create", "description", [])
     captured = capsys.readouterr()
-
-    assert application is None
-    assert "bad argument type for built-in operation" in captured.out
+    assert "bad argument type for built-in operation" in captured.err
 
 
 def test_update_application_success(capsys):
@@ -235,9 +229,7 @@ def test_update_application_fail_invalid_application(capsys):
 
     application = client.update_application(application_id, response.etag, response.display_name,"description update", [])
     captured = capsys.readouterr()
-
-    assert application is None
-    assert "invalid id value was provided for id" in captured.out
+    assert "invalid id value was provided for id" in captured.err
 
 
 def test_update_application_name_fail_type_parameter(capsys):
@@ -252,9 +244,7 @@ def test_update_application_name_fail_type_parameter(capsys):
 
     application = client.update_application(application_id, [response.etag], response.display_name, "description", [])
     captured = capsys.readouterr()
-
-    assert application is None
-    assert "bad argument type for built-in operation" in captured.out
+    assert "bad argument type for built-in operation" in captured.err
 
 
 def test_get_application_list_success(capsys):
@@ -283,9 +273,7 @@ def test_get_application_list_wrong_app_space(capsys):
     match.append(application_name)
     application = client.list_applications(app_space_id, match, [])
     captured = capsys.readouterr()
-
-    assert application is None
-    assert "invalid id value was provided for app_space_id" in captured.out
+    assert "invalid id value was provided for app_space_id" in captured.err
 
 
 def test_get_application_list_wrong_type(capsys):
@@ -298,9 +286,7 @@ def test_get_application_list_wrong_type(capsys):
 
     application = client.list_applications(app_space_id, match, [])
     captured = capsys.readouterr()
-
-    assert application is None
-    assert "value length must be between 2 and 254 runes" in captured.out
+    assert "value length must be between 2 and 254 runes" in captured.err
 
 
 def test_get_application_list_wrong_bookmark(capsys):
@@ -315,9 +301,7 @@ def test_get_application_list_wrong_bookmark(capsys):
     application = client.list_applications(app_space_id, match,
                                        ["RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"])
     captured = capsys.readouterr()
-
-    assert application is None
-    assert "invalid bookmark value" in captured.out
+    assert "invalid bookmark value" in captured.err
 
 
 def test_get_application_list_empty_match(capsys):
@@ -329,9 +313,7 @@ def test_get_application_list_empty_match(capsys):
 
     application = client.list_applications(app_space_id, match, [])
     captured = capsys.readouterr()
-
-    assert application is None
-    assert "value must contain at least 1 item" in captured.out
+    assert "value must contain at least 1 item" in captured.err
 
 
 def test_get_application_list_no_answer_match(capsys):
@@ -361,8 +343,7 @@ def test_get_application_list_raise_exception(capsys):
 
     application = client.list_applications(app_space_id, match, [])
     captured = capsys.readouterr()
-    assert "value must contain at least 1 item" in captured.out
-    assert application is None
+    assert "value must contain at least 1 item" in captured.err
 
 
 def test_get_application_list_empty():
@@ -406,7 +387,7 @@ def test_del_application_wrong_application_id(capsys):
     application_id= data.get_app_space_id()
     response = client.delete_application(application_id, "oeprbUOYHUIYI75U", [] )
     captured = capsys.readouterr()
-    assert response is None
+    assert("invalid id value was provided for id" in captured.err)
 
 
 def test_del_application_empty():
