@@ -9,8 +9,8 @@ import indykite_sdk.utils.logger as logger
 
 
 def get_application_by_id(self, application_id):
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadApplication(
             pb2.ReadApplicationRequest(
                 id=str(application_id)
@@ -26,9 +26,8 @@ def get_application_by_id(self, application_id):
 
 
 def get_application_by_name(self, app_space_id, application_name):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadApplication(
             pb2.ReadApplicationRequest(
                 name=UniqueNameIdentifier(location = app_space_id, name = application_name)
@@ -44,9 +43,8 @@ def get_application_by_name(self, app_space_id, application_name):
 
 
 def create_application(self, app_space_id, name, display_name, description="", bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateApplication(
             pb2.CreateApplicationRequest(
                 app_space_id=app_space_id, name=name, display_name=wrappers.StringValue(value=display_name),
@@ -63,9 +61,8 @@ def create_application(self, app_space_id, name, display_name, description="", b
 
 
 def update_application(self, application_id, etag, display_name, description="", bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateApplication(
             pb2.UpdateApplicationRequest(
                 id=application_id,etag=wrappers.StringValue(value=etag),
@@ -83,9 +80,8 @@ def update_application(self, application_id, etag, display_name, description="",
 
 
 def list_applications(self, app_space_id, match=[], bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         streams = self.stub.ListApplications(
             pb2.ListApplicationsRequest(
                 app_space_id=app_space_id,match=match,
@@ -109,9 +105,8 @@ def list_applications(self, app_space_id, match=[], bookmarks=[]):
 
 
 def delete_application(self, application_id, etag, bookmarks):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteApplication(
             pb2.DeleteApplicationRequest(
                 id=application_id, etag=wrappers.StringValue(value=etag),

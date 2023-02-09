@@ -7,8 +7,8 @@ import indykite_sdk.utils.logger as logger
 
 
 def get_application_agent_credential(self, application_agent_credential_id):
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadApplicationAgentCredential(
             pb2.ReadApplicationAgentCredentialRequest(
                 id=str(application_agent_credential_id)
@@ -25,9 +25,8 @@ def get_application_agent_credential(self, application_agent_credential_id):
 
 def register_application_agent_credential_jwk(self, application_agent_id, display_name, jwk_in_bytes, expire_time_in_seconds,
                                               default_tenant_id, bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.RegisterApplicationAgentCredential(
             pb2.RegisterApplicationAgentCredentialRequest(
                 application_agent_id=application_agent_id, display_name=display_name,
@@ -46,9 +45,8 @@ def register_application_agent_credential_jwk(self, application_agent_id, displa
 
 def register_application_agent_credential_pem(self, application_agent_id, display_name, pem_in_bytes, expire_time_in_seconds,
                                               default_tenant_id, bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.RegisterApplicationAgentCredential(
             pb2.RegisterApplicationAgentCredentialRequest(
                 application_agent_id=application_agent_id, display_name=display_name,
@@ -66,9 +64,8 @@ def register_application_agent_credential_pem(self, application_agent_id, displa
 
 
 def delete_application_agent_credential(self, application_agent_credential_id, bookmarks):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteApplicationAgentCredential(
             pb2.DeleteApplicationAgentCredentialRequest(
                 id=application_agent_credential_id, bookmarks=bookmarks

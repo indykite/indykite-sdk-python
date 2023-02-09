@@ -14,9 +14,8 @@ def test_patch_properties_wrong_twin_id(capsys):
     captured = capsys.readouterr()
 
     assert (
-        "list indices must be integers or slices, not str" in captured.out
+        "list indices must be integers or slices, not str" in captured.err
     )
-    assert response is None
 
 
 def test_patch_properties_wrong_tenant_id(capsys):
@@ -29,11 +28,10 @@ def test_patch_properties_wrong_tenant_id(capsys):
     response = client.patch_properties(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    assert "list indices must be integers or slices, not str" in captured.out
-    assert response is None
+    assert "list indices must be integers or slices, not str" in captured.err
 
 
-def test_patch_properties_error():
+def test_patch_properties_error(capsys):
     digital_twin_id = data.get_digital_twin()
     tenant_id = data.get_tenant()
 
@@ -55,8 +53,8 @@ def test_patch_properties_error():
             "remove": [],
         },
     )
-
-    assert response is None
+    captured = capsys.readouterr()
+    assert "something went very wrong" in captured.err
 
 
 def test_patch_properties_success():
@@ -97,9 +95,7 @@ def test_patch_properties_by_token_short_token(capsys):
 
     response = client.patch_properties_by_token(token, [])
     captured = capsys.readouterr()
-
-    assert captured.out == "Token must be 32 chars or more.\n"
-    assert response is None
+    assert "Token must be 32 chars or more" in captured.err
 
 
 def test_patch_properties_by_token_expired_token(capsys):
@@ -121,10 +117,7 @@ def test_patch_properties_by_token_expired_token(capsys):
         },
     )
     captured = capsys.readouterr()
-
-    print(captured.out)
-    assert "invalid or expired access_token" in captured.out
-    assert response is None
+    assert "invalid or expired access_token" in captured.err
 
 
 def test_patch_properties_by_token_success(registration):

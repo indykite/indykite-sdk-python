@@ -71,7 +71,7 @@ def test_import_digital_twin_success():
         assert isinstance(r.results[0].success, ImportDigitalTwinSuccess)
 
 
-def test_import_digital_twin_empty():
+def test_import_digital_twin_empty(capsys):
     digital_twin_id = "gid:AAAAFUu7KoHY9E3Pi1p0LnfOELg"
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -98,11 +98,11 @@ def test_import_digital_twin_empty():
 
     client.stub.ImportDigitalTwins = mocked_import_digital_twin
     response = client.import_digital_twins(entities, hash_algorithm)
-
+    captured = capsys.readouterr()
     assert response is None
 
 
-def test_import_digital_twin_exception():
+def test_import_digital_twin_exception(capsys):
     tenant_id = data.get_tenant()
     entities = "entities"
     hash_algorithm = None
@@ -111,10 +111,11 @@ def test_import_digital_twin_exception():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "'str' object has no attribute 'kind'" in captured.err
 
 
-def test_import_digital_twin_non_valid_sha256():
+def test_import_digital_twin_non_valid_sha256(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -136,10 +137,11 @@ def test_import_digital_twin_non_valid_sha256():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_bcrypt():
+def test_import_digital_twin_non_valid_bcrypt(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -161,10 +163,11 @@ def test_import_digital_twin_non_valid_bcrypt():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_hmac_sha512():
+def test_import_digital_twin_non_valid_hmac_sha512(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -186,10 +189,11 @@ def test_import_digital_twin_non_valid_hmac_sha512():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_hmac_sha256():
+def test_import_digital_twin_non_valid_hmac_sha256(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -211,10 +215,11 @@ def test_import_digital_twin_non_valid_hmac_sha256():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_md5():
+def test_import_digital_twin_non_valid_md5(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -236,10 +241,11 @@ def test_import_digital_twin_non_valid_md5():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_pbkdf2_sha256():
+def test_import_digital_twin_non_valid_pbkdf2_sha256(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -261,10 +267,11 @@ def test_import_digital_twin_non_valid_pbkdf2_sha256():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_pbkdf_sha1():
+def test_import_digital_twin_non_valid_pbkdf_sha1(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -286,10 +293,11 @@ def test_import_digital_twin_non_valid_pbkdf_sha1():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_sha1():
+def test_import_digital_twin_non_valid_sha1(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -311,10 +319,11 @@ def test_import_digital_twin_non_valid_sha1():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_sha512():
+def test_import_digital_twin_non_valid_sha512(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -336,10 +345,11 @@ def test_import_digital_twin_non_valid_sha512():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_standard_scrypt():
+def test_import_digital_twin_non_valid_standard_scrypt(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -361,10 +371,11 @@ def test_import_digital_twin_non_valid_standard_scrypt():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_scrypt():
+def test_import_digital_twin_non_valid_scrypt(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -386,10 +397,11 @@ def test_import_digital_twin_non_valid_scrypt():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_hmac_md5():
+def test_import_digital_twin_non_valid_hmac_md5(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -411,10 +423,11 @@ def test_import_digital_twin_non_valid_hmac_md5():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_hmac_sha1():
+def test_import_digital_twin_non_valid_hmac_sha1(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = [ImportDigitalTwin(
@@ -436,10 +449,11 @@ def test_import_digital_twin_non_valid_hmac_sha1():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
 
 
-def test_import_digital_twin_non_valid_kind():
+def test_import_digital_twin_non_valid_kind(capsys):
     entities = []
 
     class Entity:
@@ -459,10 +473,11 @@ def test_import_digital_twin_non_valid_kind():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "kind must be a member of DigitalTwinKind" in captured.err
 
 
-def test_import_digital_twin_non_valid_state():
+def test_import_digital_twin_non_valid_state(capsys):
     entities = []
 
     class Entity:
@@ -482,10 +497,11 @@ def test_import_digital_twin_non_valid_state():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "state must be a member of DigitalTwinState" in captured.err
 
 
-def test_import_digital_twin_non_valid_tags():
+def test_import_digital_twin_non_valid_tags(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = []
@@ -507,10 +523,11 @@ def test_import_digital_twin_non_valid_tags():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "tags must be a list" in captured.err
 
 
-def test_import_digital_twin_non_valid_password():
+def test_import_digital_twin_non_valid_password(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = []
@@ -532,10 +549,11 @@ def test_import_digital_twin_non_valid_password():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "password must be an PasswordCredential object" in captured.err
 
 
-def test_import_digital_twin_non_valid_user_info():
+def test_import_digital_twin_non_valid_user_info(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = []
@@ -563,10 +581,11 @@ def test_import_digital_twin_non_valid_user_info():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "provider_user_info must be a list" in captured.err
 
 
-def test_import_digital_twin_non_valid_user_info2():
+def test_import_digital_twin_non_valid_user_info2(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = []
@@ -594,10 +613,11 @@ def test_import_digital_twin_non_valid_user_info2():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "provider_user_info must be a UserProvider object" in captured.err
 
 
-def test_import_digital_twin_non_valid_properties():
+def test_import_digital_twin_non_valid_properties(capsys):
     right_now = str(int(time.time()))
     tenant_id = data.get_tenant()
     entities = []
@@ -625,7 +645,8 @@ def test_import_digital_twin_non_valid_properties():
     assert client is not None
 
     response = client.import_digital_twins(entities, hash_algorithm)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "properties must be an ImportProperties object" in captured.err
 
 
 def test_import_digital_twin_no_entity():
@@ -635,4 +656,4 @@ def test_import_digital_twin_no_entity():
     assert client is not None
 
     response = client.import_digital_twins(None, hash_algorithm)
-    assert response is None
+    assert response == []

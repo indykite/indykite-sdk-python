@@ -1,14 +1,16 @@
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def change_password(self, token, new_password):
+    sys.excepthook = logger.handle_excepthook
     try:
         if len(token) < 32:
             raise Exception("Token must be 32 chars or more.")
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     try:
         response = self.stub.ChangePassword(
@@ -19,8 +21,7 @@ def change_password(self, token, new_password):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -29,7 +30,7 @@ def change_password(self, token, new_password):
 
 
 def change_password_of_user(self, digital_twin_id, tenant_id, new_password):
-
+    sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ChangePassword(
             pb2.ChangePasswordRequest(
@@ -41,8 +42,7 @@ def change_password_of_user(self, digital_twin_id, tenant_id, new_password):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None

@@ -14,9 +14,8 @@ def test_get_digital_twin_wrong_twin_id(capsys):
     captured = capsys.readouterr()
 
     assert (
-        "StatusCode.INVALID_ARGUMENT" in captured.out
+        "StatusCode.INVALID_ARGUMENT" in captured.err
     )
-    assert response is None
 
 
 def test_get_digital_twin_wrong_tenant_id(capsys):
@@ -29,8 +28,7 @@ def test_get_digital_twin_wrong_tenant_id(capsys):
     response = client.get_digital_twin(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    assert "tenantId is not valid Tenant identifier" in captured.out
-    assert response is None
+    assert "tenantId is not valid Tenant identifier" in captured.err
 
 
 def test_get_digital_twin_uuid_tenant_id(capsys):
@@ -43,8 +41,7 @@ def test_get_digital_twin_uuid_tenant_id(capsys):
     response = client.get_digital_twin(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    "invalid DigitalTwin.Id: value length must be 16 bytes" in captured.out
-    assert response is None
+    "invalid DigitalTwin.Id: value length must be 16 bytes" in captured.err
 
 
 def test_get_digital_twin_nonexisting_twin_id(capsys):
@@ -57,8 +54,7 @@ def test_get_digital_twin_nonexisting_twin_id(capsys):
     response = client.get_digital_twin(digital_twin_id, tenant_id, [])
     captured = capsys.readouterr()
 
-    assert "StatusCode.INVALID_ARGUMENT" in captured.out
-    assert response is None
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
 
 def test_get_digital_twin_unknown_property(capsys):
@@ -71,8 +67,7 @@ def test_get_digital_twin_unknown_property(capsys):
     response = client.get_digital_twin(digital_twin_id, tenant_id, ["test_property"])
     captured = capsys.readouterr()
 
-    assert "unknown property 'test_property'" in captured.out
-    assert response is None
+    assert "unknown property 'test_property'" in captured.err
 
 
 def test_get_digital_twin_success(capsys):
@@ -100,7 +95,6 @@ def test_get_digital_twin_by_token_short_token(capsys):
     captured = capsys.readouterr()
 
     assert captured.out == "Token must be 32 chars or more.\n"
-    assert response is None
 
 
 def test_get_digital_twin_by_token_expired_token(capsys):
@@ -112,8 +106,7 @@ def test_get_digital_twin_by_token_expired_token(capsys):
     response = client.get_digital_twin_by_token(token, [])
     captured = capsys.readouterr()
 
-    assert "invalid or expired access_token" in captured.out
-    assert response is None
+    assert "invalid or expired access_token" in captured.err
 
 
 def test_get_digital_twin_by_token_success(registration):
@@ -124,4 +117,4 @@ def test_get_digital_twin_by_token_success(registration):
 
     response = client.get_digital_twin_by_token(token, [])
 
-    assert response is None
+    assert response is not None

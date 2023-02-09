@@ -1,10 +1,12 @@
 from indykite_sdk.identity import helper
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def patch_properties(self, digital_twin_id, tenant_id, fields_in_dict):
-
+    sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.PatchDigitalTwin(
             pb2.PatchDigitalTwinRequest(
@@ -18,8 +20,7 @@ def patch_properties(self, digital_twin_id, tenant_id, fields_in_dict):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -28,12 +29,12 @@ def patch_properties(self, digital_twin_id, tenant_id, fields_in_dict):
 
 
 def patch_properties_by_token(self, token, fields_in_dict):
+    sys.excepthook = logger.handle_excepthook
     try:
         if len(token) < 32:
             raise Exception("Token must be 32 chars or more.")
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     try:
         # identifier = pb2.DigitalTwinIdentifier()
@@ -46,8 +47,7 @@ def patch_properties_by_token(self, token, fields_in_dict):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None

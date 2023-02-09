@@ -9,15 +9,14 @@ import indykite_sdk.utils.logger as logger
 
 
 def get_tenant_by_id(self, tenant_id):
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadTenant(
             pb2.ReadTenantRequest(
                 id=str(tenant_id)
             )
         )
     except Exception as exception:
-        logg = logger.logger_error(exception)
         return logger.logger_error(exception)
 
     if not response:
@@ -27,9 +26,8 @@ def get_tenant_by_id(self, tenant_id):
 
 
 def get_tenant_by_name(self, app_space_id, tenant_name):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadTenant(
             pb2.ReadTenantRequest(
                 name=UniqueNameIdentifier(location = app_space_id, name = tenant_name)
@@ -45,9 +43,8 @@ def get_tenant_by_name(self, app_space_id, tenant_name):
 
 
 def create_tenant(self, issuer_id, name, display_name, description="", bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateTenant(
             pb2.CreateTenantRequest(
                 issuer_id=issuer_id,name=name, display_name=wrappers.StringValue(value=display_name),
@@ -64,9 +61,8 @@ def create_tenant(self, issuer_id, name, display_name, description="", bookmarks
 
 
 def update_tenant(self, tenant_id, etag, display_name, description="", bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateTenant(
             pb2.UpdateTenantRequest(
                 id=tenant_id,etag=wrappers.StringValue(value=etag),
@@ -84,9 +80,8 @@ def update_tenant(self, tenant_id, etag, display_name, description="", bookmarks
 
 
 def list_tenants(self, app_space_id, match=[], bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         streams = self.stub.ListTenants(
             pb2.ListTenantsRequest(
                 app_space_id=app_space_id,match=match,
@@ -110,9 +105,8 @@ def list_tenants(self, app_space_id, match=[], bookmarks=[]):
 
 
 def delete_tenant(self, tenant_id, etag, bookmarks):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteTenant(
             pb2.DeleteTenantRequest(
                 id=tenant_id, etag=wrappers.StringValue(value=etag),
