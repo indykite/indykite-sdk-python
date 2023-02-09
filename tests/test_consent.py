@@ -53,9 +53,7 @@ def test_create_consent_already_exists(capsys):
 
     response = client.create_consent(pii_processor_id, pii_principal_id, properties)
     captured = capsys.readouterr()
-
-    assert response is None
-    assert "consent for this PiiProcessor and PiiPrincipal combination already exist" in captured.out
+    assert "consent for this PiiProcessor and PiiPrincipal combination already exist" in captured.err
 
 
 def test_create_consent_fail_invalid_pii_processor_id(capsys):
@@ -68,9 +66,7 @@ def test_create_consent_fail_invalid_pii_processor_id(capsys):
 
     consent = client.create_consent(pii_processor_id, pii_principal_id, properties)
     captured = capsys.readouterr()
-
-    assert consent is None
-    assert "invalid pii processor identifier" in captured.out
+    assert "invalid pii processor identifier" in captured.err
 
 
 def test_consent_list_success():
@@ -86,11 +82,12 @@ def test_consent_list_success():
         assert isinstance(c.consent_receipt, consent_pb2.ConsentReceipt)
 
 
-def test_consent_list_no_pii():
+def test_consent_list_no_pii(capsys):
     client = IdentityClient()
     assert client is not None
 
     consent = client.list_consents(["bbbb"])
+    captured = capsys.readouterr()
     assert consent is None
 
 
@@ -102,9 +99,7 @@ def test_consent_list_wrong_pii(capsys):
 
     consent = client.list_consents(pii_principal_id)
     captured = capsys.readouterr()
-
-    assert consent is None
-    assert "invalid pii principal" in captured.out
+    assert "invalid pii principal" in captured.err
 
 
 def test_consent_list_empty():
@@ -140,14 +135,15 @@ def test_revoke_consent_success(capsys):
     assert consent_response is not None
 
 
-def test_revoke_consent_wrong_consent_id():
+def test_revoke_consent_wrong_consent_id(capsys):
     client = IdentityClient()
     assert client is not None
 
     pii_principal_id = data.get_digital_twin()
     consent_ids = ["f414b2b3-b9ed-49c3-b754e-5077d2dcdda2"]
     consent_response = client.revoke_consent(pii_principal_id, consent_ids)
-    assert consent_response is None
+    captured = capsys.readouterr()
+    assert "invalid RevokeConsentRequest.ConsentIds" in captured.err
 
 
 def test_revoke_consent_empty():
