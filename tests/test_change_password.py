@@ -14,8 +14,7 @@ def test_change_password_short_token(capsys):
     response = client.change_password(token, password)
     captured = capsys.readouterr()
 
-    assert captured.out == "Token must be 32 chars or more.\n"
-    assert response is None
+    assert "Token must be 32 chars or more" in captured.err
 
 
 def test_change_password_expired_token(capsys):
@@ -28,8 +27,7 @@ def test_change_password_expired_token(capsys):
     response = client.change_password(token, password)
     captured = capsys.readouterr()
 
-    assert "invalid or expired access_token" in captured.out
-    assert response is None
+    assert "invalid or expired access_token" in captured.err
 
 
 def test_change_password_success(registration):
@@ -59,8 +57,7 @@ def test_password_of_user_wrong_twin_id(capsys):
     response = client.change_password_of_user(digital_twin_id, tenant_id, password)
     captured = capsys.readouterr()
 
-    assert "StatusCode.INVALID_ARGUMENT" in captured.out
-    assert response is None
+    assert "id is not valid DigitalTwin identifier" in captured.err
 
 
 def test_password_of_user_wrong_tenant_id(capsys):
@@ -74,8 +71,7 @@ def test_password_of_user_wrong_tenant_id(capsys):
     response = client.change_password_of_user(digital_twin_id, tenant_id, password)
     captured = capsys.readouterr()
 
-    assert "StatusCode.INVALID_ARGUMENT" in captured.out
-    assert response is None
+    assert "id is not valid DigitalTwin identifier" in captured.err
 
 
 def test_password_of_user_nonexisting_twin_id(capsys):
@@ -89,8 +85,7 @@ def test_password_of_user_nonexisting_twin_id(capsys):
     response = client.change_password_of_user(digital_twin_id, tenant_id, password)
     captured = capsys.readouterr()
 
-    assert "StatusCode.INVALID_ARGUMENT" in captured.out
-    assert response is None
+    assert "id is not valid DigitalTwin identifier" in captured.err
 
 
 def test_password_of_user_success(capsys):

@@ -8,9 +8,8 @@ import indykite_sdk.utils.logger as logger
 
 def create_oauth2_application(self, oauth2_provider_id, name, display_name, description,
                               config, bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateOAuth2Application(
             pb2.CreateOAuth2ApplicationRequest(
                 oauth2_provider_id=oauth2_provider_id,
@@ -31,8 +30,8 @@ def create_oauth2_application(self, oauth2_provider_id, name, display_name, desc
 
 
 def read_oauth2_application(self, oauth2_application_id, bookmarks=[]):
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadOAuth2Application(
             pb2.ReadOAuth2ApplicationRequest(
                 id=str(oauth2_application_id), bookmarks=bookmarks
@@ -49,9 +48,8 @@ def read_oauth2_application(self, oauth2_application_id, bookmarks=[]):
 
 def update_oauth2_application(self, oauth2_application_id, etag, display_name, description,
                               config, bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateOAuth2Application(
             pb2.UpdateOAuth2ApplicationRequest(
                 id=oauth2_application_id,
@@ -72,8 +70,8 @@ def update_oauth2_application(self, oauth2_application_id, etag, display_name, d
 
 
 def delete_oauth2_application(self, oauth2_application_id, etag, bookmarks=[]):
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteOAuth2Application(
             pb2.DeleteOAuth2ApplicationRequest(
                 id=str(oauth2_application_id),

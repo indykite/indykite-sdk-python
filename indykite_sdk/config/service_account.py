@@ -9,6 +9,7 @@ import indykite_sdk.utils.logger as logger
 
 
 def get_service_account(self,service_account=None):
+    sys.excepthook = logger.handle_excepthook
     try:
         if service_account:
             service_account_id = str(service_account)
@@ -21,7 +22,6 @@ def get_service_account(self,service_account=None):
         return logger.logger_error(exception)
 
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadServiceAccount(
             pb2.ReadServiceAccountRequest(
                 id=str(service_account_id)
@@ -39,9 +39,8 @@ def get_service_account(self,service_account=None):
 
 
 def get_service_account_by_name(self, customer_id, service_account_name):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadServiceAccount(
             pb2.ReadServiceAccountRequest(
                 name=UniqueNameIdentifier(location=customer_id, name=service_account_name)
@@ -57,9 +56,8 @@ def get_service_account_by_name(self, customer_id, service_account_name):
 
 
 def create_service_account(self, customer_id, name, display_name, description="", role="", bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateServiceAccount(
             pb2.CreateServiceAccountRequest(
                 location=customer_id,name=name, display_name=wrappers.StringValue(value=display_name),
@@ -76,9 +74,8 @@ def create_service_account(self, customer_id, name, display_name, description=""
 
 
 def update_service_account(self, service_account_id, etag, display_name, description="", bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateServiceAccount(
             pb2.UpdateServiceAccountRequest(
                 id=service_account_id,etag=wrappers.StringValue(value=etag),
@@ -96,9 +93,8 @@ def update_service_account(self, service_account_id, etag, display_name, descrip
 
 
 def delete_service_account(self, service_account_id, etag, bookmarks):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteServiceAccount(
             pb2.DeleteServiceAccountRequest(
                 id=service_account_id, etag=wrappers.StringValue(value=etag),

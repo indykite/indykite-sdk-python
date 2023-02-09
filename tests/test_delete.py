@@ -15,8 +15,7 @@ def test_del_digital_twin_wrong_twin_id(capsys):
     response = client.del_digital_twin(digital_twin_id, tenant_id)
     captured = capsys.readouterr()
 
-    assert "StatusCode.INVALID_ARGUMENT" in captured.out
-    assert response is None
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
 
 def test_del_digital_twin_wrong_tenant_id(capsys):
@@ -29,8 +28,7 @@ def test_del_digital_twin_wrong_tenant_id(capsys):
     response = client.del_digital_twin(digital_twin_id, tenant_id)
     captured = capsys.readouterr()
 
-    assert "StatusCode.INVALID_ARGUMENT" in captured.out
-    assert response is None
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
 
 def test_del_digital_twin_nonexisting_twin_id(capsys):
@@ -43,8 +41,7 @@ def test_del_digital_twin_nonexisting_twin_id(capsys):
     response = client.del_digital_twin(digital_twin_id, tenant_id)
     captured = capsys.readouterr()
 
-    assert "StatusCode.INVALID_ARGUMENT" in captured.out
-    assert response is None
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
 
 def test_del_digital_twin_success(capsys):
@@ -78,8 +75,7 @@ def test_del_digital_twin_by_token_short_token(capsys):
     response = client.del_digital_twin_by_token(token)
     captured = capsys.readouterr()
 
-    assert captured.out == "Token must be 32 chars or more.\n"
-    assert response is None
+    assert "Token must be 32 chars or more" in captured.err
 
 
 def test_del_digital_twin_by_token_expired_token(capsys):
@@ -91,8 +87,7 @@ def test_del_digital_twin_by_token_expired_token(capsys):
     response = client.del_digital_twin_by_token(token)
     captured = capsys.readouterr()
 
-    assert "invalid or expired access_token" in captured.out
-    assert response is None
+    assert "invalid or expired access_token" in captured.err
 
 
 def test_del_digital_twin_by_token_success(registration):

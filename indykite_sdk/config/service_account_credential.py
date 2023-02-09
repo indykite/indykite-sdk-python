@@ -7,8 +7,8 @@ import indykite_sdk.utils.logger as logger
 
 
 def get_service_account_credential(self, service_account_credential_id):
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadServiceAccountCredential(
             pb2.ReadServiceAccountCredentialRequest(
                 id=str(service_account_credential_id)
@@ -25,9 +25,8 @@ def get_service_account_credential(self, service_account_credential_id):
 
 def register_service_account_credential_jwk(self, service_account_id, display_name, jwk_in_bytes, expire_time_in_seconds,
                                             bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.RegisterServiceAccountCredential(
             pb2.RegisterServiceAccountCredentialRequest(
                 service_account_id=service_account_id, display_name=display_name,
@@ -46,9 +45,8 @@ def register_service_account_credential_jwk(self, service_account_id, display_na
 
 def register_service_account_credential_pem(self, service_account_id, display_name, pem_in_bytes, expire_time_in_seconds,
                                             bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.RegisterServiceAccountCredential(
             pb2.RegisterServiceAccountCredentialRequest(
                 service_account_id=service_account_id, display_name=display_name,
@@ -66,9 +64,8 @@ def register_service_account_credential_pem(self, service_account_id, display_na
 
 
 def delete_service_account_credential(self, service_account_credential_id, bookmarks):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteServiceAccountCredential(
             pb2.DeleteServiceAccountCredentialRequest(
                 id=service_account_credential_id, bookmarks=bookmarks

@@ -9,8 +9,8 @@ import indykite_sdk.utils.logger as logger
 
 
 def get_app_space_by_id(self, app_space_id):
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadApplicationSpace(
             pb2.ReadApplicationSpaceRequest(
                 id=str(app_space_id)
@@ -26,9 +26,8 @@ def get_app_space_by_id(self, app_space_id):
 
 
 def get_app_space_by_name(self, customer_id, app_space_name):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadApplicationSpace(
             pb2.ReadApplicationSpaceRequest(
                 name=UniqueNameIdentifier(location = customer_id, name = app_space_name)
@@ -44,9 +43,8 @@ def get_app_space_by_name(self, customer_id, app_space_name):
 
 
 def create_app_space(self, customer_id, name, display_name, description="", bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.CreateApplicationSpace(
             pb2.CreateApplicationSpaceRequest(
                 customer_id=customer_id,name=name, display_name=wrappers.StringValue(value=display_name),
@@ -63,9 +61,8 @@ def create_app_space(self, customer_id, name, display_name, description="", book
 
 
 def update_app_space(self, app_space_id, etag, display_name, description="", bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.UpdateApplicationSpace(
             pb2.UpdateApplicationSpaceRequest(
                 id=app_space_id,etag=wrappers.StringValue(value=etag),
@@ -83,9 +80,8 @@ def update_app_space(self, app_space_id, etag, display_name, description="", boo
 
 
 def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         streams = self.stub.ListApplicationSpaces(
             pb2.ListApplicationSpacesRequest(
                 customer_id=customer_id,match=match,
@@ -109,9 +105,8 @@ def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
 
 
 def delete_app_space(self, app_space_id, etag, bookmarks):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.DeleteApplicationSpace(
             pb2.DeleteApplicationSpaceRequest(
                 id=app_space_id, etag=wrappers.StringValue(value=etag),

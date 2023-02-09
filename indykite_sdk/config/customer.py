@@ -5,8 +5,8 @@ import indykite_sdk.utils.logger as logger
 
 
 def get_customer_by_id(self, customer_id):
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadCustomer(
             pb2.ReadCustomerRequest(
                 id=str(customer_id)
@@ -22,9 +22,8 @@ def get_customer_by_id(self, customer_id):
 
 
 def get_customer_by_name(self, customer_name):
-
+    sys.excepthook = logger.handle_excepthook
     try:
-        sys.excepthook = logger.handle_excepthook
         response = self.stub.ReadCustomer(
             pb2.ReadCustomerRequest(
                 name=str(customer_name)
@@ -37,5 +36,3 @@ def get_customer_by_name(self, customer_name):
         return None
 
     return Customer.deserialize(response.customer)
-
-

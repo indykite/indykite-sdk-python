@@ -7,7 +7,7 @@ from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
 from helpers import data
 
 
-def test_is_authorized_token_wrong_token():
+def test_is_authorized_token_wrong_token(capsys):
     client = AuthorizationClient()
     assert client is not None
 
@@ -15,7 +15,8 @@ def test_is_authorized_token_wrong_token():
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
     response = client.is_authorized_token(access_token, resources, actions)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "invalid or expired access_token" in captured.err
 
 
 def test_is_authorized_token_success():
@@ -63,7 +64,7 @@ def test_is_authorized_token_empty():
     assert response is None
 
 
-def test_is_authorized_dt_wrong_dt():
+def test_is_authorized_dt_wrong_dt(capsys):
     client = AuthorizationClient()
     assert client is not None
 
@@ -72,10 +73,11 @@ def test_is_authorized_dt_wrong_dt():
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
     response = client.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, actions)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "id is not valid DigitalTwin identifier" in captured.err
 
 
-def test_is_authorized_dt_wrong_resources():
+def test_is_authorized_dt_wrong_resources(capsys):
     client = AuthorizationClient()
     assert client is not None
 
@@ -84,7 +86,8 @@ def test_is_authorized_dt_wrong_resources():
     actions = ["ACTION"]
     resources = [{"resourceID", "LabelName"}]
     response = client.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, actions)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "'set' object has no attribute 'id'" in captured.err
 
 
 def test_is_authorized_dt_success():
@@ -135,7 +138,7 @@ def test_is_authorized_dt_empty():
     assert response is None
 
 
-def test_is_authorized_property_wrong_property():
+def test_is_authorized_property_wrong_property(capsys):
     client = AuthorizationClient()
     assert client is not None
 
@@ -144,10 +147,11 @@ def test_is_authorized_property_wrong_property():
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
     response = client.is_authorized_property_filter(type_filter, email_value, resources, actions)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "digital_twin was not found" in captured.err
 
 
-def test_is_authorized_property_wrong_resources():
+def test_is_authorized_property_wrong_resources(capsys):
     client = AuthorizationClient()
     assert client is not None
 
@@ -156,7 +160,8 @@ def test_is_authorized_property_wrong_resources():
     actions = ["ACTION"]
     resources = [{"resourceID", "LabelName"}]
     response = client.is_authorized_property_filter(type_filter, email_value, resources, actions)
-    assert response is None
+    captured = capsys.readouterr()
+    assert "'set' object has no attribute 'id'" in captured.err
 
 
 def test_is_authorized_property_success():

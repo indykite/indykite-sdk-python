@@ -2,7 +2,7 @@ from indykite_sdk.identity import IdentityClient
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 
 
-def test_enrich_token_error():
+def test_enrich_token_error(capsys):
     client = IdentityClient()
     assert client is not None
 
@@ -12,8 +12,8 @@ def test_enrich_token_error():
     client.stub.EnrichToken = mocked_enrich_token_error
 
     response = client.enrich_token("mocked-token", None, None)
-
-    assert response is None
+    captured = capsys.readouterr()
+    assert "something went wrong" in captured.err
 
 
 def test_enrich_token():

@@ -1,11 +1,12 @@
-import itertools
-
 from indykite_sdk.indykite.identity.v1beta2 import import_pb2
 from indykite_sdk.model.digital_twin_kind import DigitalTwinKind
 from indykite_sdk.model.digital_twin_state import DigitalTwinState
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def import_digital_twins(self, entities, hash_algorithm):
+    sys.excepthook = logger.handle_excepthook
     try:
         n = 1000
         response = []
@@ -15,12 +16,10 @@ def import_digital_twins(self, entities, hash_algorithm):
             res = import_digital_twins_chunks(stub, chunk, hash_algorithm)
             if not res:
                 return None
-
             response.append(res)
 
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     return response
 
@@ -47,8 +46,7 @@ def import_digital_twins_chunks(stub, entities, hash_algorithm):
             data_request
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -127,8 +125,7 @@ def get_hash_request(entities, hash_algorithm):
                 )
         return hash_request
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
 
 def validate_entity(e):
@@ -157,10 +154,10 @@ def validate_entity(e):
             raise TypeError("entity must be an ImportDigitalTwin object")
         return True
     except Exception as exception:
-        print(exception)
-        return False
+        return logger.logger_error(exception)
 
 
 def divide_chunks(entities, n):
-    for i in range(0, len(entities), n):
-        yield entities[i:i + n]
+    if entities:
+        for i in range(0, len(entities), n):
+            yield entities[i:i + n]

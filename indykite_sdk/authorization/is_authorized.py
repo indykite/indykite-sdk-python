@@ -2,9 +2,12 @@ from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2_ident
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
+import sys
+import indykite_sdk.utils.logger as logger
 
 
 def is_authorized_digital_twin(self, digital_twin_id, tenant_id, resources=[], actions=[]):
+    sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.IsAuthorized(
             pb2.IsAuthorizedRequest(
@@ -19,8 +22,7 @@ def is_authorized_digital_twin(self, digital_twin_id, tenant_id, resources=[], a
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -29,6 +31,7 @@ def is_authorized_digital_twin(self, digital_twin_id, tenant_id, resources=[], a
 
 
 def is_authorized_token(self, access_token, resources=[], actions=[]):
+    sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.IsAuthorized(
             pb2.IsAuthorizedRequest(
@@ -40,8 +43,7 @@ def is_authorized_token(self, access_token, resources=[], actions=[]):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
@@ -50,6 +52,7 @@ def is_authorized_token(self, access_token, resources=[], actions=[]):
 
 
 def is_authorized_property_filter(self, type_filter, value, resources=[], actions=[]):
+    sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.IsAuthorized(
             pb2.IsAuthorizedRequest(
@@ -64,8 +67,7 @@ def is_authorized_property_filter(self, type_filter, value, resources=[], action
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not response:
         return None
