@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.12.0](https://github.com/indykite/indykite-sdk-python/compare/v1.11.0...v1.12.0) (2023-02-10)
+
+
+### Features
+
+* add logger in config methods ([dbf1b36](https://github.com/indykite/indykite-sdk-python/commit/dbf1b36b6c45c827daf53a93589169d96023ce6d))
+* add logger in identity and authz methods ([f3039bb](https://github.com/indykite/indykite-sdk-python/commit/f3039bb8287d1372844693a83b7f11e4ca51ac56))
+* add logger in identity and authz methods ([5ba11fc](https://github.com/indykite/indykite-sdk-python/commit/5ba11fc4121ec371889c4313eb11a0143aabd20f))
+
+
+### Bug Fixes
+
+* corrected is_authorized deserialization and tests ([8091e5d](https://github.com/indykite/indykite-sdk-python/commit/8091e5d1627f6d5fc1a04d3418f278ccde9bedd7))
+* corrected is_authorized deserialization and tests ([f273e38](https://github.com/indykite/indykite-sdk-python/commit/f273e38b89959414d1cdc65036ac0f39a964ded9))
+
 ## [1.11.0](https://github.com/indykite/indykite-sdk-python/compare/v1.10.1...v1.11.0) (2023-02-07)
 
 
