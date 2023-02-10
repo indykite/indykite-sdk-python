@@ -21,7 +21,6 @@ def load_json(content):
 
 def create_agent_jwt(credentials):
     jwk = credentials.get('privateKeyJWK')
-    print(jwk)
     key = JsonWebKey.import_key(jwk)
     message = create_jwt_message(credentials)
     jwt_token = jwt.encode({
@@ -49,11 +48,9 @@ def get_int_from_datetime(dt):
 
 def create_property_mask(fields):
     props = []
-    print(fields)
     for f in fields:
         props.append(attributes.PropertyMask(definition=attributes.PropertyDefinition(property=f)))
 
-    # print(props)
     return props
 
 

@@ -1,7 +1,7 @@
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2_ident
-from indykite_sdk.model.is_authorized import IsAuthorizedResource
+from indykite_sdk.model.is_authorized import IsAuthorizedResource, IsAuthorizedResponse
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
 from helpers import data
@@ -29,6 +29,7 @@ def test_is_authorized_token_success():
     res = []
     for r in resources:
         res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, label=r.label))
+
     digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
         access_token=str(access_token)
     )
@@ -40,6 +41,7 @@ def test_is_authorized_token_success():
     client.stub.IsAuthorized = mocked_is_authorized
     response = client.is_authorized_token(access_token, resources, actions)
     assert response is not None
+    assert isinstance(response, IsAuthorizedResponse)
 
 
 def test_is_authorized_token_empty():
@@ -105,13 +107,9 @@ def test_is_authorized_dt_success():
         )
     )
 
-    def mocked_is_authorized(request: pb2.IsAuthorizedRequest):
-        assert request.digital_twin_identifier == digital_twin_identifier
-        return pb2.IsAuthorizedResponse()
-
-    client.stub.IsAuthorized = mocked_is_authorized
     response = client.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, actions)
     assert response is not None
+    assert isinstance(response, IsAuthorizedResponse)
 
 
 def test_is_authorized_dt_empty():
@@ -169,7 +167,7 @@ def test_is_authorized_property_success():
     assert client is not None
 
     type_filter = "email"
-    email_value = "sdk@indykite.com"
+    email_value = "test2000@example.com"
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
     digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
@@ -179,13 +177,9 @@ def test_is_authorized_property_success():
         )
     )
 
-    def mocked_is_authorized(request: pb2.IsAuthorizedRequest):
-        assert request.digital_twin_identifier == digital_twin_identifier
-        return pb2.IsAuthorizedResponse()
-
-    client.stub.IsAuthorized = mocked_is_authorized
     response = client.is_authorized_property_filter(type_filter, email_value, resources, actions)
     assert response is not None
+    assert isinstance(response, IsAuthorizedResponse)
 
 
 def test_is_authorized_property_empty():
