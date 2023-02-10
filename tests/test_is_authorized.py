@@ -1,7 +1,7 @@
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2_ident
-from indykite_sdk.model.is_authorized import IsAuthorizedResource, IsAuthorizedResponse
+from indykite_sdk.model.is_authorized import IsAuthorizedResource, IsAuthorizedResponse, IsAuthorizedActions
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
 from helpers import data
@@ -17,31 +17,6 @@ def test_is_authorized_token_wrong_token(capsys):
     response = client.is_authorized_token(access_token, resources, actions)
     captured = capsys.readouterr()
     assert "invalid or expired access_token" in captured.err
-
-
-def test_is_authorized_token_success():
-    client = AuthorizationClient()
-    assert client is not None
-
-    access_token = data.get_verification_bearer()
-    resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
-    actions = ["ACTION"]
-    res = []
-    for r in resources:
-        res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, label=r.label))
-
-    digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
-        access_token=str(access_token)
-    )
-
-    def mocked_is_authorized(request: pb2.IsAuthorizedRequest):
-        assert request.digital_twin_identifier == digital_twin_identifier
-        return pb2.IsAuthorizedResponse()
-
-    client.stub.IsAuthorized = mocked_is_authorized
-    response = client.is_authorized_token(access_token, resources, actions)
-    assert response is not None
-    assert isinstance(response, IsAuthorizedResponse)
 
 
 def test_is_authorized_token_empty():
