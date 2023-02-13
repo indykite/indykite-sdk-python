@@ -7,7 +7,6 @@ import json
 from datetime import datetime
 from uuid import UUID
 from google.protobuf.json_format import MessageToJson
-import sys
 
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt, encrypt_sha256
 from indykite_sdk.identity import IdentityClient
@@ -24,6 +23,7 @@ from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIden
 from indykite_sdk.model.is_authorized import IsAuthorizedResource
 from indykite_sdk.model.tenant import Tenant
 import logging
+
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
@@ -1054,14 +1054,13 @@ Property ID and value of the property where the value is a reference
     elif command == "register_service_account_credential_pem":
         service_account_id = args.service_account_id
         display_name = args.display_name
-        default_tenant_id = args.default_tenant_id
         pem = None
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
         service_account_credential_response = client_config.register_service_account_credential_pem(service_account_id,
                                                                                              display_name, pem,
                                                                                              expire_time_in_seconds,
-                                                                                             default_tenant_id, [])
+                                                                                             [])
         if service_account_credential_response:
             print_credential(service_account_credential_response)
         else:

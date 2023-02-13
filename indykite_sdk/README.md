@@ -1,14 +1,21 @@
 # IndyKite Proto SDK 🐍
 
 This project serves as a Software Development Kit for developers of Indykite applications.
+The Python SDK enables you to easily integrate the IndyKite platform gRPC APIs into your Python application. 
 
 ## Requirements
 
-The api.py script runs on python3.11
+* Python 3.11
 
-## Usage
+## Usage / Examples
 
-### Mandatory environment variables
+The SDK methods are separated according the IndyKite platform service they call.
+
+The [api.py](indykite_sdk/api.py) script gives an example for each function.
+
+With the information given in the following credential files and eventually a user token, you can have access to every information you need through different methods to integrate the IK platform in your application.
+
+## Mandatory environment variables
 
 For normal usage `INDYKITE_APPLICATION_CREDENTIALS_FILE` should contain the path to the json configuration file for identity. 
 The config file is generated in the [admin console](https://console.indykite.id/) when you create an application -> applicationAgent and applicationAgentCredential. 
@@ -18,20 +25,91 @@ The config file is generated in the [admin console](https://console.indykite.id/
 
 You should use absolute paths for the files.
 
-### Running the sdk with the api.py script
+## Running the sdk with the api.py script
 
-With the [api.py](indykite_sdk/api.py) script you can simply run the sdk against the system you set up in the config
-file
+With the [api.py](indykite_sdk/api.py) script you can simply run the sdk against the system you set up in the configuration 
+files
 
-1. To introspect a user token, execute
+## Connect to the client services
+
+### Connect to Identity Client
+Here is an example to open and close a connection to the Identity service with an arguments' parser used in the api.py script.
+Each time you want to use an identity method, you need to set up an identity client
+
+```python
+from indykite_sdk.identity import IdentityClient
+import argparse
+
+    # Create parent parser
+    parser = argparse.ArgumentParser(description="Identity client API.")
+    parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
+    subparsers = parser.add_subparsers(dest="command", help="sub-command help")
+    
+    # Create 
+    args = parser.parse_args()
+    local = args.local
+    client = IdentityClient(local)
+    ................
+
+    client.channel.close()
+```
+
+### Connect to Config Client
+Here is an example to open and close a connection to the Config service with an arguments' parser used in the api.py script.
+The purpose of a service account is for a non person entity to manage the platform configuration: creating AppSpaces, creating applications, creating agent credentials, creating other service accounts, modify user permissions or any action through the **Graph DB**.
+The service account is also needed if you want to use Terraform for your configuration.
+Each time you want to use a config method, you need to set up a config client.
+
+```python
+from indykite_sdk.config import ConfigClient
+import argparse
+
+  # Create parent parser
+  parser = argparse.ArgumentParser(description="Config client API.")
+  parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
+  subparsers = parser.add_subparsers(dest="command", help="sub-command help")
+  
+  # Create 
+  args = parser.parse_args()
+  local = args.local
+  client_config = ConfigClient(local)
+
+ ....................
+ 
+  client_config.channel.close()
+```
+
+### Connect to Authorization Client
+Here is an example to open and close a connection to the Authorization service with an arguments' parser used in the api.py script.
+The authorization service answers authorization requests about whether a subject is authorized to perform an action on a resource.
+Each time you want to use an authorization method, you need to set up an authorization client.
+
+```python
+from indykite_sdk.authorization import AuthorizationClient
+import argparse
+
+  # Create parent parser
+  parser = argparse.ArgumentParser(description="Config client API.")
+  parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
+  subparsers = parser.add_subparsers(dest="command", help="sub-command help")
+  
+  # Create 
+  args = parser.parse_args()
+  local = args.local
+  client_authorization = AuthorizationClient(local)
+
+ ....................
+ 
+  client_authorization.channel.close()
+```
+
+### To introspect a user token et get information about the user and the space environment, execute
 
 ```shell
 python3 api.py introspect USER_TOKEN
 ```
 
 ```shell
-usage: api.py introspect [-h] user_token
-
 positional arguments:
   user_token  JWT bearer token
 
@@ -47,8 +125,6 @@ python3 api.py verify VERIFICATION_TOKEN
 ```
 
 ```shell
-usage: api.py verify [-h] verification_token
-
 positional arguments:
   verification_token  Token from email to verify
 
@@ -65,8 +141,6 @@ python3 api.py change-password BEARER_TOKEN 'NEW_PASSWORD'
 ```
 
 ```shell
-usage: api.py change-password [-h] user_token new_password
-
 positional arguments:
   user_token    JWT bearer token
   new_password  New password for the user in '' (single quotation mark)
@@ -77,7 +151,7 @@ optional arguments:
 
 4. Change password using the bearer token and the user's digital twin ID
 
-    - The digital twin ID should be in UUID4 format
+    - The digital twin ID should be in GID format
     - The password should be in single quotation marks
 
 ```shell
@@ -85,11 +159,9 @@ python3 api.py change-password-of-user BEARER_TOKEN DIGITAL_TWIN_ID 'NEW_PASSWOR
 ```
 
 ```shell
-usage: api.py change-password-of-user [-h] user_token digital_twin_id new_password
-
 positional arguments:
   user_token       JWT bearer token
-  digital_twin_id  UUID4 ID of the digital twin for password change
+  digital_twin_id  gid ID of the digital twin for password change
   new_password     New password for the user in '' (single quotation mark)
 
 optional arguments:
@@ -97,19 +169,17 @@ optional arguments:
 ```
 
 5. Get digital twin information
-    - The digital twin ID should be in UUID4 format
-    - The tenant ID should be in UUID4 format
+    - The digital twin ID should be in GID format
+    - The tenant ID should be in GID format
 
 ```shell
-python3 api.py get-dt DIGITAL_TWIN_ID TENANT_ID property_list PROPERTY_NAMES
+python3 api.py get-dt DIGITAL_TWIN_ID TENANT_ID PROPERTY_NAMES ...
 ```
 
 ```shell
-usage: api.py get-dt [-h] digital_twin_id tenant_id property_list [property_list ...]
-
 positional arguments:
-  digital_twin_id  UUID4 ID of the digital twin for password change
-  tenant_id        UUID4 ID of the tenant
+  digital_twin_id  gid ID of the digital twin for password change
+  tenant_id        gid ID of the tenant
   property_list    Array list of the required properties
 
 optional arguments:
@@ -118,18 +188,16 @@ optional arguments:
 
 example:
 ```shell
-python3 api.py get-dt DT_UUID4 TENANT_UUID4 property_list email mobile
+python3 api.py get-dt DT_GID_ID TENANT_GID_ID email mobile
 ```
 
 6. Get digital twin information by token
 
 ```shell
-python3 api.py get-dt-by-token BEARER_TOKEN property_list PROPERTY_NAMES
+python3 api.py get-dt-by-token BEARER_TOKEN PROPERTY_NAMES
 ```
 
 ```shell
-usage: api.py get-dt-by-token [-h] user_token property_list [property_list ...]
-
 positional arguments:
   user_token     JWT bearer token
   property_list  Array list of the required properties
@@ -138,17 +206,22 @@ optional arguments:
   -h, --help     show this help message and exit
 ```
 
+example:
+```shell
+python3 api.py get-dt BEARER_TOKEN email mobile
+```
+
 7. Add/replace/remove properties by digital twin ID and tenant ID
 
 You can add, replace and remove properties of a digital twin using the digital twin ID and token ID.
 
 ```shell
-usage: api.py patch-properties [-h] [--add ADD [ADD ...]] [--add_by_ref ADD_BY_REF [ADD_BY_REF ...]] [--replace REPLACE [REPLACE ...]] [--replace_by_ref REPLACE_BY_REF [REPLACE_BY_REF ...]] [--remove REMOVE [REMOVE ...]]
+usage: python3 api.py patch-properties [-h] [--add ADD [ADD ...]] [--add_by_ref ADD_BY_REF [ADD_BY_REF ...]] [--replace REPLACE [REPLACE ...]] [--replace_by_ref REPLACE_BY_REF [REPLACE_BY_REF ...]] [--remove REMOVE [REMOVE ...]]
                                digital_twin_id tenant_id
 
 positional arguments:
-  digital_twin_id       UUID4 ID of the digital twin for password change
-  tenant_id             UUID4 ID of the tenant
+  digital_twin_id       GID ID of the digital twin for password change
+  tenant_id             GID ID of the tenant
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -189,7 +262,7 @@ You can combine the subcommands, it will compile in the following order: add, re
 You can add, replace and remove properties of a digital twin using the token as a validation.
 
 ```shell
-usage: api.py patch-properties-by-token [-h] [--add ADD [ADD ...]] [--add_by_ref ADD_BY_REF [ADD_BY_REF ...]] [--replace REPLACE [REPLACE ...]] [--replace_by_ref REPLACE_BY_REF [REPLACE_BY_REF ...]] [--remove REMOVE [REMOVE ...]]
+usage: python3 api.py patch-properties-by-token [-h] [--add ADD [ADD ...]] [--add_by_ref ADD_BY_REF [ADD_BY_REF ...]] [--replace REPLACE [REPLACE ...]] [--replace_by_ref REPLACE_BY_REF [REPLACE_BY_REF ...]] [--remove REMOVE [REMOVE ...]]
                                         user_token
 
 positional arguments:
@@ -231,15 +304,15 @@ You can combine the subcommands, it will compile in the following order: add, re
 
 Sends out a verification email for the specified digital twin to the given email
 
-    - the digital twin should be in UUID4 form
-    - the tenant ID should be in UUID4 form
+    - the digital twin should be in GID form
+    - the tenant ID should be in GID form
 
 ```shell
 usage: api.py start-dt-email-verification [-h] digital_twin tenant_id email
 
 positional arguments:
-  digital_twin  UUID4 of the digital twin
-  tenant_id     UUID4 of the tenant
+  digital_twin  GID of the digital twin
+  tenant_id     GID of the tenant
   email         email address to validate
 
 optional arguments:
@@ -250,15 +323,15 @@ optional arguments:
 
 Sends out a delete request for the specific digital twin
 
-    - the digital twin should bi in UUID4 form
-    - the tenant ID should be in UUID4 form
+    - the digital twin should bi in GID form
+    - the tenant ID should be in GID form
 
 ```shell
 usage: api.py del-dt [-h] digital_twin_id tenant_id
 
 positional arguments:
-  digital_twin_id  UUID4 ID of the digital twin for password change
-  tenant_id        UUID4 ID of the tenant
+  digital_twin_id  GID ID of the digital twin for password change
+  tenant_id        GID ID of the tenant
 
 optional arguments:
   -h, --help       show this help message and exit
@@ -294,19 +367,19 @@ optional arguments:
   -h, --help        show this help message and exit
 ```
 
-13. Get service account
+13. Get the service account information (service account defined in the credential file)
 
 ```shell
 python3 api.py service_account 
 ```
 
-14. Get customer by id
+14. Get customer information by id
 
 ```shell
 python3 api.py customer_id 
 ```
 
-15. Get customer by name
+15. Get customer information by name
 
 ```shell
 python3 api.py customer_name CUSTOMER_NAME
@@ -317,7 +390,7 @@ positional arguments:
   customer_name     String
 ```
 
-16. Get AppSpace by id
+16. Get AppSpace information by id
 
 ```shell
 python3 api.py app_space_id APPSPACE_ID
@@ -328,7 +401,7 @@ positional arguments:
   app_space_id     String
 ```
 
-17. Get AppSpace by name
+17. Get AppSpace information by name
 
 ```shell
 python3 api.py app_space_name APPSPACE_NAME CUSTOMER_ID
@@ -340,7 +413,7 @@ positional arguments:
   customer_id        String
 ```
 
-18. Create AppSpace 
+18. Create a new AppSpace in the customer space
 
 ```shell
 python3 api.py create_app_space CUSTOMER_ID APPSPACE_NAME DISPLAY_NAME
@@ -353,7 +426,7 @@ positional arguments:
   display_name       String
 ```
 
-19. Update AppSpace 
+19. Update a given AppSpace 
 
 ```shell
 python3 api.py update_app_space APPSPACE_ID ETAG DISPLAY_NAME
@@ -366,7 +439,7 @@ positional arguments:
   display_name   String
 ```
 
-20. List AppSpaces 
+20. List the AppSpaces in the customer matching a defined list
 
 ```shell
 python3 api.py list_app_spaces CUSTOMER_ID MATCH_LIST 
@@ -380,7 +453,7 @@ optional arguments:
   bookmarks     List of Strings
 ```
 
-21. Delete AppSpace
+21. Delete a given AppSpace
 
 ```shell
 python3 api.py delete_app_space APPSPACE_ID ETAG
@@ -395,7 +468,7 @@ optional arguments:
 ```
 
 
-22. Get Tenant by id
+22. Get Tenant information by id
 
 ```shell
 python3 api.py tenant_id TENANT_ID
@@ -406,7 +479,7 @@ positional arguments:
   tenant_id     String
 ```
 
-23. Get Tenant by name
+23. Get Tenant information by name
 
 ```shell
 python3 api.py tenant_name TENANT_NAME APPSPACE_ID
@@ -418,7 +491,7 @@ positional arguments:
   app_space_id    String
 ```
 
-24. Create Tenant 
+24. Create a new Tenant 
 
 ```shell
 python3 api.py create_tenant ISSUER_ID TENANT_NAME DISPLAY_NAME 
@@ -431,7 +504,7 @@ positional arguments:
   display_name     String
 ```
 
-25. Update Tenant 
+25. Update a given Tenant 
 
 ```shell
 python3 api.py update_tenant TENANT_ID ETAG DISPLAY_NAME
@@ -444,7 +517,7 @@ positional arguments:
   display_name   String
 ```
 
-26. List Tenants 
+26. List Tenants in a given AppSpace
 
 ```shell
 python3 api.py list_tenants APPSPACE_ID MATCH_LIST 
@@ -458,7 +531,7 @@ optional arguments:
   bookmarks      List of Strings
 ```
 
-27. Delete Tenant
+27. Delete a given Tenant
 
 ```shell
 python3 api.py delete_tenant TENANT_ID ETAG
@@ -474,7 +547,7 @@ optional arguments:
 
 
 
-28. Get Application by id
+28. Get Application information by id
 
 ```shell
 python3 api.py application_id APPLICATION_ID
@@ -485,7 +558,7 @@ positional arguments:
   application_id     String
 ```
 
-29. Get Application by name
+29. Get Application information by name
 
 ```shell
 python3 api.py application_name APPLICATION_NAME APP_SPACE_ID
@@ -497,7 +570,7 @@ positional arguments:
   app_space_id         String
 ```
 
-30. Create Application 
+30. Create a new Application 
 
 ```shell
 python3 api.py create_application APP_SPACE_ID APPLICATION_NAME DISPLAY_NAME
@@ -510,7 +583,7 @@ positional arguments:
   display_name        String
 ```
 
-31. Update Application 
+31. Update a given Application 
 
 ```shell
 python3 api.py update_application APPLICATION_ID ETAG DISPLAY_NAME
@@ -523,7 +596,7 @@ positional arguments:
   display_name   String
 ```
 
-32. List Applications 
+32. List Applications in an AppSpace matching a list
 
 ```shell
 python3 api.py list_applications APP_SPACE_ID MATCH_LIST 
@@ -537,7 +610,7 @@ optional arguments:
   bookmarks     List of Strings
 ```
 
-33. Delete Application
+33. Delete a given Application
 
 ```shell
 python3 api.py delete_application APPLICATION_ID ETAG
@@ -552,7 +625,7 @@ optional arguments:
 ```
 
 
-34. Get ApplicationAgent by id
+34. Get ApplicationAgent information by id
 
 ```shell
 python3 api.py application_agent_id APPLICATION_AGENT_ID
@@ -563,7 +636,7 @@ positional arguments:
   application_agent_id     String
 ```
 
-35. Get ApplicationAgent by name
+35. Get ApplicationAgent information by name
 
 ```shell
 python3 api.py application_agent_name APPLICATION_AGENT_NAME APP_SPACE_ID
@@ -575,7 +648,7 @@ positional arguments:
   app_space_id         String
 ```
 
-36. Create ApplicationAgent 
+36. Create a new ApplicationAgent 
 
 ```shell
 python3 api.py create_application_agent APPLICATION_ID APPLICATION_AGENT_NAME DISPLAY_NAME
@@ -588,7 +661,7 @@ positional arguments:
   display_name        String
 ```
 
-37. Update ApplicationAgent 
+37. Update a given ApplicationAgent 
 
 ```shell
 python3 api.py update_application_agent APPLICATION_AGENT_ID ETAG DISPLAY_NAME
@@ -601,7 +674,7 @@ positional arguments:
   display_name   String
 ```
 
-38. List ApplicationAgents 
+38. List ApplicationAgents of an AppSpace matching a list
 
 ```shell
 python3 api.py list_application_agents APP_SPACE_ID MATCH_LIST 
@@ -615,7 +688,7 @@ optional arguments:
   bookmarks     List of Strings
 ```
 
-39. Delete ApplicationAgent
+39. Delete a given ApplicationAgent
 
 ```shell
 python3 api.py delete_application_agent APPLICATION_AGENT_ID ETAG
@@ -629,7 +702,7 @@ optional arguments:
   bookmarks     List of String
 ```
 
-40. Get ApplicationAgentCredential by id
+40. Get ApplicationAgentCredential information by id
 
 ```shell
 python3 api.py application_agent_credential APPLICATION_AGENT_CREDENTIAL_ID
@@ -640,7 +713,7 @@ positional arguments:
   application_agent_credential_id     String
 ```
 
-41. Register ApplicationAgentCredential with jwk 
+41. Register new ApplicationAgentCredential with jwk 
 
 ```shell
 python3 api.py register_application_agent_credential_jwk APPLICATION_AGENT_ID DISPLAY_NAME DEFAULT_TENANT_ID
@@ -657,7 +730,7 @@ positional arguments:
   bookmarks               List of String 
 ```
 
-42. Register ApplicationAgentCredential with pem 
+42. Register new ApplicationAgentCredential with pem 
 
 ```shell
 python3 api.py register_application_agent_credential_pem APPLICATION_AGENT_ID DISPLAY_NAME DEFAULT_TENANT_ID
@@ -674,7 +747,7 @@ positional arguments:
   bookmarks               List of String 
 ```
 
-43. Delete ApplicationAgentCredential
+43. Delete a given ApplicationAgentCredential
 
 ```shell
 python3 api.py delete_application_agent_credential APPLICATION_AGENT_CREDENTIAL_ID
@@ -687,35 +760,537 @@ optional arguments:
   bookmarks     List of String
 ```
 
-44. To see all available options, run
+44. Get Service Account information by ID
+
+```shell
+python3 api.py service_account_id SERVICE_ACCOUNT_ID
+```
+
+```shell
+positional arguments:
+  service_account_id   String
+```
+
+45. Get Service Account information by Name 
+
+```shell
+python3 api.py service_account_name CUSTOMER_ID SERVICE_ACCOUNT_NAME
+```
+
+```shell
+positional arguments:
+  customer_id   String
+  service_account_name String
+```
+
+46. Create a new Service Account
+
+```shell
+python3 api.py create_service_account CUSTOMER_ID SERVICE_ACCOUNT_NAME DISPLAY_NAME ROLE
+```
+
+```shell
+positional arguments:
+  customer_id = String
+  service_account_name = String
+  display_name = String
+  role = String
+optional arguments:
+  bookmarks     List of String
+```
+
+47. Update a given Service Account 
+
+```shell
+python3 api.py update_service_account SERVICE_ACCOUNT_ID ETAG DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+   service_account_id = String
+   etag = String
+  display_name = String
+optional arguments:
+  bookmarks     List of String
+```
+
+48. Delete a given Service Account
+
+```shell
+python3 api.py delete_service_account SERVICE_ACCOUNT_ID ETAG
+```
+
+```shell
+positional arguments:
+  service_account_id = String
+   etag = String
+optional arguments:
+  bookmarks     List of String
+```
+
+49. Get Service Account Credentials
+
+```shell
+python3 api.py service_account_credential SERVICE_ACCOUNT_CREDENTIAL_ID
+```
+
+```shell
+positional arguments:
+  service_account_credential_id   String
+```
+
+50. Register new Service Account Credentials with JWK 
+If no JWK is provided, one will be created automatically (to be used only in dev environments)
+
+```shell
+python3 api.py register_service_account_credential_jwk SERVICE_ACCOUNT_ID DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  service_account_id = String
+  display_name = String
+optional arguments:
+  bookmarks     List of String
+```
+
+51. Register new Service Account Credentials with pem
+If no pem is provided, one will be created automatically (to be used only in dev environments)
+
+```shell
+python3 api.py register_service_account_credential_pem SERVICE_ACCOUNT_ID DISPLAY_NAME
+```
+
+```shell
+positional arguments:
+  service_account_id = String
+  display_name = String
+optional arguments:
+  bookmarks     List of String
+```
+
+52.  Delete given Service Account Credentials
+
+```shell
+python3 api.py delete_service_account_credential SERVICE_ACCOUNT_CREDENTIAL_ID
+```
+
+```shell
+positional arguments:
+  service_account_credential_id   String
+optional arguments:
+  bookmarks     List of String
+```
+
+53. Create new Email Service Config Node (for example a SendGrid)
+
+```shell
+python3 api.py create_email_service_config_node CUSTOMER_ID NAME DISPLAY_NAME DESCRIPTION 
+```
+
+```shell
+positional arguments:
+  location = String
+  name = String
+  display_name = String
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+54. Read any Config Node from its id (email service, authflow, ingest mapping...)
+
+```shell
+python3 api.py read_config_node CONFIG_NODE_ID
+```
+
+```shell
+positional arguments:
+  config_node_id   String
+optional arguments:
+  bookmarks     List of String
+```
+
+55. Update a given Email Service Config Node
+
+```shell
+python3 api.py update_email_service_config_node CONFIG_NODE_ID ETAG DISPLAY_NAME DESCRIPTION 
+```
+
+```shell
+positional arguments:
+  config_node_id = String
+  etag = String
+  display_name = String
+        
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+56. Delete any Config Node from its id and etag
+
+```shell
+python3 api.py delete_config_node CONFIG_NODE_ID ETAG
+```
+
+```shell
+positional arguments:
+  config_node_id   String
+  etag = String
+optional arguments:
+  bookmarks     List of String
+```
+
+57. Create a new AuthFlow (authentication flow)
+
+```shell
+python3 api.py create_auth_flow_config_node APP_SPACE_ID NAME DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  location = String
+  name = String
+  display_name = String
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+58. Update a given AuthFlow 
+
+```shell
+python3 api.py update_auth_flow_config_node CONFIG_NODE_ID ETAG DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  config_node_id = String
+  etag = String
+  display_name = String
+        
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+59. Create a new OAuth2 Client 
+
+```shell
+python3 api.py create_oauth2_client_config_node APP_SPACE_ID NAME DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  location = String
+  name = String
+  display_name = String
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+60. Update a given OAuth2 Client
+
+```shell
+python3 api.py update_oauth2_client_config_node CONFIG_NODE_ID ETAG DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  config_node_id = String
+  etag = String
+  display_name = String
+        
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+61. Create a new Ingest Mapping (ingestion of application or external data into the IK platform)
+
+```shell
+python3 api.py create_ingest_mapping_config_node APP_SPACE_ID NAME DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  location = String
+  name = String
+  display_name = String
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+62. Update a given Ingest Mapping
+
+```shell
+python3 api.py update_ingest_mapping_config_node CONFIG_NODE_ID ETAG DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  config_node_id = String
+  etag = String
+  display_name = String
+        
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+63. Read a given OAuth2 Provider
+
+```shell
+python3 api.py read_oauth2_provider OAUTH2_PROVIDER_ID
+```
+
+```shell
+positional arguments:
+  oauth2_provider_id   String
+optional arguments:
+  bookmarks     List of String
+```
+
+64. Create a new OAuth2 Provider
+See documentation [here](https://docs.indykite.com/docs/quick-starts/using-admin-console#oauth-2)
+
+```shell
+python3 api.py create_oauth2_provider APP_SPACE_ID NAME DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  app_space_id = String
+  name = String
+  display_name = String   
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+65. Update a given OAuth2 Provider
+
+```shell
+python3 api.py update_oauth2_provider OAUTH2_PROVIDER_ID ETAG DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  oauth2_provider_id = String
+  etag = String
+  display_name = String
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+66. Delete a given OAuth2 Provider
+
+```shell
+python3 api.py delete_oauth2_provider OAUTH2_PROVIDER_ID ETAG
+```
+
+```shell
+positional arguments:
+  oauth2_provider_id = String
+  etag = String
+optional arguments:
+  bookmarks     List of String
+```
+
+67. Read a given OAuth2 Application
+
+```shell
+python3 api.py read_oauth2_application OAUTH2_APPLICATION_ID
+```
+
+```shell
+positional arguments:
+  oauth2_application_id   String
+optional arguments:
+  bookmarks     List of String
+```
+
+68. Create a new OAuth2 Application
+See documentation [here](https://docs.indykite.com/docs/quick-starts/using-admin-console#application)
+
+```shell
+python3 api.py create_oauth2_application OAUTH2_PROVIDER_ID NAME DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  oauth2_provider_id = String
+  name = String
+  display_name = String
+        
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+69. Update a given OAuth2 Application
+
+```shell
+python3 api.py update_oauth2_application OAUTH2_APPLICATION_ID ETAG DISPLAY_NAME DESCRIPTION
+```
+
+```shell
+positional arguments:
+  oauth2_application_id = String
+  etag = String
+  display_name = String
+optional arguments:
+  description = String
+  bookmarks     List of String
+```
+
+70. Delete a given OAuth2 Application
+
+```shell
+python3 api.py delete_oauth2_application OAUTH2_APPLICATION_ID ETAG
+```
+
+```shell
+positional arguments:
+  oauth2_application_id = String
+  etag = String
+optional arguments:
+  bookmarks     List of String
+```
+
+71. Import Digital Twins
+
+```shell
+python3 api.py import_digital_twins TENANT_ID
+```
+
+```shell
+positional arguments:
+  tenant_id   String
+```
+
+72. Import Digital Twins with password hash
+
+```shell
+python3 api.py import_digital_twins_hash TENANT_ID
+```
+
+```shell
+positional arguments:
+  tenant_id   String
+```
+
+73. Import Digital Twins with hash algorithm
+
+```shell
+python3 api.py import_digital_twins_hash256 TENANT_ID
+```
+
+```shell
+positional arguments:
+  tenant_id   String
+```
+
+74. Update Imported Digital Twins
+
+```shell
+python3 api.py import_digital_twins_update DIGITAL_TWIN_ID TENANT_ID
+```
+
+```shell
+positional arguments:
+ id String
+ tenant_id String
+```
+
+75. Is Digital Twin identified by id Authorized to perform an Action on a Resource
+
+```shell
+python3 api.py is_authorized_dt DIGITAL_TWIN_ID TENANT_ID
+```
+
+```shell
+positional arguments:
+  digital_twin_id String
+  tenant_id String
+```
+
+74. Is Digital Twin identified by token Authorized to perform an Action on a Resource
+
+```shell
+python3 api.py is_authorized_token ACCESS_TOKEN
+```
+
+```shell
+positional arguments:
+  access_token   User Token
+```
+
+75. Is Digital Twin identified by property Authorized to perform an Action on a Resource
+
+```shell
+python3 api.py is_authorized_property PROPERTY_TYPE PROPERTY_VALUE
+```
+
+```shell
+positional arguments:
+  property_type  String #e.g "email"
+  property_value String #e.g test@example.com
+```
+
+76. Create Consent for OAuth2 application for a given Digital Twin
+
+```shell
+python3 api.py create_consent PII_PROCESSOR_ID PII_PRINCIPAL_ID
+```
+
+```shell
+positional arguments:
+  pii_processor_id = String ID of OAuth2 Application
+  pii_principal_id = String DigitalTwin Id (gid)
+
+```
+
+77. List Consents for Digital Twin for OAuth2 application
+
+```shell
+python3 api.py list_consents PII_PRINCIPAL_ID
+```
+
+```shell
+positional arguments:
+  pii_principal_id   String
+```
+
+78. Revoke Consents for Digital Twin for OAuth2 application
+
+```shell
+python3 api.py revoke_consent APPLICATION_AGENT_CREDENTIAL_ID
+```
+
+```shell
+positional arguments:
+  pii_principal_id   String
+  consent_ids List of consent ids separated by space
+```
+
+79. To see all available options, run
 
 ```shell
 python3 api.py --help
 ```
 
-```shell
-usage: api.py [-h] [-l]
-              {introspect,verify,change-password,change-password-of-user,get-dt,get-dt-by-token,patch-properties,patch-properties-by-token,start-dt-email-verification}
-              ...
-
-Identity client API.
-
-positional arguments:
-  {introspect,verify,change-password,change-password-of-user,get-dt,get-dt-by-token,patch-properties,patch-properties-by-token,start-dt-email-verification}
-                        sub-command help
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -l, --local           make the request to localhost
-```
-
-45. To see the subcommands help page, run
+80. To see the subcommands help page, run
 
 ```shell
 python3 api.py <sub_command> --help
 ```
 
-46. To execute the functions against the local instance, add the `-l` flag to the command:
+81. To execute the functions against the local instance, add the `-l` flag to the command:
 
 ```shell
 python api.py -l introspect USER_TOKEN
@@ -725,7 +1300,7 @@ python api.py -l introspect USER_TOKEN
 
 To develop this project locally:
 
-* Make sure you have `pipenv` installed on your system
+* Make sure you have `pipenv and protobuf` installed on your system
 
 * Clone this repository and enter it
 
@@ -735,40 +1310,14 @@ To develop this project locally:
 * Create a virtual environment and install project dependencies
 
       pipenv install --dev
+      install python 3.11 in your virtual environment
 
-### Generate Python Library
-
-```
-python3 -m grpc_tools.protoc \
- --plugin=protoc-gen-grpc=../../ptypes/grpc_php_plugin \
- -I.  -I ../../ptypes/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
- -I ../../ptypes/github.com/googleapis/googleapis/ \
- -I ../../ptypes/github.com/envoyproxy/protoc-gen-validate/ \
- -I ../../ptypes/github.com/grpc-ecosystem/grpc-gateway \
- --python_out=../indykite_sdk \
- validate/validate.proto \
- identity/v1/identity_management_api.proto \
- identity/v1/model.proto \
- identity/v1/attributes.proto \
- identity/v1/authenteq.proto \
- identity/v1/document.proto \
- identity/v1/import.proto \
- objects/struct.proto \
- objects/id.proto
-
- python3 -m grpc_tools.protoc \
- --plugin=protoc-gen-grpc=../../ptypes/grpc_php_plugin \
- -I.  -I ../../ptypes/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
- -I ../../ptypes/github.com/googleapis/googleapis/ \
- -I ../../ptypes/github.com/envoyproxy/protoc-gen-validate/ \
- -I ../../ptypes/github.com/grpc-ecosystem/grpc-gateway \
- --grpc_python_out=../indykite_sdk \
- identity/v1/identity_management_api.proto
-```
-
+* Install protos
+  `./gen_proto.sh`
+  
 ## Testing
 
-Use the `python3 -m venv pytest-env` virtual environment and source it with `source pytest-env/bin/activate`
+In tests, `pytest test_...` 
 
 Happy hacking!
 
