@@ -596,4 +596,3 @@ def test_update_ingest_mapping_config_node_exception(capsys):
 
     captured = capsys.readouterr()
     assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.err
-

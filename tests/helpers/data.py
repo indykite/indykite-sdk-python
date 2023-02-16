@@ -9,13 +9,13 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig,
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 
-URL = "https://jarvis-dev.indykite.com"
-EMAIL_URL = "https://super-octo-waffle.indykite.com"
+URL = os.getenv('INDYKITE_SDK_URL')
+EMAIL_URL = os.getenv('EMAIL_URL')
 EMAIL_TOKEN = "MNvLADeDKphk7NoEbczc"
 APPLICATION = "gid:AAAABGluZHlraURlgAACDwAAAAA"
 TENANT = "gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0"
 TENANT_EMAIL = "gid:AAAAA2luZHlraURlgAADDwAAAAI"
-DIGITAL_TWIN = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
+DIGITAL_TWIN = "gid:AAAAFZVCTOBCHEPMgdvP44aZLbg"
 CODE_VERIFIER = "AAAAAAAAAAEAAAAAAAAAAgAAAAAAAAADAAAAAAAAAAQ"
 CODE_CHALLENGE = "cjbADBcANsbeEzqHghDd1YVnqh0GGaD3D2njiub5Fuk"
 # this is changes, if test starts failing, check it!!!
@@ -25,7 +25,7 @@ CONFIG_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
 ACCOUNT_ID= "gid:AAAAEgGym_wUPEZfjV8TIdsImsE"
 WRONG_ACCOUNT_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
 SERVICE_ACCOUNT_NAME = "serviceaccount-sdk"
-TEST_SERVICE_ACCOUNT = "gid:AAAAEiuyZi3zVE9hvsu0gSqgi-g"
+TEST_SERVICE_ACCOUNT = "gid:AAAAEv3GiONu2UdplM9ML9eCrus"
 CUSTOMER_NAME = "sdk-customer"
 APP_SPACE_NAME = "sdk-appspace"
 CUSTOMER_ID = "gid:AAAAAbHLUExsxkqsqRoI93amR30"
@@ -39,12 +39,12 @@ APPLICATION_AGENT_ID = "gid:AAAABbPQM7m4OUbXnsfyef2zOc0"
 APPLICATION_AGENT_NAME = "appagent-sdk"
 APPLICATION_AGENT_CREDENTIAL_ID = "gid:AAAABhgLSrxgg0_nuVeZppYYSGs"
 SERVICE_ACCOUNT_CREDENTIAL_ID = "gid:AAAAE0rMcwG_RUbSjzclsV7bdjg"
-EMAIL_SERVICE_CONFIG_NODE = "gid:AAAACMMM3RvRwkbPgJGsM-uJaDs"
-AUTH_FLOW_CONFIG_NODE = "gid:AAAAB3csFdhUY0SEvn_vJGKiA0c"
-OAUTH2_CLIENT_CONFIG_NODE = "gid:AAAACgrCyXGVWkWBuEXw7aUmnmw"
-INGEST_MAPPING_CONFIG_NODE = "gid:AAAAFKF1oNEdmEEArkQjezYRBPE"
-OAUTH2_PROVIDER = "gid:AAAAEezCvUQGV0HgotmCoeCJAck"
-OAUTH2_APPLICATION = "gid:AAAAC6mMTIwN40frlKWVz788QX8"
+EMAIL_SERVICE_CONFIG_NODE = "gid:AAAACPZyR178jEYLj0wizNxtO4Q"
+AUTH_FLOW_CONFIG_NODE = "gid:AAAAB0Vg1IohjEV4uDLA_hFawKI"
+OAUTH2_CLIENT_CONFIG_NODE = "gid:AAAACtBSbo_Sf0XXpOzuoNfzMk8"
+INGEST_MAPPING_CONFIG_NODE = "gid:AAAAFLk0_fECVENquHrfZUTjaic"
+OAUTH2_PROVIDER = "gid:AAAAEXX8LPjXo0bmvR1VWQEwrQI"
+OAUTH2_APPLICATION = "gid:AAAAC8hPU8pCTEblkvWJ4et0PG4"
 PASSWORD = "Password"
 NEW_PASSWORD = "Password1"
 BCRYPT = "$2y$10$k64jP7oqwYfQpzmoqAN5OuhrtWI2wICn0wXUzYxMp.UA1PopI653G"
@@ -208,17 +208,17 @@ def get_oauth2_application_id():
 
 
 def get_email_service():
-    default_from_address_address = "test+config@indykite.com"
+    default_from_address_address = os.getenv('INDYKITE_DEFAULT_FROM')
     default_from_address_name = "Test Config"
 
     sendgrid = SendGridProviderConfig(
-        api_key="263343b5-983e-4d73-b666-069a98f1ef55",
+        api_key=os.getenv('SENDGRID_KEY'),
         sandbox_mode=True,
-        ip_pool_name=wrappers.StringValue(value="100.45.21.65.25"),
+        ip_pool_name=wrappers.StringValue(value=os.getenv('SENDGRID_IP')),
         host=wrappers.StringValue(value="https://api.sendgrid.com")
     )
 
-    message_to = [Email(address='test+to@indykite.com', name='Test To')]
+    message_to = [Email(address=os.getenv('INDYKITE_DEFAULT_TO'), name='Test To')]
     message_subject = "subject"
     message_text_content = "content text"
     message_html_content = "<html><body>content html</body></html>"
