@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 from uuid import UUID
 from google.protobuf.json_format import MessageToJson
+import os
 
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt, encrypt_sha256
 from indykite_sdk.identity import IdentityClient
@@ -1083,18 +1084,18 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         description = args.description
 
-        default_from_address_address="test+config@indykite.com"
+        default_from_address_address=os.getenv('INDYKITE_DEFAULT_FROM')
         default_from_address_name="Test Config"
 
         sendgrid = SendGridProviderConfig(
-            api_key="263343b5-983e-4d73-b666-069a98f1ef55",
+            api_key=os.getenv('SENDGRID_KEY'),
             sandbox_mode=True,
-            ip_pool_name=wrappers.StringValue(value="100.45.21.65.25"),
+            ip_pool_name=wrappers.StringValue(value=os.getenv('SENDGRID_IP')),
             host=wrappers.StringValue(value="https://api.sendgrid.com")
         )
 
-        message_from = Email(address='test+from@indykite.com', name='Test From')
-        message_to = [Email(address='test+to@indykite.com', name='Test To')]
+        message_from = Email(address=os.getenv('INDYKITE_DEFAULT_FROM'), name='Test From')
+        message_to = [Email(address=os.getenv('INDYKITE_DEFAULT_TO'), name='Test To')]
         message_subject = "subject"
         message_text_content = "content text"
         message_html_content = "<html><body>content html</body></html>"
@@ -1531,7 +1532,7 @@ Property ID and value of the property where the value is a reference
             state="DIGITAL_TWIN_STATE_ACTIVE",
             password=PasswordCredential(
                 email=EmailIdentity(
-                    email="test2101@example.com",
+                    email="test2105@example.com",
                     verified=True
                 ),
                 value="password"
@@ -1543,7 +1544,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2102@example.com",
+                        email="test2106@example.com",
                         verified=True
                     ),
                     value="password"
@@ -1555,7 +1556,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2104@example.com",
+                        email="test2107@example.com",
                         verified=True
                     ),
                     value="password"
