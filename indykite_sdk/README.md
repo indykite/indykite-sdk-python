@@ -1278,19 +1278,32 @@ positional arguments:
   consent_ids List of consent ids separated by space
 ```
 
-79. To see all available options, run
+79. Start forgotten password flow
+
+```shell
+python3 api.py start_forgotten_password DIGITAL_TWIN_ID TENANT_ID
+```
+
+```shell
+positional arguments:
+  digital_twin_id   String
+  tenant_id   String
+```
+
+----------------
+To see all available options, run
 
 ```shell
 python3 api.py --help
 ```
 
-80. To see the subcommands help page, run
+To see the subcommands help page, run
 
 ```shell
 python3 api.py <sub_command> --help
 ```
 
-81. To execute the functions against the local instance, add the `-l` flag to the command:
+To execute the functions against the local instance, add the `-l` flag to the command:
 
 ```shell
 python api.py -l introspect USER_TOKEN
