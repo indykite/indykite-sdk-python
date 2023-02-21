@@ -1,5 +1,5 @@
 from indykite_sdk.identity import IdentityClient
-from indykite_sdk.model.digital_twin import DigitalTwin
+from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from helpers import data
 
 
@@ -68,3 +68,21 @@ def test_forgotten_password_success(capsys):
     captured = capsys.readouterr()
 
     assert response is True
+
+
+def test_forgotten_password_fail(capsys):
+    digital_twin_id = data.get_digital_twin()
+    tenant_id = data.get_tenant()
+
+    client = IdentityClient()
+    assert client is not None
+
+    def mocked_forgotten_password(request: pb2.StartForgottenPasswordFlowRequest):
+        assert request.digital_twin.id == digital_twin_id
+        assert request.digital_twin.tenant_id == tenant_id
+        return None
+
+    client.stub.StartForgottenPasswordFlow = mocked_forgotten_password
+    response = client.start_forgotten_password_flow(digital_twin_id, tenant_id)
+
+    assert response is None
