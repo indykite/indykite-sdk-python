@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.13.0](https://github.com/indykite/indykite-sdk-python/compare/v1.12.0...v1.13.0) (2023-02-16)
+
+
+### Features
+
+* reinit test data ([2c7ab8a](https://github.com/indykite/indykite-sdk-python/commit/2c7ab8ac9e8424df7b1e553f0d2921d41141c5b6))
+* update documentation ([f333e47](https://github.com/indykite/indykite-sdk-python/commit/f333e4718a75a23a808554ebd3f3f0d56340197f))
+
 ## [1.12.0](https://github.com/indykite/indykite-sdk-python/compare/v1.11.0...v1.12.0) (2023-02-10)
 
 
