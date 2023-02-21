@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.0](https://github.com/indykite/indykite-sdk-python/compare/v1.13.0...v1.14.0) (2023-02-21)
+
+
+### Features
+
+* add forgotten password feature ([be97ec1](https://github.com/indykite/indykite-sdk-python/commit/be97ec1650af322a71156b1c53b876b9a63c1d51))
+* add forgotten password feature ([5420614](https://github.com/indykite/indykite-sdk-python/commit/542061480e10a6d563fe6a18160b8757098684c1))
+
 ## [1.13.0](https://github.com/indykite/indykite-sdk-python/compare/v1.12.0...v1.13.0) (2023-02-16)
 
 
