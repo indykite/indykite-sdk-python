@@ -488,6 +488,12 @@ Property ID and value of the property where the value is a reference
     revoke_consent_parser.add_argument("pii_principal_id", help="DigitalTwin Id (gid)")
     revoke_consent_parser.add_argument("consent_ids", nargs='*', help="List of consent ids separated by space")
 
+    # FORGOTTEN_PASSWORD
+    start_forgotten_password = subparsers.add_parser("start_forgotten_password")
+    start_forgotten_password.add_argument("digital_twin_id", help="gid ID of the digital twin with forgotten password")
+    start_forgotten_password.add_argument("tenant_id", help="gid ID of the tenant")
+
+
     args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
@@ -1725,6 +1731,15 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid consent response")
         return consent_response
+
+    elif command == "start_forgotten_password":
+        digital_twin_id = args.digital_twin_id
+        tenant_id = args.tenant_id
+        forgotten_password = client.start_forgotten_password_flow(digital_twin_id, tenant_id)
+        if forgotten_password is not None:
+            print(forgotten_password)
+        else:
+            print("Invalid forgotten password response")
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
