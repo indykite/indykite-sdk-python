@@ -58,3 +58,4 @@ class IdentityClient(object):
     from .enrich_token import enrich_token
     from .import_digital_twins import import_digital_twins
     from .consent import create_consent, list_consents, revoke_consent
+    from .forgotten_password import start_forgotten_password_flow
