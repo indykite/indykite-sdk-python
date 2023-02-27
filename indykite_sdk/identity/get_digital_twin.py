@@ -34,8 +34,7 @@ def get_digital_twin_by_token(self, token, fields):
         if len(token) < 32:
             raise Exception("Token must be 32 chars or more.")
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     try:
         response = self.stub.GetDigitalTwin(

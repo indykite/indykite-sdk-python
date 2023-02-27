@@ -94,7 +94,7 @@ def test_get_digital_twin_by_token_short_token(capsys):
     response = client.get_digital_twin_by_token(token, [])
     captured = capsys.readouterr()
 
-    assert captured.out == "Token must be 32 chars or more.\n"
+    assert "Token must be 32 chars or more" in captured.err
 
 
 def test_get_digital_twin_by_token_expired_token(capsys):

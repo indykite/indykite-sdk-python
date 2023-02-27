@@ -1,6 +1,10 @@
 '''Converts gRPC object to a value'''
 from indykite_sdk.indykite.identity.v1beta2.model_pb2 import PostalAddress as PostalAddressPb
 from indykite_sdk.model.postal_address import PostalAddress
+from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as struct
+from datetime import datetime, date
+from google.protobuf.timestamp_pb2 import Timestamp
+
 
 def object_to_value(grpc_object):
     '''Converts gRPC object to a value'''
@@ -50,5 +54,27 @@ def object_to_value(grpc_object):
         for key in keys:
             mapped[key] = object_to_value(fields[key])
         return mapped
+
+    return None
+
+
+def arg_to_value(value):
+    if not value:
+        return struct.Value(null_value=value)
+
+    if isinstance(value, int):
+        return struct.Value(integer_value=value)
+
+    if isinstance(value, bool):
+        return struct.Value(bool_value=value)
+
+    if isinstance(value, float):
+        return struct.Value(double_value=value)
+
+    if isinstance(value, str):
+        return struct.Value(string_value=value)
+
+    if isinstance(value, bytes):
+        return struct.Value(bytes_value=value)
 
     return None

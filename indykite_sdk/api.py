@@ -6,6 +6,7 @@ import base64
 import json
 from datetime import datetime
 from uuid import UUID
+import uuid
 from google.protobuf.json_format import MessageToJson
 import os
 
@@ -493,6 +494,32 @@ Property ID and value of the property where the value is a reference
     start_forgotten_password.add_argument("digital_twin_id", help="gid ID of the digital twin with forgotten password")
     start_forgotten_password.add_argument("tenant_id", help="gid ID of the tenant")
 
+    # create_email_invitation
+    create_email_invitation = subparsers.add_parser("create_email_invitation")
+    create_email_invitation.add_argument("tenant_id", help="gid ID of the tenant")
+    create_email_invitation.add_argument("email", help="invitee's email")
+
+    # create_email_invitation_with_date
+    create_email_invitation_with_date = subparsers.add_parser("create_email_invitation_with_date")
+    create_email_invitation_with_date.add_argument("tenant_id", help="gid ID of the tenant")
+    create_email_invitation_with_date.add_argument("email", help="invitee's email")
+
+    # create_mobile_invitation
+    create_mobile_invitation = subparsers.add_parser("create_mobile_invitation")
+    create_mobile_invitation.add_argument("tenant_id", help="gid ID of the tenant")
+    create_mobile_invitation.add_argument("mobile", help="invitee's mobile")
+
+    # check_invitation_state
+    check_invitation_state = subparsers.add_parser("check_invitation_state")
+    check_invitation_state.add_argument("reference_id", help="external ID of the invitation reference")
+
+    # resend_invitation
+    resend_invitation = subparsers.add_parser("resend_invitation")
+    resend_invitation.add_argument("reference_id", help="external ID of the invitation reference")
+
+    # cancel_invitation
+    cancel_invitation = subparsers.add_parser("cancel_invitation")
+    cancel_invitation.add_argument("reference_id", help="external ID of the invitation reference")
 
     args = parser.parse_args()
     local = args.local
@@ -1740,6 +1767,62 @@ Property ID and value of the property where the value is a reference
             print(forgotten_password)
         else:
             print("Invalid forgotten password response")
+
+    elif command == "create_email_invitation":
+        reference_id = str(uuid.uuid4())
+        # any unique external reference id
+        print(reference_id)
+        tenant_id = args.tenant_id
+        email = args.email
+        invitation_response = client.create_email_invitation(tenant_id, reference_id, email, invite_at_time=None,
+                                                             expire_time=None, message_attributes=None)
+        if invitation_response is not None:
+            print(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "create_email_invitation_with_date":
+        reference_id = str(uuid.uuid4())
+        print(reference_id)
+        tenant_id = args.tenant_id
+        email = args.email
+        t = datetime.now().timestamp()
+        invite_at_time_in_seconds = int(t) + 3600
+        expire_time_in_seconds = invite_at_time_in_seconds + 172800 # now + 2 days example
+        message_attributes = {"attr1": "value1"}
+        invitation_response = client.create_email_invitation(tenant_id, reference_id, email,
+                                                             invite_at_time_in_seconds,
+                                                             expire_time_in_seconds,
+                                                             message_attributes)
+        if invitation_response is not None:
+            print(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "check_invitation_state":
+        reference_id = args.reference_id
+        # check with either reference_id or invitation_token
+        invitation_response = client.check_invitation_state(reference_id, None)
+        if invitation_response is not None:
+            print_response(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "resend_invitation":
+        reference_id = args.reference_id
+        invitation_response = client.resend_invitation(reference_id)
+        if invitation_response is not None:
+            print(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "cancel_invitation":
+        reference_id = args.reference_id
+        invitation_response = client.cancel_invitation(reference_id)
+        if invitation_response is not None:
+            print(invitation_response)
+        else:
+            print("Invalid invitation response")
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
