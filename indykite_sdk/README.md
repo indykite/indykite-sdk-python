@@ -1284,10 +1284,50 @@ positional arguments:
 python3 api.py start_forgotten_password DIGITAL_TWIN_ID TENANT_ID
 ```
 
+80. Create email invitation (invite a user)
+
+```shell
+python3 api.py create_email_invitation TENANT_ID EMAIL
+```
+
 ```shell
 positional arguments:
-  digital_twin_id   String
   tenant_id   String
+  email   String
+```
+
+81. Check invitation state : check if invitation invalid, in future, pending, accepted, expired, cancelled
+
+```shell
+python3 api.py check_invitation_state REFERENCE_ID
+```
+
+```shell
+positional arguments: one of:
+  reference_id   id used to create the invitation
+  invitation_token  token used in the invitation email
+```
+
+82. Resend an invitation
+
+```shell
+python3 api.py resend_invitation REFERENCE_ID
+```
+
+```shell
+positional arguments:
+  reference_id   id used to create the invitation
+```
+
+83. Cancel an invitation
+
+```shell
+python3 api.py cancel_invitation REFERENCE_ID
+```
+
+```shell
+positional arguments:
+  reference_id   id used to create the invitation
 ```
 
 ----------------
