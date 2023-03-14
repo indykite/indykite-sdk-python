@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.15.0](https://github.com/indykite/indykite-sdk-python/compare/v1.14.0...v1.15.0) (2023-03-14)
+
+
+### Features
+
+* add invitation features ([306b26a](https://github.com/indykite/indykite-sdk-python/commit/306b26a9b6748dbde425e2c244a148d18530f97e))
+* add webauthn config node and cn updates ([425d031](https://github.com/indykite/indykite-sdk-python/commit/425d0317477cf535120b681ada0896c9c8722c1e))
+
 ## [1.14.0](https://github.com/indykite/indykite-sdk-python/compare/v1.13.0...v1.14.0) (2023-02-21)
 
 
