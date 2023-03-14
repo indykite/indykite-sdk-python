@@ -60,7 +60,8 @@ class ConfigClient(object):
     from .application_agent_credential import get_application_agent_credential, register_application_agent_credential_jwk, register_application_agent_credential_pem, delete_application_agent_credential
     from .service_account_credential import get_service_account_credential, register_service_account_credential_jwk, register_service_account_credential_pem, delete_service_account_credential
     from .config_node import create_email_service_config_node, read_config_node, update_email_service_config_node, delete_config_node, create_auth_flow_config_node, update_auth_flow_config_node, \
-        create_oauth2_client_config_node, update_oauth2_client_config_node, create_ingest_mapping_config_node, update_ingest_mapping_config_node
+        create_oauth2_client_config_node, update_oauth2_client_config_node, create_ingest_mapping_config_node, update_ingest_mapping_config_node, \
+        create_webauthn_provider_config_node, update_webauthn_provider_config_node
     from .oauth2_provider import create_oauth2_provider, read_oauth2_provider, update_oauth2_provider, delete_oauth2_provider
     from .oauth2_application import create_oauth2_application, read_oauth2_application, update_oauth2_application, \
         delete_oauth2_application

@@ -1,6 +1,7 @@
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from google.protobuf.json_format import MessageToDict
+from indykite_sdk.model.email import Email
 
 
 class EmailTemplate:
@@ -8,33 +9,48 @@ class EmailTemplate:
     def deserialize(cls, message):
         if message is None:
             return None
-
+        fields = [desc.name for desc, val in message.ListFields()]
         email_template = EmailTemplate(message.template_id)
-        if message.HasField("template_version"):
+        if "template_version" in fields:
             email_template.template_version = wrappers.StringValue(message.template_version)
-        if message.HasField("reply_to"):
+        if "reply_to" in fields:
             email_template.reply_to = Email(message.reply_to)
-        if message.HasField("to"):
-            email_template.to = list(Email(message.to))
-        if message.HasField("cc"):
-            email_template.cc = list(Email(message.cc))
-        if message.HasField("bcc"):
-            email_template.bcc = list(Email(message.bcc))
-        if message.HasField("subject"):
+        if "to" in fields:
+            to = []
+            for e in message.to:
+                to.append(Email.deserialize(e))
+            email_template.to = to
+        if "cc" in fields:
+            cc = []
+            for e in message.cc:
+                cc.append(Email.deserialize(e))
+            email_template.cc = cc
+        if "bcc" in fields:
+            bcc = []
+            for e in message.bcc:
+                bcc.append(Email.deserialize(e))
+            email_template.bcc = bcc
+        if "subject" in fields:
             email_template.subject = str(message.subject)
-        if message.HasField("headers"):
+        if "headers" in fields:
             email_template.headers = MessageToDict(message.headers)
-        if message.HasField("custom_args"):
+        if "custom_args" in fields:
             email_template.custom_args = MessageToDict(message.custom_args)
-        if message.HasField("dynamic_template_values"):
+        if "dynamic_template_values" in fields:
             email_template.dynamic_template_values = MessageToDict(message.dynamic_template_values)
-        if message.HasField("categories"):
-            email_template.categories = list(str(message.categories))
-        if message.HasField("attachments"):
-            email_template.attachments = list(EmailAttachment(message.attachments))
-        if message.HasField("event_payload"):
+        if "categories" in fields:
+            categories = []
+            for e in message.categories:
+                categories.append(str(message.e))
+            email_template.categories = categories
+        if "attachments" in fields:
+            attachments = []
+            for e in message.attachments:
+                attachments.append(EmailAttachment(message.e))
+            email_template.attachments = attachments
+        if "event_payload" in fields:
             email_template.event_payload = wrappers.StringValue(message.event_payload)
-        if message.HasField("template_arn"):
+        if "template_arn" in fields:
             email_template.template_arn = str(message.template_arn)
 
         return email_template

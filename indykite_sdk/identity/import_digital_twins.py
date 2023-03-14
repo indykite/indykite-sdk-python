@@ -28,7 +28,6 @@ def import_digital_twins_chunks(stub, entities, hash_algorithm):
     try:
         idt = []
         for e in entities:
-            print(e)
             if not validate_entity(e):
                 return None
             idt.append(e)
@@ -161,3 +160,4 @@ def divide_chunks(entities, n):
     if entities:
         for i in range(0, len(entities), n):
             yield entities[i:i + n]
+

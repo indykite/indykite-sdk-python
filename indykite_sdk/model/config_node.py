@@ -3,6 +3,7 @@ from indykite_sdk.model.email_service_config import EmailServiceConfig
 from indykite_sdk.model.auth_flow_config import AuthFlowConfig
 from indykite_sdk.model.oauth2_client_config import OAuth2ClientConfig
 from indykite_sdk.model.ingest_mapping_config import IngestMappingConfig
+from indykite_sdk.model.webauthn_provider_config import WebAuthnProviderConfig
 
 
 class ConfigNode:
@@ -10,7 +11,7 @@ class ConfigNode:
     def deserialize(cls, message):
         if message is None:
             return None
-
+        fields = [desc.name for desc, val in message.ListFields()]
         config_node = ConfigNode(
             str(message.id),
             str(message.name),
@@ -34,7 +35,7 @@ class ConfigNode:
             config_node.delete_time = timestamp_to_date(message.delete_time)
 
         if message.HasField('description'):
-            config_node.description = str(message.description)
+            config_node.description = str(message.description.value)
 
         if message.HasField('email_service_config'):
             config_node.email_service_config = EmailServiceConfig.deserialize(message.email_service_config)
@@ -47,6 +48,9 @@ class ConfigNode:
 
         if message.HasField('ingest_mapping_config'):
             config_node.ingest_mapping_config = IngestMappingConfig.deserialize(message.ingest_mapping_config)
+
+        if message.HasField('webauthn_provider_config'):
+            config_node.webauthn_provider_config = WebAuthnProviderConfig.deserialize(message.webauthn_provider_config)
 
         return config_node
 
@@ -67,5 +71,6 @@ class ConfigNode:
         self.auth_flow_config = None
         self.oauth2_client_config = None
         self.ingest_mapping_config = None
+        self.webauthn_provider_config = None
 
 

@@ -8,6 +8,7 @@ from datetime import datetime
 from uuid import UUID
 import uuid
 from google.protobuf.json_format import MessageToJson
+from google.protobuf.duration_pb2 import Duration
 import os
 
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt, encrypt_sha256
@@ -15,7 +16,7 @@ from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig)
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig)
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt, SHA256
@@ -397,6 +398,20 @@ Property ID and value of the property where the value is a reference
     update_ingest_mapping_config_node_parser.add_argument("etag", help="Etag")
     update_ingest_mapping_config_node_parser.add_argument("display_name", help="Display name")
     update_ingest_mapping_config_node_parser.add_argument("description", help="Description")
+
+    # create_webauthn_provider_config_node
+    create_webauthn_provider_config_node_parser = subparsers.add_parser("create_webauthn_provider_config_node")
+    create_webauthn_provider_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_webauthn_provider_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_webauthn_provider_config_node_parser.add_argument("display_name", help="Display name")
+    create_webauthn_provider_config_node_parser.add_argument("description", help="Description")
+
+    # update_webauthn_provider_config_node
+    update_webauthn_provider_config_node_parser = subparsers.add_parser("update_webauthn_provider_config_node")
+    update_webauthn_provider_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_webauthn_provider_config_node_parser.add_argument("etag", help="Etag")
+    update_webauthn_provider_config_node_parser.add_argument("display_name", help="Display name")
+    update_webauthn_provider_config_node_parser.add_argument("description", help="Description")
 
     # read_oauth2_provider
     read_oauth2_provider_parser = subparsers.add_parser("read_oauth2_provider")
@@ -1156,13 +1171,9 @@ Property ID and value of the property where the value is a reference
 
     elif command == "read_config_node":
         config_node_id = args.config_node_id
-        config_node = client_config.read_config_node(config_node_id,[])
+        config_node = client_config.read_config_node(config_node_id, [])
         if config_node:
             print_response(config_node)
-            if config_node.auth_flow_config:
-                source = config_node.auth_flow_config.source
-                if source:
-                    print(json.loads(source.decode('utf-8')))
         else:
             print("Invalid config node id")
 
@@ -1394,6 +1405,60 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid update ingest mapping config node response")
         return update_ingest_mapping_config_node_response
+
+    elif command == "create_webauthn_provider_config_node":
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+
+        webauthn_provider_config = WebAuthnProviderConfig(
+            relying_parties={"http://localhost":"localhost"},
+            attestation_preference="CONVEYANCE_PREFERENCE_NONE",
+            authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
+            require_resident_key=False,
+            user_verification="USER_VERIFICATION_REQUIREMENT_PREFERRED",
+            registration_timeout=Duration(seconds=30),
+            authentication_timeout=Duration(seconds=60)
+        )
+
+        create_webauthn_provider_config_node_response = client_config.create_webauthn_provider_config_node(
+            location, name, display_name, description, webauthn_provider_config, [])
+        if create_webauthn_provider_config_node_response:
+            print_response(create_webauthn_provider_config_node_response)
+        else:
+            print("Invalid create webauthn provider config node response")
+        return create_webauthn_provider_config_node_response
+
+    elif command == "update_webauthn_provider_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+
+        webauthn_provider_config = WebAuthnProviderConfig(
+            relying_parties={"http://localhost":"localhost"},
+            attestation_preference="CONVEYANCE_PREFERENCE_INDIRECT",
+            authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
+            require_resident_key=False,
+            user_verification="USER_VERIFICATION_REQUIREMENT_REQUIRED",
+            registration_timeout=Duration(seconds=30),
+            authentication_timeout=Duration(seconds=60)
+        )
+
+        update_webauthn_provider_config_node_response = client_config.update_webauthn_provider_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            webauthn_provider_config,
+            [])
+
+        if update_webauthn_provider_config_node_response:
+            print_response(update_webauthn_provider_config_node_response)
+        else:
+            print("Invalid update webauthn provider config node response")
+        return update_webauthn_provider_config_node_response
 
     elif command == "read_oauth2_provider":
         oauth2_provider_id = args.oauth2_provider_id

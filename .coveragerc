@@ -9,20 +9,11 @@ omit =
   indykite_sdk/identity/helper.py
   indykite_sdk/config/helper.py
   indykite_sdk/model/unique_name_identifier.py
-  indykite_sdk/model/email.py
   indykite_sdk/model/email_attachment.py
-  indykite_sdk/model/sendgrid_email_provider.py
-  indykite_sdk/model/email_message.py
-  indykite_sdk/model/email_service_config.py
-  indykite_sdk/model/email_template.py
-  indykite_sdk/model/ingest_mapping_config.py
   indykite_sdk/model/oauth2_application.py
   indykite_sdk/model/oauth2_application_config.py
-  indykite_sdk/model/oauth2_client_config.py
   indykite_sdk/model/oauth2_provider.py
   indykite_sdk/model/oauth2_provider_config.py
-  indykite_sdk/model/auth_flow_config.py
-  indykite_sdk/model/config_node.py
   indykite_sdk/model/import_digital_twin.py
   indykite_sdk/utils/hash_methods.py
 
