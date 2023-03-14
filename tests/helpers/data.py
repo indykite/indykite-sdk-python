@@ -3,10 +3,11 @@ import json
 import os
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, SendGridProviderConfig, MailJetProviderConfig,
                                                           AmazonSESProviderConfig, MailgunProviderConfig,EmailServiceConfig,
-                                                          AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig)
+                                                          AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
+from google.protobuf.duration_pb2 import Duration
 
 
 URL = os.getenv('INDYKITE_SDK_URL')
@@ -44,6 +45,7 @@ EMAIL_SERVICE_CONFIG_NODE = "gid:AAAACPZyR178jEYLj0wizNxtO4Q"
 AUTH_FLOW_CONFIG_NODE = "gid:AAAAB0Vg1IohjEV4uDLA_hFawKI"
 OAUTH2_CLIENT_CONFIG_NODE = "gid:AAAACtBSbo_Sf0XXpOzuoNfzMk8"
 INGEST_MAPPING_CONFIG_NODE = "gid:AAAAFLk0_fECVENquHrfZUTjaic"
+WEBAUTHN_PROVIDER_CONFIG_NODE = "gid:AAAADRcYFyi8IUUIv-P5IJwlXQ0"
 OAUTH2_PROVIDER = "gid:AAAAEXX8LPjXo0bmvR1VWQEwrQI"
 OAUTH2_APPLICATION = "gid:AAAAC8hPU8pCTEblkvWJ4et0PG4"
 PASSWORD = "Password"
@@ -204,6 +206,10 @@ def get_ingest_mapping_config_node_id():
     return INGEST_MAPPING_CONFIG_NODE
 
 
+def get_webauthn_provider_config_node_id():
+    return WEBAUTHN_PROVIDER_CONFIG_NODE
+
+
 def get_oauth2_provider_id():
     return OAUTH2_PROVIDER
 
@@ -232,7 +238,7 @@ def get_email_service():
         default_from_address=Email(address=default_from_address_address, name=default_from_address_name),
         default=wrappers.BoolValue(value=True),
         sendgrid=sendgrid,
-        authentication_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
+        invitation_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
                                                                     subject=message_subject,
                                                                     text_content=message_text_content,
                                                                     html_content=message_html_content))
@@ -322,3 +328,29 @@ def get_oauth2_application():
         response_types=["RESPONSE_TYPE_CODE", "RESPONSE_TYPE_TOKEN"]
     )
     return config
+
+
+def get_webauthn_provider():
+    webauthn_provider_config = WebAuthnProviderConfig(
+        relying_parties={"http://localhost":"localhost"},
+        attestation_preference="CONVEYANCE_PREFERENCE_NONE",
+        require_resident_key=False,
+        user_verification="USER_VERIFICATION_REQUIREMENT_PREFERRED",
+        authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
+        registration_timeout=Duration(seconds=30),
+        authentication_timeout=Duration(seconds=60)
+    )
+    return webauthn_provider_config
+
+
+def get_webauthn_provider_exception():
+    webauthn_provider_config = WebAuthnProviderConfig(
+        relying_parties={"localhost": "localhost"},
+        attestation_preference="CONVEYANCE_PREFERENCE_NONE",
+        require_resident_key=False,
+        user_verification="USER_VERIFICATION_REQUIREMENT_PREFERRED",
+        authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
+        registration_timeout=Duration(seconds=30),
+        authentication_timeout=Duration(seconds=60)
+    )
+    return webauthn_provider_config

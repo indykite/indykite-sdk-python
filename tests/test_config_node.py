@@ -596,3 +596,134 @@ def test_update_ingest_mapping_config_node_exception(capsys):
 
     captured = capsys.readouterr()
     assert "must be initialized with a dict: indykite.config.v1beta1.UpdateConfigNodeRequest" in captured.err
+
+
+def test_create_webauthn_provider_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    webauthn_provider_config = data.get_webauthn_provider()
+
+    config_node = client.create_webauthn_provider_config_node(app_space_id,
+                                                              "automation-"+right_now,
+                                                              "Automation "+right_now,
+                                                              "description",
+                                                              webauthn_provider_config,
+                                                              [])
+    captured = capsys.readouterr()
+
+    assert "invalid or expired access_token" not in captured.out
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+
+
+def test_create_webauthn_provider_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    webauthn_provider_config = data.get_webauthn_provider()
+
+    def mocked_create_config_node(request: pb2.CreateConfigNodeRequest):
+        return None
+
+    client.stub.CreateConfigNode = mocked_create_config_node
+    config_node = client.create_webauthn_provider_config_node(app_space_id,
+                                                              "automation-"+right_now,
+                                                              "Automation "+right_now,
+                                                              "description",
+                                                              webauthn_provider_config,
+                                                              [])
+
+    assert config_node is None
+
+
+def test_create_webauthn_provider_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    webauthn_provider_config = data.get_webauthn_provider_exception()
+    config_node = client.create_webauthn_provider_config_node(app_space_id,
+                                                              "automation-"+right_now,
+                                                              "Automation "+right_now,
+                                                              "description",
+                                                              webauthn_provider_config,
+                                                              [])
+
+    captured = capsys.readouterr()
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err
+
+
+def test_update_webauthn_provider_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_webauthn_provider_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    webauthn_provider_config = data.get_webauthn_provider()
+    config_node_response = client.update_webauthn_provider_config_node(response.id,
+                                                                       response.etag,
+                                                                       "Automation "+right_now,
+                                                                       "description "+right_now,
+                                                                       webauthn_provider_config,
+                                                                       [])
+
+    captured = capsys.readouterr()
+
+    assert "invalid or expired access_token" not in captured.out
+    assert config_node_response is not None
+    assert isinstance(config_node_response, UpdateConfigNode)
+
+
+def test_update_webauthn_provider_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_webauthn_provider_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    webauthn_provider_config = data.get_webauthn_provider()
+
+    def mocked_update_config_node(request: pb2.UpdateConfigNodeRequest):
+        return None
+
+    client.stub.UpdateConfigNode = mocked_update_config_node
+    config_node_response = client.update_webauthn_provider_config_node(response.id,
+                                                                       response.etag,
+                                                                       "Automation " + right_now,
+                                                                       "description " + right_now,
+                                                                       webauthn_provider_config,
+                                                                       [])
+
+    assert config_node_response is None
+
+
+def test_update_webauthn_provider_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_webauthn_provider_config_node_id()
+    webauthn_provider_config = data.get_webauthn_provider_exception()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    config_node_response = client.update_webauthn_provider_config_node(response.id,
+                                                                       response.etag,
+                                                                       "Automation "+right_now,
+                                                                       "description "+right_now,
+                                                                       webauthn_provider_config,
+                                                                       [])
+
+    captured = capsys.readouterr()
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err

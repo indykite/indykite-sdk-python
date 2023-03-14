@@ -1,6 +1,3 @@
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import Email
-
-
 class Email:
     @classmethod
     def deserialize(cls, message):

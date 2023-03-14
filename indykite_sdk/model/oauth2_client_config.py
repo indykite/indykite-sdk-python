@@ -1,64 +1,62 @@
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ClientConfig, ProviderType, AuthStyle
-
-
 class OAuth2ClientConfig:
     @classmethod
     def deserialize(cls, message_config):
         if message_config is None:
             return None
+        fields = [desc.name for desc, val in message_config.ListFields()]
 
         oauth2_client_config = OAuth2ClientConfig(
-            ProviderType(message_config.provider_type),
+            str(message_config.provider_type),
             str(message_config.client_id),
             str(message_config.client_secret),
             list(message_config.redirect_uri)
         )
-        if message_config.HasField('default_scopes'):
+        if "default_scopes" in fields:
             oauth2_client_config.default_scopes = list(message_config.default_scopes)
 
-        if message_config.HasField('allowed_scopes'):
+        if "allowed_scopes" in fields:
             oauth2_client_config.allowed_scopes = list(message_config.allowed_scopes)
 
-        if message_config.HasField('allow_signup'):
+        if "allow_signup" in fields:
             oauth2_client_config.allow_signup = bool(message_config.allow_signup)
 
-        if message_config.HasField('issuer'):
+        if "issuer" in fields:
             oauth2_client_config.issuer = str(message_config.issuer)
 
-        if message_config.HasField('authorization_endpoint'):
+        if "authorization_endpoint" in fields:
             oauth2_client_config.authorization_endpoint = str(message_config.authorization_endpoint)
 
-        if message_config.HasField('token_endpoint'):
+        if "token_endpoint" in fields:
             oauth2_client_config.token_endpoint = str(message_config.token_endpoint)
 
-        if message_config.HasField('discovery_url'):
+        if "discovery_url" in fields:
             oauth2_client_config.discovery_url = str(message_config.discovery_url)
 
-        if message_config.HasField('userinfo_endpoint'):
+        if "userinfo_endpoint" in fields:
             oauth2_client_config.userinfo_endpoint = str(message_config.userinfo_endpoint)
 
-        if message_config.HasField('jwks_uri'):
+        if "jwks_uri" in fields:
             oauth2_client_config.jwks_uri = str(message_config.jwks_uri)
 
-        if message_config.HasField('image_url'):
+        if "image_url" in fields:
             oauth2_client_config.image_url = str(message_config.image_url)
 
-        if message_config.HasField('tenant'):
+        if "tenant" in fields:
             oauth2_client_config.tenant = str(message_config.tenant)
 
-        if message_config.HasField('hosted_domain'):
+        if "hosted_domain" in fields:
             oauth2_client_config.hosted_domain = str(message_config.hosted_domain)
 
-        if message_config.HasField('auth_style'):
-            oauth2_client_config.auth_style = AuthStyle(message_config.auth_style)
+        if "auth_style" in fields:
+            oauth2_client_config.auth_style = str(message_config.auth_style)
 
-        if message_config.HasField('private_key_pem'):
+        if "private_key_pem" in fields:
             oauth2_client_config.private_key_pem = str(bytes=message_config.private_key_pem)
 
-        if message_config.HasField('private_key_id'):
+        if "private_key_id" in fields:
             oauth2_client_config.private_key_id = str(message_config.private_key_id)
 
-        if message_config.HasField('team_id'):
+        if "team_id" in fields:
             oauth2_client_config.team_id = str(message_config.team_id)
 
         return oauth2_client_config

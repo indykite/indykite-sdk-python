@@ -1,5 +1,4 @@
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import AuthFlowConfig
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
+import json
 
 
 class AuthFlowConfig:
@@ -9,9 +8,9 @@ class AuthFlowConfig:
             return None
 
         auth_flow_config = AuthFlowConfig(
-            AuthFlowConfig.Format(message_config.source_format),
-            bytes(message_config.source),
-            wrappers.BoolValue(message_config.default)
+            str(message_config.source_format),
+            json.loads(message_config.source.decode('utf-8')),
+            bool(message_config.default)
         )
         return auth_flow_config
 

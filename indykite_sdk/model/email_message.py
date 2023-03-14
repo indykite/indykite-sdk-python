@@ -1,6 +1,7 @@
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from google.protobuf.json_format import MessageToDict
+from indykite_sdk.model.email import Email
 
 
 class EmailMessage:
@@ -8,36 +9,47 @@ class EmailMessage:
     def deserialize(cls, message):
         if message is None:
             return None
-
-        email_message = EmailMessage(list(Email(message.to)))
-        if message.HasField("reply_to"):
-            email_message.reply_to = Email(message.reply_to),
-        if message.HasField("cc"):
-            email_message.cc = list(Email(message.cc))
-        if message.HasField("bcc"):
-            email_message.bcc = list(Email(message.bcc))
-        if message.HasField("subject"):
+        fields = [desc.name for desc, val in message.ListFields()]
+        email_message = EmailMessage()
+        if "to" in fields:
+            to = []
+            for e in message.to:
+                to.append(Email.deserialize(e))
+            email_message.to = to
+        if "reply_to" in fields:
+            email_message.reply_to = Email.deserialize(message.reply_to)
+        if "cc" in fields:
+            cc = []
+            for e in message.cc:
+                cc.append(Email.deserialize(e))
+            email_message.cc = cc
+        if "bcc" in fields:
+            bcc = []
+            for e in message.bcc:
+                bcc.append(Email.deserialize(e))
+            email_message.bcc = bcc
+        if "subject" in fields:
             email_message.subject = str(message.subject)
-        if message.HasField("text_content"):
+        if "text_content" in fields:
             email_message.text_content = str(message.text_content)
-        if message.HasField("html_content"):
+        if "html_content" in fields:
             email_message.html_content = str(message.html_content)
-        if message.HasField("headers"):
+        if "headers" in fields:
             email_message.headers = MessageToDict(message.headers)
-        if message.HasField("custom_args"):
+        if "custom_args" in fields:
             email_message.custom_args = MessageToDict(message.custom_args)
-        if message.HasField("dynamic_template_values"):
+        if "dynamic_template_values" in fields:
             email_message.dynamic_template_values = MessageToDict(message.dynamic_template_values)
-        if message.HasField("categories"):
+        if "categories" in fields:
             email_message.categories = list(str(message.categories))
-        if message.HasField("attachments"):
-            email_message.attachments = list(EmailAttachment(message.attachments))
-        if message.HasField("event_payload"):
+        if "attachments" in fields:
+            email_message.attachments = list(EmailAttachment.deserialize(message.attachments))
+        if "event_payload" in fields:
             email_message.event_payload = wrappers.StringValue(message.event_payload)
 
         return email_message
 
-    def __init__(self, to):
+    def __init__(self, to=None):
         self.to = to,
         self.reply_to = None,
         self.cc = None,

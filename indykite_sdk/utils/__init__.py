@@ -1,4 +1,5 @@
 from google.protobuf.timestamp_pb2 import Timestamp
+from google.protobuf.duration_pb2 import Duration
 
 
 def timestamp_to_date(timestamp):
@@ -15,3 +16,10 @@ def date_to_timestamp(date):
     timestamp = Timestamp()
     timestamp.FromDatetime(date)
     return timestamp
+
+
+def duration_to_seconds(duration):
+    if duration is None:
+        return None
+
+    return duration.ToSeconds()
