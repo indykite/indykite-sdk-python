@@ -10,7 +10,7 @@ def del_digital_twin(self, digital_twin_id, tenant_id):
     try:
         response = self.stub.DeleteDigitalTwin(
             pb2.DeleteDigitalTwinRequest(
-                id=pb2.DigitalTwinIdentifier(
+                id=model.DigitalTwinIdentifier(
                     digital_twin=model.DigitalTwin(
                         id=str(digital_twin_id),
                         tenant_id=str(tenant_id)
@@ -38,7 +38,7 @@ def del_digital_twin_by_token(self, token):
     try:
         response = self.stub.DeleteDigitalTwin(
                 pb2.DeleteDigitalTwinRequest(
-                    id=pb2.DigitalTwinIdentifier(access_token=token)
+                    id=model.DigitalTwinIdentifier(access_token=token)
                 )
         )
     except Exception as exception:

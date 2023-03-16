@@ -13,7 +13,7 @@ def get_digital_twin(self, digital_twin_id, tenant_id, fields):
     try:
         response = self.stub.GetDigitalTwin(
             pb2.GetDigitalTwinRequest(
-                id=pb2.DigitalTwinIdentifier(
+                id=model.DigitalTwinIdentifier(
                     digital_twin=model.DigitalTwin(
                         id=str(digital_twin_id),
                         tenant_id=str(tenant_id)
@@ -39,7 +39,7 @@ def get_digital_twin_by_token(self, token, fields):
     try:
         response = self.stub.GetDigitalTwin(
                 pb2.GetDigitalTwinRequest(
-                    id=pb2.DigitalTwinIdentifier(access_token=token),
+                    id=model.DigitalTwinIdentifier(access_token=token),
                     properties=helper.create_property_mask(fields)
                 )
         )

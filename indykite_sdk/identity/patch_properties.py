@@ -10,7 +10,7 @@ def patch_properties(self, digital_twin_id, tenant_id, fields_in_dict):
     try:
         response = self.stub.PatchDigitalTwin(
             pb2.PatchDigitalTwinRequest(
-                id=pb2.DigitalTwinIdentifier(
+                id=model.DigitalTwinIdentifier(
                     digital_twin=model.DigitalTwin(
                         id=str(digital_twin_id),
                         tenant_id=str(tenant_id)
@@ -42,7 +42,7 @@ def patch_properties_by_token(self, token, fields_in_dict):
 
         response = self.stub.PatchDigitalTwin(
             pb2.PatchDigitalTwinRequest(
-                id=pb2.DigitalTwinIdentifier(access_token=token),
+                id=model.DigitalTwinIdentifier(access_token=token),
                 operations=helper.create_property_batch_operations(fields_in_dict)
             )
         )

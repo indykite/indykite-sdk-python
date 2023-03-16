@@ -12,8 +12,8 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
-from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as indykite_dot_identity_dot_v1beta2_dot_attributes__pb2
+from indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
+from indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as indykite_dot_identity_dot_v1beta2_dot_attributes__pb2
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 

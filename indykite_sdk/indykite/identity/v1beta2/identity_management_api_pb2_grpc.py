@@ -171,6 +171,11 @@ class IdentityManagementAPIStub(object):
                 request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.SessionIntrospectRequest.SerializeToString,
                 response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.SessionIntrospectResponse.FromString,
                 )
+        self.CreateCustomLoginToken = channel.unary_unary(
+                '/indykite.identity.v1beta2.IdentityManagementAPI/CreateCustomLoginToken',
+                request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CreateCustomLoginTokenRequest.SerializeToString,
+                response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CreateCustomLoginTokenResponse.FromString,
+                )
 
 
 class IdentityManagementAPIServicer(object):
@@ -438,6 +443,17 @@ class IdentityManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CreateCustomLoginToken(self, request, context):
+        """CreateCustomLoginToken creates a signed custom authentication token with the specified user ID.
+
+        The resulting JWT can be used in a IndyKite AuthN SDK to trigger an authentication flow. See
+        https://docs.indykite.com/sdk/authnn/create-custom-tokens#sign_in_using_custom_tokens_on_clients
+        for more details on how to use custom tokens for client authentication.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_IdentityManagementAPIServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -595,6 +611,11 @@ def add_IdentityManagementAPIServicer_to_server(servicer, server):
                     servicer.SessionIntrospect,
                     request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.SessionIntrospectRequest.FromString,
                     response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.SessionIntrospectResponse.SerializeToString,
+            ),
+            'CreateCustomLoginToken': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateCustomLoginToken,
+                    request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CreateCustomLoginTokenRequest.FromString,
+                    response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CreateCustomLoginTokenResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -1131,5 +1152,22 @@ class IdentityManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/SessionIntrospect',
             indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.SessionIntrospectRequest.SerializeToString,
             indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.SessionIntrospectResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateCustomLoginToken(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/CreateCustomLoginToken',
+            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CreateCustomLoginTokenRequest.SerializeToString,
+            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CreateCustomLoginTokenResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

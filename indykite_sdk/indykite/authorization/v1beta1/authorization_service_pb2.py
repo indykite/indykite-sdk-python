@@ -14,10 +14,11 @@ _sym_db = _symbol_database.Default()
 
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
-from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2
+from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as indykite_dot_identity_dot_v1beta2_dot_model__pb2
+from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as indykite_dot_authorization_dot_v1beta1_dot_model__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n:indykite/authorization/v1beta1/authorization_service.proto\x12\x1eindykite.authorization.v1beta1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a\x37indykite/identity/v1beta2/identity_management_api.proto\"\xa7\x03\n\x13IsAuthorizedRequest\x12t\n\x17\x64igital_twin_identifier\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x15\x64igitalTwinIdentifier\x12\x66\n\tresources\x18\x02 \x03(\x0b\x32<.indykite.authorization.v1beta1.IsAuthorizedRequest.ResourceB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x10 R\tresources\x12\x46\n\x07\x61\x63tions\x18\x03 \x03(\tB,\xfa\x42)\x92\x01&\x08\x01\x10\x01\" r\x1e\x10\x02\x18\x32\x32\x18^[a-zA-Z0-9.:_\\-\\/]{2,}$R\x07\x61\x63tions\x1aZ\n\x08Resource\x12\x19\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x02\x18\x32R\x02id\x12\x33\n\x05label\x18\x02 \x01(\tB\x1d\xfa\x42\x1ar\x18\x10\x02\x18\x32\x32\x12^(?:[A-Z][a-z]+)+$R\x05labelB\x0e\n\x07subject\x12\x03\xf8\x42\x01\"\xaf\x02\n\x14IsAuthorizedResponse\x12?\n\rdecision_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0c\x64\x65\x63isionTime\x12\x61\n\tdecisions\x18\x02 \x03(\x0b\x32\x43.indykite.authorization.v1beta1.IsAuthorizedResponse.DecisionsEntryR\tdecisions\x1as\n\x0e\x44\x65\x63isionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12K\n\x05value\x18\x02 \x01(\x0b\x32\x35.indykite.authorization.v1beta1.AuthorizationDecisionR\x05value:\x02\x38\x01\"\xc2\x01\n\x15\x41uthorizationDecision\x12i\n\x0c\x61llow_action\x18\x01 \x03(\x0b\x32\x46.indykite.authorization.v1beta1.AuthorizationDecision.AllowActionEntryR\x0b\x61llowAction\x1a>\n\x10\x41llowActionEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n\x05value\x18\x02 \x01(\x08R\x05value:\x02\x38\x01\x32\x8d\x01\n\x10\x41uthorizationAPI\x12y\n\x0cIsAuthorized\x12\x33.indykite.authorization.v1beta1.IsAuthorizedRequest\x1a\x34.indykite.authorization.v1beta1.IsAuthorizedResponseB\xd9\x01\n\"com.indykite.authorization.v1beta1B\x19\x41uthorizationServiceProtoP\x01\xa2\x02\x03IAX\xaa\x02\x1eIndykite.Authorization.V1beta1\xca\x02\x1eIndykite\\Authorization\\V1beta1\xe2\x02*Indykite\\Authorization\\V1beta1\\GPBMetadata\xea\x02 Indykite::Authorization::V1beta1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n:indykite/authorization/v1beta1/authorization_service.proto\x12\x1eindykite.authorization.v1beta1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a%indykite/identity/v1beta2/model.proto\x1a*indykite/authorization/v1beta1/model.proto\"\xf3\x03\n\x13IsAuthorizedRequest\x12t\n\x17\x64igital_twin_identifier\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x15\x64igitalTwinIdentifier\x12\x66\n\tresources\x18\x02 \x03(\x0b\x32<.indykite.authorization.v1beta1.IsAuthorizedRequest.ResourceB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x10 R\tresources\x12\x46\n\x07\x61\x63tions\x18\x03 \x03(\tB,\xfa\x42)\x92\x01&\x08\x01\x10\x01\" r\x1e\x10\x02\x18\x32\x32\x18^[a-zA-Z0-9.:_\\-\\/]{2,}$R\x07\x61\x63tions\x12J\n\x07options\x18\x04 \x03(\x0b\x32&.indykite.authorization.v1beta1.OptionB\x08\xfa\x42\x05\x92\x01\x02(\x01R\x07options\x1aZ\n\x08Resource\x12\x19\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x02\x18\x32R\x02id\x12\x33\n\x05label\x18\x02 \x01(\tB\x1d\xfa\x42\x1ar\x18\x10\x02\x18\x32\x32\x12^(?:[A-Z][a-z]+)+$R\x05labelB\x0e\n\x07subject\x12\x03\xf8\x42\x01\"\xaf\x02\n\x14IsAuthorizedResponse\x12?\n\rdecision_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0c\x64\x65\x63isionTime\x12\x61\n\tdecisions\x18\x02 \x03(\x0b\x32\x43.indykite.authorization.v1beta1.IsAuthorizedResponse.DecisionsEntryR\tdecisions\x1as\n\x0e\x44\x65\x63isionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12K\n\x05value\x18\x02 \x01(\x0b\x32\x35.indykite.authorization.v1beta1.AuthorizationDecisionR\x05value:\x02\x38\x01\"\x91\x02\n\x15WhatAuthorizedRequest\x12K\n\x07subject\x18\x01 \x01(\x0b\x32\'.indykite.authorization.v1beta1.SubjectB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x07subject\x12_\n\x0eresource_types\x18\x02 \x03(\x0b\x32,.indykite.authorization.v1beta1.ResourceTypeB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x10\nR\rresourceTypes\x12J\n\x07options\x18\x03 \x03(\x0b\x32&.indykite.authorization.v1beta1.OptionB\x08\xfa\x42\x05\x92\x01\x02(\x01R\x07options\"\x99\x04\n\x16WhatAuthorizedResponse\x12?\n\rdecision_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0c\x64\x65\x63isionTime\x12\x63\n\tdecisions\x18\x02 \x03(\x0b\x32\x45.indykite.authorization.v1beta1.WhatAuthorizedResponse.DecisionsEntryR\tdecisions\x1am\n\x08Resource\x12\x1f\n\x0bresource_id\x18\x01 \x01(\tR\nresourceId\x12@\n\x07\x61\x63tions\x18\x02 \x03(\x0b\x32&.indykite.authorization.v1beta1.ActionR\x07\x61\x63tions\x1aj\n\tResources\x12]\n\tresources\x18\x01 \x03(\x0b\x32?.indykite.authorization.v1beta1.WhatAuthorizedResponse.ResourceR\tresources\x1a~\n\x0e\x44\x65\x63isionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12V\n\x05value\x18\x02 \x01(\x0b\x32@.indykite.authorization.v1beta1.WhatAuthorizedResponse.ResourcesR\x05value:\x02\x38\x01\x32\x8e\x02\n\x10\x41uthorizationAPI\x12y\n\x0cIsAuthorized\x12\x33.indykite.authorization.v1beta1.IsAuthorizedRequest\x1a\x34.indykite.authorization.v1beta1.IsAuthorizedResponse\x12\x7f\n\x0eWhatAuthorized\x12\x35.indykite.authorization.v1beta1.WhatAuthorizedRequest\x1a\x36.indykite.authorization.v1beta1.WhatAuthorizedResponseB\xd9\x01\n\"com.indykite.authorization.v1beta1B\x19\x41uthorizationServiceProtoP\x01\xa2\x02\x03IAX\xaa\x02\x1eIndykite.Authorization.V1beta1\xca\x02\x1eIndykite\\Authorization\\V1beta1\xe2\x02*Indykite\\Authorization\\V1beta1\\GPBMetadata\xea\x02 Indykite::Authorization::V1beta1b\x06proto3')
 
 
 
@@ -25,8 +26,11 @@ _ISAUTHORIZEDREQUEST = DESCRIPTOR.message_types_by_name['IsAuthorizedRequest']
 _ISAUTHORIZEDREQUEST_RESOURCE = _ISAUTHORIZEDREQUEST.nested_types_by_name['Resource']
 _ISAUTHORIZEDRESPONSE = DESCRIPTOR.message_types_by_name['IsAuthorizedResponse']
 _ISAUTHORIZEDRESPONSE_DECISIONSENTRY = _ISAUTHORIZEDRESPONSE.nested_types_by_name['DecisionsEntry']
-_AUTHORIZATIONDECISION = DESCRIPTOR.message_types_by_name['AuthorizationDecision']
-_AUTHORIZATIONDECISION_ALLOWACTIONENTRY = _AUTHORIZATIONDECISION.nested_types_by_name['AllowActionEntry']
+_WHATAUTHORIZEDREQUEST = DESCRIPTOR.message_types_by_name['WhatAuthorizedRequest']
+_WHATAUTHORIZEDRESPONSE = DESCRIPTOR.message_types_by_name['WhatAuthorizedResponse']
+_WHATAUTHORIZEDRESPONSE_RESOURCE = _WHATAUTHORIZEDRESPONSE.nested_types_by_name['Resource']
+_WHATAUTHORIZEDRESPONSE_RESOURCES = _WHATAUTHORIZEDRESPONSE.nested_types_by_name['Resources']
+_WHATAUTHORIZEDRESPONSE_DECISIONSENTRY = _WHATAUTHORIZEDRESPONSE.nested_types_by_name['DecisionsEntry']
 IsAuthorizedRequest = _reflection.GeneratedProtocolMessageType('IsAuthorizedRequest', (_message.Message,), {
 
   'Resource' : _reflection.GeneratedProtocolMessageType('Resource', (_message.Message,), {
@@ -57,20 +61,43 @@ IsAuthorizedResponse = _reflection.GeneratedProtocolMessageType('IsAuthorizedRes
 _sym_db.RegisterMessage(IsAuthorizedResponse)
 _sym_db.RegisterMessage(IsAuthorizedResponse.DecisionsEntry)
 
-AuthorizationDecision = _reflection.GeneratedProtocolMessageType('AuthorizationDecision', (_message.Message,), {
+WhatAuthorizedRequest = _reflection.GeneratedProtocolMessageType('WhatAuthorizedRequest', (_message.Message,), {
+  'DESCRIPTOR' : _WHATAUTHORIZEDREQUEST,
+  '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
+  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedRequest)
+  })
+_sym_db.RegisterMessage(WhatAuthorizedRequest)
 
-  'AllowActionEntry' : _reflection.GeneratedProtocolMessageType('AllowActionEntry', (_message.Message,), {
-    'DESCRIPTOR' : _AUTHORIZATIONDECISION_ALLOWACTIONENTRY,
+WhatAuthorizedResponse = _reflection.GeneratedProtocolMessageType('WhatAuthorizedResponse', (_message.Message,), {
+
+  'Resource' : _reflection.GeneratedProtocolMessageType('Resource', (_message.Message,), {
+    'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE_RESOURCE,
     '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.AuthorizationDecision.AllowActionEntry)
+    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse.Resource)
     })
   ,
-  'DESCRIPTOR' : _AUTHORIZATIONDECISION,
+
+  'Resources' : _reflection.GeneratedProtocolMessageType('Resources', (_message.Message,), {
+    'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE_RESOURCES,
+    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
+    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse.Resources)
+    })
+  ,
+
+  'DecisionsEntry' : _reflection.GeneratedProtocolMessageType('DecisionsEntry', (_message.Message,), {
+    'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE_DECISIONSENTRY,
+    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
+    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse.DecisionsEntry)
+    })
+  ,
+  'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE,
   '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.AuthorizationDecision)
+  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse)
   })
-_sym_db.RegisterMessage(AuthorizationDecision)
-_sym_db.RegisterMessage(AuthorizationDecision.AllowActionEntry)
+_sym_db.RegisterMessage(WhatAuthorizedResponse)
+_sym_db.RegisterMessage(WhatAuthorizedResponse.Resource)
+_sym_db.RegisterMessage(WhatAuthorizedResponse.Resources)
+_sym_db.RegisterMessage(WhatAuthorizedResponse.DecisionsEntry)
 
 _AUTHORIZATIONAPI = DESCRIPTOR.services_by_name['AuthorizationAPI']
 if _descriptor._USE_C_DESCRIPTORS == False:
@@ -89,22 +116,36 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _ISAUTHORIZEDREQUEST.fields_by_name['resources']._serialized_options = b'\372B\007\222\001\004\010\001\020 '
   _ISAUTHORIZEDREQUEST.fields_by_name['actions']._options = None
   _ISAUTHORIZEDREQUEST.fields_by_name['actions']._serialized_options = b'\372B)\222\001&\010\001\020\001\" r\036\020\002\03022\030^[a-zA-Z0-9.:_\\-\\/]{2,}$'
+  _ISAUTHORIZEDREQUEST.fields_by_name['options']._options = None
+  _ISAUTHORIZEDREQUEST.fields_by_name['options']._serialized_options = b'\372B\005\222\001\002(\001'
   _ISAUTHORIZEDRESPONSE_DECISIONSENTRY._options = None
   _ISAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_options = b'8\001'
-  _AUTHORIZATIONDECISION_ALLOWACTIONENTRY._options = None
-  _AUTHORIZATIONDECISION_ALLOWACTIONENTRY._serialized_options = b'8\001'
-  _ISAUTHORIZEDREQUEST._serialized_start=210
-  _ISAUTHORIZEDREQUEST._serialized_end=633
-  _ISAUTHORIZEDREQUEST_RESOURCE._serialized_start=527
-  _ISAUTHORIZEDREQUEST_RESOURCE._serialized_end=617
-  _ISAUTHORIZEDRESPONSE._serialized_start=636
-  _ISAUTHORIZEDRESPONSE._serialized_end=939
-  _ISAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_start=824
-  _ISAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_end=939
-  _AUTHORIZATIONDECISION._serialized_start=942
-  _AUTHORIZATIONDECISION._serialized_end=1136
-  _AUTHORIZATIONDECISION_ALLOWACTIONENTRY._serialized_start=1074
-  _AUTHORIZATIONDECISION_ALLOWACTIONENTRY._serialized_end=1136
-  _AUTHORIZATIONAPI._serialized_start=1139
-  _AUTHORIZATIONAPI._serialized_end=1280
+  _WHATAUTHORIZEDREQUEST.fields_by_name['subject']._options = None
+  _WHATAUTHORIZEDREQUEST.fields_by_name['subject']._serialized_options = b'\372B\005\212\001\002\020\001'
+  _WHATAUTHORIZEDREQUEST.fields_by_name['resource_types']._options = None
+  _WHATAUTHORIZEDREQUEST.fields_by_name['resource_types']._serialized_options = b'\372B\007\222\001\004\010\001\020\n'
+  _WHATAUTHORIZEDREQUEST.fields_by_name['options']._options = None
+  _WHATAUTHORIZEDREQUEST.fields_by_name['options']._serialized_options = b'\372B\005\222\001\002(\001'
+  _WHATAUTHORIZEDRESPONSE_DECISIONSENTRY._options = None
+  _WHATAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_options = b'8\001'
+  _ISAUTHORIZEDREQUEST._serialized_start=236
+  _ISAUTHORIZEDREQUEST._serialized_end=735
+  _ISAUTHORIZEDREQUEST_RESOURCE._serialized_start=629
+  _ISAUTHORIZEDREQUEST_RESOURCE._serialized_end=719
+  _ISAUTHORIZEDRESPONSE._serialized_start=738
+  _ISAUTHORIZEDRESPONSE._serialized_end=1041
+  _ISAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_start=926
+  _ISAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_end=1041
+  _WHATAUTHORIZEDREQUEST._serialized_start=1044
+  _WHATAUTHORIZEDREQUEST._serialized_end=1317
+  _WHATAUTHORIZEDRESPONSE._serialized_start=1320
+  _WHATAUTHORIZEDRESPONSE._serialized_end=1857
+  _WHATAUTHORIZEDRESPONSE_RESOURCE._serialized_start=1512
+  _WHATAUTHORIZEDRESPONSE_RESOURCE._serialized_end=1621
+  _WHATAUTHORIZEDRESPONSE_RESOURCES._serialized_start=1623
+  _WHATAUTHORIZEDRESPONSE_RESOURCES._serialized_end=1729
+  _WHATAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_start=1731
+  _WHATAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_end=1857
+  _AUTHORIZATIONAPI._serialized_start=1860
+  _AUTHORIZATIONAPI._serialized_end=2130
 # @@protoc_insertion_point(module_scope)

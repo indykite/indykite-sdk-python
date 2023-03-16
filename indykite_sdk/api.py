@@ -25,6 +25,8 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_d
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIdentity
 from indykite_sdk.model.is_authorized import IsAuthorizedResource
 from indykite_sdk.model.tenant import Tenant
+from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
+from indykite_sdk.identity import helper
 import logging
 
 
@@ -535,6 +537,10 @@ Property ID and value of the property where the value is a reference
     # cancel_invitation
     cancel_invitation = subparsers.add_parser("cancel_invitation")
     cancel_invitation.add_argument("reference_id", help="external ID of the invitation reference")
+
+    # register_digital_twin_without_credential
+    register_digital_twin_without_credential = subparsers.add_parser("register_digital_twin_without_credential")
+    register_digital_twin_without_credential.add_argument("tenant_id", help="gid ID of the tenant")
 
     args = parser.parse_args()
     local = args.local
@@ -1886,6 +1892,25 @@ Property ID and value of the property where the value is a reference
         invitation_response = client.cancel_invitation(reference_id)
         if invitation_response is not None:
             print(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "register_digital_twin_without_credential":
+        tenant_id = args.tenant_id
+        properties = []
+        definition1 = attributes.PropertyDefinition(
+                property="extid"
+            )
+        property1 = helper.create_property(definition1, None, "44")
+        properties.append(property1)
+        register_response = client.register_digital_twin_without_credential(
+            tenant_id,
+            1,
+            [],
+            properties,
+            [])
+        if register_response is not None:
+            print_response(register_response)
         else:
             print("Invalid invitation response")
 

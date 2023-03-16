@@ -26,7 +26,7 @@ from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as indykite_dot_obj
 from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n7indykite/identity/v1beta2/identity_management_api.proto\x12\x19indykite.identity.v1beta2\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1egoogle/protobuf/wrappers.proto\x1a*indykite/identity/v1beta2/attributes.proto\x1a(indykite/identity/v1beta2/document.proto\x1a&indykite/identity/v1beta2/import.proto\x1a%indykite/identity/v1beta2/model.proto\x1a\'indykite/identity/v1beta2/consent.proto\x1a%indykite/objects/v1beta1/struct.proto\x1a\x17validate/validate.proto\"K\n\x16TokenIntrospectRequest\x12\x1b\n\ttenant_id\x18\x01 \x01(\tR\x08tenantId\x12\x14\n\x05token\x18\x02 \x01(\tR\x05token\"~\n\x17TokenIntrospectResponse\x12\x16\n\x06\x61\x63tive\x18\x01 \x01(\x08R\x06\x61\x63tive\x12K\n\ntoken_info\x18\x02 \x01(\x0b\x32,.indykite.identity.v1beta2.IdentityTokenInfoR\ttokenInfo\"n\n!StartForgottenPasswordFlowRequest\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\"$\n\"StartForgottenPasswordFlowResponse\"\xc4\x01\n\x15\x43hangePasswordRequest\x12\x16\n\x05token\x18\x01 \x01(\tH\x00R\x05token\x12K\n\x0c\x64igital_twin\x18\x02 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinH\x00R\x0b\x64igitalTwin\x12\x1a\n\x08password\x18\x03 \x01(\tR\x08password\x12#\n\rignore_policy\x18\x04 \x01(\x08R\x0cignorePolicyB\x05\n\x03uid\"P\n\x16\x43hangePasswordResponse\x12\x36\n\x05\x65rror\x18\x01 \x01(\x0b\x32 .indykite.identity.v1beta2.ErrorR\x05\x65rror\"\xe2\x01\n(StartDigitalTwinEmailVerificationRequest\x12S\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x0b\x64igitalTwin\x12\x1d\n\x05\x65mail\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02`\x01R\x05\x65mail\x12\x42\n\nattributes\x18\x07 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\nattributes\"+\n)StartDigitalTwinEmailVerificationResponse\"5\n\x1dVerifyDigitalTwinEmailRequest\x12\x14\n\x05token\x18\x01 \x01(\tR\x05token\"k\n\x1eVerifyDigitalTwinEmailResponse\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\"I\n\"SelfServiceTerminateSessionRequest\x12#\n\rrefresh_token\x18\x01 \x01(\tR\x0crefreshToken\"%\n#SelfServiceTerminateSessionResponse\"\x8b\x02\n\x15\x44igitalTwinIdentifier\x12U\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x0b\x64igitalTwin\x12^\n\x0fproperty_filter\x18\x02 \x01(\x0b\x32).indykite.identity.v1beta2.PropertyFilterB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x0epropertyFilter\x12,\n\x0c\x61\x63\x63\x65ss_token\x18\x03 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x14H\x00R\x0b\x61\x63\x63\x65ssTokenB\r\n\x06\x66ilter\x12\x03\xf8\x42\x01\"\xb8\x01\n\x0ePropertyFilter\x12\x1d\n\x04type\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x02\x18\x14R\x04type\x12?\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x05value\x12\x46\n\ttenant_id\x18\x03 \x01(\tB)\xfa\x42&r$\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$\xd0\x01\x01R\x08tenantId\"\xbd\x01\n\x15GetDigitalTwinRequest\x12J\n\x02id\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x02id\x12X\n\nproperties\x18\x02 \x03(\x0b\x32\'.indykite.identity.v1beta2.PropertyMaskB\x0f\xfa\x42\x0c\x92\x01\t\"\x05\x8a\x01\x02\x10\x01(\x01R\nproperties\"\xb2\x01\n\x16GetDigitalTwinResponse\x12K\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32(.indykite.identity.v1beta2.DigitalEntityR\x0b\x64igitalTwin\x12K\n\ntoken_info\x18\x02 \x01(\x0b\x32,.indykite.identity.v1beta2.IdentityTokenInfoR\ttokenInfo\"\x9f\x02\n\x17ListDigitalTwinsRequest\x12\x43\n\ttenant_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x08tenantId\x12#\n\rcollection_id\x18\x02 \x01(\tR\x0c\x63ollectionId\x12\x1b\n\tpage_size\x18\x03 \x01(\x05R\x08pageSize\x12\x1d\n\npage_token\x18\x04 \x01(\tR\tpageToken\x12\x19\n\x08order_by\x18\x05 \x01(\tR\x07orderBy\x12\x43\n\nproperties\x18\x06 \x03(\x0b\x32#.indykite.identity.v1beta2.PropertyR\nproperties\"\x8f\x01\n\x18ListDigitalTwinsResponse\x12K\n\x0c\x64igital_twin\x18\x01 \x03(\x0b\x32(.indykite.identity.v1beta2.DigitalEntityR\x0b\x64igitalTwin\x12&\n\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x9a\x03\n+RegisterDigitalTwinWithoutCredentialRequest\x12\x43\n\ttenant_id\x18\x02 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x08tenantId\x12\x62\n\x11\x64igital_twin_kind\x18\x01 \x01(\x0e\x32*.indykite.identity.v1beta2.DigitalTwinKindB\n\xfa\x42\x07\x82\x01\x04\x10\x01 \x00R\x0f\x64igitalTwinKind\x12N\n\x11\x64igital_twin_tags\x18\x05 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x10 \x18\x01\"\x16r\x14\x18@2\x10^([A-Z][a-z]+)+$R\x0f\x64igitalTwinTags\x12T\n\nproperties\x18\x03 \x03(\x0b\x32#.indykite.identity.v1beta2.PropertyB\x0f\xfa\x42\x0c\x92\x01\t\x08\x01\"\x05\x8a\x01\x02\x10\x01R\nproperties\x12\x1c\n\tbookmarks\x18\x04 \x03(\tR\tbookmarks\"\xe0\x01\n,RegisterDigitalTwinWithoutCredentialResponse\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\x12I\n\x07results\x18\x02 \x03(\x0b\x32/.indykite.identity.v1beta2.BatchOperationResultR\x07results\x12\x1a\n\x08\x62ookmark\x18\x03 \x01(\tR\x08\x62ookmark\"\x8d\x02\n\x17PatchDigitalTwinRequest\x12J\n\x02id\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x02id\x12\x62\n\noperations\x18\x02 \x03(\x0b\x32\x31.indykite.identity.v1beta2.PropertyBatchOperationB\x0f\xfa\x42\x0c\x92\x01\t\x08\x01\"\x05\x8a\x01\x02\x10\x01R\noperations\x12\x1f\n\x0b\x61\x64min_token\x18\x03 \x01(\tR\nadminToken\x12!\n\x0c\x66orce_delete\x18\x04 \x01(\x08R\x0b\x66orceDelete\"c\n\x18PatchDigitalTwinResponse\x12G\n\x06result\x18\x01 \x03(\x0b\x32/.indykite.identity.v1beta2.BatchOperationResultR\x06result\"\x87\x01\n\x18\x44\x65leteDigitalTwinRequest\x12J\n\x02id\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x02id\x12\x1f\n\x0b\x61\x64min_token\x18\x02 \x01(\tR\nadminToken\"f\n\x19\x44\x65leteDigitalTwinResponse\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\"e\n\x12GetDocumentRequest\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\x12;\n\x04mask\x18\x02 \x01(\x0b\x32\'.indykite.identity.v1beta2.DocumentMaskR\x04mask\"V\n\x13GetDocumentResponse\x12?\n\x08\x64ocument\x18\x01 \x01(\x0b\x32#.indykite.identity.v1beta2.DocumentR\x08\x64ocument\"\x91\x01\n\x18\x42\x61tchGetDocumentsRequest\x12\x1a\n\x08\x64\x61tabase\x18\x01 \x01(\tR\x08\x64\x61tabase\x12\x1c\n\tdocuments\x18\x02 \x03(\tR\tdocuments\x12;\n\x04mask\x18\x03 \x01(\x0b\x32\'.indykite.identity.v1beta2.DocumentMaskR\x04mask\"~\n\x19\x42\x61tchGetDocumentsResponse\x12;\n\x05\x66ound\x18\x01 \x01(\x0b\x32#.indykite.identity.v1beta2.DocumentH\x00R\x05\x66ound\x12\x1a\n\x07missing\x18\x02 \x01(\tH\x00R\x07missingB\x08\n\x06result\"\xe7\x01\n\x14ListDocumentsRequest\x12\x16\n\x06parent\x18\x01 \x01(\tR\x06parent\x12#\n\rcollection_id\x18\x02 \x01(\tR\x0c\x63ollectionId\x12\x1b\n\tpage_size\x18\x03 \x01(\x05R\x08pageSize\x12\x1d\n\npage_token\x18\x04 \x01(\tR\tpageToken\x12\x19\n\x08order_by\x18\x06 \x01(\tR\x07orderBy\x12;\n\x04mask\x18\x07 \x01(\x0b\x32\'.indykite.identity.v1beta2.DocumentMaskR\x04mask\"\x82\x01\n\x15ListDocumentsResponse\x12\x41\n\tdocuments\x18\x01 \x03(\x0b\x32#.indykite.identity.v1beta2.DocumentR\tdocuments\x12&\n\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"n\n\x16MutateDocumentsRequest\x12\x1a\n\x08\x64\x61tabase\x18\x01 \x01(\tR\x08\x64\x61tabase\x12\x38\n\x06writes\x18\x02 \x03(\x0b\x32 .indykite.identity.v1beta2.WriteR\x06writes\"f\n\x17MutateDocumentsResponse\x12K\n\rwrite_results\x18\x01 \x03(\x0b\x32&.indykite.identity.v1beta2.WriteResultR\x0cwriteResults\"\x85\x01\n\x0fRunQueryRequest\x12\x16\n\x06parent\x18\x01 \x01(\tR\x06parent\x12L\n\x10structured_query\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueH\x00R\x0fstructuredQueryB\x0c\n\nquery_type\"|\n\x10RunQueryResponse\x12?\n\x08\x64ocument\x18\x01 \x01(\x0b\x32#.indykite.identity.v1beta2.DocumentR\x08\x64ocument\x12\'\n\x0fskipped_results\x18\x04 \x01(\x05R\x0eskippedResults\"i\n\x1cGetPasswordCredentialRequest\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\"\x1f\n\x1dGetPasswordCredentialResponse\"\xfa\x01\n\x1fUpdatePasswordCredentialRequest\x12)\n\x10login_properties\x18\x01 \x03(\x0cR\x0floginProperties\x12;\n\x0bmust_change\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.BoolValueR\nmustChange\x12\x32\n\x06locked\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.BoolValueR\x06locked\x12\x16\n\x05\x65mail\x18\x03 \x01(\tH\x00R\x05\x65mail\x12\x18\n\x06mobile\x18\x04 \x01(\tH\x00R\x06mobileB\t\n\x07primary\"\"\n UpdatePasswordCredentialResponse\"\x1b\n\x05\x45rror\x12\x12\n\x04\x63ode\x18\x01 \x01(\tR\x04\x63ode\">\n SelfServiceChangePasswordRequest\x12\x1a\n\x08password\x18\x01 \x01(\tR\x08password\"S\n!SelfServiceChangePasswordResponse\x12\x18\n\x07success\x18\x01 \x01(\x08R\x07success\x12\x14\n\x05\x65rror\x18\x02 \x01(\tR\x05\x65rror\"\xdf\x03\n\x17\x43reateInvitationRequest\x12\x43\n\ttenant_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x08tenantId\x12\x45\n\x0creference_id\x18\x02 \x01(\tB\"\xfa\x42\x1fr\x1d\x10\n\x18\x64\x32\x17^[A-Za-z0-9-_]{10,100}$R\x0breferenceId\x12L\n\x0einvite_at_time\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\n\xfa\x42\x07\xb2\x01\x04\x08\x00@\x01R\x0cinviteAtTime\x12G\n\x0b\x65xpire_time\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\n\xfa\x42\x07\xb2\x01\x04\x08\x00@\x01R\nexpireTime\x12Q\n\x12message_attributes\x18\x05 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x11messageAttributes\x12$\n\x05\x65mail\x18\x06 \x01(\tB\x0c\xfa\x42\tr\x07\x10\x05\x18\xff\x01`\x01H\x00R\x05\x65mail\x12\x18\n\x06mobile\x18\x07 \x01(\tH\x00R\x06mobileB\x0e\n\x07invitee\x12\x03\xf8\x42\x01\"\x1a\n\x18\x43reateInvitationResponse\"\xb2\x01\n\x1b\x43heckInvitationStateRequest\x12G\n\x0creference_id\x18\x01 \x01(\tB\"\xfa\x42\x1fr\x1d\x10\n\x18\x64\x32\x17^[A-Za-z0-9-_]{10,100}$H\x00R\x0breferenceId\x12\x37\n\x10invitation_token\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\n\x18\x80\x10H\x00R\x0finvitationTokenB\x11\n\nidentifier\x12\x03\xf8\x42\x01\"e\n\x1c\x43heckInvitationStateResponse\x12\x45\n\ninvitation\x18\x01 \x01(\x0b\x32%.indykite.identity.v1beta2.InvitationR\ninvitation\"`\n\x17ResendInvitationRequest\x12\x45\n\x0creference_id\x18\x01 \x01(\tB\"\xfa\x42\x1fr\x1d\x10\n\x18\x64\x32\x17^[A-Za-z0-9-_]{10,100}$R\x0breferenceId\"\x1a\n\x18ResendInvitationResponse\"`\n\x17\x43\x61ncelInvitationRequest\x12\x45\n\x0creference_id\x18\x01 \x01(\tB\"\xfa\x42\x1fr\x1d\x10\n\x18\x64\x32\x17^[A-Za-z0-9-_]{10,100}$R\x0breferenceId\"\x1a\n\x18\x43\x61ncelInvitationResponse\"L\n\"CheckOAuth2ConsentChallengeRequest\x12&\n\tchallenge\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\x98\x01\x16R\tchallenge\"\xf0\x04\n#CheckOAuth2ConsentChallengeResponse\x12\x1b\n\tclient_id\x18\x01 \x01(\tR\x08\x63lientId\x12 \n\x0c\x61pp_space_id\x18\x02 \x01(\tR\nappSpaceId\x12\x45\n\taudiences\x18\x03 \x03(\x0b\x32\'.indykite.identity.v1beta2.AudienceItemR\taudiences\x12<\n\x06scopes\x18\x04 \x03(\x0b\x32$.indykite.identity.v1beta2.ScopeItemR\x06scopes\x12\x12\n\x04\x61\x63rs\x18\x05 \x03(\tR\x04\x61\x63rs\x12\x1f\n\x0brequest_url\x18\x06 \x01(\tR\nrequestUrl\x12\x12\n\x04skip\x18\x07 \x01(\x08R\x04skip\x12I\n\x0c\x64igital_twin\x18\x08 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\x12-\n\x12subject_identifier\x18\t \x01(\tR\x11subjectIdentifier\x12\x45\n\x10\x61uthenticated_at\x18\n \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0f\x61uthenticatedAt\x12=\n\x0crequested_at\x18\x0b \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0brequestedAt\x12<\n\x07\x63ontext\x18\x0c \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x07\x63ontext\"\x80\x01\n\tScopeItem\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\x12!\n\x0c\x64isplay_name\x18\x02 \x01(\tR\x0b\x64isplayName\x12 \n\x0b\x64\x65scription\x18\x03 \x01(\tR\x0b\x64\x65scription\x12\x1a\n\x08required\x18\x04 \x01(\x08R\x08required\"\xb2\x02\n\x0c\x41udienceItem\x12;\n\x1auser_support_email_address\x18\x01 \x01(\tR\x17userSupportEmailAddress\x12\x1b\n\tclient_id\x18\x02 \x01(\tR\x08\x63lientId\x12!\n\x0c\x64isplay_name\x18\x03 \x01(\tR\x0b\x64isplayName\x12 \n\x0b\x64\x65scription\x18\x04 \x01(\tR\x0b\x64\x65scription\x12\x19\n\x08logo_url\x18\x05 \x01(\tR\x07logoUrl\x12!\n\x0chomepage_url\x18\x06 \x01(\tR\x0bhomepageUrl\x12,\n\x12privacy_policy_url\x18\x07 \x01(\tR\x10privacyPolicyUrl\x12\x17\n\x07tos_url\x18\x08 \x01(\tR\x06tosUrl\"\xf9\x01\n\"CreateOAuth2ConsentVerifierRequest\x12\x35\n\x11\x63onsent_challenge\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\x98\x01\x16R\x10\x63onsentChallenge\x12H\n\x08\x61pproval\x18\x02 \x01(\x0b\x32*.indykite.identity.v1beta2.ConsentApprovalH\x00R\x08\x61pproval\x12\x43\n\x06\x64\x65nial\x18\x03 \x01(\x0b\x32).indykite.identity.v1beta2.DenialResponseH\x00R\x06\x64\x65nialB\r\n\x06result\x12\x03\xf8\x42\x01\"x\n#CreateOAuth2ConsentVerifierResponse\x12\x1a\n\x08verifier\x18\x01 \x01(\tR\x08verifier\x12\x35\n\x16\x61uthorization_endpoint\x18\x02 \x01(\tR\x15\x61uthorizationEndpoint\"\x86\x02\n\x0f\x43onsentApproval\x12-\n\x0cgrant_scopes\x18\x01 \x03(\tB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x18\x01R\x0bgrantScopes\x12\x35\n\x11granted_audiences\x18\x02 \x03(\tB\x08\xfa\x42\x05\x92\x01\x02\x18\x01R\x10grantedAudiences\x12N\n\x07session\x18\x03 \x01(\x0b\x32\x34.indykite.identity.v1beta2.ConsentRequestSessionDataR\x07session\x12\x1a\n\x08remember\x18\x04 \x01(\x08R\x08remember\x12!\n\x0cremember_for\x18\x05 \x01(\x03R\x0brememberFor\"\xe1\x01\n\x19\x43onsentRequestSessionData\x12\x45\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x0b\x61\x63\x63\x65ssToken\x12=\n\x08id_token\x18\x02 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x07idToken\x12>\n\x08userinfo\x18\x03 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x08userinfo\"\xf0\x01\n\x0e\x44\x65nialResponse\x12/\n\x05\x65rror\x18\x01 \x01(\tB\x19\xfa\x42\x16r\x14\x32\x0f^[ !#-\\[\\]-~]+$\xd0\x01\x01R\x05\x65rror\x12\x46\n\x11\x65rror_description\x18\x02 \x01(\tB\x19\xfa\x42\x16r\x14\x32\x0f^[ !#-\\[\\]-~]+$\xd0\x01\x01R\x10\x65rrorDescription\x12\x1d\n\nerror_hint\x18\x03 \x01(\tR\terrorHint\x12\x46\n\x0bstatus_code\x18\x04 \x01(\x03\x42%\xfa\x42\"\" 0\x90\x03\x30\x91\x03\x30\x93\x03\x30\x98\x03\x30\x99\x03\x30\x9a\x03\x30\x9c\x03\x30\xa6\x03\x30\xad\x03\x30\xc3\x03@\x01R\nstatusCode\"\xd2\x01\n\x15GetAccessTokenRequest\x12\x15\n\x06\x61pp_id\x18\x01 \x01(\tR\x05\x61ppId\x12\x1f\n\x0bprovider_id\x18\x02 \x01(\tR\nproviderId\x12#\n\rprovider_name\x18\x04 \x01(\tR\x0cproviderName\x12\x1d\n\nsubject_id\x18\x05 \x01(\tR\tsubjectId\x12\x16\n\x06scopes\x18\x06 \x03(\tR\x06scopes\x12%\n\x0eoffline_access\x18\x07 \x01(\x08R\rofflineAccess\"^\n\x16GetAccessTokenResponse\x12\x44\n\x05token\x18\x01 \x01(\x0b\x32..indykite.identity.v1beta2.OAuth2TokenResponseR\x05token\"M\n\x18SessionIntrospectRequest\x12\x1b\n\ttenant_id\x18\x01 \x01(\tR\x08tenantId\x12\x14\n\x05token\x18\x02 \x01(\tR\x05token\"\xa5\x01\n\x19SessionIntrospectResponse\x12\x16\n\x06\x61\x63tive\x18\x01 \x01(\x08R\x06\x61\x63tive\x12K\n\ntoken_info\x18\x02 \x01(\x0b\x32,.indykite.identity.v1beta2.IdentityTokenInfoR\ttokenInfo\x12#\n\rprovider_data\x18\x03 \x03(\tR\x0cproviderData\"\xb3\x01\n\x12\x45nrichTokenRequest\x12!\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\tR\x0b\x61\x63\x63\x65ssToken\x12:\n\x0ctoken_claims\x18\x02 \x01(\x0b\x32\x17.google.protobuf.StructR\x0btokenClaims\x12>\n\x0esession_claims\x18\x03 \x01(\x0b\x32\x17.google.protobuf.StructR\rsessionClaims\"\x15\n\x13\x45nrichTokenResponse\"\x80\x02\n\x14\x43reateConsentRequest\x12P\n\x10pii_processor_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x0epiiProcessorId\x12P\n\x10pii_principal_id\x18\x02 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x0epiiPrincipalId\x12\x44\n\nproperties\x18\x03 \x03(\tB$\xfa\x42!\x92\x01\x1e\x08\x01\x18\x01\"\x18r\x16\x10\x02\x18\x32\x32\x10^[a-zA-Z0-9_-]+$R\nproperties\"6\n\x15\x43reateConsentResponse\x12\x1d\n\nconsent_id\x18\x01 \x01(\tR\tconsentId\"g\n\x13ListConsentsRequest\x12P\n\x10pii_principal_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x0epiiPrincipalId\"j\n\x14ListConsentsResponse\x12R\n\x0f\x63onsent_receipt\x18\x01 \x01(\x0b\x32).indykite.identity.v1beta2.ConsentReceiptR\x0e\x63onsentReceipt\"\x9c\x01\n\x14RevokeConsentRequest\x12P\n\x10pii_principal_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x0epiiPrincipalId\x12\x32\n\x0b\x63onsent_ids\x18\x02 \x03(\tB\x11\xfa\x42\x0e\x92\x01\x0b\x08\x01\x18\x01\"\x05r\x03\x98\x01$R\nconsentIds\"\x17\n\x15RevokeConsentResponse*\xbc\x02\n\x11\x43redentialControl\x12\x1e\n\x1a\x43REDENTIAL_CONTROL_INVALID\x10\x00\x12\x1e\n\x1a\x43REDENTIAL_CONTROL_DISABLE\x10\x01\x12\x1d\n\x19\x43REDENTIAL_CONTROL_ENABLE\x10\x02\x12\x1e\n\x1a\x43REDENTIAL_CONTROL_LOCKOUT\x10\x03\x12+\n\'CREDENTIAL_CONTROL_PASSWORD_CANT_CHANGE\x10\x04\x12%\n!CREDENTIAL_CONTROL_NORMAL_ACCOUNT\x10\x05\x12+\n\'CREDENTIAL_CONTROL_DONT_EXPIRE_PASSWORD\x10\x06\x12\'\n#CREDENTIAL_CONTROL_PASSWORD_EXPIRED\x10\x07\x32\xb2&\n\x15IdentityManagementAPI\x12\xc5\x01\n\x0fTokenIntrospect\x12\x31.indykite.identity.v1beta2.TokenIntrospectRequest\x1a\x32.indykite.identity.v1beta2.TokenIntrospectResponse\"K\x82\xd3\xe4\x93\x02\x45:\x01*Z$\x12\"/identity/token/introspect/{token}\"\x1a/identity/token/introspect\x12\x99\x01\n\x1aStartForgottenPasswordFlow\x12<.indykite.identity.v1beta2.StartForgottenPasswordFlowRequest\x1a=.indykite.identity.v1beta2.StartForgottenPasswordFlowResponse\x12u\n\x0e\x43hangePassword\x12\x30.indykite.identity.v1beta2.ChangePasswordRequest\x1a\x31.indykite.identity.v1beta2.ChangePasswordResponse\x12\xdc\x01\n!StartDigitalTwinEmailVerification\x12\x43.indykite.identity.v1beta2.StartDigitalTwinEmailVerificationRequest\x1a\x44.indykite.identity.v1beta2.StartDigitalTwinEmailVerificationResponse\",\x82\xd3\xe4\x93\x02&:\x01*\"!/identity/email/startVerification\x12\xda\x01\n\x16VerifyDigitalTwinEmail\x12\x38.indykite.identity.v1beta2.VerifyDigitalTwinEmailRequest\x1a\x39.indykite.identity.v1beta2.VerifyDigitalTwinEmailResponse\"K\x82\xd3\xe4\x93\x02\x45:\x01*Z \x12\x1e/identity/email/verify/{token}\"\x1e/identity/email/verify/{token}\x12\xfd\x01\n\x1bSelfServiceTerminateSession\x12=.indykite.identity.v1beta2.SelfServiceTerminateSessionRequest\x1a>.indykite.identity.v1beta2.SelfServiceTerminateSessionResponse\"_\x82\xd3\xe4\x93\x02Y:\x01*Z*\x12(/identity/self-service/terminate-session\"(/identity/self-service/terminate-session\x12\x81\x01\n\x12ImportDigitalTwins\x12\x34.indykite.identity.v1beta2.ImportDigitalTwinsRequest\x1a\x35.indykite.identity.v1beta2.ImportDigitalTwinsResponse\x12u\n\x0eGetDigitalTwin\x12\x30.indykite.identity.v1beta2.GetDigitalTwinRequest\x1a\x31.indykite.identity.v1beta2.GetDigitalTwinResponse\x12{\n\x10ListDigitalTwins\x12\x32.indykite.identity.v1beta2.ListDigitalTwinsRequest\x1a\x33.indykite.identity.v1beta2.ListDigitalTwinsResponse\x12\xb7\x01\n$RegisterDigitalTwinWithoutCredential\x12\x46.indykite.identity.v1beta2.RegisterDigitalTwinWithoutCredentialRequest\x1aG.indykite.identity.v1beta2.RegisterDigitalTwinWithoutCredentialResponse\x12{\n\x10PatchDigitalTwin\x12\x32.indykite.identity.v1beta2.PatchDigitalTwinRequest\x1a\x33.indykite.identity.v1beta2.PatchDigitalTwinResponse\x12~\n\x11\x44\x65leteDigitalTwin\x12\x33.indykite.identity.v1beta2.DeleteDigitalTwinRequest\x1a\x34.indykite.identity.v1beta2.DeleteDigitalTwinResponse\x12\xad\x01\n\x0bGetDocument\x12-.indykite.identity.v1beta2.GetDocumentRequest\x1a..indykite.identity.v1beta2.GetDocumentResponse\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/identity/document/v1/{name=databases/*/documents/*/**}\x12\xcc\x01\n\x11\x42\x61tchGetDocuments\x12\x33.indykite.identity.v1beta2.BatchGetDocumentsRequest\x1a\x34.indykite.identity.v1beta2.BatchGetDocumentsResponse\"J\x82\xd3\xe4\x93\x02\x44:\x01*\"?/identity/document/v1/{database=databases/*}/documents:batchGet0\x01\x12\xc5\x01\n\rListDocuments\x12/.indykite.identity.v1beta2.ListDocumentsRequest\x1a\x30.indykite.identity.v1beta2.ListDocumentsResponse\"Q\x82\xd3\xe4\x93\x02K\x12I/identity/document/v1/{parent=databases/*/documents/*/**}/{collection_id}\x12\xc2\x01\n\x0fMutateDocuments\x12\x31.indykite.identity.v1beta2.MutateDocumentsRequest\x1a\x32.indykite.identity.v1beta2.MutateDocumentsResponse\"H\x82\xd3\xe4\x93\x02\x42:\x01*\"=/identity/document/v1/{database=databases/*}/documents:mutate\x12\xfa\x01\n\x08RunQuery\x12*.indykite.identity.v1beta2.RunQueryRequest\x1a+.indykite.identity.v1beta2.RunQueryResponse\"\x92\x01\x82\xd3\xe4\x93\x02\x8b\x01:\x01*ZG:\x01*\"B/identity/document/v1/{parent=databases/*/documents/*/**}:runQuery\"=/identity/document/v1/{parent=databases/*/documents}:runQuery0\x01\x12\x9c\x01\n\x1b\x43heckOAuth2ConsentChallenge\x12=.indykite.identity.v1beta2.CheckOAuth2ConsentChallengeRequest\x1a>.indykite.identity.v1beta2.CheckOAuth2ConsentChallengeResponse\x12\x9c\x01\n\x1b\x43reateOAuth2ConsentVerifier\x12=.indykite.identity.v1beta2.CreateOAuth2ConsentVerifierRequest\x1a>.indykite.identity.v1beta2.CreateOAuth2ConsentVerifierResponse\x12{\n\x10\x43reateInvitation\x12\x32.indykite.identity.v1beta2.CreateInvitationRequest\x1a\x33.indykite.identity.v1beta2.CreateInvitationResponse\x12\x87\x01\n\x14\x43heckInvitationState\x12\x36.indykite.identity.v1beta2.CheckInvitationStateRequest\x1a\x37.indykite.identity.v1beta2.CheckInvitationStateResponse\x12{\n\x10ResendInvitation\x12\x32.indykite.identity.v1beta2.ResendInvitationRequest\x1a\x33.indykite.identity.v1beta2.ResendInvitationResponse\x12{\n\x10\x43\x61ncelInvitation\x12\x32.indykite.identity.v1beta2.CancelInvitationRequest\x1a\x33.indykite.identity.v1beta2.CancelInvitationResponse\x12l\n\x0b\x45nrichToken\x12-.indykite.identity.v1beta2.EnrichTokenRequest\x1a..indykite.identity.v1beta2.EnrichTokenResponse\x12r\n\rCreateConsent\x12/.indykite.identity.v1beta2.CreateConsentRequest\x1a\x30.indykite.identity.v1beta2.CreateConsentResponse\x12q\n\x0cListConsents\x12..indykite.identity.v1beta2.ListConsentsRequest\x1a/.indykite.identity.v1beta2.ListConsentsResponse0\x01\x12r\n\rRevokeConsent\x12/.indykite.identity.v1beta2.RevokeConsentRequest\x1a\x30.indykite.identity.v1beta2.RevokeConsentResponse\x12\x8a\x01\n\x15GetPasswordCredential\x12\x37.indykite.identity.v1beta2.GetPasswordCredentialRequest\x1a\x38.indykite.identity.v1beta2.GetPasswordCredentialResponse\x12\x93\x01\n\x18UpdatePasswordCredential\x12:.indykite.identity.v1beta2.UpdatePasswordCredentialRequest\x1a;.indykite.identity.v1beta2.UpdatePasswordCredentialResponse\x12u\n\x0eGetAccessToken\x12\x30.indykite.identity.v1beta2.GetAccessTokenRequest\x1a\x31.indykite.identity.v1beta2.GetAccessTokenResponse\x12\xa7\x01\n\x11SessionIntrospect\x12\x33.indykite.identity.v1beta2.SessionIntrospectRequest\x1a\x34.indykite.identity.v1beta2.SessionIntrospectResponse\"\'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/identity/session/introspectB\xc1\x01\n\x1d\x63om.indykite.identity.v1beta2B\x1aIdentityManagementApiProtoP\x01\xa2\x02\x03IIX\xaa\x02\x19Indykite.Identity.V1beta2\xca\x02\x19Indykite\\Identity\\V1beta2\xe2\x02%Indykite\\Identity\\V1beta2\\GPBMetadata\xea\x02\x1bIndykite::Identity::V1beta2b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n7indykite/identity/v1beta2/identity_management_api.proto\x12\x19indykite.identity.v1beta2\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1egoogle/protobuf/wrappers.proto\x1a*indykite/identity/v1beta2/attributes.proto\x1a(indykite/identity/v1beta2/document.proto\x1a&indykite/identity/v1beta2/import.proto\x1a%indykite/identity/v1beta2/model.proto\x1a\'indykite/identity/v1beta2/consent.proto\x1a%indykite/objects/v1beta1/struct.proto\x1a\x17validate/validate.proto\"K\n\x16TokenIntrospectRequest\x12\x1b\n\ttenant_id\x18\x01 \x01(\tR\x08tenantId\x12\x14\n\x05token\x18\x02 \x01(\tR\x05token\"~\n\x17TokenIntrospectResponse\x12\x16\n\x06\x61\x63tive\x18\x01 \x01(\x08R\x06\x61\x63tive\x12K\n\ntoken_info\x18\x02 \x01(\x0b\x32,.indykite.identity.v1beta2.IdentityTokenInfoR\ttokenInfo\"x\n!StartForgottenPasswordFlowRequest\x12S\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x0b\x64igitalTwin\"$\n\"StartForgottenPasswordFlowResponse\"\xe2\x01\n\x15\x43hangePasswordRequest\x12#\n\x05token\x18\x01 \x01(\tB\x0b\xfa\x42\x08r\x06\x10\x80\x01\x18\x80 H\x00R\x05token\x12K\n\x0c\x64igital_twin\x18\x02 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinH\x00R\x0b\x64igitalTwin\x12&\n\x08password\x18\x03 \x01(\tB\n\xfa\x42\x07r\x05\x10\x04\x18\xfe\x01R\x08password\x12#\n\rignore_policy\x18\x04 \x01(\x08R\x0cignorePolicyB\n\n\x03uid\x12\x03\xf8\x42\x01\"P\n\x16\x43hangePasswordResponse\x12\x36\n\x05\x65rror\x18\x01 \x01(\x0b\x32 .indykite.identity.v1beta2.ErrorR\x05\x65rror\"\xe2\x01\n(StartDigitalTwinEmailVerificationRequest\x12S\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x0b\x64igitalTwin\x12\x1d\n\x05\x65mail\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02`\x01R\x05\x65mail\x12\x42\n\nattributes\x18\x07 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\nattributes\"+\n)StartDigitalTwinEmailVerificationResponse\"5\n\x1dVerifyDigitalTwinEmailRequest\x12\x14\n\x05token\x18\x01 \x01(\tR\x05token\"k\n\x1eVerifyDigitalTwinEmailResponse\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\"I\n\"SelfServiceTerminateSessionRequest\x12#\n\rrefresh_token\x18\x01 \x01(\tR\x0crefreshToken\"%\n#SelfServiceTerminateSessionResponse\"\xbd\x01\n\x15GetDigitalTwinRequest\x12J\n\x02id\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x02id\x12X\n\nproperties\x18\x02 \x03(\x0b\x32\'.indykite.identity.v1beta2.PropertyMaskB\x0f\xfa\x42\x0c\x92\x01\t\"\x05\x8a\x01\x02\x10\x01(\x01R\nproperties\"\xb2\x01\n\x16GetDigitalTwinResponse\x12K\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32(.indykite.identity.v1beta2.DigitalEntityR\x0b\x64igitalTwin\x12K\n\ntoken_info\x18\x02 \x01(\x0b\x32,.indykite.identity.v1beta2.IdentityTokenInfoR\ttokenInfo\"\x9f\x02\n\x17ListDigitalTwinsRequest\x12\x43\n\ttenant_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x08tenantId\x12#\n\rcollection_id\x18\x02 \x01(\tR\x0c\x63ollectionId\x12\x1b\n\tpage_size\x18\x03 \x01(\x05R\x08pageSize\x12\x1d\n\npage_token\x18\x04 \x01(\tR\tpageToken\x12\x19\n\x08order_by\x18\x05 \x01(\tR\x07orderBy\x12\x43\n\nproperties\x18\x06 \x03(\x0b\x32#.indykite.identity.v1beta2.PropertyR\nproperties\"\x8f\x01\n\x18ListDigitalTwinsResponse\x12K\n\x0c\x64igital_twin\x18\x01 \x03(\x0b\x32(.indykite.identity.v1beta2.DigitalEntityR\x0b\x64igitalTwin\x12&\n\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x9a\x03\n+RegisterDigitalTwinWithoutCredentialRequest\x12\x43\n\ttenant_id\x18\x02 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x08tenantId\x12\x62\n\x11\x64igital_twin_kind\x18\x01 \x01(\x0e\x32*.indykite.identity.v1beta2.DigitalTwinKindB\n\xfa\x42\x07\x82\x01\x04\x10\x01 \x00R\x0f\x64igitalTwinKind\x12N\n\x11\x64igital_twin_tags\x18\x05 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x10 \x18\x01\"\x16r\x14\x18@2\x10^([A-Z][a-z]+)+$R\x0f\x64igitalTwinTags\x12T\n\nproperties\x18\x03 \x03(\x0b\x32#.indykite.identity.v1beta2.PropertyB\x0f\xfa\x42\x0c\x92\x01\t\x08\x01\"\x05\x8a\x01\x02\x10\x01R\nproperties\x12\x1c\n\tbookmarks\x18\x04 \x03(\tR\tbookmarks\"\xe0\x01\n,RegisterDigitalTwinWithoutCredentialResponse\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\x12I\n\x07results\x18\x02 \x03(\x0b\x32/.indykite.identity.v1beta2.BatchOperationResultR\x07results\x12\x1a\n\x08\x62ookmark\x18\x03 \x01(\tR\x08\x62ookmark\"\x8d\x02\n\x17PatchDigitalTwinRequest\x12J\n\x02id\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x02id\x12\x62\n\noperations\x18\x02 \x03(\x0b\x32\x31.indykite.identity.v1beta2.PropertyBatchOperationB\x0f\xfa\x42\x0c\x92\x01\t\x08\x01\"\x05\x8a\x01\x02\x10\x01R\noperations\x12\x1f\n\x0b\x61\x64min_token\x18\x03 \x01(\tR\nadminToken\x12!\n\x0c\x66orce_delete\x18\x04 \x01(\x08R\x0b\x66orceDelete\"c\n\x18PatchDigitalTwinResponse\x12G\n\x06result\x18\x01 \x03(\x0b\x32/.indykite.identity.v1beta2.BatchOperationResultR\x06result\"\x87\x01\n\x18\x44\x65leteDigitalTwinRequest\x12J\n\x02id\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x02id\x12\x1f\n\x0b\x61\x64min_token\x18\x02 \x01(\tR\nadminToken\"f\n\x19\x44\x65leteDigitalTwinResponse\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\"e\n\x12GetDocumentRequest\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\x12;\n\x04mask\x18\x02 \x01(\x0b\x32\'.indykite.identity.v1beta2.DocumentMaskR\x04mask\"V\n\x13GetDocumentResponse\x12?\n\x08\x64ocument\x18\x01 \x01(\x0b\x32#.indykite.identity.v1beta2.DocumentR\x08\x64ocument\"\x91\x01\n\x18\x42\x61tchGetDocumentsRequest\x12\x1a\n\x08\x64\x61tabase\x18\x01 \x01(\tR\x08\x64\x61tabase\x12\x1c\n\tdocuments\x18\x02 \x03(\tR\tdocuments\x12;\n\x04mask\x18\x03 \x01(\x0b\x32\'.indykite.identity.v1beta2.DocumentMaskR\x04mask\"~\n\x19\x42\x61tchGetDocumentsResponse\x12;\n\x05\x66ound\x18\x01 \x01(\x0b\x32#.indykite.identity.v1beta2.DocumentH\x00R\x05\x66ound\x12\x1a\n\x07missing\x18\x02 \x01(\tH\x00R\x07missingB\x08\n\x06result\"\xe7\x01\n\x14ListDocumentsRequest\x12\x16\n\x06parent\x18\x01 \x01(\tR\x06parent\x12#\n\rcollection_id\x18\x02 \x01(\tR\x0c\x63ollectionId\x12\x1b\n\tpage_size\x18\x03 \x01(\x05R\x08pageSize\x12\x1d\n\npage_token\x18\x04 \x01(\tR\tpageToken\x12\x19\n\x08order_by\x18\x06 \x01(\tR\x07orderBy\x12;\n\x04mask\x18\x07 \x01(\x0b\x32\'.indykite.identity.v1beta2.DocumentMaskR\x04mask\"\x82\x01\n\x15ListDocumentsResponse\x12\x41\n\tdocuments\x18\x01 \x03(\x0b\x32#.indykite.identity.v1beta2.DocumentR\tdocuments\x12&\n\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"n\n\x16MutateDocumentsRequest\x12\x1a\n\x08\x64\x61tabase\x18\x01 \x01(\tR\x08\x64\x61tabase\x12\x38\n\x06writes\x18\x02 \x03(\x0b\x32 .indykite.identity.v1beta2.WriteR\x06writes\"f\n\x17MutateDocumentsResponse\x12K\n\rwrite_results\x18\x01 \x03(\x0b\x32&.indykite.identity.v1beta2.WriteResultR\x0cwriteResults\"\x85\x01\n\x0fRunQueryRequest\x12\x16\n\x06parent\x18\x01 \x01(\tR\x06parent\x12L\n\x10structured_query\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueH\x00R\x0fstructuredQueryB\x0c\n\nquery_type\"|\n\x10RunQueryResponse\x12?\n\x08\x64ocument\x18\x01 \x01(\x0b\x32#.indykite.identity.v1beta2.DocumentR\x08\x64ocument\x12\'\n\x0fskipped_results\x18\x04 \x01(\x05R\x0eskippedResults\"i\n\x1cGetPasswordCredentialRequest\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\"\x1f\n\x1dGetPasswordCredentialResponse\"\xfa\x01\n\x1fUpdatePasswordCredentialRequest\x12)\n\x10login_properties\x18\x01 \x03(\x0cR\x0floginProperties\x12;\n\x0bmust_change\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.BoolValueR\nmustChange\x12\x32\n\x06locked\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.BoolValueR\x06locked\x12\x16\n\x05\x65mail\x18\x03 \x01(\tH\x00R\x05\x65mail\x12\x18\n\x06mobile\x18\x04 \x01(\tH\x00R\x06mobileB\t\n\x07primary\"\"\n UpdatePasswordCredentialResponse\"\x1b\n\x05\x45rror\x12\x12\n\x04\x63ode\x18\x01 \x01(\tR\x04\x63ode\">\n SelfServiceChangePasswordRequest\x12\x1a\n\x08password\x18\x01 \x01(\tR\x08password\"S\n!SelfServiceChangePasswordResponse\x12\x18\n\x07success\x18\x01 \x01(\x08R\x07success\x12\x14\n\x05\x65rror\x18\x02 \x01(\tR\x05\x65rror\"\xdf\x03\n\x17\x43reateInvitationRequest\x12\x43\n\ttenant_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x08tenantId\x12\x45\n\x0creference_id\x18\x02 \x01(\tB\"\xfa\x42\x1fr\x1d\x10\n\x18\x64\x32\x17^[A-Za-z0-9-_]{10,100}$R\x0breferenceId\x12L\n\x0einvite_at_time\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\n\xfa\x42\x07\xb2\x01\x04\x08\x00@\x01R\x0cinviteAtTime\x12G\n\x0b\x65xpire_time\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\n\xfa\x42\x07\xb2\x01\x04\x08\x00@\x01R\nexpireTime\x12Q\n\x12message_attributes\x18\x05 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x11messageAttributes\x12$\n\x05\x65mail\x18\x06 \x01(\tB\x0c\xfa\x42\tr\x07\x10\x05\x18\xff\x01`\x01H\x00R\x05\x65mail\x12\x18\n\x06mobile\x18\x07 \x01(\tH\x00R\x06mobileB\x0e\n\x07invitee\x12\x03\xf8\x42\x01\"\x1a\n\x18\x43reateInvitationResponse\"\xb2\x01\n\x1b\x43heckInvitationStateRequest\x12G\n\x0creference_id\x18\x01 \x01(\tB\"\xfa\x42\x1fr\x1d\x10\n\x18\x64\x32\x17^[A-Za-z0-9-_]{10,100}$H\x00R\x0breferenceId\x12\x37\n\x10invitation_token\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\n\x18\x80\x10H\x00R\x0finvitationTokenB\x11\n\nidentifier\x12\x03\xf8\x42\x01\"e\n\x1c\x43heckInvitationStateResponse\x12\x45\n\ninvitation\x18\x01 \x01(\x0b\x32%.indykite.identity.v1beta2.InvitationR\ninvitation\"`\n\x17ResendInvitationRequest\x12\x45\n\x0creference_id\x18\x01 \x01(\tB\"\xfa\x42\x1fr\x1d\x10\n\x18\x64\x32\x17^[A-Za-z0-9-_]{10,100}$R\x0breferenceId\"\x1a\n\x18ResendInvitationResponse\"`\n\x17\x43\x61ncelInvitationRequest\x12\x45\n\x0creference_id\x18\x01 \x01(\tB\"\xfa\x42\x1fr\x1d\x10\n\x18\x64\x32\x17^[A-Za-z0-9-_]{10,100}$R\x0breferenceId\"\x1a\n\x18\x43\x61ncelInvitationResponse\"L\n\"CheckOAuth2ConsentChallengeRequest\x12&\n\tchallenge\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\x98\x01\x16R\tchallenge\"\xf0\x04\n#CheckOAuth2ConsentChallengeResponse\x12\x1b\n\tclient_id\x18\x01 \x01(\tR\x08\x63lientId\x12 \n\x0c\x61pp_space_id\x18\x02 \x01(\tR\nappSpaceId\x12\x45\n\taudiences\x18\x03 \x03(\x0b\x32\'.indykite.identity.v1beta2.AudienceItemR\taudiences\x12<\n\x06scopes\x18\x04 \x03(\x0b\x32$.indykite.identity.v1beta2.ScopeItemR\x06scopes\x12\x12\n\x04\x61\x63rs\x18\x05 \x03(\tR\x04\x61\x63rs\x12\x1f\n\x0brequest_url\x18\x06 \x01(\tR\nrequestUrl\x12\x12\n\x04skip\x18\x07 \x01(\x08R\x04skip\x12I\n\x0c\x64igital_twin\x18\x08 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\x12-\n\x12subject_identifier\x18\t \x01(\tR\x11subjectIdentifier\x12\x45\n\x10\x61uthenticated_at\x18\n \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0f\x61uthenticatedAt\x12=\n\x0crequested_at\x18\x0b \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0brequestedAt\x12<\n\x07\x63ontext\x18\x0c \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x07\x63ontext\"\x80\x01\n\tScopeItem\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\x12!\n\x0c\x64isplay_name\x18\x02 \x01(\tR\x0b\x64isplayName\x12 \n\x0b\x64\x65scription\x18\x03 \x01(\tR\x0b\x64\x65scription\x12\x1a\n\x08required\x18\x04 \x01(\x08R\x08required\"\xb2\x02\n\x0c\x41udienceItem\x12;\n\x1auser_support_email_address\x18\x01 \x01(\tR\x17userSupportEmailAddress\x12\x1b\n\tclient_id\x18\x02 \x01(\tR\x08\x63lientId\x12!\n\x0c\x64isplay_name\x18\x03 \x01(\tR\x0b\x64isplayName\x12 \n\x0b\x64\x65scription\x18\x04 \x01(\tR\x0b\x64\x65scription\x12\x19\n\x08logo_url\x18\x05 \x01(\tR\x07logoUrl\x12!\n\x0chomepage_url\x18\x06 \x01(\tR\x0bhomepageUrl\x12,\n\x12privacy_policy_url\x18\x07 \x01(\tR\x10privacyPolicyUrl\x12\x17\n\x07tos_url\x18\x08 \x01(\tR\x06tosUrl\"\xf9\x01\n\"CreateOAuth2ConsentVerifierRequest\x12\x35\n\x11\x63onsent_challenge\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\x98\x01\x16R\x10\x63onsentChallenge\x12H\n\x08\x61pproval\x18\x02 \x01(\x0b\x32*.indykite.identity.v1beta2.ConsentApprovalH\x00R\x08\x61pproval\x12\x43\n\x06\x64\x65nial\x18\x03 \x01(\x0b\x32).indykite.identity.v1beta2.DenialResponseH\x00R\x06\x64\x65nialB\r\n\x06result\x12\x03\xf8\x42\x01\"x\n#CreateOAuth2ConsentVerifierResponse\x12\x1a\n\x08verifier\x18\x01 \x01(\tR\x08verifier\x12\x35\n\x16\x61uthorization_endpoint\x18\x02 \x01(\tR\x15\x61uthorizationEndpoint\"\x86\x02\n\x0f\x43onsentApproval\x12-\n\x0cgrant_scopes\x18\x01 \x03(\tB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x18\x01R\x0bgrantScopes\x12\x35\n\x11granted_audiences\x18\x02 \x03(\tB\x08\xfa\x42\x05\x92\x01\x02\x18\x01R\x10grantedAudiences\x12N\n\x07session\x18\x03 \x01(\x0b\x32\x34.indykite.identity.v1beta2.ConsentRequestSessionDataR\x07session\x12\x1a\n\x08remember\x18\x04 \x01(\x08R\x08remember\x12!\n\x0cremember_for\x18\x05 \x01(\x03R\x0brememberFor\"\xe1\x01\n\x19\x43onsentRequestSessionData\x12\x45\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x0b\x61\x63\x63\x65ssToken\x12=\n\x08id_token\x18\x02 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x07idToken\x12>\n\x08userinfo\x18\x03 \x01(\x0b\x32\".indykite.objects.v1beta1.MapValueR\x08userinfo\"\xf0\x01\n\x0e\x44\x65nialResponse\x12/\n\x05\x65rror\x18\x01 \x01(\tB\x19\xfa\x42\x16r\x14\x32\x0f^[ !#-\\[\\]-~]+$\xd0\x01\x01R\x05\x65rror\x12\x46\n\x11\x65rror_description\x18\x02 \x01(\tB\x19\xfa\x42\x16r\x14\x32\x0f^[ !#-\\[\\]-~]+$\xd0\x01\x01R\x10\x65rrorDescription\x12\x1d\n\nerror_hint\x18\x03 \x01(\tR\terrorHint\x12\x46\n\x0bstatus_code\x18\x04 \x01(\x03\x42%\xfa\x42\"\" 0\x90\x03\x30\x91\x03\x30\x93\x03\x30\x98\x03\x30\x99\x03\x30\x9a\x03\x30\x9c\x03\x30\xa6\x03\x30\xad\x03\x30\xc3\x03@\x01R\nstatusCode\"\xd2\x01\n\x15GetAccessTokenRequest\x12\x15\n\x06\x61pp_id\x18\x01 \x01(\tR\x05\x61ppId\x12\x1f\n\x0bprovider_id\x18\x02 \x01(\tR\nproviderId\x12#\n\rprovider_name\x18\x04 \x01(\tR\x0cproviderName\x12\x1d\n\nsubject_id\x18\x05 \x01(\tR\tsubjectId\x12\x16\n\x06scopes\x18\x06 \x03(\tR\x06scopes\x12%\n\x0eoffline_access\x18\x07 \x01(\x08R\rofflineAccess\"^\n\x16GetAccessTokenResponse\x12\x44\n\x05token\x18\x01 \x01(\x0b\x32..indykite.identity.v1beta2.OAuth2TokenResponseR\x05token\"M\n\x18SessionIntrospectRequest\x12\x1b\n\ttenant_id\x18\x01 \x01(\tR\x08tenantId\x12\x14\n\x05token\x18\x02 \x01(\tR\x05token\"\xa5\x01\n\x19SessionIntrospectResponse\x12\x16\n\x06\x61\x63tive\x18\x01 \x01(\x08R\x06\x61\x63tive\x12K\n\ntoken_info\x18\x02 \x01(\x0b\x32,.indykite.identity.v1beta2.IdentityTokenInfoR\ttokenInfo\x12#\n\rprovider_data\x18\x03 \x03(\tR\x0cproviderData\"\xb3\x01\n\x12\x45nrichTokenRequest\x12!\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\tR\x0b\x61\x63\x63\x65ssToken\x12:\n\x0ctoken_claims\x18\x02 \x01(\x0b\x32\x17.google.protobuf.StructR\x0btokenClaims\x12>\n\x0esession_claims\x18\x03 \x01(\x0b\x32\x17.google.protobuf.StructR\rsessionClaims\"\x15\n\x13\x45nrichTokenResponse\"\x80\x02\n\x14\x43reateConsentRequest\x12P\n\x10pii_processor_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x0epiiProcessorId\x12P\n\x10pii_principal_id\x18\x02 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x0epiiPrincipalId\x12\x44\n\nproperties\x18\x03 \x03(\tB$\xfa\x42!\x92\x01\x1e\x08\x01\x18\x01\"\x18r\x16\x10\x02\x18\x32\x32\x10^[a-zA-Z0-9_-]+$R\nproperties\"6\n\x15\x43reateConsentResponse\x12\x1d\n\nconsent_id\x18\x01 \x01(\tR\tconsentId\"g\n\x13ListConsentsRequest\x12P\n\x10pii_principal_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x0epiiPrincipalId\"j\n\x14ListConsentsResponse\x12R\n\x0f\x63onsent_receipt\x18\x01 \x01(\x0b\x32).indykite.identity.v1beta2.ConsentReceiptR\x0e\x63onsentReceipt\"\x9c\x01\n\x14RevokeConsentRequest\x12P\n\x10pii_principal_id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x0epiiPrincipalId\x12\x32\n\x0b\x63onsent_ids\x18\x02 \x03(\tB\x11\xfa\x42\x0e\x92\x01\x0b\x08\x01\x18\x01\"\x05r\x03\x98\x01$R\nconsentIds\"\x17\n\x15RevokeConsentResponse\"\xc3\x03\n\x1d\x43reateCustomLoginTokenRequest\x12U\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x0b\x64igitalTwin\x12^\n\x0fproperty_filter\x18\x02 \x01(\x0b\x32).indykite.identity.v1beta2.PropertyFilterB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x0epropertyFilter\x12\x63\n\x14\x63redential_reference\x18\x03 \x01(\x0b\x32..indykite.identity.v1beta2.CredentialReferenceH\x00R\x13\x63redentialReference\x12:\n\x0ctoken_claims\x18\x04 \x01(\x0b\x32\x17.google.protobuf.StructR\x0btokenClaims\x12>\n\x0esession_claims\x18\x05 \x01(\x0b\x32\x17.google.protobuf.StructR\rsessionClaimsB\n\n\x03uid\x12\x03\xf8\x42\x01\"\x81\x01\n\x1e\x43reateCustomLoginTokenResponse\x12\x14\n\x05token\x18\x01 \x01(\tR\x05token\x12I\n\x0c\x64igital_twin\x18\x02 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin*\xbc\x02\n\x11\x43redentialControl\x12\x1e\n\x1a\x43REDENTIAL_CONTROL_INVALID\x10\x00\x12\x1e\n\x1a\x43REDENTIAL_CONTROL_DISABLE\x10\x01\x12\x1d\n\x19\x43REDENTIAL_CONTROL_ENABLE\x10\x02\x12\x1e\n\x1a\x43REDENTIAL_CONTROL_LOCKOUT\x10\x03\x12+\n\'CREDENTIAL_CONTROL_PASSWORD_CANT_CHANGE\x10\x04\x12%\n!CREDENTIAL_CONTROL_NORMAL_ACCOUNT\x10\x05\x12+\n\'CREDENTIAL_CONTROL_DONT_EXPIRE_PASSWORD\x10\x06\x12\'\n#CREDENTIAL_CONTROL_PASSWORD_EXPIRED\x10\x07\x32\xc2\'\n\x15IdentityManagementAPI\x12\xc5\x01\n\x0fTokenIntrospect\x12\x31.indykite.identity.v1beta2.TokenIntrospectRequest\x1a\x32.indykite.identity.v1beta2.TokenIntrospectResponse\"K\x82\xd3\xe4\x93\x02\x45:\x01*Z$\x12\"/identity/token/introspect/{token}\"\x1a/identity/token/introspect\x12\x99\x01\n\x1aStartForgottenPasswordFlow\x12<.indykite.identity.v1beta2.StartForgottenPasswordFlowRequest\x1a=.indykite.identity.v1beta2.StartForgottenPasswordFlowResponse\x12u\n\x0e\x43hangePassword\x12\x30.indykite.identity.v1beta2.ChangePasswordRequest\x1a\x31.indykite.identity.v1beta2.ChangePasswordResponse\x12\xdc\x01\n!StartDigitalTwinEmailVerification\x12\x43.indykite.identity.v1beta2.StartDigitalTwinEmailVerificationRequest\x1a\x44.indykite.identity.v1beta2.StartDigitalTwinEmailVerificationResponse\",\x82\xd3\xe4\x93\x02&:\x01*\"!/identity/email/startVerification\x12\xda\x01\n\x16VerifyDigitalTwinEmail\x12\x38.indykite.identity.v1beta2.VerifyDigitalTwinEmailRequest\x1a\x39.indykite.identity.v1beta2.VerifyDigitalTwinEmailResponse\"K\x82\xd3\xe4\x93\x02\x45:\x01*Z \x12\x1e/identity/email/verify/{token}\"\x1e/identity/email/verify/{token}\x12\xfd\x01\n\x1bSelfServiceTerminateSession\x12=.indykite.identity.v1beta2.SelfServiceTerminateSessionRequest\x1a>.indykite.identity.v1beta2.SelfServiceTerminateSessionResponse\"_\x82\xd3\xe4\x93\x02Y:\x01*Z*\x12(/identity/self-service/terminate-session\"(/identity/self-service/terminate-session\x12\x81\x01\n\x12ImportDigitalTwins\x12\x34.indykite.identity.v1beta2.ImportDigitalTwinsRequest\x1a\x35.indykite.identity.v1beta2.ImportDigitalTwinsResponse\x12u\n\x0eGetDigitalTwin\x12\x30.indykite.identity.v1beta2.GetDigitalTwinRequest\x1a\x31.indykite.identity.v1beta2.GetDigitalTwinResponse\x12{\n\x10ListDigitalTwins\x12\x32.indykite.identity.v1beta2.ListDigitalTwinsRequest\x1a\x33.indykite.identity.v1beta2.ListDigitalTwinsResponse\x12\xb7\x01\n$RegisterDigitalTwinWithoutCredential\x12\x46.indykite.identity.v1beta2.RegisterDigitalTwinWithoutCredentialRequest\x1aG.indykite.identity.v1beta2.RegisterDigitalTwinWithoutCredentialResponse\x12{\n\x10PatchDigitalTwin\x12\x32.indykite.identity.v1beta2.PatchDigitalTwinRequest\x1a\x33.indykite.identity.v1beta2.PatchDigitalTwinResponse\x12~\n\x11\x44\x65leteDigitalTwin\x12\x33.indykite.identity.v1beta2.DeleteDigitalTwinRequest\x1a\x34.indykite.identity.v1beta2.DeleteDigitalTwinResponse\x12\xad\x01\n\x0bGetDocument\x12-.indykite.identity.v1beta2.GetDocumentRequest\x1a..indykite.identity.v1beta2.GetDocumentResponse\"?\x82\xd3\xe4\x93\x02\x39\x12\x37/identity/document/v1/{name=databases/*/documents/*/**}\x12\xcc\x01\n\x11\x42\x61tchGetDocuments\x12\x33.indykite.identity.v1beta2.BatchGetDocumentsRequest\x1a\x34.indykite.identity.v1beta2.BatchGetDocumentsResponse\"J\x82\xd3\xe4\x93\x02\x44:\x01*\"?/identity/document/v1/{database=databases/*}/documents:batchGet0\x01\x12\xc5\x01\n\rListDocuments\x12/.indykite.identity.v1beta2.ListDocumentsRequest\x1a\x30.indykite.identity.v1beta2.ListDocumentsResponse\"Q\x82\xd3\xe4\x93\x02K\x12I/identity/document/v1/{parent=databases/*/documents/*/**}/{collection_id}\x12\xc2\x01\n\x0fMutateDocuments\x12\x31.indykite.identity.v1beta2.MutateDocumentsRequest\x1a\x32.indykite.identity.v1beta2.MutateDocumentsResponse\"H\x82\xd3\xe4\x93\x02\x42:\x01*\"=/identity/document/v1/{database=databases/*}/documents:mutate\x12\xfa\x01\n\x08RunQuery\x12*.indykite.identity.v1beta2.RunQueryRequest\x1a+.indykite.identity.v1beta2.RunQueryResponse\"\x92\x01\x82\xd3\xe4\x93\x02\x8b\x01:\x01*ZG:\x01*\"B/identity/document/v1/{parent=databases/*/documents/*/**}:runQuery\"=/identity/document/v1/{parent=databases/*/documents}:runQuery0\x01\x12\x9c\x01\n\x1b\x43heckOAuth2ConsentChallenge\x12=.indykite.identity.v1beta2.CheckOAuth2ConsentChallengeRequest\x1a>.indykite.identity.v1beta2.CheckOAuth2ConsentChallengeResponse\x12\x9c\x01\n\x1b\x43reateOAuth2ConsentVerifier\x12=.indykite.identity.v1beta2.CreateOAuth2ConsentVerifierRequest\x1a>.indykite.identity.v1beta2.CreateOAuth2ConsentVerifierResponse\x12{\n\x10\x43reateInvitation\x12\x32.indykite.identity.v1beta2.CreateInvitationRequest\x1a\x33.indykite.identity.v1beta2.CreateInvitationResponse\x12\x87\x01\n\x14\x43heckInvitationState\x12\x36.indykite.identity.v1beta2.CheckInvitationStateRequest\x1a\x37.indykite.identity.v1beta2.CheckInvitationStateResponse\x12{\n\x10ResendInvitation\x12\x32.indykite.identity.v1beta2.ResendInvitationRequest\x1a\x33.indykite.identity.v1beta2.ResendInvitationResponse\x12{\n\x10\x43\x61ncelInvitation\x12\x32.indykite.identity.v1beta2.CancelInvitationRequest\x1a\x33.indykite.identity.v1beta2.CancelInvitationResponse\x12l\n\x0b\x45nrichToken\x12-.indykite.identity.v1beta2.EnrichTokenRequest\x1a..indykite.identity.v1beta2.EnrichTokenResponse\x12r\n\rCreateConsent\x12/.indykite.identity.v1beta2.CreateConsentRequest\x1a\x30.indykite.identity.v1beta2.CreateConsentResponse\x12q\n\x0cListConsents\x12..indykite.identity.v1beta2.ListConsentsRequest\x1a/.indykite.identity.v1beta2.ListConsentsResponse0\x01\x12r\n\rRevokeConsent\x12/.indykite.identity.v1beta2.RevokeConsentRequest\x1a\x30.indykite.identity.v1beta2.RevokeConsentResponse\x12\x8a\x01\n\x15GetPasswordCredential\x12\x37.indykite.identity.v1beta2.GetPasswordCredentialRequest\x1a\x38.indykite.identity.v1beta2.GetPasswordCredentialResponse\x12\x93\x01\n\x18UpdatePasswordCredential\x12:.indykite.identity.v1beta2.UpdatePasswordCredentialRequest\x1a;.indykite.identity.v1beta2.UpdatePasswordCredentialResponse\x12u\n\x0eGetAccessToken\x12\x30.indykite.identity.v1beta2.GetAccessTokenRequest\x1a\x31.indykite.identity.v1beta2.GetAccessTokenResponse\x12\xa7\x01\n\x11SessionIntrospect\x12\x33.indykite.identity.v1beta2.SessionIntrospectRequest\x1a\x34.indykite.identity.v1beta2.SessionIntrospectResponse\"\'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/identity/session/introspect\x12\x8d\x01\n\x16\x43reateCustomLoginToken\x12\x38.indykite.identity.v1beta2.CreateCustomLoginTokenRequest\x1a\x39.indykite.identity.v1beta2.CreateCustomLoginTokenResponseB\xc1\x01\n\x1d\x63om.indykite.identity.v1beta2B\x1aIdentityManagementApiProtoP\x01\xa2\x02\x03IIX\xaa\x02\x19Indykite.Identity.V1beta2\xca\x02\x19Indykite\\Identity\\V1beta2\xe2\x02%Indykite\\Identity\\V1beta2\\GPBMetadata\xea\x02\x1bIndykite::Identity::V1beta2b\x06proto3')
 
 _CREDENTIALCONTROL = DESCRIPTOR.enum_types_by_name['CredentialControl']
 CredentialControl = enum_type_wrapper.EnumTypeWrapper(_CREDENTIALCONTROL)
@@ -52,8 +52,6 @@ _VERIFYDIGITALTWINEMAILREQUEST = DESCRIPTOR.message_types_by_name['VerifyDigital
 _VERIFYDIGITALTWINEMAILRESPONSE = DESCRIPTOR.message_types_by_name['VerifyDigitalTwinEmailResponse']
 _SELFSERVICETERMINATESESSIONREQUEST = DESCRIPTOR.message_types_by_name['SelfServiceTerminateSessionRequest']
 _SELFSERVICETERMINATESESSIONRESPONSE = DESCRIPTOR.message_types_by_name['SelfServiceTerminateSessionResponse']
-_DIGITALTWINIDENTIFIER = DESCRIPTOR.message_types_by_name['DigitalTwinIdentifier']
-_PROPERTYFILTER = DESCRIPTOR.message_types_by_name['PropertyFilter']
 _GETDIGITALTWINREQUEST = DESCRIPTOR.message_types_by_name['GetDigitalTwinRequest']
 _GETDIGITALTWINRESPONSE = DESCRIPTOR.message_types_by_name['GetDigitalTwinResponse']
 _LISTDIGITALTWINSREQUEST = DESCRIPTOR.message_types_by_name['ListDigitalTwinsRequest']
@@ -110,6 +108,8 @@ _LISTCONSENTSREQUEST = DESCRIPTOR.message_types_by_name['ListConsentsRequest']
 _LISTCONSENTSRESPONSE = DESCRIPTOR.message_types_by_name['ListConsentsResponse']
 _REVOKECONSENTREQUEST = DESCRIPTOR.message_types_by_name['RevokeConsentRequest']
 _REVOKECONSENTRESPONSE = DESCRIPTOR.message_types_by_name['RevokeConsentResponse']
+_CREATECUSTOMLOGINTOKENREQUEST = DESCRIPTOR.message_types_by_name['CreateCustomLoginTokenRequest']
+_CREATECUSTOMLOGINTOKENRESPONSE = DESCRIPTOR.message_types_by_name['CreateCustomLoginTokenResponse']
 TokenIntrospectRequest = _reflection.GeneratedProtocolMessageType('TokenIntrospectRequest', (_message.Message,), {
   'DESCRIPTOR' : _TOKENINTROSPECTREQUEST,
   '__module__' : 'indykite.identity.v1beta2.identity_management_api_pb2'
@@ -193,20 +193,6 @@ SelfServiceTerminateSessionResponse = _reflection.GeneratedProtocolMessageType('
   # @@protoc_insertion_point(class_scope:indykite.identity.v1beta2.SelfServiceTerminateSessionResponse)
   })
 _sym_db.RegisterMessage(SelfServiceTerminateSessionResponse)
-
-DigitalTwinIdentifier = _reflection.GeneratedProtocolMessageType('DigitalTwinIdentifier', (_message.Message,), {
-  'DESCRIPTOR' : _DIGITALTWINIDENTIFIER,
-  '__module__' : 'indykite.identity.v1beta2.identity_management_api_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.identity.v1beta2.DigitalTwinIdentifier)
-  })
-_sym_db.RegisterMessage(DigitalTwinIdentifier)
-
-PropertyFilter = _reflection.GeneratedProtocolMessageType('PropertyFilter', (_message.Message,), {
-  'DESCRIPTOR' : _PROPERTYFILTER,
-  '__module__' : 'indykite.identity.v1beta2.identity_management_api_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.identity.v1beta2.PropertyFilter)
-  })
-_sym_db.RegisterMessage(PropertyFilter)
 
 GetDigitalTwinRequest = _reflection.GeneratedProtocolMessageType('GetDigitalTwinRequest', (_message.Message,), {
   'DESCRIPTOR' : _GETDIGITALTWINREQUEST,
@@ -600,29 +586,37 @@ RevokeConsentResponse = _reflection.GeneratedProtocolMessageType('RevokeConsentR
   })
 _sym_db.RegisterMessage(RevokeConsentResponse)
 
+CreateCustomLoginTokenRequest = _reflection.GeneratedProtocolMessageType('CreateCustomLoginTokenRequest', (_message.Message,), {
+  'DESCRIPTOR' : _CREATECUSTOMLOGINTOKENREQUEST,
+  '__module__' : 'indykite.identity.v1beta2.identity_management_api_pb2'
+  # @@protoc_insertion_point(class_scope:indykite.identity.v1beta2.CreateCustomLoginTokenRequest)
+  })
+_sym_db.RegisterMessage(CreateCustomLoginTokenRequest)
+
+CreateCustomLoginTokenResponse = _reflection.GeneratedProtocolMessageType('CreateCustomLoginTokenResponse', (_message.Message,), {
+  'DESCRIPTOR' : _CREATECUSTOMLOGINTOKENRESPONSE,
+  '__module__' : 'indykite.identity.v1beta2.identity_management_api_pb2'
+  # @@protoc_insertion_point(class_scope:indykite.identity.v1beta2.CreateCustomLoginTokenResponse)
+  })
+_sym_db.RegisterMessage(CreateCustomLoginTokenResponse)
+
 _IDENTITYMANAGEMENTAPI = DESCRIPTOR.services_by_name['IdentityManagementAPI']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\035com.indykite.identity.v1beta2B\032IdentityManagementApiProtoP\001\242\002\003IIX\252\002\031Indykite.Identity.V1beta2\312\002\031Indykite\\Identity\\V1beta2\342\002%Indykite\\Identity\\V1beta2\\GPBMetadata\352\002\033Indykite::Identity::V1beta2'
+  _STARTFORGOTTENPASSWORDFLOWREQUEST.fields_by_name['digital_twin']._options = None
+  _STARTFORGOTTENPASSWORDFLOWREQUEST.fields_by_name['digital_twin']._serialized_options = b'\372B\005\212\001\002\020\001'
+  _CHANGEPASSWORDREQUEST.oneofs_by_name['uid']._options = None
+  _CHANGEPASSWORDREQUEST.oneofs_by_name['uid']._serialized_options = b'\370B\001'
+  _CHANGEPASSWORDREQUEST.fields_by_name['token']._options = None
+  _CHANGEPASSWORDREQUEST.fields_by_name['token']._serialized_options = b'\372B\010r\006\020\200\001\030\200 '
+  _CHANGEPASSWORDREQUEST.fields_by_name['password']._options = None
+  _CHANGEPASSWORDREQUEST.fields_by_name['password']._serialized_options = b'\372B\007r\005\020\004\030\376\001'
   _STARTDIGITALTWINEMAILVERIFICATIONREQUEST.fields_by_name['digital_twin']._options = None
   _STARTDIGITALTWINEMAILVERIFICATIONREQUEST.fields_by_name['digital_twin']._serialized_options = b'\372B\005\212\001\002\020\001'
   _STARTDIGITALTWINEMAILVERIFICATIONREQUEST.fields_by_name['email']._options = None
   _STARTDIGITALTWINEMAILVERIFICATIONREQUEST.fields_by_name['email']._serialized_options = b'\372B\004r\002`\001'
-  _DIGITALTWINIDENTIFIER.oneofs_by_name['filter']._options = None
-  _DIGITALTWINIDENTIFIER.oneofs_by_name['filter']._serialized_options = b'\370B\001'
-  _DIGITALTWINIDENTIFIER.fields_by_name['digital_twin']._options = None
-  _DIGITALTWINIDENTIFIER.fields_by_name['digital_twin']._serialized_options = b'\372B\005\212\001\002\020\001'
-  _DIGITALTWINIDENTIFIER.fields_by_name['property_filter']._options = None
-  _DIGITALTWINIDENTIFIER.fields_by_name['property_filter']._serialized_options = b'\372B\005\212\001\002\020\001'
-  _DIGITALTWINIDENTIFIER.fields_by_name['access_token']._options = None
-  _DIGITALTWINIDENTIFIER.fields_by_name['access_token']._serialized_options = b'\372B\004r\002\020\024'
-  _PROPERTYFILTER.fields_by_name['type']._options = None
-  _PROPERTYFILTER.fields_by_name['type']._serialized_options = b'\372B\006r\004\020\002\030\024'
-  _PROPERTYFILTER.fields_by_name['value']._options = None
-  _PROPERTYFILTER.fields_by_name['value']._serialized_options = b'\372B\005\212\001\002\020\001'
-  _PROPERTYFILTER.fields_by_name['tenant_id']._options = None
-  _PROPERTYFILTER.fields_by_name['tenant_id']._serialized_options = b'\372B&r$\020\033\030d2\033^gid:[A-Za-z0-9-_]{27,100}$\320\001\001'
   _GETDIGITALTWINREQUEST.fields_by_name['id']._options = None
   _GETDIGITALTWINREQUEST.fields_by_name['id']._serialized_options = b'\372B\005\212\001\002\020\001'
   _GETDIGITALTWINREQUEST.fields_by_name['properties']._options = None
@@ -693,6 +687,12 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _REVOKECONSENTREQUEST.fields_by_name['pii_principal_id']._serialized_options = b'\372B#r!\020\033\030d2\033^gid:[A-Za-z0-9-_]{27,100}$'
   _REVOKECONSENTREQUEST.fields_by_name['consent_ids']._options = None
   _REVOKECONSENTREQUEST.fields_by_name['consent_ids']._serialized_options = b'\372B\016\222\001\013\010\001\030\001\"\005r\003\230\001$'
+  _CREATECUSTOMLOGINTOKENREQUEST.oneofs_by_name['uid']._options = None
+  _CREATECUSTOMLOGINTOKENREQUEST.oneofs_by_name['uid']._serialized_options = b'\370B\001'
+  _CREATECUSTOMLOGINTOKENREQUEST.fields_by_name['digital_twin']._options = None
+  _CREATECUSTOMLOGINTOKENREQUEST.fields_by_name['digital_twin']._serialized_options = b'\372B\005\212\001\002\020\001'
+  _CREATECUSTOMLOGINTOKENREQUEST.fields_by_name['property_filter']._options = None
+  _CREATECUSTOMLOGINTOKENREQUEST.fields_by_name['property_filter']._serialized_options = b'\372B\005\212\001\002\020\001'
   _IDENTITYMANAGEMENTAPI.methods_by_name['TokenIntrospect']._options = None
   _IDENTITYMANAGEMENTAPI.methods_by_name['TokenIntrospect']._serialized_options = b'\202\323\344\223\002E:\001*Z$\022\"/identity/token/introspect/{token}\"\032/identity/token/introspect'
   _IDENTITYMANAGEMENTAPI.methods_by_name['StartDigitalTwinEmailVerification']._options = None
@@ -713,148 +713,148 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _IDENTITYMANAGEMENTAPI.methods_by_name['RunQuery']._serialized_options = b'\202\323\344\223\002\213\001:\001*ZG:\001*\"B/identity/document/v1/{parent=databases/*/documents/*/**}:runQuery\"=/identity/document/v1/{parent=databases/*/documents}:runQuery'
   _IDENTITYMANAGEMENTAPI.methods_by_name['SessionIntrospect']._options = None
   _IDENTITYMANAGEMENTAPI.methods_by_name['SessionIntrospect']._serialized_options = b'\202\323\344\223\002!:\001*\"\034/identity/session/introspect'
-  _CREDENTIALCONTROL._serialized_start=10884
-  _CREDENTIALCONTROL._serialized_end=11200
+  _CREDENTIALCONTROL._serialized_start=11053
+  _CREDENTIALCONTROL._serialized_end=11369
   _TOKENINTROSPECTREQUEST._serialized_start=481
   _TOKENINTROSPECTREQUEST._serialized_end=556
   _TOKENINTROSPECTRESPONSE._serialized_start=558
   _TOKENINTROSPECTRESPONSE._serialized_end=684
   _STARTFORGOTTENPASSWORDFLOWREQUEST._serialized_start=686
-  _STARTFORGOTTENPASSWORDFLOWREQUEST._serialized_end=796
-  _STARTFORGOTTENPASSWORDFLOWRESPONSE._serialized_start=798
-  _STARTFORGOTTENPASSWORDFLOWRESPONSE._serialized_end=834
-  _CHANGEPASSWORDREQUEST._serialized_start=837
-  _CHANGEPASSWORDREQUEST._serialized_end=1033
-  _CHANGEPASSWORDRESPONSE._serialized_start=1035
-  _CHANGEPASSWORDRESPONSE._serialized_end=1115
-  _STARTDIGITALTWINEMAILVERIFICATIONREQUEST._serialized_start=1118
-  _STARTDIGITALTWINEMAILVERIFICATIONREQUEST._serialized_end=1344
-  _STARTDIGITALTWINEMAILVERIFICATIONRESPONSE._serialized_start=1346
-  _STARTDIGITALTWINEMAILVERIFICATIONRESPONSE._serialized_end=1389
-  _VERIFYDIGITALTWINEMAILREQUEST._serialized_start=1391
-  _VERIFYDIGITALTWINEMAILREQUEST._serialized_end=1444
-  _VERIFYDIGITALTWINEMAILRESPONSE._serialized_start=1446
-  _VERIFYDIGITALTWINEMAILRESPONSE._serialized_end=1553
-  _SELFSERVICETERMINATESESSIONREQUEST._serialized_start=1555
-  _SELFSERVICETERMINATESESSIONREQUEST._serialized_end=1628
-  _SELFSERVICETERMINATESESSIONRESPONSE._serialized_start=1630
-  _SELFSERVICETERMINATESESSIONRESPONSE._serialized_end=1667
-  _DIGITALTWINIDENTIFIER._serialized_start=1670
-  _DIGITALTWINIDENTIFIER._serialized_end=1937
-  _PROPERTYFILTER._serialized_start=1940
-  _PROPERTYFILTER._serialized_end=2124
-  _GETDIGITALTWINREQUEST._serialized_start=2127
-  _GETDIGITALTWINREQUEST._serialized_end=2316
-  _GETDIGITALTWINRESPONSE._serialized_start=2319
-  _GETDIGITALTWINRESPONSE._serialized_end=2497
-  _LISTDIGITALTWINSREQUEST._serialized_start=2500
-  _LISTDIGITALTWINSREQUEST._serialized_end=2787
-  _LISTDIGITALTWINSRESPONSE._serialized_start=2790
-  _LISTDIGITALTWINSRESPONSE._serialized_end=2933
-  _REGISTERDIGITALTWINWITHOUTCREDENTIALREQUEST._serialized_start=2936
-  _REGISTERDIGITALTWINWITHOUTCREDENTIALREQUEST._serialized_end=3346
-  _REGISTERDIGITALTWINWITHOUTCREDENTIALRESPONSE._serialized_start=3349
-  _REGISTERDIGITALTWINWITHOUTCREDENTIALRESPONSE._serialized_end=3573
-  _PATCHDIGITALTWINREQUEST._serialized_start=3576
-  _PATCHDIGITALTWINREQUEST._serialized_end=3845
-  _PATCHDIGITALTWINRESPONSE._serialized_start=3847
-  _PATCHDIGITALTWINRESPONSE._serialized_end=3946
-  _DELETEDIGITALTWINREQUEST._serialized_start=3949
-  _DELETEDIGITALTWINREQUEST._serialized_end=4084
-  _DELETEDIGITALTWINRESPONSE._serialized_start=4086
-  _DELETEDIGITALTWINRESPONSE._serialized_end=4188
-  _GETDOCUMENTREQUEST._serialized_start=4190
-  _GETDOCUMENTREQUEST._serialized_end=4291
-  _GETDOCUMENTRESPONSE._serialized_start=4293
-  _GETDOCUMENTRESPONSE._serialized_end=4379
-  _BATCHGETDOCUMENTSREQUEST._serialized_start=4382
-  _BATCHGETDOCUMENTSREQUEST._serialized_end=4527
-  _BATCHGETDOCUMENTSRESPONSE._serialized_start=4529
-  _BATCHGETDOCUMENTSRESPONSE._serialized_end=4655
-  _LISTDOCUMENTSREQUEST._serialized_start=4658
-  _LISTDOCUMENTSREQUEST._serialized_end=4889
-  _LISTDOCUMENTSRESPONSE._serialized_start=4892
-  _LISTDOCUMENTSRESPONSE._serialized_end=5022
-  _MUTATEDOCUMENTSREQUEST._serialized_start=5024
-  _MUTATEDOCUMENTSREQUEST._serialized_end=5134
-  _MUTATEDOCUMENTSRESPONSE._serialized_start=5136
-  _MUTATEDOCUMENTSRESPONSE._serialized_end=5238
-  _RUNQUERYREQUEST._serialized_start=5241
-  _RUNQUERYREQUEST._serialized_end=5374
-  _RUNQUERYRESPONSE._serialized_start=5376
-  _RUNQUERYRESPONSE._serialized_end=5500
-  _GETPASSWORDCREDENTIALREQUEST._serialized_start=5502
-  _GETPASSWORDCREDENTIALREQUEST._serialized_end=5607
-  _GETPASSWORDCREDENTIALRESPONSE._serialized_start=5609
-  _GETPASSWORDCREDENTIALRESPONSE._serialized_end=5640
-  _UPDATEPASSWORDCREDENTIALREQUEST._serialized_start=5643
-  _UPDATEPASSWORDCREDENTIALREQUEST._serialized_end=5893
-  _UPDATEPASSWORDCREDENTIALRESPONSE._serialized_start=5895
-  _UPDATEPASSWORDCREDENTIALRESPONSE._serialized_end=5929
-  _ERROR._serialized_start=5931
-  _ERROR._serialized_end=5958
-  _SELFSERVICECHANGEPASSWORDREQUEST._serialized_start=5960
-  _SELFSERVICECHANGEPASSWORDREQUEST._serialized_end=6022
-  _SELFSERVICECHANGEPASSWORDRESPONSE._serialized_start=6024
-  _SELFSERVICECHANGEPASSWORDRESPONSE._serialized_end=6107
-  _CREATEINVITATIONREQUEST._serialized_start=6110
-  _CREATEINVITATIONREQUEST._serialized_end=6589
-  _CREATEINVITATIONRESPONSE._serialized_start=6591
-  _CREATEINVITATIONRESPONSE._serialized_end=6617
-  _CHECKINVITATIONSTATEREQUEST._serialized_start=6620
-  _CHECKINVITATIONSTATEREQUEST._serialized_end=6798
-  _CHECKINVITATIONSTATERESPONSE._serialized_start=6800
-  _CHECKINVITATIONSTATERESPONSE._serialized_end=6901
-  _RESENDINVITATIONREQUEST._serialized_start=6903
-  _RESENDINVITATIONREQUEST._serialized_end=6999
-  _RESENDINVITATIONRESPONSE._serialized_start=7001
-  _RESENDINVITATIONRESPONSE._serialized_end=7027
-  _CANCELINVITATIONREQUEST._serialized_start=7029
-  _CANCELINVITATIONREQUEST._serialized_end=7125
-  _CANCELINVITATIONRESPONSE._serialized_start=7127
-  _CANCELINVITATIONRESPONSE._serialized_end=7153
-  _CHECKOAUTH2CONSENTCHALLENGEREQUEST._serialized_start=7155
-  _CHECKOAUTH2CONSENTCHALLENGEREQUEST._serialized_end=7231
-  _CHECKOAUTH2CONSENTCHALLENGERESPONSE._serialized_start=7234
-  _CHECKOAUTH2CONSENTCHALLENGERESPONSE._serialized_end=7858
-  _SCOPEITEM._serialized_start=7861
-  _SCOPEITEM._serialized_end=7989
-  _AUDIENCEITEM._serialized_start=7992
-  _AUDIENCEITEM._serialized_end=8298
-  _CREATEOAUTH2CONSENTVERIFIERREQUEST._serialized_start=8301
-  _CREATEOAUTH2CONSENTVERIFIERREQUEST._serialized_end=8550
-  _CREATEOAUTH2CONSENTVERIFIERRESPONSE._serialized_start=8552
-  _CREATEOAUTH2CONSENTVERIFIERRESPONSE._serialized_end=8672
-  _CONSENTAPPROVAL._serialized_start=8675
-  _CONSENTAPPROVAL._serialized_end=8937
-  _CONSENTREQUESTSESSIONDATA._serialized_start=8940
-  _CONSENTREQUESTSESSIONDATA._serialized_end=9165
-  _DENIALRESPONSE._serialized_start=9168
-  _DENIALRESPONSE._serialized_end=9408
-  _GETACCESSTOKENREQUEST._serialized_start=9411
-  _GETACCESSTOKENREQUEST._serialized_end=9621
-  _GETACCESSTOKENRESPONSE._serialized_start=9623
-  _GETACCESSTOKENRESPONSE._serialized_end=9717
-  _SESSIONINTROSPECTREQUEST._serialized_start=9719
-  _SESSIONINTROSPECTREQUEST._serialized_end=9796
-  _SESSIONINTROSPECTRESPONSE._serialized_start=9799
-  _SESSIONINTROSPECTRESPONSE._serialized_end=9964
-  _ENRICHTOKENREQUEST._serialized_start=9967
-  _ENRICHTOKENREQUEST._serialized_end=10146
-  _ENRICHTOKENRESPONSE._serialized_start=10148
-  _ENRICHTOKENRESPONSE._serialized_end=10169
-  _CREATECONSENTREQUEST._serialized_start=10172
-  _CREATECONSENTREQUEST._serialized_end=10428
-  _CREATECONSENTRESPONSE._serialized_start=10430
-  _CREATECONSENTRESPONSE._serialized_end=10484
-  _LISTCONSENTSREQUEST._serialized_start=10486
-  _LISTCONSENTSREQUEST._serialized_end=10589
-  _LISTCONSENTSRESPONSE._serialized_start=10591
-  _LISTCONSENTSRESPONSE._serialized_end=10697
-  _REVOKECONSENTREQUEST._serialized_start=10700
-  _REVOKECONSENTREQUEST._serialized_end=10856
-  _REVOKECONSENTRESPONSE._serialized_start=10858
-  _REVOKECONSENTRESPONSE._serialized_end=10881
-  _IDENTITYMANAGEMENTAPI._serialized_start=11203
-  _IDENTITYMANAGEMENTAPI._serialized_end=16117
+  _STARTFORGOTTENPASSWORDFLOWREQUEST._serialized_end=806
+  _STARTFORGOTTENPASSWORDFLOWRESPONSE._serialized_start=808
+  _STARTFORGOTTENPASSWORDFLOWRESPONSE._serialized_end=844
+  _CHANGEPASSWORDREQUEST._serialized_start=847
+  _CHANGEPASSWORDREQUEST._serialized_end=1073
+  _CHANGEPASSWORDRESPONSE._serialized_start=1075
+  _CHANGEPASSWORDRESPONSE._serialized_end=1155
+  _STARTDIGITALTWINEMAILVERIFICATIONREQUEST._serialized_start=1158
+  _STARTDIGITALTWINEMAILVERIFICATIONREQUEST._serialized_end=1384
+  _STARTDIGITALTWINEMAILVERIFICATIONRESPONSE._serialized_start=1386
+  _STARTDIGITALTWINEMAILVERIFICATIONRESPONSE._serialized_end=1429
+  _VERIFYDIGITALTWINEMAILREQUEST._serialized_start=1431
+  _VERIFYDIGITALTWINEMAILREQUEST._serialized_end=1484
+  _VERIFYDIGITALTWINEMAILRESPONSE._serialized_start=1486
+  _VERIFYDIGITALTWINEMAILRESPONSE._serialized_end=1593
+  _SELFSERVICETERMINATESESSIONREQUEST._serialized_start=1595
+  _SELFSERVICETERMINATESESSIONREQUEST._serialized_end=1668
+  _SELFSERVICETERMINATESESSIONRESPONSE._serialized_start=1670
+  _SELFSERVICETERMINATESESSIONRESPONSE._serialized_end=1707
+  _GETDIGITALTWINREQUEST._serialized_start=1710
+  _GETDIGITALTWINREQUEST._serialized_end=1899
+  _GETDIGITALTWINRESPONSE._serialized_start=1902
+  _GETDIGITALTWINRESPONSE._serialized_end=2080
+  _LISTDIGITALTWINSREQUEST._serialized_start=2083
+  _LISTDIGITALTWINSREQUEST._serialized_end=2370
+  _LISTDIGITALTWINSRESPONSE._serialized_start=2373
+  _LISTDIGITALTWINSRESPONSE._serialized_end=2516
+  _REGISTERDIGITALTWINWITHOUTCREDENTIALREQUEST._serialized_start=2519
+  _REGISTERDIGITALTWINWITHOUTCREDENTIALREQUEST._serialized_end=2929
+  _REGISTERDIGITALTWINWITHOUTCREDENTIALRESPONSE._serialized_start=2932
+  _REGISTERDIGITALTWINWITHOUTCREDENTIALRESPONSE._serialized_end=3156
+  _PATCHDIGITALTWINREQUEST._serialized_start=3159
+  _PATCHDIGITALTWINREQUEST._serialized_end=3428
+  _PATCHDIGITALTWINRESPONSE._serialized_start=3430
+  _PATCHDIGITALTWINRESPONSE._serialized_end=3529
+  _DELETEDIGITALTWINREQUEST._serialized_start=3532
+  _DELETEDIGITALTWINREQUEST._serialized_end=3667
+  _DELETEDIGITALTWINRESPONSE._serialized_start=3669
+  _DELETEDIGITALTWINRESPONSE._serialized_end=3771
+  _GETDOCUMENTREQUEST._serialized_start=3773
+  _GETDOCUMENTREQUEST._serialized_end=3874
+  _GETDOCUMENTRESPONSE._serialized_start=3876
+  _GETDOCUMENTRESPONSE._serialized_end=3962
+  _BATCHGETDOCUMENTSREQUEST._serialized_start=3965
+  _BATCHGETDOCUMENTSREQUEST._serialized_end=4110
+  _BATCHGETDOCUMENTSRESPONSE._serialized_start=4112
+  _BATCHGETDOCUMENTSRESPONSE._serialized_end=4238
+  _LISTDOCUMENTSREQUEST._serialized_start=4241
+  _LISTDOCUMENTSREQUEST._serialized_end=4472
+  _LISTDOCUMENTSRESPONSE._serialized_start=4475
+  _LISTDOCUMENTSRESPONSE._serialized_end=4605
+  _MUTATEDOCUMENTSREQUEST._serialized_start=4607
+  _MUTATEDOCUMENTSREQUEST._serialized_end=4717
+  _MUTATEDOCUMENTSRESPONSE._serialized_start=4719
+  _MUTATEDOCUMENTSRESPONSE._serialized_end=4821
+  _RUNQUERYREQUEST._serialized_start=4824
+  _RUNQUERYREQUEST._serialized_end=4957
+  _RUNQUERYRESPONSE._serialized_start=4959
+  _RUNQUERYRESPONSE._serialized_end=5083
+  _GETPASSWORDCREDENTIALREQUEST._serialized_start=5085
+  _GETPASSWORDCREDENTIALREQUEST._serialized_end=5190
+  _GETPASSWORDCREDENTIALRESPONSE._serialized_start=5192
+  _GETPASSWORDCREDENTIALRESPONSE._serialized_end=5223
+  _UPDATEPASSWORDCREDENTIALREQUEST._serialized_start=5226
+  _UPDATEPASSWORDCREDENTIALREQUEST._serialized_end=5476
+  _UPDATEPASSWORDCREDENTIALRESPONSE._serialized_start=5478
+  _UPDATEPASSWORDCREDENTIALRESPONSE._serialized_end=5512
+  _ERROR._serialized_start=5514
+  _ERROR._serialized_end=5541
+  _SELFSERVICECHANGEPASSWORDREQUEST._serialized_start=5543
+  _SELFSERVICECHANGEPASSWORDREQUEST._serialized_end=5605
+  _SELFSERVICECHANGEPASSWORDRESPONSE._serialized_start=5607
+  _SELFSERVICECHANGEPASSWORDRESPONSE._serialized_end=5690
+  _CREATEINVITATIONREQUEST._serialized_start=5693
+  _CREATEINVITATIONREQUEST._serialized_end=6172
+  _CREATEINVITATIONRESPONSE._serialized_start=6174
+  _CREATEINVITATIONRESPONSE._serialized_end=6200
+  _CHECKINVITATIONSTATEREQUEST._serialized_start=6203
+  _CHECKINVITATIONSTATEREQUEST._serialized_end=6381
+  _CHECKINVITATIONSTATERESPONSE._serialized_start=6383
+  _CHECKINVITATIONSTATERESPONSE._serialized_end=6484
+  _RESENDINVITATIONREQUEST._serialized_start=6486
+  _RESENDINVITATIONREQUEST._serialized_end=6582
+  _RESENDINVITATIONRESPONSE._serialized_start=6584
+  _RESENDINVITATIONRESPONSE._serialized_end=6610
+  _CANCELINVITATIONREQUEST._serialized_start=6612
+  _CANCELINVITATIONREQUEST._serialized_end=6708
+  _CANCELINVITATIONRESPONSE._serialized_start=6710
+  _CANCELINVITATIONRESPONSE._serialized_end=6736
+  _CHECKOAUTH2CONSENTCHALLENGEREQUEST._serialized_start=6738
+  _CHECKOAUTH2CONSENTCHALLENGEREQUEST._serialized_end=6814
+  _CHECKOAUTH2CONSENTCHALLENGERESPONSE._serialized_start=6817
+  _CHECKOAUTH2CONSENTCHALLENGERESPONSE._serialized_end=7441
+  _SCOPEITEM._serialized_start=7444
+  _SCOPEITEM._serialized_end=7572
+  _AUDIENCEITEM._serialized_start=7575
+  _AUDIENCEITEM._serialized_end=7881
+  _CREATEOAUTH2CONSENTVERIFIERREQUEST._serialized_start=7884
+  _CREATEOAUTH2CONSENTVERIFIERREQUEST._serialized_end=8133
+  _CREATEOAUTH2CONSENTVERIFIERRESPONSE._serialized_start=8135
+  _CREATEOAUTH2CONSENTVERIFIERRESPONSE._serialized_end=8255
+  _CONSENTAPPROVAL._serialized_start=8258
+  _CONSENTAPPROVAL._serialized_end=8520
+  _CONSENTREQUESTSESSIONDATA._serialized_start=8523
+  _CONSENTREQUESTSESSIONDATA._serialized_end=8748
+  _DENIALRESPONSE._serialized_start=8751
+  _DENIALRESPONSE._serialized_end=8991
+  _GETACCESSTOKENREQUEST._serialized_start=8994
+  _GETACCESSTOKENREQUEST._serialized_end=9204
+  _GETACCESSTOKENRESPONSE._serialized_start=9206
+  _GETACCESSTOKENRESPONSE._serialized_end=9300
+  _SESSIONINTROSPECTREQUEST._serialized_start=9302
+  _SESSIONINTROSPECTREQUEST._serialized_end=9379
+  _SESSIONINTROSPECTRESPONSE._serialized_start=9382
+  _SESSIONINTROSPECTRESPONSE._serialized_end=9547
+  _ENRICHTOKENREQUEST._serialized_start=9550
+  _ENRICHTOKENREQUEST._serialized_end=9729
+  _ENRICHTOKENRESPONSE._serialized_start=9731
+  _ENRICHTOKENRESPONSE._serialized_end=9752
+  _CREATECONSENTREQUEST._serialized_start=9755
+  _CREATECONSENTREQUEST._serialized_end=10011
+  _CREATECONSENTRESPONSE._serialized_start=10013
+  _CREATECONSENTRESPONSE._serialized_end=10067
+  _LISTCONSENTSREQUEST._serialized_start=10069
+  _LISTCONSENTSREQUEST._serialized_end=10172
+  _LISTCONSENTSRESPONSE._serialized_start=10174
+  _LISTCONSENTSRESPONSE._serialized_end=10280
+  _REVOKECONSENTREQUEST._serialized_start=10283
+  _REVOKECONSENTREQUEST._serialized_end=10439
+  _REVOKECONSENTRESPONSE._serialized_start=10441
+  _REVOKECONSENTRESPONSE._serialized_end=10464
+  _CREATECUSTOMLOGINTOKENREQUEST._serialized_start=10467
+  _CREATECUSTOMLOGINTOKENREQUEST._serialized_end=10918
+  _CREATECUSTOMLOGINTOKENRESPONSE._serialized_start=10921
+  _CREATECUSTOMLOGINTOKENRESPONSE._serialized_end=11050
+  _IDENTITYMANAGEMENTAPI._serialized_start=11372
+  _IDENTITYMANAGEMENTAPI._serialized_end=16430
 # @@protoc_insertion_point(module_scope)

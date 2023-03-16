@@ -48,10 +48,8 @@ def get_int_from_datetime(dt):
 
 def create_property_mask(fields):
     props = []
-    print(fields)
     for f in fields:
         props.append(attributes.PropertyMask(definition=attributes.PropertyDefinition(property=f)))
-
     # print(props)
     return props
 
@@ -103,3 +101,13 @@ def create_property_batch_operations(value_dict):
         property_batch_ops.append(e)
 
     return property_batch_ops
+
+
+def create_property(definition, meta, value):
+    prop = attributes.Property(
+        id=None,
+        definition=definition,
+        meta=meta,
+        object_value=objects.Value(string_value=value)
+        )
+    return prop
