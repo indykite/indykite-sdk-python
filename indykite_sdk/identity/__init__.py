@@ -60,3 +60,4 @@ class IdentityClient(object):
     from .consent import create_consent, list_consents, revoke_consent
     from .forgotten_password import start_forgotten_password_flow
     from .invitation import create_email_invitation, create_mobile_invitation, check_invitation_state, resend_invitation, cancel_invitation
+    from .register_digital_twins_no_cred import register_digital_twin_without_credential

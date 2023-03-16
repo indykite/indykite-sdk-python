@@ -46,7 +46,7 @@ class EmailTemplate:
         if "attachments" in fields:
             attachments = []
             for e in message.attachments:
-                attachments.append(EmailAttachment(message.e))
+                attachments.append(EmailAttachment.deserialize(message.e))
             email_template.attachments = attachments
         if "event_payload" in fields:
             email_template.event_payload = wrappers.StringValue(message.event_payload)

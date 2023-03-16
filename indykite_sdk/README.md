@@ -25,7 +25,7 @@ The config file is generated in the [admin console](https://console.indykite.id/
 
 You should use absolute paths for the files.
 
-## Running the sdk with the api.py script
+# Running the sdk with the api.py script: examples for each function
 
 With the [api.py](indykite_sdk/api.py) script you can simply run the sdk against the system you set up in the configuration 
 files
@@ -1296,7 +1296,7 @@ positional arguments:
   email   String
 ```
 
-81. Check invitation state : check if invitation invalid, in future, pending, accepted, expired, cancelled
+81. Check invitation state : check if invitation invalid, in future, pending, accepted, expired, cancelled, processing
 
 ```shell
 python3 api.py check_invitation_state REFERENCE_ID
@@ -1328,6 +1328,17 @@ python3 api.py cancel_invitation REFERENCE_ID
 ```shell
 positional arguments:
   reference_id   id used to create the invitation
+```
+
+84. Register a DigitalTwin without credential
+
+```shell
+python3 api.py register_digital_twin_without_credential TENANT_ID
+```
+
+```shell
+positional arguments:
+  tenant_id   id of the tenant you want to create the DT into
 ```
 
 ----------------

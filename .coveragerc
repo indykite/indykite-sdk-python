@@ -16,6 +16,8 @@ omit =
   indykite_sdk/model/oauth2_provider_config.py
   indykite_sdk/model/import_digital_twin.py
   indykite_sdk/utils/hash_methods.py
+  indykite_sdk/utils/message_to_value.py
+  indykite_sdk/utils/logger.py
 
   tests/*
 

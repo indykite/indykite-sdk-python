@@ -10,9 +10,9 @@ class EmailAttachment:
 
     def __init__(self, content_type, content_id, inline, file_name, content):
         self.content_type = content_type
-        self.content_id = content_id,
-        self.inline = inline,
-        self.file_name = file_name,
+        self.content_id = content_id
+        self.inline = inline
+        self.file_name = file_name
         self.content = content
 
     def __str__(self):

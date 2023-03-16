@@ -17,7 +17,7 @@ from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as indykite_dot_ide
 from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&indykite/identity/v1beta2/import.proto\x12\x19indykite.identity.v1beta2\x1a*indykite/identity/v1beta2/attributes.proto\x1a%indykite/identity/v1beta2/model.proto\x1a\x17validate/validate.proto\"\xf0\x07\n\x19ImportDigitalTwinsRequest\x12\\\n\x08\x65ntities\x18\x01 \x03(\x0b\x32,.indykite.identity.v1beta2.ImportDigitalTwinB\x12\xfa\x42\x0f\x92\x01\x0c\x08\x01\x10\xe8\x07\"\x05\x8a\x01\x02\x10\x01R\x08\x65ntities\x12;\n\x06\x62\x63rypt\x18\x02 \x01(\x0b\x32!.indykite.identity.v1beta2.BcryptH\x00R\x06\x62\x63rypt\x12T\n\x0fstandard_scrypt\x18\x03 \x01(\x0b\x32).indykite.identity.v1beta2.StandardScryptH\x00R\x0estandardScrypt\x12;\n\x06scrypt\x18\x04 \x01(\x0b\x32!.indykite.identity.v1beta2.ScryptH\x00R\x06scrypt\x12?\n\x08hmac_md5\x18\x05 \x01(\x0b\x32\".indykite.identity.v1beta2.HMACMD5H\x00R\x07hmacMd5\x12\x42\n\thmac_sha1\x18\x06 \x01(\x0b\x32#.indykite.identity.v1beta2.HMACSHA1H\x00R\x08hmacSha1\x12H\n\x0bhmac_sha512\x18\x07 \x01(\x0b\x32%.indykite.identity.v1beta2.HMACSHA512H\x00R\nhmacSha512\x12H\n\x0bhmac_sha256\x18\x08 \x01(\x0b\x32%.indykite.identity.v1beta2.HMACSHA256H\x00R\nhmacSha256\x12\x32\n\x03md5\x18\t \x01(\x0b\x32\x1e.indykite.identity.v1beta2.MD5H\x00R\x03md5\x12N\n\rpbkdf2_sha256\x18\n \x01(\x0b\x32\'.indykite.identity.v1beta2.PBKDF2SHA256H\x00R\x0cpbkdf2Sha256\x12\x45\n\npbkdf_sha1\x18\x0b \x01(\x0b\x32$.indykite.identity.v1beta2.PBKDFSHA1H\x00R\tpbkdfSha1\x12\x35\n\x04sha1\x18\x0c \x01(\x0b\x32\x1f.indykite.identity.v1beta2.SHA1H\x00R\x04sha1\x12;\n\x06sha256\x18\r \x01(\x0b\x32!.indykite.identity.v1beta2.SHA256H\x00R\x06sha256\x12;\n\x06sha512\x18\x0e \x01(\x0b\x32!.indykite.identity.v1beta2.SHA512H\x00R\x06sha512B\x10\n\x0ehash_algorithm\"\xb0\x01\n\x18ImportDigitalTwinSuccess\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\x12I\n\x07results\x18\x02 \x03(\x0b\x32/.indykite.identity.v1beta2.BatchOperationResultR\x07results\"2\n\x16ImportDigitalTwinError\x12\x18\n\x07message\x18\x01 \x03(\tR\x07message\"\xda\x01\n\x17ImportDigitalTwinResult\x12\x14\n\x05index\x18\x01 \x01(\x04R\x05index\x12O\n\x07success\x18\x02 \x01(\x0b\x32\x33.indykite.identity.v1beta2.ImportDigitalTwinSuccessH\x00R\x07success\x12I\n\x05\x65rror\x18\x03 \x01(\x0b\x32\x31.indykite.identity.v1beta2.ImportDigitalTwinErrorH\x00R\x05\x65rrorB\r\n\x06result\x12\x03\xf8\x42\x01\"j\n\x1aImportDigitalTwinsResponse\x12L\n\x07results\x18\x01 \x03(\x0b\x32\x32.indykite.identity.v1beta2.ImportDigitalTwinResultR\x07results\"\xb1\x05\n\x11ImportDigitalTwin\x12\x39\n\x02id\x18\x01 \x01(\tB)\xfa\x42&r$\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$\xd0\x01\x01R\x02id\x12\x43\n\ttenant_id\x18\x02 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x08tenantId\x12L\n\x04kind\x18\x03 \x01(\x0e\x32*.indykite.identity.v1beta2.DigitalTwinKindB\x0c\xfa\x42\t\x82\x01\x06\x10\x01\x18\x01\x18\x03R\x04kind\x12O\n\x05state\x18\x04 \x01(\x0e\x32+.indykite.identity.v1beta2.DigitalTwinStateB\x0c\xfa\x42\t\x82\x01\x06\x10\x01\x18\x01\x18\x02R\x05state\x12\x36\n\x04tags\x18\x05 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x10 \x18\x01\"\x16r\x14\x18@2\x10^([A-Z][a-z]+)+$R\x04tags\x12I\n\x08password\x18\x06 \x01(\x0b\x32-.indykite.identity.v1beta2.PasswordCredentialR\x08password\x12h\n\x12provider_user_info\x18\x07 \x03(\x0b\x32\'.indykite.identity.v1beta2.UserProviderB\x11\xfa\x42\x0e\x92\x01\x0b\x08\x00\x10\n\"\x05\x8a\x01\x02\x10\x01R\x10providerUserInfo\x12K\n\nproperties\x18\x08 \x01(\x0b\x32+.indykite.identity.v1beta2.ImportPropertiesR\nproperties\x12\x43\n\x08metadata\x18\t \x01(\x0b\x32\'.indykite.identity.v1beta2.UserMetadataR\x08metadata\"\x99\x01\n\x10ImportProperties\x12\x62\n\noperations\x18\x02 \x03(\x0b\x32\x31.indykite.identity.v1beta2.PropertyBatchOperationB\x0f\xfa\x42\x0c\x92\x01\t\x08\x01\"\x05\x8a\x01\x02\x10\x01R\noperations\x12!\n\x0c\x66orce_delete\x18\x04 \x01(\x08R\x0b\x66orceDelete\"\xa6\x01\n\x0cUserMetadata\x12-\n\x12\x63reation_timestamp\x18\x01 \x01(\x03R\x11\x63reationTimestamp\x12\x31\n\x15last_log_in_timestamp\x18\x02 \x01(\x03R\x12lastLogInTimestamp\x12\x34\n\x16last_refresh_timestamp\x18\x03 \x01(\x03R\x14lastRefreshTimestamp\"\x97\x01\n\x0cUserProvider\x12\x10\n\x03uid\x18\x01 \x01(\tR\x03uid\x12\x1f\n\x0bprovider_id\x18\x02 \x01(\tR\nproviderId\x12\x14\n\x05\x65mail\x18\x03 \x01(\tR\x05\x65mail\x12!\n\x0c\x64isplay_name\x18\x04 \x01(\tR\x0b\x64isplayName\x12\x1b\n\tphoto_url\x18\x05 \x01(\tR\x08photoUrl\"9\n\x05\x45mail\x12\x14\n\x05\x65mail\x18\x01 \x01(\tR\x05\x65mail\x12\x1a\n\x08verified\x18\x02 \x01(\x08R\x08verified\"^\n\x06Mobile\x12\x38\n\x06mobile\x18\x01 \x01(\tB \xfa\x42\x1dr\x1b\x32\x16^+.*[0-9A-Za-z]{7,16}$\xd0\x01\x01R\x06mobile\x12\x1a\n\x08verified\x18\x02 \x01(\x08R\x08verified\"\x93\x02\n\x12PasswordCredential\x12\x38\n\x05\x65mail\x18\x01 \x01(\x0b\x32 .indykite.identity.v1beta2.EmailH\x00R\x05\x65mail\x12;\n\x06mobile\x18\x02 \x01(\x0b\x32!.indykite.identity.v1beta2.MobileH\x00R\x06mobile\x12\x1c\n\x08username\x18\x03 \x01(\tH\x00R\x08username\x12\x16\n\x05value\x18\x04 \x01(\tH\x01R\x05value\x12=\n\x04hash\x18\x05 \x01(\x0b\x32\'.indykite.identity.v1beta2.PasswordHashH\x01R\x04hashB\x05\n\x03uidB\n\n\x08password\"G\n\x0cPasswordHash\x12#\n\rpassword_hash\x18\x04 \x01(\x0cR\x0cpasswordHash\x12\x12\n\x04salt\x18\x05 \x01(\x0cR\x04salt\"\x08\n\x06\x42\x63rypt\"\xa8\x01\n\x0eStandardScrypt\x12\x1d\n\nblock_size\x18\x01 \x01(\x03R\tblockSize\x12,\n\x12\x64\x65rived_key_length\x18\x02 \x01(\x03R\x10\x64\x65rivedKeyLength\x12\x1f\n\x0bmemory_cost\x18\x03 \x01(\x03R\nmemoryCost\x12(\n\x0fparallelization\x18\x04 \x01(\x03R\x0fparallelization\"z\n\x06Scrypt\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\x12%\n\x0esalt_separator\x18\x02 \x01(\x0cR\rsaltSeparator\x12\x16\n\x06rounds\x18\x03 \x01(\x03R\x06rounds\x12\x1f\n\x0bmemory_cost\x18\x04 \x01(\x03R\nmemoryCost\"\x1b\n\x07HMACMD5\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\"\x1c\n\x08HMACSHA1\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\"\x1e\n\nHMACSHA512\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\"\x1e\n\nHMACSHA256\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\"\x1d\n\x03MD5\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\"&\n\x0cPBKDF2SHA256\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\"#\n\tPBKDFSHA1\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\"\x1e\n\x04SHA1\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\" \n\x06SHA256\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\" \n\x06SHA512\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06roundsB\xb2\x01\n\x1d\x63om.indykite.identity.v1beta2B\x0bImportProtoP\x01\xa2\x02\x03IIX\xaa\x02\x19Indykite.Identity.V1beta2\xca\x02\x19Indykite\\Identity\\V1beta2\xe2\x02%Indykite\\Identity\\V1beta2\\GPBMetadata\xea\x02\x1bIndykite::Identity::V1beta2b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&indykite/identity/v1beta2/import.proto\x12\x19indykite.identity.v1beta2\x1a*indykite/identity/v1beta2/attributes.proto\x1a%indykite/identity/v1beta2/model.proto\x1a\x17validate/validate.proto\"\xf0\x07\n\x19ImportDigitalTwinsRequest\x12\\\n\x08\x65ntities\x18\x01 \x03(\x0b\x32,.indykite.identity.v1beta2.ImportDigitalTwinB\x12\xfa\x42\x0f\x92\x01\x0c\x08\x01\x10\xe8\x07\"\x05\x8a\x01\x02\x10\x01R\x08\x65ntities\x12;\n\x06\x62\x63rypt\x18\x02 \x01(\x0b\x32!.indykite.identity.v1beta2.BcryptH\x00R\x06\x62\x63rypt\x12T\n\x0fstandard_scrypt\x18\x03 \x01(\x0b\x32).indykite.identity.v1beta2.StandardScryptH\x00R\x0estandardScrypt\x12;\n\x06scrypt\x18\x04 \x01(\x0b\x32!.indykite.identity.v1beta2.ScryptH\x00R\x06scrypt\x12?\n\x08hmac_md5\x18\x05 \x01(\x0b\x32\".indykite.identity.v1beta2.HMACMD5H\x00R\x07hmacMd5\x12\x42\n\thmac_sha1\x18\x06 \x01(\x0b\x32#.indykite.identity.v1beta2.HMACSHA1H\x00R\x08hmacSha1\x12H\n\x0bhmac_sha512\x18\x07 \x01(\x0b\x32%.indykite.identity.v1beta2.HMACSHA512H\x00R\nhmacSha512\x12H\n\x0bhmac_sha256\x18\x08 \x01(\x0b\x32%.indykite.identity.v1beta2.HMACSHA256H\x00R\nhmacSha256\x12\x32\n\x03md5\x18\t \x01(\x0b\x32\x1e.indykite.identity.v1beta2.MD5H\x00R\x03md5\x12N\n\rpbkdf2_sha256\x18\n \x01(\x0b\x32\'.indykite.identity.v1beta2.PBKDF2SHA256H\x00R\x0cpbkdf2Sha256\x12\x45\n\npbkdf_sha1\x18\x0b \x01(\x0b\x32$.indykite.identity.v1beta2.PBKDFSHA1H\x00R\tpbkdfSha1\x12\x35\n\x04sha1\x18\x0c \x01(\x0b\x32\x1f.indykite.identity.v1beta2.SHA1H\x00R\x04sha1\x12;\n\x06sha256\x18\r \x01(\x0b\x32!.indykite.identity.v1beta2.SHA256H\x00R\x06sha256\x12;\n\x06sha512\x18\x0e \x01(\x0b\x32!.indykite.identity.v1beta2.SHA512H\x00R\x06sha512B\x10\n\x0ehash_algorithm\"\xb0\x01\n\x18ImportDigitalTwinSuccess\x12I\n\x0c\x64igital_twin\x18\x01 \x01(\x0b\x32&.indykite.identity.v1beta2.DigitalTwinR\x0b\x64igitalTwin\x12I\n\x07results\x18\x02 \x03(\x0b\x32/.indykite.identity.v1beta2.BatchOperationResultR\x07results\"2\n\x16ImportDigitalTwinError\x12\x18\n\x07message\x18\x01 \x03(\tR\x07message\"\xda\x01\n\x17ImportDigitalTwinResult\x12\x14\n\x05index\x18\x01 \x01(\x04R\x05index\x12O\n\x07success\x18\x02 \x01(\x0b\x32\x33.indykite.identity.v1beta2.ImportDigitalTwinSuccessH\x00R\x07success\x12I\n\x05\x65rror\x18\x03 \x01(\x0b\x32\x31.indykite.identity.v1beta2.ImportDigitalTwinErrorH\x00R\x05\x65rrorB\r\n\x06result\x12\x03\xf8\x42\x01\"j\n\x1aImportDigitalTwinsResponse\x12L\n\x07results\x18\x01 \x03(\x0b\x32\x32.indykite.identity.v1beta2.ImportDigitalTwinResultR\x07results\"\xb1\x05\n\x11ImportDigitalTwin\x12\x39\n\x02id\x18\x01 \x01(\tB)\xfa\x42&r$\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$\xd0\x01\x01R\x02id\x12\x43\n\ttenant_id\x18\x02 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x08tenantId\x12L\n\x04kind\x18\x03 \x01(\x0e\x32*.indykite.identity.v1beta2.DigitalTwinKindB\x0c\xfa\x42\t\x82\x01\x06\x10\x01\x18\x01\x18\x03R\x04kind\x12O\n\x05state\x18\x04 \x01(\x0e\x32+.indykite.identity.v1beta2.DigitalTwinStateB\x0c\xfa\x42\t\x82\x01\x06\x10\x01\x18\x01\x18\x02R\x05state\x12\x36\n\x04tags\x18\x05 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x10 \x18\x01\"\x16r\x14\x18@2\x10^([A-Z][a-z]+)+$R\x04tags\x12I\n\x08password\x18\x06 \x01(\x0b\x32-.indykite.identity.v1beta2.PasswordCredentialR\x08password\x12h\n\x12provider_user_info\x18\x07 \x03(\x0b\x32\'.indykite.identity.v1beta2.UserProviderB\x11\xfa\x42\x0e\x92\x01\x0b\x08\x00\x10\n\"\x05\x8a\x01\x02\x10\x01R\x10providerUserInfo\x12K\n\nproperties\x18\x08 \x01(\x0b\x32+.indykite.identity.v1beta2.ImportPropertiesR\nproperties\x12\x43\n\x08metadata\x18\t \x01(\x0b\x32\'.indykite.identity.v1beta2.UserMetadataR\x08metadata\"\x99\x01\n\x10ImportProperties\x12\x62\n\noperations\x18\x02 \x03(\x0b\x32\x31.indykite.identity.v1beta2.PropertyBatchOperationB\x0f\xfa\x42\x0c\x92\x01\t\x08\x01\"\x05\x8a\x01\x02\x10\x01R\noperations\x12!\n\x0c\x66orce_delete\x18\x04 \x01(\x08R\x0b\x66orceDelete\"\xa6\x01\n\x0cUserMetadata\x12-\n\x12\x63reation_timestamp\x18\x01 \x01(\x03R\x11\x63reationTimestamp\x12\x31\n\x15last_log_in_timestamp\x18\x02 \x01(\x03R\x12lastLogInTimestamp\x12\x34\n\x16last_refresh_timestamp\x18\x03 \x01(\x03R\x14lastRefreshTimestamp\"\\\n\x13\x43redentialReference\x12)\n\x0bprovider_id\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\x18\x80\x08R\nproviderId\x12\x1a\n\x03uid\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\x18\x80\x08R\x03uid\"\x97\x01\n\x0cUserProvider\x12\x10\n\x03uid\x18\x01 \x01(\tR\x03uid\x12\x1f\n\x0bprovider_id\x18\x02 \x01(\tR\nproviderId\x12\x14\n\x05\x65mail\x18\x03 \x01(\tR\x05\x65mail\x12!\n\x0c\x64isplay_name\x18\x04 \x01(\tR\x0b\x64isplayName\x12\x1b\n\tphoto_url\x18\x05 \x01(\tR\x08photoUrl\"9\n\x05\x45mail\x12\x14\n\x05\x65mail\x18\x01 \x01(\tR\x05\x65mail\x12\x1a\n\x08verified\x18\x02 \x01(\x08R\x08verified\"^\n\x06Mobile\x12\x38\n\x06mobile\x18\x01 \x01(\tB \xfa\x42\x1dr\x1b\x32\x16^+.*[0-9A-Za-z]{7,16}$\xd0\x01\x01R\x06mobile\x12\x1a\n\x08verified\x18\x02 \x01(\x08R\x08verified\"\x93\x02\n\x12PasswordCredential\x12\x38\n\x05\x65mail\x18\x01 \x01(\x0b\x32 .indykite.identity.v1beta2.EmailH\x00R\x05\x65mail\x12;\n\x06mobile\x18\x02 \x01(\x0b\x32!.indykite.identity.v1beta2.MobileH\x00R\x06mobile\x12\x1c\n\x08username\x18\x03 \x01(\tH\x00R\x08username\x12\x16\n\x05value\x18\x04 \x01(\tH\x01R\x05value\x12=\n\x04hash\x18\x05 \x01(\x0b\x32\'.indykite.identity.v1beta2.PasswordHashH\x01R\x04hashB\x05\n\x03uidB\n\n\x08password\"G\n\x0cPasswordHash\x12#\n\rpassword_hash\x18\x04 \x01(\x0cR\x0cpasswordHash\x12\x12\n\x04salt\x18\x05 \x01(\x0cR\x04salt\"\x08\n\x06\x42\x63rypt\"\xa8\x01\n\x0eStandardScrypt\x12\x1d\n\nblock_size\x18\x01 \x01(\x03R\tblockSize\x12,\n\x12\x64\x65rived_key_length\x18\x02 \x01(\x03R\x10\x64\x65rivedKeyLength\x12\x1f\n\x0bmemory_cost\x18\x03 \x01(\x03R\nmemoryCost\x12(\n\x0fparallelization\x18\x04 \x01(\x03R\x0fparallelization\"z\n\x06Scrypt\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\x12%\n\x0esalt_separator\x18\x02 \x01(\x0cR\rsaltSeparator\x12\x16\n\x06rounds\x18\x03 \x01(\x03R\x06rounds\x12\x1f\n\x0bmemory_cost\x18\x04 \x01(\x03R\nmemoryCost\"\x1b\n\x07HMACMD5\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\"\x1c\n\x08HMACSHA1\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\"\x1e\n\nHMACSHA512\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\"\x1e\n\nHMACSHA256\x12\x10\n\x03key\x18\x01 \x01(\x0cR\x03key\"\x1d\n\x03MD5\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\"&\n\x0cPBKDF2SHA256\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\"#\n\tPBKDFSHA1\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\"\x1e\n\x04SHA1\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\" \n\x06SHA256\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06rounds\" \n\x06SHA512\x12\x16\n\x06rounds\x18\x01 \x01(\x03R\x06roundsB\xb2\x01\n\x1d\x63om.indykite.identity.v1beta2B\x0bImportProtoP\x01\xa2\x02\x03IIX\xaa\x02\x19Indykite.Identity.V1beta2\xca\x02\x19Indykite\\Identity\\V1beta2\xe2\x02%Indykite\\Identity\\V1beta2\\GPBMetadata\xea\x02\x1bIndykite::Identity::V1beta2b\x06proto3')
 
 
 
@@ -29,6 +29,7 @@ _IMPORTDIGITALTWINSRESPONSE = DESCRIPTOR.message_types_by_name['ImportDigitalTwi
 _IMPORTDIGITALTWIN = DESCRIPTOR.message_types_by_name['ImportDigitalTwin']
 _IMPORTPROPERTIES = DESCRIPTOR.message_types_by_name['ImportProperties']
 _USERMETADATA = DESCRIPTOR.message_types_by_name['UserMetadata']
+_CREDENTIALREFERENCE = DESCRIPTOR.message_types_by_name['CredentialReference']
 _USERPROVIDER = DESCRIPTOR.message_types_by_name['UserProvider']
 _EMAIL = DESCRIPTOR.message_types_by_name['Email']
 _MOBILE = DESCRIPTOR.message_types_by_name['Mobile']
@@ -102,6 +103,13 @@ UserMetadata = _reflection.GeneratedProtocolMessageType('UserMetadata', (_messag
   # @@protoc_insertion_point(class_scope:indykite.identity.v1beta2.UserMetadata)
   })
 _sym_db.RegisterMessage(UserMetadata)
+
+CredentialReference = _reflection.GeneratedProtocolMessageType('CredentialReference', (_message.Message,), {
+  'DESCRIPTOR' : _CREDENTIALREFERENCE,
+  '__module__' : 'indykite.identity.v1beta2.import_pb2'
+  # @@protoc_insertion_point(class_scope:indykite.identity.v1beta2.CredentialReference)
+  })
+_sym_db.RegisterMessage(CredentialReference)
 
 UserProvider = _reflection.GeneratedProtocolMessageType('UserProvider', (_message.Message,), {
   'DESCRIPTOR' : _USERPROVIDER,
@@ -251,6 +259,10 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _IMPORTDIGITALTWIN.fields_by_name['provider_user_info']._serialized_options = b'\372B\016\222\001\013\010\000\020\n\"\005\212\001\002\020\001'
   _IMPORTPROPERTIES.fields_by_name['operations']._options = None
   _IMPORTPROPERTIES.fields_by_name['operations']._serialized_options = b'\372B\014\222\001\t\010\001\"\005\212\001\002\020\001'
+  _CREDENTIALREFERENCE.fields_by_name['provider_id']._options = None
+  _CREDENTIALREFERENCE.fields_by_name['provider_id']._serialized_options = b'\372B\005r\003\030\200\010'
+  _CREDENTIALREFERENCE.fields_by_name['uid']._options = None
+  _CREDENTIALREFERENCE.fields_by_name['uid']._serialized_options = b'\372B\005r\003\030\200\010'
   _MOBILE.fields_by_name['mobile']._options = None
   _MOBILE.fields_by_name['mobile']._serialized_options = b'\372B\035r\0332\026^+.*[0-9A-Za-z]{7,16}$\320\001\001'
   _IMPORTDIGITALTWINSREQUEST._serialized_start=178
@@ -269,40 +281,42 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _IMPORTPROPERTIES._serialized_end=2594
   _USERMETADATA._serialized_start=2597
   _USERMETADATA._serialized_end=2763
-  _USERPROVIDER._serialized_start=2766
-  _USERPROVIDER._serialized_end=2917
-  _EMAIL._serialized_start=2919
-  _EMAIL._serialized_end=2976
-  _MOBILE._serialized_start=2978
-  _MOBILE._serialized_end=3072
-  _PASSWORDCREDENTIAL._serialized_start=3075
-  _PASSWORDCREDENTIAL._serialized_end=3350
-  _PASSWORDHASH._serialized_start=3352
-  _PASSWORDHASH._serialized_end=3423
-  _BCRYPT._serialized_start=3425
-  _BCRYPT._serialized_end=3433
-  _STANDARDSCRYPT._serialized_start=3436
-  _STANDARDSCRYPT._serialized_end=3604
-  _SCRYPT._serialized_start=3606
-  _SCRYPT._serialized_end=3728
-  _HMACMD5._serialized_start=3730
-  _HMACMD5._serialized_end=3757
-  _HMACSHA1._serialized_start=3759
-  _HMACSHA1._serialized_end=3787
-  _HMACSHA512._serialized_start=3789
-  _HMACSHA512._serialized_end=3819
-  _HMACSHA256._serialized_start=3821
-  _HMACSHA256._serialized_end=3851
-  _MD5._serialized_start=3853
-  _MD5._serialized_end=3882
-  _PBKDF2SHA256._serialized_start=3884
-  _PBKDF2SHA256._serialized_end=3922
-  _PBKDFSHA1._serialized_start=3924
-  _PBKDFSHA1._serialized_end=3959
-  _SHA1._serialized_start=3961
-  _SHA1._serialized_end=3991
-  _SHA256._serialized_start=3993
-  _SHA256._serialized_end=4025
-  _SHA512._serialized_start=4027
-  _SHA512._serialized_end=4059
+  _CREDENTIALREFERENCE._serialized_start=2765
+  _CREDENTIALREFERENCE._serialized_end=2857
+  _USERPROVIDER._serialized_start=2860
+  _USERPROVIDER._serialized_end=3011
+  _EMAIL._serialized_start=3013
+  _EMAIL._serialized_end=3070
+  _MOBILE._serialized_start=3072
+  _MOBILE._serialized_end=3166
+  _PASSWORDCREDENTIAL._serialized_start=3169
+  _PASSWORDCREDENTIAL._serialized_end=3444
+  _PASSWORDHASH._serialized_start=3446
+  _PASSWORDHASH._serialized_end=3517
+  _BCRYPT._serialized_start=3519
+  _BCRYPT._serialized_end=3527
+  _STANDARDSCRYPT._serialized_start=3530
+  _STANDARDSCRYPT._serialized_end=3698
+  _SCRYPT._serialized_start=3700
+  _SCRYPT._serialized_end=3822
+  _HMACMD5._serialized_start=3824
+  _HMACMD5._serialized_end=3851
+  _HMACSHA1._serialized_start=3853
+  _HMACSHA1._serialized_end=3881
+  _HMACSHA512._serialized_start=3883
+  _HMACSHA512._serialized_end=3913
+  _HMACSHA256._serialized_start=3915
+  _HMACSHA256._serialized_end=3945
+  _MD5._serialized_start=3947
+  _MD5._serialized_end=3976
+  _PBKDF2SHA256._serialized_start=3978
+  _PBKDF2SHA256._serialized_end=4016
+  _PBKDFSHA1._serialized_start=4018
+  _PBKDFSHA1._serialized_end=4053
+  _SHA1._serialized_start=4055
+  _SHA1._serialized_end=4085
+  _SHA256._serialized_start=4087
+  _SHA256._serialized_end=4119
+  _SHA512._serialized_start=4121
+  _SHA512._serialized_end=4153
 # @@protoc_insertion_point(module_scope)

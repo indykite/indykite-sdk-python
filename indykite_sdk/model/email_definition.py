@@ -14,6 +14,7 @@ class EmailDefinition:
             email_definition.template = EmailTemplate.deserialize(message_config.template)
         if "message" in fields:
             email_definition.message = EmailMessage.deserialize(message_config.message)
+        return email_definition
 
     def __init__(self, template=None, message=None):
         self.template = template

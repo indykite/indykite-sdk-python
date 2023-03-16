@@ -1,9 +1,9 @@
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
-from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2_ident
 from indykite_sdk.model.is_authorized import IsAuthorizedResource, IsAuthorizedResponse, IsAuthorizedActions
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
+from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from helpers import data
 
 
@@ -29,7 +29,7 @@ def test_is_authorized_token_empty():
     res = []
     for r in resources:
         res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, label=r.label))
-    digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
+    digital_twin_identifier = model.DigitalTwinIdentifier(
         access_token=str(access_token)
     )
 
@@ -75,7 +75,7 @@ def test_is_authorized_dt_success():
     tenant_id = data.get_tenant()
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
-    digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
+    digital_twin_identifier = model.DigitalTwinIdentifier(
         digital_twin=model.DigitalTwin(
             id=str(digital_twin_id),
             tenant_id=str(tenant_id)
@@ -95,7 +95,7 @@ def test_is_authorized_dt_empty():
     tenant_id = data.get_tenant()
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
-    digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
+    digital_twin_identifier = model.DigitalTwinIdentifier(
         digital_twin=model.DigitalTwin(
             id=str(digital_twin_id),
             tenant_id=str(tenant_id)
@@ -145,8 +145,8 @@ def test_is_authorized_property_success():
     email_value = "test2000@example.com"
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
-    digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
-        property_filter=pb2_ident.PropertyFilter(
+    digital_twin_identifier = model.DigitalTwinIdentifier(
+        property_filter=attributes.PropertyFilter(
             type=str(type_filter),
             value=pb2_struct.Value(string_value=email_value)
         )
@@ -165,8 +165,8 @@ def test_is_authorized_property_empty():
     email_value = "sdk@indykite.com"
     resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
     actions = ["ACTION"]
-    digital_twin_identifier = pb2_ident.DigitalTwinIdentifier(
-        property_filter=pb2_ident.PropertyFilter(
+    digital_twin_identifier = model.DigitalTwinIdentifier(
+        property_filter=attributes.PropertyFilter(
             type=str(type_filter),
             value=pb2_struct.Value(string_value=email_value)
         )

@@ -41,9 +41,15 @@ class EmailMessage:
         if "dynamic_template_values" in fields:
             email_message.dynamic_template_values = MessageToDict(message.dynamic_template_values)
         if "categories" in fields:
-            email_message.categories = list(str(message.categories))
+            categories = []
+            for e in message.categories:
+                categories.append(str(message.e))
+            email_message.categories = categories
         if "attachments" in fields:
-            email_message.attachments = list(EmailAttachment.deserialize(message.attachments))
+            attachments = []
+            for e in message.attachments:
+                attachments.append(EmailAttachment.deserialize(message.e))
+            email_message.attachments = attachments
         if "event_payload" in fields:
             email_message.event_payload = wrappers.StringValue(message.event_payload)
 
