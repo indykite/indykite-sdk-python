@@ -51,7 +51,7 @@ class IdentityClient(object):
     # Imported methods
     from .change_password import change_password_of_user, change_password
     from .get_digital_twin import get_digital_twin_by_token, get_digital_twin
-    from .introspect_token import introspect_token
+    from .token_introspect import token_introspect, session_introspect
     from .patch_properties import patch_properties_by_token, patch_properties
     from .verification import start_digital_twin_email_verification, verify_digital_twin_email
     from .delete import del_digital_twin, del_digital_twin_by_token

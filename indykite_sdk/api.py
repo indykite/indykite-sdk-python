@@ -49,6 +49,11 @@ def main():
     introspect_parser = subparsers.add_parser("introspect")
     introspect_parser.add_argument("user_token", help="JWT bearer token")
 
+    # SESSION_INTROSPECT
+    session_introspect_parser = subparsers.add_parser("session_introspect")
+    session_introspect_parser.add_argument("tenant_id", help="gid ID of the tenant")
+    session_introspect_parser.add_argument("access_token", help="JWT bearer token")
+
     # VERIFY
     verify_parser = subparsers.add_parser("verify")
     verify_parser.add_argument("verification_token", help="Token from email to verify")
@@ -552,11 +557,20 @@ Property ID and value of the property where the value is a reference
 
     if command == "introspect":
         user_token = args.user_token
-        token_info = client.introspect_token(user_token)
+        token_info = client.token_introspect(user_token)
         if token_info is not None:
             print_response(token_info)
         else:
             print("Invalid token")
+
+    elif command == "session_introspect":
+        tenant_id = args.tenant_id
+        access_token = args.access_token
+        session_response = client.session_introspect(tenant_id, access_token)
+        if session_response is not None:
+            print_response(session_response)
+        else:
+            print("Invalid session token")
 
     elif command == "verify":
         verification_token = args.verification_token
