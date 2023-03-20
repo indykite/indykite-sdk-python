@@ -1,7 +1,7 @@
 import certifi
 import grpc
 import os
-import indykite_sdk.utils.logger as logger
+import sys
 from indykite_sdk.config import helper
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2_grpc as config_pb2_grpc
 
@@ -47,7 +47,8 @@ class ConfigClient(object):
             self.credentials = credentials
 
         except Exception as exception:
-            return logger.logger_error(exception)
+            tb = sys.exception().__traceback__
+            raise exception(...).with_traceback(tb)
 
     # Imported methods
     from .customer import get_customer_by_id, get_customer_by_name

@@ -47,7 +47,8 @@ class IngestClient(object):
             self.channel = grpc.secure_channel(endpoint, composite_credentials)
             self.stub = pb2_grpc.IngestAPIStub(channel=self.channel)
         except Exception as exception:
-            return logger.logger_error(exception)
+            tb = sys.exception().__traceback__
+            raise exception(...).with_traceback(tb)
 
     def generate_records_request(self, config_id, records):
         """Create iterator for record requests."""
