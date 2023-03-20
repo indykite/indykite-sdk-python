@@ -1,7 +1,7 @@
 import certifi
 import grpc
 import os
-import indykite_sdk.utils.logger as logger
+import sys
 from indykite_sdk.authorization import helper
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2_grpc as pb2
 
@@ -46,6 +46,7 @@ class AuthorizationClient(object):
             self.stub = pb2.AuthorizationAPIStub(channel=self.channel)
 
         except Exception as exception:
-            return logger.logger_error(exception)
+            tb = sys.exception().__traceback__
+            raise exception(...).with_traceback(tb)
     # Imported methods
     from .is_authorized import is_authorized_token, is_authorized_digital_twin, is_authorized_property_filter

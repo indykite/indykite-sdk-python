@@ -1,7 +1,7 @@
 import certifi
 import grpc
 import os
-import indykite_sdk.utils.logger as logger
+import sys
 from indykite_sdk.identity import helper
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2_grpc as pb2_grpc
 
@@ -46,7 +46,8 @@ class IdentityClient(object):
             self.stub = pb2_grpc.IdentityManagementAPIStub(channel=self.channel)
 
         except Exception as exception:
-            return logger.logger_error(exception)
+            tb = sys.exception().__traceback__
+            raise exception(...).with_traceback(tb)
 
     # Imported methods
     from .change_password import change_password_of_user, change_password
