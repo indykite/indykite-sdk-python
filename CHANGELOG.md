@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.16.0](https://github.com/indykite/indykite-sdk-python/compare/v1.15.0...v1.16.0) (2023-03-21)
+
+
+### Features
+
+* add session introspect ([75bb9ea](https://github.com/indykite/indykite-sdk-python/commit/75bb9eae87e62ef378433176584328ce091fe202))
+* change init returns ([c2ce5fc](https://github.com/indykite/indykite-sdk-python/commit/c2ce5fc4bf1d45294ec31376db7449b235951ff4))
+* eng-114 register digital twin without cred ([5a0295f](https://github.com/indykite/indykite-sdk-python/commit/5a0295fbc3a0d738c3e67db23148d30b4d1fca36))
+
 ## [1.15.0](https://github.com/indykite/indykite-sdk-python/compare/v1.14.0...v1.15.0) (2023-03-14)
 
 
