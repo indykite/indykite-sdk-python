@@ -1942,33 +1942,25 @@ Property ID and value of the property where the value is a reference
         # generate an authenticated http client and generate a bearer token from the provided credentials
         client_http = HttpClient()
         response_http = client_http.get_http_client(token)
-        print(response_http.token_source.token.access_token)
         credentials = client_http.get_credentials()
         # call get_refreshable_token_source again to check the token is the same
         response_source = client_http.get_refreshable_token_source(response_http.token_source, credentials)
-        print(response_source.token.access_token)
         # call get_http_client again to generate another http client and check if the token is the same
         response_http2 = client_http.get_http_client(response_http.token_source)
         access_token = response_http2.get_token()
-        print(access_token)
         # make a Knowledge API query
         endpoint = args.base_url
-        end1 = os.getenv('INDYKITE_SDK_URL')
-        end2 = "gid:AAAAAi7tSAs-qkg_his0YnvKuJ4"
-        endpoint = f"{end1}/knowledge/{end2}"
         data = {"query":"query ExampleQuery { identityProperties { id }}","variables":{},"operationName":"ExampleQuery"}
         headers = {"Authorization": "Bearer "+access_token,
                    'Content-Type': 'application/json'}
         response_post = requests.post(endpoint, json=data, headers=headers)
-        print(response_post.text)
 
     elif command == "get_refreshable_token_source":
         token_source = None
         client_http = HttpClient()
         credentials = client_http.get_credentials()
         response = client_http.get_refreshable_token_source(token_source, credentials)
-        access_bytes = response.token.access_token
-        print(access_bytes.decode('utf-8'))
+        access_token_bytes = response.token.access_token
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
