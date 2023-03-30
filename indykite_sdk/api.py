@@ -475,9 +475,10 @@ Property ID and value of the property where the value is a reference
     import_digital_twins_hash_parser = subparsers.add_parser("import_digital_twins_hash")
     import_digital_twins_hash_parser.add_argument("tenant_id", help="Tenant id (gid)")
 
-    # import_digital_twins_hash256
-    import_digital_twins_hash256_parser = subparsers.add_parser("import_digital_twins_hash256")
-    import_digital_twins_hash256_parser.add_argument("tenant_id", help="Tenant id (gid)")
+    # import_digital_twins_hash_sha
+    import_digital_twins_hash_sha_parser = subparsers.add_parser("import_digital_twins_hash_sha")
+    import_digital_twins_hash_sha_parser.add_argument("tenant_id", help="Tenant id (gid)")
+    import_digital_twins_hash_sha_parser.add_argument("hash_password", help="Hashed password")
 
     # import_digital_twins_update
     import_digital_twins_update_parser = subparsers.add_parser("import_digital_twins_update")
@@ -589,17 +590,17 @@ Property ID and value of the property where the value is a reference
     elif command == "change-password":
         user_token = args.user_token
         new_password = args.new_password
-        password_change = client.change_password(user_token, new_password)
-        if password_change is not None:
-            print(password_change)
+        response = client.change_password(user_token, new_password)
+        if response is not None:
+            print(response)
 
     elif command == "change-password-of-user":
         digital_twin_id = args.digital_twin_id
         tenant_id = args.tenant_id
         new_password = args.new_password
-        password_change = client.change_password_of_user(digital_twin_id, tenant_id, new_password)
-        if password_change is not None:
-            print(password_change)
+        response = client.change_password_of_user(digital_twin_id, tenant_id, new_password)
+        if response is not None:
+            print(response)
 
     elif command == "get-dt":
         digital_twin_id = args.digital_twin_id
@@ -1731,11 +1732,7 @@ Property ID and value of the property where the value is a reference
             print("Invalid import digital twins response")
         return import_digital_twins_config_response
 
-    elif command == "import_digital_twins_hash256":
-
-        password = 'passwordabc'
-        hash_password = encrypt_sha256(password)
-
+    elif command == "import_digital_twins_hash_sha":
         entities = [ImportDigitalTwin(
             tenant_id=args.tenant_id,
             kind="DIGITAL_TWIN_KIND_PERSON",
@@ -1745,7 +1742,7 @@ Property ID and value of the property where the value is a reference
                     email="test2002@example.com",
                     verified=True
                 ),
-                hash=PasswordHash(password_hash=hash_password)
+                hash=PasswordHash(password_hash=args.hash_password)
             )
         )]
         hash_algorithm = {"sha256": SHA256(rounds=14)}
@@ -1855,9 +1852,9 @@ Property ID and value of the property where the value is a reference
     elif command == "start_forgotten_password":
         digital_twin_id = args.digital_twin_id
         tenant_id = args.tenant_id
-        forgotten_password = client.start_forgotten_password_flow(digital_twin_id, tenant_id)
-        if forgotten_password is not None:
-            print(forgotten_password)
+        forgotten_response = client.start_forgotten_password_flow(digital_twin_id, tenant_id)
+        if forgotten_response is not None:
+            print(forgotten_response)
         else:
             print("Invalid forgotten password response")
 
