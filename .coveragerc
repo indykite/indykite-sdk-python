@@ -19,7 +19,7 @@ omit =
   indykite_sdk/utils/message_to_value.py
   indykite_sdk/utils/logger.py
   indykite_sdk/authorization/*
-
+  indykite_sdk/authorization/is_authorized.py
   tests/*
 
 [report]
