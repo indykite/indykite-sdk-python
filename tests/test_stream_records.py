@@ -18,7 +18,7 @@ def test_stream_record_nonexisting_config_id(capsys):
 
     client.stream_records(config_id, [record])
     captured = capsys.readouterr()
-    assert "no Knowledge Graph exists for this AppSpace" in captured.err
+    assert "StatusCode.NOT_FOUND" in captured.err
 
 
 def test_stream_record_error():

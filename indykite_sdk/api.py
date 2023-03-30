@@ -10,11 +10,12 @@ import uuid
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.duration_pb2 import Duration
 import os
-
+import requests
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt, encrypt_sha256
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.authorization import AuthorizationClient
+from indykite_sdk.oauth2 import HttpClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
@@ -546,6 +547,13 @@ Property ID and value of the property where the value is a reference
     # register_digital_twin_without_credential
     register_digital_twin_without_credential = subparsers.add_parser("register_digital_twin_without_credential")
     register_digital_twin_without_credential.add_argument("tenant_id", help="gid ID of the tenant")
+
+    # get_http_client
+    get_http_client = subparsers.add_parser("get_http_client")
+    get_http_client.add_argument("base_url", help="knowledge endpoint")
+
+    # get_refreshable_token_source
+    get_refreshable_token_source = subparsers.add_parser("get_refreshable_token_source")
 
     args = parser.parse_args()
     local = args.local
@@ -1927,6 +1935,40 @@ Property ID and value of the property where the value is a reference
             print_response(register_response)
         else:
             print("Invalid invitation response")
+
+    elif command == "get_http_client":
+        token = None
+
+        # generate an authenticated http client and generate a bearer token from the provided credentials
+        client_http = HttpClient()
+        response_http = client_http.get_http_client(token)
+        print(response_http.token_source.token.access_token)
+        credentials = client_http.get_credentials()
+        # call get_refreshable_token_source again to check the token is the same
+        response_source = client_http.get_refreshable_token_source(response_http.token_source, credentials)
+        print(response_source.token.access_token)
+        # call get_http_client again to generate another http client and check if the token is the same
+        response_http2 = client_http.get_http_client(response_http.token_source)
+        access_token = response_http2.get_token()
+        print(access_token)
+        # make a Knowledge API query
+        endpoint = args.base_url
+        end1 = os.getenv('INDYKITE_SDK_URL')
+        end2 = "gid:AAAAAi7tSAs-qkg_his0YnvKuJ4"
+        endpoint = f"{end1}/knowledge/{end2}"
+        data = {"query":"query ExampleQuery { identityProperties { id }}","variables":{},"operationName":"ExampleQuery"}
+        headers = {"Authorization": "Bearer "+access_token,
+                   'Content-Type': 'application/json'}
+        response_post = requests.post(endpoint, json=data, headers=headers)
+        print(response_post.text)
+
+    elif command == "get_refreshable_token_source":
+        token_source = None
+        client_http = HttpClient()
+        credentials = client_http.get_credentials()
+        response = client_http.get_refreshable_token_source(token_source, credentials)
+        access_bytes = response.token.access_token
+        print(access_bytes.decode('utf-8'))
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover

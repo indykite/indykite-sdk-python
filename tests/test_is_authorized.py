@@ -16,7 +16,7 @@ def test_is_authorized_token_wrong_token(capsys):
     actions = ["ACTION"]
     response = client.is_authorized_token(access_token, resources, actions)
     captured = capsys.readouterr()
-    assert "invalid or expired access_token" in captured.err
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
 
 def test_is_authorized_token_empty():
