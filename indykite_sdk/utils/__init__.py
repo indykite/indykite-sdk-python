@@ -1,5 +1,4 @@
 from google.protobuf.timestamp_pb2 import Timestamp
-from google.protobuf.duration_pb2 import Duration
 
 
 def timestamp_to_date(timestamp):

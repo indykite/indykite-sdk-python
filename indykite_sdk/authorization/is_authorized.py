@@ -12,10 +12,12 @@ def is_authorized_digital_twin(self, digital_twin_id, tenant_id, resources=[], a
     try:
         response = self.stub.IsAuthorized(
             pb2.IsAuthorizedRequest(
-                digital_twin_identifier=model.DigitalTwinIdentifier(
-                    digital_twin=model.DigitalTwin(
-                        id=str(digital_twin_id),
-                        tenant_id=str(tenant_id)
+                subject=model.Subject(
+                    digital_twin_identifier=model.DigitalTwinIdentifier(
+                        digital_twin=model.DigitalTwin(
+                            id=str(digital_twin_id),
+                            tenant_id=str(tenant_id)
+                        )
                     )
                 ),
                 resources=request_resource(resources),

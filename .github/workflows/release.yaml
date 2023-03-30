@@ -56,11 +56,3 @@ jobs:
         with:
           workload_identity_provider: "projects/699926043561/locations/global/workloadIdentityPools/github-dev/providers/github-dev-provider"
           service_account: "jarvis-sdk-python@jarvis-dev-268314.iam.gserviceaccount.com"
-
-      - name: Publish Deployment Metadata
-        if: ${{ always() }}
-        uses: indykite/metadata-publisher@v0
-        with:
-          version: ${{ env.VERSION }}
-          status: ${{ job.status }}
-          bigquery_table: ${{ env.BIGQUERY_TABLE }}
