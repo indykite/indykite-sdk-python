@@ -2,8 +2,6 @@
 from indykite_sdk.indykite.identity.v1beta2.model_pb2 import PostalAddress as PostalAddressPb
 from indykite_sdk.model.postal_address import PostalAddress
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as struct
-from datetime import datetime, date
-from google.protobuf.timestamp_pb2 import Timestamp
 
 
 def object_to_value(grpc_object):

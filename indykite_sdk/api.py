@@ -11,7 +11,7 @@ from google.protobuf.json_format import MessageToJson
 from google.protobuf.duration_pb2 import Duration
 import os
 import requests
-from indykite_sdk.utils.hash_methods import encrypt_bcrypt, encrypt_sha256
+from indykite_sdk.utils.hash_methods import encrypt_bcrypt
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.authorization import AuthorizationClient
@@ -1784,9 +1784,11 @@ Property ID and value of the property where the value is a reference
     elif command == "is_authorized_dt":
         digital_twin_id = args.digital_twin_id
         tenant_id = args.tenant_id
-        resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
-        actions = ["ACTION"]
-        is_authorized = client_authorization.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, actions)
+        actions = ["ACTION1", "ACTION2"]
+        resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
+                     IsAuthorizedResource("resource2ID", "TypeName", actions)]
+        options = {"age": "21"}
+        is_authorized = client_authorization.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, options)
 
         if is_authorized:
             print_response(is_authorized)
@@ -1796,9 +1798,11 @@ Property ID and value of the property where the value is a reference
 
     elif command == "is_authorized_token":
         access_token = args.access_token
-        resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
-        actions = ["ACTION"]
-        is_authorized = client_authorization.is_authorized_token(access_token, resources, actions)
+        actions = ["ACTION1", "ACTION2"]
+        resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
+                     IsAuthorizedResource("resource2ID", "TypeName", actions)]
+        options = {}
+        is_authorized = client_authorization.is_authorized_token(access_token, resources, options)
         if is_authorized:
             print_response(is_authorized)
         else:
@@ -1808,10 +1812,12 @@ Property ID and value of the property where the value is a reference
     elif command == "is_authorized_property":
         property_type = args.property_type #e.g "email"
         property_value = args.property_value #e.g test@example.com
-        resources = [IsAuthorizedResource("resourceID", "LabelName"), IsAuthorizedResource("resource2ID", "LabelName")]
-        actions = ["ACTION"]
+        actions = ["ACTION1", "ACTION2"]
+        resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
+                     IsAuthorizedResource("resource2ID", "TypeName", actions)]
+        options = {"age":"21"}
         is_authorized = client_authorization.is_authorized_property_filter(property_type, property_value,
-                                                                           resources=resources, actions=actions)
+                                                                           resources=resources, options=options)
         if is_authorized:
             print_response(is_authorized)
         else:
