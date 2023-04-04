@@ -25,4 +25,3 @@ ignore:
   - "indykite_sdk/utils/message_to_value.py"
   - "indykite_sdk/utils/logger.py"
   - "tests"
-  - "indykite_sdk/authorization/is_authorized.py"

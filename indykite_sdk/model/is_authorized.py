@@ -27,9 +27,10 @@ class IsAuthorizedResponse:
 
 class IsAuthorizedResource:
 
-    def __init__(self, id: any, label):
+    def __init__(self, id: any, type, actions=[]):
         self.id = id
-        self.label = label
+        self.type = type
+        self.actions = actions
 
 
 class IsAuthorizedDecisions:
