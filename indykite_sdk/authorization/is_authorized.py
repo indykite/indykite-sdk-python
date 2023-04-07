@@ -84,21 +84,16 @@ def is_authorized_property_filter(self, type_filter, value, resources=[], option
 
 
 def request_resource(resources):
-    res = []
-    for r in resources:
-        actions = []
-        for a in r.actions:
-            actions.append(a)
-        res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, type=r.type, actions=actions))
-    return res
+    return [
+        pb2.IsAuthorizedRequest.Resource(id=r.id, type=r.type, actions=list(r.actions))
+        for r in resources
+    ]
 
 
 def request_options(options):
-    options_dict = {}
-    try:
-        for k, v in options.items():
-            options_dict[k] = pb2_model.Option(string_value=str(v))
-        return options_dict
-    except Exception as exception:
-        return logger.logger_error(exception)
+    options_dict = {
+        k: pb2_model.Option(string_value=str(v))
+        for k, v in options.items()
+    }
+    return options_dict
 
