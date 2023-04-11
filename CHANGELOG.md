@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.17.0](https://github.com/indykite/indykite-sdk-python/compare/v1.16.0...v1.17.0) (2023-04-11)
+
+
+### Features
+
+* add http client ([d558a02](https://github.com/indykite/indykite-sdk-python/commit/d558a02cdfc770d6acbabe1497a340b3e4c08925))
+* remove is_authorized ([cc4d9ed](https://github.com/indykite/indykite-sdk-python/commit/cc4d9ed1d12c54e5508d166e94e22be67f8236da))
+* update api.py ([8d5ea54](https://github.com/indykite/indykite-sdk-python/commit/8d5ea54d4356468c798d5c818b94f951a59145be))
+* update is_authorized method ([1c13102](https://github.com/indykite/indykite-sdk-python/commit/1c131023b9fbbfbdc92670414c4e71649124cf16))
+* update is_authorized method ([fd18e91](https://github.com/indykite/indykite-sdk-python/commit/fd18e91036a30e6d7f08a070348c743a57107f67))
+
+
+### Bug Fixes
+
+* fixed vulnerabilies from dependabot ([d3208ff](https://github.com/indykite/indykite-sdk-python/commit/d3208ff6f4aab4e05c98a1d3dcc14ed8f3755cec))
+* remove js vulnerability ([e6285fc](https://github.com/indykite/indykite-sdk-python/commit/e6285fcfa3c17502c60bbc92c213d9da31699add))
+
 ## [1.16.0](https://github.com/indykite/indykite-sdk-python/compare/v1.15.0...v1.16.0) (2023-03-21)
 
 
