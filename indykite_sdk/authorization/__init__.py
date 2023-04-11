@@ -50,3 +50,4 @@ class AuthorizationClient(object):
             raise exception(...).with_traceback(tb)
     # Imported methods
     from .is_authorized import is_authorized_token, is_authorized_digital_twin, is_authorized_property_filter
+    from .what_authorized import what_authorized_token, what_authorized_digital_twin, what_authorized_property_filter

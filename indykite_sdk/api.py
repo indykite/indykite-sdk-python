@@ -25,6 +25,7 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Emai
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIdentity
 from indykite_sdk.model.is_authorized import IsAuthorizedResource
+from indykite_sdk.model.what_authorized import WhatAuthorizedResourceTypes
 from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.identity import helper
@@ -498,6 +499,20 @@ Property ID and value of the property where the value is a reference
     is_authorized_property_parser = subparsers.add_parser("is_authorized_property")
     is_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
     is_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
+
+    # what_authorized_dt
+    what_authorized_dt_parser = subparsers.add_parser("what_authorized_dt")
+    what_authorized_dt_parser.add_argument("digital_twin_id", help="Digital Twin id (gid)")
+    what_authorized_dt_parser.add_argument("tenant_id", help="Tenant id (gid)")
+
+    # what_authorized_token
+    what_authorized_token_parser = subparsers.add_parser("what_authorized_token")
+    what_authorized_token_parser.add_argument("access_token")
+
+    # what_authorized_property
+    what_authorized_property_parser = subparsers.add_parser("what_authorized_property")
+    what_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
+    what_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
 
     # create_consent
     create_consent_parser = subparsers.add_parser("create_consent")
@@ -1824,6 +1839,50 @@ Property ID and value of the property where the value is a reference
             print("Invalid is_authorized")
         return is_authorized
 
+    elif command == "what_authorized_dt":
+        digital_twin_id = args.digital_twin_id
+        tenant_id = args.tenant_id
+        actions = ["ACTION1", "ACTION2"]
+        resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
+                          WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
+        options = {"age": "21"}
+        what_authorized = client_authorization.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, options)
+
+        if what_authorized:
+            print_response(what_authorized)
+        else:
+            print("Invalid what_authorized")
+        return what_authorized
+
+    elif command == "what_authorized_token":
+        access_token = args.access_token
+        actions = ["ACTION1", "ACTION2"]
+        resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
+                          WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
+        options = {}
+        what_authorized = client_authorization.what_authorized_token(access_token, resource_types, options)
+        if what_authorized:
+            print_response(what_authorized)
+        else:
+            print("Invalid what_authorized")
+        return what_authorized
+
+    elif command == "what_authorized_property":
+        property_type = args.property_type #e.g "email"
+        property_value = args.property_value #e.g test@example.com
+        actions = ["ACTION1", "ACTION2"]
+        resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
+                          WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
+        options = {"age":"21"}
+        what_authorized = client_authorization.what_authorized_property_filter(property_type, property_value,
+                                                                               resource_types=resource_types,
+                                                                               options=options)
+        if what_authorized:
+            print_response(what_authorized)
+        else:
+            print("Invalid what_authorized")
+        return what_authorized
+
     elif command == "create_consent":
         pii_processor_id = args.pii_processor_id
         pii_principal_id = args.pii_principal_id
@@ -1957,6 +2016,9 @@ Property ID and value of the property where the value is a reference
         headers = {"Authorization": "Bearer "+access_token,
                    'Content-Type': 'application/json'}
         response_post = requests.post(endpoint, json=data, headers=headers)
+        # print(response_http2.token_source.token.access_token)
+        if response_post.text is not None:
+            print_response(response_post.text)
 
     elif command == "get_refreshable_token_source":
         token_source = None
