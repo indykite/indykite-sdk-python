@@ -1,5 +1,5 @@
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
-from indykite_sdk.model.consent import CreateConsentResponse
+from indykite_sdk.model.consent import CreateConsentResponse, CheckOAuth2ConsentChallengeResponse
 import sys
 import indykite_sdk.utils.logger as logger
 
@@ -32,8 +32,7 @@ def list_consents(self, pii_principal_id):
             )
         )
     except Exception as exception:
-        print(exception)
-        return None
+        return logger.logger_error(exception)
 
     if not streams:
         return None
@@ -63,4 +62,23 @@ def revoke_consent(self, pii_principal_id, consent_ids=[]):
         return None
 
     return response
+
+
+def check_oauth2_consent_challenge(self, challenge):
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.CheckOAuth2ConsentChallenge(
+            pb2.CheckOAuth2ConsentChallengeRequest(
+                challenge=challenge
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+    if not response:
+        return None
+
+    return CheckOAuth2ConsentChallengeResponse.deserialize(response)
+
+
+
 
