@@ -3,8 +3,10 @@ import time
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.model.consent import CreateConsentResponse
+from indykite_sdk.model.audience_item import AudienceItem
+from indykite_sdk.model.scope_item import ScopeItem
 from indykite_sdk.indykite.identity.v1beta2 import consent_pb2
-from helpers import data
+from helpers import data, api_requests
 
 
 def test_create_consent_success():
@@ -88,7 +90,7 @@ def test_consent_list_no_pii(capsys):
 
     consent = client.list_consents(["bbbb"])
     captured = capsys.readouterr()
-    assert consent is None
+    assert "bad argument" in captured.err
 
 
 def test_consent_list_wrong_pii(capsys):
@@ -160,3 +162,65 @@ def test_revoke_consent_empty():
     consent_response = client.revoke_consent(pii_principal_id, consent_ids)
 
     assert consent_response is None
+
+
+def test_check_challenge_success(capsys):
+    client = IdentityClient()
+    assert client is not None
+
+    challenge = "AjEdsU2PQHuMZVV8Ruz2sQ"
+    client_id = api_requests.generate_random_gid()
+    scopes = [pb2.ScopeItem(name="openid", display_name="", description="", required=False)]
+    request_url = "http://www.example.com/oauth"
+    audiences = [pb2.AudienceItem(
+        user_support_email_address="support@localhost.com",
+        client_id="bf48ee66-49bf-414a-829c-e2463802a71e",
+        display_name="Consent page"
+    )]
+    app_space_id = api_requests.generate_random_gid()
+    acrs = []
+    subject_identifier = "Subject"
+    skip = False
+
+    def mocked_check_challenge(request: pb2.CheckOAuth2ConsentChallengeRequest):
+        assert request.challenge == challenge
+        return pb2.CheckOAuth2ConsentChallengeResponse(
+            client_id=client_id,
+            app_space_id=app_space_id,
+            audiences=audiences,
+            scopes=scopes,
+            acrs=acrs,
+            request_url=request_url,
+            skip=skip,
+            subject_identifier=subject_identifier
+        )
+
+    client.stub.CheckOAuth2ConsentChallenge = mocked_check_challenge
+    consent_response = client.check_oauth2_consent_challenge(challenge)
+
+    assert consent_response.client_id == client_id
+
+
+def test_check_challenge_empty(capsys):
+    client = IdentityClient()
+    assert client is not None
+    challenge = "AjEdsU2PQHuMZVV8Ruz2sQ"
+
+    def mocked_check_challenge(request: pb2.CheckOAuth2ConsentChallengeRequest):
+        assert request.challenge == challenge
+        return None
+
+    client.stub.CheckOAuth2ConsentChallenge = mocked_check_challenge
+    consent_response = client.check_oauth2_consent_challenge(challenge)
+
+    assert consent_response is None
+
+
+def test_check_challenge_exception(capsys):
+    client = IdentityClient()
+    assert client is not None
+
+    challenge = "BBB"
+    consent_response = client.check_oauth2_consent_challenge(challenge)
+    captured = capsys.readouterr()
+    assert "invalid CheckOAuth2ConsentChallengeRequest.Challenge" in captured.err

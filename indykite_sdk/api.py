@@ -528,6 +528,11 @@ Property ID and value of the property where the value is a reference
     revoke_consent_parser.add_argument("pii_principal_id", help="DigitalTwin Id (gid)")
     revoke_consent_parser.add_argument("consent_ids", nargs='*', help="List of consent ids separated by space")
 
+    # check_oauth2_consent_challenge
+    check_oauth2_consent_challenge_parser = subparsers.add_parser("check_oauth2_consent_challenge")
+    check_oauth2_consent_challenge_parser.add_argument("challenge",
+                                                       help="Consent challenge extracted from consent URL")
+
     # FORGOTTEN_PASSWORD
     start_forgotten_password = subparsers.add_parser("start_forgotten_password")
     start_forgotten_password.add_argument("digital_twin_id", help="gid ID of the digital twin with forgotten password")
@@ -1908,6 +1913,15 @@ Property ID and value of the property where the value is a reference
         pii_principal_id = args.pii_principal_id
         consent_ids = args.consent_ids
         consent_response = client.revoke_consent(pii_principal_id, consent_ids)
+        if consent_response:
+            print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "check_oauth2_consent_challenge":
+        challenge = args.challenge
+        consent_response = client.check_oauth2_consent_challenge(challenge)
         if consent_response:
             print_response(consent_response)
         else:
