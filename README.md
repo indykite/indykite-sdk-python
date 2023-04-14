@@ -7,27 +7,23 @@ https://www.indykite.com/
 
 [![codecov](https://codecov.io/gh/indykite/indykite-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/indykite/indykite-sdk-python)
 
+## Documentation
+[IndyKite documentation](https://docs.indykite.com)
+
+## Terminology
+
+[IndyKite glossary](https://docs.indykite.com/docs/resources/glossary)
+
 ## Requirements
 
-* Python 3.11
+- Python 3.11
+- AppSpace, App, AppAgent, and AppAgent credentials
+- Protobuf
 
 ## Installation
 
     pip install indykite-sdk-python
 
-## Used terminology
-
-| Definition | Description |
-| ---------- | ----------- |
-| Digital Twin | A digital twin is the digital identity of a physical entity on/in a software/identity system |
-| Application Space ID | ID of the application space the digital twin belongs to |
-| Application Agent ID | ID of the agent which makes the application available for the different calls |
-| Tenant ID | ID of the tenant the digital twin belongs to. The tenant belongs to an application space |
-| Private Key and Settings | The secret which required to reach the system. Indykite provides the necessary secrets |
-| Property | The digital twin's property (eg.: email, name) |
-| JWT | JSON Web Tokens |
-| Introspect | A process used to validate the token and to retrieve properties assigned to the token |
-| Patch property | Add, change or delete a property of a digital twin |
 
 ## Initial settings
 
