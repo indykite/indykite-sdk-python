@@ -18,7 +18,7 @@ https://www.indykite.com/
 
 - Python 3.11
 - AppSpace, App, AppAgent, and AppAgent credentials
-- Protobuf
+- Service account credentials
 
 ## Installation
 
