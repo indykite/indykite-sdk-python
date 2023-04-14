@@ -75,4 +75,11 @@ def arg_to_value(value):
     if isinstance(value, bytes):
         return struct.Value(bytes_value=value)
 
+    if isinstance(value, dict):
+        keys = value.keys()
+        mapped = {}
+        for key in keys:
+            mapped[key] = arg_to_value(value[key])
+        return struct.MapValue(fields=mapped)
+
     return None

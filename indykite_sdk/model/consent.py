@@ -149,3 +149,19 @@ class CheckOAuth2ConsentChallengeResponse:
         self.requested_at = None
         self.context = None
 
+
+class CreateOAuth2ConsentVerifierResponse:
+    @classmethod
+    def deserialize(cls, message):
+        if message is None:
+            return None
+        fields = [desc.name for desc, val in message.ListFields()]
+        consent_verifier = CreateOAuth2ConsentVerifierResponse(
+            str(message.verifier) if message.verifier else None,
+            str(message.authorization_endpoint) if message.authorization_endpoint else None
+        )
+        return consent_verifier
+
+    def __init__(self, verifier=None, authorization_endpoint=None):
+        self.verifier = verifier
+        self.authorization_endpoint = authorization_endpoint

@@ -1,10 +1,7 @@
-import time
-
+import json
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.model.consent import CreateConsentResponse
-from indykite_sdk.model.audience_item import AudienceItem
-from indykite_sdk.model.scope_item import ScopeItem
 from indykite_sdk.indykite.identity.v1beta2 import consent_pb2
 from helpers import data, api_requests
 
@@ -224,3 +221,91 @@ def test_check_challenge_exception(capsys):
     consent_response = client.check_oauth2_consent_challenge(challenge)
     captured = capsys.readouterr()
     assert "invalid CheckOAuth2ConsentChallengeRequest.Challenge" in captured.err
+
+
+def test_consent_verifier_approval_success(capsys):
+    client = IdentityClient()
+    assert client is not None
+
+    consent_challenge = "AjEdsU2PQHuMZVV8Ruz2sQ"
+    verifier = "2qNSyff7ToarEwv_sw3EXQ"
+    authorization_endpoint = "https://www.indykite.com/o/oauth2/endpoint"
+
+    def mocked_consent_verifier_approval(request: pb2.CreateOAuth2ConsentVerifierRequest):
+        assert request.consent_challenge == consent_challenge
+        return pb2.CreateOAuth2ConsentVerifierResponse(
+            verifier=verifier,
+            authorization_endpoint=authorization_endpoint
+        )
+
+    client.stub.CreateOAuth2ConsentVerifier = mocked_consent_verifier_approval
+    consent_response = client.create_oauth2_consent_verifier_approval(consent_challenge)
+    assert consent_response.verifier == verifier
+
+
+def test_consent_verifier_approval_empty(capsys):
+    client = IdentityClient()
+    assert client is not None
+    consent_challenge = "AjEdsU2PQHuMZVV8Ruz2sQ"
+
+    def mocked_consent_verifier_approval(request: pb2.CreateOAuth2ConsentVerifierRequest):
+        assert request.consent_challenge == consent_challenge
+        return None
+
+    client.stub.CreateOAuth2ConsentVerifier = mocked_consent_verifier_approval
+    consent_response = client.create_oauth2_consent_verifier_approval(consent_challenge)
+    assert consent_response is None
+
+
+def test_consent_verifier_approval_exception(capsys):
+    client = IdentityClient()
+    assert client is not None
+
+    consent_challenge = "BBB"
+    consent_response = client.create_oauth2_consent_verifier_approval(consent_challenge)
+    captured = capsys.readouterr()
+    assert "invalid CreateOAuth2ConsentVerifierRequest.ConsentChallenge" in captured.err
+
+
+def test_consent_verifier_denial_success(capsys):
+    client = IdentityClient()
+    assert client is not None
+
+    consent_challenge = "AjEdsU2PQHuMZVV8Ruz2sQ"
+    verifier = "2qNSyff7ToarEwv_sw3EXQ"
+    authorization_endpoint = "https://www.indykite.com/o/oauth2/endpoint"
+
+    def mocked_consent_verifier_denial(request: pb2.CreateOAuth2ConsentVerifierRequest):
+        assert request.consent_challenge == consent_challenge
+        return pb2.CreateOAuth2ConsentVerifierResponse(
+            verifier=verifier,
+            authorization_endpoint=authorization_endpoint
+        )
+
+    client.stub.CreateOAuth2ConsentVerifier = mocked_consent_verifier_denial
+    consent_response = client.create_oauth2_consent_verifier_denial(consent_challenge)
+    assert consent_response.verifier == verifier
+
+
+def test_consent_verifier_denial_empty(capsys):
+    client = IdentityClient()
+    assert client is not None
+    consent_challenge = "AjEdsU2PQHuMZVV8Ruz2sQ"
+
+    def mocked_consent_verifier_denial(request: pb2.CreateOAuth2ConsentVerifierRequest):
+        assert request.consent_challenge == consent_challenge
+        return None
+
+    client.stub.CreateOAuth2ConsentVerifier = mocked_consent_verifier_denial
+    consent_response = client.create_oauth2_consent_verifier_denial(consent_challenge)
+    assert consent_response is None
+
+
+def test_consent_verifier_denial_exception(capsys):
+    client = IdentityClient()
+    assert client is not None
+
+    consent_challenge = "BBB"
+    consent_response = client.create_oauth2_consent_verifier_denial(consent_challenge)
+    captured = capsys.readouterr()
+    assert "invalid CreateOAuth2ConsentVerifierRequest.ConsentChallenge" in captured.err
