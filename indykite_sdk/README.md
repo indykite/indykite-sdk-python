@@ -1219,7 +1219,7 @@ positional arguments:
   tenant_id String
 ```
 
-74. Is Digital Twin identified by token Authorized to perform an Action on a Resource
+76. Is Digital Twin identified by token Authorized to perform an Action on a Resource
 
 ```shell
 python3 api.py is_authorized_token ACCESS_TOKEN
@@ -1230,7 +1230,7 @@ positional arguments:
   access_token   User Token
 ```
 
-75. Is Digital Twin identified by property Authorized to perform an Action on a Resource
+77. Is Digital Twin identified by property Authorized to perform an Action on a Resource
 
 ```shell
 python3 api.py is_authorized_property PROPERTY_TYPE PROPERTY_VALUE
@@ -1242,7 +1242,42 @@ positional arguments:
   property_value String #e.g test@example.com
 ```
 
-76. Create Consent for OAuth2 application for a given Digital Twin
+78. What actions are authorized to be performed on a Resource by a subject identified by id
+
+```shell
+python3 api.py what_authorized_dt DIGITAL_TWIN_ID TENANT_ID
+```
+
+```shell
+positional arguments:
+  digital_twin_id String
+  tenant_id String
+```
+
+79. What actions are authorized to be performed on a Resource by a subject identified by token
+
+```shell
+python3 api.py what_authorized_token ACCESS_TOKEN
+```
+
+```shell
+positional arguments:
+  access_token   User Token
+```
+
+80.  What actions are authorized to be performed on a Resource by a subject identified by properties
+
+```shell
+python3 api.py what_authorized_property PROPERTY_TYPE PROPERTY_VALUE
+```
+
+```shell
+positional arguments:
+  property_type  String #e.g "email"
+  property_value String #e.g test@example.com
+```
+
+81. Create Consent for OAuth2 application for a given Digital Twin
 
 ```shell
 python3 api.py create_consent PII_PROCESSOR_ID PII_PRINCIPAL_ID
@@ -1255,7 +1290,7 @@ positional arguments:
 
 ```
 
-77. List Consents for Digital Twin for OAuth2 application
+82.  List Consents for Digital Twin for OAuth2 application
 
 ```shell
 python3 api.py list_consents PII_PRINCIPAL_ID
@@ -1266,10 +1301,10 @@ positional arguments:
   pii_principal_id   String
 ```
 
-78. Revoke Consents for Digital Twin for OAuth2 application
+83. Revoke Consents for Digital Twin for OAuth2 application
 
 ```shell
-python3 api.py revoke_consent APPLICATION_AGENT_CREDENTIAL_ID
+python3 api.py revoke_consent PII_PRINCIPAL_ID CONSENT_IDS
 ```
 
 ```shell
@@ -1278,13 +1313,57 @@ positional arguments:
   consent_ids List of consent ids separated by space
 ```
 
-79. Start forgotten password flow
+84. Check OAuth2 Consent challenge
+
+```shell
+python3 api.py check_oauth2_consent_challenge CHALLENGE
+```
+
+```shell
+positional arguments:
+  challenge   String
+```
+
+85. Create OAuth2 Consent Verifier with Approval
+
+```shell
+python3 api.py create_oauth2_consent_verifier_approval CONSENT_CHALLENGE GRANT_SCOPES GRANTED_AUDIENCE
+```
+
+```shell
+positional arguments:
+  consent_challenge String
+  grant_scopes List 
+  granted_audiences List
+  access_token Dict
+  id_token Dict
+  userinfo Dict
+  remember bool
+  remember_for int
+```
+
+86. Create OAuth2 Consent Verifier with Denial
+
+```shell
+python3 api.py create_oauth2_consent_verifier_denial CONSENT_CHALLENGE
+```
+
+```shell
+positional arguments:
+  consent_challenge String
+  error String 
+  error_description String
+  error_hint String
+  status_code int
+```
+
+87.  Start forgotten password flow
 
 ```shell
 python3 api.py start_forgotten_password DIGITAL_TWIN_ID TENANT_ID
 ```
 
-80. Create email invitation (invite a user)
+88.  Create email invitation (invite a user)
 
 ```shell
 python3 api.py create_email_invitation TENANT_ID EMAIL
@@ -1296,7 +1375,7 @@ positional arguments:
   email   String
 ```
 
-81. Check invitation state : check if invitation invalid, in future, pending, accepted, expired, cancelled, processing
+89. Check invitation state : check if invitation invalid, in future, pending, accepted, expired, cancelled, processing
 
 ```shell
 python3 api.py check_invitation_state REFERENCE_ID
@@ -1308,7 +1387,7 @@ positional arguments: one of:
   invitation_token  token used in the invitation email
 ```
 
-82. Resend an invitation
+90. Resend an invitation
 
 ```shell
 python3 api.py resend_invitation REFERENCE_ID
@@ -1319,7 +1398,7 @@ positional arguments:
   reference_id   id used to create the invitation
 ```
 
-83. Cancel an invitation
+91. Cancel an invitation
 
 ```shell
 python3 api.py cancel_invitation REFERENCE_ID
@@ -1330,7 +1409,7 @@ positional arguments:
   reference_id   id used to create the invitation
 ```
 
-84. Register a DigitalTwin without credential
+92. Register a DigitalTwin without credential
 
 ```shell
 python3 api.py register_digital_twin_without_credential TENANT_ID

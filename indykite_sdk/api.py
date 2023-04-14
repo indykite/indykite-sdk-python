@@ -533,6 +533,17 @@ Property ID and value of the property where the value is a reference
     check_oauth2_consent_challenge_parser.add_argument("challenge",
                                                        help="Consent challenge extracted from consent URL")
 
+    # create_oauth2_consent_verifier_approval
+    create_oauth2_consent_verifier_approval_parser = subparsers.add_parser("create_oauth2_consent_verifier_approval")
+    create_oauth2_consent_verifier_approval_parser.add_argument("consent_challenge",
+                                                                help="Consent challenge extracted from consent URL")
+    create_oauth2_consent_verifier_approval_parser.add_argument("access_token")
+
+    # create_oauth2_consent_verifier_denial
+    create_oauth2_consent_verifier_denial_parser = subparsers.add_parser("create_oauth2_consent_verifier_denial")
+    create_oauth2_consent_verifier_denial_parser.add_argument("consent_challenge",
+                                                              help="Consent challenge extracted from consent URL")
+
     # FORGOTTEN_PASSWORD
     start_forgotten_password = subparsers.add_parser("start_forgotten_password")
     start_forgotten_password.add_argument("digital_twin_id", help="gid ID of the digital twin with forgotten password")
@@ -1922,6 +1933,36 @@ Property ID and value of the property where the value is a reference
     elif command == "check_oauth2_consent_challenge":
         challenge = args.challenge
         consent_response = client.check_oauth2_consent_challenge(challenge)
+        if consent_response:
+            print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "create_oauth2_consent_verifier_approval":
+        consent_challenge = args.consent_challenge
+        grant_scopes = ["openid", "email", "profile"]
+        granted_audiences = []
+        # custom claims for jwk (map values to enrich token)
+        access_token = json.loads(args.access_token)
+        consent_response = client.create_oauth2_consent_verifier_approval(consent_challenge, grant_scopes,
+                                                                          granted_audiences, access_token, {}, {},
+                                                                          False, None)
+        if consent_response:
+            print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "create_oauth2_consent_verifier_denial":
+        consent_challenge = args.consent_challenge
+        error = "access_denied"
+        error_description = "Access is denied"
+        error_hint = "Ask someone else"
+        status_code = 403
+        consent_response = client.create_oauth2_consent_verifier_denial(consent_challenge, error,
+                                                                        error_description, 
+                                                                        error_hint, status_code)
         if consent_response:
             print_response(consent_response)
         else:
