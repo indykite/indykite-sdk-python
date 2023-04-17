@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.18.0](https://github.com/indykite/indykite-sdk-python/compare/v1.17.0...v1.18.0) (2023-04-17)
+
+
+### Features
+
+* add what_authorized feature ([d70b293](https://github.com/indykite/indykite-sdk-python/commit/d70b293d8e94893999a7d4f50f5d95172882497d))
+* consent challenge ([dd8a109](https://github.com/indykite/indykite-sdk-python/commit/dd8a109b987786d2d519a74286a341bcce0f65ef))
+* create consent challenge verifier ([299d867](https://github.com/indykite/indykite-sdk-python/commit/299d8677a9addee36ff5adddc8946204206ab14d))
+
 ## [1.17.0](https://github.com/indykite/indykite-sdk-python/compare/v1.16.0...v1.17.0) (2023-04-11)
 
 
