@@ -3,7 +3,7 @@ import json
 import os
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, SendGridProviderConfig, MailJetProviderConfig,
                                                           AmazonSESProviderConfig, MailgunProviderConfig,EmailServiceConfig,
-                                                          AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig)
+                                                          AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig, AuthorizationPolicyConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
@@ -46,6 +46,7 @@ AUTH_FLOW_CONFIG_NODE = "gid:AAAAB0Vg1IohjEV4uDLA_hFawKI"
 OAUTH2_CLIENT_CONFIG_NODE = "gid:AAAACtBSbo_Sf0XXpOzuoNfzMk8"
 INGEST_MAPPING_CONFIG_NODE = "gid:AAAAFLk0_fECVENquHrfZUTjaic"
 WEBAUTHN_PROVIDER_CONFIG_NODE = "gid:AAAADRcYFyi8IUUIv-P5IJwlXQ0"
+AUTHZ_POLICY_CONFIG_NODE = "gid:AAAAFpurKX4qjEbFqNQd8L3wEqk"
 OAUTH2_PROVIDER = "gid:AAAAEXX8LPjXo0bmvR1VWQEwrQI"
 OAUTH2_APPLICATION = "gid:AAAAC8hPU8pCTEblkvWJ4et0PG4"
 PASSWORD = "Password"
@@ -210,6 +211,10 @@ def get_webauthn_provider_config_node_id():
     return WEBAUTHN_PROVIDER_CONFIG_NODE
 
 
+def get_authz_policy_config_node_id():
+    return AUTHZ_POLICY_CONFIG_NODE
+
+
 def get_oauth2_provider_id():
     return OAUTH2_PROVIDER
 
@@ -354,3 +359,16 @@ def get_webauthn_provider_exception():
         authentication_timeout=Duration(seconds=60)
     )
     return webauthn_provider_config
+
+
+def get_authz_policy():
+    with open(os.path.dirname(__file__) + "/sdk_policy_config.json") as f:
+        file_data = f.read()
+    policy_dict = json.loads(file_data)
+    policy_dict = json.dumps(policy_dict)
+    policy_config = AuthorizationPolicyConfig(
+        policy=str(policy_dict),
+        status="STATUS_ACTIVE",
+        tags=[]
+    )
+    return policy_config

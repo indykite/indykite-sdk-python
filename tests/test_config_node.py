@@ -727,3 +727,134 @@ def test_update_webauthn_provider_config_node_exception(capsys):
 
     captured = capsys.readouterr()
     assert "StatusCode.INVALID_ARGUMENT" in captured.err
+
+
+def test_create_authorization_policy_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    authorization_policy_config = data.get_authz_policy()
+
+    config_node = client.create_authorization_policy_config_node(app_space_id,
+                                                                 "automation-"+right_now,
+                                                                 "Automation "+right_now,
+                                                                 "description",
+                                                                 authorization_policy_config,
+                                                                 [])
+    captured = capsys.readouterr()
+
+    assert "invalid or expired access_token" not in captured.out
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
+
+
+def test_create_authorization_policy_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    authorization_policy_config = data.get_authz_policy()
+
+    def mocked_create_config_node(request: pb2.CreateConfigNodeRequest):
+        return None
+
+    client.stub.CreateConfigNode = mocked_create_config_node
+    config_node = client.create_authorization_policy_config_node(app_space_id,
+                                                                 "automation-"+right_now,
+                                                                 "Automation "+right_now,
+                                                                 "description",
+                                                                 authorization_policy_config,
+                                                                 [])
+
+    assert config_node is None
+
+
+def test_create_authorization_policy_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    config_node = client.create_authorization_policy_config_node(app_space_id,
+                                                                 "automation-"+right_now,
+                                                                 "Automation "+right_now,
+                                                                 "description",
+                                                                 "description",
+                                                                 [])
+
+    captured = capsys.readouterr()
+    assert "'str' object has no attribute 'status'" in captured.err
+
+
+def test_update_authorization_policy_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_authz_policy_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    authorization_policy_config = data.get_authz_policy()
+    config_node_response = client.update_authorization_policy_config_node(response.id,
+                                                                          response.etag,
+                                                                          "Automation "+right_now,
+                                                                          "description "+right_now,
+                                                                          authorization_policy_config,
+                                                                          [])
+
+    captured = capsys.readouterr()
+
+    assert "invalid or expired access_token" not in captured.out
+    assert config_node_response is not None
+    assert isinstance(config_node_response, UpdateConfigNode)
+
+
+def test_update_authorization_policy_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_authz_policy_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    authorization_policy_config = data.get_authz_policy()
+
+    def mocked_update_config_node(request: pb2.UpdateConfigNodeRequest):
+        return None
+
+    client.stub.UpdateConfigNode = mocked_update_config_node
+    config_node_response = client.update_authorization_policy_config_node(response.id,
+                                                                          response.etag,
+                                                                          "Automation " + right_now,
+                                                                          "description " + right_now,
+                                                                          authorization_policy_config,
+                                                                          [])
+
+    assert config_node_response is None
+
+
+def test_update_authorization_policy_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_authz_policy_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    config_node_response = client.update_authorization_policy_config_node(response.id,
+                                                                          response.etag,
+                                                                          "Automation "+right_now,
+                                                                          "description "+right_now,
+                                                                          "description",
+                                                                          [])
+
+    captured = capsys.readouterr()
+    assert "'str' object has no attribute 'status'" in captured.err
