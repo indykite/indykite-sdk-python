@@ -4,6 +4,7 @@ from indykite_sdk.model.auth_flow_config import AuthFlowConfig
 from indykite_sdk.model.oauth2_client_config import OAuth2ClientConfig
 from indykite_sdk.model.ingest_mapping_config import IngestMappingConfig
 from indykite_sdk.model.webauthn_provider_config import WebAuthnProviderConfig
+from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
 
 
 class ConfigNode:
@@ -52,6 +53,10 @@ class ConfigNode:
         if message.HasField('webauthn_provider_config'):
             config_node.webauthn_provider_config = WebAuthnProviderConfig.deserialize(message.webauthn_provider_config)
 
+        if message.HasField('authorization_policy_config'):
+            config_node.authorization_policy_config = AuthorizationPolicyConfig.deserialize(
+                message.authorization_policy_config)
+
         return config_node
 
     def __init__(self, id, name, display_name, etag, customer_id, app_space_id, tenant_id):
@@ -72,5 +77,6 @@ class ConfigNode:
         self.oauth2_client_config = None
         self.ingest_mapping_config = None
         self.webauthn_provider_config = None
+        self.authorization_policy_config = None
 
 

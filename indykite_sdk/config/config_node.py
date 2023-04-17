@@ -6,6 +6,7 @@ from indykite_sdk.model.config_node import ConfigNode
 from indykite_sdk.model.conveyance_preference import ConveyancePreference
 from indykite_sdk.model.user_verification_requirement import UserVerificationRequirement
 from indykite_sdk.model.authenticator_attachment import AuthenticatorAttachment
+from indykite_sdk.model.authorization_policy_config_status import Status
 import sys
 import indykite_sdk.utils.logger as logger
 
@@ -290,6 +291,59 @@ def update_webauthn_provider_config_node(self, config_node_id, etag, display_nam
     return UpdateConfigNode.deserialize(response)
 
 
+def create_authorization_policy_config_node(self, location, name, display_name, description,
+                                            authorization_policy_config, bookmarks=[]):
+    sys.excepthook = logger.handle_excepthook
+    try:
+        valid = True
+        if authorization_policy_config and authorization_policy_config.status:
+            valid = validate_authorization_policy_status(authorization_policy_config.status)
+        if valid:
+            response = self.stub.CreateConfigNode(
+                pb2.CreateConfigNodeRequest(
+                    location=location,
+                    name=name,
+                    display_name=wrappers.StringValue(value=display_name),
+                    description=wrappers.StringValue(value=description),
+                    authorization_policy_config= authorization_policy_config,
+                    bookmarks=bookmarks
+                )
+            )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return CreateConfigNode.deserialize(response)
+
+
+def update_authorization_policy_config_node(self, config_node_id, etag, display_name, description,
+                                            authorization_policy_config,
+                                            bookmarks=[]):
+    sys.excepthook = logger.handle_excepthook
+    try:
+        valid = True
+        if authorization_policy_config and authorization_policy_config.status:
+            valid = validate_authorization_policy_status(authorization_policy_config.status)
+        if valid:
+            response = self.stub.UpdateConfigNode(
+                pb2.UpdateConfigNodeRequest(
+                    id=config_node_id,
+                    etag=wrappers.StringValue(value=etag),
+                    display_name=wrappers.StringValue(value=display_name),
+                    description=wrappers.StringValue(value=description),
+                    authorization_policy_config= authorization_policy_config,
+                    bookmarks=bookmarks
+                )
+            )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return UpdateConfigNode.deserialize(response)
+
+
 def validate_conveyance(conveyance):
     try:
         conveyances = [c.value for c in ConveyancePreference]
@@ -315,6 +369,16 @@ def validate_authenticator_attachment(authenticator_attachment):
         authenticator_attachments = [a.value for a in AuthenticatorAttachment]
         if authenticator_attachment not in authenticator_attachments:
             raise TypeError("authenticator_attachment must be a member of AuthenticatorAttachment")
+        return True
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_authorization_policy_status(status):
+    try:
+        statuses = [s.name for s in Status]
+        if status not in statuses:
+            raise TypeError("status must be a member of AuthorizationPolicyConfig.Status")
         return True
     except Exception as exception:
         return logger.logger_error(exception)

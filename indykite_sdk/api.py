@@ -17,7 +17,7 @@ from indykite_sdk.config import ConfigClient
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.oauth2 import HttpClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig)
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig)
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig, AuthorizationPolicyConfig )
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt, SHA256
@@ -421,6 +421,20 @@ Property ID and value of the property where the value is a reference
     update_webauthn_provider_config_node_parser.add_argument("etag", help="Etag")
     update_webauthn_provider_config_node_parser.add_argument("display_name", help="Display name")
     update_webauthn_provider_config_node_parser.add_argument("description", help="Description")
+
+    # create_authorization_policy_config_node
+    create_authorization_policy_config_node_parser = subparsers.add_parser("create_authorization_policy_config_node")
+    create_authorization_policy_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_authorization_policy_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_authorization_policy_config_node_parser.add_argument("display_name", help="Display name")
+    create_authorization_policy_config_node_parser.add_argument("description", help="Description")
+
+    # update_authorization_policy_config_node
+    update_authorization_policy_config_node_parser = subparsers.add_parser("update_authorization_policy_config_node")
+    update_authorization_policy_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_authorization_policy_config_node_parser.add_argument("etag", help="Etag")
+    update_authorization_policy_config_node_parser.add_argument("display_name", help="Display name")
+    update_authorization_policy_config_node_parser.add_argument("description", help="Description")
 
     # read_oauth2_provider
     read_oauth2_provider_parser = subparsers.add_parser("read_oauth2_provider")
@@ -1520,6 +1534,67 @@ Property ID and value of the property where the value is a reference
             print("Invalid update webauthn provider config node response")
         return update_webauthn_provider_config_node_response
 
+    elif command == "create_authorization_policy_config_node":
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+
+        with open("utils/sdk_policy_config.json") as f:
+            file_data = f.read()
+        policy_dict = json.loads(file_data)
+        policy_dict = json.dumps(policy_dict)
+        policy_config = AuthorizationPolicyConfig(
+            policy=str(policy_dict),
+            status="STATUS_ACTIVE",
+            tags=[]
+        )
+
+        create_authorization_policy_config_node_response = client_config.create_authorization_policy_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            policy_config,
+            []
+        )
+
+        if create_authorization_policy_config_node_response:
+            print_response(create_authorization_policy_config_node_response)
+        else:
+            print("Invalid create authorization policy config node response")
+        return create_authorization_policy_config_node_response
+
+    elif command == "update_authorization_policy_config_node":
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+
+        with open("utils/sdk_policy_config.json") as f:
+            file_data = f.read()
+        policy_dict = json.loads(file_data)
+        policy_dict = json.dumps(policy_dict)
+
+        policy_config = AuthorizationPolicyConfig(
+            policy=str(policy_dict),
+            status="STATUS_ACTIVE",
+            tags=[]
+        )
+        update_authorization_policy_config_node_response = client_config.update_authorization_policy_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            policy_config,
+            []
+        )
+        if update_authorization_policy_config_node_response:
+            print_response(update_authorization_policy_config_node_response)
+        else:
+            print("Invalid update authorization policy config node response")
+        return update_authorization_policy_config_node_response
+
     elif command == "read_oauth2_provider":
         oauth2_provider_id = args.oauth2_provider_id
         config = client_config.read_oauth2_provider(oauth2_provider_id, [])
@@ -1958,10 +2033,10 @@ Property ID and value of the property where the value is a reference
         consent_challenge = args.consent_challenge
         error = "access_denied"
         error_description = "Access is denied"
-        error_hint = "Ask someone else"
+        error_hint = "Your consent challenge may be not valid: check your OAuth2 host and your clientID"
         status_code = 403
         consent_response = client.create_oauth2_consent_verifier_denial(consent_challenge, error,
-                                                                        error_description, 
+                                                                        error_description,
                                                                         error_hint, status_code)
         if consent_response:
             print_response(consent_response)
