@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/indykite/indykite-sdk-python/compare/v1.18.0...v1.19.0) (2023-04-18)
+
+
+### Features
+
+* add authz policy config node ([890c762](https://github.com/indykite/indykite-sdk-python/commit/890c762a9c4e791e46ac6a1f510fbff2af503f17))
+
 ## [1.18.0](https://github.com/indykite/indykite-sdk-python/compare/v1.17.0...v1.18.0) (2023-04-17)
 
 
