@@ -376,7 +376,7 @@ def validate_authenticator_attachment(authenticator_attachment):
 
 def validate_authorization_policy_status(status):
     try:
-        statuses = [s.name for s in Status]
+        statuses = [s.value for s in Status]
         if status not in statuses:
             raise TypeError("status must be a member of AuthorizationPolicyConfig.Status")
         return True
