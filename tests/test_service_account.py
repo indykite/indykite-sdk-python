@@ -12,7 +12,7 @@ def test_service_account_short_id(capsys):
     assert client is not None
 
     config_id = "AAAAAAAAAA"
-    response = client.get_service_account(config_id)
+    response = client.read_service_account(config_id)
     captured = capsys.readouterr()
     assert "invalid ReadServiceAccountRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err
 
@@ -27,7 +27,7 @@ def test_service_account_wrong_id(capsys):
         return pb2.ReadServiceAccountResponse()
 
     client.stub.ServiceAccount = mocked_service_account
-    response = client.get_service_account(config_id)
+    response = client.read_service_account(config_id)
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -42,7 +42,7 @@ def test_service_account_error(capsys):
         raise Exception("something went very wrong")
 
     client.stub.ReadServiceAccount = mocked_service_account
-    response = client.get_service_account(config_id)
+    response = client.read_service_account(config_id)
     captured = capsys.readouterr()
     assert "something went very wrong" in captured.err
 
@@ -53,7 +53,7 @@ def test_service_account_success_credentials():
     service_account_id = client.credentials.get('serviceAccountId')
 
     client.stub.ServiceAccount = service_account_id
-    response = client.get_service_account()
+    response = client.read_service_account()
     assert response is not None
     assert isinstance(response, ServiceAccount)
 
@@ -63,7 +63,7 @@ def test_service_account_error_credentials(capsys):
     assert client is not None
     client.credentials = None
 
-    response = client.get_service_account()
+    response = client.read_service_account()
     captured = capsys.readouterr()
     assert "Missing service account" in captured.err
 
@@ -73,7 +73,7 @@ def test_service_account_error_credentials_empty(capsys):
     assert client is not None
     client.credentials = {}
 
-    response = client.get_service_account()
+    response = client.read_service_account()
     captured = capsys.readouterr()
     assert "Missing service account" in captured.err
 
@@ -81,7 +81,7 @@ def test_service_account_error_credentials_empty(capsys):
 def test_service_account_success():
     client = ConfigClient()
     assert client is not None
-    response = client.get_service_account()
+    response = client.read_service_account()
     assert response is not None
     assert isinstance(response, ServiceAccount)
 
@@ -96,7 +96,7 @@ def test_service_account_success_with_param():
         return pb2.ReadServiceAccountResponse()
 
     client.stub.ServiceAccount = mocked_service_account
-    response = client.get_service_account(config_id)
+    response = client.read_service_account(config_id)
     assert response is not None
     assert isinstance(response, ServiceAccount)
 
@@ -105,16 +105,16 @@ def test_service_account_empty():
     client = ConfigClient()
     assert client is not None
 
-    def mocked_get_service_account(request: pb2.ReadServiceAccountRequest):
+    def mocked_read_service_account(request: pb2.ReadServiceAccountRequest):
         return None
 
-    client.stub.ReadServiceAccount = mocked_get_service_account
-    response = client.get_service_account()
+    client.stub.ReadServiceAccount = mocked_read_service_account
+    response = client.read_service_account()
 
     assert response is None
 
 
-def test_get_service_account_by_name_wrong_name(capsys):
+def test_read_service_account_by_name_wrong_name(capsys):
     service_account_name = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
@@ -122,12 +122,12 @@ def test_get_service_account_by_name_wrong_name(capsys):
 
     customer_id = data.get_customer_id()
 
-    response = client.get_service_account_by_name(customer_id, service_account_name)
+    response = client.read_service_account_by_name(customer_id, service_account_name)
     captured = capsys.readouterr()
     assert "not found" in captured.err
 
 
-def test_get_service_account_by_name_wrong_customer_id(capsys):
+def test_read_service_account_by_name_wrong_customer_id(capsys):
     service_account_name = data.get_service_account_name()
 
     client = ConfigClient()
@@ -135,12 +135,12 @@ def test_get_service_account_by_name_wrong_customer_id(capsys):
 
     customer_id = "gid:AAAAAlrNh6beFUSNk6tTtka8dwg"
 
-    response = client.get_service_account_by_name(customer_id, service_account_name)
+    response = client.read_service_account_by_name(customer_id, service_account_name)
     captured = capsys.readouterr()
     assert "not found" in captured.err
 
 
-def test_get_service_account_by_name_wrong_customer_size(capsys):
+def test_read_service_account_by_name_wrong_customer_size(capsys):
     service_account_name = data.get_service_account_name()
 
     client = ConfigClient()
@@ -148,19 +148,19 @@ def test_get_service_account_by_name_wrong_customer_size(capsys):
 
     customer_id = "12546"
 
-    response = client.get_service_account_by_name(customer_id, service_account_name)
+    response = client.read_service_account_by_name(customer_id, service_account_name)
     captured = capsys.readouterr()
     assert "invalid ReadServiceAccountRequest.Name" in captured.err
 
 
-def test_get_service_account_name_success(capsys):
+def test_read_service_account_name_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     service_account_name = data.get_service_account_name()
     customer_id = data.get_customer_id()
 
-    service_account = client.get_service_account_by_name(customer_id, service_account_name)
+    service_account = client.read_service_account_by_name(customer_id, service_account_name)
     captured = capsys.readouterr()
 
     assert service_account is not None
@@ -168,18 +168,18 @@ def test_get_service_account_name_success(capsys):
     assert isinstance(service_account, ServiceAccount)
 
 
-def test_get_service_account_by_name_empty():
+def test_read_service_account_by_name_empty():
     client = ConfigClient()
     assert client is not None
 
     service_account_name = data.get_service_account_name()
     customer_id = data.get_customer_id()
 
-    def mocked_get_service_account_by_name(request: pb2.ReadServiceAccountRequest):
+    def mocked_read_service_account_by_name(request: pb2.ReadServiceAccountRequest):
         return None
 
-    client.stub.ReadServiceAccount = mocked_get_service_account_by_name
-    service_account = client.get_service_account_by_name(customer_id, service_account_name)
+    client.stub.ReadServiceAccount = mocked_read_service_account_by_name
+    service_account = client.read_service_account_by_name(customer_id, service_account_name)
 
     assert service_account is None
 
@@ -279,7 +279,7 @@ def test_update_service_account_success(capsys):
 
     service_account_name = data.get_service_account_name()
     customer_id = data.get_customer_id()
-    response = client.get_service_account_by_name(customer_id, service_account_name)
+    response = client.read_service_account_by_name(customer_id, service_account_name)
     assert response is not None
 
     service_account = client.update_service_account(response.id, response.etag, response.display_name, "description", [])
@@ -296,7 +296,7 @@ def test_update_service_account_empty():
 
     service_account_name = data.get_service_account_name()
     customer_id = data.get_customer_id()
-    response = client.get_service_account_by_name(customer_id, service_account_name)
+    response = client.read_service_account_by_name(customer_id, service_account_name)
     assert response is not None
 
     def mocked_update_service_account(request: pb2.UpdateServiceAccountRequest):
@@ -314,7 +314,7 @@ def test_update_service_account_fail_invalid_service_account(capsys):
 
     customer_id = data.get_customer_id()
     service_account_name = data.get_service_account_name()
-    response = client.get_service_account_by_name(customer_id, service_account_name)
+    response = client.read_service_account_by_name(customer_id, service_account_name)
     assert response is not None
     service_account_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
 
@@ -330,7 +330,7 @@ def test_update_service_account_name_fail_type_parameter(capsys):
     service_account_id = data.get_service_account_id()
     service_account_name = data.get_service_account_name()
     customer_id = data.get_customer_id()
-    response = client.get_service_account_by_name(customer_id, service_account_name)
+    response = client.read_service_account_by_name(customer_id, service_account_name)
     assert response is not None
 
     service_account = client.update_service_account(service_account_id, [response.etag], response.display_name, "description", [])

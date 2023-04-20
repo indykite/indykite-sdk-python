@@ -7,40 +7,40 @@ from helpers import data
 from datetime import datetime
 
 
-def test_get_service_account_credential_wrong_id(capsys):
+def test_read_service_account_credential_wrong_id(capsys):
     service_account_credential_id = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
     assert client is not None
 
-    response = client.get_service_account_credential(service_account_credential_id)
+    response = client.read_service_account_credential(service_account_credential_id)
     captured = capsys.readouterr()
     assert("invalid ReadServiceAccountCredentialRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
-def test_get_service_account_credential_success(capsys):
+def test_read_service_account_credential_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     service_account_credential_id = data.get_service_account_credential_id()
-    service_account = client.get_service_account_credential(service_account_credential_id)
+    service_account = client.read_service_account_credential(service_account_credential_id)
     captured = capsys.readouterr()
 
     assert service_account is not None
     assert "invalid or expired access_token" not in captured.out
 
 
-def test_get_service_account_credential_empty():
+def test_read_service_account_credential_empty():
     client = ConfigClient()
     assert client is not None
 
     service_account_credential_id = data.get_service_account_credential_id()
 
-    def mocked_get_service_account_credential(request: pb2.ReadServiceAccountCredentialRequest):
+    def mocked_read_service_account_credential(request: pb2.ReadServiceAccountCredentialRequest):
         return None
 
-    client.stub.ReadServiceAccountCredential = mocked_get_service_account_credential
-    service_account_credential = client.get_service_account_credential(service_account_credential_id)
+    client.stub.ReadServiceAccountCredential = mocked_read_service_account_credential
+    service_account_credential = client.read_service_account_credential(service_account_credential_id)
 
     assert service_account_credential is None
 
@@ -170,13 +170,14 @@ def test_del_service_account_credential_success(capsys):
 
     service_account_credential_id = data.get_service_account_credential_id()
     right_now = str(int(time.time()))
+    etag = "HcQ77D8CUWV"
     bookmark = "RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"
 
     def mocked_delete_service_account_credential(request: pb2.DeleteServiceAccountCredentialRequest):
         return bookmark
 
     client.stub.DeleteServiceAccountCredential = mocked_delete_service_account_credential
-    response = client.delete_service_account_credential(service_account_credential_id, [] )
+    response = client.delete_service_account_credential(service_account_credential_id, etag, [])
     captured = capsys.readouterr()
     # assert "method DeleteDocument not implemented"
     assert response is not None
@@ -187,7 +188,8 @@ def test_del_service_account_wrong_service_account_id(capsys):
     assert client is not None
 
     service_account_credential_id = data.get_service_account_id()
-    response = client.delete_service_account_credential(service_account_credential_id, [] )
+    etag = "HcQ77D8CUWV"
+    response = client.delete_service_account_credential(service_account_credential_id, etag, [] )
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -197,11 +199,11 @@ def test_del_service_account_empty():
     assert client is not None
 
     id = "gid:AAAAAjLRnbbaJE53rrjm_NJXyO"
-
+    etag = "HcQ77D8CUWV"
     def mocked_delete_service_account_credential(request: pb2.DeleteServiceAccountRequest):
         return None
 
     client.stub.DeleteServiceAccountCredential = mocked_delete_service_account_credential
-    response = client.delete_service_account_credential(id, [])
+    response = client.delete_service_account_credential(id, etag, [])
 
     assert response is None

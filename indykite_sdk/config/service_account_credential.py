@@ -1,12 +1,13 @@
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.service_account_credential import ServiceAccountCredential
 from indykite_sdk.model.register_service_account_credential import RegisterServiceAccountCredential
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from google.protobuf.timestamp_pb2 import Timestamp
 import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_service_account_credential(self, service_account_credential_id):
+def read_service_account_credential(self, service_account_credential_id):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadServiceAccountCredential(
@@ -63,12 +64,14 @@ def register_service_account_credential_pem(self, service_account_id, display_na
     return RegisterServiceAccountCredential.deserialize(response)
 
 
-def delete_service_account_credential(self, service_account_credential_id, bookmarks):
+def delete_service_account_credential(self, service_account_credential_id, etag, bookmarks):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.DeleteServiceAccountCredential(
             pb2.DeleteServiceAccountCredentialRequest(
-                id=service_account_credential_id, bookmarks=bookmarks
+                id=service_account_credential_id,
+                etag=wrappers.StringValue(value=etag),
+                bookmarks=bookmarks
             )
         )
     except Exception as exception:

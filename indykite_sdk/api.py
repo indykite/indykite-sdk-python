@@ -15,6 +15,7 @@ from indykite_sdk.utils.hash_methods import encrypt_bcrypt
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.authorization import AuthorizationClient
+from indykite_sdk.ingest import IngestClient
 from indykite_sdk.oauth2 import HttpClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig, AuthorizationPolicyConfig )
@@ -26,8 +27,11 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_d
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIdentity
 from indykite_sdk.model.is_authorized import IsAuthorizedResource
 from indykite_sdk.model.what_authorized import WhatAuthorizedResourceTypes
+from indykite_sdk.model.who_authorized import WhoAuthorizedResource
 from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
+from indykite_sdk.indykite.objects.v1beta1 import struct_pb2
+from indykite_sdk.indykite.ingest.v1beta1.model_pb2 import Record
 from indykite_sdk.identity import helper
 import logging
 
@@ -342,6 +346,7 @@ Property ID and value of the property where the value is a reference
     delete_service_account_credential_parser = subparsers.add_parser("delete_service_account_credential")
     delete_service_account_credential_parser.add_argument("service_account_credential_id",
                                                           help="Service account credential id")
+    delete_service_account_credential_parser.add_argument("etag", nargs='?', help="Optional Etag")
 
     # create_email_service_config_node
     create_email_service_config_node_parser = subparsers.add_parser("create_email_service_config_node")
@@ -528,6 +533,9 @@ Property ID and value of the property where the value is a reference
     what_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
     what_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
 
+    # who_authorized
+    who_authorized_parser = subparsers.add_parser("who_authorized")
+
     # create_consent
     create_consent_parser = subparsers.add_parser("create_consent")
     create_consent_parser.add_argument("pii_processor_id", help="ID of OAuth2 Application")
@@ -601,11 +609,16 @@ Property ID and value of the property where the value is a reference
     # get_refreshable_token_source
     get_refreshable_token_source = subparsers.add_parser("get_refreshable_token_source")
 
+    # record
+    record_parser = subparsers.add_parser("record")
+    record_parser.add_argument("config_id", help="gid ID of ingest mapping config node")
+
     args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
     client_config = ConfigClient(local)
     client_authorization = AuthorizationClient(local)
+    client_ingest = IngestClient(local)
 
     command = args.command
 
@@ -745,7 +758,7 @@ Property ID and value of the property where the value is a reference
     elif command == "customer_id":
 
         try:
-            service_account = client_config.get_service_account()
+            service_account = client_config.read_service_account()
         except Exception as exception:
             print(exception)
             return None
@@ -767,7 +780,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "service_account":
 
-        service_account = client_config.get_service_account()
+        service_account = client_config.read_service_account()
         if service_account:
             print_response(service_account)
         else:
@@ -1098,7 +1111,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "service_account_id":
         service_account_id = args.service_account_id
-        service_account = client_config.get_service_account(service_account_id)
+        service_account = client_config.read_service_account(service_account_id)
         if service_account:
             print_response(service_account)
         else:
@@ -1107,7 +1120,7 @@ Property ID and value of the property where the value is a reference
     elif command == "service_account_name":
         customer_id = args.customer_id
         service_account_name = args.service_account_name
-        service_account = client_config.get_service_account_by_name(customer_id, service_account_name)
+        service_account = client_config.read_service_account_by_name(customer_id, service_account_name)
         if service_account:
             print_response(service_account)
         else:
@@ -1152,7 +1165,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "service_account_credential":
         service_account_credential_id = args.service_account_credential_id
-        service_account_credential = client_config.get_service_account_credential(service_account_credential_id)
+        service_account_credential = client_config.read_service_account_credential(service_account_credential_id)
         if service_account_credential:
             print_response(service_account_credential)
         else:
@@ -1192,8 +1205,16 @@ Property ID and value of the property where the value is a reference
 
     elif command == "delete_service_account_credential":
         service_account_credential_id = args.service_account_credential_id
+        if args.etag:
+            etag = args.etag
+        else:
+            etag = None
 
-        delete_service_account_credential_response = client_config.delete_service_account_credential(service_account_credential_id, [])
+        delete_service_account_credential_response = client_config.delete_service_account_credential(
+            service_account_credential_id,
+            etag,
+            []
+        )
         if delete_service_account_credential_response:
             print(delete_service_account_credential_response)
         else:
@@ -1427,6 +1448,33 @@ Property ID and value of the property where the value is a reference
                         direction="DIRECTION_INBOUND",
                         match_label="Mothers")]
                 )]
+            )
+        )
+
+        ingest_mapping_config = IngestMappingConfig(
+            upsert=IngestMappingConfig.UpsertData(
+                entities=[IngestMappingConfig.Entity(
+                    tenant_id="gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0",
+                    labels=["DigitalTwin", "Person"],
+                    external_id=IngestMappingConfig.Property(
+                        source_name="email",
+                        mapped_name="email",
+                        is_required=True),
+                    relationships=[IngestMappingConfig.Relationship(
+                        external_id="email",
+                        type="OWNS",
+                        direction="DIRECTION_INBOUND",
+                        match_label="Cars")]
+                ),
+                    IngestMappingConfig.Entity(
+                        tenant_id="gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0",
+                        labels=["Resource", "Car"],
+                        external_id=IngestMappingConfig.Property(
+                            source_name="number",
+                            mapped_name="number",
+                            is_required=True)
+                    )
+                ]
             )
         )
 
@@ -1765,7 +1813,7 @@ Property ID and value of the property where the value is a reference
             state="DIGITAL_TWIN_STATE_ACTIVE",
             password=PasswordCredential(
                 email=EmailIdentity(
-                    email="test2105@example.com",
+                    email="test2108@example.com",
                     verified=True
                 ),
                 value="password"
@@ -1777,7 +1825,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2106@example.com",
+                        email="test2109@example.com",
                         verified=True
                     ),
                     value="password"
@@ -1789,7 +1837,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2107@example.com",
+                        email="test2110@example.com",
                         verified=True
                     ),
                     value="password"
@@ -1974,6 +2022,19 @@ Property ID and value of the property where the value is a reference
             print("Invalid what_authorized")
         return what_authorized
 
+    elif command == "who_authorized":
+        actions = ["ACTION1", "ACTION2"]
+        resources = [WhoAuthorizedResource("resourceID", "TypeName", actions),
+                     WhoAuthorizedResource("resource2ID", "TypeName", actions)]
+        options = {"age": "21"}
+        who_authorized = client_authorization.who_authorized(resources, options)
+
+        if who_authorized:
+            print_response(who_authorized)
+        else:
+            print("Invalid who_authorized")
+        return who_authorized
+
     elif command == "create_consent":
         pii_processor_id = args.pii_processor_id
         pii_principal_id = args.pii_principal_id
@@ -2156,6 +2217,18 @@ Property ID and value of the property where the value is a reference
         credentials = client_http.get_credentials()
         response = client_http.get_refreshable_token_source(token_source, credentials)
         access_token_bytes = response.token.access_token
+
+    elif command == "record":
+        config_id = args.config_id
+        record_data = {
+            "number": struct_pb2.Value(string_value="126"),
+            "model": struct_pb2.Value(string_value="Civic"),
+            "owner": struct_pb2.Value(string_value="test2108@example.com")
+        }
+        record = Record(id="3", external_id="number", data=record_data)
+
+        response = client_ingest.stream_records(config_id, [record])
+        print(response)
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
