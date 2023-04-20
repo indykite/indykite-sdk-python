@@ -12,8 +12,10 @@ class AuthorizationPolicyConfig:
             policy=json.loads(message_config.policy)
         )
         if "status" in fields:
-            authorization_policy_config.status = \
-                Status[message_config.status].name
+            for status in Status:
+                if status.value == message_config.status:
+                    authorization_policy_config.status = \
+                        status.name
         if "tags" in fields:
             authorization_policy_config.tags = [
                 str(t)
