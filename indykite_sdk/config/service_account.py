@@ -8,7 +8,7 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_service_account(self,service_account=None):
+def read_service_account(self,service_account=None):
     sys.excepthook = logger.handle_excepthook
     try:
         if service_account:
@@ -38,7 +38,7 @@ def get_service_account(self,service_account=None):
     return service_account
 
 
-def get_service_account_by_name(self, customer_id, service_account_name):
+def read_service_account_by_name(self, customer_id, service_account_name):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadServiceAccount(

@@ -52,14 +52,14 @@ class ConfigClient(object):
 
     # Imported methods
     from .customer import get_customer_by_id, get_customer_by_name
-    from .service_account import get_service_account, get_service_account_by_name, create_service_account, update_service_account, delete_service_account
+    from .service_account import read_service_account, read_service_account_by_name, create_service_account, update_service_account, delete_service_account
     from .app_space import get_app_space_by_id, get_app_space_by_name, create_app_space, update_app_space, list_app_spaces, delete_app_space
     from .tenant import get_tenant_by_id, get_tenant_by_name, create_tenant, update_tenant, list_tenants, delete_tenant
     from .application import get_application_by_id, get_application_by_name, create_application, update_application, list_applications, delete_application
     from .application_agent import get_application_agent_by_id, get_application_agent_by_name, create_application_agent, update_application_agent, \
         list_application_agents, delete_application_agent
     from .application_agent_credential import get_application_agent_credential, register_application_agent_credential_jwk, register_application_agent_credential_pem, delete_application_agent_credential
-    from .service_account_credential import get_service_account_credential, register_service_account_credential_jwk, register_service_account_credential_pem, delete_service_account_credential
+    from .service_account_credential import read_service_account_credential, register_service_account_credential_jwk, register_service_account_credential_pem, delete_service_account_credential
     from .config_node import create_email_service_config_node, read_config_node, update_email_service_config_node, delete_config_node, create_auth_flow_config_node, update_auth_flow_config_node, \
         create_oauth2_client_config_node, update_oauth2_client_config_node, create_ingest_mapping_config_node, update_ingest_mapping_config_node, \
         create_webauthn_provider_config_node, update_webauthn_provider_config_node, \
