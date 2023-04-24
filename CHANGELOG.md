@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.20.0](https://github.com/indykite/indykite-sdk-python/compare/v1.19.0...v1.20.0) (2023-04-24)
+
+
+### Features
+
+* add create app with appagent cred ([c76bc37](https://github.com/indykite/indykite-sdk-python/commit/c76bc37ae61203ee23883bfb18baf82a167f6b12))
+* add who authorized ([91976f7](https://github.com/indykite/indykite-sdk-python/commit/91976f71c1aa53f47fe2043191f4db4ea5cba6a9))
+* change status due to reverse value ([cfb6051](https://github.com/indykite/indykite-sdk-python/commit/cfb6051d7a80a5f5dd78e43d5e431aab4fe720ae))
+* change status due to reverse value ([17779bb](https://github.com/indykite/indykite-sdk-python/commit/17779bbc21205d540b31f8a4b3f992e0e79d3791))
+
 ## [1.19.0](https://github.com/indykite/indykite-sdk-python/compare/v1.18.0...v1.19.0) (2023-04-18)
 
 
