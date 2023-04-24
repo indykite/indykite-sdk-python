@@ -12,10 +12,10 @@ class AuthorizationPolicyConfig:
             policy=json.loads(message_config.policy)
         )
         if "status" in fields:
-            for status in Status:
-                if status.value == message_config.status:
-                    authorization_policy_config.status = \
-                        status.name
+            statuses = [s.value for s in Status]
+            if message_config.status and message_config.status not in statuses:
+                raise TypeError("status must be a member of AuthorizationPolicyConfig.Status")
+            authorization_policy_config.status = message_config.status
         if "tags" in fields:
             authorization_policy_config.tags = [
                 str(t)
