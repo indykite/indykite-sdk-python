@@ -57,7 +57,7 @@ def create_application_agent(self, application_id, name, display_name, descripti
     if not response:
         return None
 
-    return CreateApplicationAgent.deserialize(response)
+    return CreateApplicationAgent.deserialize(response, application_id, name)
 
 
 def update_application_agent(self, application_agent_id, etag, display_name, description="", bookmarks=[]):
