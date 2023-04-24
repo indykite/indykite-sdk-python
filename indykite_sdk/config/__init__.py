@@ -67,5 +67,6 @@ class ConfigClient(object):
     from .oauth2_provider import create_oauth2_provider, read_oauth2_provider, update_oauth2_provider, delete_oauth2_provider
     from .oauth2_application import create_oauth2_application, read_oauth2_application, update_oauth2_application, \
         delete_oauth2_application
+    from .create_application_with_agent_credentials import create_application_with_agent_credentials
 
 

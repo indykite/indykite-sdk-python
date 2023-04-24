@@ -57,7 +57,7 @@ def create_application(self, app_space_id, name, display_name, description="", b
     if not response:
         return None
 
-    return CreateApplication.deserialize(response)
+    return CreateApplication.deserialize(response, app_space_id, name)
 
 
 def update_application(self, application_id, etag, display_name, description="", bookmarks=[]):

@@ -3,12 +3,14 @@ from indykite_sdk.utils import timestamp_to_date
 
 class CreateApplication:
     @classmethod
-    def deserialize(cls, message):
+    def deserialize(cls, message, app_space_id, name):
         if message is None:
             return None
 
         create_application = CreateApplication(
             str(message.id),
+            str(app_space_id),
+            str(name),
             timestamp_to_date(message.create_time),
             timestamp_to_date(message.update_time),
             str(message.etag),
@@ -17,8 +19,10 @@ class CreateApplication:
 
         return create_application
 
-    def __init__(self, id, create_time, update_time, etag, bookmark):
+    def __init__(self, id, app_space_id, name, create_time, update_time, etag, bookmark):
         self.id = id
+        self.app_space_id = app_space_id
+        self.name = name
         self.create_time = create_time
         self.update_time = update_time
         self.etag = etag

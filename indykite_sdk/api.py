@@ -301,6 +301,15 @@ Property ID and value of the property where the value is a reference
     delete_application_agent_credential_parser = subparsers.add_parser("delete_application_agent_credential")
     delete_application_agent_credential_parser.add_argument("application_agent_credential_id", help="Application agent credential id")
 
+    # create_application_with_agent_credentials
+    create_application_with_agent_credentials_parser = subparsers.add_parser("create_application_with_agent_credentials")
+    create_application_with_agent_credentials_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
+    create_application_with_agent_credentials_parser.add_argument("tenant_id", help="Tenant Id (gid)")
+    create_application_with_agent_credentials_parser.add_argument("application_name", help="Application name")
+    create_application_with_agent_credentials_parser.add_argument("application_agent_name", help="Application Agent Name")
+    create_application_with_agent_credentials_parser.add_argument("application_agent_credentials_name", help="Application Agent Credentials Name")
+    create_application_with_agent_credentials_parser.add_argument("public_key_type", help="Key type: jwk or pem")
+
     # service_account_id
     service_account_id_parser = subparsers.add_parser("service_account_id")
     service_account_id_parser.add_argument("service_account_id", help="Service account id (gid)")
@@ -1108,6 +1117,34 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid delete_application_agent_credential_response response")
         return delete_application_agent_credential_response
+
+    elif command == "create_application_with_agent_credentials":
+        # example public key
+        public_key = {
+            "kty": "EC",
+            "use": "sig",
+            "crv": "P-256",
+            "x": "INNm_kk3mHAJE5gs_quJUsE5meEFX7oOsWZQtm0NrYI",
+            "y": "yzpgNRuGDAHbnqayGCcA60UxGkuqCYfm2JWglHlGSC4",
+            "alg": "ES256"
+        }
+        public_key_encoded = json.dumps(public_key, indent=2).encode('utf-8')
+        create_application_with_agent_credentials_response = client_config.create_application_with_agent_credentials(
+            args.app_space_id,
+            args.tenant_id,
+            args.application_name,
+            args.application_agent_name,
+            args.application_agent_credentials_name,
+            args.public_key_type,
+            public_key=public_key_encoded,
+            expire_time=None)
+        if create_application_with_agent_credentials_response:
+            print_response(create_application_with_agent_credentials_response["response_application"])
+            print_response(create_application_with_agent_credentials_response["response_application_agent"])
+            print_credential(create_application_with_agent_credentials_response["response_application_agent_credentials"])
+        else:
+            print("Invalid create_application_with_agent_credentials_response")
+        return create_application_with_agent_credentials_response
 
     elif command == "service_account_id":
         service_account_id = args.service_account_id
