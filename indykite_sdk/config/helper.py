@@ -123,7 +123,7 @@ def change_display_to_name(display):
         if s[i] == ' ':
             s.replace(s[i], '-')
     s = re.sub(r"[^a-z0-9-]+", "-", s)
-    return s
+    return s[:62]
 
 
 def remove_accent_chars_regex(x: str):

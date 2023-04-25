@@ -10,8 +10,8 @@ def test_who_authorized_wrong(capsys):
     actions = [12, 13]
     resources = [WhoAuthorizedResource("resourceID", "TypeName", actions),
                  WhoAuthorizedResource("resource2ID", "TypeName", actions)]
-    options = {}
-    response = client.who_authorized(resources, options)
+    input_params = {}
+    response = client.who_authorized(resources, input_params, [])
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
@@ -23,8 +23,9 @@ def test_who_authorized_success():
     actions = ["ACTION1", "ACTION2"]
     resources = [WhoAuthorizedResource("resourceID", "TypeName", actions),
                  WhoAuthorizedResource("resource2ID", "TypeName", actions)]
-    options = {"age": "21"}
-    response = client.who_authorized(resources, options)
+    input_params = {"age": "21"}
+    policy_tags = ["Car", "Rental", "Sharing"]
+    response = client.who_authorized(resources, input_params, policy_tags)
     assert response is not None
     assert isinstance(response, WhoAuthorizedResponse)
 
@@ -35,11 +36,11 @@ def test_who_authorized_empty():
 
     actions = ["ACTION1", "ACTION2"]
     resources = [WhoAuthorizedResource("resourceID", "TypeName", actions), WhoAuthorizedResource("resource2ID", "TypeName", actions)]
-    options = {}
+    input_params = {}
 
     def mocked_who_authorized(request: pb2.WhoAuthorizedRequest):
         return None
 
     client.stub.WhoAuthorized = mocked_who_authorized
-    response = client.who_authorized(resources, options)
+    response = client.who_authorized(resources, input_params, [])
     assert response is None

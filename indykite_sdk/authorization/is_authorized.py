@@ -8,7 +8,7 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def is_authorized_digital_twin(self, digital_twin_id, tenant_id, resources=[], options={}):
+def is_authorized_digital_twin(self, digital_twin_id, tenant_id, resources=[], input_params={}, policy_tags=[]):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.IsAuthorized(
@@ -22,7 +22,8 @@ def is_authorized_digital_twin(self, digital_twin_id, tenant_id, resources=[], o
                     )
                 ),
                 resources=request_resource(resources),
-                options=request_options(options)
+                input_params=request_input_params(input_params),
+                policy_tags=policy_tags
             )
         )
     except Exception as exception:
@@ -34,7 +35,7 @@ def is_authorized_digital_twin(self, digital_twin_id, tenant_id, resources=[], o
     return IsAuthorizedResponse.deserialize(response)
 
 
-def is_authorized_token(self, access_token, resources=[], options={}):
+def is_authorized_token(self, access_token, resources=[], input_params={}, policy_tags=[]):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.IsAuthorized(
@@ -45,7 +46,8 @@ def is_authorized_token(self, access_token, resources=[], options={}):
                     )
                 ),
                 resources=request_resource(resources),
-                options=request_options(options)
+                input_params=request_input_params(input_params),
+                policy_tags=policy_tags
             )
         )
     except Exception as exception:
@@ -57,7 +59,7 @@ def is_authorized_token(self, access_token, resources=[], options={}):
     return IsAuthorizedResponse.deserialize(response)
 
 
-def is_authorized_property_filter(self, type_filter, value, resources=[], options={}):
+def is_authorized_property_filter(self, type_filter, value, resources=[], input_params={}, policy_tags=[]):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.IsAuthorized(
@@ -71,7 +73,8 @@ def is_authorized_property_filter(self, type_filter, value, resources=[], option
                     )
                 ),
                 resources=request_resource(resources),
-                options=request_options(options)
+                input_params=request_input_params(input_params),
+                policy_tags=policy_tags
             )
         )
     except Exception as exception:
@@ -90,10 +93,10 @@ def request_resource(resources):
     ]
 
 
-def request_options(options):
-    options_dict = {
-        k: pb2_model.Option(string_value=str(v))
-        for k, v in options.items()
+def request_input_params(input_params):
+    input_params_dict = {
+        k: pb2_model.InputParam(string_value=str(v))
+        for k, v in input_params.items()
     }
-    return options_dict
+    return input_params_dict
 

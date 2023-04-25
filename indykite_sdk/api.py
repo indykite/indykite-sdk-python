@@ -1978,8 +1978,14 @@ Property ID and value of the property where the value is a reference
         actions = ["ACTION1", "ACTION2"]
         resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
-        options = {"age": "21"}
-        is_authorized = client_authorization.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, options)
+        input_params = {"age": "21"}
+        policy_tags = ["Car", "Rental", "Sharing"]
+        is_authorized = client_authorization.is_authorized_digital_twin(
+            digital_twin_id,
+            tenant_id,
+            resources,
+            input_params,
+            policy_tags)
 
         if is_authorized:
             print_response(is_authorized)
@@ -1992,8 +1998,8 @@ Property ID and value of the property where the value is a reference
         actions = ["ACTION1", "ACTION2"]
         resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
-        options = {}
-        is_authorized = client_authorization.is_authorized_token(access_token, resources, options)
+        input_params = {}
+        is_authorized = client_authorization.is_authorized_token(access_token, resources, input_params, [])
         if is_authorized:
             print_response(is_authorized)
         else:
@@ -2006,9 +2012,13 @@ Property ID and value of the property where the value is a reference
         actions = ["ACTION1", "ACTION2"]
         resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
-        options = {"age":"21"}
-        is_authorized = client_authorization.is_authorized_property_filter(property_type, property_value,
-                                                                           resources=resources, options=options)
+        input_params = {"age":"21"}
+        is_authorized = client_authorization.is_authorized_property_filter(
+            property_type,
+            property_value,
+            resources,
+            input_params,
+            [])
         if is_authorized:
             print_response(is_authorized)
         else:
@@ -2021,8 +2031,14 @@ Property ID and value of the property where the value is a reference
         actions = ["ACTION1", "ACTION2"]
         resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-        options = {"age": "21"}
-        what_authorized = client_authorization.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, options)
+        input_params = {"age": "21"}
+        policy_tags = ["Car", "Rental", "Sharing"]
+        what_authorized = client_authorization.what_authorized_digital_twin(
+            digital_twin_id,
+            tenant_id,
+            resource_types,
+            input_params,
+            policy_tags)
 
         if what_authorized:
             print_response(what_authorized)
@@ -2035,8 +2051,8 @@ Property ID and value of the property where the value is a reference
         actions = ["ACTION1", "ACTION2"]
         resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-        options = {}
-        what_authorized = client_authorization.what_authorized_token(access_token, resource_types, options)
+        input_params = {}
+        what_authorized = client_authorization.what_authorized_token(access_token, resource_types, input_params, [])
         if what_authorized:
             print_response(what_authorized)
         else:
@@ -2049,10 +2065,13 @@ Property ID and value of the property where the value is a reference
         actions = ["ACTION1", "ACTION2"]
         resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-        options = {"age":"21"}
-        what_authorized = client_authorization.what_authorized_property_filter(property_type, property_value,
-                                                                               resource_types=resource_types,
-                                                                               options=options)
+        input_params = {"age":"21"}
+        what_authorized = client_authorization.what_authorized_property_filter(
+            property_type,
+            property_value,
+            resource_types,
+            input_params,
+            [])
         if what_authorized:
             print_response(what_authorized)
         else:
@@ -2063,8 +2082,12 @@ Property ID and value of the property where the value is a reference
         actions = ["ACTION1", "ACTION2"]
         resources = [WhoAuthorizedResource("resourceID", "TypeName", actions),
                      WhoAuthorizedResource("resource2ID", "TypeName", actions)]
-        options = {"age": "21"}
-        who_authorized = client_authorization.who_authorized(resources, options)
+        input_params = {"age": "21"}
+        policy_tags = ["Car", "Rental", "Sharing"]
+        who_authorized = client_authorization.who_authorized(
+            resources,
+            input_params,
+            policy_tags)
 
         if who_authorized:
             print_response(who_authorized)

@@ -16,8 +16,8 @@ def test_what_authorized_token_wrong_token(capsys):
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {}
-    response = client.what_authorized_token(access_token, resource_types, options)
+    input_params = {}
+    response = client.what_authorized_token(access_token, resource_types, input_params, [])
     captured = capsys.readouterr()
     assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
@@ -30,7 +30,7 @@ def test_what_authorized_token_empty():
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {}
+    input_params = {}
     res = [
         pb2.WhatAuthorizedRequest.ResourceType(type=r.type, actions=list(r.actions))
         for r in resource_types
@@ -45,7 +45,7 @@ def test_what_authorized_token_empty():
         assert request.subject == subject
         return None
     client.stub.WhatAuthorized = mocked_what_authorized
-    response = client.what_authorized_token(access_token, resource_types, options)
+    response = client.what_authorized_token(access_token, resource_types, input_params, [])
     assert response is None
 
 
@@ -57,7 +57,7 @@ def test_what_authorized_token_success():
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {}
+    input_params = {}
     res = [
         pb2.WhatAuthorizedRequest.ResourceType(type=r.type, actions=list(r.actions))
         for r in resource_types
@@ -73,7 +73,7 @@ def test_what_authorized_token_success():
         return pb2.WhatAuthorizedResponse
 
     client.stub.WhatAuthorized = mocked_what_authorized
-    response = client.what_authorized_token(token, resource_types, options)
+    response = client.what_authorized_token(token, resource_types, input_params, [])
     assert response is not None
 
 
@@ -86,8 +86,8 @@ def test_what_authorized_dt_wrong_dt(capsys):
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {}
-    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, options)
+    input_params = {}
+    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, input_params, [])
     captured = capsys.readouterr()
     assert "id is not valid DigitalTwin identifier" in captured.err
 
@@ -101,8 +101,9 @@ def test_what_authorized_dt_success():
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {"age": "21"}
-    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, options)
+    input_params = {"age": "21"}
+    policy_tags = ["Car", "Rental", "Sharing"]
+    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, input_params, policy_tags)
     assert response is not None
     assert isinstance(response, WhatAuthorizedResponse)
 
@@ -116,7 +117,7 @@ def test_what_authorized_dt_empty():
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {}
+    input_params = {}
     subject = pb2_model.Subject(
         digital_twin_identifier=model.DigitalTwinIdentifier(
             digital_twin=model.DigitalTwin(
@@ -131,7 +132,7 @@ def test_what_authorized_dt_empty():
         return None
 
     client.stub.WhatAuthorized = mocked_what_authorized
-    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, options)
+    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, input_params, [])
     assert response is None
 
 
@@ -144,8 +145,8 @@ def test_what_authorized_property_wrong_property(capsys):
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {}
-    response = client.what_authorized_property_filter(type_filter, email_value, resource_types, options)
+    input_params = {}
+    response = client.what_authorized_property_filter(type_filter, email_value, resource_types, input_params, [])
     captured = capsys.readouterr()
     assert "digital_twin was not found" in captured.err
 
@@ -159,8 +160,8 @@ def test_what_authorized_property_success():
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {}
-    response = client.what_authorized_property_filter(type_filter, email_value, resource_types, options)
+    input_params = {}
+    response = client.what_authorized_property_filter(type_filter, email_value, resource_types, input_params, [])
     assert response is not None
     assert isinstance(response, WhatAuthorizedResponse)
 
@@ -174,7 +175,7 @@ def test_what_authorized_property_empty():
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-    options = {}
+    input_params = {}
     subject = pb2_model.Subject(
         digital_twin_identifier=model.DigitalTwinIdentifier(
             property_filter=attributes.PropertyFilter(
@@ -189,5 +190,5 @@ def test_what_authorized_property_empty():
         return None
 
     client.stub.WhatAuthorized = mocked_what_authorized
-    response = client.what_authorized_property_filter(type_filter, email_value, resource_types, options)
+    response = client.what_authorized_property_filter(type_filter, email_value, resource_types, input_params, [])
     assert response is None

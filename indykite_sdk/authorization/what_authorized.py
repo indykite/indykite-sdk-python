@@ -8,7 +8,7 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def what_authorized_digital_twin(self, digital_twin_id, tenant_id, resource_types=[], options={}):
+def what_authorized_digital_twin(self, digital_twin_id, tenant_id, resource_types=[], input_params={}, policy_tags=[]):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.WhatAuthorized(
@@ -22,7 +22,8 @@ def what_authorized_digital_twin(self, digital_twin_id, tenant_id, resource_type
                     )
                 ),
                 resource_types=request_resource_type(resource_types),
-                options=request_options(options)
+                input_params=request_input_params(input_params),
+                policy_tags=policy_tags
             )
         )
         if not response:
@@ -32,7 +33,7 @@ def what_authorized_digital_twin(self, digital_twin_id, tenant_id, resource_type
         return logger.logger_error(exception)
 
 
-def what_authorized_token(self, access_token, resource_types=[], options={}):
+def what_authorized_token(self, access_token, resource_types=[], input_params={}, policy_tags=[]):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.WhatAuthorized(
@@ -43,7 +44,8 @@ def what_authorized_token(self, access_token, resource_types=[], options={}):
                     )
                 ),
                 resource_types=request_resource_type(resource_types),
-                options=request_options(options)
+                input_params=request_input_params(input_params),
+                policy_tags=policy_tags
             )
         )
         if not response:
@@ -53,7 +55,7 @@ def what_authorized_token(self, access_token, resource_types=[], options={}):
         return logger.logger_error(exception)
 
 
-def what_authorized_property_filter(self, type_filter, value, resource_types=[], options={}):
+def what_authorized_property_filter(self, type_filter, value, resource_types=[], input_params={}, policy_tags=[]):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.WhatAuthorized(
@@ -67,7 +69,8 @@ def what_authorized_property_filter(self, type_filter, value, resource_types=[],
                     )
                 ),
                 resource_types=request_resource_type(resource_types),
-                options=request_options(options)
+                input_params=request_input_params(input_params),
+                policy_tags=policy_tags
             )
         )
         if not response:
@@ -84,9 +87,9 @@ def request_resource_type(resource_types):
     ]
 
 
-def request_options(options):
-    options_dict = {
-        k: pb2_model.Option(string_value=str(v))
-        for k, v in options.items()
+def request_input_params(input_params):
+    input_params_dict = {
+        k: pb2_model.InputParam(string_value=str(v))
+        for k, v in input_params.items()
     }
-    return options_dict
+    return input_params_dict
