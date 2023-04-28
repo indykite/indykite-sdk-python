@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+connexion = {version = ">=2.6.0", extras = ["swagger-ui"]}
+swagger-ui-bundle = ">=0.0.4"
+python-dateutil = ">=2.6.0"
+indykite-sdk-python = {ref = "v1.20.0", git = "https://github.com/indykite/indykite-sdk-python"}
+python-jose = "3.3.0"
+gql = "3.4.0"
+requests = "2.28.2"
+requests-toolbelt = "2.1.0"
+flask = "2.3.1"
+markupsafe = "2.1.2"
+Werkzeug = "2.3.0"
+Flask-JWT-Extended = "4.4.4"
+Flask-Migrate = "4.0.4"
+Flask-SQLAlchemy = "3.0.3"
+SQLAlchemy = "2.0.10"
+pydantic = "1.10.7"
+email-validator = "2.0.0.post2"
+python-dotenv = "1.0.0"
+psycopg2-binary = "3.1.18"
+flask-openapi3 = "2.3.2"
+Flask-RQ2 = "18.3"
+rq = "1.13.0"
+redis = "4.5.4"
+
+[requires]
+python_version = "3.11"
