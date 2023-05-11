@@ -19,6 +19,7 @@ omit =
   indykite_sdk/utils/message_to_value.py
   indykite_sdk/utils/logger.py
   tests/*
+  examples/*
 
 [report]
 exclude_lines =

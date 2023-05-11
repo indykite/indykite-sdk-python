@@ -2079,11 +2079,10 @@ Property ID and value of the property where the value is a reference
         return what_authorized
 
     elif command == "who_authorized":
-        actions = ["ACTION1", "ACTION2"]
-        resources = [WhoAuthorizedResource("resourceID", "TypeName", actions),
-                     WhoAuthorizedResource("resource2ID", "TypeName", actions)]
-        input_params = {"age": "21"}
-        policy_tags = ["Car", "Rental", "Sharing"]
+        actions = ["HAS_FREE_PARKING"]
+        resources = [WhoAuthorizedResource("parking-lot-id1", "ParkingLot", actions)]
+        input_params = {}
+        policy_tags = []
         who_authorized = client_authorization.who_authorized(
             resources,
             input_params,
@@ -2267,7 +2266,7 @@ Property ID and value of the property where the value is a reference
         headers = {"Authorization": "Bearer "+access_token,
                    'Content-Type': 'application/json'}
         response_post = requests.post(endpoint, json=data, headers=headers)
-        # print(response_http2.token_source.token.access_token)
+        print(response_http2.token_source.token.access_token)
         if response_post.text is not None:
             print_response(response_post.text)
 
