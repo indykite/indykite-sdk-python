@@ -3,6 +3,7 @@ import string
 import random
 import requests
 from helpers import data
+from indykite_sdk.oauth2 import HttpClient
 
 
 def first_reg_request():
@@ -73,7 +74,7 @@ def second_login(thread_id, email, password):
 
 
 def send_post(body):
-    x = requests.post(data.get_url()+"/auth/"+data.get_application(), json=body)
+    x = requests.post(data.get_url()+"/auth/v2/"+data.get_application(), json=body)
     return x.json()
 
 
@@ -90,10 +91,10 @@ def send_token_verification(token):
 
 
 def registration(email, password):
-    resp = first_reg_request()
-    resp = second_reg_request(resp["~thread"]["thid"], email, password)
-    resp = verify_request(resp["~thread"]["thid"])
-    return resp["token"], resp["refresh_token"]
+    client_http = HttpClient()
+    response_http = client_http.get_http_client()
+    access_token = response_http.get_token()
+    return access_token, access_token
 
 
 def registration_with_email_verification(email, password):
