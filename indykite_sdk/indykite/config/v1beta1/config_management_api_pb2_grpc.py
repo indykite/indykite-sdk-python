@@ -245,6 +245,11 @@ class ConfigManagementAPIStub(object):
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListPermissionsRequest.SerializeToString,
                 response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListPermissionsResponse.FromString,
                 )
+        self.GetSchemaHelpers = channel.unary_unary(
+                '/indykite.config.v1beta1.ConfigManagementAPI/GetSchemaHelpers',
+                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.GetSchemaHelpersRequest.SerializeToString,
+                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.GetSchemaHelpersResponse.FromString,
+                )
 
 
 class ConfigManagementAPIServicer(object):
@@ -584,6 +589,13 @@ class ConfigManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetSchemaHelpers(self, request, context):
+        """GetSchemaHelpers for knowledge graph schema
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ConfigManagementAPIServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -816,6 +828,11 @@ def add_ConfigManagementAPIServicer_to_server(servicer, server):
                     servicer.ListPermissions,
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListPermissionsRequest.FromString,
                     response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListPermissionsResponse.SerializeToString,
+            ),
+            'GetSchemaHelpers': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSchemaHelpers,
+                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.GetSchemaHelpersRequest.FromString,
+                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.GetSchemaHelpersResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -1607,5 +1624,22 @@ class ConfigManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ListPermissions',
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListPermissionsRequest.SerializeToString,
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListPermissionsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSchemaHelpers(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/GetSchemaHelpers',
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.GetSchemaHelpersRequest.SerializeToString,
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.GetSchemaHelpersResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

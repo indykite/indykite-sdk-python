@@ -76,31 +76,6 @@ class IdentityManagementAPIStub(object):
                 request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.DeleteDigitalTwinRequest.SerializeToString,
                 response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.DeleteDigitalTwinResponse.FromString,
                 )
-        self.GetDocument = channel.unary_unary(
-                '/indykite.identity.v1beta2.IdentityManagementAPI/GetDocument',
-                request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.GetDocumentRequest.SerializeToString,
-                response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.GetDocumentResponse.FromString,
-                )
-        self.BatchGetDocuments = channel.unary_stream(
-                '/indykite.identity.v1beta2.IdentityManagementAPI/BatchGetDocuments',
-                request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.BatchGetDocumentsRequest.SerializeToString,
-                response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.BatchGetDocumentsResponse.FromString,
-                )
-        self.ListDocuments = channel.unary_unary(
-                '/indykite.identity.v1beta2.IdentityManagementAPI/ListDocuments',
-                request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.ListDocumentsRequest.SerializeToString,
-                response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.ListDocumentsResponse.FromString,
-                )
-        self.MutateDocuments = channel.unary_unary(
-                '/indykite.identity.v1beta2.IdentityManagementAPI/MutateDocuments',
-                request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.MutateDocumentsRequest.SerializeToString,
-                response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.MutateDocumentsResponse.FromString,
-                )
-        self.RunQuery = channel.unary_stream(
-                '/indykite.identity.v1beta2.IdentityManagementAPI/RunQuery',
-                request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.RunQueryRequest.SerializeToString,
-                response_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.RunQueryResponse.FromString,
-                )
         self.CheckOAuth2ConsentChallenge = channel.unary_unary(
                 '/indykite.identity.v1beta2.IdentityManagementAPI/CheckOAuth2ConsentChallenge',
                 request_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.CheckOAuth2ConsentChallengeRequest.SerializeToString,
@@ -301,51 +276,6 @@ class IdentityManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetDocument(self, request, context):
-        """GetDocument gets a single document.
-
-        This is a protected operation and it can be accessed only with valid agent credentials!
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def BatchGetDocuments(self, request, context):
-        """BatchGetDocuments gets multiple documents.
-
-        This is a protected operation and it can be accessed only with valid agent credentials!
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ListDocuments(self, request, context):
-        """ListDocuments lists documents.
-
-        This is a protected operation and it can be accessed only with valid agent credentials!
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def MutateDocuments(self, request, context):
-        """MutateDocuments in single transaction creates, updates and deletes the requested documents.
-
-        This is a protected operation and it can be accessed only with valid agent credentials!
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def RunQuery(self, request, context):
-        """RunQuery runs a query. NOT YET SUPPORTED!
-
-        This is a protected operation and it can be accessed only with valid agent credentials!
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def CheckOAuth2ConsentChallenge(self, request, context):
         """CheckOAuth2ConsentChallenge read the Consent Challenge from DB.
         """
@@ -516,31 +446,6 @@ def add_IdentityManagementAPIServicer_to_server(servicer, server):
                     servicer.DeleteDigitalTwin,
                     request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.DeleteDigitalTwinRequest.FromString,
                     response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.DeleteDigitalTwinResponse.SerializeToString,
-            ),
-            'GetDocument': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetDocument,
-                    request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.GetDocumentRequest.FromString,
-                    response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.GetDocumentResponse.SerializeToString,
-            ),
-            'BatchGetDocuments': grpc.unary_stream_rpc_method_handler(
-                    servicer.BatchGetDocuments,
-                    request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.BatchGetDocumentsRequest.FromString,
-                    response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.BatchGetDocumentsResponse.SerializeToString,
-            ),
-            'ListDocuments': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListDocuments,
-                    request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.ListDocumentsRequest.FromString,
-                    response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.ListDocumentsResponse.SerializeToString,
-            ),
-            'MutateDocuments': grpc.unary_unary_rpc_method_handler(
-                    servicer.MutateDocuments,
-                    request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.MutateDocumentsRequest.FromString,
-                    response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.MutateDocumentsResponse.SerializeToString,
-            ),
-            'RunQuery': grpc.unary_stream_rpc_method_handler(
-                    servicer.RunQuery,
-                    request_deserializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.RunQueryRequest.FromString,
-                    response_serializer=indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.RunQueryResponse.SerializeToString,
             ),
             'CheckOAuth2ConsentChallenge': grpc.unary_unary_rpc_method_handler(
                     servicer.CheckOAuth2ConsentChallenge,
@@ -829,91 +734,6 @@ class IdentityManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/DeleteDigitalTwin',
             indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.DeleteDigitalTwinRequest.SerializeToString,
             indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.DeleteDigitalTwinResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def GetDocument(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/GetDocument',
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.GetDocumentRequest.SerializeToString,
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.GetDocumentResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def BatchGetDocuments(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/BatchGetDocuments',
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.BatchGetDocumentsRequest.SerializeToString,
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.BatchGetDocumentsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def ListDocuments(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/ListDocuments',
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.ListDocumentsRequest.SerializeToString,
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.ListDocumentsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def MutateDocuments(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/MutateDocuments',
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.MutateDocumentsRequest.SerializeToString,
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.MutateDocumentsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def RunQuery(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/indykite.identity.v1beta2.IdentityManagementAPI/RunQuery',
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.RunQueryRequest.SerializeToString,
-            indykite_dot_identity_dot_v1beta2_dot_identity__management__api__pb2.RunQueryResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

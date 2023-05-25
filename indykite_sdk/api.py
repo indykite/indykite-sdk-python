@@ -32,6 +32,7 @@ from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2
 from indykite_sdk.indykite.ingest.v1beta1.model_pb2 import Record
+from indykite_sdk.ingestv2 import IngestClient as ingest_client_v2
 from indykite_sdk.identity import helper
 import logging
 
@@ -622,12 +623,23 @@ Property ID and value of the property where the value is a reference
     record_parser = subparsers.add_parser("record")
     record_parser.add_argument("config_id", help="gid ID of ingest mapping config node")
 
+    # ingest
+    ingest_record_digital_twin = subparsers.add_parser("ingest_record_digital_twin")
+    ingest_record_resource = subparsers.add_parser("ingest_record_resource")
+    ingest_record_relation = subparsers.add_parser("ingest_record_relation")
+    delete_record_relation_property = subparsers.add_parser("delete_record_relation_property")
+    delete_record_node_property = subparsers.add_parser("delete_record_node_property")
+    delete_record_relation = subparsers.add_parser("delete_record_relation")
+    delete_record_node = subparsers.add_parser("delete_record_node")
+    stream_records = subparsers.add_parser("stream_records")
+
     args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
     client_config = ConfigClient(local)
     client_authorization = AuthorizationClient(local)
     client_ingest = IngestClient(local)
+    client_ingest_v2 = ingest_client_v2(local)
 
     command = args.command
 
@@ -2288,6 +2300,154 @@ Property ID and value of the property where the value is a reference
 
         response = client_ingest.stream_records(config_id, [record])
         print(response)
+
+    elif command == "ingest_record_digital_twin":
+        record_id = "745898"
+        external_id = "external-dt-id3"
+        kind = "DIGITAL_TWIN_KIND_PERSON"
+        tenant_id = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
+        type = "CarOwner"
+        identity_property = client_ingest_v2.identity_property("customIdProp", "456")
+        identity_properties = [identity_property]
+        ingest_property = client_ingest_v2.ingest_property("customProp", "741")
+        properties = [ingest_property]
+        upsert = client_ingest_v2.upsert_data_node_digital_twin(
+                                      external_id,
+                                      type,
+                                      [],
+                                      tenant_id,
+                                      identity_properties,
+                                      properties)
+        ingest_record_digital_twin = client_ingest_v2.ingest_record_upsert(record_id, upsert)
+        if ingest_record_digital_twin:
+            print_response(ingest_record_digital_twin)
+        else:
+            print("Invalid upsert")
+        return ingest_record_digital_twin
+
+    elif command == "ingest_record_resource":
+        record_id = "745899"
+        external_id = "lot-1"
+        type = "ParkingLot"
+        ingest_property = client_ingest_v2.ingest_property("customProp", "9654")
+        properties = [ingest_property]
+        upsert = client_ingest_v2.upsert_data_node_resource(
+                                      external_id,
+                                      type,
+                                      [],
+                                      properties)
+        ingest_record_resource = client_ingest_v2.ingest_record_upsert(record_id, upsert)
+        if ingest_record_resource:
+            print_response(ingest_record_resource)
+        else:
+            print("Invalid upsert")
+        return ingest_record_resource
+
+    elif command == "ingest_record_relation":
+        record_id = "745890"
+        type = "CAN_USE"
+        source_match = client_ingest_v2.node_match("vehicle-1", "Vehicle")
+        target_match = client_ingest_v2.node_match("lot-1", "ParkingLot")
+        match = client_ingest_v2.relation_match(source_match, target_match, type)
+        ingest_property = client_ingest_v2.ingest_property("customProp", "8742")
+        properties = [ingest_property]
+        upsert = client_ingest_v2.upsert_data_relation(
+                                      match,
+                                      properties)
+        ingest_record_relation = client_ingest_v2.ingest_record_upsert(record_id, upsert)
+        if ingest_record_relation:
+            print_response(ingest_record_relation)
+        else:
+            print("Invalid upsert")
+        return ingest_record_relation
+
+    elif command == "delete_record_node":
+        record_id = "745890"
+        node = client_ingest_v2.node_match("vehicle-1", "Vehicle")
+        delete = client_ingest_v2.delete_data_node(node)
+        delete_record_node = client_ingest_v2.ingest_record_delete(id=record_id, delete=delete)
+        if delete_record_node:
+            print_response(delete_record_node)
+        else:
+            print("Invalid delete")
+        return delete_record_node
+
+    elif command == "delete_record_relation":
+        record_id = "745890"
+        type = "CAN_USE"
+        source_match = client_ingest_v2.node_match("vehicle-1", "Vehicle")
+        target_match = client_ingest_v2.node_match("lot-1", "ParkingLot")
+        relation = client_ingest_v2.relation_match(source_match, target_match, type)
+        delete = client_ingest_v2.delete_data_relation(relation)
+        delete_record_relation = client_ingest_v2.ingest_record_delete(id=record_id, delete=delete)
+        if delete_record_relation:
+            print_response(delete_record_relation)
+        else:
+            print("Invalid delete")
+        return delete_record_relation
+
+    elif command == "delete_record_node_property":
+        record_id = "745890"
+        match = client_ingest_v2.node_match("vehicle-1", "Vehicle")
+        key = "nodePropertyName"
+        node_property = client_ingest_v2.node_property_match(match, key)
+        delete = client_ingest_v2.delete_data_node_property(node_property)
+        delete_record_node_property = client_ingest_v2.ingest_record_delete(id=record_id, delete=delete)
+        if delete_record_node_property:
+            print_response(delete_record_node_property)
+        else:
+            print("Invalid delete")
+        return delete_record_node_property
+
+    elif command == "delete_record_relation_property":
+        record_id = "745890"
+        type = "CAN_USE"
+        source_match = client_ingest_v2.node_match("vehicle-1", "Vehicle")
+        target_match = client_ingest_v2.node_match("lot-1", "ParkingLot")
+        match = client_ingest_v2.relation_match(source_match, target_match, type)
+        key = "relationPropertyName"
+        relation_property = client_ingest_v2.relation_property_match(match, key)
+        delete = client_ingest_v2.delete_data_relation_property(relation_property)
+        delete_record_relation_property = client_ingest_v2.ingest_record_delete(id=record_id,
+                                                                                delete=delete)
+        if delete_record_relation_property:
+            print_response(delete_record_relation_property)
+        else:
+            print("Invalid delete")
+        return delete_record_relation_property
+
+    elif command == "stream_records":
+        record_id = "145898"
+        external_id = "external-dt-id1"
+        tenant_id = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
+        type = "Person"
+        upsert = client_ingest_v2.upsert_data_node_digital_twin(
+            external_id,
+            type,
+            [],
+            tenant_id,
+            [],
+            [])
+        record = client_ingest_v2.record_upsert(record_id, upsert)
+
+        record_id2 = "145899"
+        external_id = "lot-1"
+        type = "ParkingLot"
+        ingest_property = client_ingest_v2.ingest_property("customProp", "9654")
+        properties = [ingest_property]
+        upsert2 = client_ingest_v2.upsert_data_node_resource(
+            external_id,
+            type,
+            [],
+            properties)
+        record2 = client_ingest_v2.record_upsert(record_id2, upsert2)
+        responses = client_ingest_v2.stream_records([record, record2])
+        if responses:
+            for response in responses:
+                print_response(response)
+        else:
+            print("Invalid ingestion")
+        return response
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover
