@@ -57,7 +57,7 @@ def test_get_application_agent_by_name_wrong_name(capsys):
 
     response = client.get_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
-    assert("not found" in captured.err)
+    assert("NOT_FOUND" in captured.err)
 
 
 def test_get_application_agent_by_name_wrong_app_space_id(capsys):
@@ -70,7 +70,7 @@ def test_get_application_agent_by_name_wrong_app_space_id(capsys):
 
     response = client.get_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
-    assert("not found" in captured.err)
+    assert("NOT_FOUND" in captured.err)
 
 
 def test_get_application_agent_by_name_wrong_app_space_size(capsys):

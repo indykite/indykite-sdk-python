@@ -56,7 +56,7 @@ def test_get_app_space_by_name_wrong_name(capsys):
 
     response = client.get_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
-    assert ("not found" in captured.err)
+    assert ("NOT_FOUND" in captured.err)
 
 
 def test_get_app_space_by_name_wrong_customer_id(capsys):

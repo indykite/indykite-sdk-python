@@ -82,7 +82,7 @@ def test_create_application_with_agent_cred_no_expire_time(capsys):
 
     app_space_id = data.get_app_space_id()
     default_tenant_id = data.get_tenant_id()
-    right_now = int(time.time())
+    right_now = int(time.time() + 12365)
     application_name = "automation-application-"+str(right_now)
     application_agent_name = "automation-agent-"+str(right_now)
     application_agent_credentials_name = "automation-agent-cred-"+str(right_now)
