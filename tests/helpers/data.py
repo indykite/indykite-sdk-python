@@ -18,6 +18,7 @@ TENANT = "gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0"
 TENANT_EMAIL = "gid:AAAAA2luZHlraURlgAADDwAAAAI"
 DIGITAL_TWIN = "gid:AAAAFZVCTOBCHEPMgdvP44aZLbg"
 DIGITAL_TWIN_TEST = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
+DIGITAL_TWIN_CONSENT = "gid:AAAAFQQTyHL70kRJsvm0rnkDFKQ"
 CODE_VERIFIER = "AAAAAAAAAAEAAAAAAAAAAgAAAAAAAAADAAAAAAAAAAQ"
 CODE_CHALLENGE = "cjbADBcANsbeEzqHghDd1YVnqh0GGaD3D2njiub5Fuk"
 # this is changes, if test starts failing, check it!!!
@@ -46,9 +47,9 @@ AUTH_FLOW_CONFIG_NODE = "gid:AAAAB0Vg1IohjEV4uDLA_hFawKI"
 OAUTH2_CLIENT_CONFIG_NODE = "gid:AAAACtBSbo_Sf0XXpOzuoNfzMk8"
 INGEST_MAPPING_CONFIG_NODE = "gid:AAAAFLk0_fECVENquHrfZUTjaic"
 WEBAUTHN_PROVIDER_CONFIG_NODE = "gid:AAAADRcYFyi8IUUIv-P5IJwlXQ0"
-AUTHZ_POLICY_CONFIG_NODE = "gid:AAAAFpurKX4qjEbFqNQd8L3wEqk"
+AUTHZ_POLICY_CONFIG_NODE = "gid:AAAAFqlGrfMyt0Pnlo5uozu_4oM"
 OAUTH2_PROVIDER = "gid:AAAAEXX8LPjXo0bmvR1VWQEwrQI"
-OAUTH2_APPLICATION = "gid:AAAAC8hPU8pCTEblkvWJ4et0PG4"
+OAUTH2_APPLICATION = "gid:AAAAC5wPdP0VEUHqvLdEOwkVJCA"
 PASSWORD = "Password"
 NEW_PASSWORD = "Password1"
 BCRYPT = "$2y$10$k64jP7oqwYfQpzmoqAN5OuhrtWI2wICn0wXUzYxMp.UA1PopI653G"
@@ -97,6 +98,10 @@ def get_digital_twin():
 
 def get_digital_twin_test():
     return DIGITAL_TWIN_TEST
+
+
+def get_digital_twin_consent():
+    return DIGITAL_TWIN_CONSENT
 
 
 def get_url():
@@ -274,31 +279,6 @@ def get_oauth2_client():
         allowed_scopes=["openid", "profile", "email"]
     )
     return oauth2_client_config
-
-
-def get_ingest_mapping():
-    ingest_mapping_config = IngestMappingConfig(
-        upsert=IngestMappingConfig.UpsertData(
-            entities=[IngestMappingConfig.Entity(
-                tenant_id="gid:AAAAA9Q51FULGECVrvbfN0kUbSk",
-                labels=["DigitalTwin", "Client"],
-                external_id=IngestMappingConfig.Property(
-                    source_name="client",
-                    mapped_name="user",
-                    is_required=True),
-                properties=[IngestMappingConfig.Property(
-                    source_name="family",
-                    mapped_name="family",
-                    is_required=False)],
-                relationships=[IngestMappingConfig.Relationship(
-                    external_id="hetj4548484545f4",
-                    type="MOTHER_OF",
-                    direction="DIRECTION_INBOUND",
-                    match_label="Mothers")]
-            )]
-        )
-    )
-    return ingest_mapping_config
 
 
 def get_oauth2_provider():

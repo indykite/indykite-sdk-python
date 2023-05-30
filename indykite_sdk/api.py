@@ -1472,111 +1472,6 @@ Property ID and value of the property where the value is a reference
             print("Invalid update oauth2 client config node response")
         return update_oauth2_client_config_node_response
 
-    elif command == "create_ingest_mapping_config_node":
-        location = args.app_space_id
-        name = args.name
-        display_name = args.display_name
-        description = args.description
-
-        ingest_mapping_config=IngestMappingConfig(
-            upsert=IngestMappingConfig.UpsertData(
-                entities=[IngestMappingConfig.Entity(
-                    tenant_id="gid:AAAAA9Q51FULGECVrvbfN0kUbSk",
-                    labels=["DigitalTwin","Client"],
-                    external_id=IngestMappingConfig.Property(
-                        source_name="client",
-                        mapped_name="user",
-                        is_required=True),
-                    properties=[IngestMappingConfig.Property(
-                        source_name="family",
-                        mapped_name="family",
-                        is_required=False)],
-                    relationships=[IngestMappingConfig.Relationship(
-                        external_id="hetj4548484545f4",
-                        type="MOTHER_OF",
-                        direction="DIRECTION_INBOUND",
-                        match_label="Mothers")]
-                )]
-            )
-        )
-
-        ingest_mapping_config = IngestMappingConfig(
-            upsert=IngestMappingConfig.UpsertData(
-                entities=[IngestMappingConfig.Entity(
-                    tenant_id="gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0",
-                    labels=["DigitalTwin", "Person"],
-                    external_id=IngestMappingConfig.Property(
-                        source_name="email",
-                        mapped_name="email",
-                        is_required=True),
-                    relationships=[IngestMappingConfig.Relationship(
-                        external_id="email",
-                        type="OWNS",
-                        direction="DIRECTION_INBOUND",
-                        match_label="Cars")]
-                ),
-                    IngestMappingConfig.Entity(
-                        tenant_id="gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0",
-                        labels=["Resource", "Car"],
-                        external_id=IngestMappingConfig.Property(
-                            source_name="number",
-                            mapped_name="number",
-                            is_required=True)
-                    )
-                ]
-            )
-        )
-
-        create_ingest_mapping_config_node_response = client_config.create_ingest_mapping_config_node(
-            location, name, display_name, description, ingest_mapping_config, [])
-        if create_ingest_mapping_config_node_response:
-            print_response(create_ingest_mapping_config_node_response)
-        else:
-            print("Invalid create ingest mapping config node response")
-        return create_ingest_mapping_config_node_response
-
-    elif command == "update_ingest_mapping_config_node":
-        config_node_id = args.config_node_id
-        etag = args.etag
-        display_name = args.display_name
-        description = args.description
-
-        ingest_mapping_config = IngestMappingConfig(
-            upsert=IngestMappingConfig.UpsertData(
-                entities=[IngestMappingConfig.Entity(
-                    tenant_id="gid:AAAAA9Q51FULGECVrvbfN0kUbSk",
-                    labels=["DigitalTwin", "Client"],
-                    external_id=IngestMappingConfig.Property(
-                        source_name="client",
-                        mapped_name="user",
-                        is_required=True),
-                    properties=[IngestMappingConfig.Property(
-                        source_name="family",
-                        mapped_name="family",
-                        is_required=False)],
-                    relationships=[IngestMappingConfig.Relationship(
-                        external_id="hetj4548484545f4",
-                        type="MOTHER_OF",
-                        direction="DIRECTION_INBOUND",
-                        match_label="Mothers")]
-                )]
-            )
-        )
-
-        update_ingest_mapping_config_node_response = client_config.update_ingest_mapping_config_node(
-            config_node_id,
-            etag,
-            display_name,
-            description,
-            ingest_mapping_config,
-            [])
-
-        if update_ingest_mapping_config_node_response:
-            print_response(update_ingest_mapping_config_node_response)
-        else:
-            print("Invalid update ingest mapping config node response")
-        return update_ingest_mapping_config_node_response
-
     elif command == "create_webauthn_provider_config_node":
         location = args.app_space_id
         name = args.name
@@ -1862,7 +1757,7 @@ Property ID and value of the property where the value is a reference
             state="DIGITAL_TWIN_STATE_ACTIVE",
             password=PasswordCredential(
                 email=EmailIdentity(
-                    email="test2108@example.com",
+                    email="test2208@example.com",
                     verified=True
                 ),
                 value="password"
@@ -1874,7 +1769,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2109@example.com",
+                        email="test2209@example.com",
                         verified=True
                     ),
                     value="password"
@@ -1886,7 +1781,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2110@example.com",
+                        email="test2210@example.com",
                         verified=True
                     ),
                     value="password"
@@ -2120,12 +2015,13 @@ Property ID and value of the property where the value is a reference
     elif command == "list_consents":
         pii_principal_id = args.pii_principal_id
         consent_response = client.list_consents(pii_principal_id)
-        if consent_response:
-            for c in consent_response:
-                print_response(c)
-        else:
-            print("Invalid consent response")
-        return consent_response
+        print(consent_response)
+        #if consent_response:
+        #    for c in consent_response:
+        #        print_response(c)
+        #else:
+        #    print("Invalid consent response")
+        #return consent_response
 
     elif command == "revoke_consent":
         pii_principal_id = args.pii_principal_id
