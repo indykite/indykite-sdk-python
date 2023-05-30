@@ -3,7 +3,7 @@ import json
 import os
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (UniqueNameIdentifier, SendGridProviderConfig, MailJetProviderConfig,
                                                           AmazonSESProviderConfig, MailgunProviderConfig,EmailServiceConfig,
-                                                          AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig, AuthorizationPolicyConfig)
+                                                          AuthFlowConfig, OAuth2ClientConfig, WebAuthnProviderConfig, AuthorizationPolicyConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers

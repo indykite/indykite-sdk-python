@@ -15,7 +15,6 @@ from indykite_sdk.utils.hash_methods import encrypt_bcrypt
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.authorization import AuthorizationClient
-from indykite_sdk.ingest import IngestClient
 from indykite_sdk.oauth2 import HttpClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig, AuthorizationPolicyConfig )
@@ -30,9 +29,7 @@ from indykite_sdk.model.what_authorized import WhatAuthorizedResourceTypes
 from indykite_sdk.model.who_authorized import WhoAuthorizedResource
 from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
-from indykite_sdk.indykite.objects.v1beta1 import struct_pb2
-from indykite_sdk.indykite.ingest.v1beta1.model_pb2 import Record
-from indykite_sdk.ingestv2 import IngestClient as ingest_client_v2
+from indykite_sdk.ingest import IngestClient
 from indykite_sdk.identity import helper
 import logging
 
@@ -409,20 +406,6 @@ Property ID and value of the property where the value is a reference
     update_oauth2_client_config_node_parser.add_argument("display_name", help="Display name")
     update_oauth2_client_config_node_parser.add_argument("description", help="Description")
 
-    # create_ingest_mapping_config_node
-    create_ingest_mapping_config_node_parser = subparsers.add_parser("create_ingest_mapping_config_node")
-    create_ingest_mapping_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
-    create_ingest_mapping_config_node_parser.add_argument("name", help="Name (not display name)")
-    create_ingest_mapping_config_node_parser.add_argument("display_name", help="Display name")
-    create_ingest_mapping_config_node_parser.add_argument("description", help="Description")
-
-    # update_ingest_mapping_config_node
-    update_ingest_mapping_config_node_parser = subparsers.add_parser("update_ingest_mapping_config_node")
-    update_ingest_mapping_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
-    update_ingest_mapping_config_node_parser.add_argument("etag", help="Etag")
-    update_ingest_mapping_config_node_parser.add_argument("display_name", help="Display name")
-    update_ingest_mapping_config_node_parser.add_argument("description", help="Description")
-
     # create_webauthn_provider_config_node
     create_webauthn_provider_config_node_parser = subparsers.add_parser("create_webauthn_provider_config_node")
     create_webauthn_provider_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
@@ -619,10 +602,6 @@ Property ID and value of the property where the value is a reference
     # get_refreshable_token_source
     get_refreshable_token_source = subparsers.add_parser("get_refreshable_token_source")
 
-    # record
-    record_parser = subparsers.add_parser("record")
-    record_parser.add_argument("config_id", help="gid ID of ingest mapping config node")
-
     # ingest
     ingest_record_digital_twin = subparsers.add_parser("ingest_record_digital_twin")
     ingest_record_resource = subparsers.add_parser("ingest_record_resource")
@@ -639,7 +618,6 @@ Property ID and value of the property where the value is a reference
     client_config = ConfigClient(local)
     client_authorization = AuthorizationClient(local)
     client_ingest = IngestClient(local)
-    client_ingest_v2 = ingest_client_v2(local)
 
     command = args.command
 
@@ -2015,13 +1993,12 @@ Property ID and value of the property where the value is a reference
     elif command == "list_consents":
         pii_principal_id = args.pii_principal_id
         consent_response = client.list_consents(pii_principal_id)
-        print(consent_response)
-        #if consent_response:
-        #    for c in consent_response:
-        #        print_response(c)
-        #else:
-        #    print("Invalid consent response")
-        #return consent_response
+        if consent_response:
+            for c in consent_response:
+                print_response(c)
+        else:
+            print("Invalid consent response")
+        return consent_response
 
     elif command == "revoke_consent":
         pii_principal_id = args.pii_principal_id
@@ -2185,36 +2162,24 @@ Property ID and value of the property where the value is a reference
         response = client_http.get_refreshable_token_source(token_source, credentials)
         access_token_bytes = response.token.access_token
 
-    elif command == "record":
-        config_id = args.config_id
-        record_data = {
-            "number": struct_pb2.Value(string_value="126"),
-            "model": struct_pb2.Value(string_value="Civic"),
-            "owner": struct_pb2.Value(string_value="test2108@example.com")
-        }
-        record = Record(id="3", external_id="number", data=record_data)
-
-        response = client_ingest.stream_records(config_id, [record])
-        print(response)
-
     elif command == "ingest_record_digital_twin":
         record_id = "745898"
         external_id = "external-dt-id3"
         kind = "DIGITAL_TWIN_KIND_PERSON"
         tenant_id = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
         type = "CarOwner"
-        identity_property = client_ingest_v2.identity_property("customIdProp", "456")
+        identity_property = client_ingest.identity_property("customIdProp", "456")
         identity_properties = [identity_property]
-        ingest_property = client_ingest_v2.ingest_property("customProp", "741")
+        ingest_property = client_ingest.ingest_property("customProp", "741")
         properties = [ingest_property]
-        upsert = client_ingest_v2.upsert_data_node_digital_twin(
+        upsert = client_ingest.upsert_data_node_digital_twin(
                                       external_id,
                                       type,
                                       [],
                                       tenant_id,
                                       identity_properties,
                                       properties)
-        ingest_record_digital_twin = client_ingest_v2.ingest_record_upsert(record_id, upsert)
+        ingest_record_digital_twin = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_digital_twin:
             print_response(ingest_record_digital_twin)
         else:
@@ -2225,14 +2190,14 @@ Property ID and value of the property where the value is a reference
         record_id = "745899"
         external_id = "lot-1"
         type = "ParkingLot"
-        ingest_property = client_ingest_v2.ingest_property("customProp", "9654")
+        ingest_property = client_ingest.ingest_property("customProp", "9654")
         properties = [ingest_property]
-        upsert = client_ingest_v2.upsert_data_node_resource(
+        upsert = client_ingest.upsert_data_node_resource(
                                       external_id,
                                       type,
                                       [],
                                       properties)
-        ingest_record_resource = client_ingest_v2.ingest_record_upsert(record_id, upsert)
+        ingest_record_resource = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_resource:
             print_response(ingest_record_resource)
         else:
@@ -2242,15 +2207,15 @@ Property ID and value of the property where the value is a reference
     elif command == "ingest_record_relation":
         record_id = "745890"
         type = "CAN_USE"
-        source_match = client_ingest_v2.node_match("vehicle-1", "Vehicle")
-        target_match = client_ingest_v2.node_match("lot-1", "ParkingLot")
-        match = client_ingest_v2.relation_match(source_match, target_match, type)
-        ingest_property = client_ingest_v2.ingest_property("customProp", "8742")
+        source_match = client_ingest.node_match("vehicle-1", "Vehicle")
+        target_match = client_ingest.node_match("lot-1", "ParkingLot")
+        match = client_ingest.relation_match(source_match, target_match, type)
+        ingest_property = client_ingest.ingest_property("customProp", "8742")
         properties = [ingest_property]
-        upsert = client_ingest_v2.upsert_data_relation(
+        upsert = client_ingest.upsert_data_relation(
                                       match,
                                       properties)
-        ingest_record_relation = client_ingest_v2.ingest_record_upsert(record_id, upsert)
+        ingest_record_relation = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_relation:
             print_response(ingest_record_relation)
         else:
@@ -2259,9 +2224,9 @@ Property ID and value of the property where the value is a reference
 
     elif command == "delete_record_node":
         record_id = "745890"
-        node = client_ingest_v2.node_match("vehicle-1", "Vehicle")
-        delete = client_ingest_v2.delete_data_node(node)
-        delete_record_node = client_ingest_v2.ingest_record_delete(id=record_id, delete=delete)
+        node = client_ingest.node_match("vehicle-1", "Vehicle")
+        delete = client_ingest.delete_data_node(node)
+        delete_record_node = client_ingest.ingest_record_delete(id=record_id, delete=delete)
         if delete_record_node:
             print_response(delete_record_node)
         else:
@@ -2271,11 +2236,11 @@ Property ID and value of the property where the value is a reference
     elif command == "delete_record_relation":
         record_id = "745890"
         type = "CAN_USE"
-        source_match = client_ingest_v2.node_match("vehicle-1", "Vehicle")
-        target_match = client_ingest_v2.node_match("lot-1", "ParkingLot")
-        relation = client_ingest_v2.relation_match(source_match, target_match, type)
-        delete = client_ingest_v2.delete_data_relation(relation)
-        delete_record_relation = client_ingest_v2.ingest_record_delete(id=record_id, delete=delete)
+        source_match = client_ingest.node_match("vehicle-1", "Vehicle")
+        target_match = client_ingest.node_match("lot-1", "ParkingLot")
+        relation = client_ingest.relation_match(source_match, target_match, type)
+        delete = client_ingest.delete_data_relation(relation)
+        delete_record_relation = client_ingest.ingest_record_delete(id=record_id, delete=delete)
         if delete_record_relation:
             print_response(delete_record_relation)
         else:
@@ -2284,11 +2249,11 @@ Property ID and value of the property where the value is a reference
 
     elif command == "delete_record_node_property":
         record_id = "745890"
-        match = client_ingest_v2.node_match("vehicle-1", "Vehicle")
+        match = client_ingest.node_match("vehicle-1", "Vehicle")
         key = "nodePropertyName"
-        node_property = client_ingest_v2.node_property_match(match, key)
-        delete = client_ingest_v2.delete_data_node_property(node_property)
-        delete_record_node_property = client_ingest_v2.ingest_record_delete(id=record_id, delete=delete)
+        node_property = client_ingest.node_property_match(match, key)
+        delete = client_ingest.delete_data_node_property(node_property)
+        delete_record_node_property = client_ingest.ingest_record_delete(id=record_id, delete=delete)
         if delete_record_node_property:
             print_response(delete_record_node_property)
         else:
@@ -2298,13 +2263,13 @@ Property ID and value of the property where the value is a reference
     elif command == "delete_record_relation_property":
         record_id = "745890"
         type = "CAN_USE"
-        source_match = client_ingest_v2.node_match("vehicle-1", "Vehicle")
-        target_match = client_ingest_v2.node_match("lot-1", "ParkingLot")
-        match = client_ingest_v2.relation_match(source_match, target_match, type)
+        source_match = client_ingest.node_match("vehicle-1", "Vehicle")
+        target_match = client_ingest.node_match("lot-1", "ParkingLot")
+        match = client_ingest.relation_match(source_match, target_match, type)
         key = "relationPropertyName"
-        relation_property = client_ingest_v2.relation_property_match(match, key)
-        delete = client_ingest_v2.delete_data_relation_property(relation_property)
-        delete_record_relation_property = client_ingest_v2.ingest_record_delete(id=record_id,
+        relation_property = client_ingest.relation_property_match(match, key)
+        delete = client_ingest.delete_data_relation_property(relation_property)
+        delete_record_relation_property = client_ingest.ingest_record_delete(id=record_id,
                                                                                 delete=delete)
         if delete_record_relation_property:
             print_response(delete_record_relation_property)
@@ -2317,27 +2282,27 @@ Property ID and value of the property where the value is a reference
         external_id = "external-dt-id1"
         tenant_id = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
         type = "Person"
-        upsert = client_ingest_v2.upsert_data_node_digital_twin(
+        upsert = client_ingest.upsert_data_node_digital_twin(
             external_id,
             type,
             [],
             tenant_id,
             [],
             [])
-        record = client_ingest_v2.record_upsert(record_id, upsert)
+        record = client_ingest.record_upsert(record_id, upsert)
 
         record_id2 = "145899"
         external_id = "lot-1"
         type = "ParkingLot"
-        ingest_property = client_ingest_v2.ingest_property("customProp", "9654")
+        ingest_property = client_ingest.ingest_property("customProp", "9654")
         properties = [ingest_property]
-        upsert2 = client_ingest_v2.upsert_data_node_resource(
+        upsert2 = client_ingest.upsert_data_node_resource(
             external_id,
             type,
             [],
             properties)
-        record2 = client_ingest_v2.record_upsert(record_id2, upsert2)
-        responses = client_ingest_v2.stream_records([record, record2])
+        record2 = client_ingest.record_upsert(record_id2, upsert2)
+        responses = client_ingest.stream_records([record, record2])
         if responses:
             for response in responses:
                 print_response(response)

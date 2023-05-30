@@ -47,9 +47,6 @@ class ConfigNode:
         if message.HasField('oauth2_client_config'):
             config_node.oauth2_client_config = OAuth2ClientConfig.deserialize(message.oauth2_client_config)
 
-        if message.HasField('ingest_mapping_config'):
-            config_node.ingest_mapping_config = IngestMappingConfig.deserialize(message.ingest_mapping_config)
-
         if message.HasField('webauthn_provider_config'):
             config_node.webauthn_provider_config = WebAuthnProviderConfig.deserialize(message.webauthn_provider_config)
 
@@ -75,7 +72,6 @@ class ConfigNode:
         self.email_service_config = None
         self.auth_flow_config = None
         self.oauth2_client_config = None
-        self.ingest_mapping_config = None
         self.webauthn_provider_config = None
         self.authorization_policy_config = None
 
