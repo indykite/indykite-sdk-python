@@ -1,4 +1,4 @@
-from indykite_sdk.ingestv2 import IngestClient
+from indykite_sdk.ingest import IngestClient
 from indykite_sdk.indykite.ingest.v1beta2 import model_pb2, ingest_api_pb2 as pb2
 from indykite_sdk.model.ingest_record import IngestRecordResponse
 from helpers import data

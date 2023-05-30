@@ -1,8 +1,8 @@
-from indykite_sdk.ingestv2 import IngestClient
+from indykite_sdk.ingest import IngestClient
 from indykite_sdk.indykite.ingest.v1beta2 import model_pb2, ingest_api_pb2 as pb2
 
 
-def test_stream_records_error():
+def test_stream_records_exception():
     client = IngestClient()
     assert client is not None
     record_id = "145899"
@@ -36,7 +36,7 @@ def test_stream_records_error():
     assert tail == []
 
 
-def test_stream_record_success():
+def test_stream_records_success():
     client = IngestClient()
     assert client is not None
     record_id = "145899"
@@ -64,7 +64,7 @@ def test_stream_record_success():
     assert tail == []
 
 
-def test_stream_record_fail(capsys):
+def test_stream_records_fail(capsys):
     client = IngestClient()
     assert client is not None
     record_id = "999658"

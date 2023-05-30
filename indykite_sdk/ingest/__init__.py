@@ -4,8 +4,8 @@ import os
 import sys
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.identity import helper
-from indykite_sdk.indykite.ingest.v1beta1 import ingest_api_pb2 as pb2
-from indykite_sdk.indykite.ingest.v1beta1 import ingest_api_pb2_grpc as pb2_grpc
+from indykite_sdk.indykite.ingest.v1beta2 import ingest_api_pb2 as pb2
+from indykite_sdk.indykite.ingest.v1beta2 import ingest_api_pb2_grpc as pb2_grpc
 
 
 class IngestClient(object):
@@ -50,27 +50,8 @@ class IngestClient(object):
             tb = sys.exception().__traceback__
             raise exception(...).with_traceback(tb)
 
-    def generate_records_request(self, config_id, records):
-        """Create iterator for record requests."""
-        for record in records:
-            record_request = pb2.StreamRecordsRequest(mapping_config_id=config_id, record=record)
-            yield record_request
-
-    def stream_records(self, config_id, records):
-        sys.excepthook = logger.handle_excepthook
-        record_iterator = self.generate_records_request(config_id, records)
-        response_iterator = self.stub.StreamRecords(record_iterator)
-        responses = []
-
-        try:
-            for response in response_iterator:
-                if not response.record_error.property_errors:
-                    print(f"Record {response.record_id} ingested successfully")
-                else:
-                    print(f"Record {response.record_id} has errors: \n{response.record_error}")
-
-                responses.append(response)
-        except Exception as exception:
-            return logger.logger_error(exception)
-
-        return responses
+    # Imported methods
+    from .ingest_record import ingest_record_upsert, upsert_data_node_digital_twin, identity_property, ingest_property, \
+        upsert_data_node_resource, upsert_data_relation, relation_match, node_match, node_property_match, \
+        relation_property_match, ingest_record_delete, delete_data_node, delete_data_relation, delete_data_node_property, \
+        delete_data_relation_property, generate_records_request, stream_records, record_upsert
