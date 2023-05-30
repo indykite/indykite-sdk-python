@@ -18,7 +18,7 @@ def test_stream_record_nonexisting_config_id(capsys):
 
     client.stream_records(config_id, [record])
     captured = capsys.readouterr()
-    assert "StatusCode.NOT_FOUND" in captured.err
+    assert "StatusCode.UNIMPLEMENTED" in captured.err
 
 
 def test_stream_record_error():

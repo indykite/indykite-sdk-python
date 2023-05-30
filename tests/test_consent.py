@@ -72,7 +72,7 @@ def test_consent_list_success():
     client = IdentityClient()
     assert client is not None
 
-    pii_principal_id = data.get_digital_twin()
+    pii_principal_id = data.get_digital_twin_consent()
 
     consent = client.list_consents(pii_principal_id)
 
