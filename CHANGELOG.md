@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.21.0](https://github.com/indykite/indykite-sdk-python/compare/v1.20.0...v1.21.0) (2023-05-30)
+
+
+### Features
+
+* add backend example for spaces ([18fd667](https://github.com/indykite/indykite-sdk-python/commit/18fd6679a8749d472fba7ffe2e025f4dc5c53d5e))
+* add ingestv2 methods tests and examples ([907cb80](https://github.com/indykite/indykite-sdk-python/commit/907cb80da92d7156a9dacbc75696823d2d917675))
+* change options and add tags ([8b42995](https://github.com/indykite/indykite-sdk-python/commit/8b429957ed2d747f7df8886701ab25ffcb54b8e5))
+* remove examples from pipeline ([0c7c6d8](https://github.com/indykite/indykite-sdk-python/commit/0c7c6d8d6a27f6d329665805b0c0e95de55d2f71))
+* remove ingestv1 ([a32d9b9](https://github.com/indykite/indykite-sdk-python/commit/a32d9b9d5465babbdfa9846342eea197ddd26e5d))
+
+
+### Bug Fixes
+
+* fix dependencies ([e7dc548](https://github.com/indykite/indykite-sdk-python/commit/e7dc548439f72c40422afebf1720d77c3e59a9bf))
+* update failing tests ([82880bc](https://github.com/indykite/indykite-sdk-python/commit/82880bca048b4e79e426e240973a992bb45f200e))
+
 ## [1.20.0](https://github.com/indykite/indykite-sdk-python/compare/v1.19.0...v1.20.0) (2023-04-24)
 
 
