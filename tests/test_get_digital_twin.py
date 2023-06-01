@@ -1,5 +1,6 @@
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.model.digital_twin import DigitalTwin
+from indykite_sdk.indykite.identity.v1beta2.attributes_pb2 import PropertyFilter
 from helpers import data
 
 
@@ -105,3 +106,41 @@ def test_get_digital_twin_by_token_success(registration):
     response = client.get_digital_twin_by_token(token, [])
 
     assert response is not None
+
+
+def test_get_digital_twin_by_property_success():
+    digital_twin_email = data.get_digital_twin_property()
+    tenant_id = data.get_tenant()
+
+    client = IdentityClient()
+    assert client is not None
+
+    property_filter = client.property_filter("email", digital_twin_email, tenant_id)
+    response = client.get_digital_twin_by_property(property_filter, [])
+
+    assert response is not None
+    assert isinstance(response["digitalTwin"], DigitalTwin)
+
+
+def test_get_digital_twin_nonexisting_email(capsys):
+    digital_twin_email = data.get_expired_token()
+    tenant_id = data.get_tenant()
+
+    client = IdentityClient()
+    assert client is not None
+
+    property_filter = client.property_filter("email", digital_twin_email, tenant_id)
+    response = client.get_digital_twin_by_property(property_filter, [])
+    captured = capsys.readouterr()
+
+    assert "StatusCode.NOT_FOUND" in captured.err
+
+
+def test_get_digital_twin_wrong_property(capsys):
+    tenant_id = data.get_digital_twin_property()
+
+    client = IdentityClient()
+    assert client is not None
+
+    property_filter = client.property_filter("email", [], tenant_id)
+    assert not isinstance(property_filter, PropertyFilter)

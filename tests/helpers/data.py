@@ -19,6 +19,7 @@ TENANT_EMAIL = "gid:AAAAA2luZHlraURlgAADDwAAAAI"
 DIGITAL_TWIN = "gid:AAAAFZVCTOBCHEPMgdvP44aZLbg"
 DIGITAL_TWIN_TEST = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
 DIGITAL_TWIN_CONSENT = "gid:AAAAFQQTyHL70kRJsvm0rnkDFKQ"
+DIGITAL_TWIN_PROPERTY = "testemail@exmple.com"
 CODE_VERIFIER = "AAAAAAAAAAEAAAAAAAAAAgAAAAAAAAADAAAAAAAAAAQ"
 CODE_CHALLENGE = "cjbADBcANsbeEzqHghDd1YVnqh0GGaD3D2njiub5Fuk"
 # this is changes, if test starts failing, check it!!!
@@ -102,6 +103,10 @@ def get_digital_twin_test():
 
 def get_digital_twin_consent():
     return DIGITAL_TWIN_CONSENT
+
+
+def get_digital_twin_property():
+    return DIGITAL_TWIN_PROPERTY
 
 
 def get_url():
