@@ -17,9 +17,9 @@ from indykite_sdk.config import ConfigClient
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.oauth2 import HttpClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig, AmazonSESProviderConfig, MailgunProviderConfig)
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, IngestMappingConfig, WebAuthnProviderConfig, AuthorizationPolicyConfig )
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig, WebAuthnProviderConfig, AuthorizationPolicyConfig )
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
-from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin
+from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin, ImportProperties
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt, SHA256
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, EmailDefinition
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
@@ -32,6 +32,7 @@ from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.identity import helper
 import logging
+from indykite_sdk.utils.message_to_value import arg_to_value
 
 
 class ParseKwargs(argparse.Action):
@@ -83,6 +84,13 @@ def main():
     get_dt_by_token = subparsers.add_parser("get-dt-by-token")
     get_dt_by_token.add_argument("user_token", help="JWT bearer token")
     get_dt_by_token.add_argument("property_list", nargs="+", help="Array list of the required properties")
+
+    # GET-DT-BY-PROPERTY
+    get_dt_by_property = subparsers.add_parser("get-dt-by-property")
+    get_dt_by_property.add_argument("type", help="property_filter type")
+    get_dt_by_property.add_argument("value", help="property_filter value")
+    get_dt_by_property.add_argument("tenant_id", help="property_filter tenant_id")
+    get_dt_by_property.add_argument("property_list", nargs="+", help="Array list of the required properties")
 
     # PATCH-PROPERTIES
     patch_properties = subparsers.add_parser("patch-properties")
@@ -671,6 +679,16 @@ Property ID and value of the property where the value is a reference
         user_token = args.user_token
         property_list = args.property_list
         dt = client.get_digital_twin_by_token(user_token, property_list[1:])
+        if dt is not None:
+            print_response(dt)
+
+    elif command == "get-dt-by-property":
+        type = args.type
+        value = args.value
+        tenant_id = args.tenant_id
+        property_list = args.property_list
+        property_filter = client.property_filter(type, value, tenant_id)
+        dt = client.get_digital_twin_by_property(property_filter, property_list[1:])
         if dt is not None:
             print_response(dt)
 
@@ -1735,11 +1753,19 @@ Property ID and value of the property where the value is a reference
             state="DIGITAL_TWIN_STATE_ACTIVE",
             password=PasswordCredential(
                 email=EmailIdentity(
-                    email="test2208@example.com",
+                    email="test2204@example.com",
                     verified=True
                 ),
                 value="password"
-            )
+            ),
+            provider_user_info=[],
+            properties=ImportProperties(operations=[attributes.PropertyBatchOperation(
+                add=attributes.Property(
+                    definition=attributes.PropertyDefinition(
+                        context="http://schema.org/",type="Person",property="email"
+                    ),
+                    object_value=arg_to_value("testemail@exmple.com")))],
+                force_delete=False)
         ),
             ImportDigitalTwin(
                 tenant_id=args.tenant_id,
@@ -1747,7 +1773,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2209@example.com",
+                        email="test2205@example.com",
                         verified=True
                     ),
                     value="password"
@@ -1759,7 +1785,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2210@example.com",
+                        email="test2206@example.com",
                         verified=True
                     ),
                     value="password"
