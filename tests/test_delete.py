@@ -2,6 +2,8 @@ from indykite_sdk.identity import IdentityClient
 from indykite_sdk.model.digital_twin import DigitalTwinCore
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
+from indykite_sdk.utils.message_to_value import arg_to_value
+from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from helpers import data
 
 
@@ -107,6 +109,44 @@ def test_del_digital_twin_by_token_success(registration):
 
     client.stub.DeleteDigitalTwin = mocked_del_digital_twin_by_token
     response = client.del_digital_twin_by_token(token)
+
+    assert response is not None
+    assert isinstance(response, DigitalTwinCore)
+
+
+def test_del_digital_twin_non_existing_email(capsys):
+    digital_twin_email = "nonexistingemail@example.com"
+    tenant_id = data.get_tenant()
+
+    client = IdentityClient()
+    assert client is not None
+
+    property_filter = client.property_filter("email", digital_twin_email, tenant_id)
+    response = client.del_digital_twin_by_property(property_filter)
+    captured = capsys.readouterr()
+    assert "StatusCode.NOT_FOUND" in captured.err
+
+
+def test_del_digital_twin_success(capsys):
+    digital_twin_email = "gid:AAAAFf_ZpzyM3UpRuG33DJLLNq0"
+    digital_twin_id = "existingemail@example.com"
+    tenant_id = data.get_tenant()
+
+    client = IdentityClient()
+    assert client is not None
+
+    property_filter = client.property_filter("email", digital_twin_email, tenant_id)
+
+    def mocked_del_digital_twin(request: pb2.DeleteDigitalTwinRequest):
+        assert request.id.property_filter.type == "email"
+        assert request.id.property_filter.value == arg_to_value(digital_twin_email)
+        assert request.id.property_filter.tenant_id == tenant_id
+        return pb2.DeleteDigitalTwinResponse(
+            digital_twin=model.DigitalTwin(id=digital_twin_id, tenant_id=tenant_id)
+        )
+
+    client.stub.DeleteDigitalTwin = mocked_del_digital_twin
+    response = client.del_digital_twin_by_property(property_filter)
 
     assert response is not None
     assert isinstance(response, DigitalTwinCore)

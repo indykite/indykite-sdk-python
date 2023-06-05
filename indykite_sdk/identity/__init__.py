@@ -56,7 +56,7 @@ class IdentityClient(object):
     from .token_introspect import token_introspect, session_introspect
     from .patch_properties import patch_properties_by_token, patch_properties
     from .verification import start_digital_twin_email_verification, verify_digital_twin_email
-    from .delete import del_digital_twin, del_digital_twin_by_token
+    from .delete import del_digital_twin, del_digital_twin_by_token, del_digital_twin_by_property
     from .enrich_token import enrich_token
     from .import_digital_twins import import_digital_twins
     from .consent import create_consent, list_consents, revoke_consent, check_oauth2_consent_challenge, \
