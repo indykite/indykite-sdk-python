@@ -136,6 +136,12 @@ Property ID and value of the property where the value is a reference
     del_dt_by_token = subparsers.add_parser("del-dt-by-token")
     del_dt_by_token.add_argument("user_token", help="JWT bearer token")
 
+    # DELETE-DT-BY-PROPERTY
+    del_dt_by_property = subparsers.add_parser("del-dt-by-property")
+    del_dt_by_property.add_argument("type", help="property_filter type")
+    del_dt_by_property.add_argument("value", help="property_filter value")
+    del_dt_by_property.add_argument("tenant_id", help="property_filter tenant_id")
+
     # ENRICH-TOKEN
     enrich_token = subparsers.add_parser("enrich-token")
     enrich_token.add_argument("user_token", help="JWT bearer token")
@@ -761,6 +767,15 @@ Property ID and value of the property where the value is a reference
         dt = client.del_digital_twin_by_token(user_token)
         if dt is not None:
             print_response({ "digitalTwin": dt })
+
+    elif command == "del-dt-by-property":
+        type = args.type
+        value = args.value
+        tenant_id = args.tenant_id
+        property_filter = client.property_filter(type, value, tenant_id)
+        dt = client.del_digital_twin_by_property(property_filter)
+        if dt is not None:
+            print_response(dt)
 
     elif command == "enrich-token":
         user_token = args.user_token
@@ -1753,7 +1768,7 @@ Property ID and value of the property where the value is a reference
             state="DIGITAL_TWIN_STATE_ACTIVE",
             password=PasswordCredential(
                 email=EmailIdentity(
-                    email="test2204@example.com",
+                    email="test2214@example.com",
                     verified=True
                 ),
                 value="password"
@@ -1764,7 +1779,7 @@ Property ID and value of the property where the value is a reference
                     definition=attributes.PropertyDefinition(
                         context="http://schema.org/",type="Person",property="email"
                     ),
-                    object_value=arg_to_value("testemail@exmple.com")))],
+                    object_value=arg_to_value("testem@example.com")))],
                 force_delete=False)
         ),
             ImportDigitalTwin(
@@ -1773,7 +1788,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2205@example.com",
+                        email="test2215@example.com",
                         verified=True
                     ),
                     value="password"
@@ -1785,7 +1800,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2206@example.com",
+                        email="test2216@example.com",
                         verified=True
                     ),
                     value="password"

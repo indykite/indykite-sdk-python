@@ -89,9 +89,9 @@ def property_filter(self, type, value, tenant_id):
     """
     create PropertyFilter object
     :param self:
-    :param type:
-    :param value:
-    :param tenant_id:
+    :param type: string
+    :param value: Value
+    :param tenant_id: string gid
     :return: PropertyFilter object
     """
     sys.excepthook = logger.handle_excepthook

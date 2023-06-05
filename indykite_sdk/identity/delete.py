@@ -6,6 +6,13 @@ import indykite_sdk.utils.logger as logger
 
 
 def del_digital_twin(self, digital_twin_id, tenant_id):
+    """
+    delete DT by id
+    :param self:
+    :param digital_twin_id: DT gid id string
+    :param tenant_id: tenant gid id string
+    :return: DigitalTwin object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.DeleteDigitalTwin(
@@ -28,6 +35,12 @@ def del_digital_twin(self, digital_twin_id, tenant_id):
 
 
 def del_digital_twin_by_token(self, token):
+    """
+    delete DT by token
+    :param self:
+    :param token: user token
+    :return: DigitalTwin object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         if len(token) < 32:
@@ -48,3 +61,25 @@ def del_digital_twin_by_token(self, token):
         return None
 
     return DigitalTwinCore.deserialize(response.digital_twin)
+
+
+def del_digital_twin_by_property(self, property_filter):
+    """
+    delete DT by property
+    :param self:
+    :param property_filter: PropertyFilter attribute
+    :return: DigitalTwin object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.DeleteDigitalTwin(
+                pb2.DeleteDigitalTwinRequest(
+                    id=model.DigitalTwinIdentifier(property_filter=property_filter)
+                )
+        )
+        if not response:
+            return None
+
+        return DigitalTwinCore.deserialize(response.digital_twin)
+    except Exception as exception:
+        return logger.logger_error(exception)
