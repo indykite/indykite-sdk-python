@@ -17,7 +17,7 @@ from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
 from google.rpc import status_pb2 as google_dot_rpc_dot_status__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n(indykite/ingest/v1beta2/ingest_api.proto\x12\x17indykite.ingest.v1beta2\x1a#indykite/ingest/v1beta2/model.proto\x1a\x17validate/validate.proto\x1a\x17google/rpc/status.proto\"Y\n\x14StreamRecordsRequest\x12\x41\n\x06record\x18\x01 \x01(\x0b\x32\x1f.indykite.ingest.v1beta2.RecordB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x06record\"\xe4\x01\n\x15StreamRecordsResponse\x12\x1b\n\trecord_id\x18\x01 \x01(\tR\x08recordId\x12!\n\x0crecord_index\x18\x02 \x01(\rR\x0brecordIndex\x12I\n\x0crecord_error\x18\x03 \x01(\x0b\x32$.indykite.ingest.v1beta2.RecordErrorH\x00R\x0brecordError\x12\x37\n\x0cstatus_error\x18\x04 \x01(\x0b\x32\x12.google.rpc.StatusH\x00R\x0bstatusErrorB\x07\n\x05\x65rror\"X\n\x13IngestRecordRequest\x12\x41\n\x06record\x18\x01 \x01(\x0b\x32\x1f.indykite.ingest.v1beta2.RecordB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x06record\"\xc0\x01\n\x14IngestRecordResponse\x12\x1b\n\trecord_id\x18\x01 \x01(\tR\x08recordId\x12I\n\x0crecord_error\x18\x03 \x01(\x0b\x32$.indykite.ingest.v1beta2.RecordErrorH\x00R\x0brecordError\x12\x37\n\x0cstatus_error\x18\x04 \x01(\x0b\x32\x12.google.rpc.StatusH\x00R\x0bstatusErrorB\x07\n\x05\x65rror2\xec\x01\n\tIngestAPI\x12r\n\rStreamRecords\x12-.indykite.ingest.v1beta2.StreamRecordsRequest\x1a..indykite.ingest.v1beta2.StreamRecordsResponse(\x01\x30\x01\x12k\n\x0cIngestRecord\x12,.indykite.ingest.v1beta2.IngestRecordRequest\x1a-.indykite.ingest.v1beta2.IngestRecordResponseB\xab\x01\n\x1b\x63om.indykite.ingest.v1beta2B\x0eIngestApiProtoP\x01\xa2\x02\x03IIX\xaa\x02\x17Indykite.Ingest.V1beta2\xca\x02\x17Indykite\\Ingest\\V1beta2\xe2\x02#Indykite\\Ingest\\V1beta2\\GPBMetadata\xea\x02\x19Indykite::Ingest::V1beta2b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n(indykite/ingest/v1beta2/ingest_api.proto\x12\x17indykite.ingest.v1beta2\x1a#indykite/ingest/v1beta2/model.proto\x1a\x17validate/validate.proto\x1a\x17google/rpc/status.proto\"Y\n\x14StreamRecordsRequest\x12\x41\n\x06record\x18\x01 \x01(\x0b\x32\x1f.indykite.ingest.v1beta2.RecordB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x06record\"\x97\x02\n\x15StreamRecordsResponse\x12\x1b\n\trecord_id\x18\x01 \x01(\tR\x08recordId\x12!\n\x0crecord_index\x18\x02 \x01(\rR\x0brecordIndex\x12I\n\x0crecord_error\x18\x03 \x01(\x0b\x32$.indykite.ingest.v1beta2.RecordErrorH\x00R\x0brecordError\x12\x37\n\x0cstatus_error\x18\x04 \x01(\x0b\x32\x12.google.rpc.StatusH\x00R\x0bstatusError\x12\x31\n\x04info\x18\x05 \x01(\x0b\x32\x1d.indykite.ingest.v1beta2.InfoR\x04infoB\x07\n\x05\x65rror\"X\n\x13IngestRecordRequest\x12\x41\n\x06record\x18\x01 \x01(\x0b\x32\x1f.indykite.ingest.v1beta2.RecordB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x06record\"\xf3\x01\n\x14IngestRecordResponse\x12\x1b\n\trecord_id\x18\x01 \x01(\tR\x08recordId\x12I\n\x0crecord_error\x18\x03 \x01(\x0b\x32$.indykite.ingest.v1beta2.RecordErrorH\x00R\x0brecordError\x12\x37\n\x0cstatus_error\x18\x04 \x01(\x0b\x32\x12.google.rpc.StatusH\x00R\x0bstatusError\x12\x31\n\x04info\x18\x05 \x01(\x0b\x32\x1d.indykite.ingest.v1beta2.InfoR\x04infoB\x07\n\x05\x65rror2\xec\x01\n\tIngestAPI\x12r\n\rStreamRecords\x12-.indykite.ingest.v1beta2.StreamRecordsRequest\x1a..indykite.ingest.v1beta2.StreamRecordsResponse(\x01\x30\x01\x12k\n\x0cIngestRecord\x12,.indykite.ingest.v1beta2.IngestRecordRequest\x1a-.indykite.ingest.v1beta2.IngestRecordResponseB\xab\x01\n\x1b\x63om.indykite.ingest.v1beta2B\x0eIngestApiProtoP\x01\xa2\x02\x03IIX\xaa\x02\x17Indykite.Ingest.V1beta2\xca\x02\x17Indykite\\Ingest\\V1beta2\xe2\x02#Indykite\\Ingest\\V1beta2\\GPBMetadata\xea\x02\x19Indykite::Ingest::V1beta2b\x06proto3')
 
 
 
@@ -65,11 +65,11 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _STREAMRECORDSREQUEST._serialized_start=156
   _STREAMRECORDSREQUEST._serialized_end=245
   _STREAMRECORDSRESPONSE._serialized_start=248
-  _STREAMRECORDSRESPONSE._serialized_end=476
-  _INGESTRECORDREQUEST._serialized_start=478
-  _INGESTRECORDREQUEST._serialized_end=566
-  _INGESTRECORDRESPONSE._serialized_start=569
-  _INGESTRECORDRESPONSE._serialized_end=761
-  _INGESTAPI._serialized_start=764
-  _INGESTAPI._serialized_end=1000
+  _STREAMRECORDSRESPONSE._serialized_end=527
+  _INGESTRECORDREQUEST._serialized_start=529
+  _INGESTRECORDREQUEST._serialized_end=617
+  _INGESTRECORDRESPONSE._serialized_start=620
+  _INGESTRECORDRESPONSE._serialized_end=863
+  _INGESTAPI._serialized_start=866
+  _INGESTAPI._serialized_end=1102
 # @@protoc_insertion_point(module_scope)
