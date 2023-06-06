@@ -140,20 +140,3 @@ dmypy.json
 
 # Sphinx documentation
 docs/_build/
-
-examples/sdk-frontend/.package-lock.json
-examples/sdk-frontend/.yarn.lock
-examples/sdk-frontend/.pnpm-lock.yaml
-examples/sdk-frontend/.pnpm-lock.yml
-
-examples/sdk-frontend/node_modules
-
-examples/sdk-frontend/build
-examples/sdk-frontend/public/build
-examples/sdk-frontend/.env
-
-examples/sdk-frontend/cypress/screenshots
-examples/sdk-frontend/cypress/videos
-examples/sdk-frontend/postgres-data
-
-examples/sdk-frontend/app/styles/tailwind.css

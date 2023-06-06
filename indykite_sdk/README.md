@@ -208,7 +208,32 @@ optional arguments:
 
 example:
 ```shell
-python3 api.py get-dt BEARER_TOKEN email mobile
+python3 api.py get-dt-by-token BEARER_TOKEN email mobile
+```
+
+6b. Get digital twin information by property
+    - Type, value of property
+    - The tenant ID should be in GID format
+    - Property filter
+
+```shell
+python3 api.py get-dt-by-property DIGITAL_TWIN_ID TENANT_ID PROPERTY_NAMES ...
+```
+
+```shell
+positional arguments:
+  type        type of property (e.g.email)
+  value       value of property
+  tenant_id        gid ID of the tenant
+  property_list    Array list of the required properties
+
+optional arguments:
+  -h, --help       show this help message and exit
+```
+
+example:
+```shell
+python3 api.py get-dt-by-property TYPE VALUE TENANT_GID_ID PROPERTIES
 ```
 
 7. Add/replace/remove properties by digital twin ID and tenant ID
@@ -349,6 +374,26 @@ positional arguments:
 
 optional arguments:
   -h, --help  show this help message and exit
+```
+
+11b. Delete a user by property
+
+Sends out a delete request for the specific digital twin
+
+    - type of property
+    - value of property
+    - the tenant ID should be in GID form
+
+```shell
+usage: api.py del-dt-by-property [-h] type value tenant_id
+
+positional arguments:
+  type              string (e.g email)
+  value             string 
+  tenant_id         GID ID of the tenant
+
+optional arguments:
+  -h, --help       show this help message and exit
 ```
 
 12. Enrich token
@@ -1008,15 +1053,15 @@ optional arguments:
   bookmarks     List of String
 ```
 
-61. Create a new Ingest Mapping (ingestion of application or external data into the IK platform)
+61. Create authorization policy config node
 
 ```shell
-python3 api.py create_ingest_mapping_config_node APP_SPACE_ID NAME DISPLAY_NAME DESCRIPTION
+python3 api.py create_authorization_policy_config_node LOCATION NAME DISPLAY_NAME DESCRIPTION
 ```
 
 ```shell
 positional arguments:
-  location = String
+  location = String appSpace gid id
   name = String
   display_name = String
 optional arguments:
@@ -1024,10 +1069,10 @@ optional arguments:
   bookmarks     List of String
 ```
 
-62. Update a given Ingest Mapping
+62. Update authorization policy config node
 
 ```shell
-python3 api.py update_ingest_mapping_config_node CONFIG_NODE_ID ETAG DISPLAY_NAME DESCRIPTION
+python3 api.py update_authorization_policy_config_node CONFIG_NODE_ID ETAG DISPLAY_NAME DESCRIPTION
 ```
 
 ```shell
@@ -1418,6 +1463,194 @@ python3 api.py register_digital_twin_without_credential TENANT_ID
 ```shell
 positional arguments:
   tenant_id   id of the tenant you want to create the DT into
+```
+
+93. Who is authorized to perform a specific action on a Resource 
+
+```shell
+python3 api.py who_authorized ACTIONS RESOURCES
+```
+
+```shell
+positional arguments:
+  actions   List of strings
+  resources List of WhoAuthorizedResource objects
+```
+
+94. Generate an authenticated http client and generate a bearer token from the provided credentials
+
+```shell
+python3 api.py get_http_client
+```
+
+95. Generate a refreshable token source from the provided credentials
+
+```shell
+python3 api.py get_refreshable_token_source
+```
+
+96. Ingest a digital twin
+
+```shell
+python3 api.py ingest_record_digital_twin ACTIONS RESOURCES
+```
+
+```shell
+positional arguments:
+   record_id      String
+   external_id    String
+   tenant_id      String Gid id
+   type           String
+```
+
+
+97. Ingest a digital twin
+
+```shell
+python3 api.py ingest_record_digital_twin ACTIONS RESOURCES
+```
+
+```shell
+positional arguments:
+   record_id      String
+   external_id    String
+   tenant_id      String Gid id
+   type           String
+```
+
+98. Ingest a digital twin
+
+```shell
+python3 api.py ingest_record_digital_twin ACTIONS RESOURCES
+```
+
+```shell
+positional arguments:
+   record_id      String
+   external_id    String
+   tenant_id      String Gid id
+   type           String
+```
+
+99. Ingest a digital twin
+
+```shell
+python3 api.py ingest_record_digital_twin ACTIONS RESOURCES
+```
+
+```shell
+positional arguments:
+   record_id      String
+   external_id    String
+   tenant_id      String Gid id
+   type           String
+```
+
+100. Ingest a digital twin
+
+```shell
+python3 api.py ingest_record_digital_twin RECORD_ID EXTERNAL_ID TENANT_ID TYPE
+```
+
+```shell
+positional arguments:
+   record_id      String
+   external_id    String
+   tenant_id      String Gid id
+   type           String
+```
+
+101. Ingest a node resource
+
+```shell
+python3 api.py ingest_record_resource RECORD_ID EXTERNAL_ID TYPE
+```
+
+```shell
+positional arguments:
+   record_id      String
+   external_id    String
+   type           String
+```
+
+102. Ingest a data relation
+
+```shell
+python3 api.py ingest_record_relation RECORD_ID TYPE SOURCE_MATCH TARGET_MATCH
+```
+
+```shell
+positional arguments:
+   record_id      String
+   type           String
+   source_match   NodeMatch object
+   target_match   NodeMatch object
+```
+
+
+103. Delete a data node
+
+```shell
+python3 api.py delete_record_node RECORD_ID NODE
+```
+
+```shell
+positional arguments:
+   record_id      String
+   node           NodeMatch object
+```
+
+104. Delete a data relation
+
+```shell
+python3 api.py delete_record_relation RECORD_ID TYPE SOURCE_MATCH TARGET_MATCH
+```
+
+```shell
+positional arguments:
+   record_id      String
+   type           String
+   source_match   NodeMatch object
+   target_match   NodeMatch object
+```
+
+105. Delete a data node property
+
+```shell
+python3 api.py delete_record_node_property RECORD_ID MATCH KEY
+```
+
+```shell
+positional arguments:
+   record_id      String
+   match          NodeMatch object
+   key            String
+```
+
+106. Delete a data relation property
+
+```shell
+python3 api.py delete_record_relation_property RECORD_ID TYPE SOURCE_MATCH TARGET_MATCH KEY
+```
+
+```shell
+positional arguments:
+   record_id      String
+   type           String
+   source_match   NodeMatch object
+   target_match   NodeMatch object
+   key            String
+```
+
+107. Ingest stream of records
+
+```shell
+python3 api.py stream_records RECORD
+```
+
+```shell
+positional arguments:
+   record      List of record objects
 ```
 
 ----------------
