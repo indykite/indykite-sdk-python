@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.22.0](https://github.com/indykite/indykite-sdk-python/compare/v1.21.0...v1.22.0) (2023-06-06)
+
+
+### Features
+
+* delete dt by property ([fc76ec9](https://github.com/indykite/indykite-sdk-python/commit/fc76ec91fbcb8168126f1984e9c7bc1cd550a9fc))
+* get DT by property ([49c4a7b](https://github.com/indykite/indykite-sdk-python/commit/49c4a7b149248523819dcc693d675f2e6c7b0268))
+
+
+### Bug Fixes
+
+* update buf generated files ([4fd5d32](https://github.com/indykite/indykite-sdk-python/commit/4fd5d326882792ff71bd03dc00d97c597940bdab))
+
 ## [1.21.0](https://github.com/indykite/indykite-sdk-python/compare/v1.20.0...v1.21.0) (2023-05-30)
 
 
