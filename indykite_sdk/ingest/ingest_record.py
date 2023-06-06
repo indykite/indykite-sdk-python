@@ -367,3 +367,22 @@ def stream_records(self, record):
 
     except Exception as exception:
         return logger.logger_error(exception)
+
+
+def change(self, id, data_type):
+    """
+    create change
+    :param self:
+    :param id: change id
+    :param data_type Change.DataType object
+    :return: change
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        change = model_pb2.Change(
+            id=str(id),
+            data_type=data_type
+        )
+        return change
+    except Exception as exception:
+        return logger.logger_error(exception)
