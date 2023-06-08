@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SDK spaces example</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/fontawesome.min.css"  />
+  <link rel="stylesheet" type="text/css" href="/static/css/animate.min.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
+</head>
+<body>
+  <section id="logo">
+    <div class="container text-center">
+      <h1>Spaces example</h1>
+    </div>
+  </section>
+  <section id="example">
+    <div class="container">
+      <div class="row vertical-align">
+        <div class="col-12">
+            Create an AppSpace, a tenant, an application, an application agent and get application agent credentials
+        </div>
+      </div>
+      <div class="row wow slideInUp">
+        <div class="col-12">
+          <div class="example-steps">
+            <h3>Prerequisites</h3>
+            <dl class="steps-list">
+              <dt>Python</dt> <dd>>= 3.10</dd>
+              <dt>Account</dt> <dd>Accounted created by logging in on https://console.indykite.id/</dd>
+              <dt>Customer</dt> <dd>Customer created on https://console.indykite.id/</dd>
+              <dt>Service account</dt> <dd>Service account created on https://console.indykite.id/ under customer above and credentials obtained thereby downloaded</dd>
+              <dt>Credentials</dt> <dd>INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE exported as env variable</dd>
+              <dt>App</dt> <dd>App running on http://127.0.0.1:5000</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="example-directions">
+            <h3>Steps</h3>
+            <ol>
+              <li><a href="/api/v1/app_space/new">Create an AppSpace</a>
+                {% if session['app_space'] %}
+                <div>Result AppSpace creation:</div>
+                {{ session['app_space'] }}
+                 <br>
+                  {% if session['app_space_by_id'] %}
+                  <div>AppSpace object:</div>
+                  {{ session['app_space_by_id'] }}
+                  <br>
+                  {% endif %}
+                {% endif %}
+              </li>
+               <li><a href="/api/v1/tenant/new">Create a Tenant</a>
+                {% if session['tenant'] %}
+                <div>Result Tenant creation:</div>
+                {{ session['tenant'] }}
+                 <br>
+                  {% if session['tenant_by_id'] %}
+                  <div>Tenant object:</div>
+                  {{ session['tenant_by_id'] }}
+                  <br>
+                  {% endif %}
+                {% endif %}
+              </li>
+              <li><a href="/api/v1/app_with_agent_credentials/new">Create an application, an application agent and get generated application agent credentials</a>
+                {% if session['response_application'] %}
+                  <div>Result App creation:</div>
+                  {{ session['response_application'] }}
+                <br><br>
+                {% endif %}
+                {% if session['response_application_agent'] %}
+                  <div>Result AppAgent creation:</div>
+                  {{ session['response_application_agent'] }}
+                <br><br>
+                {% endif %}
+                {% if session['id'] %}
+                  <div>Result AppAgent credentials id:</div>
+                  {{ session['id'] }}
+                <br><br>
+                {% endif %}
+                 {% if session['kid'] %}
+                  <div>Result AppAgent credentials kid:</div>
+                  {{ session['kid'] }}
+                <br><br>
+                {% endif %}
+                {% if session['agent_config'] %}
+                  <div>Result AppAgent credentials:</div>
+                  {{ session['agent_config'] }}
+                <br><br>
+                If you want to use these credentials in your application (in a dev environment since the private key was generated and displayed openly), copy the result in a json file and export its path in an env variable called INDYKITE_APPLICATION_CREDENTIALS_FILE
+                {% endif %}
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-sm-12 text-center">
+          <h3></h3>
+          <div class="footer-about">
+            <a href="/kill">Clear session</a>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 text-center">
+          <div class="footer-author">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
