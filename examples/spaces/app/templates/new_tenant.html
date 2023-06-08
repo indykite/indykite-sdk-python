@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SDK spaces example</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/fontawesome.min.css"  />
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
+</head>
+<body>
+  <section id="logo">
+    <div class="container text-center">
+      <h1>Spaces example</h1>
+    </div>
+  </section>
+  <section id="example">
+    <div class="container">
+      <div class="row vertical-align">
+        <div class="col-12">
+            <h3>Create a Tenant</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="example-directions">
+            {% for message in get_flashed_messages() %}
+              <h2>{{ message }}</h2>
+            {% endfor %}
+           <form method="post">
+              <label for="issuer_id">Issuer GID id </label>
+              <br>(can be found in the AppSpace object created at step 1)
+              <br>
+              <input type="text" name="issuer_id"
+                     placeholder="Issuer id"
+                     value="{{ request.form['issuer_id'] }}"></input>
+              <br>
+             <label for="display_name">Display name</label>
+              <br>
+              <input type="text" name="display_name"
+                     placeholder="Display name"
+                     value="{{ request.form['display_name'] }}"></input>
+              <br>
+             <label for="description">Description</label>
+              <br>
+              <input type="text" name="description"
+                     placeholder="Description"
+                     value="{{ request.form['description'] }}"></input>
+              <br>
+
+              <button type="submit">Submit</button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-sm-12 text-center">
+          <h3></h3>
+          <div class="footer-about">
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 text-center">
+          <div class="footer-author">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
