@@ -1,5 +1,5 @@
 import traceback
-from flask import redirect, url_for
+from flask import redirect, url_for, render_template, session
 from flask_openapi3 import HTTPBearer, HTTPBase
 from flask_openapi3 import Info
 from flask_openapi3 import OpenAPI
@@ -49,13 +49,21 @@ def create_app():
 
 
 app = create_app()
+app.config['SECRET_KEY'] = 'd5fb8c4fa8bd46638dadc4e751e0d68d'
 
 
 @app.route("/")
 def index():
-    return redirect(url_for("openapi.swagger"))
+    return render_template("index.html")
+
+
+@app.route("/kill")
+def kill():
+    session.clear()
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 

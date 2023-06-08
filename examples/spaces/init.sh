@@ -8,6 +8,6 @@ if [ "${PROJECT_NAME}" = "" ]
     exit 1
 fi
 
-export DEFAULT_NAME=sdk-backend
+export DEFAULT_NAME=spaces
 
 sed -i "s/${DEFAULT_NAME}/${PROJECT_NAME}/g" ./README.md
