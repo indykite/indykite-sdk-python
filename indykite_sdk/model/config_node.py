@@ -2,7 +2,7 @@ from indykite_sdk.utils import timestamp_to_date
 from indykite_sdk.model.email_service_config import EmailServiceConfig
 from indykite_sdk.model.auth_flow_config import AuthFlowConfig
 from indykite_sdk.model.oauth2_client_config import OAuth2ClientConfig
-from indykite_sdk.model.ingest_mapping_config import IngestMappingConfig
+from indykite_sdk.model.readid_provider_config import ReadIdProviderConfig
 from indykite_sdk.model.webauthn_provider_config import WebAuthnProviderConfig
 from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
 
@@ -23,36 +23,45 @@ class ConfigNode:
             str(message.tenant_id)
         )
 
-        if message.HasField('create_time'):
+        if "create_time" in fields:
             config_node.create_time = timestamp_to_date(message.create_time)
 
-        if message.HasField('update_time'):
+        if "update_time" in fields:
             config_node.update_time = timestamp_to_date(message.update_time)
 
-        if message.HasField('destroy_time'):
+        if "destroy_time" in fields:
             config_node.destroy_time = timestamp_to_date(message.destroy_time)
 
-        if message.HasField('delete_time'):
+        if "delete_time" in fields:
             config_node.delete_time = timestamp_to_date(message.delete_time)
 
-        if message.HasField('description'):
+        if "description" in fields:
             config_node.description = str(message.description.value)
 
-        if message.HasField('email_service_config'):
+        if "email_service_config" in fields:
             config_node.email_service_config = EmailServiceConfig.deserialize(message.email_service_config)
 
-        if message.HasField('auth_flow_config'):
+        if "auth_flow_config" in fields:
             config_node.auth_flow_config = AuthFlowConfig.deserialize(message.auth_flow_config)
 
-        if message.HasField('oauth2_client_config'):
+        if "oauth2_client_config" in fields:
             config_node.oauth2_client_config = OAuth2ClientConfig.deserialize(message.oauth2_client_config)
 
-        if message.HasField('webauthn_provider_config'):
+        if "webauthn_provider_config" in fields:
             config_node.webauthn_provider_config = WebAuthnProviderConfig.deserialize(message.webauthn_provider_config)
 
-        if message.HasField('authorization_policy_config'):
+        if "readid_provider_config" in fields:
+            config_node.readid_provider_config = ReadIdProviderConfig.deserialize(message.readid_provider_config)
+
+        if "authorization_policy_config" in fields:
             config_node.authorization_policy_config = AuthorizationPolicyConfig.deserialize(
                 message.authorization_policy_config)
+
+        if "created_by" in fields:
+            config_node.created_by = str(message.created_by)
+
+        if "updated_by" in fields:
+            config_node.updated_by = str(message.updated_by)
 
         return config_node
 
@@ -74,5 +83,7 @@ class ConfigNode:
         self.oauth2_client_config = None
         self.webauthn_provider_config = None
         self.authorization_policy_config = None
+        self.created_by = None
+        self.updated_by = None
 
 
