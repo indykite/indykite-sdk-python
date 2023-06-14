@@ -3,15 +3,16 @@
     "policyVersion": "1.0-indykite"
   },
   "subject": {
-    "type": "DigitalTwin"
+    "type": "Person"
   },
   "actions": [
-    "HAS_FREE_PARKING"
+    "CAN_DRIVE"
   ],
   "resource": {
-    "type": "ParkingLot"
+    "type": "Car"
   },
   "condition": {
-    "cypher": "MATCH(subject:DigitalTwin{digital_twin_id:$subject_id}) MATCH(n1:Household) MATCH(n2:DigitalTwin) MATCH(n3:LoyaltyProgram) MATCH(n4:Mall) MATCH(resource:ParkingLot) MATCH(sub)-[:MEMBER_OF]->(n1) MATCH(n2)-[:MEMBER_OF]->(n1) MATCH(n2)-[:MEMBER_OF]->(n3) MATCH(n4)-[:OFFERS]->(n3) MATCH(resource)-[:OUTSIDE]->(n4)"
+    "cypher": "MATCH (subject:Person)-[:OWNS]->(resource:Car{color:$color})",
+    "inputParams": ["color"]
   }
 }
