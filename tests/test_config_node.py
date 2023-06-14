@@ -3,6 +3,7 @@ from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.create_config_node import CreateConfigNode
 from indykite_sdk.model.update_config_node import UpdateConfigNode
+from indykite_sdk.indykite.config.v1beta1 import model_pb2
 from helpers import data
 
 
@@ -729,3 +730,303 @@ def test_update_authorization_policy_config_node_exception(capsys):
 
     captured = capsys.readouterr()
     assert "'str' object has no attribute 'status'" in captured.err
+
+
+def test_create_readid_provider_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    readid_provider_config = data.get_readid_provider()
+
+    config_node = client.create_readid_provider_config_node(app_space_id,
+                                                              "automation-"+right_now,
+                                                              "Automation "+right_now,
+                                                              "description",
+                                                              readid_provider_config,
+                                                              [])
+    captured = capsys.readouterr()
+
+    assert "invalid or expired access_token" not in captured.out
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+
+
+def test_create_readid_provider_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    readid_provider_config = data.get_readid_provider()
+
+    def mocked_create_config_node(request: pb2.CreateConfigNodeRequest):
+        return None
+
+    client.stub.CreateConfigNode = mocked_create_config_node
+    config_node = client.create_readid_provider_config_node(app_space_id,
+                                                            "automation-"+right_now,
+                                                            "Automation "+right_now,
+                                                            "description",
+                                                            readid_provider_config,
+                                                            [])
+
+    assert config_node is None
+
+
+def test_create_readid_provider_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    readid_provider_config = data.get_readid_provider_exception()
+    config_node = client.create_readid_provider_config_node(app_space_id,
+                                                            "automation-"+right_now,
+                                                            "Automation "+right_now,
+                                                            "description",
+                                                            readid_provider_config,
+                                                            [])
+
+    captured = capsys.readouterr()
+    assert "Parameter to MergeFrom() must be instance of same class" in captured.err
+
+
+def test_update_readid_provider_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_readid_provider_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    readid_provider_config = data.get_readid_provider()
+    config_node_response = client.update_readid_provider_config_node(response.id,
+                                                                     response.etag,
+                                                                     "Automation "+right_now,
+                                                                     "description "+right_now,
+                                                                     readid_provider_config,
+                                                                     [])
+
+    captured = capsys.readouterr()
+
+    assert "invalid or expired access_token" not in captured.out
+    assert config_node_response is not None
+    assert isinstance(config_node_response, UpdateConfigNode)
+
+
+def test_update_readid_provider_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_readid_provider_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    readid_provider_config = data.get_readid_provider()
+
+    def mocked_update_config_node(request: pb2.UpdateConfigNodeRequest):
+        return None
+
+    client.stub.UpdateConfigNode = mocked_update_config_node
+    config_node_response = client.update_readid_provider_config_node(response.id,
+                                                                     response.etag,
+                                                                     "Automation " + right_now,
+                                                                     "description " + right_now,
+                                                                     readid_provider_config,
+                                                                     [])
+
+    assert config_node_response is None
+
+
+def test_update_readid_provider_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_readid_provider_config_node_id()
+    readid_provider_config = data.get_readid_provider_exception()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    config_node_response = client.update_readid_provider_config_node(response.id,
+                                                                     response.etag,
+                                                                     "Automation "+right_now,
+                                                                     "description "+right_now,
+                                                                     readid_provider_config,
+                                                                     [])
+
+    captured = capsys.readouterr()
+    assert "Parameter to MergeFrom() must be instance of same class" in captured.err
+
+
+def test_create_knowledge_graph_schema_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    knowledge_graph_schema_config = data.get_kg_schema()
+
+    def mocked_create_config_node(request: pb2.CreateConfigNodeRequest):
+        assert request.location == app_space_id
+        assert request.name == "automation-" + right_now
+        assert request.display_name == "Automation " + right_now
+        assert request.description == "description"
+        assert request.knowledge_graph_schema_config == knowledge_graph_schema_config
+        config_node = pb2.CreateConfigNodeResponse(
+            id="gid:AAAAFxmv8U7qY0NCnvxmjrMUNuo",
+            create_time="2023-06-13 09:24:10.879975",
+            update_time="2023-06-13 09:24:10.879975",
+            etag="HpHeVroR1KV",
+            bookmark="RkI6a2N3UXcvenBRNy9sVDRHanRDK0szeEc2bnNvU3pxOGFrQT09cY9BQvSYSohQJXz-GC_MsZGYzp-zTLkYe2_OlYmRr-E"
+        )
+
+        assert isinstance(config_node, CreateConfigNode)
+        assert config_node is not None
+        return config_node
+
+    client.stub.CreateConfigNode = mocked_create_config_node
+
+    captured = capsys.readouterr()
+
+
+
+def test_create_knowledge_graph_schema_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    knowledge_graph_schema_config = data.get_kg_schema()
+
+    def mocked_create_config_node(request: pb2.CreateConfigNodeRequest):
+        return None
+
+    client.stub.CreateConfigNode = mocked_create_config_node
+    config_node = client.create_knowledge_graph_schema_config_node(app_space_id,
+                                                                   "automation-"+right_now,
+                                                                   "Automation "+right_now,
+                                                                   "description",
+                                                                   knowledge_graph_schema_config,
+                                                                   [])
+
+    assert config_node is None
+
+
+def test_create_knowledge_graph_schema_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    config_node = client.create_knowledge_graph_schema_config_node(app_space_id,
+                                                                   "automation-"+right_now,
+                                                                   "Automation "+right_now,
+                                                                   "description",
+                                                                   "description",
+                                                                   [])
+
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
+
+
+def test_update_knowledge_graph_schema_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_kg_schema_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    knowledge_graph_schema_config = data.get_kg_schema()
+    config_node_response = client.update_knowledge_graph_schema_config_node(response.id,
+                                                                            response.etag,
+                                                                            "Automation "+right_now,
+                                                                            "description "+right_now,
+                                                                            knowledge_graph_schema_config)
+
+    captured = capsys.readouterr()
+    assert isinstance(knowledge_graph_schema_config, model_pb2.KnowledgeGraphSchemaConfig)
+    assert config_node_response is not None
+
+
+def test_update_knowledge_graph_schema_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_kg_schema_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    knowledge_graph_schema_config = data.get_kg_schema()
+
+    def mocked_update_config_node(request: pb2.UpdateConfigNodeRequest):
+        return None
+
+    client.stub.UpdateConfigNode = mocked_update_config_node
+    config_node_response = client.update_knowledge_graph_schema_config_node(response.id,
+                                                                            response.etag,
+                                                                            "Automation " + right_now,
+                                                                            "description " + right_now,
+                                                                            knowledge_graph_schema_config,
+                                                                            [])
+
+    assert config_node_response is None
+
+
+def test_update_knowledge_graph_schema_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    config_node_id = data.get_kg_schema_config_node_id()
+    response = client.read_config_node(config_node_id)
+    assert response is not None
+
+    config_node_response = client.update_knowledge_graph_schema_config_node(response.id,
+                                                                            response.etag,
+                                                                            "Automation "+right_now,
+                                                                            "description "+right_now,
+                                                                            "description",
+                                                                            [])
+
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
+
+
+def test_validate_authorization_policy_status(capsys):
+    client = ConfigClient()
+    assert client is not None
+    response = client.validate_authorization_policy_status("wrong")
+    captured = capsys.readouterr()
+    assert "status must be a member of AuthorizationPolicyConfig.Status" in captured.err
+
+
+def test_validate_authenticator_attachment(capsys):
+    client = ConfigClient()
+    assert client is not None
+    response = client.validate_authenticator_attachment("wrong")
+    captured = capsys.readouterr()
+    assert "authenticator_attachment must be a member of AuthenticatorAttachment" in captured.err
+
+
+def test_validate_user_verification(capsys):
+    client = ConfigClient()
+    assert client is not None
+    response = client.validate_user_verification("wrong")
+    captured = capsys.readouterr()
+    assert "user_verification_requirements must be a member of UserVerificationRequirement" in captured.err
+
+
+def test_validate_conveyance(capsys):
+    client = ConfigClient()
+    assert client is not None
+    response = client.validate_conveyance("wrong")
+    captured = capsys.readouterr()
+    assert "conveyance must be a member of ConveyancePreference" in captured.err

@@ -8,6 +8,7 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Emai
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from google.protobuf.duration_pb2 import Duration
+from indykite_sdk.config import ConfigClient
 
 
 URL = os.getenv('INDYKITE_SDK_URL')
@@ -33,6 +34,7 @@ TEST_SERVICE_ACCOUNT = "gid:AAAAEv3GiONu2UdplM9ML9eCrus"
 CUSTOMER_NAME = "sdk-customer"
 APP_SPACE_NAME = "sdk-appspace"
 CUSTOMER_ID = "gid:AAAAAbHLUExsxkqsqRoI93amR30"
+CUSTOMER_ID2 = "gid:AAAAAZ8HZy1McEd2i_E0-jLdGZw"
 APP_SPACE_ID = "gid:AAAAAi7tSAs-qkg_his0YnvKuJ4"
 ISSUER_ID = "gid:AAAAD1DBxqIze0UniM_vaogDx6Y"
 TENANT_ID = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
@@ -48,7 +50,9 @@ AUTH_FLOW_CONFIG_NODE = "gid:AAAAB0Vg1IohjEV4uDLA_hFawKI"
 OAUTH2_CLIENT_CONFIG_NODE = "gid:AAAACtBSbo_Sf0XXpOzuoNfzMk8"
 INGEST_MAPPING_CONFIG_NODE = "gid:AAAAFLk0_fECVENquHrfZUTjaic"
 WEBAUTHN_PROVIDER_CONFIG_NODE = "gid:AAAADRcYFyi8IUUIv-P5IJwlXQ0"
+READID_PROVIDER_CONFIG_NODE = "gid:AAAAGN3V8nbUFERTg8Tgb-0IMpI"
 AUTHZ_POLICY_CONFIG_NODE = "gid:AAAAFqlGrfMyt0Pnlo5uozu_4oM"
+KG_SCHEMA_CONFIG_NODE = "gid:AAAAFxmv8U7qY0NCnvxmjrMUNuo"
 OAUTH2_PROVIDER = "gid:AAAAEXX8LPjXo0bmvR1VWQEwrQI"
 OAUTH2_APPLICATION = "gid:AAAAC5wPdP0VEUHqvLdEOwkVJCA"
 PASSWORD = "Password"
@@ -149,6 +153,10 @@ def get_customer_id():
     return CUSTOMER_ID
 
 
+def get_customer_id2():
+    return CUSTOMER_ID2
+
+
 def get_app_space_name():
     return APP_SPACE_NAME
 
@@ -221,8 +229,16 @@ def get_webauthn_provider_config_node_id():
     return WEBAUTHN_PROVIDER_CONFIG_NODE
 
 
+def get_readid_provider_config_node_id():
+    return READID_PROVIDER_CONFIG_NODE
+
+
 def get_authz_policy_config_node_id():
     return AUTHZ_POLICY_CONFIG_NODE
+
+
+def get_kg_schema_config_node_id():
+    return KG_SCHEMA_CONFIG_NODE
 
 
 def get_oauth2_provider_id():
@@ -357,3 +373,50 @@ def get_authz_policy():
         tags=[]
     )
     return policy_config
+
+
+def get_kg_schema():
+    with open(os.path.dirname(__file__) + "/sdk_schema.txt", "r") as file:
+        file_data = "\n".join(file.read().split("\n"))
+    schema_config = ConfigClient().knowledge_graph_schema_config(file_data)
+    return schema_config
+
+
+def get_readid_provider():
+    submitter_secret = "8d300cd5-a417-478b-b5cb-3d6d7d1fa76a"
+    manager_secret = "55203ecc-7ed5-4d9b-8762-27146c16eab6"
+    submitter_password = "1234566677"
+    host_address = "<https://saas-preprod.readid.com>"
+    readid_property = ConfigClient().readid_property("c.secondaryIdentifier", True)
+    property_map = {"givenname": readid_property}
+    unique_property_name = "uniquepropertyname"
+
+    readid_provider_config = ConfigClient().readid_provider_config(
+        submitter_secret,
+        manager_secret,
+        submitter_password,
+        host_address,
+        property_map,
+        unique_property_name
+    )
+    return readid_provider_config
+
+
+def get_readid_provider_exception():
+    submitter_secret = "ioioioio"
+    manager_secret = "gygygygyyg"
+    submitter_password = "444466677"
+    host_address = "saas-preprod.readid.com"
+    property_map = {"givenname": []}
+    unique_property_name = "uniquepropertyname"
+
+    readid_provider_config = ConfigClient().readid_provider_config(
+        submitter_secret,
+        manager_secret,
+        submitter_password,
+        host_address,
+        property_map,
+        unique_property_name
+    )
+    return readid_provider_config
+

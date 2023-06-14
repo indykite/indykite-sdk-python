@@ -1,0 +1,54 @@
+type Vehicle implements DigitalTwin {
+      externalId: String!
+      digitalTwinId: String!
+      tenantId: String!
+      kind: DigitalTwinKind!
+      tags: [String!]!
+      fuelType: String!
+      model: String!
+      registrationNo: String!
+      vin: String!
+      year: Int!
+      serviceLogs: [ServiceLog!]! @relationship(type: "SERVICE", direction: OUT)
+      owner: Person @relationship(type: "OWNER", direction: IN)
+  }
+
+type ServiceLog implements Resource {
+    code: String!
+    description: String!
+    externalId: String!
+    milage: Float!
+    vehicle: Vehicle! @relationship(type: "SERVICE", direction: IN)
+}
+
+type Person implements DigitalTwin {
+    externalId: String!
+    digitalTwinId: String!
+    tenantId: String!
+    kind: DigitalTwinKind!
+    tags: [String!]!
+    email: IdentityProperty @identityProperty
+    vehicles: [Vehicle!]! @relationship(type: "OWNER", direction: OUT)
+    passports: [Passport!]! @relationship(type: "ISSUED_FOR", direction: IN)
+    household: Household @relationship(type: "MEMBER_OF", direction:OUT)
+    loyaltyPrograms: [LoyaltyProgram!]! @relationship(type: "PARTICIPATES_IN", direction: OUT)
+}
+
+type Passport implements Resource {
+    country: String!
+    documentNumber: String!
+    externalId: String!
+    nationality: String!
+    sex: String!
+    owner: Person! @relationship(type: "ISSUED_FOR", direction: OUT)
+}
+
+type Household implements Resource {
+    externalId: String!
+    members: [Person!]! @relationship(type: "MEMBER_OF", direction: IN)
+}
+
+type LoyaltyProgram implements Resource {
+    externalId: String!
+    participants: [Person!]! @relationship(type: "PARTICIPATE_IN", direction: IN)
+}
