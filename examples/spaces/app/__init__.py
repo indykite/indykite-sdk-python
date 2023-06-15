@@ -49,7 +49,7 @@ def create_app():
 
 
 app = create_app()
-app.config['SECRET_KEY'] = 'd5fb8c4fa8bd46638dadc4e751e0d68d'
+app.config['SECRET_KEY'] = 'aaaaaaaaaaaaaaaaaaaa' # for flash session to work
 
 
 @app.route("/")
