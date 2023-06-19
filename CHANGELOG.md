@@ -1,16 +1,5 @@
 # Changelog
 
-## [1.23.0](https://github.com/indykite/indykite-sdk-python/compare/v1.22.0...v1.23.0) (2023-06-16)
-
-
-### Features
-
-* add info in ingest ([f2e2a0c](https://github.com/indykite/indykite-sdk-python/commit/f2e2a0ceb03bccbc260b201d523f4ecac4f14008))
-* add readid and kg schema config nodes ([cb47dbf](https://github.com/indykite/indykite-sdk-python/commit/cb47dbf3a4c1e718088f3b9e2ed43cc8a3874b58))
-* change spaces example ([4c47fc8](https://github.com/indykite/indykite-sdk-python/commit/4c47fc859145f58389ff5148555d4f18310ca57e))
-* change spaces example ([058f251](https://github.com/indykite/indykite-sdk-python/commit/058f251878a9a01d1f0f00e1ac5f8d0e1fc8f907))
-* update spaces ([b66ed2c](https://github.com/indykite/indykite-sdk-python/commit/b66ed2ce72a848601d3017a4e7ed5b38d720793d))
-
 ## [1.22.0](https://github.com/indykite/indykite-sdk-python/compare/v1.21.0...v1.22.0) (2023-06-06)
 
 
