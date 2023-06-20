@@ -650,14 +650,17 @@ Property ID and value of the property where the value is a reference
     get_refreshable_token_source = subparsers.add_parser("get_refreshable_token_source")
 
     # ingest
-    ingest_record_digital_twin = subparsers.add_parser("ingest_record_digital_twin")
-    ingest_record_resource = subparsers.add_parser("ingest_record_resource")
-    ingest_record_relation = subparsers.add_parser("ingest_record_relation")
-    delete_record_relation_property = subparsers.add_parser("delete_record_relation_property")
-    delete_record_node_property = subparsers.add_parser("delete_record_node_property")
-    delete_record_relation = subparsers.add_parser("delete_record_relation")
-    delete_record_node = subparsers.add_parser("delete_record_node")
-    stream_records = subparsers.add_parser("stream_records")
+    ingest_record_digital_twin_parser = subparsers.add_parser("ingest_record_digital_twin")
+    ingest_record_resource_parser = subparsers.add_parser("ingest_record_resource")
+    ingest_record_relation_parser = subparsers.add_parser("ingest_record_relation")
+    delete_record_relation_property_parser= subparsers.add_parser("delete_record_relation_property")
+    delete_record_node_property_parser = subparsers.add_parser("delete_record_node_property")
+    delete_record_relation_parser = subparsers.add_parser("delete_record_relation")
+    delete_record_node_parser = subparsers.add_parser("delete_record_node")
+    stream_records_parser = subparsers.add_parser("stream_records")
+
+    # get_schema_helpers
+    get_schema_helpers_parser = subparsers.add_parser("get_schema_helpers")
 
     args = parser.parse_args()
     local = args.local
@@ -1375,9 +1378,9 @@ Property ID and value of the property where the value is a reference
         default_from_address_name="Test Config"
 
         sendgrid = SendGridProviderConfig(
-            api_key="263343b5-983e-4d73-b666-069a98f1ef55",
+            api_key=os.getenv('SENDGRID_KEY'),
             sandbox_mode=True,
-            ip_pool_name=wrappers.StringValue(value="100.45.21.65.28"),
+            ip_pool_name=wrappers.StringValue(value=os.getenv('SENDGRID_IP')),
             host=wrappers.StringValue(value="https://api.sendgrid.com")
         )
 
@@ -1427,11 +1430,11 @@ Property ID and value of the property where the value is a reference
         user_dict = json.loads(file_data)
         user_dict = json.dumps(user_dict, indent=4, separators=(',', ': ')).encode('utf-8')
 
-        #only bare JSON or YAML source_format is support as input
-        auth_flow_config = AuthFlowConfig(
+        # only bare JSON or YAML source_format is support as input
+        auth_flow_config = client_config.auth_flow_config(
             source_format="FORMAT_BARE_JSON",
-            source=bytes(user_dict),
-            default=wrappers.BoolValue(value=False)
+            source=user_dict,
+            default=False
         )
 
         create_auth_flow_config_node_response = client_config.create_auth_flow_config_node(location, name, display_name,
@@ -1454,10 +1457,11 @@ Property ID and value of the property where the value is a reference
         user_dict = json.loads(file_data)
         user_dict = json.dumps(user_dict, indent=4, separators=(',', ': ')).encode('utf-8')
 
-        auth_flow_config = AuthFlowConfig(
+        # only bare JSON or YAML source_format is support as input
+        auth_flow_config = client_config.auth_flow_config(
             source_format="FORMAT_BARE_JSON",
-            source=bytes(user_dict),
-            default=wrappers.BoolValue(value=False)
+            source=user_dict,
+            default=False
         )
 
         update_auth_flow_config_node_response = client_config.update_auth_flow_config_node(config_node_id, etag,display_name,
@@ -1522,8 +1526,8 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         description = args.description
 
-        webauthn_provider_config = WebAuthnProviderConfig(
-            relying_parties={"http://localhost":"localhost"},
+        webauthn_provider_config = client_config.webauthn_provider_config(
+            relying_parties={"http://localhost": "localhost"},
             attestation_preference="CONVEYANCE_PREFERENCE_NONE",
             authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
             require_resident_key=False,
@@ -1546,8 +1550,8 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         description = args.description
 
-        webauthn_provider_config = WebAuthnProviderConfig(
-            relying_parties={"http://localhost":"localhost"},
+        webauthn_provider_config = client_config.webauthn_provider_config(
+            relying_parties={"http://localhost": "localhost"},
             attestation_preference="CONVEYANCE_PREFERENCE_INDIRECT",
             authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
             require_resident_key=False,
@@ -1575,22 +1579,17 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
-        submitter_secret = "8d300cd5-a417-478b-b5cb-3d6d7d1fa76a"
-        manager_secret = "55203ecc-7ed5-4d9b-8762-27146c16eab6"
-        submitter_password = "123456"
-        host_address = "<https://saas-preprod.readid.com>"
         readid_property = client_config.readid_property("c.secondaryIdentifier", True)
-        property_map = {"givenname":readid_property}
-        unique_property_name = "propertyname"
 
         readid_provider_config = client_config.readid_provider_config(
-            submitter_secret,
-            manager_secret,
-            submitter_password,
-            host_address,
-            property_map,
-            unique_property_name
+            submitter_secret="8d300cd5-a417-478b-b5cb-3d6d7d1fa76a",
+            manager_secret="55203ecc-7ed5-4d9b-8762-27146c16eab6",
+            submitter_password="123456",
+            host_address="<https://saas-preprod.readid.com>",
+            property_map={"givenname": readid_property},
+            unique_property_name="propertyname"
         )
+
         create_readid_provider_config_node_response = client_config.create_readid_provider_config_node(
             location, name, display_name, description, readid_provider_config, [])
         if create_readid_provider_config_node_response:
@@ -1604,21 +1603,15 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
-        submitter_secret = "8d300cd5-a417-478b-b5cb-3d6d7d1fa76a"
-        manager_secret = "55203ecc-7ed5-4d9b-8762-27146c16eab6"
-        submitter_password = "12345689"
-        host_address = "<https://saas-preprod.readid.com>"
         readid_property = client_config.readid_property("c.secondaryIdentifier", True)
-        property_map = {"givenname":readid_property}
-        unique_property_name = "propertyname2"
 
         readid_provider_config = client_config.readid_provider_config(
-            submitter_secret,
-            manager_secret,
-            submitter_password,
-            host_address,
-            property_map,
-            unique_property_name
+            submitter_secret="8d300cd5-a417-478b-b5cb-3d6d7d1fa76a",
+            manager_secret="55203ecc-7ed5-4d9b-8762-27146c16eab6",
+            submitter_password="12345689",
+            host_address="<https://saas-preprod.readid.com>",
+            property_map={"givenname":readid_property},
+            unique_property_name="propertyname2"
         )
 
         update_readid_provider_config_node_response = client_config.update_readid_provider_config_node(
@@ -1645,11 +1638,7 @@ Property ID and value of the property where the value is a reference
             file_data = f.read()
         policy_dict = json.loads(file_data)
         policy_dict = json.dumps(policy_dict)
-        policy_config = AuthorizationPolicyConfig(
-            policy=str(policy_dict),
-            status="STATUS_ACTIVE",
-            tags=[]
-        )
+        policy_config = client_config.authorization_policy_config(str(policy_dict), "STATUS_ACTIVE", [])
 
         create_authorization_policy_config_node_response = client_config.create_authorization_policy_config_node(
             location,
@@ -1676,12 +1665,8 @@ Property ID and value of the property where the value is a reference
             file_data = f.read()
         policy_dict = json.loads(file_data)
         policy_dict = json.dumps(policy_dict)
+        policy_config = client_config.authorization_policy_config(str(policy_dict), "STATUS_ACTIVE", [])
 
-        policy_config = AuthorizationPolicyConfig(
-            policy=str(policy_dict),
-            status="STATUS_ACTIVE",
-            tags=[]
-        )
         update_authorization_policy_config_node_response = client_config.update_authorization_policy_config_node(
             config_node_id,
             etag,
@@ -1703,9 +1688,8 @@ Property ID and value of the property where the value is a reference
         description = args.description
         with open("utils/sdk_schema.txt", "r") as file:
             file_data = "\n".join(file.read().split("\n"))
-        # print(file_data)
         schema_config = client_config.knowledge_graph_schema_config(file_data)
-        # print(schema_config)
+
         create_knowledge_graph_schema_config_node_response = client_config.create_knowledge_graph_schema_config_node(
             location,
             name,
@@ -2497,6 +2481,14 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid ingestion")
         return response
+
+    elif command == "get_schema_helpers":
+        get_schema_helpers = client_config.get_schema_helpers()
+        if get_schema_helpers:
+            print_response(get_schema_helpers)
+        else:
+            print("Invalid get schema helpers")
+        return get_schema_helpers
 
 
 def print_verify_info(digital_twin_info):  # pragma: no cover

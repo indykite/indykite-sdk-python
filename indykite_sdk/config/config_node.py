@@ -140,6 +140,29 @@ def update_auth_flow_config_node(self, config_node_id, etag, display_name, descr
     return UpdateConfigNode.deserialize(response)
 
 
+def auth_flow_config(self, source_format,
+                     source,
+                     default):
+    """
+    create AuthFlowConfig
+    :param self:
+    :param source_format: AuthFlowConfig.Format enum value
+    :param source: bytes of json string
+    :param default: google.protobuf.BoolValue
+    :return:
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        auth_flow_config = model_pb2.AuthFlowConfig(
+            source_format=source_format,
+            source=bytes(source),
+            default=wrappers.BoolValue(value=default)
+            )
+        return auth_flow_config
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
 def create_oauth2_client_config_node(self, location, name, display_name, description, oauth2_client_config,
                                      bookmarks=[]):
     sys.excepthook = logger.handle_excepthook
@@ -246,6 +269,41 @@ def update_webauthn_provider_config_node(self, config_node_id, etag, display_nam
     return UpdateConfigNode.deserialize(response)
 
 
+def webauthn_provider_config(self, relying_parties,
+                             attestation_preference,
+                             authenticator_attachment,
+                             require_resident_key,
+                             user_verification,
+                             registration_timeout,
+                             authentication_timeout):
+    """
+    create WebAuthnProviderConfig
+    :param self:
+    :param relying_parties: map<string, string>
+    :param attestation_preference: ConveyancePreference enum value
+    :param authenticator_attachment: AuthenticatorAttachment enum value
+    :param require_resident_key: bool
+    :param user_verification: UserVerificationRequirement enum value
+    :param registration_timeout: google.protobuf.Duration (google.protobuf.duration_pb2.Duration)
+    :param authentication_timeout: google.protobuf.Duration (google.protobuf.duration_pb2.Duration)
+    :return: WebAuthnProviderConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        webauthn_provider = model_pb2.WebAuthnProviderConfig(
+            relying_parties=relying_parties,
+            attestation_preference=attestation_preference,
+            authenticator_attachment=authenticator_attachment,
+            require_resident_key=bool(require_resident_key),
+            user_verification=user_verification,
+            registration_timeout=registration_timeout,
+            authentication_timeout=authentication_timeout
+            )
+        return webauthn_provider
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
 def create_authorization_policy_config_node(self, location, name, display_name, description,
                                             authorization_policy_config, bookmarks=[]):
     sys.excepthook = logger.handle_excepthook
@@ -297,6 +355,27 @@ def update_authorization_policy_config_node(self, config_node_id, etag, display_
     if not response:
         return None
     return UpdateConfigNode.deserialize(response)
+
+
+def authorization_policy_config(self, policy, status, tags=[]):
+    """
+    create AuthorizationPolicyConfig
+    :param self:
+    :param policy: JSON string format
+    :param status: AuthorizationPolicyConfig.Status
+    :param tags: list of strings
+    :return: AuthorizationPolicyConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        policy_config = model_pb2.AuthorizationPolicyConfig(
+            policy=str(policy),
+            status=status,
+            tags=tags
+            )
+        return policy_config
+    except Exception as exception:
+        return logger.logger_error(exception)
 
 
 def validate_conveyance(self, conveyance):
