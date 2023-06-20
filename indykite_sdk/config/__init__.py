@@ -76,11 +76,13 @@ class ConfigClient(object):
         create_readid_provider_config_node, update_readid_provider_config_node, readid_provider_config, \
         readid_property, create_knowledge_graph_schema_config_node, update_knowledge_graph_schema_config_node, \
         knowledge_graph_schema_config, validate_authenticator_attachment, validate_authorization_policy_status, \
-        validate_user_verification, validate_conveyance
+        validate_user_verification, validate_conveyance, authorization_policy_config, webauthn_provider_config, \
+        auth_flow_config
     from .oauth2_provider import create_oauth2_provider, read_oauth2_provider, update_oauth2_provider, \
         delete_oauth2_provider
     from .oauth2_application import create_oauth2_application, read_oauth2_application, update_oauth2_application, \
         delete_oauth2_application
     from .create_application_with_agent_credentials import create_application_with_agent_credentials
+    from .get_schema import get_schema_helpers
 
 

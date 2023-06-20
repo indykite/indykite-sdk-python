@@ -282,11 +282,10 @@ def get_auth_flow():
         file_data = f.read()
     user_dict = json.loads(file_data)
     user_dict = json.dumps(user_dict, indent=4, separators=(',', ': ')).encode('utf-8')
-
-    auth_flow_config = AuthFlowConfig(
-        source_format="FORMAT_BARE_JSON",
-        source=bytes(user_dict),
-        default=wrappers.BoolValue(value=False)
+    auth_flow_config = ConfigClient().auth_flow_config(
+        "FORMAT_BARE_JSON",
+        user_dict,
+        False
     )
     return auth_flow_config
 
@@ -337,27 +336,27 @@ def get_oauth2_application():
 
 
 def get_webauthn_provider():
-    webauthn_provider_config = WebAuthnProviderConfig(
-        relying_parties={"http://localhost":"localhost"},
-        attestation_preference="CONVEYANCE_PREFERENCE_NONE",
-        require_resident_key=False,
-        user_verification="USER_VERIFICATION_REQUIREMENT_PREFERRED",
-        authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
-        registration_timeout=Duration(seconds=30),
-        authentication_timeout=Duration(seconds=60)
+    webauthn_provider_config = ConfigClient().webauthn_provider_config(
+        {"http://localhost": "localhost"},
+        "CONVEYANCE_PREFERENCE_NONE",
+        "AUTHENTICATOR_ATTACHMENT_DEFAULT",
+        False,
+        "USER_VERIFICATION_REQUIREMENT_PREFERRED",
+        Duration(seconds=30),
+        Duration(seconds=60)
     )
     return webauthn_provider_config
 
 
 def get_webauthn_provider_exception():
-    webauthn_provider_config = WebAuthnProviderConfig(
-        relying_parties={"localhost": "localhost"},
-        attestation_preference="CONVEYANCE_PREFERENCE_NONE",
-        require_resident_key=False,
-        user_verification="USER_VERIFICATION_REQUIREMENT_PREFERRED",
-        authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
-        registration_timeout=Duration(seconds=30),
-        authentication_timeout=Duration(seconds=60)
+    webauthn_provider_config = ConfigClient().webauthn_provider_config(
+        {"localhost": "localhost"},
+        "CONVEYANCE_PREFERENCE_NONE",
+        "AUTHENTICATOR_ATTACHMENT_DEFAULT",
+        False,
+        "USER_VERIFICATION_REQUIREMENT_PREFERRED",
+        Duration(seconds=30),
+        Duration(seconds=60)
     )
     return webauthn_provider_config
 
@@ -367,11 +366,7 @@ def get_authz_policy():
         file_data = f.read()
     policy_dict = json.loads(file_data)
     policy_dict = json.dumps(policy_dict)
-    policy_config = AuthorizationPolicyConfig(
-        policy=str(policy_dict),
-        status="STATUS_ACTIVE",
-        tags=[]
-    )
+    policy_config = ConfigClient().authorization_policy_config(str(policy_dict), "STATUS_ACTIVE", [])
     return policy_config
 
 

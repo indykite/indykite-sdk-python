@@ -894,7 +894,6 @@ def test_create_knowledge_graph_schema_config_node_success(capsys):
     captured = capsys.readouterr()
 
 
-
 def test_create_knowledge_graph_schema_config_node_empty(capsys):
     client = ConfigClient()
     assert client is not None
@@ -1030,3 +1029,32 @@ def test_validate_conveyance(capsys):
     response = client.validate_conveyance("wrong")
     captured = capsys.readouterr()
     assert "conveyance must be a member of ConveyancePreference" in captured.err
+
+
+def test_auth_flow_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+    auth_flow_config = client.auth_flow_config(
+        "",
+        [],
+        False
+    )
+    captured = capsys.readouterr()
+    assert "ERROR" in captured.err
+
+
+def test_webauthn_provider_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+    webauthn_provider_config = client.webauthn_provider_config(
+        {"http://localhost": "localhost"},
+        "",
+        "",
+        False,
+        "",
+        30,
+        60
+    )
+    captured = capsys.readouterr()
+    assert "ERROR" in captured.err
+
