@@ -15,11 +15,13 @@ class CreateApplicationAgent:
             timestamp_to_date(message.update_time),
             str(message.etag),
             str(message.bookmark),
+            str(message.created_by),
+            str(message.updated_by)
         )
 
         return create_application_agent
 
-    def __init__(self, id, application_id, name, create_time, update_time, etag, bookmark):
+    def __init__(self, id, application_id, name, create_time, update_time, etag, bookmark, created_by, updated_by):
         self.id = id
         self.application_id = application_id
         self.name = name
@@ -27,6 +29,8 @@ class CreateApplicationAgent:
         self.update_time = update_time
         self.etag = etag
         self.bookmark = bookmark
+        self.created_by = created_by
+        self.updated_by = updated_by
 
 
 

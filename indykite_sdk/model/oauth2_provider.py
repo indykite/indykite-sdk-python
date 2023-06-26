@@ -7,7 +7,7 @@ class OAuth2Provider:
     def deserialize(cls, message):
         if message is None:
             return None
-
+        fields = [desc.name for desc, val in message.ListFields()]
         oauth2_provider = OAuth2Provider(
             str(message.id),
             str(message.name),
@@ -17,23 +17,29 @@ class OAuth2Provider:
             str(message.app_space_id),
         )
 
-        if message.HasField('create_time'):
+        if "create_time" in fields:
             oauth2_provider.create_time = timestamp_to_date(message.create_time)
 
-        if message.HasField('update_time'):
+        if "update_time" in fields:
             oauth2_provider.update_time = timestamp_to_date(message.update_time)
 
-        if message.HasField('destroy_time'):
+        if "destroy_time" in fields:
             oauth2_provider.destroy_time = timestamp_to_date(message.destroy_time)
 
-        if message.HasField('delete_time'):
+        if "delete_time" in fields:
             oauth2_provider.delete_time = timestamp_to_date(message.delete_time)
 
-        if message.HasField('description'):
+        if "description" in fields:
             oauth2_provider.description = str(message.description)
 
-        if message.HasField('config'):
+        if "config" in fields:
             oauth2_provider.config = OAuth2ProviderConfig.deserialize(message.config)
+
+        if "created_by" in fields:
+            oauth2_provider.created_by = str(message.created_by)
+
+        if "updated_by" in fields:
+            oauth2_provider.updated_by = str(message.updated_by)
 
         return oauth2_provider
 
@@ -50,3 +56,5 @@ class OAuth2Provider:
         self.delete_time = None
         self.description = None
         self.config = None
+        self.created_by = None
+        self.updated_by = None

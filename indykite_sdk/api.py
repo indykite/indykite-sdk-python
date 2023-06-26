@@ -317,6 +317,7 @@ Property ID and value of the property where the value is a reference
     # delete_application_agent_credential
     delete_application_agent_credential_parser = subparsers.add_parser("delete_application_agent_credential")
     delete_application_agent_credential_parser.add_argument("application_agent_credential_id", help="Application agent credential id")
+    delete_application_agent_credential_parser.add_argument("etag",help="Etag")
 
     # create_application_with_agent_credentials
     create_application_with_agent_credentials_parser = subparsers.add_parser("create_application_with_agent_credentials")
@@ -832,7 +833,7 @@ Property ID and value of the property where the value is a reference
             return None
 
         print(service_account.customer_id)
-        customer = client_config.get_customer_by_id(service_account.customer_id)
+        customer = client_config.read_customer_by_id(service_account.customer_id)
         if customer:
             print_response(customer)
         else:
@@ -840,7 +841,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "customer_name":
         customer_name = args.customer_name
-        customer = client_config.get_customer_by_name(customer_name)
+        customer = client_config.read_customer_by_name(customer_name)
         if customer:
             print_response(customer)
         else:
@@ -902,7 +903,8 @@ Property ID and value of the property where the value is a reference
             bookmark = []
         list_app_spaces_response = client_config.list_app_spaces(customer_id, match_list, bookmark)
         if list_app_spaces_response:
-            print(list_app_spaces_response)
+            for app_space in list_app_spaces_response:
+                print_response(app_space)
         else:
             print("Invalid list_app_spaces response")
         return list_app_spaces_response
@@ -970,7 +972,8 @@ Property ID and value of the property where the value is a reference
             bookmark = []
         list_tenants_response = client_config.list_tenants(app_space_id, match_list, bookmark)
         if list_tenants_response:
-            print(list_tenants_response)
+            for tenant in list_tenants_response:
+                print_response(tenant)
         else:
             print("Invalid list_tenants response")
         return list_tenants_response
@@ -1140,10 +1143,14 @@ Property ID and value of the property where the value is a reference
         jwk = None
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
-        application_agent_credential_response = client_config.register_application_agent_credential_jwk(application_agent_id,
-                                                                                             display_name, jwk,
-                                                                                             expire_time_in_seconds,
-                                                                                             default_tenant_id, [])
+        application_agent_credential_response = client_config.register_application_agent_credential_jwk(
+            application_agent_id,
+            display_name,
+            jwk,
+            expire_time_in_seconds,
+            default_tenant_id,
+            []
+        )
         if application_agent_credential_response:
             print_credential(application_agent_credential_response)
         else:
@@ -1157,10 +1164,14 @@ Property ID and value of the property where the value is a reference
         pem = None
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
-        application_agent_credential_response = client_config.register_application_agent_credential_pem(application_agent_id,
-                                                                                             display_name, pem,
-                                                                                             expire_time_in_seconds,
-                                                                                             default_tenant_id, [])
+        application_agent_credential_response = client_config.register_application_agent_credential_pem(
+            application_agent_id,
+            display_name,
+            pem,
+            expire_time_in_seconds,
+            default_tenant_id,
+            []
+        )
         if application_agent_credential_response:
             print_credential(application_agent_credential_response)
         else:
@@ -1169,8 +1180,13 @@ Property ID and value of the property where the value is a reference
 
     elif command == "delete_application_agent_credential":
         application_agent_credential_id = args.application_agent_credential_id
+        etag = args.etag
 
-        delete_application_agent_credential_response = client_config.delete_application_agent_credential(application_agent_credential_id, [])
+        delete_application_agent_credential_response = client_config.delete_application_agent_credential(
+            application_agent_credential_id,
+            [],
+            etag
+        )
         if delete_application_agent_credential_response:
             print(delete_application_agent_credential_response)
         else:
@@ -1178,7 +1194,7 @@ Property ID and value of the property where the value is a reference
         return delete_application_agent_credential_response
 
     elif command == "create_application_with_agent_credentials":
-        # example public key
+        # example public key (random)
         public_key = {
             "kty": "EC",
             "use": "sig",
@@ -1207,7 +1223,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "service_account_id":
         service_account_id = args.service_account_id
-        service_account = client_config.read_service_account(service_account_id)
+        service_account = client_config.read_service_account(service_account_id, [])
         if service_account:
             print_response(service_account)
         else:
@@ -1216,7 +1232,7 @@ Property ID and value of the property where the value is a reference
     elif command == "service_account_name":
         customer_id = args.customer_id
         service_account_name = args.service_account_name
-        service_account = client_config.read_service_account_by_name(customer_id, service_account_name)
+        service_account = client_config.read_service_account_by_name(customer_id, service_account_name, [])
         if service_account:
             print_response(service_account)
         else:
@@ -1227,7 +1243,14 @@ Property ID and value of the property where the value is a reference
         service_account_name = args.service_account_name
         display_name = args.display_name
         role = args.role
-        service_account_response = client_config.create_service_account(customer_id, service_account_name, display_name,"description", role, [])
+        service_account_response = client_config.create_service_account(
+            customer_id,
+            service_account_name,
+            display_name,
+            "description",
+            role,
+            []
+        )
         if service_account_response:
             print_response(service_account_response)
         else:
@@ -1238,7 +1261,13 @@ Property ID and value of the property where the value is a reference
         service_account_id = args.service_account_id
         etag = args.etag
         display_name = args.display_name
-        service_account_response = client_config.update_service_account(service_account_id, etag, display_name,"description", [])
+        service_account_response = client_config.update_service_account(
+            service_account_id,
+            etag,
+            display_name,
+            "description",
+            []
+        )
         if service_account_response:
             print_response(service_account_response)
         else:
@@ -1273,10 +1302,13 @@ Property ID and value of the property where the value is a reference
         jwk = None
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
-        service_account_credential_response = client_config.register_service_account_credential_jwk(service_account_id,
-                                                                                                    display_name, jwk,
-                                                                                                    expire_time_in_seconds,
-                                                                                                    [])
+        service_account_credential_response = client_config.register_service_account_credential_jwk(
+            service_account_id,
+            display_name,
+            jwk,
+            expire_time_in_seconds,
+            []
+        )
         if service_account_credential_response:
             print_credential(service_account_credential_response)
         else:
@@ -1289,10 +1321,13 @@ Property ID and value of the property where the value is a reference
         pem = None
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
-        service_account_credential_response = client_config.register_service_account_credential_pem(service_account_id,
-                                                                                             display_name, pem,
-                                                                                             expire_time_in_seconds,
-                                                                                             [])
+        service_account_credential_response = client_config.register_service_account_credential_pem(
+            service_account_id,
+            display_name,
+            pem,
+            expire_time_in_seconds,
+            []
+        )
         if service_account_credential_response:
             print_credential(service_account_credential_response)
         else:
@@ -1343,17 +1378,26 @@ Property ID and value of the property where the value is a reference
             default_from_address=Email(address=default_from_address_address,name=default_from_address_name),
             default=wrappers.BoolValue(value=True),
             sendgrid=sendgrid,
-            authentication_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
-                                                                          subject=message_subject,
-                                                                          text_content=message_text_content,
-                                                                          html_content=message_html_content))
+            authentication_message=EmailDefinition(
+                message=EmailMessage(
+                    to=message_to,
+                    cc=[],
+                    bcc=[],
+                    subject=message_subject,
+                    text_content=message_text_content,
+                    html_content=message_html_content
+                )
+            )
         )
 
-        create_email_service_config_node_response = client_config.create_email_service_config_node(location, name,
-                                                                                                   display_name,
-                                                                                                   description,
-                                                                                                   email_service_config,
-                                                                                                   [])
+        create_email_service_config_node_response = client_config.create_email_service_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            email_service_config,
+            []
+        )
         if create_email_service_config_node_response:
             print_response(create_email_service_config_node_response)
         else:
@@ -1390,20 +1434,32 @@ Property ID and value of the property where the value is a reference
         message_html_content = "<html><body>content html</body></html>"
 
         email_service_config = EmailServiceConfig(
-            default_from_address=Email(address=default_from_address_address,name=default_from_address_name),
+            default_from_address=Email(
+                address=default_from_address_address,
+                name=default_from_address_name
+            ),
             default=wrappers.BoolValue(value=True),
             sendgrid=sendgrid,
-            authentication_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
-                                                                          subject=message_subject,
-                                                                          text_content=message_text_content,
-                                                                          html_content=message_html_content))
+            authentication_message=EmailDefinition(
+                message=EmailMessage(
+                    to=message_to,
+                    cc=[],
+                    bcc=[],
+                    subject=message_subject,
+                    text_content=message_text_content,
+                    html_content=message_html_content
+                )
+            )
         )
 
-        update_email_service_config_node_response = client_config.update_email_service_config_node(config_node_id, etag,
-                                                                                                   display_name,
-                                                                                                   description,
-                                                                                                   email_service_config,
-                                                                                                   [])
+        update_email_service_config_node_response = client_config.update_email_service_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            email_service_config,
+            []
+        )
         if update_email_service_config_node_response:
             print_response(update_email_service_config_node_response)
         else:
@@ -1437,9 +1493,14 @@ Property ID and value of the property where the value is a reference
             default=False
         )
 
-        create_auth_flow_config_node_response = client_config.create_auth_flow_config_node(location, name, display_name,
-                                                                                           description, auth_flow_config,
-                                                                                           [])
+        create_auth_flow_config_node_response = client_config.create_auth_flow_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            auth_flow_config,
+            []
+        )
         if create_auth_flow_config_node_response:
             print_response(create_auth_flow_config_node_response)
         else:
@@ -1464,8 +1525,14 @@ Property ID and value of the property where the value is a reference
             default=False
         )
 
-        update_auth_flow_config_node_response = client_config.update_auth_flow_config_node(config_node_id, etag,display_name,
-                                                                                           description, auth_flow_config, [])
+        update_auth_flow_config_node_response = client_config.update_auth_flow_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            auth_flow_config,
+            []
+        )
         if update_auth_flow_config_node_response:
             print_response(update_auth_flow_config_node_response)
         else:
@@ -1480,16 +1547,20 @@ Property ID and value of the property where the value is a reference
 
         oauth2_client_config = OAuth2ClientConfig(
             provider_type="PROVIDER_TYPE_GOOGLE_COM",
-            client_id="gt41g2ju85ol1j2u1t",
-            client_secret="e45454JIIH45ven9e8sbfdv4d5",
+            client_id=os.getenv('CLIENT_ID'),
+            client_secret=os.getenv('CLIENT_SECRET'),
             default_scopes=["openid", "profile", "email"],
             allowed_scopes=["openid", "profile", "email"]
         )
 
-        create_oauth2_client_config_node_response = client_config.create_oauth2_client_config_node(location, name,
-                                                                                                   display_name,
-                                                                                                   description,
-                                                                                                   oauth2_client_config, [])
+        create_oauth2_client_config_node_response = client_config.create_oauth2_client_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            oauth2_client_config,
+            []
+        )
         if create_oauth2_client_config_node_response:
             print_response(create_oauth2_client_config_node_response)
         else:
@@ -1504,16 +1575,20 @@ Property ID and value of the property where the value is a reference
 
         oauth2_client_config = OAuth2ClientConfig(
             provider_type="PROVIDER_TYPE_GOOGLE_COM",
-            client_id="gt41g2ju85ol1j2u1t",
-            client_secret="e45454JIIH45ven9e8sbfdv4d5",
+            client_id=os.getenv('CLIENT_ID'),
+            client_secret=os.getenv('CLIENT_SECRET'),
             default_scopes=["openid", "profile", "email"],
             allowed_scopes=["openid", "profile", "email"]
         )
 
-        update_oauth2_client_config_node_response = client_config.update_oauth2_client_config_node(config_node_id, etag,
-                                                                                                   display_name,
-                                                                                                   description,
-                                                                                                   oauth2_client_config, [])
+        update_oauth2_client_config_node_response = client_config.update_oauth2_client_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            oauth2_client_config,
+            []
+        )
         if update_oauth2_client_config_node_response:
             print_response(update_oauth2_client_config_node_response)
         else:
@@ -1527,7 +1602,7 @@ Property ID and value of the property where the value is a reference
         description = args.description
 
         webauthn_provider_config = client_config.webauthn_provider_config(
-            relying_parties={"http://localhost": "localhost"},
+            relying_parties=os.getenv('RELYING_PARTIES'),  # e.g {"http://localhost": "localhost"}
             attestation_preference="CONVEYANCE_PREFERENCE_NONE",
             authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
             require_resident_key=False,
@@ -1551,7 +1626,7 @@ Property ID and value of the property where the value is a reference
         description = args.description
 
         webauthn_provider_config = client_config.webauthn_provider_config(
-            relying_parties={"http://localhost": "localhost"},
+            relying_parties=os.getenv('RELYING_PARTIES'),  # e.g {"http://localhost": "localhost"}
             attestation_preference="CONVEYANCE_PREFERENCE_INDIRECT",
             authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
             require_resident_key=False,
@@ -1580,18 +1655,22 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         description = args.description
         readid_property = client_config.readid_property("c.secondaryIdentifier", True)
-
         readid_provider_config = client_config.readid_provider_config(
-            submitter_secret="8d300cd5-a417-478b-b5cb-3d6d7d1fa76a",
-            manager_secret="55203ecc-7ed5-4d9b-8762-27146c16eab6",
+            submitter_secret=os.getenv('SUBMITTER_SECRET'),
+            manager_secret=os.getenv('MANAGER_SECRET'),
             submitter_password="123456",
             host_address="<https://saas-preprod.readid.com>",
             property_map={"givenname": readid_property},
             unique_property_name="propertyname"
         )
-
         create_readid_provider_config_node_response = client_config.create_readid_provider_config_node(
-            location, name, display_name, description, readid_provider_config, [])
+            location,
+            name,
+            display_name,
+            description,
+            readid_provider_config,
+            []
+        )
         if create_readid_provider_config_node_response:
             print_response(create_readid_provider_config_node_response)
         else:
@@ -1606,11 +1685,11 @@ Property ID and value of the property where the value is a reference
         readid_property = client_config.readid_property("c.secondaryIdentifier", True)
 
         readid_provider_config = client_config.readid_provider_config(
-            submitter_secret="8d300cd5-a417-478b-b5cb-3d6d7d1fa76a",
-            manager_secret="55203ecc-7ed5-4d9b-8762-27146c16eab6",
+            submitter_secret=os.getenv('SUBMITTER_SECRET'),
+            manager_secret=os.getenv('MANAGER_SECRET'),
             submitter_password="12345689",
             host_address="<https://saas-preprod.readid.com>",
-            property_map={"givenname":readid_property},
+            property_map={"givenname": readid_property},
             unique_property_name="propertyname2"
         )
 
@@ -1638,8 +1717,11 @@ Property ID and value of the property where the value is a reference
             file_data = f.read()
         policy_dict = json.loads(file_data)
         policy_dict = json.dumps(policy_dict)
-        policy_config = client_config.authorization_policy_config(str(policy_dict), "STATUS_ACTIVE", [])
-
+        policy_config = client_config.authorization_policy_config(
+            policy=str(policy_dict),
+            status="STATUS_ACTIVE",
+            tags=[]
+        )
         create_authorization_policy_config_node_response = client_config.create_authorization_policy_config_node(
             location,
             name,
@@ -1665,7 +1747,11 @@ Property ID and value of the property where the value is a reference
             file_data = f.read()
         policy_dict = json.loads(file_data)
         policy_dict = json.dumps(policy_dict)
-        policy_config = client_config.authorization_policy_config(str(policy_dict), "STATUS_ACTIVE", [])
+        policy_config = client_config.authorization_policy_config(
+            policy=str(policy_dict),
+            status="STATUS_ACTIVE",
+            tags=[]
+           )
 
         update_authorization_policy_config_node_response = client_config.update_authorization_policy_config_node(
             config_node_id,
@@ -1688,8 +1774,7 @@ Property ID and value of the property where the value is a reference
         description = args.description
         with open("utils/sdk_schema.txt", "r") as file:
             file_data = "\n".join(file.read().split("\n"))
-        schema_config = client_config.knowledge_graph_schema_config(file_data)
-
+        schema_config = client_config.knowledge_graph_schema_config(schema=file_data)
         create_knowledge_graph_schema_config_node_response = client_config.create_knowledge_graph_schema_config_node(
             location,
             name,
@@ -1743,6 +1828,7 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         description = args.description
 
+        # local env example
         config = OAuth2ProviderConfig(
             grant_types=["GRANT_TYPE_AUTHORIZATION_CODE"],
             response_types=["RESPONSE_TYPE_CODE", "RESPONSE_TYPE_TOKEN"],
@@ -1754,12 +1840,14 @@ Property ID and value of the property where the value is a reference
             front_channel_consent_uri={"default": "http://localhost:3000/consent"}
         )
 
-        create_oauth2_provider_response = client_config.create_oauth2_provider(app_space_id,
-                                                                               name,
-                                                                               display_name,
-                                                                               description,
-                                                                               config,
-                                                                               [])
+        create_oauth2_provider_response = client_config.create_oauth2_provider(
+            app_space_id,
+            name,
+            display_name,
+            description,
+            config,
+            []
+        )
         if create_oauth2_provider_response:
             print_response(create_oauth2_provider_response)
         else:
@@ -1771,7 +1859,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
-
+        # local env example
         config = OAuth2ProviderConfig(
             grant_types=["GRANT_TYPE_AUTHORIZATION_CODE"],
             response_types=["RESPONSE_TYPE_CODE", "RESPONSE_TYPE_TOKEN"],
@@ -1783,12 +1871,14 @@ Property ID and value of the property where the value is a reference
             front_channel_consent_uri={"default": "http://localhost:3000/consent"}
         )
 
-        update_oauth2_provider_response = client_config.update_oauth2_provider(oauth2_provider_id,
-                                                                               etag,
-                                                                               display_name,
-                                                                               description,
-                                                                               config,
-                                                                               [])
+        update_oauth2_provider_response = client_config.update_oauth2_provider(
+            oauth2_provider_id,
+            etag,
+            display_name,
+            description,
+            config,
+            []
+        )
         if update_oauth2_provider_response:
             print_response(update_oauth2_provider_response)
         else:
@@ -1817,7 +1907,7 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
-
+        # local env example
         config = OAuth2ApplicationConfig(
             display_name="Oauth2 Application Config",
             redirect_uris=["http://localhost:3000/redirect"],
@@ -1835,12 +1925,14 @@ Property ID and value of the property where the value is a reference
             response_types=["RESPONSE_TYPE_CODE", "RESPONSE_TYPE_TOKEN"]
         )
 
-        create_oauth2_application_response = client_config.create_oauth2_application(oauth2_provider_id,
-                                                                                     name,
-                                                                                     display_name,
-                                                                                     description,
-                                                                                     config,
-                                                                                     [])
+        create_oauth2_application_response = client_config.create_oauth2_application(
+            oauth2_provider_id,
+            name,
+            display_name,
+            description,
+            config,
+            []
+        )
         if create_oauth2_application_response:
             print_response(create_oauth2_application_response)
         else:
@@ -1852,7 +1944,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
-
+        # local env example
         config = OAuth2ApplicationConfig(
             display_name="Oauth2 Application Config",
             redirect_uris=["http://localhost:3000/redirect"],
@@ -1870,12 +1962,14 @@ Property ID and value of the property where the value is a reference
             response_types=["RESPONSE_TYPE_CODE", "RESPONSE_TYPE_TOKEN"]
         )
 
-        update_oauth2_application_response = client_config.update_oauth2_application(oauth2_application_id,
-                                                                                     etag,
-                                                                                     display_name,
-                                                                                     description,
-                                                                                     config,
-                                                                                     [])
+        update_oauth2_application_response = client_config.update_oauth2_application(
+            oauth2_application_id,
+            etag,
+            display_name,
+            description,
+            config,
+            []
+        )
         if update_oauth2_application_response:
             print_response(update_oauth2_application_response)
         else:
@@ -2197,9 +2291,16 @@ Property ID and value of the property where the value is a reference
         granted_audiences = []
         # custom claims for jwk (map values to enrich token)
         access_token = json.loads(args.access_token)
-        consent_response = client.create_oauth2_consent_verifier_approval(consent_challenge, grant_scopes,
-                                                                          granted_audiences, access_token, {}, {},
-                                                                          False, None)
+        consent_response = client.create_oauth2_consent_verifier_approval(
+            consent_challenge,
+            grant_scopes,
+            granted_audiences,
+            access_token,
+            {},
+            {},
+            False,
+            None
+        )
         if consent_response:
             print_response(consent_response)
         else:
@@ -2212,9 +2313,12 @@ Property ID and value of the property where the value is a reference
         error_description = "Access is denied"
         error_hint = "Your consent challenge may be not valid: check your OAuth2 host and your clientID"
         status_code = 403
-        consent_response = client.create_oauth2_consent_verifier_denial(consent_challenge, error,
-                                                                        error_description,
-                                                                        error_hint, status_code)
+        consent_response = client.create_oauth2_consent_verifier_denial(
+            consent_challenge, error,
+            error_description,
+            error_hint,
+            status_code
+        )
         if consent_response:
             print_response(consent_response)
         else:
@@ -2236,8 +2340,14 @@ Property ID and value of the property where the value is a reference
         print(reference_id)
         tenant_id = args.tenant_id
         email = args.email
-        invitation_response = client.create_email_invitation(tenant_id, reference_id, email, invite_at_time=None,
-                                                             expire_time=None, message_attributes=None)
+        invitation_response = client.create_email_invitation(
+            tenant_id,
+            reference_id,
+            email,
+            invite_at_time=None,
+            expire_time=None,
+            message_attributes=None
+        )
         if invitation_response is not None:
             print(invitation_response)
         else:
@@ -2252,10 +2362,14 @@ Property ID and value of the property where the value is a reference
         invite_at_time_in_seconds = int(t) + 3600
         expire_time_in_seconds = invite_at_time_in_seconds + 172800 # now + 2 days example
         message_attributes = {"attr1": "value1"}
-        invitation_response = client.create_email_invitation(tenant_id, reference_id, email,
-                                                             invite_at_time_in_seconds,
-                                                             expire_time_in_seconds,
-                                                             message_attributes)
+        invitation_response = client.create_email_invitation(
+            tenant_id,
+            reference_id,
+            email,
+            invite_at_time_in_seconds,
+            expire_time_in_seconds,
+            message_attributes
+        )
         if invitation_response is not None:
             print(invitation_response)
         else:
@@ -2335,10 +2449,11 @@ Property ID and value of the property where the value is a reference
         access_token_bytes = response.token.access_token
 
     elif command == "ingest_record_digital_twin":
+        # replace with actual values
         record_id = "745898"
         external_id = "external-dt-id3"
         kind = "DIGITAL_TWIN_KIND_PERSON"
-        tenant_id = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
+        tenant_id = os.getenv('TENANT_ID')
         type = "CarOwner"
         identity_property = client_ingest.identity_property("customIdProp", "456")
         identity_properties = [identity_property]
@@ -2450,9 +2565,10 @@ Property ID and value of the property where the value is a reference
         return delete_record_relation_property
 
     elif command == "stream_records":
+        # replace with actual values
         record_id = "145898"
         external_id = "external-dt-id1"
-        tenant_id = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
+        tenant_id = os.getenv('TENANT_ID')
         type = "Person"
         upsert = client_ingest.upsert_data_node_digital_twin(
             external_id,
@@ -2600,3 +2716,4 @@ def add_args_to_dict(all_args, action, values):  # pragma: no cover
 
 if __name__ == '__main__':  # pragma: no cover
     main()
+
