@@ -11,53 +11,56 @@ from google.protobuf.duration_pb2 import Duration
 from indykite_sdk.config import ConfigClient
 
 
-URL = os.getenv('INDYKITE_SDK_URL')
+INDYKITE_SDK_URL = os.getenv('INDYKITE_SDK_URL')
 EMAIL_URL = os.getenv('EMAIL_URL')
-EMAIL_TOKEN = "MNvLADeDKphk7NoEbczc"
-APPLICATION = "gid:AAAABGluZHlraURlgAACDwAAAAA"
-TENANT = "gid:AAAAA2CHw7x3Dk68uWSkjl7FoG0"
-TENANT_EMAIL = "gid:AAAAA2luZHlraURlgAADDwAAAAI"
-DIGITAL_TWIN = "gid:AAAAFZVCTOBCHEPMgdvP44aZLbg"
-DIGITAL_TWIN_TEST = "gid:AAAAFf_ZpzyM2UpRuG22DJLLNq0"
-DIGITAL_TWIN_CONSENT = "gid:AAAAFQQTyHL70kRJsvm0rnkDFKQ"
-DIGITAL_TWIN_PROPERTY = "testemail@exmple.com"
-CODE_VERIFIER = "AAAAAAAAAAEAAAAAAAAAAgAAAAAAAAADAAAAAAAAAAQ"
-CODE_CHALLENGE = "cjbADBcANsbeEzqHghDd1YVnqh0GGaD3D2njiub5Fuk"
-# this is changes, if test starts failing, check it!!!
-VERIFICATION_BEARER = "eyJhbGciOiJFUzI1NiIsImN0eSI6IkpXVCIsImtpZCI6IkVmVUVpRm5PekE1UENwOFNTa3NwN2lYdjdjSFJlaENzSUdvNk5BUTlIN3ciLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiI2OTZlNjQ3OS02YjY5LTQ0NjUtODAwMC0wMTBmMDAwMDAwMDAiLCJleHAiOjE2Mjk2MjkzNDcsImlhdCI6MTYxMzY0NTM0NywiaXNzIjoiNjk2ZTY0NzktNmI2OS00NDY1LTgwMDAtMDUwZjAwMDAwMDAwIiwianRpIjoiMWMwYWMwNGEtM2ZiOC00N2IxLWJjNzQtYjkwNWE1ZmI0ZDBmIiwic3ViIjoiNjk2ZTY0NzktNmI2OS00NDY1LTgwMDAtMDUwZjAwMDAwMDAwIn0.VX1SAdIzzoRd4Jd-f-_X8sD5Y6al4K05UWtw-Ekn_9y3xgwwmPEXJ0a-HYrkR9vA7BPs6XQngYn0locsIWinEA"
-EXPIRED_TOKEN = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJpYmlzLWluLWdvbGQiLCJleHAiOjE2NDkxNzMzNzQsImlhdCI6MTY0Njc1NDE3NCwiaXNzIjoiaWJpcy1pbi1nb2xkIiwianRpIjoiZGRlZDhkMDgtYjIxZi00Y2E2LTk0OTgtNDE0NTcxMzIyYzgxIiwibmJmIjoxNjQ2NzU0MTczLCJzdWIiOiJkWE5sY2pvNE16TTJPRGcxWXkwMk16WXlMVFJoT1RndE9UVXpNUzFtT0RVek9EUmtZalprTm1JPSIsInR5cCI6ImFjY2VzcyJ9.2FPjAT2Lo9T-1FZ4iBVLCZwCWHLzuSa9yJlsArUDWfMFsRyb9tqzyzcZ-IrBOQoIIBI3s5ksiFnVdrxp-zXTmQ"
-CONFIG_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
-ACCOUNT_ID= "gid:AAAAEgGym_wUPEZfjV8TIdsImsE"
-WRONG_ACCOUNT_ID= "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
-SERVICE_ACCOUNT_NAME = "serviceaccount-sdk"
-TEST_SERVICE_ACCOUNT = "gid:AAAAEv3GiONu2UdplM9ML9eCrus"
-CUSTOMER_NAME = "sdk-customer"
-APP_SPACE_NAME = "sdk-appspace"
-CUSTOMER_ID = "gid:AAAAAbHLUExsxkqsqRoI93amR30"
-CUSTOMER_ID2 = "gid:AAAAAZ8HZy1McEd2i_E0-jLdGZw"
-APP_SPACE_ID = "gid:AAAAAi7tSAs-qkg_his0YnvKuJ4"
-ISSUER_ID = "gid:AAAAD1DBxqIze0UniM_vaogDx6Y"
-TENANT_ID = "gid:AAAAA9Q51FULGECVrvbfN0kUbSk"
-TENANT_NAME = "sdk-test-tenant"
-APPLICATION_ID = "gid:AAAABNetL1rt6UKumXoYni2kQE0"
-APPLICATION_NAME = "application-sdk"
-APPLICATION_AGENT_ID = "gid:AAAABbPQM7m4OUbXnsfyef2zOc0"
-APPLICATION_AGENT_NAME = "appagent-sdk"
-APPLICATION_AGENT_CREDENTIAL_ID = "gid:AAAABhgLSrxgg0_nuVeZppYYSGs"
-SERVICE_ACCOUNT_CREDENTIAL_ID = "gid:AAAAE0rMcwG_RUbSjzclsV7bdjg"
-EMAIL_SERVICE_CONFIG_NODE = "gid:AAAACPZyR178jEYLj0wizNxtO4Q"
-AUTH_FLOW_CONFIG_NODE = "gid:AAAAB0Vg1IohjEV4uDLA_hFawKI"
-OAUTH2_CLIENT_CONFIG_NODE = "gid:AAAACtBSbo_Sf0XXpOzuoNfzMk8"
-INGEST_MAPPING_CONFIG_NODE = "gid:AAAAFLk0_fECVENquHrfZUTjaic"
-WEBAUTHN_PROVIDER_CONFIG_NODE = "gid:AAAADRcYFyi8IUUIv-P5IJwlXQ0"
-READID_PROVIDER_CONFIG_NODE = "gid:AAAAGGmHnP0Q0kFojwS_EoxKhOw"
-AUTHZ_POLICY_CONFIG_NODE = "gid:AAAAFqlGrfMyt0Pnlo5uozu_4oM"
-KG_SCHEMA_CONFIG_NODE = "gid:AAAAF_J2IIjevE3cg3TcG5W-Y2s"
-OAUTH2_PROVIDER = "gid:AAAAEXX8LPjXo0bmvR1VWQEwrQI"
-OAUTH2_APPLICATION = "gid:AAAAC5wPdP0VEUHqvLdEOwkVJCA"
-PASSWORD = "Password"
-NEW_PASSWORD = "Password1"
-BCRYPT = "$2y$10$k64jP7oqwYfQpzmoqAN5OuhrtWI2wICn0wXUzYxMp.UA1PopI653G"
+EMAIL_TOKEN = os.getenv('EMAIL_TOKEN')
+APPLICATION = os.getenv('APPLICATION')
+TENANT = os.getenv('TENANT')
+TENANT_EMAIL = os.getenv('TENANT_EMAIL')
+DIGITAL_TWIN = os.getenv('DIGITAL_TWIN')
+DIGITAL_TWIN_TEST = os.getenv('DIGITAL_TWIN_TEST')
+DIGITAL_TWIN_CONSENT = os.getenv('DIGITAL_TWIN_CONSENT')
+DIGITAL_TWIN_PROPERTY = os.getenv('DIGITAL_TWIN_PROPERTY')
+CODE_VERIFIER = os.getenv('CODE_VERIFIER')
+CODE_CHALLENGE = os.getenv('CODE_CHALLENGE')
+VERIFICATION_BEARER = os.getenv('VERIFICATION_BEARER')
+EXPIRED_TOKEN = os.getenv('EXPIRED_TOKEN')
+CONFIG_ID = os.getenv('CONFIG_ID')
+ACCOUNT_ID = os.getenv('ACCOUNT_ID')
+WRONG_ACCOUNT_ID = os.getenv('WRONG_ACCOUNT_ID')
+SERVICE_ACCOUNT_NAME = os.getenv('SERVICE_ACCOUNT_NAME')
+TEST_SERVICE_ACCOUNT = os.getenv('TEST_SERVICE_ACCOUNT')
+CUSTOMER_NAME = os.getenv('CUSTOMER_NAME')
+APP_SPACE_NAME = os.getenv('APP_SPACE_NAME')
+CUSTOMER_ID = os.getenv('CUSTOMER_ID')
+CUSTOMER_ID2 = os.getenv('CUSTOMER_ID2')
+APP_SPACE_ID = os.getenv('APP_SPACE_ID')
+ISSUER_ID = os.getenv('ISSUER_ID')
+TENANT_ID = os.getenv('TENANT_ID')
+TENANT_NAME = os.getenv('TENANT_NAME')
+APPLICATION_ID = os.getenv('APPLICATION_ID')
+APPLICATION_NAME = os.getenv('APPLICATION_NAME')
+APPLICATION_AGENT_ID = os.getenv('APPLICATION_AGENT_ID')
+APPLICATION_AGENT_NAME = os.getenv('APPLICATION_AGENT_NAME')
+APPLICATION_AGENT_CREDENTIAL_ID = os.getenv('APPLICATION_AGENT_CREDENTIAL_ID')
+SERVICE_ACCOUNT_CREDENTIAL_ID = os.getenv('SERVICE_ACCOUNT_CREDENTIAL_ID')
+EMAIL_SERVICE_CONFIG_NODE = os.getenv('EMAIL_SERVICE_CONFIG_NODE')
+AUTH_FLOW_CONFIG_NODE = os.getenv('AUTH_FLOW_CONFIG_NODE')
+OAUTH2_CLIENT_CONFIG_NODE = os.getenv('OAUTH2_CLIENT_CONFIG_NODE')
+WEBAUTHN_PROVIDER_CONFIG_NODE = os.getenv('WEBAUTHN_PROVIDER_CONFIG_NODE')
+READID_PROVIDER_CONFIG_NODE = os.getenv('READID_PROVIDER_CONFIG_NODE')
+AUTHZ_POLICY_CONFIG_NODE = os.getenv('AUTHZ_POLICY_CONFIG_NODE')
+KG_SCHEMA_CONFIG_NODE = os.getenv('KG_SCHEMA_CONFIG_NODE')
+OAUTH2_PROVIDER = os.getenv('OAUTH2_PROVIDER')
+OAUTH2_APPLICATION = os.getenv('OAUTH2_APPLICATION')
+PASSWORD = os.getenv('PASSWORD')
+NEW_PASSWORD = os.getenv('NEW_PASSWORD')
+BCRYPT = os.getenv('BCRYPT')
+SUBMITTER_SECRET = os.getenv('SUBMITTER_SECRET')
+MANAGER_SECRET = os.getenv('MANAGER_SECRET')
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+RELYING_PARTIES = os.getenv('RELYING_PARTIES')
 
 
 def get_password():
@@ -114,7 +117,7 @@ def get_digital_twin_property():
 
 
 def get_url():
-    return URL
+    return INDYKITE_SDK_URL
 
 
 def get_email_url():
@@ -221,10 +224,6 @@ def get_oauth2_client_config_node_id():
     return OAUTH2_CLIENT_CONFIG_NODE
 
 
-def get_ingest_mapping_config_node_id():
-    return INGEST_MAPPING_CONFIG_NODE
-
-
 def get_webauthn_provider_config_node_id():
     return WEBAUTHN_PROVIDER_CONFIG_NODE
 
@@ -269,10 +268,13 @@ def get_email_service():
         default_from_address=Email(address=default_from_address_address, name=default_from_address_name),
         default=wrappers.BoolValue(value=True),
         sendgrid=sendgrid,
-        invitation_message=EmailDefinition(message=EmailMessage(to=message_to, cc=[], bcc=[],
-                                                                    subject=message_subject,
-                                                                    text_content=message_text_content,
-                                                                    html_content=message_html_content))
+        invitation_message=EmailDefinition(message=EmailMessage(
+            to=message_to,
+            cc=[],
+            bcc=[],
+            subject=message_subject,
+            text_content=message_text_content,
+            html_content=message_html_content))
     )
     return email_service_config
 
@@ -293,8 +295,8 @@ def get_auth_flow():
 def get_oauth2_client():
     oauth2_client_config = OAuth2ClientConfig(
         provider_type="PROVIDER_TYPE_GOOGLE_COM",
-        client_id="gt41g2ju85ol1j2u1t",
-        client_secret="e45454JIIH45ven9e8sbfdv4d5",
+        client_id=os.getenv('CLIENT_ID'),
+        client_secret=os.getenv('CLIENT_SECRET'),
         default_scopes=["openid", "profile", "email"],
         allowed_scopes=["openid", "profile", "email"]
     )
@@ -309,6 +311,7 @@ def get_oauth2_provider():
         token_endpoint_auth_method=["TOKEN_ENDPOINT_AUTH_METHOD_CLIENT_SECRET_BASIC",
                                     "TOKEN_ENDPOINT_AUTH_METHOD_CLIENT_SECRET_POST"],
         token_endpoint_auth_signing_alg=["ES256", "ES384", "ES512"],
+        # local env example
         front_channel_login_uri={"default": "http://localhost:3000/login/oauth2"},
         front_channel_consent_uri={"default": "http://localhost:3000/consent"}
     )
@@ -318,6 +321,7 @@ def get_oauth2_provider():
 def get_oauth2_application():
     config = OAuth2ApplicationConfig(
         display_name="Oauth2 Application Config",
+        # local env example
         redirect_uris=["http://localhost:3000/redirect"],
         owner="Owner",
         policy_uri="http://localhost:3000/policy",
@@ -378,8 +382,9 @@ def get_kg_schema():
 
 
 def get_readid_provider():
-    submitter_secret = "8d300cd5-a417-478b-b5cb-3d6d7d1fa76a"
-    manager_secret = "55203ecc-7ed5-4d9b-8762-27146c16eab6"
+    submitter_secret = os.getenv('SUBMITTER_SECRET')
+    manager_secret = os.getenv('MANAGER_SECRET')
+    # random example
     submitter_password = "1234566677"
     host_address = "<https://saas-preprod.readid.com>"
     readid_property = ConfigClient().readid_property("c.secondaryIdentifier", True)
@@ -398,8 +403,8 @@ def get_readid_provider():
 
 
 def get_readid_provider_exception():
-    submitter_secret = "ioioioio"
-    manager_secret = "gygygygyyg"
+    submitter_secret = "randomvalue"
+    manager_secret = "randomvalue"
     submitter_password = "444466677"
     host_address = "saas-preprod.readid.com"
     property_map = {"givenname": []}
@@ -414,4 +419,3 @@ def get_readid_provider_exception():
         unique_property_name
     )
     return readid_provider_config
-

@@ -6,7 +6,7 @@ class ServiceAccountCredential:
     def deserialize(cls, message):
         if message is None:
             return None
-
+        fields = [desc.name for desc, val in message.ListFields()]
         service_account_credential = ServiceAccountCredential(
             str(message.id),
             str(message.kid),
@@ -16,14 +16,17 @@ class ServiceAccountCredential:
             str(message.app_space_id)
         )
 
-        if message.HasField('create_time'):
+        if "create_time" in fields:
             service_account_credential.create_time = timestamp_to_date(message.create_time)
 
-        if message.HasField('destroy_time'):
+        if "destroy_time" in fields:
             service_account_credential.destroy_time = timestamp_to_date(message.destroy_time)
 
-        if message.HasField('delete_time'):
+        if "delete_time" in fields:
             service_account_credential.delete_time = timestamp_to_date(message.delete_time)
+
+        if "created_by" in fields:
+            service_account_credential.created_by = str(message.created_by)
 
         return service_account_credential
 
@@ -37,5 +40,4 @@ class ServiceAccountCredential:
         self.create_time = None
         self.destroy_time = None
         self.delete_time = None
-
-
+        self.created_by = None

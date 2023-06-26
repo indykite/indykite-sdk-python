@@ -15,11 +15,13 @@ class CreateOAuth2Application:
             str(message.client_id),
             str(message.client_secret),
             str(message.bookmark),
+            str(message.created_by),
+            str(message.updated_by)
         )
 
         return create_oauth2_application
 
-    def __init__(self, id, create_time, update_time, etag, client_id, client_secret, bookmark):
+    def __init__(self, id, create_time, update_time, etag, client_id, client_secret, bookmark, created_by, updated_by):
         self.id = id
         self.create_time = create_time
         self.update_time = update_time
@@ -27,6 +29,8 @@ class CreateOAuth2Application:
         self.client_id = client_id
         self.client_secret = client_secret
         self.bookmark = bookmark
+        self.created_by = created_by
+        self.updated_by = updated_by
 
 
 

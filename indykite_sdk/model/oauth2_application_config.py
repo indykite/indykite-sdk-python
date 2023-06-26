@@ -1,52 +1,66 @@
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ApplicationConfig, GrantType, ResponseType, ClientSubjectType, TokenEndpointAuthMethod
-
-
 class OAuth2ApplicationConfig:
     @classmethod
     def deserialize(cls, message_config):
         if message_config is None:
             return None
-
+        fields = [desc.name for desc, val in message_config.ListFields()]
         oauth2_application_config = OAuth2ApplicationConfig(
             str(message_config.display_name),
-            list(str(message_config.redirect_uris)),
+            [str(r) for r in message_config.redirect_uris],
             str(message_config.owner),
             str(message_config.policy_uri),
             str(message_config.terms_of_service_uri),
             str(message_config.client_uri),
             str(message_config.logo_uri),
             str(message_config.user_support_email_address),
-            ClientSubjectType(message_config.subject_type),
-            list(str(message_config.scopes)),
-            TokenEndpointAuthMethod(message_config.token_endpoint_auth_method),
+            message_config.subject_type,
+            [str(r) for r in message_config.scopes],
+            message_config.token_endpoint_auth_method,
             str(message_config.token_endpoint_auth_signing_alg)
         )
-        if message_config.HasField('client_id'):
+        if "client_id" in fields:
             oauth2_application_config.client_id = str(message_config.client_id)
 
-        if message_config.HasField('description'):
+        if "description" in fields:
             oauth2_application_config.description = str(message_config.description)
 
-        if message_config.HasField('allowed_cors_origins'):
-            oauth2_application_config.allowed_cors_origins = list(str(message_config.allowed_cors_origins))
+        if "allowed_cors_origins" in fields:
+            oauth2_application_config.allowed_cors_origins = [
+                str(r)
+                for r in message_config.allowed_cors_origins
+            ]
 
-        if message_config.HasField('additional_contacts'):
-            oauth2_application_config.additional_contacts = list(str(message_config.additional_contacts))
+        if "additional_contacts" in fields:
+            oauth2_application_config.additional_contacts = [
+                str(r)
+                for r in message_config.additional_contacts
+            ]
 
-        if message_config.HasField('sector_identifier_uri'):
+        if "sector_identifier_uri" in fields:
             oauth2_application_config.sector_identifier_uri = str(message_config.sector_identifier_uri)
 
-        if message_config.HasField('grant_types'):
-            oauth2_application_config.grant_types = list(GrantType(message_config.grant_types))
+        if "grant_types" in fields:
+            oauth2_application_config.grant_types = [
+                str(r)
+                for r in message_config.grant_types
+            ]
 
-        if message_config.HasField('response_types'):
-            oauth2_application_config.response_types = list(ResponseType(message_config.response_types))
+        if "response_types" in fields:
+            oauth2_application_config.response_types = [
+                str(r)
+                for r in message_config.response_types
+            ]
 
-        if message_config.HasField('audiences'):
-            oauth2_application_config.audiences = list(str(message_config.audiences))
+        if "audiences" in fields:
+            oauth2_application_config.audiences = [
+                str(r)
+                for r in message_config.audiences
+            ]
 
-        if message_config.HasField('userinfo_signed_response_alg'):
+        if "userinfo_signed_response_alg" in fields:
             oauth2_application_config.userinfo_signed_response_alg = str(message_config.userinfo_signed_response_alg)
+
+        return oauth2_application_config
 
     def __init__(self,
                  display_name,
@@ -83,4 +97,3 @@ class OAuth2ApplicationConfig:
         self.response_types = None
         self.audiences = None
         self.userinfo_signed_response_alg = None
-

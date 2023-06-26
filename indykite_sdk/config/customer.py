@@ -4,12 +4,20 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_customer_by_id(self, customer_id):
+def read_customer_by_id(self, customer_id, bookmarks=[]):
+    """
+    get Customer object from customer id
+    :param self:
+    :param customer_id: string gid id
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: Customer object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadCustomer(
             pb2.ReadCustomerRequest(
-                id=str(customer_id)
+                id=str(customer_id),
+                bookmarks=bookmarks
             )
         )
     except Exception as exception:
@@ -21,12 +29,20 @@ def get_customer_by_id(self, customer_id):
     return Customer.deserialize(response.customer)
 
 
-def get_customer_by_name(self, customer_name):
+def read_customer_by_name(self, customer_name, bookmarks=[]):
+    """
+    get Customer object from customer name
+    :param self:
+    :param customer_name: string
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: Customer object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadCustomer(
             pb2.ReadCustomerRequest(
-                name=str(customer_name)
+                name=str(customer_name),
+                bookmarks=bookmarks
             )
         )
     except Exception as exception:

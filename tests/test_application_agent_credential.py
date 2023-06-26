@@ -183,12 +183,13 @@ def test_del_application_agent_credential_success(capsys):
     application_agent_credential_id = data.get_application_agent_credential_id()
     right_now = str(int(time.time()))
     bookmark = "RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"
+    etag = "npsOGI4UW"
 
     def mocked_delete_application_agent_credential(request: pb2.DeleteApplicationAgentCredentialRequest):
         return bookmark
 
     client.stub.DeleteApplicationAgentCredential = mocked_delete_application_agent_credential
-    response = client.delete_application_agent_credential(application_agent_credential_id, [] )
+    response = client.delete_application_agent_credential(application_agent_credential_id, [], etag)
     captured = capsys.readouterr()
     # assert "method DeleteDocument not implemented"
     assert response is not None
@@ -199,7 +200,8 @@ def test_del_application_agent_wrong_application_agent_id(capsys):
     assert client is not None
 
     application_agent_credential_id= data.get_application_id()
-    response = client.delete_application_agent_credential(application_agent_credential_id, [] )
+    etag = "npsOGI4UW"
+    response = client.delete_application_agent_credential(application_agent_credential_id, [], etag)
     captured = capsys.readouterr()
     assert ("invalid id value was provided for id" in captured.err)
 
@@ -209,11 +211,12 @@ def test_del_application_agent_empty():
     assert client is not None
 
     id = "gid:AAAAAjLRnbbaJE53rrjm_NJXyO"
+    etag = "npsOGI4UW"
 
     def mocked_delete_application_agent_credential(request: pb2.DeleteApplicationAgentRequest):
         return None
 
     client.stub.DeleteApplicationAgentCredential = mocked_delete_application_agent_credential
-    response = client.delete_application_agent_credential(id, [])
+    response = client.delete_application_agent_credential(id, [], etag)
 
     assert response is None

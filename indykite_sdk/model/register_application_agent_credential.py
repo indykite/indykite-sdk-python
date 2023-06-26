@@ -15,11 +15,11 @@ class RegisterApplicationAgentCredential:
             timestamp_to_date(message.create_time),
             timestamp_to_date(message.expire_time),
             str(message.bookmark),
+            str(message.display_name)
         )
-
         return register_application_agent_credential
 
-    def __init__(self, id, application_agent_id, kid, agent_config, create_time, expire_time, bookmark):
+    def __init__(self, id, application_agent_id, kid, agent_config, create_time, expire_time, bookmark, display_name):
         self.id = id
         self.application_agent_id = application_agent_id
         self.kid = kid
@@ -27,6 +27,4 @@ class RegisterApplicationAgentCredential:
         self.create_time = create_time
         self.expire_time = expire_time
         self.bookmark = bookmark
-
-
-
+        self.display_name = display_name

@@ -12,8 +12,24 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def create_email_service_config_node(self, location, name, display_name, description, email_service_config,
+def create_email_service_config_node(self,
+                                     location,
+                                     name,
+                                     display_name,
+                                     description,
+                                     email_service_config,
                                      bookmarks=[]):
+    """
+    create email service
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param email_service_config: EmailServiceConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.CreateConfigNode(
@@ -31,11 +47,17 @@ def create_email_service_config_node(self, location, name, display_name, descrip
 
     if not response:
         return None
-
     return CreateConfigNode.deserialize(response)
 
 
 def read_config_node(self, config_node_id, bookmarks=[]):
+    """
+    read a specific config node
+    :param self:
+    :param config_node_id: string gid id
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized ConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadConfigNode(
@@ -48,12 +70,27 @@ def read_config_node(self, config_node_id, bookmarks=[]):
 
     if not response:
         return None
-
     return ConfigNode.deserialize(response.config_node)
 
 
-def update_email_service_config_node(self, config_node_id, etag, display_name, description, email_service_config,
+def update_email_service_config_node(self,
+                                     config_node_id,
+                                     etag,
+                                     display_name,
+                                     description,
+                                     email_service_config,
                                      bookmarks=[]):
+    """
+    update email service
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param email_service_config: EmailServiceConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.UpdateConfigNode(
@@ -71,11 +108,18 @@ def update_email_service_config_node(self, config_node_id, etag, display_name, d
 
     if not response:
         return None
-
     return UpdateConfigNode.deserialize(response)
 
 
 def delete_config_node(self, config_node_id, etag, bookmarks=[]):
+    """
+    delete a specific config node
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: etag
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: DeleteConfigNodeResponse object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.DeleteConfigNode(
@@ -90,12 +134,27 @@ def delete_config_node(self, config_node_id, etag, bookmarks=[]):
 
     if not response:
         return None
-
     return response
 
 
-def create_auth_flow_config_node(self, location, name, display_name, description, auth_flow_config,
+def create_auth_flow_config_node(self,
+                                 location,
+                                 name,
+                                 display_name,
+                                 description,
+                                 auth_flow_config,
                                  bookmarks=[]):
+    """
+    create auth flow
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param auth_flow_config: AuthFlowConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.CreateConfigNode(
@@ -113,12 +172,27 @@ def create_auth_flow_config_node(self, location, name, display_name, description
 
     if not response:
         return None
-
     return CreateConfigNode.deserialize(response)
 
 
-def update_auth_flow_config_node(self, config_node_id, etag, display_name, description, auth_flow_config,
+def update_auth_flow_config_node(self,
+                                 config_node_id,
+                                 etag,
+                                 display_name,
+                                 description,
+                                 auth_flow_config,
                                  bookmarks=[]):
+    """
+    update auth flow
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param auth_flow_config: AuthFlowConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.UpdateConfigNode(
@@ -136,7 +210,6 @@ def update_auth_flow_config_node(self, config_node_id, etag, display_name, descr
 
     if not response:
         return None
-
     return UpdateConfigNode.deserialize(response)
 
 
@@ -163,8 +236,24 @@ def auth_flow_config(self, source_format,
         return logger.logger_error(exception)
 
 
-def create_oauth2_client_config_node(self, location, name, display_name, description, oauth2_client_config,
+def create_oauth2_client_config_node(self,
+                                     location,
+                                     name,
+                                     display_name,
+                                     description,
+                                     oauth2_client_config,
                                      bookmarks=[]):
+    """
+    create oauth2 client
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param oauth2_client_config: OAuth2ClientConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.CreateConfigNode(
@@ -182,12 +271,27 @@ def create_oauth2_client_config_node(self, location, name, display_name, descrip
 
     if not response:
         return None
-
     return CreateConfigNode.deserialize(response)
 
 
-def update_oauth2_client_config_node(self, config_node_id, etag, display_name, description, oauth2_client_config,
+def update_oauth2_client_config_node(self,
+                                     config_node_id,
+                                     etag,
+                                     display_name,
+                                     description,
+                                     oauth2_client_config,
                                      bookmarks=[]):
+    """
+    update OAuth2 client
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param oauth2_client_config: OAuth2ClientConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.UpdateConfigNode(
@@ -205,12 +309,27 @@ def update_oauth2_client_config_node(self, config_node_id, etag, display_name, d
 
     if not response:
         return None
-
     return UpdateConfigNode.deserialize(response)
 
 
-def create_webauthn_provider_config_node(self, location, name, display_name, description, webauthn_provider_config,
+def create_webauthn_provider_config_node(self,
+                                         location,
+                                         name,
+                                         display_name,
+                                         description,
+                                         webauthn_provider_config,
                                          bookmarks=[]):
+    """
+    create webauthn provider
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param webauthn_provider_config: WebAuthnProviderConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         if webauthn_provider_config and webauthn_provider_config.attestation_preference:
@@ -235,12 +354,27 @@ def create_webauthn_provider_config_node(self, location, name, display_name, des
 
     if not response:
         return None
-
     return CreateConfigNode.deserialize(response)
 
 
-def update_webauthn_provider_config_node(self, config_node_id, etag, display_name, description, webauthn_provider_config,
+def update_webauthn_provider_config_node(self,
+                                         config_node_id,
+                                         etag,
+                                         display_name,
+                                         description,
+                                         webauthn_provider_config,
                                          bookmarks=[]):
+    """
+    update webauthn provider
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param webauthn_provider_config: WebAuthnProviderConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         if webauthn_provider_config and webauthn_provider_config.attestation_preference:
@@ -265,7 +399,6 @@ def update_webauthn_provider_config_node(self, config_node_id, etag, display_nam
 
     if not response:
         return None
-
     return UpdateConfigNode.deserialize(response)
 
 
@@ -304,8 +437,24 @@ def webauthn_provider_config(self, relying_parties,
         return logger.logger_error(exception)
 
 
-def create_authorization_policy_config_node(self, location, name, display_name, description,
-                                            authorization_policy_config, bookmarks=[]):
+def create_authorization_policy_config_node(self,
+                                            location,
+                                            name,
+                                            display_name,
+                                            description,
+                                            authorization_policy_config,
+                                            bookmarks=[]):
+    """
+    create authorization policy
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param authorization_policy_config: AuthorizationPolicyConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         valid = True
@@ -330,9 +479,24 @@ def create_authorization_policy_config_node(self, location, name, display_name, 
     return CreateConfigNode.deserialize(response)
 
 
-def update_authorization_policy_config_node(self, config_node_id, etag, display_name, description,
+def update_authorization_policy_config_node(self,
+                                            config_node_id,
+                                            etag,
+                                            display_name,
+                                            description,
                                             authorization_policy_config,
                                             bookmarks=[]):
+    """
+    update authorization policy
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param authorization_policy_config: AuthorizationPolicyConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         valid = True
@@ -379,6 +543,12 @@ def authorization_policy_config(self, policy, status, tags=[]):
 
 
 def validate_conveyance(self, conveyance):
+    """
+    validate conveyance
+    :param self:
+    :param conveyance: string
+    :return: True if valid or raises error
+    """
     try:
         conveyances = [c.value for c in ConveyancePreference]
         if conveyance not in conveyances:
@@ -389,6 +559,12 @@ def validate_conveyance(self, conveyance):
 
 
 def validate_user_verification(self, user_verification_requirement):
+    """
+    validate user verification requirement
+    :param self:
+    :param user_verification_requirement: string
+    :return: True if valid or raises error
+    """
     try:
         user_verification_requirements = [u.value for u in UserVerificationRequirement]
         if user_verification_requirement not in user_verification_requirements:
@@ -399,6 +575,12 @@ def validate_user_verification(self, user_verification_requirement):
 
 
 def validate_authenticator_attachment(self, authenticator_attachment):
+    """
+    validate authenticator attachment
+    :param self:
+    :param authenticator_attachment: string
+    :return: True if valid or raises error
+    """
     try:
         authenticator_attachments = [a.value for a in AuthenticatorAttachment]
         if authenticator_attachment not in authenticator_attachments:
@@ -409,6 +591,12 @@ def validate_authenticator_attachment(self, authenticator_attachment):
 
 
 def validate_authorization_policy_status(self, status):
+    """
+    validate status
+    :param self:
+    :param status: string
+    :return: True if valid or raises error
+    """
     try:
         statuses = [s.value for s in Status]
         if status not in statuses:

@@ -26,6 +26,9 @@ class ApplicationAgentCredential:
         if message.HasField('delete_time'):
             application_agent_credential.delete_time = timestamp_to_date(message.delete_time)
 
+        if message.HasField('created_by'):
+            application_agent_credential.created_by = str(message.created_by)
+
         return application_agent_credential
 
     def __init__(self, id, kid, display_name, customer_id, app_space_id, application_id, application_agent_id):
@@ -39,5 +42,6 @@ class ApplicationAgentCredential:
         self.create_time = None
         self.destroy_time = None
         self.delete_time = None
+        self.created_by = None
 
 

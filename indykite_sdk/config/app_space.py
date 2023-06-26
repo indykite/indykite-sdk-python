@@ -8,12 +8,20 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_app_space_by_id(self, app_space_id):
+def get_app_space_by_id(self, app_space_id, bookmarks=[]):
+    """
+    get AppSpace object from id
+    :param self:
+    :param app_space_id: string gid id
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: AppSpace object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadApplicationSpace(
             pb2.ReadApplicationSpaceRequest(
-                id=str(app_space_id)
+                id=str(app_space_id),
+                bookmarks=bookmarks
             )
         )
     except Exception as exception:
@@ -25,12 +33,24 @@ def get_app_space_by_id(self, app_space_id):
     return ApplicationSpace.deserialize(response.app_space)
 
 
-def get_app_space_by_name(self, customer_id, app_space_name):
+def get_app_space_by_name(self, customer_id, app_space_name, bookmarks=[]):
+    """
+    get AppSpace object from name
+    :param self:
+    :param customer_id: string gid id
+    :param app_space_name: string
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: AppSpace object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadApplicationSpace(
             pb2.ReadApplicationSpaceRequest(
-                name=UniqueNameIdentifier(location = customer_id, name = app_space_name)
+                name=UniqueNameIdentifier(
+                    location=customer_id,
+                    name=app_space_name
+                ),
+                bookmarks=bookmarks
             )
         )
     except Exception as exception:
@@ -43,12 +63,25 @@ def get_app_space_by_name(self, customer_id, app_space_name):
 
 
 def create_app_space(self, customer_id, name, display_name, description="", bookmarks=[]):
+    """
+    create new AppSpace
+    :param self:
+    :param customer_id: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateApplicationSpaceResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.CreateApplicationSpace(
             pb2.CreateApplicationSpaceRequest(
-                customer_id=customer_id,name=name, display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description), bookmarks=bookmarks
+                customer_id=customer_id,
+                name=name,
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                bookmarks=bookmarks
             )
         )
     except Exception as exception:
@@ -61,13 +94,25 @@ def create_app_space(self, customer_id, name, display_name, description="", book
 
 
 def update_app_space(self, app_space_id, etag, display_name, description="", bookmarks=[]):
+    """
+    update existing AppSpace
+    :param self:
+    :param app_space_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateApplicationSpaceResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.UpdateApplicationSpace(
             pb2.UpdateApplicationSpaceRequest(
-                id=app_space_id,etag=wrappers.StringValue(value=etag),
+                id=app_space_id,
+                etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description), bookmarks=bookmarks
+                description=wrappers.StringValue(value=description),
+                bookmarks=bookmarks
             )
         )
     except Exception as exception:
@@ -80,11 +125,20 @@ def update_app_space(self, app_space_id, etag, display_name, description="", boo
 
 
 def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
+    """
+    list AppSpaces which match exact name in match param
+    :param self:
+    :param customer_id: string gid id
+    :param match: list of strings
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: ListApplicationSpacesResponse object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         streams = self.stub.ListApplicationSpaces(
             pb2.ListApplicationSpacesRequest(
-                customer_id=customer_id,match=match,
+                customer_id=customer_id,
+                match=match,
                 bookmarks=bookmarks
             )
         )
@@ -94,22 +148,28 @@ def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
     if not streams:
         return None
 
-    responses = []
     try:
-        for response in streams:
-            responses.append(response)
+        res = [ApplicationSpace.deserialize(response.app_space) for response in streams]
+        return res
     except Exception as exception:
         return logger.logger_error(exception)
 
-    return responses
-
 
 def delete_app_space(self, app_space_id, etag, bookmarks):
+    """
+    delete an AppSpace
+    :param self:
+    :param app_space_id: string gid id
+    :param etag: string
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: DeleteApplicationSpaceResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.DeleteApplicationSpace(
             pb2.DeleteApplicationSpaceRequest(
-                id=app_space_id, etag=wrappers.StringValue(value=etag),
+                id=app_space_id,
+                etag=wrappers.StringValue(value=etag),
                 bookmarks=bookmarks
             )
         )

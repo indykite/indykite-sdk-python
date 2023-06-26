@@ -51,7 +51,7 @@ class ConfigClient(object):
             raise exception(...).with_traceback(tb)
 
     # Imported methods
-    from .customer import get_customer_by_id, get_customer_by_name
+    from .customer import read_customer_by_id, read_customer_by_name
     from .service_account import read_service_account, read_service_account_by_name, create_service_account, \
         update_service_account, delete_service_account
     from .app_space import get_app_space_by_id, get_app_space_by_name, create_app_space, update_app_space, \
