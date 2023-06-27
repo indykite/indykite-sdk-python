@@ -1,0 +1,21 @@
+ingest package
+==============
+
+Submodules
+----------
+
+ingest.ingest\_record module
+----------------------------
+
+.. automodule:: ingest.ingest_record
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ingest
+   :members:
+   :undoc-members:
+   :show-inheritance:

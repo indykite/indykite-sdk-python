@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>identity.verification &mdash; docs - documentation</title>
+  <title>identity.token_introspect &mdash; docs - documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -63,7 +63,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../identity.html">identity</a></li>
-      <li class="breadcrumb-item active">identity.verification</li>
+      <li class="breadcrumb-item active">identity.token_introspect</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -72,54 +72,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for identity.verification</h1><div class="highlight"><pre>
+  <h1>Source code for identity.token_introspect</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">indykite_sdk.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">identity_management_api_pb2</span> <span class="k">as</span> <span class="n">pb2</span>
-<span class="kn">from</span> <span class="nn">indykite_sdk.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">model_pb2</span> <span class="k">as</span> <span class="n">model</span>
-<span class="kn">from</span> <span class="nn">indykite_sdk.model.digital_twin</span> <span class="kn">import</span> <span class="n">DigitalTwinCore</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.token_info</span> <span class="kn">import</span> <span class="n">TokenInfo</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.session_introspect</span> <span class="kn">import</span> <span class="n">SessionIntrospect</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">indykite_sdk.utils.logger</span> <span class="k">as</span> <span class="nn">logger</span>
 
 
-<div class="viewcode-block" id="verify_digital_twin_email"><a class="viewcode-back" href="../../identity.html#identity.verification.verify_digital_twin_email">[docs]</a><span class="k">def</span> <span class="nf">verify_digital_twin_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+<div class="viewcode-block" id="token_introspect"><a class="viewcode-back" href="../../identity.html#identity.token_introspect.token_introspect">[docs]</a><span class="k">def</span> <span class="nf">token_introspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_token</span><span class="p">):</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Token must be 32 chars or more.&quot;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">TokenIntrospect</span><span class="p">(</span><span class="n">pb2</span><span class="o">.</span><span class="n">TokenIntrospectRequest</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">user_token</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">VerifyDigitalTwinEmail</span><span class="p">(</span>
-            <span class="n">pb2</span><span class="o">.</span><span class="n">VerifyDigitalTwinEmailRequest</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">return</span> <span class="n">DigitalTwinCore</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">digital_twin</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">TokenInfo</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">token_info</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="start_digital_twin_email_verification"><a class="viewcode-back" href="../../identity.html#identity.verification.start_digital_twin_email_verification">[docs]</a><span class="k">def</span> <span class="nf">start_digital_twin_email_verification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt_id</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+<div class="viewcode-block" id="session_introspect"><a class="viewcode-back" href="../../identity.html#identity.token_introspect.session_introspect">[docs]</a><span class="k">def</span> <span class="nf">session_introspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">,</span> <span class="n">access_token</span><span class="p">):</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">StartDigitalTwinEmailVerification</span><span class="p">(</span>
-            <span class="n">pb2</span><span class="o">.</span><span class="n">StartDigitalTwinEmailVerificationRequest</span><span class="p">(</span>
-                <span class="n">digital_twin</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwin</span><span class="p">(</span>
-                    <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">dt_id</span><span class="p">),</span>
-                    <span class="n">tenant_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">)</span>
-                <span class="p">),</span>
-                <span class="n">email</span><span class="o">=</span><span class="n">email</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">SessionIntrospect</span><span class="p">(</span><span class="n">pb2</span><span class="o">.</span><span class="n">SessionIntrospectRequest</span><span class="p">(</span><span class="n">tenant_id</span><span class="o">=</span><span class="n">tenant_id</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">access_token</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">SessionIntrospect</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="k">return</span> <span class="s2">&quot;Email was sent to: &quot;</span> <span class="o">+</span> <span class="n">email</span></div>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

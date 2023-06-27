@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>identity.enrich_token &mdash; docs - documentation</title>
+  <title>identity.register_digital_twins_no_cred &mdash; docs - documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -63,7 +63,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../identity.html">identity</a></li>
-      <li class="breadcrumb-item active">identity.enrich_token</li>
+      <li class="breadcrumb-item active">identity.register_digital_twins_no_cred</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -72,38 +72,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for identity.enrich_token</h1><div class="highlight"><pre>
+  <h1>Source code for identity.register_digital_twins_no_cred</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">indykite_sdk.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">identity_management_api_pb2</span> <span class="k">as</span> <span class="n">pb2</span>
-<span class="kn">from</span> <span class="nn">google.protobuf</span> <span class="kn">import</span> <span class="n">struct_pb2</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.digital_twin_kind</span> <span class="kn">import</span> <span class="n">DigitalTwinKind</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.register_digital_twin_without_credential</span> <span class="kn">import</span> <span class="n">RegisterDigitalTwinWithoutCredential</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">indykite_sdk.utils.logger</span> <span class="k">as</span> <span class="nn">logger</span>
 
 
-<div class="viewcode-block" id="enrich_token"><a class="viewcode-back" href="../../identity.html#identity.enrich_token.enrich_token">[docs]</a><span class="k">def</span> <span class="nf">enrich_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">token_claims</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">session_claims</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="register_digital_twin_without_credential"><a class="viewcode-back" href="../../identity.html#identity.register_digital_twins_no_cred.register_digital_twin_without_credential">[docs]</a><span class="k">def</span> <span class="nf">register_digital_twin_without_credential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">token_struct</span> <span class="o">=</span> <span class="n">struct_pb2</span><span class="o">.</span><span class="n">Struct</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">token_claims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">token_struct</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">token_claims</span><span class="p">)</span>
-
-        <span class="n">session_struct</span> <span class="o">=</span> <span class="n">struct_pb2</span><span class="o">.</span><span class="n">Struct</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">session_claims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">session_struct</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">session_claims</span><span class="p">)</span>
-
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">EnrichToken</span><span class="p">(</span>
-            <span class="n">pb2</span><span class="o">.</span><span class="n">EnrichTokenRequest</span><span class="p">(</span>
-                <span class="n">access_token</span><span class="o">=</span><span class="n">user_token</span><span class="p">,</span>
-                <span class="n">token_claims</span><span class="o">=</span><span class="n">token_struct</span><span class="p">,</span>
-                <span class="n">session_claims</span><span class="o">=</span><span class="n">session_struct</span><span class="p">,</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">and</span> <span class="n">validate_kind</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">RegisterDigitalTwinWithoutCredential</span><span class="p">(</span>
+                <span class="n">pb2</span><span class="o">.</span><span class="n">RegisterDigitalTwinWithoutCredentialRequest</span><span class="p">(</span>
+                    <span class="n">tenant_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">),</span>
+                    <span class="n">digital_twin_kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span>
+                    <span class="n">digital_twin_tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">,</span>
+                    <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
+                <span class="p">)</span>
             <span class="p">)</span>
-        <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">RegisterDigitalTwinWithoutCredential</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
 
-    <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="validate_kind"><a class="viewcode-back" href="../../identity.html#identity.register_digital_twins_no_cred.validate_kind">[docs]</a><span class="k">def</span> <span class="nf">validate_kind</span><span class="p">(</span><span class="n">kind</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">kinds</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">DigitalTwinKind</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

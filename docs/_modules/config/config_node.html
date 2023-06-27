@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -26,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> docs
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            docs
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -41,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../identity.html">identity package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authorization.html">authorization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ingest.html">ingest package</a></li>
 </ul>
 
         </div>
@@ -56,7 +60,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../config.html">config</a></li>
       <li class="breadcrumb-item active">config.config_node</li>
@@ -73,11 +77,35 @@
 <span class="kn">from</span> <span class="nn">indykite_sdk.indykite.config.v1beta1.model_pb2</span> <span class="kn">import</span> <span class="n">google_dot_protobuf_dot_wrappers__pb2</span> <span class="k">as</span> <span class="n">wrappers</span>
 <span class="kn">from</span> <span class="nn">indykite_sdk.model.create_config_node</span> <span class="kn">import</span> <span class="n">CreateConfigNode</span>
 <span class="kn">from</span> <span class="nn">indykite_sdk.model.update_config_node</span> <span class="kn">import</span> <span class="n">UpdateConfigNode</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.config_node</span> <span class="kn">import</span> <span class="n">ConfigNode</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.conveyance_preference</span> <span class="kn">import</span> <span class="n">ConveyancePreference</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.user_verification_requirement</span> <span class="kn">import</span> <span class="n">UserVerificationRequirement</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.authenticator_attachment</span> <span class="kn">import</span> <span class="n">AuthenticatorAttachment</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.authorization_policy_config_status</span> <span class="kn">import</span> <span class="n">Status</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.indykite.config.v1beta1</span> <span class="kn">import</span> <span class="n">model_pb2</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">indykite_sdk.utils.logger</span> <span class="k">as</span> <span class="nn">logger</span>
 
 
-<div class="viewcode-block" id="create_email_service_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_email_service_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_email_service_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">email_service_config</span><span class="p">,</span>
+<div class="viewcode-block" id="create_email_service_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_email_service_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_email_service_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                     <span class="n">location</span><span class="p">,</span>
+                                     <span class="n">name</span><span class="p">,</span>
+                                     <span class="n">display_name</span><span class="p">,</span>
+                                     <span class="n">description</span><span class="p">,</span>
+                                     <span class="n">email_service_config</span><span class="p">,</span>
                                      <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create email service</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param location: string gid id</span>
+<span class="sd">    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param email_service_config: EmailServiceConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized CreateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">CreateConfigNodeRequest</span><span class="p">(</span>
@@ -85,21 +113,27 @@
                 <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
                 <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
-                <span class="n">email_service_config</span><span class="o">=</span> <span class="n">email_service_config</span><span class="p">,</span>
+                <span class="n">email_service_config</span><span class="o">=</span><span class="n">email_service_config</span><span class="p">,</span>
                 <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">CreateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="read_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.read_config_node">[docs]</a><span class="k">def</span> <span class="nf">read_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_node_id</span><span class="p">,</span> <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    read a specific config node</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: string gid id</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized ConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">ReadConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">ReadConfigNodeRequest</span><span class="p">(</span>
@@ -107,18 +141,32 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">ConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">config_node</span><span class="p">)</span></div>
 
-    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">config_node</span></div>
 
-
-<div class="viewcode-block" id="update_email_service_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_email_service_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_email_service_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_node_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">email_service_config</span><span class="p">,</span>
+<div class="viewcode-block" id="update_email_service_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_email_service_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_email_service_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                     <span class="n">config_node_id</span><span class="p">,</span>
+                                     <span class="n">etag</span><span class="p">,</span>
+                                     <span class="n">display_name</span><span class="p">,</span>
+                                     <span class="n">description</span><span class="p">,</span>
+                                     <span class="n">email_service_config</span><span class="p">,</span>
                                      <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    update email service</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: string gid id</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param email_service_config: EmailServiceConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized UpdateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">UpdateConfigNodeRequest</span><span class="p">(</span>
@@ -126,21 +174,28 @@
                 <span class="n">etag</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">etag</span><span class="p">),</span>
                 <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
                 <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
-                <span class="n">email_service_config</span><span class="o">=</span> <span class="n">email_service_config</span><span class="p">,</span>
+                <span class="n">email_service_config</span><span class="o">=</span><span class="n">email_service_config</span><span class="p">,</span>
                 <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">UpdateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="delete_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.delete_config_node">[docs]</a><span class="k">def</span> <span class="nf">delete_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_node_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    delete a specific config node</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: string gid id</span>
+<span class="sd">    :param etag: etag</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: DeleteConfigNodeResponse object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">DeleteConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">DeleteConfigNodeRequest</span><span class="p">(</span>
@@ -150,18 +205,32 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">response</span></div>
 
 
-<div class="viewcode-block" id="create_auth_flow_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_auth_flow_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_auth_flow_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">auth_flow_config</span><span class="p">,</span>
+<div class="viewcode-block" id="create_auth_flow_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_auth_flow_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_auth_flow_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                 <span class="n">location</span><span class="p">,</span>
+                                 <span class="n">name</span><span class="p">,</span>
+                                 <span class="n">display_name</span><span class="p">,</span>
+                                 <span class="n">description</span><span class="p">,</span>
+                                 <span class="n">auth_flow_config</span><span class="p">,</span>
                                  <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create auth flow</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param location: string gid id</span>
+<span class="sd">    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param auth_flow_config: AuthFlowConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized CreateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">CreateConfigNodeRequest</span><span class="p">(</span>
@@ -169,23 +238,37 @@
                 <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
                 <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
-                <span class="n">auth_flow_config</span><span class="o">=</span> <span class="n">auth_flow_config</span><span class="p">,</span>
+                <span class="n">auth_flow_config</span><span class="o">=</span><span class="n">auth_flow_config</span><span class="p">,</span>
                 <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">CreateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="update_auth_flow_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_auth_flow_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_auth_flow_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_node_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">auth_flow_config</span><span class="p">,</span>
+<div class="viewcode-block" id="update_auth_flow_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_auth_flow_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_auth_flow_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                 <span class="n">config_node_id</span><span class="p">,</span>
+                                 <span class="n">etag</span><span class="p">,</span>
+                                 <span class="n">display_name</span><span class="p">,</span>
+                                 <span class="n">description</span><span class="p">,</span>
+                                 <span class="n">auth_flow_config</span><span class="p">,</span>
                                  <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    update auth flow</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: string gid id</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param auth_flow_config: AuthFlowConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized UpdateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">UpdateConfigNodeRequest</span><span class="p">(</span>
@@ -193,23 +276,60 @@
                 <span class="n">etag</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">etag</span><span class="p">),</span>
                 <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
                 <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
-                <span class="n">auth_flow_config</span><span class="o">=</span> <span class="n">auth_flow_config</span><span class="p">,</span>
+                <span class="n">auth_flow_config</span><span class="o">=</span><span class="n">auth_flow_config</span><span class="p">,</span>
                 <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">UpdateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="create_oauth2_client_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_oauth2_client_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_oauth2_client_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">oauth2_client_config</span><span class="p">,</span>
-                                     <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="auth_flow_config"><a class="viewcode-back" href="../../config.html#config.config_node.auth_flow_config">[docs]</a><span class="k">def</span> <span class="nf">auth_flow_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_format</span><span class="p">,</span>
+                     <span class="n">source</span><span class="p">,</span>
+                     <span class="n">default</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create AuthFlowConfig</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param source_format: AuthFlowConfig.Format enum value</span>
+<span class="sd">    :param source: bytes of json string</span>
+<span class="sd">    :param default: google.protobuf.BoolValue</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">auth_flow_config</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">AuthFlowConfig</span><span class="p">(</span>
+            <span class="n">source_format</span><span class="o">=</span><span class="n">source_format</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">BoolValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">default</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">auth_flow_config</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="create_oauth2_client_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_oauth2_client_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_oauth2_client_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                     <span class="n">location</span><span class="p">,</span>
+                                     <span class="n">name</span><span class="p">,</span>
+                                     <span class="n">display_name</span><span class="p">,</span>
+                                     <span class="n">description</span><span class="p">,</span>
+                                     <span class="n">oauth2_client_config</span><span class="p">,</span>
+                                     <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create oauth2 client</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param location: string gid id</span>
+<span class="sd">    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param oauth2_client_config: OAuth2ClientConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized CreateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">CreateConfigNodeRequest</span><span class="p">(</span>
@@ -217,23 +337,37 @@
                 <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
                 <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
-                <span class="n">oauth2_client_config</span><span class="o">=</span> <span class="n">oauth2_client_config</span><span class="p">,</span>
+                <span class="n">oauth2_client_config</span><span class="o">=</span><span class="n">oauth2_client_config</span><span class="p">,</span>
                 <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">CreateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="update_oauth2_client_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_oauth2_client_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_oauth2_client_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_node_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">oauth2_client_config</span><span class="p">,</span>
+<div class="viewcode-block" id="update_oauth2_client_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_oauth2_client_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_oauth2_client_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                     <span class="n">config_node_id</span><span class="p">,</span>
+                                     <span class="n">etag</span><span class="p">,</span>
+                                     <span class="n">display_name</span><span class="p">,</span>
+                                     <span class="n">description</span><span class="p">,</span>
+                                     <span class="n">oauth2_client_config</span><span class="p">,</span>
                                      <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    update OAuth2 client</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: string gid id</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param oauth2_client_config: OAuth2ClientConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized UpdateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">UpdateConfigNodeRequest</span><span class="p">(</span>
@@ -246,18 +380,321 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">UpdateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="create_ingest_mapping_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_ingest_mapping_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_ingest_mapping_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">ingest_mapping_config</span><span class="p">,</span>
-                                      <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="create_webauthn_provider_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_webauthn_provider_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_webauthn_provider_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                         <span class="n">location</span><span class="p">,</span>
+                                         <span class="n">name</span><span class="p">,</span>
+                                         <span class="n">display_name</span><span class="p">,</span>
+                                         <span class="n">description</span><span class="p">,</span>
+                                         <span class="n">webauthn_provider_config</span><span class="p">,</span>
+                                         <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create webauthn provider</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param location: string gid id</span>
+<span class="sd">    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param webauthn_provider_config: WebAuthnProviderConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized CreateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">webauthn_provider_config</span> <span class="ow">and</span> <span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">attestation_preference</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate_conveyance</span><span class="p">(</span><span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">attestation_preference</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">webauthn_provider_config</span> <span class="ow">and</span> <span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">user_verification</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate_user_verification</span><span class="p">(</span><span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">attestation_preference</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">webauthn_provider_config</span> <span class="ow">and</span> <span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">authenticator_attachment</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate_authenticator_attachment</span><span class="p">(</span><span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">authenticator_attachment</span><span class="p">)</span>
 
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateConfigNode</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">CreateConfigNodeRequest</span><span class="p">(</span>
+                <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
+                <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
+                <span class="n">webauthn_provider_config</span><span class="o">=</span><span class="n">webauthn_provider_config</span><span class="p">,</span>
+                <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">CreateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="update_webauthn_provider_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_webauthn_provider_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_webauthn_provider_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                         <span class="n">config_node_id</span><span class="p">,</span>
+                                         <span class="n">etag</span><span class="p">,</span>
+                                         <span class="n">display_name</span><span class="p">,</span>
+                                         <span class="n">description</span><span class="p">,</span>
+                                         <span class="n">webauthn_provider_config</span><span class="p">,</span>
+                                         <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    update webauthn provider</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: string gid id</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param webauthn_provider_config: WebAuthnProviderConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized UpdateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">webauthn_provider_config</span> <span class="ow">and</span> <span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">attestation_preference</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate_conveyance</span><span class="p">(</span><span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">attestation_preference</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">webauthn_provider_config</span> <span class="ow">and</span> <span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">user_verification</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate_user_verification</span><span class="p">(</span><span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">user_verification</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">webauthn_provider_config</span> <span class="ow">and</span> <span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">authenticator_attachment</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate_authenticator_attachment</span><span class="p">(</span><span class="n">webauthn_provider_config</span><span class="o">.</span><span class="n">authenticator_attachment</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateConfigNode</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">UpdateConfigNodeRequest</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">config_node_id</span><span class="p">,</span>
+                <span class="n">etag</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">etag</span><span class="p">),</span>
+                <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
+                <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
+                <span class="n">webauthn_provider_config</span><span class="o">=</span><span class="n">webauthn_provider_config</span><span class="p">,</span>
+                <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">UpdateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="webauthn_provider_config"><a class="viewcode-back" href="../../config.html#config.config_node.webauthn_provider_config">[docs]</a><span class="k">def</span> <span class="nf">webauthn_provider_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relying_parties</span><span class="p">,</span>
+                             <span class="n">attestation_preference</span><span class="p">,</span>
+                             <span class="n">authenticator_attachment</span><span class="p">,</span>
+                             <span class="n">require_resident_key</span><span class="p">,</span>
+                             <span class="n">user_verification</span><span class="p">,</span>
+                             <span class="n">registration_timeout</span><span class="p">,</span>
+                             <span class="n">authentication_timeout</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create WebAuthnProviderConfig</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param relying_parties: map&lt;string, string&gt;</span>
+<span class="sd">    :param attestation_preference: ConveyancePreference enum value</span>
+<span class="sd">    :param authenticator_attachment: AuthenticatorAttachment enum value</span>
+<span class="sd">    :param require_resident_key: bool</span>
+<span class="sd">    :param user_verification: UserVerificationRequirement enum value</span>
+<span class="sd">    :param registration_timeout: google.protobuf.Duration (google.protobuf.duration_pb2.Duration)</span>
+<span class="sd">    :param authentication_timeout: google.protobuf.Duration (google.protobuf.duration_pb2.Duration)</span>
+<span class="sd">    :return: WebAuthnProviderConfig object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">webauthn_provider</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">WebAuthnProviderConfig</span><span class="p">(</span>
+            <span class="n">relying_parties</span><span class="o">=</span><span class="n">relying_parties</span><span class="p">,</span>
+            <span class="n">attestation_preference</span><span class="o">=</span><span class="n">attestation_preference</span><span class="p">,</span>
+            <span class="n">authenticator_attachment</span><span class="o">=</span><span class="n">authenticator_attachment</span><span class="p">,</span>
+            <span class="n">require_resident_key</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">require_resident_key</span><span class="p">),</span>
+            <span class="n">user_verification</span><span class="o">=</span><span class="n">user_verification</span><span class="p">,</span>
+            <span class="n">registration_timeout</span><span class="o">=</span><span class="n">registration_timeout</span><span class="p">,</span>
+            <span class="n">authentication_timeout</span><span class="o">=</span><span class="n">authentication_timeout</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">webauthn_provider</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_authorization_policy_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_authorization_policy_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_authorization_policy_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                            <span class="n">location</span><span class="p">,</span>
+                                            <span class="n">name</span><span class="p">,</span>
+                                            <span class="n">display_name</span><span class="p">,</span>
+                                            <span class="n">description</span><span class="p">,</span>
+                                            <span class="n">authorization_policy_config</span><span class="p">,</span>
+                                            <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create authorization policy</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param location: string gid id</span>
+<span class="sd">    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param authorization_policy_config: AuthorizationPolicyConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized CreateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">authorization_policy_config</span> <span class="ow">and</span> <span class="n">authorization_policy_config</span><span class="o">.</span><span class="n">status</span><span class="p">:</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_authorization_policy_status</span><span class="p">(</span><span class="n">authorization_policy_config</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateConfigNode</span><span class="p">(</span>
+                <span class="n">pb2</span><span class="o">.</span><span class="n">CreateConfigNodeRequest</span><span class="p">(</span>
+                    <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
+                    <span class="n">authorization_policy_config</span><span class="o">=</span><span class="n">authorization_policy_config</span><span class="p">,</span>
+                    <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">CreateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="update_authorization_policy_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_authorization_policy_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_authorization_policy_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                            <span class="n">config_node_id</span><span class="p">,</span>
+                                            <span class="n">etag</span><span class="p">,</span>
+                                            <span class="n">display_name</span><span class="p">,</span>
+                                            <span class="n">description</span><span class="p">,</span>
+                                            <span class="n">authorization_policy_config</span><span class="p">,</span>
+                                            <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    update authorization policy</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: string gid id</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param authorization_policy_config: AuthorizationPolicyConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized UpdateConfigNode instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">authorization_policy_config</span> <span class="ow">and</span> <span class="n">authorization_policy_config</span><span class="o">.</span><span class="n">status</span><span class="p">:</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_authorization_policy_status</span><span class="p">(</span><span class="n">authorization_policy_config</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateConfigNode</span><span class="p">(</span>
+                <span class="n">pb2</span><span class="o">.</span><span class="n">UpdateConfigNodeRequest</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">config_node_id</span><span class="p">,</span>
+                    <span class="n">etag</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">etag</span><span class="p">),</span>
+                    <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
+                    <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
+                    <span class="n">authorization_policy_config</span><span class="o">=</span> <span class="n">authorization_policy_config</span><span class="p">,</span>
+                    <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">UpdateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="authorization_policy_config"><a class="viewcode-back" href="../../config.html#config.config_node.authorization_policy_config">[docs]</a><span class="k">def</span> <span class="nf">authorization_policy_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create AuthorizationPolicyConfig</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param policy: JSON string format</span>
+<span class="sd">    :param status: AuthorizationPolicyConfig.Status</span>
+<span class="sd">    :param tags: list of strings</span>
+<span class="sd">    :return: AuthorizationPolicyConfig object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">policy_config</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">AuthorizationPolicyConfig</span><span class="p">(</span>
+            <span class="n">policy</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">policy</span><span class="p">),</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
+            <span class="n">tags</span><span class="o">=</span><span class="n">tags</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">policy_config</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="validate_conveyance"><a class="viewcode-back" href="../../config.html#config.config_node.validate_conveyance">[docs]</a><span class="k">def</span> <span class="nf">validate_conveyance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conveyance</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    validate conveyance</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param conveyance: string</span>
+<span class="sd">    :return: True if valid or raises error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">conveyances</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ConveyancePreference</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">conveyance</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">conveyances</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;conveyance must be a member of ConveyancePreference&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="validate_user_verification"><a class="viewcode-back" href="../../config.html#config.config_node.validate_user_verification">[docs]</a><span class="k">def</span> <span class="nf">validate_user_verification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_verification_requirement</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    validate user verification requirement</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param user_verification_requirement: string</span>
+<span class="sd">    :return: True if valid or raises error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user_verification_requirements</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">UserVerificationRequirement</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">user_verification_requirement</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">user_verification_requirements</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;user_verification_requirements must be a member of UserVerificationRequirement&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="validate_authenticator_attachment"><a class="viewcode-back" href="../../config.html#config.config_node.validate_authenticator_attachment">[docs]</a><span class="k">def</span> <span class="nf">validate_authenticator_attachment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">authenticator_attachment</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    validate authenticator attachment</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param authenticator_attachment: string</span>
+<span class="sd">    :return: True if valid or raises error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">authenticator_attachments</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">AuthenticatorAttachment</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">authenticator_attachment</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">authenticator_attachments</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;authenticator_attachment must be a member of AuthenticatorAttachment&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="validate_authorization_policy_status"><a class="viewcode-back" href="../../config.html#config.config_node.validate_authorization_policy_status">[docs]</a><span class="k">def</span> <span class="nf">validate_authorization_policy_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    validate status</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param status: string</span>
+<span class="sd">    :return: True if valid or raises error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">statuses</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">Status</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">statuses</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;status must be a member of AuthorizationPolicyConfig.Status&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_readid_provider_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_readid_provider_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_readid_provider_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">readid_provider_config</span><span class="p">,</span>
+                                       <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create ReadID provider</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param location: appSpace GID id</span>
+<span class="sd">    :param name: String min_len: 2, max_len: 63, pattern: &quot;^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$&quot;</span>
+<span class="sd">    :param display_name: String</span>
+<span class="sd">    :param description: String</span>
+<span class="sd">    :param readid_provider_config: ReadIDProviderConfig object</span>
+<span class="sd">    :param bookmarks: list</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">CreateConfigNodeRequest</span><span class="p">(</span>
@@ -265,23 +702,29 @@
                 <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
                 <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
-                <span class="n">ingest_mapping_config</span><span class="o">=</span> <span class="n">ingest_mapping_config</span><span class="p">,</span>
+                <span class="n">readid_provider_config</span><span class="o">=</span><span class="n">readid_provider_config</span><span class="p">,</span>
                 <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
             <span class="p">)</span>
         <span class="p">)</span>
+        <span class="k">return</span> <span class="n">CreateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="k">return</span> <span class="n">CreateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="update_ingest_mapping_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_ingest_mapping_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_ingest_mapping_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_node_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">ingest_mapping_config</span><span class="p">,</span>
-                                      <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
-
+<div class="viewcode-block" id="update_readid_provider_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_readid_provider_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_readid_provider_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_node_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">readid_provider_config</span><span class="p">,</span>
+                                       <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    update readID provider</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: config node gid ID</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param readid_provider_config: ReadIDProviderConfig object</span>
+<span class="sd">    :param bookmarks:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateConfigNode</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">UpdateConfigNodeRequest</span><span class="p">(</span>
@@ -289,18 +732,148 @@
                 <span class="n">etag</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">etag</span><span class="p">),</span>
                 <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
                 <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
-                <span class="n">ingest_mapping_config</span><span class="o">=</span><span class="n">ingest_mapping_config</span><span class="p">,</span>
+                <span class="n">readid_provider_config</span><span class="o">=</span><span class="n">readid_provider_config</span><span class="p">,</span>
+                <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">UpdateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readid_provider_config"><a class="viewcode-back" href="../../config.html#config.config_node.readid_provider_config">[docs]</a><span class="k">def</span> <span class="nf">readid_provider_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="n">submitter_secret</span><span class="p">,</span>
+                           <span class="n">manager_secret</span><span class="p">,</span>
+                           <span class="n">submitter_password</span><span class="p">,</span>
+                           <span class="n">host_address</span><span class="p">,</span>
+                           <span class="n">property_map</span><span class="o">=</span><span class="p">{},</span>
+                           <span class="n">unique_property_name</span><span class="o">=</span><span class="kc">None</span> <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create ReadIDProviderConfig object</span>
+<span class="sd">    :param submitter_secret: string min_len: 36 required</span>
+<span class="sd">    :param manager_secret: string min_len: 36 required</span>
+<span class="sd">    :param submitter_password: string min_len: 4 required</span>
+<span class="sd">    :param host_address: string valid url, starts from https://, required</span>
+<span class="sd">    :param property_map: map string, ReadIDProviderConfig.Property</span>
+<span class="sd">    :param unique_property_name: string</span>
+<span class="sd">    :return: ReadIDProviderConfig object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">read_id_provider</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">ReadIDProviderConfig</span><span class="p">(</span>
+            <span class="n">submitter_secret</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">submitter_secret</span><span class="p">),</span>
+            <span class="n">manager_secret</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">manager_secret</span><span class="p">),</span>
+            <span class="n">submitter_password</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">submitter_password</span><span class="p">),</span>
+            <span class="n">host_address</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">host_address</span><span class="p">),</span>
+            <span class="n">property_map</span><span class="o">=</span><span class="n">property_map</span><span class="p">,</span>
+            <span class="n">unique_property_name</span><span class="o">=</span><span class="n">unique_property_name</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">read_id_provider</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readid_property"><a class="viewcode-back" href="../../config.html#config.config_node.readid_property">[docs]</a><span class="k">def</span> <span class="nf">readid_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">enabled</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create ReadIDProviderConfig.Property</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param expression: string min_len: 4 max_len: 512</span>
+<span class="sd">    :param enabled: bool</span>
+<span class="sd">    :return: ReadIDProviderConfig.Property object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">property</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">ReadIDProviderConfig</span><span class="o">.</span><span class="n">Property</span><span class="p">(</span>
+            <span class="n">expression</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">expression</span><span class="p">),</span>
+            <span class="n">enabled</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">enabled</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">property</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_knowledge_graph_schema_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.create_knowledge_graph_schema_config_node">[docs]</a><span class="k">def</span> <span class="nf">create_knowledge_graph_schema_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span>
+                                              <span class="n">knowledge_graph_schema_config</span><span class="p">,</span>
+                                              <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create a schema and a KG DB</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param location: appSpace GID id</span>
+<span class="sd">    :param name: String min_len: 2, max_len: 63, pattern: &quot;^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$&quot;</span>
+<span class="sd">    :param display_name: String</span>
+<span class="sd">    :param description: String</span>
+<span class="sd">    :param knowledge_graph_schema_config: KnowledgeGraphSchemaConfig object</span>
+<span class="sd">    :param bookmarks: []</span>
+<span class="sd">    :return: CreateConfigNodeResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateConfigNode</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">CreateConfigNodeRequest</span><span class="p">(</span>
+                <span class="n">location</span><span class="o">=</span><span class="n">location</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
+                <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
+                <span class="n">knowledge_graph_schema_config</span><span class="o">=</span><span class="n">knowledge_graph_schema_config</span><span class="p">,</span>
                 <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">CreateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="update_knowledge_graph_schema_config_node"><a class="viewcode-back" href="../../config.html#config.config_node.update_knowledge_graph_schema_config_node">[docs]</a><span class="k">def</span> <span class="nf">update_knowledge_graph_schema_config_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_node_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span>
+                                              <span class="n">knowledge_graph_schema_config</span><span class="p">,</span>
+                                              <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update a knowledge graph config node</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param config_node_id: config node gid ID</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param knowledge_graph_schema_config: KnowledgeGraphSchemaConfig object</span>
+<span class="sd">    :param bookmarks: []</span>
+<span class="sd">    :return: UpdateConfigNodeResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateConfigNode</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">UpdateConfigNodeRequest</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">config_node_id</span><span class="p">,</span>
+                <span class="n">etag</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">etag</span><span class="p">),</span>
+                <span class="n">display_name</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">display_name</span><span class="p">),</span>
+                <span class="n">description</span><span class="o">=</span><span class="n">wrappers</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">description</span><span class="p">),</span>
+                <span class="n">knowledge_graph_schema_config</span><span class="o">=</span> <span class="n">knowledge_graph_schema_config</span><span class="p">,</span>
+                <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">UpdateConfigNode</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="knowledge_graph_schema_config"><a class="viewcode-back" href="../../config.html#config.config_node.knowledge_graph_schema_config">[docs]</a><span class="k">def</span> <span class="nf">knowledge_graph_schema_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create KnowledgeGraphSchemaConfig object</span>
+<span class="sd">    :param schema: string (stringified json)</span>
+<span class="sd">    :return: KnowledgeGraphSchemaConfig object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">knowledge_graph_schema</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">KnowledgeGraphSchemaConfig</span><span class="p">(</span>
+            <span class="n">schema</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">knowledge_graph_schema</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

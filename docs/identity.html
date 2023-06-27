@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>identity package &mdash; docs - documentation</title>
@@ -11,10 +11,9 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> docs
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            docs
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -49,13 +52,17 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-identity.consent">identity.consent module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identity.consent.check_oauth2_consent_challenge"><code class="docutils literal notranslate"><span class="pre">check_oauth2_consent_challenge()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.consent.create_consent"><code class="docutils literal notranslate"><span class="pre">create_consent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.consent.create_oauth2_consent_verifier_approval"><code class="docutils literal notranslate"><span class="pre">create_oauth2_consent_verifier_approval()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.consent.create_oauth2_consent_verifier_denial"><code class="docutils literal notranslate"><span class="pre">create_oauth2_consent_verifier_denial()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.consent.list_consents"><code class="docutils literal notranslate"><span class="pre">list_consents()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.consent.revoke_consent"><code class="docutils literal notranslate"><span class="pre">revoke_consent()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-identity.delete">identity.delete module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#identity.delete.del_digital_twin"><code class="docutils literal notranslate"><span class="pre">del_digital_twin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.delete.del_digital_twin_by_property"><code class="docutils literal notranslate"><span class="pre">del_digital_twin_by_property()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.delete.del_digital_twin_by_token"><code class="docutils literal notranslate"><span class="pre">del_digital_twin_by_token()</span></code></a></li>
 </ul>
 </li>
@@ -63,14 +70,21 @@
 <li class="toctree-l3"><a class="reference internal" href="#identity.enrich_token.enrich_token"><code class="docutils literal notranslate"><span class="pre">enrich_token()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-identity.forgotten_password">identity.forgotten_password module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identity.forgotten_password.start_forgotten_password_flow"><code class="docutils literal notranslate"><span class="pre">start_forgotten_password_flow()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-identity.get_digital_twin">identity.get_digital_twin module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#identity.get_digital_twin.get_digital_twin"><code class="docutils literal notranslate"><span class="pre">get_digital_twin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.get_digital_twin.get_digital_twin_by_property"><code class="docutils literal notranslate"><span class="pre">get_digital_twin_by_property()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.get_digital_twin.get_digital_twin_by_token"><code class="docutils literal notranslate"><span class="pre">get_digital_twin_by_token()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.get_digital_twin.property_filter"><code class="docutils literal notranslate"><span class="pre">property_filter()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-identity.helper">identity.helper module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#identity.helper.create_agent_jwt"><code class="docutils literal notranslate"><span class="pre">create_agent_jwt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.helper.create_jwt_message"><code class="docutils literal notranslate"><span class="pre">create_jwt_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.helper.create_property"><code class="docutils literal notranslate"><span class="pre">create_property()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.helper.create_property_batch_operations"><code class="docutils literal notranslate"><span class="pre">create_property_batch_operations()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.helper.create_property_mask"><code class="docutils literal notranslate"><span class="pre">create_property_mask()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.helper.get_int_from_datetime"><code class="docutils literal notranslate"><span class="pre">get_int_from_datetime()</span></code></a></li>
@@ -86,13 +100,27 @@
 <li class="toctree-l3"><a class="reference internal" href="#identity.import_digital_twins.validate_entity"><code class="docutils literal notranslate"><span class="pre">validate_entity()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-identity.introspect_token">identity.introspect_token module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#identity.introspect_token.introspect_token"><code class="docutils literal notranslate"><span class="pre">introspect_token()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-identity.invitation">identity.invitation module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identity.invitation.cancel_invitation"><code class="docutils literal notranslate"><span class="pre">cancel_invitation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.invitation.check_invitation_state"><code class="docutils literal notranslate"><span class="pre">check_invitation_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.invitation.create_email_invitation"><code class="docutils literal notranslate"><span class="pre">create_email_invitation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.invitation.create_mobile_invitation"><code class="docutils literal notranslate"><span class="pre">create_mobile_invitation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.invitation.resend_invitation"><code class="docutils literal notranslate"><span class="pre">resend_invitation()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-identity.patch_properties">identity.patch_properties module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#identity.patch_properties.patch_properties"><code class="docutils literal notranslate"><span class="pre">patch_properties()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#identity.patch_properties.patch_properties_by_token"><code class="docutils literal notranslate"><span class="pre">patch_properties_by_token()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-identity.register_digital_twins_no_cred">identity.register_digital_twins_no_cred module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identity.register_digital_twins_no_cred.register_digital_twin_without_credential"><code class="docutils literal notranslate"><span class="pre">register_digital_twin_without_credential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.register_digital_twins_no_cred.validate_kind"><code class="docutils literal notranslate"><span class="pre">validate_kind()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-identity.token_introspect">identity.token_introspect module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#identity.token_introspect.session_introspect"><code class="docutils literal notranslate"><span class="pre">session_introspect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#identity.token_introspect.token_introspect"><code class="docutils literal notranslate"><span class="pre">token_introspect()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-identity.verification">identity.verification module</a><ul>
@@ -102,21 +130,35 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-identity">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#identity.IdentityClient"><code class="docutils literal notranslate"><span class="pre">IdentityClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.cancel_invitation"><code class="docutils literal notranslate"><span class="pre">IdentityClient.cancel_invitation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.change_password"><code class="docutils literal notranslate"><span class="pre">IdentityClient.change_password()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.change_password_of_user"><code class="docutils literal notranslate"><span class="pre">IdentityClient.change_password_of_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.check_invitation_state"><code class="docutils literal notranslate"><span class="pre">IdentityClient.check_invitation_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.check_oauth2_consent_challenge"><code class="docutils literal notranslate"><span class="pre">IdentityClient.check_oauth2_consent_challenge()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.create_consent"><code class="docutils literal notranslate"><span class="pre">IdentityClient.create_consent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.create_email_invitation"><code class="docutils literal notranslate"><span class="pre">IdentityClient.create_email_invitation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.create_mobile_invitation"><code class="docutils literal notranslate"><span class="pre">IdentityClient.create_mobile_invitation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.create_oauth2_consent_verifier_approval"><code class="docutils literal notranslate"><span class="pre">IdentityClient.create_oauth2_consent_verifier_approval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.create_oauth2_consent_verifier_denial"><code class="docutils literal notranslate"><span class="pre">IdentityClient.create_oauth2_consent_verifier_denial()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.del_digital_twin"><code class="docutils literal notranslate"><span class="pre">IdentityClient.del_digital_twin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.del_digital_twin_by_property"><code class="docutils literal notranslate"><span class="pre">IdentityClient.del_digital_twin_by_property()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.del_digital_twin_by_token"><code class="docutils literal notranslate"><span class="pre">IdentityClient.del_digital_twin_by_token()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.enrich_token"><code class="docutils literal notranslate"><span class="pre">IdentityClient.enrich_token()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.get_digital_twin"><code class="docutils literal notranslate"><span class="pre">IdentityClient.get_digital_twin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.get_digital_twin_by_property"><code class="docutils literal notranslate"><span class="pre">IdentityClient.get_digital_twin_by_property()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.get_digital_twin_by_token"><code class="docutils literal notranslate"><span class="pre">IdentityClient.get_digital_twin_by_token()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.import_digital_twins"><code class="docutils literal notranslate"><span class="pre">IdentityClient.import_digital_twins()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.introspect_token"><code class="docutils literal notranslate"><span class="pre">IdentityClient.introspect_token()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.list_consents"><code class="docutils literal notranslate"><span class="pre">IdentityClient.list_consents()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.patch_properties"><code class="docutils literal notranslate"><span class="pre">IdentityClient.patch_properties()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.patch_properties_by_token"><code class="docutils literal notranslate"><span class="pre">IdentityClient.patch_properties_by_token()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.property_filter"><code class="docutils literal notranslate"><span class="pre">IdentityClient.property_filter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.register_digital_twin_without_credential"><code class="docutils literal notranslate"><span class="pre">IdentityClient.register_digital_twin_without_credential()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.resend_invitation"><code class="docutils literal notranslate"><span class="pre">IdentityClient.resend_invitation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.revoke_consent"><code class="docutils literal notranslate"><span class="pre">IdentityClient.revoke_consent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.session_introspect"><code class="docutils literal notranslate"><span class="pre">IdentityClient.session_introspect()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.start_digital_twin_email_verification"><code class="docutils literal notranslate"><span class="pre">IdentityClient.start_digital_twin_email_verification()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.start_forgotten_password_flow"><code class="docutils literal notranslate"><span class="pre">IdentityClient.start_forgotten_password_flow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.token_introspect"><code class="docutils literal notranslate"><span class="pre">IdentityClient.token_introspect()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#identity.IdentityClient.verify_digital_twin_email"><code class="docutils literal notranslate"><span class="pre">IdentityClient.verify_digital_twin_email()</span></code></a></li>
 </ul>
 </li>
@@ -126,6 +168,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorization.html">authorization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ingest.html">ingest package</a></li>
 </ul>
 
         </div>
@@ -141,7 +184,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">identity package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/identity.rst.txt" rel="nofollow"> View page source</a>
@@ -173,8 +216,23 @@
 <section id="module-identity.consent">
 <span id="identity-consent-module"></span><h2>identity.consent module<a class="headerlink" href="#module-identity.consent" title="Permalink to this heading"></a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="identity.consent.check_oauth2_consent_challenge">
+<span class="sig-prename descclassname"><span class="pre">identity.consent.</span></span><span class="sig-name descname"><span class="pre">check_oauth2_consent_challenge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">challenge</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/consent.html#check_oauth2_consent_challenge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.consent.check_oauth2_consent_challenge" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="identity.consent.create_consent">
 <span class="sig-prename descclassname"><span class="pre">identity.consent.</span></span><span class="sig-name descname"><span class="pre">create_consent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pii_processor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pii_principal_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/consent.html#create_consent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.consent.create_consent" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.consent.create_oauth2_consent_verifier_approval">
+<span class="sig-prename descclassname"><span class="pre">identity.consent.</span></span><span class="sig-name descname"><span class="pre">create_oauth2_consent_verifier_approval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consent_challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grant_scopes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granted_audiences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userinfo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remember</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remember_for</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/consent.html#create_oauth2_consent_verifier_approval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.consent.create_oauth2_consent_verifier_approval" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.consent.create_oauth2_consent_verifier_denial">
+<span class="sig-prename descclassname"><span class="pre">identity.consent.</span></span><span class="sig-name descname"><span class="pre">create_oauth2_consent_verifier_denial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consent_challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/consent.html#create_oauth2_consent_verifier_denial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.consent.create_oauth2_consent_verifier_denial" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -193,12 +251,30 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="identity.delete.del_digital_twin">
 <span class="sig-prename descclassname"><span class="pre">identity.delete.</span></span><span class="sig-name descname"><span class="pre">del_digital_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digital_twin_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/delete.html#del_digital_twin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.delete.del_digital_twin" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>delete DT by id
+:param self:
+:param digital_twin_id: DT gid id string
+:param tenant_id: tenant gid id string
+:return: DigitalTwin object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.delete.del_digital_twin_by_property">
+<span class="sig-prename descclassname"><span class="pre">identity.delete.</span></span><span class="sig-name descname"><span class="pre">del_digital_twin_by_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_filter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/delete.html#del_digital_twin_by_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.delete.del_digital_twin_by_property" title="Permalink to this definition"></a></dt>
+<dd><p>delete DT by property
+:param self:
+:param property_filter: PropertyFilter attribute
+:return: DigitalTwin object</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="identity.delete.del_digital_twin_by_token">
 <span class="sig-prename descclassname"><span class="pre">identity.delete.</span></span><span class="sig-name descname"><span class="pre">del_digital_twin_by_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/delete.html#del_digital_twin_by_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.delete.del_digital_twin_by_token" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>delete DT by token
+:param self:
+:param token: user token
+:return: DigitalTwin object</p>
+</dd></dl>
 
 </section>
 <section id="module-identity.enrich_token">
@@ -209,17 +285,57 @@
 <dd></dd></dl>
 
 </section>
+<section id="module-identity.forgotten_password">
+<span id="identity-forgotten-password-module"></span><h2>identity.forgotten_password module<a class="headerlink" href="#module-identity.forgotten_password" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.forgotten_password.start_forgotten_password_flow">
+<span class="sig-prename descclassname"><span class="pre">identity.forgotten_password.</span></span><span class="sig-name descname"><span class="pre">start_forgotten_password_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digital_twin_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/forgotten_password.html#start_forgotten_password_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.forgotten_password.start_forgotten_password_flow" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
 <section id="module-identity.get_digital_twin">
 <span id="identity-get-digital-twin-module"></span><h2>identity.get_digital_twin module<a class="headerlink" href="#module-identity.get_digital_twin" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="identity.get_digital_twin.get_digital_twin">
 <span class="sig-prename descclassname"><span class="pre">identity.get_digital_twin.</span></span><span class="sig-name descname"><span class="pre">get_digital_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digital_twin_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/get_digital_twin.html#get_digital_twin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.get_digital_twin.get_digital_twin" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>get a digital twin with a DigitalTwin object
+:param self:
+:param digital_twin_id: string gid id
+:param tenant_id: string gid id
+:param fields: [] of PropertyMask
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.get_digital_twin.get_digital_twin_by_property">
+<span class="sig-prename descclassname"><span class="pre">identity.get_digital_twin.</span></span><span class="sig-name descname"><span class="pre">get_digital_twin_by_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/get_digital_twin.html#get_digital_twin_by_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.get_digital_twin.get_digital_twin_by_property" title="Permalink to this definition"></a></dt>
+<dd><p>get a digital twin with a filter on its properties
+:param self:
+:param property_filter:
+:param fields: []
+:return: [] of PropertyMask</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="identity.get_digital_twin.get_digital_twin_by_token">
 <span class="sig-prename descclassname"><span class="pre">identity.get_digital_twin.</span></span><span class="sig-name descname"><span class="pre">get_digital_twin_by_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/get_digital_twin.html#get_digital_twin_by_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.get_digital_twin.get_digital_twin_by_token" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>get a digital twin with its token
+:param self:
+:param token:
+:param fields:
+:return: [] of PropertyMask</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.get_digital_twin.property_filter">
+<span class="sig-prename descclassname"><span class="pre">identity.get_digital_twin.</span></span><span class="sig-name descname"><span class="pre">property_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/get_digital_twin.html#property_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.get_digital_twin.property_filter" title="Permalink to this definition"></a></dt>
+<dd><p>create PropertyFilter object
+:param self:
+:param type: string
+:param value: Value
+:param tenant_id: string gid
+:return: PropertyFilter object</p>
+</dd></dl>
 
 </section>
 <section id="module-identity.helper">
@@ -232,6 +348,11 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="identity.helper.create_jwt_message">
 <span class="sig-prename descclassname"><span class="pre">identity.helper.</span></span><span class="sig-name descname"><span class="pre">create_jwt_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">credentials</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/helper.html#create_jwt_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.helper.create_jwt_message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.helper.create_property">
+<span class="sig-prename descclassname"><span class="pre">identity.helper.</span></span><span class="sig-name descname"><span class="pre">create_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">definition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/helper.html#create_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.helper.create_property" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -288,11 +409,31 @@
 <dd></dd></dl>
 
 </section>
-<section id="module-identity.introspect_token">
-<span id="identity-introspect-token-module"></span><h2>identity.introspect_token module<a class="headerlink" href="#module-identity.introspect_token" title="Permalink to this heading"></a></h2>
+<section id="module-identity.invitation">
+<span id="identity-invitation-module"></span><h2>identity.invitation module<a class="headerlink" href="#module-identity.invitation" title="Permalink to this heading"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="identity.introspect_token.introspect_token">
-<span class="sig-prename descclassname"><span class="pre">identity.introspect_token.</span></span><span class="sig-name descname"><span class="pre">introspect_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/introspect_token.html#introspect_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.introspect_token.introspect_token" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="identity.invitation.cancel_invitation">
+<span class="sig-prename descclassname"><span class="pre">identity.invitation.</span></span><span class="sig-name descname"><span class="pre">cancel_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/invitation.html#cancel_invitation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.invitation.cancel_invitation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.invitation.check_invitation_state">
+<span class="sig-prename descclassname"><span class="pre">identity.invitation.</span></span><span class="sig-name descname"><span class="pre">check_invitation_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invitation_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/invitation.html#check_invitation_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.invitation.check_invitation_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.invitation.create_email_invitation">
+<span class="sig-prename descclassname"><span class="pre">identity.invitation.</span></span><span class="sig-name descname"><span class="pre">create_email_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invite_at_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_attributes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/invitation.html#create_email_invitation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.invitation.create_email_invitation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.invitation.create_mobile_invitation">
+<span class="sig-prename descclassname"><span class="pre">identity.invitation.</span></span><span class="sig-name descname"><span class="pre">create_mobile_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invite_at_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_attributes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/invitation.html#create_mobile_invitation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.invitation.create_mobile_invitation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.invitation.resend_invitation">
+<span class="sig-prename descclassname"><span class="pre">identity.invitation.</span></span><span class="sig-name descname"><span class="pre">resend_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/invitation.html#resend_invitation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.invitation.resend_invitation" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -306,6 +447,32 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="identity.patch_properties.patch_properties_by_token">
 <span class="sig-prename descclassname"><span class="pre">identity.patch_properties.</span></span><span class="sig-name descname"><span class="pre">patch_properties_by_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields_in_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/patch_properties.html#patch_properties_by_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.patch_properties.patch_properties_by_token" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-identity.register_digital_twins_no_cred">
+<span id="identity-register-digital-twins-no-cred-module"></span><h2>identity.register_digital_twins_no_cred module<a class="headerlink" href="#module-identity.register_digital_twins_no_cred" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.register_digital_twins_no_cred.register_digital_twin_without_credential">
+<span class="sig-prename descclassname"><span class="pre">identity.register_digital_twins_no_cred.</span></span><span class="sig-name descname"><span class="pre">register_digital_twin_without_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/register_digital_twins_no_cred.html#register_digital_twin_without_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.register_digital_twins_no_cred.register_digital_twin_without_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.register_digital_twins_no_cred.validate_kind">
+<span class="sig-prename descclassname"><span class="pre">identity.register_digital_twins_no_cred.</span></span><span class="sig-name descname"><span class="pre">validate_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/register_digital_twins_no_cred.html#validate_kind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.register_digital_twins_no_cred.validate_kind" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-identity.token_introspect">
+<span id="identity-token-introspect-module"></span><h2>identity.token_introspect module<a class="headerlink" href="#module-identity.token_introspect" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.token_introspect.session_introspect">
+<span class="sig-prename descclassname"><span class="pre">identity.token_introspect.</span></span><span class="sig-name descname"><span class="pre">session_introspect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/token_introspect.html#session_introspect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.token_introspect.session_introspect" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="identity.token_introspect.token_introspect">
+<span class="sig-prename descclassname"><span class="pre">identity.token_introspect.</span></span><span class="sig-name descname"><span class="pre">token_introspect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity/token_introspect.html#token_introspect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.token_introspect.token_introspect" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -329,6 +496,11 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">identity.</span></span><span class="sig-name descname"><span class="pre">IdentityClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/identity.html#IdentityClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#identity.IdentityClient" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.cancel_invitation">
+<span class="sig-name descname"><span class="pre">cancel_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.cancel_invitation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.change_password">
 <span class="sig-name descname"><span class="pre">change_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.change_password" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -339,19 +511,67 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.check_invitation_state">
+<span class="sig-name descname"><span class="pre">check_invitation_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invitation_token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.check_invitation_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.check_oauth2_consent_challenge">
+<span class="sig-name descname"><span class="pre">check_oauth2_consent_challenge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">challenge</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.check_oauth2_consent_challenge" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.create_consent">
 <span class="sig-name descname"><span class="pre">create_consent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pii_processor_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pii_principal_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.create_consent" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.create_email_invitation">
+<span class="sig-name descname"><span class="pre">create_email_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invite_at_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_attributes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.create_email_invitation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.create_mobile_invitation">
+<span class="sig-name descname"><span class="pre">create_mobile_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mobile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invite_at_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_attributes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.create_mobile_invitation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.create_oauth2_consent_verifier_approval">
+<span class="sig-name descname"><span class="pre">create_oauth2_consent_verifier_approval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consent_challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grant_scopes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granted_audiences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userinfo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remember</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remember_for</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.create_oauth2_consent_verifier_approval" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.create_oauth2_consent_verifier_denial">
+<span class="sig-name descname"><span class="pre">create_oauth2_consent_verifier_denial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consent_challenge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.create_oauth2_consent_verifier_denial" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.del_digital_twin">
 <span class="sig-name descname"><span class="pre">del_digital_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digital_twin_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.del_digital_twin" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>delete DT by id
+:param self:
+:param digital_twin_id: DT gid id string
+:param tenant_id: tenant gid id string
+:return: DigitalTwin object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.del_digital_twin_by_property">
+<span class="sig-name descname"><span class="pre">del_digital_twin_by_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_filter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.del_digital_twin_by_property" title="Permalink to this definition"></a></dt>
+<dd><p>delete DT by property
+:param self:
+:param property_filter: PropertyFilter attribute
+:return: DigitalTwin object</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.del_digital_twin_by_token">
 <span class="sig-name descname"><span class="pre">del_digital_twin_by_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.del_digital_twin_by_token" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>delete DT by token
+:param self:
+:param token: user token
+:return: DigitalTwin object</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.enrich_token">
@@ -361,21 +581,37 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.get_digital_twin">
 <span class="sig-name descname"><span class="pre">get_digital_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digital_twin_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.get_digital_twin" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>get a digital twin with a DigitalTwin object
+:param self:
+:param digital_twin_id: string gid id
+:param tenant_id: string gid id
+:param fields: [] of PropertyMask
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.get_digital_twin_by_property">
+<span class="sig-name descname"><span class="pre">get_digital_twin_by_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.get_digital_twin_by_property" title="Permalink to this definition"></a></dt>
+<dd><p>get a digital twin with a filter on its properties
+:param self:
+:param property_filter:
+:param fields: []
+:return: [] of PropertyMask</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.get_digital_twin_by_token">
 <span class="sig-name descname"><span class="pre">get_digital_twin_by_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.get_digital_twin_by_token" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>get a digital twin with its token
+:param self:
+:param token:
+:param fields:
+:return: [] of PropertyMask</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.import_digital_twins">
 <span class="sig-name descname"><span class="pre">import_digital_twins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hash_algorithm</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.import_digital_twins" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="identity.IdentityClient.introspect_token">
-<span class="sig-name descname"><span class="pre">introspect_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.introspect_token" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -394,13 +630,49 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.property_filter">
+<span class="sig-name descname"><span class="pre">property_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.property_filter" title="Permalink to this definition"></a></dt>
+<dd><p>create PropertyFilter object
+:param self:
+:param type: string
+:param value: Value
+:param tenant_id: string gid
+:return: PropertyFilter object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.register_digital_twin_without_credential">
+<span class="sig-name descname"><span class="pre">register_digital_twin_without_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.register_digital_twin_without_credential" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.resend_invitation">
+<span class="sig-name descname"><span class="pre">resend_invitation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.resend_invitation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.revoke_consent">
 <span class="sig-name descname"><span class="pre">revoke_consent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pii_principal_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consent_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.revoke_consent" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.session_introspect">
+<span class="sig-name descname"><span class="pre">session_introspect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.session_introspect" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="identity.IdentityClient.start_digital_twin_email_verification">
 <span class="sig-name descname"><span class="pre">start_digital_twin_email_verification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.start_digital_twin_email_verification" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.start_forgotten_password_flow">
+<span class="sig-name descname"><span class="pre">start_forgotten_password_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digital_twin_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.start_forgotten_password_flow" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="identity.IdentityClient.token_introspect">
+<span class="sig-name descname"><span class="pre">token_introspect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#identity.IdentityClient.token_introspect" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

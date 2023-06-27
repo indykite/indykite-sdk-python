@@ -10,10 +10,9 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> docs
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            docs
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -44,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="identity.html">identity package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorization.html">authorization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ingest.html">ingest package</a></li>
 </ul>
 
         </div>
@@ -59,7 +63,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Python Module Index</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -98,6 +102,16 @@
        <td>&#160;&#160;&#160;
        <a href="authorization.html#module-authorization.is_authorized"><code class="xref">authorization.is_authorized</code></a></td><td>
        <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="authorization.html#module-authorization.what_authorized"><code class="xref">authorization.what_authorized</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="authorization.html#module-authorization.who_authorized"><code class="xref">authorization.who_authorized</code></a></td><td>
+       <em></em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-c"><td></td><td>
        <strong>c</strong></td><td></td></tr>
@@ -135,7 +149,17 @@
      <tr class="cg-2">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="config.html#module-config.create_application_with_agent_credentials"><code class="xref">config.create_application_with_agent_credentials</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-2">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="config.html#module-config.customer"><code class="xref">config.customer</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-2">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="config.html#module-config.get_schema"><code class="xref">config.get_schema</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-2">
        <td></td>
@@ -199,6 +223,11 @@
      <tr class="cg-3">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="identity.html#module-identity.forgotten_password"><code class="xref">identity.forgotten_password</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-3">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="identity.html#module-identity.get_digital_twin"><code class="xref">identity.get_digital_twin</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-3">
@@ -214,7 +243,7 @@
      <tr class="cg-3">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="identity.html#module-identity.introspect_token"><code class="xref">identity.introspect_token</code></a></td><td>
+       <a href="identity.html#module-identity.invitation"><code class="xref">identity.invitation</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-3">
        <td></td>
@@ -224,7 +253,28 @@
      <tr class="cg-3">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="identity.html#module-identity.register_digital_twins_no_cred"><code class="xref">identity.register_digital_twins_no_cred</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-3">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="identity.html#module-identity.token_introspect"><code class="xref">identity.token_introspect</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-3">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="identity.html#module-identity.verification"><code class="xref">identity.verification</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td><img src="_static/minus.png" class="toggler"
+              id="toggle-4" style="display: none" alt="-" /></td>
+       <td>
+       <a href="ingest.html#module-ingest"><code class="xref">ingest</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-4">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="ingest.html#module-ingest.ingest_record"><code class="xref">ingest.ingest_record</code></a></td><td>
        <em></em></td></tr>
    </table>
 

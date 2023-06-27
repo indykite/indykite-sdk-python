@@ -9,28 +9,31 @@
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+  
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> docs
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            docs
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -41,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="identity.html">identity package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorization.html">authorization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ingest.html">ingest package</a></li>
 </ul>
 
         </div>
@@ -56,7 +60,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Index</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -65,7 +69,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-
+             
 
 <h1 id="index">Index</h1>
 
@@ -76,18 +80,28 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
-
+ | <a href="#W"><strong>W</strong></a>
+ 
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#config.ConfigClient.auth_flow_config">auth_flow_config() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.auth_flow_config">(in module config.config_node)</a>
+</li>
+      </ul></li>
       <li>
     authorization
 
@@ -102,13 +116,33 @@
         <li><a href="authorization.html#module-authorization.helper">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     authorization.is_authorized
 
       <ul>
         <li><a href="authorization.html#module-authorization.is_authorized">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    authorization.what_authorized
+
+      <ul>
+        <li><a href="authorization.html#module-authorization.what_authorized">module</a>
+</li>
+      </ul></li>
+      <li>
+    authorization.who_authorized
+
+      <ul>
+        <li><a href="authorization.html#module-authorization.who_authorized">module</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.authorization_policy_config">authorization_policy_config() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.authorization_policy_config">(in module config.config_node)</a>
 </li>
       </ul></li>
       <li><a href="authorization.html#authorization.AuthorizationClient">AuthorizationClient (class in authorization)</a>
@@ -119,6 +153,16 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="identity.html#identity.IdentityClient.cancel_invitation">cancel_invitation() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.invitation.cancel_invitation">(in module identity.invitation)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.change">change() (in module ingest.ingest_record)</a>
+</li>
+      <li><a href="config.html#config.helper.change_display_to_name">change_display_to_name() (in module config.helper)</a>
+</li>
       <li><a href="identity.html#identity.IdentityClient.change_password">change_password() (identity.IdentityClient method)</a>
 
       <ul>
@@ -129,6 +173,18 @@
 
       <ul>
         <li><a href="identity.html#identity.change_password.change_password_of_user">(in module identity.change_password)</a>
+</li>
+      </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.check_invitation_state">check_invitation_state() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.invitation.check_invitation_state">(in module identity.invitation)</a>
+</li>
+      </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.check_oauth2_consent_challenge">check_oauth2_consent_challenge() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.consent.check_oauth2_consent_challenge">(in module identity.consent)</a>
 </li>
       </ul></li>
       <li>
@@ -174,10 +230,24 @@
 </li>
       </ul></li>
       <li>
+    config.create_application_with_agent_credentials
+
+      <ul>
+        <li><a href="config.html#module-config.create_application_with_agent_credentials">module</a>
+</li>
+      </ul></li>
+      <li>
     config.customer
 
       <ul>
         <li><a href="config.html#module-config.customer">module</a>
+</li>
+      </ul></li>
+      <li>
+    config.get_schema
+
+      <ul>
+        <li><a href="config.html#module-config.get_schema">module</a>
 </li>
       </ul></li>
       <li>
@@ -232,14 +302,14 @@
         <li><a href="identity.html#identity.helper.create_agent_jwt">(in module identity.helper)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="config.html#config.ConfigClient.create_app_space">create_app_space() (config.ConfigClient method)</a>
 
       <ul>
         <li><a href="config.html#config.app_space.create_app_space">(in module config.app_space)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="config.html#config.ConfigClient.create_application">create_application() (config.ConfigClient method)</a>
 
       <ul>
@@ -252,10 +322,22 @@
         <li><a href="config.html#config.application_agent.create_application_agent">(in module config.application_agent)</a>
 </li>
       </ul></li>
+      <li><a href="config.html#config.ConfigClient.create_application_with_agent_credentials">create_application_with_agent_credentials() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.create_application_with_agent_credentials.create_application_with_agent_credentials">(in module config.create_application_with_agent_credentials)</a>
+</li>
+      </ul></li>
       <li><a href="config.html#config.ConfigClient.create_auth_flow_config_node">create_auth_flow_config_node() (config.ConfigClient method)</a>
 
       <ul>
         <li><a href="config.html#config.config_node.create_auth_flow_config_node">(in module config.config_node)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.create_authorization_policy_config_node">create_authorization_policy_config_node() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.create_authorization_policy_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
       <li><a href="identity.html#identity.IdentityClient.create_consent">create_consent() (identity.IdentityClient method)</a>
@@ -264,16 +346,16 @@
         <li><a href="identity.html#identity.consent.create_consent">(in module identity.consent)</a>
 </li>
       </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.create_email_invitation">create_email_invitation() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.invitation.create_email_invitation">(in module identity.invitation)</a>
+</li>
+      </ul></li>
       <li><a href="config.html#config.ConfigClient.create_email_service_config_node">create_email_service_config_node() (config.ConfigClient method)</a>
 
       <ul>
         <li><a href="config.html#config.config_node.create_email_service_config_node">(in module config.config_node)</a>
-</li>
-      </ul></li>
-      <li><a href="config.html#config.ConfigClient.create_ingest_mapping_config_node">create_ingest_mapping_config_node() (config.ConfigClient method)</a>
-
-      <ul>
-        <li><a href="config.html#config.config_node.create_ingest_mapping_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
       <li><a href="authorization.html#authorization.helper.create_jwt_message">create_jwt_message() (in module authorization.helper)</a>
@@ -282,6 +364,18 @@
         <li><a href="config.html#config.helper.create_jwt_message">(in module config.helper)</a>
 </li>
         <li><a href="identity.html#identity.helper.create_jwt_message">(in module identity.helper)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.create_knowledge_graph_schema_config_node">create_knowledge_graph_schema_config_node() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.create_knowledge_graph_schema_config_node">(in module config.config_node)</a>
+</li>
+      </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.create_mobile_invitation">create_mobile_invitation() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.invitation.create_mobile_invitation">(in module identity.invitation)</a>
 </li>
       </ul></li>
       <li><a href="config.html#config.ConfigClient.create_oauth2_application">create_oauth2_application() (config.ConfigClient method)</a>
@@ -296,12 +390,26 @@
         <li><a href="config.html#config.config_node.create_oauth2_client_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.create_oauth2_consent_verifier_approval">create_oauth2_consent_verifier_approval() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.consent.create_oauth2_consent_verifier_approval">(in module identity.consent)</a>
+</li>
+      </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.create_oauth2_consent_verifier_denial">create_oauth2_consent_verifier_denial() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.consent.create_oauth2_consent_verifier_denial">(in module identity.consent)</a>
+</li>
+      </ul></li>
       <li><a href="config.html#config.ConfigClient.create_oauth2_provider">create_oauth2_provider() (config.ConfigClient method)</a>
 
       <ul>
         <li><a href="config.html#config.oauth2_provider.create_oauth2_provider">(in module config.oauth2_provider)</a>
 </li>
       </ul></li>
+      <li><a href="identity.html#identity.helper.create_property">create_property() (in module identity.helper)</a>
+</li>
       <li><a href="config.html#config.helper.create_property_batch_operations">create_property_batch_operations() (in module config.helper)</a>
 
       <ul>
@@ -312,6 +420,12 @@
 
       <ul>
         <li><a href="identity.html#identity.helper.create_property_mask">(in module identity.helper)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.create_readid_provider_config_node">create_readid_provider_config_node() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.create_readid_provider_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
       <li><a href="config.html#config.ConfigClient.create_service_account">create_service_account() (config.ConfigClient method)</a>
@@ -326,6 +440,12 @@
         <li><a href="config.html#config.tenant.create_tenant">(in module config.tenant)</a>
 </li>
       </ul></li>
+      <li><a href="config.html#config.ConfigClient.create_webauthn_provider_config_node">create_webauthn_provider_config_node() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.create_webauthn_provider_config_node">(in module config.config_node)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -336,6 +456,12 @@
 
       <ul>
         <li><a href="identity.html#identity.delete.del_digital_twin">(in module identity.delete)</a>
+</li>
+      </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.del_digital_twin_by_property">del_digital_twin_by_property() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.delete.del_digital_twin_by_property">(in module identity.delete)</a>
 </li>
       </ul></li>
       <li><a href="identity.html#identity.IdentityClient.del_digital_twin_by_token">del_digital_twin_by_token() (identity.IdentityClient method)</a>
@@ -368,12 +494,36 @@
         <li><a href="config.html#config.application_agent_credential.delete_application_agent_credential">(in module config.application_agent_credential)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="config.html#config.ConfigClient.delete_config_node">delete_config_node() (config.ConfigClient method)</a>
 
       <ul>
         <li><a href="config.html#config.config_node.delete_config_node">(in module config.config_node)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.delete_data_node">delete_data_node() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.delete_data_node">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ingest.html#ingest.ingest_record.delete_data_node_property">delete_data_node_property() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.delete_data_node_property">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.delete_data_relation">delete_data_relation() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.delete_data_relation">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.delete_data_relation_property">delete_data_relation_property() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.delete_data_relation_property">(ingest.IngestClient method)</a>
 </li>
       </ul></li>
       <li><a href="config.html#config.ConfigClient.delete_oauth2_application">delete_oauth2_application() (config.ConfigClient method)</a>
@@ -426,6 +576,12 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ingest.html#ingest.ingest_record.generate_records_request">generate_records_request() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.generate_records_request">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
       <li><a href="config.html#config.ConfigClient.get_app_space_by_id">get_app_space_by_id() (config.ConfigClient method)</a>
 
       <ul>
@@ -468,24 +624,18 @@
         <li><a href="config.html#config.application.get_application_by_name">(in module config.application)</a>
 </li>
       </ul></li>
-      <li><a href="config.html#config.ConfigClient.read_customer_by_id">read_customer_by_id() (config.ConfigClient method)</a>
-
-      <ul>
-        <li><a href="config.html#config.customer.read_customer_by_id">(in module config.customer)</a>
-</li>
-      </ul></li>
-      <li><a href="config.html#config.ConfigClient.read_customer_by_name">read_customer_by_name() (config.ConfigClient method)</a>
-
-      <ul>
-        <li><a href="config.html#config.customer.read_customer_by_name">(in module config.customer)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="identity.html#identity.IdentityClient.get_digital_twin">get_digital_twin() (identity.IdentityClient method)</a>
 
       <ul>
         <li><a href="identity.html#identity.get_digital_twin.get_digital_twin">(in module identity.get_digital_twin)</a>
+</li>
+      </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.get_digital_twin_by_property">get_digital_twin_by_property() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.get_digital_twin.get_digital_twin_by_property">(in module identity.get_digital_twin)</a>
 </li>
       </ul></li>
       <li><a href="identity.html#identity.IdentityClient.get_digital_twin_by_token">get_digital_twin_by_token() (identity.IdentityClient method)</a>
@@ -504,22 +654,10 @@
         <li><a href="identity.html#identity.helper.get_int_from_datetime">(in module identity.helper)</a>
 </li>
       </ul></li>
-      <li><a href="config.html#config.ConfigClient.get_service_account">get_service_account() (config.ConfigClient method)</a>
+      <li><a href="config.html#config.ConfigClient.get_schema_helpers">get_schema_helpers() (config.ConfigClient method)</a>
 
       <ul>
-        <li><a href="config.html#config.service_account.get_service_account">(in module config.service_account)</a>
-</li>
-      </ul></li>
-      <li><a href="config.html#config.ConfigClient.get_service_account_by_name">get_service_account_by_name() (config.ConfigClient method)</a>
-
-      <ul>
-        <li><a href="config.html#config.service_account.get_service_account_by_name">(in module config.service_account)</a>
-</li>
-      </ul></li>
-      <li><a href="config.html#config.ConfigClient.get_service_account_credential">get_service_account_credential() (config.ConfigClient method)</a>
-
-      <ul>
-        <li><a href="config.html#config.service_account_credential.get_service_account_credential">(in module config.service_account_credential)</a>
+        <li><a href="config.html#config.get_schema.get_schema_helpers">(in module config.get_schema)</a>
 </li>
       </ul></li>
       <li><a href="config.html#config.ConfigClient.get_tenant_by_id">get_tenant_by_id() (config.ConfigClient method)</a>
@@ -576,6 +714,13 @@
 </li>
       </ul></li>
       <li>
+    identity.forgotten_password
+
+      <ul>
+        <li><a href="identity.html#module-identity.forgotten_password">module</a>
+</li>
+      </ul></li>
+      <li>
     identity.get_digital_twin
 
       <ul>
@@ -597,14 +742,12 @@
 </li>
       </ul></li>
       <li>
-    identity.introspect_token
+    identity.invitation
 
       <ul>
-        <li><a href="identity.html#module-identity.introspect_token">module</a>
+        <li><a href="identity.html#module-identity.invitation">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     identity.patch_properties
 
@@ -613,10 +756,32 @@
 </li>
       </ul></li>
       <li>
+    identity.register_digital_twins_no_cred
+
+      <ul>
+        <li><a href="identity.html#module-identity.register_digital_twins_no_cred">module</a>
+</li>
+      </ul></li>
+      <li>
+    identity.token_introspect
+
+      <ul>
+        <li><a href="identity.html#module-identity.token_introspect">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
     identity.verification
 
       <ul>
         <li><a href="identity.html#module-identity.verification">module</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.identity_property">identity_property() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.identity_property">(ingest.IngestClient method)</a>
 </li>
       </ul></li>
       <li><a href="identity.html#identity.IdentityClient">IdentityClient (class in identity)</a>
@@ -629,12 +794,40 @@
       </ul></li>
       <li><a href="identity.html#identity.import_digital_twins.import_digital_twins_chunks">import_digital_twins_chunks() (in module identity.import_digital_twins)</a>
 </li>
-      <li><a href="identity.html#identity.IdentityClient.introspect_token">introspect_token() (identity.IdentityClient method)</a>
+      <li>
+    ingest
 
       <ul>
-        <li><a href="identity.html#identity.introspect_token.introspect_token">(in module identity.introspect_token)</a>
+        <li><a href="ingest.html#module-ingest">module</a>
 </li>
       </ul></li>
+      <li>
+    ingest.ingest_record
+
+      <ul>
+        <li><a href="ingest.html#module-ingest.ingest_record">module</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.ingest_property">ingest_property() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.ingest_property">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.ingest_record_delete">ingest_record_delete() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.ingest_record_delete">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.ingest_record_upsert">ingest_record_upsert() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.ingest_record_upsert">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.IngestClient">IngestClient (class in ingest)</a>
+</li>
       <li><a href="authorization.html#authorization.AuthorizationClient.is_authorized_digital_twin">is_authorized_digital_twin() (authorization.AuthorizationClient method)</a>
 
       <ul>
@@ -651,6 +844,18 @@
 
       <ul>
         <li><a href="authorization.html#authorization.is_authorized.is_authorized_token">(in module authorization.is_authorized)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#config.ConfigClient.knowledge_graph_schema_config">knowledge_graph_schema_config() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.knowledge_graph_schema_config">(in module config.config_node)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -723,6 +928,10 @@
 </li>
         <li><a href="authorization.html#module-authorization.is_authorized">authorization.is_authorized</a>
 </li>
+        <li><a href="authorization.html#module-authorization.what_authorized">authorization.what_authorized</a>
+</li>
+        <li><a href="authorization.html#module-authorization.who_authorized">authorization.who_authorized</a>
+</li>
         <li><a href="config.html#module-config">config</a>
 </li>
         <li><a href="config.html#module-config.app_space">config.app_space</a>
@@ -735,7 +944,11 @@
 </li>
         <li><a href="config.html#module-config.config_node">config.config_node</a>
 </li>
+        <li><a href="config.html#module-config.create_application_with_agent_credentials">config.create_application_with_agent_credentials</a>
+</li>
         <li><a href="config.html#module-config.customer">config.customer</a>
+</li>
+        <li><a href="config.html#module-config.get_schema">config.get_schema</a>
 </li>
         <li><a href="config.html#module-config.helper">config.helper</a>
 </li>
@@ -759,17 +972,47 @@
 </li>
         <li><a href="identity.html#module-identity.enrich_token">identity.enrich_token</a>
 </li>
+        <li><a href="identity.html#module-identity.forgotten_password">identity.forgotten_password</a>
+</li>
         <li><a href="identity.html#module-identity.get_digital_twin">identity.get_digital_twin</a>
 </li>
         <li><a href="identity.html#module-identity.helper">identity.helper</a>
 </li>
         <li><a href="identity.html#module-identity.import_digital_twins">identity.import_digital_twins</a>
 </li>
-        <li><a href="identity.html#module-identity.introspect_token">identity.introspect_token</a>
+        <li><a href="identity.html#module-identity.invitation">identity.invitation</a>
 </li>
         <li><a href="identity.html#module-identity.patch_properties">identity.patch_properties</a>
 </li>
+        <li><a href="identity.html#module-identity.register_digital_twins_no_cred">identity.register_digital_twins_no_cred</a>
+</li>
+        <li><a href="identity.html#module-identity.token_introspect">identity.token_introspect</a>
+</li>
         <li><a href="identity.html#module-identity.verification">identity.verification</a>
+</li>
+        <li><a href="ingest.html#module-ingest">ingest</a>
+</li>
+        <li><a href="ingest.html#module-ingest.ingest_record">ingest.ingest_record</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ingest.html#ingest.ingest_record.node_match">node_match() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.node_match">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ingest.html#ingest.ingest_record.node_property_match">node_property_match() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.node_property_match">(ingest.IngestClient method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -784,12 +1027,18 @@
         <li><a href="identity.html#identity.patch_properties.patch_properties">(in module identity.patch_properties)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="identity.html#identity.IdentityClient.patch_properties_by_token">patch_properties_by_token() (identity.IdentityClient method)</a>
 
       <ul>
         <li><a href="identity.html#identity.patch_properties.patch_properties_by_token">(in module identity.patch_properties)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="identity.html#identity.IdentityClient.property_filter">property_filter() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.get_digital_twin.property_filter">(in module identity.get_digital_twin)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -804,6 +1053,18 @@
         <li><a href="config.html#config.config_node.read_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
+      <li><a href="config.html#config.ConfigClient.read_customer_by_id">read_customer_by_id() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.customer.read_customer_by_id">(in module config.customer)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.read_customer_by_name">read_customer_by_name() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.customer.read_customer_by_name">(in module config.customer)</a>
+</li>
+      </ul></li>
       <li><a href="config.html#config.ConfigClient.read_oauth2_application">read_oauth2_application() (config.ConfigClient method)</a>
 
       <ul>
@@ -814,6 +1075,42 @@
 
       <ul>
         <li><a href="config.html#config.oauth2_provider.read_oauth2_provider">(in module config.oauth2_provider)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.read_service_account">read_service_account() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.service_account.read_service_account">(in module config.service_account)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.read_service_account_by_name">read_service_account_by_name() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.service_account.read_service_account_by_name">(in module config.service_account)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.read_service_account_credential">read_service_account_credential() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.service_account_credential.read_service_account_credential">(in module config.service_account_credential)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.readid_property">readid_property() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.readid_property">(in module config.config_node)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.readid_provider_config">readid_provider_config() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.readid_provider_config">(in module config.config_node)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.record_upsert">record_upsert() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.record_upsert">(ingest.IngestClient method)</a>
 </li>
       </ul></li>
       <li><a href="config.html#config.ConfigClient.register_application_agent_credential_jwk">register_application_agent_credential_jwk() (config.ConfigClient method)</a>
@@ -830,6 +1127,12 @@
         <li><a href="config.html#config.application_agent_credential.register_application_agent_credential_pem">(in module config.application_agent_credential)</a>
 </li>
       </ul></li>
+      <li><a href="identity.html#identity.IdentityClient.register_digital_twin_without_credential">register_digital_twin_without_credential() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.register_digital_twins_no_cred.register_digital_twin_without_credential">(in module identity.register_digital_twins_no_cred)</a>
+</li>
+      </ul></li>
       <li><a href="config.html#config.ConfigClient.register_service_account_credential_jwk">register_service_account_credential_jwk() (config.ConfigClient method)</a>
 
       <ul>
@@ -842,8 +1145,42 @@
         <li><a href="config.html#config.service_account_credential.register_service_account_credential_pem">(in module config.service_account_credential)</a>
 </li>
       </ul></li>
-      <li><a href="authorization.html#authorization.is_authorized.request_resource">request_resource() (in module authorization.is_authorized)</a>
+      <li><a href="ingest.html#ingest.ingest_record.relation_match">relation_match() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.relation_match">(ingest.IngestClient method)</a>
 </li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.relation_property_match">relation_property_match() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.relation_property_match">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.helper.remove_accent_chars_regex">remove_accent_chars_regex() (in module config.helper)</a>
+</li>
+      <li><a href="authorization.html#authorization.is_authorized.request_input_params">request_input_params() (in module authorization.is_authorized)</a>
+
+      <ul>
+        <li><a href="authorization.html#authorization.what_authorized.request_input_params">(in module authorization.what_authorized)</a>
+</li>
+        <li><a href="authorization.html#authorization.who_authorized.request_input_params">(in module authorization.who_authorized)</a>
+</li>
+      </ul></li>
+      <li><a href="authorization.html#authorization.is_authorized.request_resource">request_resource() (in module authorization.is_authorized)</a>
+
+      <ul>
+        <li><a href="authorization.html#authorization.who_authorized.request_resource">(in module authorization.who_authorized)</a>
+</li>
+      </ul></li>
+      <li><a href="authorization.html#authorization.what_authorized.request_resource_type">request_resource_type() (in module authorization.what_authorized)</a>
+</li>
+      <li><a href="identity.html#identity.IdentityClient.resend_invitation">resend_invitation() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.invitation.resend_invitation">(in module identity.invitation)</a>
+</li>
+      </ul></li>
       <li><a href="identity.html#identity.IdentityClient.revoke_consent">revoke_consent() (identity.IdentityClient method)</a>
 
       <ul>
@@ -856,10 +1193,42 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="identity.html#identity.IdentityClient.session_introspect">session_introspect() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.token_introspect.session_introspect">(in module identity.token_introspect)</a>
+</li>
+      </ul></li>
       <li><a href="identity.html#identity.IdentityClient.start_digital_twin_email_verification">start_digital_twin_email_verification() (identity.IdentityClient method)</a>
 
       <ul>
         <li><a href="identity.html#identity.verification.start_digital_twin_email_verification">(in module identity.verification)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="identity.html#identity.IdentityClient.start_forgotten_password_flow">start_forgotten_password_flow() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.forgotten_password.start_forgotten_password_flow">(in module identity.forgotten_password)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.stream_records">stream_records() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.stream_records">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="identity.html#identity.IdentityClient.token_introspect">token_introspect() (identity.IdentityClient method)</a>
+
+      <ul>
+        <li><a href="identity.html#identity.token_introspect.token_introspect">(in module identity.token_introspect)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -892,20 +1261,24 @@
         <li><a href="config.html#config.config_node.update_auth_flow_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
+      <li><a href="config.html#config.ConfigClient.update_authorization_policy_config_node">update_authorization_policy_config_node() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.update_authorization_policy_config_node">(in module config.config_node)</a>
+</li>
+      </ul></li>
       <li><a href="config.html#config.ConfigClient.update_email_service_config_node">update_email_service_config_node() (config.ConfigClient method)</a>
 
       <ul>
         <li><a href="config.html#config.config_node.update_email_service_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
-      <li><a href="config.html#config.ConfigClient.update_ingest_mapping_config_node">update_ingest_mapping_config_node() (config.ConfigClient method)</a>
+      <li><a href="config.html#config.ConfigClient.update_knowledge_graph_schema_config_node">update_knowledge_graph_schema_config_node() (config.ConfigClient method)</a>
 
       <ul>
-        <li><a href="config.html#config.config_node.update_ingest_mapping_config_node">(in module config.config_node)</a>
+        <li><a href="config.html#config.config_node.update_knowledge_graph_schema_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="config.html#config.ConfigClient.update_oauth2_application">update_oauth2_application() (config.ConfigClient method)</a>
 
       <ul>
@@ -918,10 +1291,18 @@
         <li><a href="config.html#config.config_node.update_oauth2_client_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="config.html#config.ConfigClient.update_oauth2_provider">update_oauth2_provider() (config.ConfigClient method)</a>
 
       <ul>
         <li><a href="config.html#config.oauth2_provider.update_oauth2_provider">(in module config.oauth2_provider)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.update_readid_provider_config_node">update_readid_provider_config_node() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.update_readid_provider_config_node">(in module config.config_node)</a>
 </li>
       </ul></li>
       <li><a href="config.html#config.ConfigClient.update_service_account">update_service_account() (config.ConfigClient method)</a>
@@ -936,20 +1317,108 @@
         <li><a href="config.html#config.tenant.update_tenant">(in module config.tenant)</a>
 </li>
       </ul></li>
+      <li><a href="config.html#config.ConfigClient.update_webauthn_provider_config_node">update_webauthn_provider_config_node() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.update_webauthn_provider_config_node">(in module config.config_node)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.upsert_data_node_digital_twin">upsert_data_node_digital_twin() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.upsert_data_node_digital_twin">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.upsert_data_node_resource">upsert_data_node_resource() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.upsert_data_node_resource">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
+      <li><a href="ingest.html#ingest.ingest_record.upsert_data_relation">upsert_data_relation() (in module ingest.ingest_record)</a>
+
+      <ul>
+        <li><a href="ingest.html#ingest.IngestClient.upsert_data_relation">(ingest.IngestClient method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="identity.html#identity.import_digital_twins.validate_entity">validate_entity() (in module identity.import_digital_twins)</a>
+      <li><a href="config.html#config.ConfigClient.validate_authenticator_attachment">validate_authenticator_attachment() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.validate_authenticator_attachment">(in module config.config_node)</a>
 </li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.validate_authorization_policy_status">validate_authorization_policy_status() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.validate_authorization_policy_status">(in module config.config_node)</a>
+</li>
+      </ul></li>
+      <li><a href="config.html#config.ConfigClient.validate_conveyance">validate_conveyance() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.validate_conveyance">(in module config.config_node)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="identity.html#identity.import_digital_twins.validate_entity">validate_entity() (in module identity.import_digital_twins)</a>
+</li>
+      <li><a href="identity.html#identity.register_digital_twins_no_cred.validate_kind">validate_kind() (in module identity.register_digital_twins_no_cred)</a>
+</li>
+      <li><a href="config.html#config.ConfigClient.validate_user_verification">validate_user_verification() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.validate_user_verification">(in module config.config_node)</a>
+</li>
+      </ul></li>
       <li><a href="identity.html#identity.IdentityClient.verify_digital_twin_email">verify_digital_twin_email() (identity.IdentityClient method)</a>
 
       <ul>
         <li><a href="identity.html#identity.verification.verify_digital_twin_email">(in module identity.verification)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="config.html#config.ConfigClient.webauthn_provider_config">webauthn_provider_config() (config.ConfigClient method)</a>
+
+      <ul>
+        <li><a href="config.html#config.config_node.webauthn_provider_config">(in module config.config_node)</a>
+</li>
+      </ul></li>
+      <li><a href="authorization.html#authorization.AuthorizationClient.what_authorized_digital_twin">what_authorized_digital_twin() (authorization.AuthorizationClient method)</a>
+
+      <ul>
+        <li><a href="authorization.html#authorization.what_authorized.what_authorized_digital_twin">(in module authorization.what_authorized)</a>
+</li>
+      </ul></li>
+      <li><a href="authorization.html#authorization.AuthorizationClient.what_authorized_property_filter">what_authorized_property_filter() (authorization.AuthorizationClient method)</a>
+
+      <ul>
+        <li><a href="authorization.html#authorization.what_authorized.what_authorized_property_filter">(in module authorization.what_authorized)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="authorization.html#authorization.AuthorizationClient.what_authorized_token">what_authorized_token() (authorization.AuthorizationClient method)</a>
+
+      <ul>
+        <li><a href="authorization.html#authorization.what_authorized.what_authorized_token">(in module authorization.what_authorized)</a>
+</li>
+      </ul></li>
+      <li><a href="authorization.html#authorization.AuthorizationClient.who_authorized">who_authorized() (authorization.AuthorizationClient method)</a>
+
+      <ul>
+        <li><a href="authorization.html#authorization.who_authorized.who_authorized">(in module authorization.who_authorized)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -970,7 +1439,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
+   
 
 </footer>
         </div>
@@ -981,7 +1450,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
 
 </body>
 </html>

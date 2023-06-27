@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -26,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> docs
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            docs
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -41,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../identity.html">identity package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authorization.html">authorization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ingest.html">ingest package</a></li>
 </ul>
 
         </div>
@@ -56,7 +60,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../config.html">config</a></li>
       <li class="breadcrumb-item active">config.oauth2_provider</li>
@@ -73,11 +77,30 @@
 <span class="kn">from</span> <span class="nn">indykite_sdk.indykite.config.v1beta1.model_pb2</span> <span class="kn">import</span> <span class="n">google_dot_protobuf_dot_wrappers__pb2</span> <span class="k">as</span> <span class="n">wrappers</span>
 <span class="kn">from</span> <span class="nn">indykite_sdk.model.create_oauth2_provider</span> <span class="kn">import</span> <span class="n">CreateOAuth2Provider</span>
 <span class="kn">from</span> <span class="nn">indykite_sdk.model.update_oauth2_provider</span> <span class="kn">import</span> <span class="n">UpdateOAuth2Provider</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.oauth2_provider</span> <span class="kn">import</span> <span class="n">OAuth2Provider</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">indykite_sdk.utils.logger</span> <span class="k">as</span> <span class="nn">logger</span>
 
 
-<div class="viewcode-block" id="create_oauth2_provider"><a class="viewcode-back" href="../../config.html#config.oauth2_provider.create_oauth2_provider">[docs]</a><span class="k">def</span> <span class="nf">create_oauth2_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_space_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span>
+<div class="viewcode-block" id="create_oauth2_provider"><a class="viewcode-back" href="../../config.html#config.oauth2_provider.create_oauth2_provider">[docs]</a><span class="k">def</span> <span class="nf">create_oauth2_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="n">app_space_id</span><span class="p">,</span>
+                           <span class="n">name</span><span class="p">,</span>
+                           <span class="n">display_name</span><span class="p">,</span>
+                           <span class="n">description</span><span class="p">,</span>
+                           <span class="n">config</span><span class="p">,</span>
                            <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create OAuth2 provider</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param app_space_id: string gid id</span>
+<span class="sd">    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param config: OAuth2ProviderConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized CreateOAuth2Provider instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateOAuth2Provider</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">CreateOAuth2ProviderRequest</span><span class="p">(</span>
@@ -90,35 +113,56 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">CreateOAuth2Provider</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="read_oauth2_provider"><a class="viewcode-back" href="../../config.html#config.oauth2_provider.read_oauth2_provider">[docs]</a><span class="k">def</span> <span class="nf">read_oauth2_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oauth2_provider_id</span><span class="p">,</span> <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    read OAuth2 provider</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param oauth2_provider_id: string gid id</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized OAuth2Provider instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">ReadOAuth2Provider</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">ReadOAuth2ProviderRequest</span><span class="p">(</span>
-                <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">oauth2_provider_id</span><span class="p">),</span> <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
+                <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">oauth2_provider_id</span><span class="p">),</span>
+                <span class="n">bookmarks</span><span class="o">=</span><span class="n">bookmarks</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">OAuth2Provider</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">oauth2_provider</span><span class="p">)</span></div>
 
-    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">oauth2_provider</span></div>
 
-
-<div class="viewcode-block" id="update_oauth2_provider"><a class="viewcode-back" href="../../config.html#config.oauth2_provider.update_oauth2_provider">[docs]</a><span class="k">def</span> <span class="nf">update_oauth2_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oauth2_provider_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span>
+<div class="viewcode-block" id="update_oauth2_provider"><a class="viewcode-back" href="../../config.html#config.oauth2_provider.update_oauth2_provider">[docs]</a><span class="k">def</span> <span class="nf">update_oauth2_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="n">oauth2_provider_id</span><span class="p">,</span>
+                           <span class="n">etag</span><span class="p">,</span>
+                           <span class="n">display_name</span><span class="p">,</span>
+                           <span class="n">description</span><span class="p">,</span>
+                           <span class="n">config</span><span class="p">,</span>
                            <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    update OAuth2 provider</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param oauth2_provider_id: string gid id</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param display_name: string</span>
+<span class="sd">    :param description: string</span>
+<span class="sd">    :param config: OAuth2ProviderConfig object</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: deserialized UpdateOAuth2Provider instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">UpdateOAuth2Provider</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">UpdateOAuth2ProviderRequest</span><span class="p">(</span>
@@ -131,16 +175,23 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">UpdateOAuth2Provider</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="delete_oauth2_provider"><a class="viewcode-back" href="../../config.html#config.oauth2_provider.delete_oauth2_provider">[docs]</a><span class="k">def</span> <span class="nf">delete_oauth2_provider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oauth2_provider_id</span><span class="p">,</span> <span class="n">etag</span><span class="p">,</span> <span class="n">bookmarks</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    delete OAuth2 provider</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param oauth2_provider_id: string gid id</span>
+<span class="sd">    :param etag: string</span>
+<span class="sd">    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$</span>
+<span class="sd">    :return: DeleteOAuth2ProviderResponse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">DeleteOAuth2Provider</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">DeleteOAuth2ProviderRequest</span><span class="p">(</span>
@@ -150,12 +201,10 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
     <span class="k">return</span> <span class="n">response</span></div>
 </pre></div>
 

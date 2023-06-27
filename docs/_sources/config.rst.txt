@@ -44,10 +44,26 @@ config.config\_node module
    :undoc-members:
    :show-inheritance:
 
+config.create\_application\_with\_agent\_credentials module
+-----------------------------------------------------------
+
+.. automodule:: config.create_application_with_agent_credentials
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 config.customer module
 ----------------------
 
 .. automodule:: config.customer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+config.get\_schema module
+-------------------------
+
+.. automodule:: config.get_schema
    :members:
    :undoc-members:
    :show-inheritance:
