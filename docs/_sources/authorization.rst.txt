@@ -20,6 +20,22 @@ authorization.is\_authorized module
    :undoc-members:
    :show-inheritance:
 
+authorization.what\_authorized module
+-------------------------------------
+
+.. automodule:: authorization.what_authorized
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+authorization.who\_authorized module
+------------------------------------
+
+.. automodule:: authorization.who_authorized
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>authorization.is_authorized &mdash; docs - documentation</title>
+  <title>authorization.what_authorized &mdash; docs - documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -63,7 +63,7 @@
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../authorization.html">authorization</a></li>
-      <li class="breadcrumb-item active">authorization.is_authorized</li>
+      <li class="breadcrumb-item active">authorization.what_authorized</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -72,18 +72,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for authorization.is_authorized</h1><div class="highlight"><pre>
+  <h1>Source code for authorization.what_authorized</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">prepare_docs.indykite.authorization.v1beta1</span> <span class="kn">import</span> <span class="n">authorization_service_pb2</span> <span class="k">as</span> <span class="n">pb2</span>
 <span class="kn">from</span> <span class="nn">prepare_docs.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">attributes_pb2</span> <span class="k">as</span> <span class="n">attributes</span>
 <span class="kn">from</span> <span class="nn">prepare_docs.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">model_pb2</span> <span class="k">as</span> <span class="n">model</span>
 <span class="kn">from</span> <span class="nn">prepare_docs.indykite.objects.v1beta1</span> <span class="kn">import</span> <span class="n">struct_pb2</span> <span class="k">as</span> <span class="n">pb2_struct</span>
 <span class="kn">from</span> <span class="nn">prepare_docs.indykite.authorization.v1beta1</span> <span class="kn">import</span> <span class="n">model_pb2</span> <span class="k">as</span> <span class="n">pb2_model</span>
-<span class="kn">from</span> <span class="nn">prepare_docs.model.is_authorized</span> <span class="kn">import</span> <span class="n">IsAuthorizedResponse</span>
+<span class="kn">from</span> <span class="nn">prepare_docs.model.what_authorized</span> <span class="kn">import</span> <span class="n">WhatAuthorizedResponse</span>
 
 
-<div class="viewcode-block" id="is_authorized_digital_twin"><a class="viewcode-back" href="../../authorization.html#authorization.is_authorized.is_authorized_digital_twin">[docs]</a><span class="k">def</span> <span class="nf">is_authorized_digital_twin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">digital_twin_id</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">,</span> <span class="n">resources</span><span class="o">=</span><span class="p">[],</span> <span class="n">input_params</span><span class="o">=</span><span class="p">{},</span> <span class="n">policy_tags</span><span class="o">=</span><span class="p">[]):</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">IsAuthorized</span><span class="p">(</span>
-        <span class="n">pb2</span><span class="o">.</span><span class="n">IsAuthorizedRequest</span><span class="p">(</span>
+<div class="viewcode-block" id="what_authorized_digital_twin"><a class="viewcode-back" href="../../authorization.html#authorization.what_authorized.what_authorized_digital_twin">[docs]</a><span class="k">def</span> <span class="nf">what_authorized_digital_twin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">digital_twin_id</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">,</span> <span class="n">resource_types</span><span class="o">=</span><span class="p">[],</span> <span class="n">input_params</span><span class="o">=</span><span class="p">{},</span> <span class="n">policy_tags</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">WhatAuthorized</span><span class="p">(</span>
+        <span class="n">pb2</span><span class="o">.</span><span class="n">WhatAuthorizedRequest</span><span class="p">(</span>
             <span class="n">subject</span><span class="o">=</span><span class="n">pb2_model</span><span class="o">.</span><span class="n">Subject</span><span class="p">(</span>
                 <span class="n">digital_twin_identifier</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwinIdentifier</span><span class="p">(</span>
                     <span class="n">digital_twin</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwin</span><span class="p">(</span>
@@ -92,39 +92,37 @@
                     <span class="p">)</span>
                 <span class="p">)</span>
             <span class="p">),</span>
-            <span class="n">resources</span><span class="o">=</span><span class="n">request_resource</span><span class="p">(</span><span class="n">resources</span><span class="p">),</span>
+            <span class="n">resource_types</span><span class="o">=</span><span class="n">request_resource_type</span><span class="p">(</span><span class="n">resource_types</span><span class="p">),</span>
             <span class="n">input_params</span><span class="o">=</span><span class="n">request_input_params</span><span class="p">(</span><span class="n">input_params</span><span class="p">),</span>
             <span class="n">policy_tags</span><span class="o">=</span><span class="n">policy_tags</span>
         <span class="p">)</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">WhatAuthorizedResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
-    <span class="k">return</span> <span class="n">IsAuthorizedResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="is_authorized_token"><a class="viewcode-back" href="../../authorization.html#authorization.is_authorized.is_authorized_token">[docs]</a><span class="k">def</span> <span class="nf">is_authorized_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">resources</span><span class="o">=</span><span class="p">[],</span> <span class="n">input_params</span><span class="o">=</span><span class="p">{},</span> <span class="n">policy_tags</span><span class="o">=</span><span class="p">[]):</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">IsAuthorized</span><span class="p">(</span>
-        <span class="n">pb2</span><span class="o">.</span><span class="n">IsAuthorizedRequest</span><span class="p">(</span>
+<div class="viewcode-block" id="what_authorized_token"><a class="viewcode-back" href="../../authorization.html#authorization.what_authorized.what_authorized_token">[docs]</a><span class="k">def</span> <span class="nf">what_authorized_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">resource_types</span><span class="o">=</span><span class="p">[],</span> <span class="n">input_params</span><span class="o">=</span><span class="p">{},</span> <span class="n">policy_tags</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">WhatAuthorized</span><span class="p">(</span>
+        <span class="n">pb2</span><span class="o">.</span><span class="n">WhatAuthorizedRequest</span><span class="p">(</span>
             <span class="n">subject</span><span class="o">=</span><span class="n">pb2_model</span><span class="o">.</span><span class="n">Subject</span><span class="p">(</span>
                 <span class="n">digital_twin_identifier</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwinIdentifier</span><span class="p">(</span>
                     <span class="n">access_token</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">access_token</span><span class="p">)</span>
                 <span class="p">)</span>
             <span class="p">),</span>
-            <span class="n">resources</span><span class="o">=</span><span class="n">request_resource</span><span class="p">(</span><span class="n">resources</span><span class="p">),</span>
+            <span class="n">resource_types</span><span class="o">=</span><span class="n">request_resource_type</span><span class="p">(</span><span class="n">resource_types</span><span class="p">),</span>
             <span class="n">input_params</span><span class="o">=</span><span class="n">request_input_params</span><span class="p">(</span><span class="n">input_params</span><span class="p">),</span>
             <span class="n">policy_tags</span><span class="o">=</span><span class="n">policy_tags</span>
         <span class="p">)</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">WhatAuthorizedResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
-    <span class="k">return</span> <span class="n">IsAuthorizedResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="is_authorized_property_filter"><a class="viewcode-back" href="../../authorization.html#authorization.is_authorized.is_authorized_property_filter">[docs]</a><span class="k">def</span> <span class="nf">is_authorized_property_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_filter</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">resources</span><span class="o">=</span><span class="p">[],</span> <span class="n">input_params</span><span class="o">=</span><span class="p">{},</span> <span class="n">policy_tags</span><span class="o">=</span><span class="p">[]):</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">IsAuthorized</span><span class="p">(</span>
-        <span class="n">pb2</span><span class="o">.</span><span class="n">IsAuthorizedRequest</span><span class="p">(</span>
+<div class="viewcode-block" id="what_authorized_property_filter"><a class="viewcode-back" href="../../authorization.html#authorization.what_authorized.what_authorized_property_filter">[docs]</a><span class="k">def</span> <span class="nf">what_authorized_property_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_filter</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">resource_types</span><span class="o">=</span><span class="p">[],</span> <span class="n">input_params</span><span class="o">=</span><span class="p">{},</span> <span class="n">policy_tags</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">WhatAuthorized</span><span class="p">(</span>
+        <span class="n">pb2</span><span class="o">.</span><span class="n">WhatAuthorizedRequest</span><span class="p">(</span>
             <span class="n">subject</span><span class="o">=</span><span class="n">pb2_model</span><span class="o">.</span><span class="n">Subject</span><span class="p">(</span>
                 <span class="n">digital_twin_identifier</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwinIdentifier</span><span class="p">(</span>
                     <span class="n">property_filter</span><span class="o">=</span><span class="n">attributes</span><span class="o">.</span><span class="n">PropertyFilter</span><span class="p">(</span>
@@ -133,25 +131,24 @@
                     <span class="p">)</span>
                 <span class="p">)</span>
             <span class="p">),</span>
-            <span class="n">resources</span><span class="o">=</span><span class="n">request_resource</span><span class="p">(</span><span class="n">resources</span><span class="p">),</span>
+            <span class="n">resource_types</span><span class="o">=</span><span class="n">request_resource_type</span><span class="p">(</span><span class="n">resource_types</span><span class="p">),</span>
             <span class="n">input_params</span><span class="o">=</span><span class="n">request_input_params</span><span class="p">(</span><span class="n">input_params</span><span class="p">),</span>
             <span class="n">policy_tags</span><span class="o">=</span><span class="n">policy_tags</span>
         <span class="p">)</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">WhatAuthorizedResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
-    <span class="k">return</span> <span class="n">IsAuthorizedResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="request_resource"><a class="viewcode-back" href="../../authorization.html#authorization.is_authorized.request_resource">[docs]</a><span class="k">def</span> <span class="nf">request_resource</span><span class="p">(</span><span class="n">resources</span><span class="p">):</span>
+<div class="viewcode-block" id="request_resource_type"><a class="viewcode-back" href="../../authorization.html#authorization.what_authorized.request_resource_type">[docs]</a><span class="k">def</span> <span class="nf">request_resource_type</span><span class="p">(</span><span class="n">resource_types</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[</span>
-        <span class="n">pb2</span><span class="o">.</span><span class="n">IsAuthorizedRequest</span><span class="o">.</span><span class="n">Resource</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">actions</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">actions</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resources</span>
+        <span class="n">pb2</span><span class="o">.</span><span class="n">WhatAuthorizedRequest</span><span class="o">.</span><span class="n">ResourceType</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">actions</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">actions</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">resource_types</span>
     <span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="request_input_params"><a class="viewcode-back" href="../../authorization.html#authorization.is_authorized.request_input_params">[docs]</a><span class="k">def</span> <span class="nf">request_input_params</span><span class="p">(</span><span class="n">input_params</span><span class="p">):</span>
+<div class="viewcode-block" id="request_input_params"><a class="viewcode-back" href="../../authorization.html#authorization.what_authorized.request_input_params">[docs]</a><span class="k">def</span> <span class="nf">request_input_params</span><span class="p">(</span><span class="n">input_params</span><span class="p">):</span>
     <span class="n">input_params_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">k</span><span class="p">:</span> <span class="n">pb2_model</span><span class="o">.</span><span class="n">InputParam</span><span class="p">(</span><span class="n">string_value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">input_params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>

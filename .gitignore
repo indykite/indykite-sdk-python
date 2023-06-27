@@ -140,3 +140,5 @@ dmypy.json
 
 # Sphinx documentation
 docs/_build/
+prepare_docs
+docstmp

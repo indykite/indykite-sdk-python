@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -26,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> docs
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            docs
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -41,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../identity.html">identity package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authorization.html">authorization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ingest.html">ingest package</a></li>
 </ul>
 
         </div>
@@ -56,7 +60,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../identity.html">identity</a></li>
       <li class="breadcrumb-item active">identity.consent</li>
@@ -70,10 +74,15 @@
              
   <h1>Source code for identity.consent</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">indykite_sdk.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">identity_management_api_pb2</span> <span class="k">as</span> <span class="n">pb2</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.indykite.objects.v1beta1</span> <span class="kn">import</span> <span class="n">struct_pb2</span> <span class="k">as</span> <span class="n">struct</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.consent</span> <span class="kn">import</span> <span class="n">CreateConsentResponse</span><span class="p">,</span> <span class="n">CheckOAuth2ConsentChallengeResponse</span><span class="p">,</span> <span class="n">CreateOAuth2ConsentVerifierResponse</span><span class="p">,</span> <span class="n">ConsentRequestSessionData</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">indykite_sdk.utils.logger</span> <span class="k">as</span> <span class="nn">logger</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.utils.message_to_value</span> <span class="kn">import</span> <span class="n">arg_to_value</span>
 
 
 <div class="viewcode-block" id="create_consent"><a class="viewcode-back" href="../../identity.html#identity.consent.create_consent">[docs]</a><span class="k">def</span> <span class="nf">create_consent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pii_processor_id</span><span class="p">,</span> <span class="n">pii_principal_id</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="p">[]):</span>
-
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateConsent</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">CreateConsentRequest</span><span class="p">(</span>
@@ -83,17 +92,16 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">return</span> <span class="n">response</span></div>
+    <span class="k">return</span> <span class="n">CreateConsentResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="list_consents"><a class="viewcode-back" href="../../identity.html#identity.consent.list_consents">[docs]</a><span class="k">def</span> <span class="nf">list_consents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pii_principal_id</span><span class="p">):</span>
-
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">streams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">ListConsents</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">ListConsentsRequest</span><span class="p">(</span>
@@ -101,8 +109,7 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">streams</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -112,14 +119,13 @@
         <span class="k">for</span> <span class="n">response</span> <span class="ow">in</span> <span class="n">streams</span><span class="p">:</span>
             <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">responses</span></div>
 
 
 <div class="viewcode-block" id="revoke_consent"><a class="viewcode-back" href="../../identity.html#identity.consent.revoke_consent">[docs]</a><span class="k">def</span> <span class="nf">revoke_consent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pii_principal_id</span><span class="p">,</span> <span class="n">consent_ids</span><span class="o">=</span><span class="p">[]):</span>
-
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">RevokeConsent</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">RevokeConsentRequest</span><span class="p">(</span>
@@ -127,14 +133,81 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">return</span> <span class="n">response</span></div>
 
+
+<div class="viewcode-block" id="check_oauth2_consent_challenge"><a class="viewcode-back" href="../../identity.html#identity.consent.check_oauth2_consent_challenge">[docs]</a><span class="k">def</span> <span class="nf">check_oauth2_consent_challenge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">challenge</span><span class="p">):</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CheckOAuth2ConsentChallenge</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">CheckOAuth2ConsentChallengeRequest</span><span class="p">(</span>
+                <span class="n">challenge</span><span class="o">=</span><span class="n">challenge</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">CheckOAuth2ConsentChallengeResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_oauth2_consent_verifier_approval"><a class="viewcode-back" href="../../identity.html#identity.consent.create_oauth2_consent_verifier_approval">[docs]</a><span class="k">def</span> <span class="nf">create_oauth2_consent_verifier_approval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">consent_challenge</span><span class="p">,</span> <span class="n">grant_scopes</span><span class="o">=</span><span class="p">[],</span> <span class="n">granted_audiences</span><span class="o">=</span><span class="p">[],</span>
+                                            <span class="n">access_token</span><span class="o">=</span><span class="p">{},</span> <span class="n">id_token</span><span class="o">=</span><span class="p">{},</span> <span class="n">userinfo</span><span class="o">=</span><span class="p">{},</span> <span class="n">remember</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">remember_for</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateOAuth2ConsentVerifier</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">CreateOAuth2ConsentVerifierRequest</span><span class="p">(</span>
+                <span class="n">consent_challenge</span><span class="o">=</span><span class="n">consent_challenge</span><span class="p">,</span>
+                <span class="n">approval</span><span class="o">=</span><span class="n">pb2</span><span class="o">.</span><span class="n">ConsentApproval</span><span class="p">(</span>
+                    <span class="n">grant_scopes</span><span class="o">=</span><span class="n">grant_scopes</span><span class="p">,</span>
+                    <span class="n">granted_audiences</span><span class="o">=</span><span class="n">granted_audiences</span><span class="p">,</span>
+                    <span class="n">session</span><span class="o">=</span><span class="n">pb2</span><span class="o">.</span><span class="n">ConsentRequestSessionData</span><span class="p">(</span>
+                        <span class="n">access_token</span><span class="o">=</span><span class="n">arg_to_value</span><span class="p">(</span><span class="n">access_token</span><span class="p">)</span> <span class="k">if</span> <span class="n">access_token</span> <span class="k">else</span> <span class="p">{},</span>
+                        <span class="n">id_token</span><span class="o">=</span><span class="n">arg_to_value</span><span class="p">(</span><span class="n">id_token</span><span class="p">)</span> <span class="k">if</span> <span class="n">id_token</span> <span class="k">else</span> <span class="p">{},</span>
+                        <span class="n">userinfo</span><span class="o">=</span><span class="n">arg_to_value</span><span class="p">(</span><span class="n">userinfo</span><span class="p">)</span> <span class="k">if</span> <span class="n">userinfo</span> <span class="k">else</span> <span class="p">{}</span>
+                    <span class="p">),</span>
+                    <span class="n">remember</span><span class="o">=</span><span class="n">remember</span><span class="p">,</span>
+                    <span class="n">remember_for</span><span class="o">=</span><span class="n">remember_for</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">response</span></div>
+
+
+<div class="viewcode-block" id="create_oauth2_consent_verifier_denial"><a class="viewcode-back" href="../../identity.html#identity.consent.create_oauth2_consent_verifier_denial">[docs]</a><span class="k">def</span> <span class="nf">create_oauth2_consent_verifier_denial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">consent_challenge</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                          <span class="n">error_description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                          <span class="n">error_hint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,):</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">CreateOAuth2ConsentVerifier</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">CreateOAuth2ConsentVerifierRequest</span><span class="p">(</span>
+                <span class="n">consent_challenge</span><span class="o">=</span><span class="n">consent_challenge</span><span class="p">,</span>
+                <span class="n">denial</span><span class="o">=</span><span class="n">pb2</span><span class="o">.</span><span class="n">DenialResponse</span><span class="p">(</span>
+                    <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+                    <span class="n">error_description</span><span class="o">=</span><span class="n">error_description</span><span class="p">,</span>
+                    <span class="n">error_hint</span><span class="o">=</span><span class="n">error_hint</span><span class="p">,</span>
+                    <span class="n">status_code</span><span class="o">=</span><span class="n">status_code</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">response</span></div>
 </pre></div>
 
            </div>

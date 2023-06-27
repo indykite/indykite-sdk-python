@@ -10,10 +10,9 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -26,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> docs
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            docs
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -41,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../identity.html">identity package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authorization.html">authorization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ingest.html">ingest package</a></li>
 </ul>
 
         </div>
@@ -56,7 +60,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../identity.html">identity</a></li>
       <li class="breadcrumb-item active">identity.delete</li>
@@ -72,14 +76,23 @@
 <span></span><span class="kn">from</span> <span class="nn">indykite_sdk.model.digital_twin</span> <span class="kn">import</span> <span class="n">DigitalTwinCore</span>
 <span class="kn">from</span> <span class="nn">indykite_sdk.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">identity_management_api_pb2</span> <span class="k">as</span> <span class="n">pb2</span>
 <span class="kn">from</span> <span class="nn">indykite_sdk.indykite.identity.v1beta2</span> <span class="kn">import</span> <span class="n">model_pb2</span> <span class="k">as</span> <span class="n">model</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">indykite_sdk.utils.logger</span> <span class="k">as</span> <span class="nn">logger</span>
 
 
 <div class="viewcode-block" id="del_digital_twin"><a class="viewcode-back" href="../../identity.html#identity.delete.del_digital_twin">[docs]</a><span class="k">def</span> <span class="nf">del_digital_twin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">digital_twin_id</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    delete DT by id</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param digital_twin_id: DT gid id string</span>
+<span class="sd">    :param tenant_id: tenant gid id string</span>
+<span class="sd">    :return: DigitalTwin object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">DeleteDigitalTwin</span><span class="p">(</span>
             <span class="n">pb2</span><span class="o">.</span><span class="n">DeleteDigitalTwinRequest</span><span class="p">(</span>
-                <span class="nb">id</span><span class="o">=</span><span class="n">pb2</span><span class="o">.</span><span class="n">DigitalTwinIdentifier</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwinIdentifier</span><span class="p">(</span>
                     <span class="n">digital_twin</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwin</span><span class="p">(</span>
                         <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">digital_twin_id</span><span class="p">),</span>
                         <span class="n">tenant_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">)</span>
@@ -88,8 +101,7 @@
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -98,27 +110,54 @@
 
 
 <div class="viewcode-block" id="del_digital_twin_by_token"><a class="viewcode-back" href="../../identity.html#identity.delete.del_digital_twin_by_token">[docs]</a><span class="k">def</span> <span class="nf">del_digital_twin_by_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    delete DT by token</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param token: user token</span>
+<span class="sd">    :return: DigitalTwin object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Token must be 32 chars or more.&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">DeleteDigitalTwin</span><span class="p">(</span>
                 <span class="n">pb2</span><span class="o">.</span><span class="n">DeleteDigitalTwinRequest</span><span class="p">(</span>
-                    <span class="nb">id</span><span class="o">=</span><span class="n">pb2</span><span class="o">.</span><span class="n">DigitalTwinIdentifier</span><span class="p">(</span><span class="n">access_token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwinIdentifier</span><span class="p">(</span><span class="n">access_token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
                 <span class="p">)</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">return</span> <span class="n">DigitalTwinCore</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">digital_twin</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="del_digital_twin_by_property"><a class="viewcode-back" href="../../identity.html#identity.delete.del_digital_twin_by_property">[docs]</a><span class="k">def</span> <span class="nf">del_digital_twin_by_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_filter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    delete DT by property</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param property_filter: PropertyFilter attribute</span>
+<span class="sd">    :return: DigitalTwin object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">DeleteDigitalTwin</span><span class="p">(</span>
+                <span class="n">pb2</span><span class="o">.</span><span class="n">DeleteDigitalTwinRequest</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">DigitalTwinIdentifier</span><span class="p">(</span><span class="n">property_filter</span><span class="o">=</span><span class="n">property_filter</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">DigitalTwinCore</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">digital_twin</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

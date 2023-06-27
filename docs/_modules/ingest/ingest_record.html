@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ingest.ingest_record &mdash; docs - documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            docs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">identity package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">config package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authorization.html">authorization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ingest.html">ingest package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../ingest.html">ingest</a></li>
+      <li class="breadcrumb-item active">ingest.ingest_record</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ingest.ingest_record</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">indykite_sdk.indykite.ingest.v1beta2</span> <span class="kn">import</span> <span class="n">ingest_api_pb2</span> <span class="k">as</span> <span class="n">pb2</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.indykite.ingest.v1beta2</span> <span class="kn">import</span> <span class="n">model_pb2</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.model.ingest_record</span> <span class="kn">import</span> <span class="n">StreamRecordsResponse</span><span class="p">,</span> <span class="n">IngestRecordResponse</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">indykite_sdk.utils.logger</span> <span class="k">as</span> <span class="nn">logger</span>
+<span class="kn">from</span> <span class="nn">indykite_sdk.utils.message_to_value</span> <span class="kn">import</span> <span class="n">arg_to_value</span>
+
+
+<div class="viewcode-block" id="ingest_record_upsert"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.ingest_record_upsert">[docs]</a><span class="k">def</span> <span class="nf">ingest_record_upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">upsert</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    data ingestion</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param id: id record for client ref</span>
+<span class="sd">    :param upsert: UpsertData object</span>
+<span class="sd">    :return: record_error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">IngestRecord</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">IngestRecordRequest</span><span class="p">(</span>
+                <span class="n">record</span><span class="o">=</span><span class="n">model_pb2</span><span class="o">.</span><span class="n">Record</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span>
+                    <span class="n">upsert</span><span class="o">=</span><span class="n">upsert</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">IngestRecordResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="upsert_data_node_digital_twin"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.upsert_data_node_digital_twin">[docs]</a><span class="k">def</span> <span class="nf">upsert_data_node_digital_twin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">external_id</span><span class="p">,</span>
+                                  <span class="nb">type</span><span class="p">,</span>
+                                  <span class="n">tags</span><span class="o">=</span><span class="p">[],</span>
+                                  <span class="n">tenant_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                  <span class="n">identity_properties</span><span class="o">=</span><span class="p">[],</span>
+                                  <span class="n">properties</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    upsertData with digital twin</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param external_id: id for client ref</span>
+<span class="sd">    :param type:</span>
+<span class="sd">    :param tags:</span>
+<span class="sd">    :param tenant_id: tenant id of the DT</span>
+<span class="sd">    :param identity_properties: List of IdentityProperty objects max 10</span>
+<span class="sd">    :param properties: List of Property objects max 10</span>
+<span class="sd">    :return: UpsertData object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">upsert</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">UpsertData</span><span class="p">(</span>
+            <span class="n">node</span><span class="o">=</span><span class="n">model_pb2</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+                <span class="n">digital_twin</span><span class="o">=</span><span class="n">model_pb2</span><span class="o">.</span><span class="n">DigitalTwin</span><span class="p">(</span>
+                    <span class="n">external_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">external_id</span><span class="p">),</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">),</span>
+                    <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span>
+                    <span class="n">tenant_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">tenant_id</span><span class="p">),</span>
+                    <span class="n">identity_properties</span><span class="o">=</span><span class="n">identity_properties</span><span class="p">,</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="n">properties</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">upsert</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="identity_property"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.identity_property">[docs]</a><span class="k">def</span> <span class="nf">identity_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create identity property</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param key:</span>
+<span class="sd">    :param value:</span>
+<span class="sd">    :return: IdentityProperty object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ip</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">IdentityProperty</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">arg_to_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ip</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ingest_property"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.ingest_property">[docs]</a><span class="k">def</span> <span class="nf">ingest_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create Property object</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param key:</span>
+<span class="sd">    :param value:</span>
+<span class="sd">    :return: Property object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ip</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">Property</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">arg_to_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ip</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="upsert_data_node_resource"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.upsert_data_node_resource">[docs]</a><span class="k">def</span> <span class="nf">upsert_data_node_resource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                              <span class="n">external_id</span><span class="p">,</span>
+                              <span class="nb">type</span><span class="p">,</span>
+                              <span class="n">tags</span><span class="o">=</span><span class="p">[],</span>
+                              <span class="n">properties</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    upsertData with resource</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param external_id: id for client reference</span>
+<span class="sd">    :param type:</span>
+<span class="sd">    :param tags:</span>
+<span class="sd">    :param properties: List of Property objects max 10</span>
+<span class="sd">    :return: upsertData object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">upsert</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">UpsertData</span><span class="p">(</span>
+            <span class="n">node</span><span class="o">=</span><span class="n">model_pb2</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+                <span class="n">resource</span><span class="o">=</span><span class="n">model_pb2</span><span class="o">.</span><span class="n">Resource</span><span class="p">(</span>
+                    <span class="n">external_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">external_id</span><span class="p">),</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">),</span>
+                    <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span>
+                    <span class="n">properties</span><span class="o">=</span><span class="n">properties</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">upsert</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="upsert_data_relation"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.upsert_data_relation">[docs]</a><span class="k">def</span> <span class="nf">upsert_data_relation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                         <span class="n">match</span><span class="p">,</span>
+                         <span class="n">properties</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create upsertData with relation</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param match: RelationMatch object</span>
+<span class="sd">    :param properties: List of Property objects max 10</span>
+<span class="sd">    :return: upsertData object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">upsert</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">UpsertData</span><span class="p">(</span>
+            <span class="n">relation</span><span class="o">=</span><span class="n">model_pb2</span><span class="o">.</span><span class="n">Relation</span><span class="p">(</span>
+                <span class="n">match</span><span class="o">=</span><span class="n">match</span><span class="p">,</span>
+                <span class="n">properties</span><span class="o">=</span><span class="n">properties</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">upsert</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="relation_match"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.relation_match">[docs]</a><span class="k">def</span> <span class="nf">relation_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_match</span><span class="p">,</span> <span class="n">target_match</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create RelationMatch object</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param source_match: NodeMatch</span>
+<span class="sd">    :param target_match: NodeMatch</span>
+<span class="sd">    :param type:</span>
+<span class="sd">    :return: RelationMatch</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">rm</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">RelationMatch</span><span class="p">(</span>
+            <span class="n">source_match</span><span class="o">=</span><span class="n">source_match</span><span class="p">,</span>
+            <span class="n">target_match</span><span class="o">=</span><span class="n">target_match</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">rm</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="node_match"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.node_match">[docs]</a><span class="k">def</span> <span class="nf">node_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">external_id</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create NodeMatch object</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param external_id: str</span>
+<span class="sd">    :param type: str</span>
+<span class="sd">    :return: NodeMatch</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nm</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">NodeMatch</span><span class="p">(</span>
+        <span class="n">external_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">external_id</span><span class="p">),</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">nm</span></div>
+
+
+<div class="viewcode-block" id="node_property_match"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.node_property_match">[docs]</a><span class="k">def</span> <span class="nf">node_property_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create DeleteData.NodePropertyMatch object</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param match: NodeMatch object</span>
+<span class="sd">    :param key: str</span>
+<span class="sd">    :return: DeleteData.NodePropertyMatch</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">npm</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">DeleteData</span><span class="o">.</span><span class="n">NodePropertyMatch</span><span class="p">(</span>
+            <span class="n">match</span><span class="o">=</span><span class="n">match</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">npm</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="relation_property_match"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.relation_property_match">[docs]</a><span class="k">def</span> <span class="nf">relation_property_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create DeleteData.RelationPropertyMatch object</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param match: RelationMatch object</span>
+<span class="sd">    :param key: str</span>
+<span class="sd">    :return: DeleteData.RelationPropertyMatch</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">npm</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">DeleteData</span><span class="o">.</span><span class="n">RelationPropertyMatch</span><span class="p">(</span>
+            <span class="n">match</span><span class="o">=</span><span class="n">match</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">npm</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="delete_data_node"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.delete_data_node">[docs]</a><span class="k">def</span> <span class="nf">delete_data_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create deleteData with node</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param node NodeMatch object</span>
+<span class="sd">    :return: deleteData object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">delete</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">DeleteData</span><span class="p">(</span>
+            <span class="n">node</span><span class="o">=</span><span class="n">node</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">delete</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="delete_data_relation"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.delete_data_relation">[docs]</a><span class="k">def</span> <span class="nf">delete_data_relation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relation</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create deleteData with relation</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param relation RelationMatch object</span>
+<span class="sd">    :return: deleteData object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">delete</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">DeleteData</span><span class="p">(</span>
+            <span class="n">relation</span><span class="o">=</span><span class="n">relation</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">delete</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="delete_data_node_property"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.delete_data_node_property">[docs]</a><span class="k">def</span> <span class="nf">delete_data_node_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_property</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create deleteData with node_property</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param node_property DeleteData.NodePropertyMatch object</span>
+<span class="sd">    :return: deleteData object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">delete</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">DeleteData</span><span class="p">(</span>
+            <span class="n">node_property</span><span class="o">=</span><span class="n">node_property</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">delete</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="delete_data_relation_property"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.delete_data_relation_property">[docs]</a><span class="k">def</span> <span class="nf">delete_data_relation_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relation_property</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create deleteData with node</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param relation_property RelationPropertyMatch object</span>
+<span class="sd">    :return: deleteData object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">delete</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">DeleteData</span><span class="p">(</span>
+            <span class="n">relation_property</span><span class="o">=</span><span class="n">relation_property</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">delete</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ingest_record_delete"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.ingest_record_delete">[docs]</a><span class="k">def</span> <span class="nf">ingest_record_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">delete</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    IngestRecord delete</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param id: record id</span>
+<span class="sd">    :param delete: DeleteData object (node, relation, node_property or relation_property)</span>
+<span class="sd">    :return: record_error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">IngestRecord</span><span class="p">(</span>
+            <span class="n">pb2</span><span class="o">.</span><span class="n">IngestRecordRequest</span><span class="p">(</span>
+                <span class="n">record</span><span class="o">=</span><span class="n">model_pb2</span><span class="o">.</span><span class="n">Record</span><span class="p">(</span>
+                    <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span>
+                    <span class="n">delete</span><span class="o">=</span><span class="n">delete</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">IngestRecordResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="record_upsert"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.record_upsert">[docs]</a><span class="k">def</span> <span class="nf">record_upsert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">upsert</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create record</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param id: id record for client ref</span>
+<span class="sd">    :param upsert: UpsertData object</span>
+<span class="sd">    :return: record</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">Record</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span>
+            <span class="n">upsert</span><span class="o">=</span><span class="n">upsert</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">record</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generate_records_request"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.generate_records_request">[docs]</a><span class="k">def</span> <span class="nf">generate_records_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">records</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create iterator for record requests.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+        <span class="n">record_request</span> <span class="o">=</span> <span class="n">pb2</span><span class="o">.</span><span class="n">StreamRecordsRequest</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">record_request</span></div>
+
+
+<div class="viewcode-block" id="stream_records"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.stream_records">[docs]</a><span class="k">def</span> <span class="nf">stream_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">record_iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_records_request</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="n">response_iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">StreamRecords</span><span class="p">(</span><span class="n">record_iterator</span><span class="p">)</span>
+        <span class="n">responses</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">response_iterator</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">StreamRecordsResponse</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="k">for</span> <span class="n">response</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change"><a class="viewcode-back" href="../../ingest.html#ingest.ingest_record.change">[docs]</a><span class="k">def</span> <span class="nf">change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">data_type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create change</span>
+<span class="sd">    :param self:</span>
+<span class="sd">    :param id: change id</span>
+<span class="sd">    :param data_type Change.DataType object</span>
+<span class="sd">    :return: change</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">excepthook</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handle_excepthook</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">change</span> <span class="o">=</span> <span class="n">model_pb2</span><span class="o">.</span><span class="n">Change</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span>
+            <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">change</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">logger_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, -.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
