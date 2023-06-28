@@ -32,7 +32,7 @@ def create_tenant(body: TenantCreate):
 @api.get("/<id>")
 def get_tenant(path: TenantById):
     client_config = ConfigClient()
-    tenant = client_config.get_tenant_by_id(path.id)
+    tenant = client_config.read_tenant_by_id(path.id)
     if tenant:
         return response_data("TenantById", get_response(tenant))
     else:
@@ -65,7 +65,7 @@ def new_tenant_post():
                                              [])
         if tenant:
             session['tenant'] = get_response(tenant)
-            tenant_by_id = client_config.get_tenant_by_id(tenant.id)
+            tenant_by_id = client_config.read_tenant_by_id(tenant.id)
             if tenant_by_id:
                 session['tenant_by_id'] = get_response(tenant_by_id)
             return render_template('index.html')

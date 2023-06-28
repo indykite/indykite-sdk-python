@@ -31,7 +31,7 @@ def create_app_space(body: AppSpaceCreate):
 @api.get("/<id>")
 def get_app_space(path: AppSpaceById):
     client_config = ConfigClient()
-    app_space = client_config.get_app_space_by_id(path.id)
+    app_space = client_config.read_app_space_by_id(path.id)
     if app_space:
         return response_data("AppSpaceById", get_response(app_space))
     else:
@@ -65,7 +65,7 @@ def new_app_space_post():
                                                    [])
         if app_space:
             session['app_space'] = get_response(app_space)
-            app_space_by_id = client_config.get_app_space_by_id(app_space.id)
+            app_space_by_id = client_config.read_app_space_by_id(app_space.id)
             if app_space_by_id:
                 session['app_space_by_id'] = get_response(app_space_by_id)
             return render_template('index.html')

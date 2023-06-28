@@ -8,23 +8,23 @@ from indykite_sdk.model.update_application import UpdateApplication
 from helpers import data
 
 
-def test_get_application_by_id_wrong_id(capsys):
+def test_read_application_by_id_wrong_id(capsys):
     application_id = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
     assert client is not None
 
-    response = client.get_application_by_id(application_id)
+    response = client.read_application_by_id(application_id)
     captured = capsys.readouterr()
     assert("invalid ReadApplicationRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
-def test_get_application_id_success(capsys):
+def test_read_application_id_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     application_id = data.get_application_id()
-    application = client.get_application_by_id(application_id)
+    application = client.read_application_by_id(application_id)
     captured = capsys.readouterr()
 
     assert application is not None
@@ -32,22 +32,22 @@ def test_get_application_id_success(capsys):
     assert isinstance(application, Application)
 
 
-def test_get_application_by_id_empty():
+def test_read_application_by_id_empty():
     client = ConfigClient()
     assert client is not None
 
     application_id = data.get_application_id()
 
-    def mocked_get_application_by_id(request: pb2.ReadApplicationRequest):
+    def mocked_read_application_by_id(request: pb2.ReadApplicationRequest):
         return None
 
-    client.stub.ReadApplication = mocked_get_application_by_id
-    application = client.get_application_by_id(application_id)
+    client.stub.ReadApplication = mocked_read_application_by_id
+    application = client.read_application_by_id(application_id)
 
     assert application is None
 
 
-def test_get_application_by_name_wrong_name(capsys):
+def test_read_application_by_name_wrong_name(capsys):
     application_name = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
@@ -55,12 +55,12 @@ def test_get_application_by_name_wrong_name(capsys):
 
     app_space_id = data.get_app_space_id()
 
-    response = client.get_application_by_name(app_space_id, application_name)
+    response = client.read_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
     assert ("NOT_FOUND" in captured.err)
 
 
-def test_get_application_by_name_wrong_app_space_id(capsys):
+def test_read_application_by_name_wrong_app_space_id(capsys):
     application_name = data.get_application_name()
 
     client = ConfigClient()
@@ -68,12 +68,12 @@ def test_get_application_by_name_wrong_app_space_id(capsys):
 
     app_space_id = "gid:AAAAAlrNh6beFUSNk6tTtka8dwg"
 
-    response = client.get_application_by_name(app_space_id, application_name)
+    response = client.read_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
     assert("NOT_FOUND" in captured.err)
 
 
-def test_get_application_by_name_wrong_app_space_size(capsys):
+def test_read_application_by_name_wrong_app_space_size(capsys):
     application_name = data.get_application_name()
 
     client = ConfigClient()
@@ -81,19 +81,19 @@ def test_get_application_by_name_wrong_app_space_size(capsys):
 
     app_space_id = "12546"
 
-    response = client.get_application_by_name(app_space_id, application_name)
+    response = client.read_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
     assert("invalid ReadApplicationRequest.Name" in captured.err)
 
 
-def test_get_application_name_success(capsys):
+def test_read_application_name_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     application_name = data.get_application_name()
     app_space_id = data.get_app_space_id()
 
-    application = client.get_application_by_name(app_space_id, application_name)
+    application = client.read_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
 
     assert application is not None
@@ -101,18 +101,18 @@ def test_get_application_name_success(capsys):
     assert isinstance(application, Application)
 
 
-def test_get_application_by_name_empty():
+def test_read_application_by_name_empty():
     client = ConfigClient()
     assert client is not None
 
     application_name = data.get_application_name()
     app_space_id = data.get_app_space_id()
 
-    def mocked_get_application_by_name(request: pb2.ReadApplicationRequest):
+    def mocked_read_application_by_name(request: pb2.ReadApplicationRequest):
         return None
 
-    client.stub.ReadApplication = mocked_get_application_by_name
-    application = client.get_application_by_name(app_space_id, application_name)
+    client.stub.ReadApplication = mocked_read_application_by_name
+    application = client.read_application_by_name(app_space_id, application_name)
 
     assert application is None
 
@@ -188,7 +188,7 @@ def test_update_application_success(capsys):
 
     application_name = data.get_application_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_application_by_name(app_space_id, application_name)
+    response = client.read_application_by_name(app_space_id, application_name)
     assert response is not None
 
     application = client.update_application(response.id, response.etag, response.display_name, "description", [])
@@ -205,7 +205,7 @@ def test_update_application_empty():
 
     application_name = data.get_application_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_application_by_name(app_space_id, application_name)
+    response = client.read_application_by_name(app_space_id, application_name)
     assert response is not None
 
     def mocked_update_application(request: pb2.UpdateApplicationRequest):
@@ -223,7 +223,7 @@ def test_update_application_fail_invalid_application(capsys):
 
     app_space_id = data.get_app_space_id()
     application_name = data.get_application_name()
-    response = client.get_application_by_name(app_space_id, application_name)
+    response = client.read_application_by_name(app_space_id, application_name)
     assert response is not None
     application_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
 
@@ -239,7 +239,7 @@ def test_update_application_name_fail_type_parameter(capsys):
     application_id = data.get_application_id()
     application_name = data.get_application_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_application_by_name(app_space_id, application_name)
+    response = client.read_application_by_name(app_space_id, application_name)
     assert response is not None
 
     application = client.update_application(application_id, [response.etag], response.display_name, "description", [])

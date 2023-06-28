@@ -8,7 +8,7 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_application_agent_by_id(self, application_agent_id, bookmarks=[]):
+def read_application_agent_by_id(self, application_agent_id, bookmarks=[]):
     """
     get an ApplAgent object with an id
     :param self:
@@ -32,7 +32,7 @@ def get_application_agent_by_id(self, application_agent_id, bookmarks=[]):
     return ApplicationAgent.deserialize(response.application_agent)
 
 
-def get_application_agent_by_name(self, app_space_id, application_agent_name, bookmarks=[]):
+def read_application_agent_by_name(self, app_space_id, application_agent_name, bookmarks=[]):
     """
     get an ApplAgent object with a name
     :param self:

@@ -8,7 +8,7 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_application_by_id(self, application_id, bookmarks=[]):
+def read_application_by_id(self, application_id, bookmarks=[]):
     """
     get an Application object with an id
     :param self:
@@ -33,7 +33,7 @@ def get_application_by_id(self, application_id, bookmarks=[]):
     return Application.deserialize(response.application)
 
 
-def get_application_by_name(self, app_space_id, application_name, bookmarks=[]):
+def read_application_by_name(self, app_space_id, application_name, bookmarks=[]):
     """
     get an Application object with a name
     :param self:

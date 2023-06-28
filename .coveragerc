@@ -9,8 +9,6 @@ omit =
   indykite_sdk/identity/helper.py
   indykite_sdk/config/helper.py
   indykite_sdk/config/get_schema.py
-  indykite_sdk/config/app_space.py
-  indykite_sdk/ingest/ingest_record.py
   indykite_sdk/model/unique_name_identifier.py
   indykite_sdk/model/email_attachment.py
   indykite_sdk/model/import_digital_twin.py

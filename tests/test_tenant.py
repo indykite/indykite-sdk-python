@@ -8,23 +8,23 @@ from indykite_sdk.model.update_tenant import UpdateTenant
 from helpers import data
 
 
-def test_get_tenant_by_id_wrong_id(capsys):
+def test_read_tenant_by_id_wrong_id(capsys):
     tenant_id = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
     assert client is not None
 
-    response = client.get_tenant_by_id(tenant_id)
+    response = client.read_tenant_by_id(tenant_id)
     captured = capsys.readouterr()
     assert("invalid ReadTenantRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err )
 
 
-def test_get_tenant_id_success(capsys):
+def test_read_tenant_id_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     tenant_id = data.get_tenant_id()
-    tenant = client.get_tenant_by_id(tenant_id)
+    tenant = client.read_tenant_by_id(tenant_id)
     captured = capsys.readouterr()
 
     assert tenant is not None
@@ -32,21 +32,21 @@ def test_get_tenant_id_success(capsys):
     assert isinstance(tenant, Tenant)
 
 
-def test_get_tenant_by_id_empty():
+def test_read_tenant_by_id_empty():
     client = ConfigClient()
     assert client is not None
 
     tenant_id = data.get_tenant_id()
 
-    def mocked_get_tenant_by_id(request: pb2.ReadTenantRequest):
+    def mocked_read_tenant_by_id(request: pb2.ReadTenantRequest):
         return None
 
-    client.stub.ReadTenant = mocked_get_tenant_by_id
-    tenant = client.get_tenant_by_id(tenant_id)
+    client.stub.ReadTenant = mocked_read_tenant_by_id
+    tenant = client.read_tenant_by_id(tenant_id)
     assert tenant is None
 
 
-def test_get_tenant_by_name_wrong_name(capsys):
+def test_read_tenant_by_name_wrong_name(capsys):
     tenant_name = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
@@ -54,12 +54,12 @@ def test_get_tenant_by_name_wrong_name(capsys):
 
     app_space_id = data.get_app_space_id()
 
-    response = client.get_tenant_by_name(app_space_id, tenant_name)
+    response = client.read_tenant_by_name(app_space_id, tenant_name)
     captured = capsys.readouterr()
     assert ("NOT_FOUND" in captured.err)
 
 
-def test_get_tenant_by_name_wrong_app_space_id(capsys):
+def test_read_tenant_by_name_wrong_app_space_id(capsys):
     tenant_name = data.get_tenant_name()
 
     client = ConfigClient()
@@ -67,12 +67,12 @@ def test_get_tenant_by_name_wrong_app_space_id(capsys):
 
     app_space_id = "gid:AAAAAlrNh6beFUSNk6tTtka8dwg"
 
-    response = client.get_tenant_by_name(app_space_id, tenant_name)
+    response = client.read_tenant_by_name(app_space_id, tenant_name)
     captured = capsys.readouterr()
     assert("NOT_FOUND" in captured.err)
 
 
-def test_get_tenant_by_name_wrong_app_space_size(capsys):
+def test_read_tenant_by_name_wrong_app_space_size(capsys):
     tenant_name = data.get_tenant_name()
 
     client = ConfigClient()
@@ -80,19 +80,19 @@ def test_get_tenant_by_name_wrong_app_space_size(capsys):
 
     app_space_id = "12546"
 
-    response = client.get_tenant_by_name(app_space_id, tenant_name)
+    response = client.read_tenant_by_name(app_space_id, tenant_name)
     captured = capsys.readouterr()
     assert("invalid ReadTenantRequest.Name" in captured.err)
 
 
-def test_get_tenant_name_success(capsys):
+def test_read_tenant_name_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     tenant_name = data.get_tenant_name()
     app_space_id = data.get_app_space_id()
 
-    tenant = client.get_tenant_by_name(app_space_id, tenant_name)
+    tenant = client.read_tenant_by_name(app_space_id, tenant_name)
     captured = capsys.readouterr()
 
     assert tenant is not None
@@ -100,18 +100,18 @@ def test_get_tenant_name_success(capsys):
     assert isinstance(tenant, Tenant)
 
 
-def test_get_tenant_by_name_empty():
+def test_read_tenant_by_name_empty():
     client = ConfigClient()
     assert client is not None
 
     tenant_name = data.get_tenant_name()
     app_space_id = data.get_app_space_id()
 
-    def mocked_get_tenant_by_name(request: pb2.ReadTenantRequest):
+    def mocked_read_tenant_by_name(request: pb2.ReadTenantRequest):
         return None
 
-    client.stub.ReadTenant = mocked_get_tenant_by_name
-    tenant = client.get_tenant_by_name(app_space_id, tenant_name)
+    client.stub.ReadTenant = mocked_read_tenant_by_name
+    tenant = client.read_tenant_by_name(app_space_id, tenant_name)
     assert tenant is None
 
 
@@ -123,7 +123,7 @@ def test_create_tenant_success(capsys):
     right_now = str(int(time.time()))
 
     tenant = client.create_tenant(issuer_id, "automation-"+right_now,
-                                         "Automation "+right_now, "description", [])
+                                  "Automation "+right_now, "description", [])
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
@@ -185,7 +185,7 @@ def test_update_tenant_success(capsys):
 
     tenant_name = data.get_tenant_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_tenant_by_name(app_space_id, tenant_name)
+    response = client.read_tenant_by_name(app_space_id, tenant_name)
     assert response is not None
 
     tenant = client.update_tenant(response.id, response.etag, response.display_name, "description", [])
@@ -202,7 +202,7 @@ def test_update_tenant_empty():
 
     tenant_name = data.get_tenant_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_tenant_by_name(app_space_id, tenant_name)
+    response = client.read_tenant_by_name(app_space_id, tenant_name)
     assert response is not None
 
     def mocked_update_tenant(request: pb2.UpdateTenantRequest):
@@ -219,7 +219,7 @@ def test_update_tenant_fail_invalid_tenant(capsys):
 
     app_space_id = data.get_app_space_id()
     tenant_name = data.get_tenant_name()
-    response = client.get_tenant_by_name(app_space_id, tenant_name)
+    response = client.read_tenant_by_name(app_space_id, tenant_name)
     assert response is not None
     tenant_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
 
@@ -235,7 +235,7 @@ def test_update_tenant_name_fail_type_parameter(capsys):
     tenant_id = data.get_tenant_id()
     tenant_name = data.get_tenant_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_tenant_by_name(app_space_id, tenant_name)
+    response = client.read_tenant_by_name(app_space_id, tenant_name)
     assert response is not None
 
     tenant = client.update_tenant(tenant_id, [response.etag], response.display_name, "description", [])

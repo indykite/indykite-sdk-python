@@ -8,7 +8,7 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_tenant_by_id(self, tenant_id, bookmarks=[]):
+def read_tenant_by_id(self, tenant_id, bookmarks=[]):
     """
     get tenant info from its id
     :param self:
@@ -32,7 +32,7 @@ def get_tenant_by_id(self, tenant_id, bookmarks=[]):
     return Tenant.deserialize(response.tenant)
 
 
-def get_tenant_by_name(self, app_space_id, tenant_name, bookmarks=[]):
+def read_tenant_by_name(self, app_space_id, tenant_name, bookmarks=[]):
     """
     get tenant information from its name
     :param self:
