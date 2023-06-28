@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.24.0](https://github.com/indykite/indykite-sdk-python/compare/v1.23.0...v1.24.0) (2023-06-28)
+
+
+### Features
+
+* add get_schema and refactor some config nodes ([20bbf5b](https://github.com/indykite/indykite-sdk-python/commit/20bbf5b1e54a74b6845957c8a55ab1fd338c9072))
+* add missing properties ([0452cad](https://github.com/indykite/indykite-sdk-python/commit/0452cade2bbf5e8d9667b4d4e276a9e395d55411))
+* change get methods by read ([04eb193](https://github.com/indykite/indykite-sdk-python/commit/04eb1936134f5a4bde3b6d6cfae991d77c127605))
+* update docs ([02caa75](https://github.com/indykite/indykite-sdk-python/commit/02caa757b4262befdd5292c8b558e3666633d2a3))
+
 ## [1.23.0](https://github.com/indykite/indykite-sdk-python/compare/v1.22.0...v1.23.0) (2023-06-19)
 
 
