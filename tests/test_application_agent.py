@@ -8,23 +8,23 @@ from indykite_sdk.model.update_application_agent import UpdateApplicationAgent
 from helpers import data
 
 
-def test_get_application_agent_by_id_wrong_id(capsys):
+def test_read_application_agent_by_id_wrong_id(capsys):
     application_agent_id = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
     assert client is not None
 
-    response = client.get_application_agent_by_id(application_agent_id)
+    response = client.read_application_agent_by_id(application_agent_id)
     captured = capsys.readouterr()
     assert("invalid ReadApplicationAgentRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
-def test_get_application_agent_id_success(capsys):
+def test_read_application_agent_id_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     application_agent_id = data.get_application_agent_id()
-    application_agent = client.get_application_agent_by_id(application_agent_id)
+    application_agent = client.read_application_agent_by_id(application_agent_id)
     captured = capsys.readouterr()
 
     assert application_agent is not None
@@ -32,22 +32,22 @@ def test_get_application_agent_id_success(capsys):
     assert isinstance(application_agent, ApplicationAgent)
 
 
-def test_get_application_agent_by_id_empty():
+def test_read_application_agent_by_id_empty():
     client = ConfigClient()
     assert client is not None
 
     application_agent_id = data.get_application_agent_id()
 
-    def mocked_get_application_agent_by_id(request: pb2.ReadApplicationAgentRequest):
+    def mocked_read_application_agent_by_id(request: pb2.ReadApplicationAgentRequest):
         return None
 
-    client.stub.ReadApplicationAgent = mocked_get_application_agent_by_id
-    application_agent = client.get_application_agent_by_id(application_agent_id)
+    client.stub.ReadApplicationAgent = mocked_read_application_agent_by_id
+    application_agent = client.read_application_agent_by_id(application_agent_id)
 
     assert application_agent is None
 
 
-def test_get_application_agent_by_name_wrong_name(capsys):
+def test_read_application_agent_by_name_wrong_name(capsys):
     application_agent_name = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
@@ -55,12 +55,12 @@ def test_get_application_agent_by_name_wrong_name(capsys):
 
     app_space_id = data.get_app_space_id()
 
-    response = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
     assert("NOT_FOUND" in captured.err)
 
 
-def test_get_application_agent_by_name_wrong_app_space_id(capsys):
+def test_read_application_agent_by_name_wrong_app_space_id(capsys):
     application_agent_name = data.get_application_agent_name()
 
     client = ConfigClient()
@@ -68,12 +68,12 @@ def test_get_application_agent_by_name_wrong_app_space_id(capsys):
 
     app_space_id = "gid:AAAAAlrNh6beFUSNk6tTtka8dwg"
 
-    response = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
     assert("NOT_FOUND" in captured.err)
 
 
-def test_get_application_agent_by_name_wrong_app_space_size(capsys):
+def test_read_application_agent_by_name_wrong_app_space_size(capsys):
     application_agent_name = data.get_application_agent_name()
 
     client = ConfigClient()
@@ -81,19 +81,19 @@ def test_get_application_agent_by_name_wrong_app_space_size(capsys):
 
     app_space_id = "12546"
 
-    response = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
     assert("invalid ReadApplicationAgentRequest.Name" in captured.err)
 
 
-def test_get_application_agent_name_success(capsys):
+def test_read_application_agent_name_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     application_agent_name = data.get_application_agent_name()
     app_space_id = data.get_app_space_id()
 
-    application_agent = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    application_agent = client.read_application_agent_by_name(app_space_id, application_agent_name)
     captured = capsys.readouterr()
 
     assert application_agent is not None
@@ -101,18 +101,18 @@ def test_get_application_agent_name_success(capsys):
     assert isinstance(application_agent, ApplicationAgent)
 
 
-def test_get_application_agent_by_name_empty():
+def test_read_application_agent_by_name_empty():
     client = ConfigClient()
     assert client is not None
 
     application_agent_name = data.get_application_agent_name()
     app_space_id = data.get_app_space_id()
 
-    def mocked_get_application_agent_by_name(request: pb2.ReadApplicationAgentRequest):
+    def mocked_read_application_agent_by_name(request: pb2.ReadApplicationAgentRequest):
         return None
 
-    client.stub.ReadApplicationAgent = mocked_get_application_agent_by_name
-    application_agent = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    client.stub.ReadApplicationAgent = mocked_read_application_agent_by_name
+    application_agent = client.read_application_agent_by_name(app_space_id, application_agent_name)
 
     assert application_agent is None
 
@@ -189,7 +189,7 @@ def test_update_application_agent_success(capsys):
 
     application_agent_name = data.get_application_agent_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
 
     application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description", [])
@@ -206,7 +206,7 @@ def test_update_application_agent_empty():
 
     application_agent_name = data.get_application_agent_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
 
     def mocked_update_application_agent(request: pb2.UpdateApplicationAgentRequest):
@@ -224,7 +224,7 @@ def test_update_application_agent_fail_invalid_application_agent(capsys):
 
     app_space_id = data.get_app_space_id()
     application_agent_name = data.get_application_agent_name()
-    response = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
     application_agent_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
 
@@ -240,7 +240,7 @@ def test_update_application_agent_name_fail_type_parameter(capsys):
     application_agent_id = data.get_application_agent_id()
     application_agent_name = data.get_application_agent_name()
     app_space_id = data.get_app_space_id()
-    response = client.get_application_agent_by_name(app_space_id, application_agent_name)
+    response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
 
     application_agent = client.update_application_agent(application_agent_id, [response.etag], response.display_name, "description", [])

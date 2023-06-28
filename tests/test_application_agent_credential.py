@@ -7,41 +7,41 @@ from helpers import data
 from datetime import datetime
 
 
-def test_get_application_agent_credential_wrong_id(capsys):
+def test_read_application_agent_credential_wrong_id(capsys):
     application_agent_credential_id = "aaaaaaaaaaaaaaa"
 
     client = ConfigClient()
     assert client is not None
 
-    response = client.get_application_agent_credential(application_agent_credential_id)
+    response = client.read_application_agent_credential(application_agent_credential_id)
     captured = capsys.readouterr()
     print(captured)
     assert("invalid ReadApplicationAgentCredentialRequest.Id" in captured.err)
 
 
-def test_get_application_agent_credential_success(capsys):
+def test_read_application_agent_credential_success(capsys):
     client = ConfigClient()
     assert client is not None
 
     application_agent_credential_id = data.get_application_agent_credential_id()
-    application_agent = client.get_application_agent_credential(application_agent_credential_id)
+    application_agent = client.read_application_agent_credential(application_agent_credential_id)
     captured = capsys.readouterr()
 
     assert application_agent is not None
     assert "invalid or expired access_token" not in captured.out
 
 
-def test_get_application_agent_credential_empty():
+def test_read_application_agent_credential_empty():
     client = ConfigClient()
     assert client is not None
 
     application_agent_credential_id = data.get_application_agent_credential_id()
 
-    def mocked_get_application_agent_credential(request: pb2.ReadApplicationAgentCredentialRequest):
+    def mocked_read_application_agent_credential(request: pb2.ReadApplicationAgentCredentialRequest):
         return None
 
-    client.stub.ReadApplicationAgentCredential = mocked_get_application_agent_credential
-    application_agent_credential = client.get_application_agent_credential(application_agent_credential_id)
+    client.stub.ReadApplicationAgentCredential = mocked_read_application_agent_credential
+    application_agent_credential = client.read_application_agent_credential(application_agent_credential_id)
 
     assert application_agent_credential is None
 

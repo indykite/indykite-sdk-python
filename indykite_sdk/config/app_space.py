@@ -8,7 +8,7 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_app_space_by_id(self, app_space_id, bookmarks=[]):
+def read_app_space_by_id(self, app_space_id, bookmarks=[]):
     """
     get AppSpace object from id
     :param self:
@@ -33,7 +33,7 @@ def get_app_space_by_id(self, app_space_id, bookmarks=[]):
     return ApplicationSpace.deserialize(response.app_space)
 
 
-def get_app_space_by_name(self, customer_id, app_space_name, bookmarks=[]):
+def read_app_space_by_name(self, customer_id, app_space_name, bookmarks=[]):
     """
     get AppSpace object from name
     :param self:

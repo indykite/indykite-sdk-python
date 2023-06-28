@@ -857,7 +857,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "app_space_id":
         app_space_id = args.app_space_id
-        app_space = client_config.get_app_space_by_id(app_space_id)
+        app_space = client_config.read_app_space_by_id(app_space_id)
         if app_space:
             print_response(app_space)
         else:
@@ -866,7 +866,7 @@ Property ID and value of the property where the value is a reference
     elif command == "app_space_name":
         app_space_name = args.app_space_name
         customer_id = args.customer_id
-        app_space = client_config.get_app_space_by_name(customer_id, app_space_name)
+        app_space = client_config.read_app_space_by_name(customer_id, app_space_name)
         if app_space:
             print_response(app_space)
         else:
@@ -925,7 +925,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "tenant_id":
         tenant_id = args.tenant_id
-        tenant = client_config.get_tenant_by_id(tenant_id)
+        tenant = client_config.read_tenant_by_id(tenant_id)
         logger = logging.getLogger()
         if tenant and isinstance(tenant, Tenant):
                 print_response(tenant)
@@ -935,7 +935,7 @@ Property ID and value of the property where the value is a reference
     elif command == "tenant_name":
         tenant_name = args.tenant_name
         app_space_id = args.app_space_id
-        tenant = client_config.get_tenant_by_name(app_space_id, tenant_name)
+        tenant = client_config.read_tenant_by_name(app_space_id, tenant_name)
         if tenant:
             print_response(tenant)
         else:
@@ -994,7 +994,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "application_id":
         application_id = args.application_id
-        application = client_config.get_application_by_id(application_id)
+        application = client_config.read_application_by_id(application_id)
         if application:
             print_response(application)
         else:
@@ -1003,7 +1003,7 @@ Property ID and value of the property where the value is a reference
     elif command == "application_name":
         application_name = args.application_name
         app_space_id = args.app_space_id
-        application = client_config.get_application_by_name(app_space_id, application_name)
+        application = client_config.read_application_by_name(app_space_id, application_name)
         if application:
             print_response(application)
         else:
@@ -1062,7 +1062,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "application_agent_id":
         application_agent_id = args.application_agent_id
-        application_agent = client_config.get_application_agent_by_id(application_agent_id)
+        application_agent = client_config.read_application_agent_by_id(application_agent_id)
         if application_agent:
             print_response(application_agent)
         else:
@@ -1071,7 +1071,7 @@ Property ID and value of the property where the value is a reference
     elif command == "application_agent_name":
         application_agent_name = args.application_agent_name
         app_space_id = args.app_space_id
-        application_agent = client_config.get_application_agent_by_name(app_space_id, application_agent_name)
+        application_agent = client_config.read_application_agent_by_name(app_space_id, application_agent_name)
         if application_agent:
             print_response(application_agent)
         else:
@@ -1130,7 +1130,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "application_agent_credential":
         application_agent_credential_id = args.application_agent_credential_id
-        application_agent_credential = client_config.get_application_agent_credential(application_agent_credential_id)
+        application_agent_credential = client_config.read_application_agent_credential(application_agent_credential_id)
         if application_agent_credential:
             print_response(application_agent_credential)
         else:

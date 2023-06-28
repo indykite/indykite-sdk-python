@@ -10,7 +10,7 @@
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
+
         <script src="_static/jquery.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -20,17 +20,17 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="authorization package" href="authorization.html" />
-    <link rel="prev" title="identity package" href="identity.html" /> 
+    <link rel="prev" title="identity package" href="identity.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="index.html" class="icon icon-home">
             docs
           </a>
@@ -50,8 +50,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-config.app_space">config.app_space module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#config.app_space.create_app_space"><code class="docutils literal notranslate"><span class="pre">create_app_space()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.app_space.delete_app_space"><code class="docutils literal notranslate"><span class="pre">delete_app_space()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.app_space.get_app_space_by_id"><code class="docutils literal notranslate"><span class="pre">get_app_space_by_id()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.app_space.get_app_space_by_name"><code class="docutils literal notranslate"><span class="pre">get_app_space_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.app_space.read_app_space_by_id"><code class="docutils literal notranslate"><span class="pre">read_app_space_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.app_space.read_app_space_by_name"><code class="docutils literal notranslate"><span class="pre">read_app_space_by_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.app_space.list_app_spaces"><code class="docutils literal notranslate"><span class="pre">list_app_spaces()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.app_space.update_app_space"><code class="docutils literal notranslate"><span class="pre">update_app_space()</span></code></a></li>
 </ul>
@@ -59,8 +59,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-config.application">config.application module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#config.application.create_application"><code class="docutils literal notranslate"><span class="pre">create_application()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.application.delete_application"><code class="docutils literal notranslate"><span class="pre">delete_application()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.application.get_application_by_id"><code class="docutils literal notranslate"><span class="pre">get_application_by_id()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.application.get_application_by_name"><code class="docutils literal notranslate"><span class="pre">get_application_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application.read_application_by_id"><code class="docutils literal notranslate"><span class="pre">read_application_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application.read_application_by_name"><code class="docutils literal notranslate"><span class="pre">read_application_by_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.application.list_applications"><code class="docutils literal notranslate"><span class="pre">list_applications()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.application.update_application"><code class="docutils literal notranslate"><span class="pre">update_application()</span></code></a></li>
 </ul>
@@ -68,15 +68,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-config.application_agent">config.application_agent module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#config.application_agent.create_application_agent"><code class="docutils literal notranslate"><span class="pre">create_application_agent()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.application_agent.delete_application_agent"><code class="docutils literal notranslate"><span class="pre">delete_application_agent()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.get_application_agent_by_id"><code class="docutils literal notranslate"><span class="pre">get_application_agent_by_id()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.get_application_agent_by_name"><code class="docutils literal notranslate"><span class="pre">get_application_agent_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.read_application_agent_by_id"><code class="docutils literal notranslate"><span class="pre">read_application_agent_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent.read_application_agent_by_name"><code class="docutils literal notranslate"><span class="pre">read_application_agent_by_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.application_agent.list_application_agents"><code class="docutils literal notranslate"><span class="pre">list_application_agents()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.application_agent.update_application_agent"><code class="docutils literal notranslate"><span class="pre">update_application_agent()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-config.application_agent_credential">config.application_agent_credential module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.delete_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">delete_application_agent_credential()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.get_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">get_application_agent_credential()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.read_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">read_application_agent_credential()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.register_application_agent_credential_jwk"><code class="docutils literal notranslate"><span class="pre">register_application_agent_credential_jwk()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.application_agent_credential.register_application_agent_credential_pem"><code class="docutils literal notranslate"><span class="pre">register_application_agent_credential_pem()</span></code></a></li>
 </ul>
@@ -167,8 +167,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-config.tenant">config.tenant module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#config.tenant.create_tenant"><code class="docutils literal notranslate"><span class="pre">create_tenant()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.tenant.delete_tenant"><code class="docutils literal notranslate"><span class="pre">delete_tenant()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.tenant.get_tenant_by_id"><code class="docutils literal notranslate"><span class="pre">get_tenant_by_id()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#config.tenant.get_tenant_by_name"><code class="docutils literal notranslate"><span class="pre">get_tenant_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.tenant.read_tenant_by_id"><code class="docutils literal notranslate"><span class="pre">read_tenant_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#config.tenant.read_tenant_by_name"><code class="docutils literal notranslate"><span class="pre">read_tenant_by_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.tenant.list_tenants"><code class="docutils literal notranslate"><span class="pre">list_tenants()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#config.tenant.update_tenant"><code class="docutils literal notranslate"><span class="pre">update_tenant()</span></code></a></li>
 </ul>
@@ -202,16 +202,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_service_account"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_service_account()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_service_account_credential"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_service_account_credential()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.delete_tenant"><code class="docutils literal notranslate"><span class="pre">ConfigClient.delete_tenant()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_app_space_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_app_space_by_id()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_app_space_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_app_space_by_name()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_agent_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_agent_by_id()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_agent_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_agent_by_name()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_agent_credential()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_by_id()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_application_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_application_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_app_space_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_app_space_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_app_space_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_app_space_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_application_agent_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_application_agent_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_application_agent_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_application_agent_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_application_agent_credential"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_application_agent_credential()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_application_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_application_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_application_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_application_by_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_schema_helpers"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_schema_helpers()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_tenant_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_tenant_by_id()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.get_tenant_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.get_tenant_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_tenant_by_id"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_tenant_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.read_tenant_by_name"><code class="docutils literal notranslate"><span class="pre">ConfigClient.read_tenant_by_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.knowledge_graph_schema_config"><code class="docutils literal notranslate"><span class="pre">ConfigClient.knowledge_graph_schema_config()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.list_app_spaces"><code class="docutils literal notranslate"><span class="pre">ConfigClient.list_app_spaces()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#config.ConfigClient.list_application_agents"><code class="docutils literal notranslate"><span class="pre">ConfigClient.list_application_agents()</span></code></a></li>
@@ -283,7 +283,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <section id="config-package">
 <h1>config package<a class="headerlink" href="#config-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
@@ -316,8 +316,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.app_space.get_app_space_by_id">
-<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">get_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#get_app_space_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.get_app_space_by_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.app_space.read_app_space_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">read_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#read_app_space_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.read_app_space_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get AppSpace object from id
 :param self:
 :param app_space_id: string gid id
@@ -326,8 +326,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.app_space.get_app_space_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">get_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#get_app_space_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.get_app_space_by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.app_space.read_app_space_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">read_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#read_app_space_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.read_app_space_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get AppSpace object from name
 :param self:
 :param customer_id: string gid id
@@ -388,8 +388,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.application.get_application_by_id">
-<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">get_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#get_application_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.get_application_by_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.application.read_application_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">read_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#read_application_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.read_application_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get an Application object with an id
 :param self:
 :param application_id: string gid id
@@ -398,8 +398,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.application.get_application_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">get_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#get_application_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.get_application_by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.application.read_application_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">read_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#read_application_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.read_application_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get an Application object with a name
 :param self:
 :param app_space_id: string gid id
@@ -460,8 +460,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.application_agent.get_application_agent_by_id">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">get_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#get_application_agent_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.get_application_agent_by_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.application_agent.read_application_agent_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#read_application_agent_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.read_application_agent_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get an ApplAgent object with an id
 :param self:
 :param application_agent_id: string gid id
@@ -470,8 +470,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.application_agent.get_application_agent_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">get_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#get_application_agent_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.get_application_agent_by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.application_agent.read_application_agent_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#read_application_agent_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.read_application_agent_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get an ApplAgent object with a name
 :param self:
 :param app_space_id: string gid id
@@ -519,8 +519,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.application_agent_credential.get_application_agent_credential">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">get_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#get_application_agent_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.get_application_agent_credential" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.application_agent_credential.read_application_agent_credential">
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#read_application_agent_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.read_application_agent_credential" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1232,8 +1232,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.tenant.get_tenant_by_id">
-<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">get_tenant_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#get_tenant_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.get_tenant_by_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.tenant.read_tenant_by_id">
+<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">read_tenant_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#read_tenant_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.read_tenant_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get tenant info from its id
 :param self:
 :param tenant_id: string gid id
@@ -1242,8 +1242,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="config.tenant.get_tenant_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">get_tenant_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#get_tenant_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.get_tenant_by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.tenant.read_tenant_by_name">
+<span class="sig-prename descclassname"><span class="pre">config.tenant.</span></span><span class="sig-name descname"><span class="pre">read_tenant_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/tenant.html#read_tenant_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.tenant.read_tenant_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get tenant information from its name
 :param self:
 :param app_space_id: string gid id
@@ -1624,8 +1624,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_app_space_by_id">
-<span class="sig-name descname"><span class="pre">get_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_app_space_by_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_app_space_by_id">
+<span class="sig-name descname"><span class="pre">read_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_app_space_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get AppSpace object from id
 :param self:
 :param app_space_id: string gid id
@@ -1634,8 +1634,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_app_space_by_name">
-<span class="sig-name descname"><span class="pre">get_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_app_space_by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_app_space_by_name">
+<span class="sig-name descname"><span class="pre">read_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_app_space_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get AppSpace object from name
 :param self:
 :param customer_id: string gid id
@@ -1645,8 +1645,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_application_agent_by_id">
-<span class="sig-name descname"><span class="pre">get_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_agent_by_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_application_agent_by_id">
+<span class="sig-name descname"><span class="pre">read_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get an ApplAgent object with an id
 :param self:
 :param application_agent_id: string gid id
@@ -1655,8 +1655,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_application_agent_by_name">
-<span class="sig-name descname"><span class="pre">get_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_agent_by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_application_agent_by_name">
+<span class="sig-name descname"><span class="pre">read_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get an ApplAgent object with a name
 :param self:
 :param app_space_id: string gid id
@@ -1666,8 +1666,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_application_agent_credential">
-<span class="sig-name descname"><span class="pre">get_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_agent_credential" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_application_agent_credential">
+<span class="sig-name descname"><span class="pre">read_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_credential" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1683,8 +1683,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_application_by_id">
-<span class="sig-name descname"><span class="pre">get_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_by_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_application_by_id">
+<span class="sig-name descname"><span class="pre">read_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get an Application object with an id
 :param self:
 :param application_id: string gid id
@@ -1693,8 +1693,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_application_by_name">
-<span class="sig-name descname"><span class="pre">get_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_application_by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_application_by_name">
+<span class="sig-name descname"><span class="pre">read_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get an Application object with a name
 :param self:
 :param app_space_id: string gid id
@@ -1712,8 +1712,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_tenant_by_id">
-<span class="sig-name descname"><span class="pre">get_tenant_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_tenant_by_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_tenant_by_id">
+<span class="sig-name descname"><span class="pre">read_tenant_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_tenant_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get tenant info from its id
 :param self:
 :param tenant_id: string gid id
@@ -1722,8 +1722,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="config.ConfigClient.get_tenant_by_name">
-<span class="sig-name descname"><span class="pre">get_tenant_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.get_tenant_by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="config.ConfigClient.read_tenant_by_name">
+<span class="sig-name descname"><span class="pre">read_tenant_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_tenant_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get tenant information from its name
 :param self:
 :param app_space_id: string gid id
@@ -2206,7 +2206,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -2217,7 +2217,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>

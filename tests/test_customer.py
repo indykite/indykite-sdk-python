@@ -51,7 +51,7 @@ def test_read_customer_id_success(capsys):
     client = ConfigClient()
     assert client is not None
     try:
-        service_account = client.get_service_account()
+        service_account = client.read_service_account()
     except Exception as exception:
         print(exception)
         return None
@@ -68,7 +68,7 @@ def test_read_customer_by_id_empty():
     assert client is not None
 
     try:
-        service_account = client.get_service_account()
+        service_account = client.read_service_account()
     except Exception as exception:
         print(exception)
         return None

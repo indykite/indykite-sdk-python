@@ -7,7 +7,7 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def get_application_agent_credential(self, application_agent_credential_id, bookmarks=[]):
+def read_application_agent_credential(self, application_agent_credential_id, bookmarks=[]):
     """
 
     :param self:
