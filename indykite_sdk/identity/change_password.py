@@ -1,10 +1,18 @@
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
+from indykite_sdk.model.change_password import ChangePassword
 import sys
 import indykite_sdk.utils.logger as logger
 
 
 def change_password(self, token, new_password):
+    """
+    change password from token
+    :param self:
+    :param token: user's authentication token
+    :param new_password: string
+    :return: deserialized ChangePasswordResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         if len(token) < 32:
@@ -26,10 +34,18 @@ def change_password(self, token, new_password):
     if not response:
         return None
 
-    return "The password has been changed successfully"
+    return ChangePassword.deserialize(response)
 
 
 def change_password_of_user(self, digital_twin_id, tenant_id, new_password):
+    """
+    change password from diigital twin
+    :param self:
+    :param digital_twin_id: string GID id
+    :param tenant_id: string GID id
+    :param new_password: string
+    :return:
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ChangePassword(
@@ -47,4 +63,4 @@ def change_password_of_user(self, digital_twin_id, tenant_id, new_password):
     if not response:
         return None
 
-    return "The password has been changed successfully"
+    return ChangePassword.deserialize(response)

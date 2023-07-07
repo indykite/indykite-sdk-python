@@ -7,7 +7,24 @@ from indykite_sdk.utils.message_to_value import arg_to_value
 from indykite_sdk.model.invitation import Invitation
 
 
-def create_email_invitation(self, tenant_id, reference_id, email, invite_at_time, expire_time, message_attributes):
+def create_email_invitation(self,
+                            tenant_id,
+                            reference_id,
+                            email,
+                            invite_at_time,
+                            expire_time,
+                            message_attributes):
+    """
+    create email invitation
+    :param self:
+    :param tenant_id: string GID id
+    :param reference_id: string
+    :param email: string
+    :param invite_at_time: google.protobuf.Timestamp
+    :param expire_time: google.protobuf.Timestamp
+    :param message_attributes: dict
+    :return:
+    """
     sys.excepthook = handle_excepthook
     try:
         invite_at_time_seconds = None
@@ -18,7 +35,7 @@ def create_email_invitation(self, tenant_id, reference_id, email, invite_at_time
             expire_time_seconds = Timestamp(seconds=expire_time)
         fields = {}
         if message_attributes:
-            for key, value  in message_attributes.items():
+            for key, value in message_attributes.items():
                 fields[key] = arg_to_value(value)
 
         request = pb2.CreateInvitationRequest(
@@ -38,7 +55,24 @@ def create_email_invitation(self, tenant_id, reference_id, email, invite_at_time
         return logger_error(exception)
 
 
-def create_mobile_invitation(self, tenant_id, reference_id, mobile, invite_at_time, expire_time, message_attributes):
+def create_mobile_invitation(self,
+                             tenant_id,
+                             reference_id,
+                             mobile,
+                             invite_at_time,
+                             expire_time,
+                             message_attributes):
+    """
+    create mobile invitation
+    :param self:
+    :param tenant_id: string GID id
+    :param reference_id: string
+    :param mobile: string
+    :param invite_at_time: google.protobuf.Timestamp
+    :param expire_time: google.protobuf.Timestamp
+    :param message_attributes: dict
+    :return:
+    """
     # mobile not implemented yet
     sys.excepthook = handle_excepthook
     try:
@@ -71,6 +105,13 @@ def create_mobile_invitation(self, tenant_id, reference_id, mobile, invite_at_ti
 
 
 def check_invitation_state(self, reference_id, invitation_token):
+    """
+    check invitation state: check with either reference_id or invitation_token
+    :param self:
+    :param reference_id: string
+    :param invitation_token: token used in invitation url as string
+    :return: deserialized CheckInvitationStateResponse.invitation
+    """
     sys.excepthook = handle_excepthook
     try:
         if reference_id and invitation_token:
@@ -89,6 +130,12 @@ def check_invitation_state(self, reference_id, invitation_token):
 
 
 def resend_invitation(self, reference_id):
+    """
+    resend invitation
+    :param self:
+    :param reference_id: string
+    :return: ResendInvitationResponse
+    """
     sys.excepthook = handle_excepthook
     try:
         response = self.stub.ResendInvitation(
@@ -102,6 +149,12 @@ def resend_invitation(self, reference_id):
 
 
 def cancel_invitation(self, reference_id):
+    """
+    cancel invitation
+    :param self:
+    :param reference_id: string
+    :return: CancelInvitationResponse
+    """
     sys.excepthook = handle_excepthook
     try:
         response = self.stub.CancelInvitation(

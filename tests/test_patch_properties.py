@@ -143,4 +143,3 @@ def test_patch_properties_by_token_success(registration):
     )
 
     assert response is not None
-    assert "The patch operation was success" in response

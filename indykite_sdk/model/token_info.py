@@ -1,6 +1,7 @@
 from indykite_sdk.model.digital_twin import DigitalTwinCore
 from indykite_sdk.model.provider_info import ProviderInfo
 from indykite_sdk.utils import timestamp_to_date
+from google.protobuf.json_format import MessageToDict
 
 
 class TokenInfo:
@@ -8,7 +9,7 @@ class TokenInfo:
     def deserialize(cls, message):
         if message is None:
             return None
-
+        fields = [desc.name for desc, val in message.ListFields()]
         token_info = TokenInfo(
             str(message.customer_id),
             str(message.app_space_id),
@@ -16,22 +17,28 @@ class TokenInfo:
             list(map(ProviderInfo.deserialize, message.provider_info))
         )
 
-        if message.HasField('subject'):
+        if "subject" in fields:
             token_info.subject = DigitalTwinCore.deserialize(message.subject)
 
-        if message.HasField('impersonated'):
+        if "impersonated" in fields:
             token_info.impersonated = DigitalTwinCore.deserialize(
                 message.impersonated)
 
-        if message.HasField('issue_time'):
+        if "issue_time" in fields:
             token_info.issueTime = timestamp_to_date(message.issue_time)
 
-        if message.HasField('expire_time'):
+        if "expire_time" in fields:
             token_info.expireTime = timestamp_to_date(message.expire_time)
 
-        if message.HasField('authentication_time'):
+        if "authentication_time" in fields:
             token_info.authenticationTime = timestamp_to_date(
                 message.authentication_time)
+
+        if "session_claims" in fields:
+            token_info.session_claims = MessageToDict(message.session_claims)
+
+        if "token_claims" in fields:
+            token_info.token_claims = MessageToDict(message.token_claims)
 
         return token_info
 
@@ -45,6 +52,8 @@ class TokenInfo:
         self.issueTime = None
         self.expireTime = None
         self.authenticationTime = None
+        self.session_claims = None
+        self.token_claims = None
 
     def __str__(self):
         string = (

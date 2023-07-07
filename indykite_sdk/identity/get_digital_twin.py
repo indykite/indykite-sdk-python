@@ -17,7 +17,7 @@ def get_digital_twin(self, digital_twin_id, tenant_id, fields):
     :param digital_twin_id: string gid id
     :param tenant_id: string gid id
     :param fields: [] of PropertyMask
-    :return:
+    :return: deserialized GetDigitalTwinResponse
     """
     sys.excepthook = logger.handle_excepthook
     try:
@@ -41,9 +41,9 @@ def get_digital_twin_by_token(self, token, fields):
     """
     get a digital twin with its token
     :param self:
-    :param token:
-    :param fields:
-    :return: [] of PropertyMask
+    :param token: string
+    :param fields: [] of PropertyMask
+    :return: deserialized GetDigitalTwinResponse
     """
     sys.excepthook = logger.handle_excepthook
     try:
@@ -68,9 +68,9 @@ def get_digital_twin_by_property(self, property_filter, fields):
     """
     get a digital twin with a filter on its properties
     :param self:
-    :param property_filter:
-    :param fields: []
-    :return: [] of PropertyMask
+    :param property_filter: PropertyFilter object
+    :param fields: [] of PropertyMask
+    :return: deserialized GetDigitalTwinResponse
     """
     sys.excepthook = logger.handle_excepthook
     try:

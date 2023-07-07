@@ -6,6 +6,13 @@ import indykite_sdk.utils.logger as logger
 
 
 def import_digital_twins(self, entities, hash_algorithm):
+    """
+    import digital twins
+    :param self:
+    :param entities: list of ImportDigitalTwin objects
+    :param hash_algorithm: dict
+    :return: list of ImportDigitalTwinsResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         n = 1000
@@ -25,6 +32,13 @@ def import_digital_twins(self, entities, hash_algorithm):
 
 
 def import_digital_twins_chunks(stub, entities, hash_algorithm):
+    """
+    import chunk of digital twins
+    :param stub:
+    :param entities: list of ImportDigitalTwin objects
+    :param hash_algorithm: dict
+    :return: ImportDigitalTwinsResponse
+    """
     try:
         idt = []
         for e in entities:
@@ -54,6 +68,12 @@ def import_digital_twins_chunks(stub, entities, hash_algorithm):
 
 
 def get_hash_request(entities, hash_algorithm):
+    """
+    get entities with hash
+    :param entities: list of ImportDigitalTwin objects
+    :param hash_algorithm: dict
+    :return: import_pb2.ImportDigitalTwinsRequest
+    """
     try:
         hash_request = None
         for key in hash_algorithm:
@@ -128,6 +148,11 @@ def get_hash_request(entities, hash_algorithm):
 
 
 def validate_entity(e):
+    """
+    validate entity parameters
+    :param e:
+    :return: True or raises exception
+    """
     try:
         kinds = [k.value for k in DigitalTwinKind]
         if e.kind not in kinds:
@@ -157,7 +182,12 @@ def validate_entity(e):
 
 
 def divide_chunks(entities, n):
+    """
+    divide entities iin chunks
+    :param entities: list of ImportDigitalTwin objects
+    :param n: int
+    :return:
+    """
     if entities:
         for i in range(0, len(entities), n):
             yield entities[i:i + n]
-

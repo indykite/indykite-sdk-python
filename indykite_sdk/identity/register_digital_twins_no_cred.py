@@ -6,6 +6,16 @@ import indykite_sdk.utils.logger as logger
 
 
 def register_digital_twin_without_credential(self, tenant_id, kind, tags, properties, bookmarks=[]):
+    """
+    register digital twin without credentials
+    :param self:
+    :param tenant_id: string GID id
+    :param kind: string from enum
+    :param tags: string from enum
+    :param properties: list of Property object
+    :param bookmarks: list of strings
+    :return: deserialized RegisterDigitalTwinWithoutCredentialResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         if kind and validate_kind(kind):
@@ -25,6 +35,11 @@ def register_digital_twin_without_credential(self, tenant_id, kind, tags, proper
 
 
 def validate_kind(kind):
+    """
+    validate kind value
+    :param kind: string from enum
+    :return: bool
+    """
     try:
         kinds = [k.value for k in DigitalTwinKind]
         if kind in kinds:

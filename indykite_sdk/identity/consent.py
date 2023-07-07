@@ -1,5 +1,4 @@
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
-from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as struct
 from indykite_sdk.model.consent import CreateConsentResponse, CheckOAuth2ConsentChallengeResponse, CreateOAuth2ConsentVerifierResponse, ConsentRequestSessionData
 import sys
 import indykite_sdk.utils.logger as logger
@@ -7,6 +6,14 @@ from indykite_sdk.utils.message_to_value import arg_to_value
 
 
 def create_consent(self, pii_processor_id, pii_principal_id, properties=[]):
+    """
+    create consent
+    :param self:
+    :param pii_processor_id: string GID id of OAuth2 Application
+    :param pii_principal_id: string GID id of digital twin
+    :param properties: list of strings
+    :return: deserialized CreateConsentResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.CreateConsent(
@@ -26,6 +33,12 @@ def create_consent(self, pii_processor_id, pii_principal_id, properties=[]):
 
 
 def list_consents(self, pii_principal_id):
+    """
+    lists consents
+    :param self:
+    :param pii_principal_id: string GID id of digital twin
+    :return: list of ConsentReceipt objects
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         streams = self.stub.ListConsents(
@@ -50,6 +63,13 @@ def list_consents(self, pii_principal_id):
 
 
 def revoke_consent(self, pii_principal_id, consent_ids=[]):
+    """
+    revoke consent
+    :param self:
+    :param pii_principal_id:  string GID id of digital twin
+    :param consent_ids: list of consents (IDs in GID format)
+    :return: RevokeConsentResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.RevokeConsent(
@@ -67,6 +87,12 @@ def revoke_consent(self, pii_principal_id, consent_ids=[]):
 
 
 def check_oauth2_consent_challenge(self, challenge):
+    """
+    check OAuth2 consent challenge
+    :param self:
+    :param challenge: string
+    :return: deserialized CheckOAuth2ConsentChallengeResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.CheckOAuth2ConsentChallenge(
@@ -82,9 +108,28 @@ def check_oauth2_consent_challenge(self, challenge):
     return CheckOAuth2ConsentChallengeResponse.deserialize(response)
 
 
-def create_oauth2_consent_verifier_approval(self, consent_challenge, grant_scopes=[], granted_audiences=[],
-                                            access_token={}, id_token={}, userinfo={}, remember=False,
+def create_oauth2_consent_verifier_approval(self,
+                                            consent_challenge,
+                                            grant_scopes=[],
+                                            granted_audiences=[],
+                                            access_token={},
+                                            id_token={},
+                                            userinfo={},
+                                            remember=False,
                                             remember_for=None):
+    """
+    create OAuth2 consent verifier for approval
+    :param self:
+    :param consent_challenge: string
+    :param grant_scopes: list of strings
+    :param granted_audiences: list of strings
+    :param access_token: custom claims for jwk (map values to enrich access token)
+    :param id_token: (map values to enrich id token)
+    :param userinfo: (map values to enrich userinfo)
+    :param remember: boolean
+    :param remember_for: int
+    :return: CreateOAuth2ConsentVerifierResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.CreateOAuth2ConsentVerifier(
@@ -108,12 +153,27 @@ def create_oauth2_consent_verifier_approval(self, consent_challenge, grant_scope
     if not response:
         return None
 
-    return response
+    return CreateOAuth2ConsentVerifierResponse.deserialize(response)
 
 
-def create_oauth2_consent_verifier_denial(self, consent_challenge, error=None,
+def create_oauth2_consent_verifier_denial(self,
+                                          consent_challenge,
+                                          error=None,
                                           error_description=None,
-                                          error_hint=None, status_code=None,):
+                                          error_hint=None,
+                                          status_code=None):
+
+    """
+    create OAuth2 consent verifier for denial
+    :param self:
+    :param consent_challenge: code challenge string
+    :param error:  invalid_request, unauthorized_client, access_denied, unsupported_response_type, invalid_scope,
+    server_error, temporarily_unavailable
+    :param error_description: human-readable format str
+    :param error_hint: string
+    :param status_code: int
+    :return: CreateOAuth2ConsentVerifierResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.CreateOAuth2ConsentVerifier(
@@ -132,4 +192,4 @@ def create_oauth2_consent_verifier_denial(self, consent_challenge, error=None,
     if not response:
         return None
 
-    return response
+    return CreateOAuth2ConsentVerifierResponse.deserialize(response)
