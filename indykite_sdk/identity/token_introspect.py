@@ -6,6 +6,12 @@ import indykite_sdk.utils.logger as logger
 
 
 def token_introspect(self, user_token):
+    """
+    token introspection
+    :param self:
+    :param user_token: user's authentication token
+    :return: deserialized TokenInfo object
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.TokenIntrospect(pb2.TokenIntrospectRequest(token=user_token))
@@ -19,6 +25,13 @@ def token_introspect(self, user_token):
 
 
 def session_introspect(self, tenant_id, access_token):
+    """
+    session introspection
+    :param self:
+    :param tenant_id: string GID id
+    :param access_token: user's authentication token
+    :return: deserialized SessionIntrospectResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.SessionIntrospect(pb2.SessionIntrospectRequest(tenant_id=tenant_id, token=access_token))

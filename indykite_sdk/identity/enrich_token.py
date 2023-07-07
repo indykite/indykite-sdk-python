@@ -5,6 +5,14 @@ import indykite_sdk.utils.logger as logger
 
 
 def enrich_token(self, user_token: str, token_claims: dict, session_claims: dict):
+    """
+    enrich token
+    :param self:
+    :param user_token: dict
+    :param token_claims: dict
+    :param session_claims: dict
+    :return: EnrichTokenResponse
+    """
     sys.excepthook = logger.handle_excepthook
     try:
         token_struct = struct_pb2.Struct()

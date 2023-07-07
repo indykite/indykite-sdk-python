@@ -2,12 +2,9 @@
 Commandline interface for making an API request with the SDK.
 """
 import argparse
-import base64
 import json
 from datetime import datetime
-from uuid import UUID
 import uuid
-from google.protobuf.json_format import MessageToJson
 from google.protobuf.duration_pb2 import Duration
 import os
 import requests
@@ -23,7 +20,7 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, 
                                                             ReadIDProviderConfig, KnowledgeGraphSchemaConfig )
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin, \
-    ImportProperties
+    ImportProperties, UserProvider, UserMetadata
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt, SHA256
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, \
     EmailDefinition
@@ -38,6 +35,7 @@ from indykite_sdk.ingest import IngestClient
 from indykite_sdk.identity import helper
 import logging
 from indykite_sdk.utils.message_to_value import arg_to_value
+from indykite_sdk import api_helper
 
 
 class ParseKwargs(argparse.Action):
@@ -673,59 +671,72 @@ Property ID and value of the property where the value is a reference
     command = args.command
 
     if command == "introspect":
+        # token_introspect method: to get info on a user token
         user_token = args.user_token
         token_info = client.token_introspect(user_token)
         if token_info is not None:
-            print_response(token_info)
+            api_helper.print_response(token_info)
         else:
             print("Invalid token")
 
     elif command == "session_introspect":
+        # session_introspect method: to get info on an access token
         tenant_id = args.tenant_id
         access_token = args.access_token
         session_response = client.session_introspect(tenant_id, access_token)
         if session_response is not None:
-            print_response(session_response)
+            api_helper.print_response(session_response)
         else:
             print("Invalid session token")
 
     elif command == "verify":
+        # verify_digital_twin_email method: to get DigitalTwin object from a verification token
+        #  confirms that the message from start_digital_twin_email_verification function was sent
+        #  and user visited the link
         verification_token = args.verification_token
         digital_twin_info = client.verify_digital_twin_email(verification_token)
         if digital_twin_info is not None:
-            print_response({ "digitalTwin": digital_twin_info })
+            api_helper.print_response({"digitalTwin": digital_twin_info})
 
     elif command == "change-password":
+        # change_password method: to create new account password with user token as argument
         user_token = args.user_token
         new_password = args.new_password
         response = client.change_password(user_token, new_password)
         if response is not None:
-            print(response)
+            api_helper.print(response)
 
     elif command == "change-password-of-user":
+        # change_password method: to create new account password with digital twin id and tenant id as arguments
         digital_twin_id = args.digital_twin_id
         tenant_id = args.tenant_id
         new_password = args.new_password
         response = client.change_password_of_user(digital_twin_id, tenant_id, new_password)
         if response is not None:
-            print(response)
+            api_helper.print(response)
 
     elif command == "get-dt":
+        # get_digital_twin method: to get digital twin and token info
+        # with digital twin id, tenant id and list of properties as arguments
         digital_twin_id = args.digital_twin_id
         tenant_id = args.tenant_id
         property_list = args.property_list
         dt = client.get_digital_twin(digital_twin_id, tenant_id, property_list[1:])
         if dt is not None:
-            print_response(dt)
+            api_helper.print_response(dt)
 
     elif command == "get-dt-by-token":
+        # get_digital_twin method: get digital twin and token info
+        # with user token and list of properties as arguments
         user_token = args.user_token
         property_list = args.property_list
         dt = client.get_digital_twin_by_token(user_token, property_list[1:])
         if dt is not None:
-            print_response(dt)
+            api_helper.print_response(dt)
 
     elif command == "get-dt-by-property":
+        # get_digital_twin method: to get digital twin and token info
+        # with property filter and list of properties as arguments
         type = args.type
         value = args.value
         tenant_id = args.tenant_id
@@ -733,9 +744,11 @@ Property ID and value of the property where the value is a reference
         property_filter = client.property_filter(type, value, tenant_id)
         dt = client.get_digital_twin_by_property(property_filter, property_list[1:])
         if dt is not None:
-            print_response(dt)
+            api_helper.print_response(dt)
 
     elif command == "patch-properties":
+        # patch_properties method: to update digital twin properties with digital twin id, tenant id
+        # and list of operations and get list of BatchOperationResult as a result
         digital_twin_id = args.digital_twin_id
         tenant_id = args.tenant_id
         all_args = {
@@ -747,20 +760,22 @@ Property ID and value of the property where the value is a reference
         }
 
         props = args.add
-        add_args_to_dict(all_args, "add", props)
+        api_helper.add_args_to_dict(all_args, "add", props)
         props = args.add_by_ref
-        add_args_to_dict(all_args, "add_by_ref", props)
+        api_helper.add_args_to_dict(all_args, "add_by_ref", props)
         props = args.replace
-        add_args_to_dict(all_args, "replace", props)
+        api_helper.add_args_to_dict(all_args, "replace", props)
         props = args.replace_by_ref
-        add_args_to_dict(all_args, "replace_by_ref", props)
+        api_helper.add_args_to_dict(all_args, "replace_by_ref", props)
         props = args.remove
-        add_args_to_dict(all_args, "remove", props)
+        api_helper.add_args_to_dict(all_args, "remove", props)
         properties = client.patch_properties(digital_twin_id, tenant_id, all_args)
         if properties is not None:
             print(properties)
 
     elif command == "patch-properties-by-token":
+        # patch_properties_by_token method: to update digital twin properties with a user token
+        # and list of operations and get list of BatchOperationResult as a result
         user_token = args.user_token
         all_args = {
             "add": [],
@@ -771,20 +786,23 @@ Property ID and value of the property where the value is a reference
         }
 
         props = args.add
-        add_args_to_dict(all_args, "add", props)
+        api_helper.add_args_to_dict(all_args, "add", props)
         props = args.add_by_ref
-        add_args_to_dict(all_args, "add_by_ref", props)
+        api_helper.add_args_to_dict(all_args, "add_by_ref", props)
         props = args.replace
-        add_args_to_dict(all_args, "replace", props)
+        api_helper.add_args_to_dict(all_args, "replace", props)
         props = args.replace_by_ref
-        add_args_to_dict(all_args, "replace_by_ref", props)
+        api_helper.add_args_to_dict(all_args, "replace_by_ref", props)
         props = args.remove
-        add_args_to_dict(all_args, "remove", props)
+        api_helper.add_args_to_dict(all_args, "remove", props)
         properties = client.patch_properties_by_token(user_token, all_args)
         if properties is not None:
             print(properties)
 
     elif command == "start-dt-email-verification":
+        # start_digital_twin_email_verification method: to initialize the flow where IndyKite systems sends
+        # a notification to a DigitalTwin with a link to verify the control over the notification channel
+        # with digital twin id, tenant id, email and optional attributes as arguments
         digital_twin_id = args.digital_twin
         tenant_id = args.tenant_id
         email = args.email
@@ -793,28 +811,33 @@ Property ID and value of the property where the value is a reference
             print(resp)
 
     elif command == "del-dt":
+        # del_digital_twin method: to delete a digital twin with digital twin id and tenant id as arguments
         digital_twin_id = args.digital_twin_id
         tenant_id = args.tenant_id
         dt = client.del_digital_twin(digital_twin_id, tenant_id)
         if dt is not None:
-            print_response({ "digitalTwin": dt })
+            api_helper.print_response({"digitalTwin": dt})
 
     elif command == "del-dt-by-token":
+        # del_digital_twin_by_token method: to delete a digital twin with user_token as argument
         user_token = args.user_token
         dt = client.del_digital_twin_by_token(user_token)
         if dt is not None:
-            print_response({ "digitalTwin": dt })
+            api_helper.print_response({"digitalTwin": dt})
 
     elif command == "del-dt-by-property":
+        # del_digital_twin_by_property method: to delete a digital twin with property_filter as argument
         type = args.type
         value = args.value
         tenant_id = args.tenant_id
         property_filter = client.property_filter(type, value, tenant_id)
         dt = client.del_digital_twin_by_property(property_filter)
         if dt is not None:
-            print_response(dt)
+            api_helper.print_response(dt)
 
     elif command == "enrich-token":
+        # enrich_token method: to allow a session and an access token to be enriched with additional data
+        # with user token (access token) and token claims (dict) and session claims (dict) as arguments
         user_token = args.user_token
         token_claims = args.token_claims
         session_claims = args.session_claims
@@ -824,8 +847,366 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid token")
 
-    elif command == "customer_id":
+    elif command == "import_digital_twins":
+        # import_digital_twins method: to import digital twins into the identity database (no more than 1000 per call)
+        # with list of ImportDigitalTwin entities as arguments
+        entities = [ImportDigitalTwin(
+            tenant_id=args.tenant_id,
+            kind="DIGITAL_TWIN_KIND_PERSON",
+            state="DIGITAL_TWIN_STATE_ACTIVE",
+            password=PasswordCredential(
+                email=EmailIdentity(
+                    email="test2214@example.com",
+                    verified=True
+                ),
+                value="password"
+            ),
+            tags=[],
+            provider_user_info=[
+                UserProvider(
+                    uid="23456789456",
+                    provider_id="gid:AAAAEezCvUQGV0HgotmCoeCJAck",
+                    email="test@example.com",
+                    display_name="Provider name",
+                    photo_url="https://url_photo"
+                )],
+            properties=ImportProperties(
+                operations=[attributes.PropertyBatchOperation(
+                    add=attributes.Property(
+                        definition=attributes.PropertyDefinition(
+                            context="http://schema.org/", type="Person", property="email"
+                        ),
+                        object_value=arg_to_value("testem@example.com")))],
+                force_delete=False),
+            metadata=UserMetadata(
+                creation_timestamp=1688041390,
+                last_log_in_timestamp=1688041827,
+                last_refresh_timestamp=0  # time when user was last active or 0 if never been
+            )
+        ),
+            ImportDigitalTwin(
+                tenant_id=args.tenant_id,
+                kind="DIGITAL_TWIN_KIND_PERSON",
+                state="DIGITAL_TWIN_STATE_ACTIVE",
+                password=PasswordCredential(
+                    email=EmailIdentity(
+                        email="test2215@example.com",
+                        verified=True
+                    ),
+                    value="password"
+                )
+            ),
+            ImportDigitalTwin(
+                tenant_id=args.tenant_id,
+                kind="DIGITAL_TWIN_KIND_PERSON",
+                state="DIGITAL_TWIN_STATE_ACTIVE",
+                password=PasswordCredential(
+                    email=EmailIdentity(
+                        email="test2216@example.com",
+                        verified=True
+                    ),
+                    value="password"
+                )
+            )
+        ]
+        hash_algorithm = None
 
+        import_digital_twins_config_response = client.import_digital_twins(
+            entities, hash_algorithm)
+        if import_digital_twins_config_response:
+            for response in import_digital_twins_config_response:
+                api_helper.print_response(response)
+        else:
+            print("Invalid import digital twins response")
+        return import_digital_twins_config_response
+
+    elif command == "import_digital_twins_hash":
+        # import_digital_twins method: to import digital twins into the identity database (no more than 1000 per call)
+        # with list of ImportDigitalTwin entities and a hash algorithm as arguments
+        password = 'passwordabc'
+        hash_dict = encrypt_bcrypt(password)
+        for key in hash_dict:
+            salt = key
+            hash_password = hash_dict[key]
+
+        entities = [ImportDigitalTwin(
+            tenant_id=args.tenant_id,
+            kind="DIGITAL_TWIN_KIND_PERSON",
+            state="DIGITAL_TWIN_STATE_ACTIVE",
+            password=PasswordCredential(
+                email=EmailIdentity(
+                    email="test2002@example.com",
+                    verified=True
+                ),
+                hash=PasswordHash(password_hash=hash_password, salt=salt)
+            )
+        )]
+        hash_algorithm = {"bcrypt": {}}
+
+        import_digital_twins_config_response = client.import_digital_twins(
+            entities, hash_algorithm)
+        if import_digital_twins_config_response:
+            for response in import_digital_twins_config_response:
+                api_helper.print_response(response)
+        else:
+            print("Invalid import digital twins response")
+        return import_digital_twins_config_response
+
+    elif command == "import_digital_twins_hash_sha":
+        # import_digital_twins method: to import digital twins into the identity database (no more than 1000 per call)
+        # with list of ImportDigitalTwin entities and SHA256 hash algorithm as arguments
+        entities = [ImportDigitalTwin(
+            tenant_id=args.tenant_id,
+            kind="DIGITAL_TWIN_KIND_PERSON",
+            state="DIGITAL_TWIN_STATE_ACTIVE",
+            password=PasswordCredential(
+                email=EmailIdentity(
+                    email="test2002@example.com",
+                    verified=True
+                ),
+                hash=PasswordHash(password_hash=args.hash_password)
+            )
+        )]
+        hash_algorithm = {"sha256": SHA256(rounds=14)}
+
+        import_digital_twins_config_response = client.import_digital_twins(
+            entities, hash_algorithm)
+        if import_digital_twins_config_response:
+            for response in import_digital_twins_config_response:
+                api_helper.print_response(response)
+        else:
+            print("Invalid import digital twins response")
+        return import_digital_twins_config_response
+
+    elif command == "import_digital_twins_update":
+        # import_digital_twins method: to update import digital twins into the identity database
+        # with list of ImportDigitalTwin entities and no hash algorithm on password as arguments
+        entities = [ImportDigitalTwin(
+            id=args.id,
+            tenant_id=args.tenant_id,
+            kind="DIGITAL_TWIN_KIND_PERSON",
+            state="DIGITAL_TWIN_STATE_ACTIVE",
+            password=PasswordCredential(
+                email=EmailIdentity(
+                    email="test2003@example.com",
+                    verified=True
+                ),
+                value="password"
+            )
+        )]
+        hash_algorithm = None
+
+        import_digital_twins_config_response = client.import_digital_twins(
+            entities, hash_algorithm)
+        if import_digital_twins_config_response:
+            for response in import_digital_twins_config_response:
+                api_helper.print_response(response)
+        else:
+            print("Invalid import digital twins response")
+        return import_digital_twins_config_response
+
+    elif command == "create_consent":
+        # create_consent method: to create a consent to an application (pii_processor_id ID in GID format)
+        # given by a digital twin (pii_principal_id ID in GID format)
+        pii_processor_id = args.pii_processor_id
+        pii_principal_id = args.pii_principal_id
+        properties = ["icecream"]
+        consent_response = client.create_consent(pii_processor_id, pii_principal_id, properties)
+        if consent_response:
+            api_helper.print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "list_consents":
+        # list_consents method: to list the consents given by a digital twin (pii_principal_id ID in GID format)
+        pii_principal_id = args.pii_principal_id
+        consent_response = client.list_consents(pii_principal_id)
+        if consent_response:
+            for c in consent_response:
+                api_helper.print_response(c)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "revoke_consent":
+        # revoke_consent method: to revoke list of consents (IDs in GID format)
+        # given by a digital twin (pii_principal_id ID in GID format)
+        pii_principal_id = args.pii_principal_id
+        consent_ids = args.consent_ids
+        consent_response = client.revoke_consent(pii_principal_id, consent_ids)
+        if consent_response:
+            api_helper.print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "check_oauth2_consent_challenge":
+        # check_oauth2_consent_challenge method: read the Consent Challenge from DB
+        # with the code challenge as an argument
+        challenge = args.challenge
+        consent_response = client.check_oauth2_consent_challenge(challenge)
+        if consent_response:
+            api_helper.print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "create_oauth2_consent_verifier_approval":
+        # create_oauth2_consent_verifier_approval method: to create a new ConsentApproval verifier
+        consent_challenge = args.consent_challenge
+        grant_scopes = ["openid", "email", "profile"]
+        granted_audiences = []
+        # custom claims for jwk (map values to enrich token)
+        access_token = json.loads(args.access_token)
+        consent_response = client.create_oauth2_consent_verifier_approval(
+            consent_challenge,
+            grant_scopes,
+            granted_audiences,
+            access_token,
+            {},
+            {},
+            False,
+            None
+        )
+        if consent_response:
+            api_helper.print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "create_oauth2_consent_verifier_denial":
+        # create_oauth2_consent_verifier_denial method: to create a new DenialResponse verifier
+        consent_challenge = args.consent_challenge
+        error = "access_denied"
+        error_description = "Access is denied"
+        error_hint = "Your consent challenge may be not valid: check your OAuth2 host and your clientID"
+        status_code = 403
+        consent_response = client.create_oauth2_consent_verifier_denial(
+            consent_challenge, error,
+            error_description,
+            error_hint,
+            status_code
+        )
+        if consent_response:
+            api_helper.print_response(consent_response)
+        else:
+            print("Invalid consent response")
+        return consent_response
+
+    elif command == "start_forgotten_password":
+        # to start forgotten password process with digital twin GID id and tenant GID id as arguments
+        # sends a message with a link to digital twin if has primary contact
+        # when link clicked -> redirects to auth flow where user set new password
+        digital_twin_id = args.digital_twin_id
+        tenant_id = args.tenant_id
+        forgotten_response = client.start_forgotten_password_flow(digital_twin_id, tenant_id)
+        if forgotten_response is not None:
+            print(forgotten_response)
+        else:
+            print("Invalid forgotten password response")
+
+    elif command == "create_email_invitation":
+        # create_email_invitation method: to create an invitation email
+        # with reference id, tenant GID id and recipient email as arguments
+        reference_id = str(uuid.uuid4())
+        # any unique external reference id
+        print(reference_id)
+        tenant_id = args.tenant_id
+        email = args.email
+        invitation_response = client.create_email_invitation(
+            tenant_id,
+            reference_id,
+            email,
+            invite_at_time=None,
+            expire_time=None,
+            message_attributes=None
+        )
+        if invitation_response is not None:
+            print(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "create_email_invitation_with_date":
+        # create_email_invitation method: to create an invitation email
+        # with reference id, tenant GID id, recipient email, invitation date, expiration and
+        # message attributes (attributes passed into message sender)  as arguments
+        reference_id = str(uuid.uuid4())
+        print(reference_id)
+        tenant_id = args.tenant_id
+        email = args.email
+        t = datetime.now().timestamp()
+        invite_at_time_in_seconds = int(t) + 3600
+        expire_time_in_seconds = invite_at_time_in_seconds + 172800  # now + 2 days example
+        message_attributes = {"attr1": "value1"}
+        invitation_response = client.create_email_invitation(
+            tenant_id,
+            reference_id,
+            email,
+            invite_at_time_in_seconds,
+            expire_time_in_seconds,
+            message_attributes
+        )
+        if invitation_response is not None:
+            print(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "check_invitation_state":
+        # check_invitation_state method: to return the state of invitation and its data
+        reference_id = args.reference_id
+        # check with either reference_id or invitation_token
+        invitation_response = client.check_invitation_state(reference_id, None)
+        if invitation_response is not None:
+            api_helper.print_response(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "resend_invitation":
+        # resend_invitation method: expects reference ID of invitation to send email again
+        reference_id = args.reference_id
+        invitation_response = client.resend_invitation(reference_id)
+        if invitation_response is not None:
+            print(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "cancel_invitation":
+        # cancel_invitation method: expects reference ID of invitation to cancel
+        reference_id = args.reference_id
+        invitation_response = client.cancel_invitation(reference_id)
+        if invitation_response is not None:
+            print(invitation_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "register_digital_twin_without_credential":
+        # register_digital_twin_without_credential method:
+        # to create a DigitalTwin without credentials, but with properties
+        # with tenant GID id, kind (enum), tags (list), Property objects (list), bookmarks (list) as arguments
+        tenant_id = args.tenant_id
+        properties = []
+        definition1 = attributes.PropertyDefinition(
+            property="extid"
+        )
+        property1 = helper.create_property(definition1, None, "44")
+        properties.append(property1)
+        digital_twin_tags = []
+        bookmarks = []
+        register_response = client.register_digital_twin_without_credential(
+            tenant_id,
+            1,
+            digital_twin_tags,
+            properties,
+            bookmarks)
+        if register_response is not None:
+            api_helper.print_response(register_response)
+        else:
+            print("Invalid invitation response")
+
+    elif command == "customer_id":
+        # read_customer_by_id method: to get customer info from customer gid id
+        # (extracted here from service account credentials)
         try:
             service_account = client_config.read_service_account()
         except Exception as exception:
@@ -835,40 +1216,44 @@ Property ID and value of the property where the value is a reference
         print(service_account.customer_id)
         customer = client_config.read_customer_by_id(service_account.customer_id)
         if customer:
-            print_response(customer)
+            api_helper.print_response(customer)
         else:
             print("Invalid customer id")
 
     elif command == "customer_name":
+        # read_customer_by_name method: to get customer info from customer name
         customer_name = args.customer_name
         customer = client_config.read_customer_by_name(customer_name)
         if customer:
-            print_response(customer)
+            api_helper.print_response(customer)
         else:
             print("Invalid customer id")
 
     elif command == "service_account":
-
+        # read_service_account method: to get service account info from service account gid id
+        # (extracted here from service account credentials)
         service_account = client_config.read_service_account()
         if service_account:
-            print_response(service_account)
+            api_helper.print_response(service_account)
         else:
             print("Invalid service account")
 
     elif command == "app_space_id":
+        # read_app_space_by_id method: to get AppSpace info from AppSpace gid id
         app_space_id = args.app_space_id
         app_space = client_config.read_app_space_by_id(app_space_id)
         if app_space:
-            print_response(app_space)
+            api_helper.print_response(app_space)
         else:
             print("Invalid app_space id")
 
     elif command == "app_space_name":
+        # read_app_space_by_name method: to get AppSpace info from AppSpace name and customer gid id
         app_space_name = args.app_space_name
         customer_id = args.customer_id
         app_space = client_config.read_app_space_by_name(customer_id, app_space_name)
         if app_space:
-            print_response(app_space)
+            api_helper.print_response(app_space)
         else:
             print("Invalid app_space name")
 
@@ -876,9 +1261,10 @@ Property ID and value of the property where the value is a reference
         app_space_name = args.app_space_name
         customer_id = args.customer_id
         display_name = args.display_name
-        app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name,"description", [])
+        bookmark = []  # or value returned by last write operation
+        app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name,"description", bookmark)
         if app_space_response:
-            print_response(app_space_response)
+            api_helper.print_response(app_space_response)
         else:
             print("Invalid app_space response")
         return app_space_response
@@ -887,9 +1273,10 @@ Property ID and value of the property where the value is a reference
         app_space_id = args.app_space_id
         etag = args.etag
         display_name = args.display_name
-        app_space_response = client_config.update_app_space(app_space_id, etag, display_name,"description update", [])
+        bookmark = []  # or value returned by last write operation
+        app_space_response = client_config.update_app_space(app_space_id, etag, display_name,"description update", bookmark)
         if app_space_response:
-            print_response(app_space_response)
+            api_helper.print_response(app_space_response)
         else:
             print("Invalid app_space response")
         return app_space_response
@@ -904,7 +1291,7 @@ Property ID and value of the property where the value is a reference
         list_app_spaces_response = client_config.list_app_spaces(customer_id, match_list, bookmark)
         if list_app_spaces_response:
             for app_space in list_app_spaces_response:
-                print_response(app_space)
+                api_helper.print_response(app_space)
         else:
             print("Invalid list_app_spaces response")
         return list_app_spaces_response
@@ -915,8 +1302,8 @@ Property ID and value of the property where the value is a reference
             etag = args.etag
         else:
             etag = None
-
-        delete_app_space_response = client_config.delete_app_space(app_space_id, etag, [])
+        bookmark = []  # or value returned by last write operation
+        delete_app_space_response = client_config.delete_app_space(app_space_id, etag, bookmark)
         if delete_app_space_response:
             print(delete_app_space_response)
         else:
@@ -928,7 +1315,7 @@ Property ID and value of the property where the value is a reference
         tenant = client_config.read_tenant_by_id(tenant_id)
         logger = logging.getLogger()
         if tenant and isinstance(tenant, Tenant):
-                print_response(tenant)
+                api_helper.print_response(tenant)
         else:
             print("Invalid tenant id")
 
@@ -937,7 +1324,7 @@ Property ID and value of the property where the value is a reference
         app_space_id = args.app_space_id
         tenant = client_config.read_tenant_by_name(app_space_id, tenant_name)
         if tenant:
-            print_response(tenant)
+            api_helper.print_response(tenant)
         else:
             print("Invalid tenant name")
 
@@ -945,9 +1332,10 @@ Property ID and value of the property where the value is a reference
         tenant_name = args.tenant_name
         issuer_id = args.issuer_id
         display_name = args.display_name
-        tenant_response = client_config.create_tenant(issuer_id, tenant_name, display_name,"description", [])
+        bookmark = []  # or value returned by last write operation
+        tenant_response = client_config.create_tenant(issuer_id, tenant_name, display_name,"description", bookmark)
         if tenant_response:
-            print_response(tenant_response)
+            api_helper.print_response(tenant_response)
         else:
             print("Invalid tenant response")
         return tenant_response
@@ -956,9 +1344,10 @@ Property ID and value of the property where the value is a reference
         tenant_id = args.tenant_id
         etag = args.etag
         display_name = args.display_name
-        tenant_response = client_config.update_tenant(tenant_id, etag, display_name,"description update", [])
+        bookmark = []  # or value returned by last write operation
+        tenant_response = client_config.update_tenant(tenant_id, etag, display_name,"description update", bookmark)
         if tenant_response:
-            print_response(tenant_response)
+            api_helper.print_response(tenant_response)
         else:
             print("Invalid tenant response")
         return tenant_response
@@ -973,7 +1362,7 @@ Property ID and value of the property where the value is a reference
         list_tenants_response = client_config.list_tenants(app_space_id, match_list, bookmark)
         if list_tenants_response:
             for tenant in list_tenants_response:
-                print_response(tenant)
+                api_helper.print_response(tenant)
         else:
             print("Invalid list_tenants response")
         return list_tenants_response
@@ -984,8 +1373,8 @@ Property ID and value of the property where the value is a reference
             etag = args.etag
         else:
             etag = None
-
-        delete_tenant_response = client_config.delete_tenant(tenant_id, etag, [])
+        bookmark = []  # or value returned by last write operation
+        delete_tenant_response = client_config.delete_tenant(tenant_id, etag, bookmark)
         if delete_tenant_response:
             print(delete_tenant_response)
         else:
@@ -996,7 +1385,7 @@ Property ID and value of the property where the value is a reference
         application_id = args.application_id
         application = client_config.read_application_by_id(application_id)
         if application:
-            print_response(application)
+            api_helper.print_response(application)
         else:
             print("Invalid application id")
 
@@ -1005,7 +1394,7 @@ Property ID and value of the property where the value is a reference
         app_space_id = args.app_space_id
         application = client_config.read_application_by_name(app_space_id, application_name)
         if application:
-            print_response(application)
+            api_helper.print_response(application)
         else:
             print("Invalid application name")
 
@@ -1013,10 +1402,15 @@ Property ID and value of the property where the value is a reference
         app_space_id = args.app_space_id
         application_name = args.application_name
         display_name = args.display_name
-        application_response = client_config.create_application(app_space_id, application_name, display_name,
-                                                                "description", [])
+        bookmark = []  # or value returned by last write operation
+        application_response = client_config.create_application(
+            app_space_id,
+            application_name,
+            display_name,
+            "description",
+            bookmark)
         if application_response:
-            print_response(application_response)
+            api_helper.print_response(application_response)
         else:
             print("Invalid application response")
         return application_response
@@ -1025,9 +1419,15 @@ Property ID and value of the property where the value is a reference
         application_id = args.application_id
         etag = args.etag
         display_name = args.display_name
-        application_response = client_config.update_application(application_id, etag, display_name,"description update", [])
+        bookmark = []  # or value returned by last write operation
+        application_response = client_config.update_application(
+            application_id,
+            etag,
+            display_name,
+            "description update",
+            bookmark)
         if application_response:
-            print_response(application_response)
+            api_helper.print_response(application_response)
         else:
             print("Invalid application response")
         return application_response
@@ -1052,8 +1452,8 @@ Property ID and value of the property where the value is a reference
             etag = args.etag
         else:
             etag = None
-
-        delete_application_response = client_config.delete_application(application_id, etag, [])
+        bookmark = []  # or value returned by last write operation
+        delete_application_response = client_config.delete_application(application_id, etag, bookmark)
         if delete_application_response:
             print(delete_application_response)
         else:
@@ -1064,7 +1464,7 @@ Property ID and value of the property where the value is a reference
         application_agent_id = args.application_agent_id
         application_agent = client_config.read_application_agent_by_id(application_agent_id)
         if application_agent:
-            print_response(application_agent)
+            api_helper.print_response(application_agent)
         else:
             print("Invalid application agent id")
 
@@ -1073,7 +1473,7 @@ Property ID and value of the property where the value is a reference
         app_space_id = args.app_space_id
         application_agent = client_config.read_application_agent_by_name(app_space_id, application_agent_name)
         if application_agent:
-            print_response(application_agent)
+            api_helper.print_response(application_agent)
         else:
             print("Invalid application agent name")
 
@@ -1081,10 +1481,15 @@ Property ID and value of the property where the value is a reference
         application_id = args.application_id
         application_agent_name = args.application_agent_name
         display_name = args.display_name
-        application_agent_response = client_config.create_application_agent(application_id, application_agent_name, display_name,
-                                                                "description", [])
+        bookmark = []  # or value returned by last write operation
+        application_agent_response = client_config.create_application_agent(
+            application_id,
+            application_agent_name,
+            display_name,
+            "description",
+            bookmark)
         if application_agent_response:
-            print_response(application_agent_response)
+            api_helper.print_response(application_agent_response)
         else:
             print("Invalid application agent response")
         return application_agent_response
@@ -1093,9 +1498,15 @@ Property ID and value of the property where the value is a reference
         application_agent_id = args.application_agent_id
         etag = args.etag
         display_name = args.display_name
-        application_agent_response = client_config.update_application_agent(application_agent_id, etag, display_name,"description update", [])
+        bookmark = []  # or value returned by last write operation
+        application_agent_response = client_config.update_application_agent(
+            application_agent_id,
+            etag,
+            display_name,
+            "description update",
+            bookmark)
         if application_agent_response:
-            print_response(application_agent_response)
+            api_helper.print_response(application_agent_response)
         else:
             print("Invalid application agent response")
         return application_agent_response
@@ -1120,8 +1531,11 @@ Property ID and value of the property where the value is a reference
             etag = args.etag
         else:
             etag = None
-
-        delete_application_agent_response = client_config.delete_application_agent(application_agent_id, etag, [])
+        bookmark = []  # or value returned by last write operation
+        delete_application_agent_response = client_config.delete_application_agent(
+            application_agent_id,
+            etag,
+            bookmark)
         if delete_application_agent_response:
             print(delete_application_agent_response)
         else:
@@ -1132,7 +1546,7 @@ Property ID and value of the property where the value is a reference
         application_agent_credential_id = args.application_agent_credential_id
         application_agent_credential = client_config.read_application_agent_credential(application_agent_credential_id)
         if application_agent_credential:
-            print_response(application_agent_credential)
+            api_helper.print_response(application_agent_credential)
         else:
             print("Invalid application agent id")
 
@@ -1140,19 +1554,20 @@ Property ID and value of the property where the value is a reference
         application_agent_id = args.application_agent_id
         display_name = args.display_name
         default_tenant_id = args.default_tenant_id
-        jwk = None
+        jwk = None  # or replace by your JWK public key
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        bookmark = []  # or value returned by last write operation
         application_agent_credential_response = client_config.register_application_agent_credential_jwk(
             application_agent_id,
             display_name,
             jwk,
             expire_time_in_seconds,
             default_tenant_id,
-            []
+            bookmark
         )
         if application_agent_credential_response:
-            print_credential(application_agent_credential_response)
+            api_helper.print_credential(application_agent_credential_response)
         else:
             print("Invalid application agent response")
         return application_agent_credential_response
@@ -1161,19 +1576,20 @@ Property ID and value of the property where the value is a reference
         application_agent_id = args.application_agent_id
         display_name = args.display_name
         default_tenant_id = args.default_tenant_id
-        pem = None
+        pem = None  # or replace by your pem public certificate
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        bookmark = []  # or value returned by last write operation
         application_agent_credential_response = client_config.register_application_agent_credential_pem(
             application_agent_id,
             display_name,
             pem,
             expire_time_in_seconds,
             default_tenant_id,
-            []
+            bookmark
         )
         if application_agent_credential_response:
-            print_credential(application_agent_credential_response)
+            api_helper.print_credential(application_agent_credential_response)
         else:
             print("Invalid application agent response")
         return application_agent_credential_response
@@ -1181,10 +1597,10 @@ Property ID and value of the property where the value is a reference
     elif command == "delete_application_agent_credential":
         application_agent_credential_id = args.application_agent_credential_id
         etag = args.etag
-
+        bookmark = []  # or value returned by last write operation
         delete_application_agent_credential_response = client_config.delete_application_agent_credential(
             application_agent_credential_id,
-            [],
+            bookmark,
             etag
         )
         if delete_application_agent_credential_response:
@@ -1214,27 +1630,29 @@ Property ID and value of the property where the value is a reference
             public_key=public_key_encoded,
             expire_time=None)
         if create_application_with_agent_credentials_response:
-            print_response(create_application_with_agent_credentials_response["response_application"])
-            print_response(create_application_with_agent_credentials_response["response_application_agent"])
-            print_credential(create_application_with_agent_credentials_response["response_application_agent_credentials"])
+            api_helper.print_response(create_application_with_agent_credentials_response["response_application"])
+            api_helper.print_response(create_application_with_agent_credentials_response["response_application_agent"])
+            api_helper.print_credential(create_application_with_agent_credentials_response["response_application_agent_credentials"])
         else:
             print("Invalid create_application_with_agent_credentials_response")
         return create_application_with_agent_credentials_response
 
     elif command == "service_account_id":
         service_account_id = args.service_account_id
-        service_account = client_config.read_service_account(service_account_id, [])
+        bookmark = []  # or value returned by last write operation
+        service_account = client_config.read_service_account(service_account_id, bookmark)
         if service_account:
-            print_response(service_account)
+            api_helper.print_response(service_account)
         else:
             print("Invalid service account")
 
     elif command == "service_account_name":
         customer_id = args.customer_id
         service_account_name = args.service_account_name
-        service_account = client_config.read_service_account_by_name(customer_id, service_account_name, [])
+        bookmark = []  # or value returned by last write operation
+        service_account = client_config.read_service_account_by_name(customer_id, service_account_name, bookmark)
         if service_account:
-            print_response(service_account)
+            api_helper.print_response(service_account)
         else:
             print("Invalid service_account name")
 
@@ -1243,16 +1661,17 @@ Property ID and value of the property where the value is a reference
         service_account_name = args.service_account_name
         display_name = args.display_name
         role = args.role
+        bookmark = []  # or value returned by last write operation
         service_account_response = client_config.create_service_account(
             customer_id,
             service_account_name,
             display_name,
             "description",
             role,
-            []
+            bookmark
         )
         if service_account_response:
-            print_response(service_account_response)
+            api_helper.print_response(service_account_response)
         else:
             print("Invalid service_account response")
         return service_account_response
@@ -1261,15 +1680,16 @@ Property ID and value of the property where the value is a reference
         service_account_id = args.service_account_id
         etag = args.etag
         display_name = args.display_name
+        bookmark = []  # or value returned by last write operation
         service_account_response = client_config.update_service_account(
             service_account_id,
             etag,
             display_name,
             "description",
-            []
+            bookmark
         )
         if service_account_response:
-            print_response(service_account_response)
+            api_helper.print_response(service_account_response)
         else:
             print("Invalid service_account response")
         return service_account_response
@@ -1280,8 +1700,8 @@ Property ID and value of the property where the value is a reference
             etag = args.etag
         else:
             etag = None
-
-        delete_service_account_response = client_config.delete_service_account(service_account_id, etag, [])
+        bookmark = []  # or value returned by last write operation
+        delete_service_account_response = client_config.delete_service_account(service_account_id, etag, bookmark)
         if delete_service_account_response:
             print(delete_service_account_response)
         else:
@@ -1292,25 +1712,26 @@ Property ID and value of the property where the value is a reference
         service_account_credential_id = args.service_account_credential_id
         service_account_credential = client_config.read_service_account_credential(service_account_credential_id)
         if service_account_credential:
-            print_response(service_account_credential)
+            api_helper.print_response(service_account_credential)
         else:
             print("Invalid service account id")
 
     elif command == "register_service_account_credential_jwk":
         service_account_id = args.service_account_id
         display_name = args.display_name
-        jwk = None
+        jwk = None  # or replace by your JWK public key
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        bookmark = []  # or value returned by last write operation
         service_account_credential_response = client_config.register_service_account_credential_jwk(
             service_account_id,
             display_name,
             jwk,
             expire_time_in_seconds,
-            []
+            bookmark
         )
         if service_account_credential_response:
-            print_credential(service_account_credential_response)
+            api_helper.print_credential(service_account_credential_response)
         else:
             print("Invalid service account response")
         return service_account_credential_response
@@ -1318,18 +1739,19 @@ Property ID and value of the property where the value is a reference
     elif command == "register_service_account_credential_pem":
         service_account_id = args.service_account_id
         display_name = args.display_name
-        pem = None
+        pem = None # or replace by your pem public certificate
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        bookmark = []  # or value returned by last write operation
         service_account_credential_response = client_config.register_service_account_credential_pem(
             service_account_id,
             display_name,
             pem,
             expire_time_in_seconds,
-            []
+            bookmark
         )
         if service_account_credential_response:
-            print_credential(service_account_credential_response)
+            api_helper.print_credential(service_account_credential_response)
         else:
             print("Invalid service account response")
         return service_account_credential_response
@@ -1340,11 +1762,11 @@ Property ID and value of the property where the value is a reference
             etag = args.etag
         else:
             etag = None
-
+        bookmark = []  # or value returned by last write operation
         delete_service_account_credential_response = client_config.delete_service_account_credential(
             service_account_credential_id,
             etag,
-            []
+            bookmark
         )
         if delete_service_account_credential_response:
             print(delete_service_account_credential_response)
@@ -1389,26 +1811,27 @@ Property ID and value of the property where the value is a reference
                 )
             )
         )
-
+        bookmark = []  # or value returned by last write operation
         create_email_service_config_node_response = client_config.create_email_service_config_node(
             location,
             name,
             display_name,
             description,
             email_service_config,
-            []
+            bookmark
         )
         if create_email_service_config_node_response:
-            print_response(create_email_service_config_node_response)
+            api_helper.print_response(create_email_service_config_node_response)
         else:
             print("Invalid create email service config node response")
         return create_email_service_config_node_response
 
     elif command == "read_config_node":
         config_node_id = args.config_node_id
-        config_node = client_config.read_config_node(config_node_id, [])
+        bookmark = []  # or value returned by last write operation
+        config_node = client_config.read_config_node(config_node_id, bookmark)
         if config_node:
-            print_response(config_node)
+            api_helper.print_response(config_node)
         else:
             print("Invalid config node id")
 
@@ -1432,7 +1855,7 @@ Property ID and value of the property where the value is a reference
         message_subject = "subject2"
         message_text_content = "content text"
         message_html_content = "<html><body>content html</body></html>"
-
+        bookmark = []  # or value returned by last write operation
         email_service_config = EmailServiceConfig(
             default_from_address=Email(
                 address=default_from_address_address,
@@ -1458,10 +1881,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             email_service_config,
-            []
+            bookmark
         )
         if update_email_service_config_node_response:
-            print_response(update_email_service_config_node_response)
+            api_helper.print_response(update_email_service_config_node_response)
         else:
             print("Invalid update email service config node response")
         return update_email_service_config_node_response
@@ -1471,7 +1894,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         config_node = client_config.delete_config_node(config_node_id, etag, [])
         if config_node:
-            print_response(config_node)
+            api_helper.print_response(config_node)
         else:
             print("Invalid delete config node response")
 
@@ -1480,7 +1903,7 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         with open("utils/sdk_simple_flow.json") as f:
             file_data = f.read()
         user_dict = json.loads(file_data)
@@ -1499,10 +1922,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             auth_flow_config,
-            []
+            bookmark
         )
         if create_auth_flow_config_node_response:
-            print_response(create_auth_flow_config_node_response)
+            api_helper.print_response(create_auth_flow_config_node_response)
         else:
             print("Invalid create auth flow config node response")
         return create_auth_flow_config_node_response
@@ -1512,7 +1935,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         with open("utils/sdk_simple_flow.json") as f:
             file_data = f.read()
         user_dict = json.loads(file_data)
@@ -1531,10 +1954,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             auth_flow_config,
-            []
+            bookmark
         )
         if update_auth_flow_config_node_response:
-            print_response(update_auth_flow_config_node_response)
+            api_helper.print_response(update_auth_flow_config_node_response)
         else:
             print("Invalid update auth flow config node response")
         return update_auth_flow_config_node_response
@@ -1544,7 +1967,7 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         oauth2_client_config = OAuth2ClientConfig(
             provider_type="PROVIDER_TYPE_GOOGLE_COM",
             client_id=os.getenv('CLIENT_ID'),
@@ -1559,10 +1982,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             oauth2_client_config,
-            []
+            bookmark
         )
         if create_oauth2_client_config_node_response:
-            print_response(create_oauth2_client_config_node_response)
+            api_helper.print_response(create_oauth2_client_config_node_response)
         else:
             print("Invalid create oauth2 client config node response")
         return create_oauth2_client_config_node_response
@@ -1572,7 +1995,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         oauth2_client_config = OAuth2ClientConfig(
             provider_type="PROVIDER_TYPE_GOOGLE_COM",
             client_id=os.getenv('CLIENT_ID'),
@@ -1587,10 +2010,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             oauth2_client_config,
-            []
+            bookmark
         )
         if update_oauth2_client_config_node_response:
-            print_response(update_oauth2_client_config_node_response)
+            api_helper.print_response(update_oauth2_client_config_node_response)
         else:
             print("Invalid update oauth2 client config node response")
         return update_oauth2_client_config_node_response
@@ -1614,7 +2037,7 @@ Property ID and value of the property where the value is a reference
         create_webauthn_provider_config_node_response = client_config.create_webauthn_provider_config_node(
             location, name, display_name, description, webauthn_provider_config, [])
         if create_webauthn_provider_config_node_response:
-            print_response(create_webauthn_provider_config_node_response)
+            api_helper.print_response(create_webauthn_provider_config_node_response)
         else:
             print("Invalid create webauthn provider config node response")
         return create_webauthn_provider_config_node_response
@@ -1624,7 +2047,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         webauthn_provider_config = client_config.webauthn_provider_config(
             relying_parties=os.getenv('RELYING_PARTIES'),  # e.g {"http://localhost": "localhost"}
             attestation_preference="CONVEYANCE_PREFERENCE_INDIRECT",
@@ -1641,10 +2064,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             webauthn_provider_config,
-            [])
+            bookmark)
 
         if update_webauthn_provider_config_node_response:
-            print_response(update_webauthn_provider_config_node_response)
+            api_helper.print_response(update_webauthn_provider_config_node_response)
         else:
             print("Invalid update webauthn provider config node response")
         return update_webauthn_provider_config_node_response
@@ -1654,6 +2077,7 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
+        bookmark = []  # or value returned by last write operation
         readid_property = client_config.readid_property("c.secondaryIdentifier", True)
         readid_provider_config = client_config.readid_provider_config(
             submitter_secret=os.getenv('SUBMITTER_SECRET'),
@@ -1669,10 +2093,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             readid_provider_config,
-            []
+            bookmark
         )
         if create_readid_provider_config_node_response:
-            print_response(create_readid_provider_config_node_response)
+            api_helper.print_response(create_readid_provider_config_node_response)
         else:
             print("Invalid create readid provider config node response")
             return create_readid_provider_config_node_response
@@ -1683,7 +2107,7 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         description = args.description
         readid_property = client_config.readid_property("c.secondaryIdentifier", True)
-
+        bookmark = []  # or value returned by last write operation
         readid_provider_config = client_config.readid_provider_config(
             submitter_secret=os.getenv('SUBMITTER_SECRET'),
             manager_secret=os.getenv('MANAGER_SECRET'),
@@ -1699,10 +2123,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             readid_provider_config,
-            [])
+            bookmark)
 
         if update_readid_provider_config_node_response:
-            print_response(update_readid_provider_config_node_response)
+            api_helper.print_response(update_readid_provider_config_node_response)
         else:
             print("Invalid update readid provider config node response")
         return update_readid_provider_config_node_response
@@ -1712,7 +2136,7 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         with open("utils/sdk_policy_config.json") as f:
             file_data = f.read()
         policy_dict = json.loads(file_data)
@@ -1728,11 +2152,11 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             policy_config,
-            []
+            bookmark
         )
 
         if create_authorization_policy_config_node_response:
-            print_response(create_authorization_policy_config_node_response)
+            api_helper.print_response(create_authorization_policy_config_node_response)
         else:
             print("Invalid create authorization policy config node response")
         return create_authorization_policy_config_node_response
@@ -1742,7 +2166,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         with open("utils/sdk_policy_config.json") as f:
             file_data = f.read()
         policy_dict = json.loads(file_data)
@@ -1759,10 +2183,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             policy_config,
-            []
+            bookmark
         )
         if update_authorization_policy_config_node_response:
-            print_response(update_authorization_policy_config_node_response)
+            api_helper.print_response(update_authorization_policy_config_node_response)
         else:
             print("Invalid update authorization policy config node response")
         return update_authorization_policy_config_node_response
@@ -1772,6 +2196,7 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
+        bookmark = []  # or value returned by last write operation
         with open("utils/sdk_schema.txt", "r") as file:
             file_data = "\n".join(file.read().split("\n"))
         schema_config = client_config.knowledge_graph_schema_config(schema=file_data)
@@ -1781,11 +2206,11 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             schema_config,
-            []
+            bookmark
         )
 
         if create_knowledge_graph_schema_config_node_response:
-            print_response(create_knowledge_graph_schema_config_node_response)
+            api_helper.print_response(create_knowledge_graph_schema_config_node_response)
         else:
             print("Invalid create knowledge graph schema config node response")
         return create_knowledge_graph_schema_config_node_response
@@ -1795,7 +2220,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         with open("utils/sdk_schema.txt", "r") as file:
             file_data = "\n".join(file.read().split("\n"))
         schema_config = client_config.knowledge_graph_schema_config(file_data)
@@ -1806,19 +2231,20 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             schema_config,
-            []
+            bookmark
         )
         if update_knowledge_graph_schema_config_node_response:
-            print_response(update_knowledge_graph_schema_config_node_response)
+            api_helper.print_response(update_knowledge_graph_schema_config_node_response)
         else:
             print("Invalid update knowledge graph schema config node response")
         return update_knowledge_graph_schema_config_node_response
 
     elif command == "read_oauth2_provider":
         oauth2_provider_id = args.oauth2_provider_id
-        config = client_config.read_oauth2_provider(oauth2_provider_id, [])
+        bookmark = []  # or value returned by last write operation
+        config = client_config.read_oauth2_provider(oauth2_provider_id, bookmark)
         if config:
-            print_response(config)
+            api_helper.print_response(config)
         else:
             print("Invalid oauth2 provider id")
 
@@ -1827,7 +2253,7 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
-
+        bookmark = []  # or value returned by last write operation
         # local env example
         config = OAuth2ProviderConfig(
             grant_types=["GRANT_TYPE_AUTHORIZATION_CODE"],
@@ -1846,10 +2272,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             config,
-            []
+            bookmark
         )
         if create_oauth2_provider_response:
-            print_response(create_oauth2_provider_response)
+            api_helper.print_response(create_oauth2_provider_response)
         else:
             print("Invalid create oauth2 provider response")
         return create_oauth2_provider_response
@@ -1859,6 +2285,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
+        bookmark = []  # or value returned by last write operation
         # local env example
         config = OAuth2ProviderConfig(
             grant_types=["GRANT_TYPE_AUTHORIZATION_CODE"],
@@ -1877,10 +2304,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             config,
-            []
+            bookmark
         )
         if update_oauth2_provider_response:
-            print_response(update_oauth2_provider_response)
+            api_helper.print_response(update_oauth2_provider_response)
         else:
             print("Invalid update oauth2 provider response")
         return update_oauth2_provider_response
@@ -1888,17 +2315,19 @@ Property ID and value of the property where the value is a reference
     elif command == "delete_oauth2_provider":
         oauth2_provider_id = args.oauth2_provider_id
         etag = args.etag
-        config = client_config.delete_oauth2_provider(oauth2_provider_id, etag, [])
+        bookmark = []  # or value returned by last write operation
+        config = client_config.delete_oauth2_provider(oauth2_provider_id, etag, bookmark)
         if config:
-            print_response(config)
+            api_helper.print_response(config)
         else:
             print("Invalid delete oauth2 provider response")
 
     elif command == "read_oauth2_application":
         oauth2_application_id = args.oauth2_application_id
-        config = client_config.read_oauth2_application(oauth2_application_id, [])
+        bookmark = []  # or value returned by last write operation
+        config = client_config.read_oauth2_application(oauth2_application_id, bookmark)
         if config:
-            print_response(config)
+            api_helper.print_response(config)
         else:
             print("Invalid oauth2 application id")
 
@@ -1907,6 +2336,7 @@ Property ID and value of the property where the value is a reference
         name = args.name
         display_name = args.display_name
         description = args.description
+        bookmark = []  # or value returned by last write operation
         # local env example
         config = OAuth2ApplicationConfig(
             display_name="Oauth2 Application Config",
@@ -1931,10 +2361,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             config,
-            []
+            bookmark
         )
         if create_oauth2_application_response:
-            print_response(create_oauth2_application_response)
+            api_helper.print_response(create_oauth2_application_response)
         else:
             print("Invalid create oauth2 application response")
         return create_oauth2_application_response
@@ -1944,6 +2374,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         description = args.description
+        bookmark = []  # or value returned by last write operation
         # local env example
         config = OAuth2ApplicationConfig(
             display_name="Oauth2 Application Config",
@@ -1968,10 +2399,10 @@ Property ID and value of the property where the value is a reference
             display_name,
             description,
             config,
-            []
+            bookmark
         )
         if update_oauth2_application_response:
-            print_response(update_oauth2_application_response)
+            api_helper.print_response(update_oauth2_application_response)
         else:
             print("Invalid update oauth2 application response")
         return update_oauth2_application_response
@@ -1979,149 +2410,12 @@ Property ID and value of the property where the value is a reference
     elif command == "delete_oauth2_application":
         oauth2_application_id = args.oauth2_application_id
         etag = args.etag
-        config = client_config.delete_oauth2_application(oauth2_application_id, etag, [])
+        bookmark = []  # or value returned by last write operation
+        config = client_config.delete_oauth2_application(oauth2_application_id, etag, bookmark)
         if config:
-            print_response(config)
+            api_helper.print_response(config)
         else:
             print("Invalid delete oauth2 application response")
-
-    elif command == "import_digital_twins":
-
-        entities = [ImportDigitalTwin(
-            tenant_id=args.tenant_id,
-            kind="DIGITAL_TWIN_KIND_PERSON",
-            state="DIGITAL_TWIN_STATE_ACTIVE",
-            password=PasswordCredential(
-                email=EmailIdentity(
-                    email="test2214@example.com",
-                    verified=True
-                ),
-                value="password"
-            ),
-            provider_user_info=[],
-            properties=ImportProperties(operations=[attributes.PropertyBatchOperation(
-                add=attributes.Property(
-                    definition=attributes.PropertyDefinition(
-                        context="http://schema.org/",type="Person",property="email"
-                    ),
-                    object_value=arg_to_value("testem@example.com")))],
-                force_delete=False)
-        ),
-            ImportDigitalTwin(
-                tenant_id=args.tenant_id,
-                kind="DIGITAL_TWIN_KIND_PERSON",
-                state="DIGITAL_TWIN_STATE_ACTIVE",
-                password=PasswordCredential(
-                    email=EmailIdentity(
-                        email="test2215@example.com",
-                        verified=True
-                    ),
-                    value="password"
-                )
-            ),
-            ImportDigitalTwin(
-                tenant_id=args.tenant_id,
-                kind="DIGITAL_TWIN_KIND_PERSON",
-                state="DIGITAL_TWIN_STATE_ACTIVE",
-                password=PasswordCredential(
-                    email=EmailIdentity(
-                        email="test2216@example.com",
-                        verified=True
-                    ),
-                    value="password"
-                )
-            )
-        ]
-        hash_algorithm = None
-
-        import_digital_twins_config_response = client.import_digital_twins(
-            entities, hash_algorithm)
-        if import_digital_twins_config_response:
-            for response in import_digital_twins_config_response:
-                print_response(response)
-        else:
-            print("Invalid import digital twins response")
-        return import_digital_twins_config_response
-
-    elif command == "import_digital_twins_hash":
-
-        password = 'passwordabc'
-        hash_dict = encrypt_bcrypt(password)
-        for key in hash_dict:
-            salt = key
-            hash_password = hash_dict[key]
-
-        entities = [ImportDigitalTwin(
-            tenant_id=args.tenant_id,
-            kind="DIGITAL_TWIN_KIND_PERSON",
-            state="DIGITAL_TWIN_STATE_ACTIVE",
-            password=PasswordCredential(
-                email=EmailIdentity(
-                    email="test2002@example.com",
-                    verified=True
-                ),
-                hash=PasswordHash(password_hash=hash_password,salt=salt)
-            )
-        )]
-        hash_algorithm = {"bcrypt": {}}
-
-        import_digital_twins_config_response = client.import_digital_twins(
-            entities, hash_algorithm)
-        if import_digital_twins_config_response:
-            for response in import_digital_twins_config_response:
-                print_response(response)
-        else:
-            print("Invalid import digital twins response")
-        return import_digital_twins_config_response
-
-    elif command == "import_digital_twins_hash_sha":
-        entities = [ImportDigitalTwin(
-            tenant_id=args.tenant_id,
-            kind="DIGITAL_TWIN_KIND_PERSON",
-            state="DIGITAL_TWIN_STATE_ACTIVE",
-            password=PasswordCredential(
-                email=EmailIdentity(
-                    email="test2002@example.com",
-                    verified=True
-                ),
-                hash=PasswordHash(password_hash=args.hash_password)
-            )
-        )]
-        hash_algorithm = {"sha256": SHA256(rounds=14)}
-
-        import_digital_twins_config_response = client.import_digital_twins(
-            entities, hash_algorithm)
-        if import_digital_twins_config_response:
-            for response in import_digital_twins_config_response:
-                print_response(response)
-        else:
-            print("Invalid import digital twins response")
-        return import_digital_twins_config_response
-
-    elif command == "import_digital_twins_update":
-        entities = [ImportDigitalTwin(
-            id=args.id,
-            tenant_id=args.tenant_id,
-            kind="DIGITAL_TWIN_KIND_PERSON",
-            state="DIGITAL_TWIN_STATE_ACTIVE",
-            password=PasswordCredential(
-                email=EmailIdentity(
-                    email="test2003@example.com",
-                    verified=True
-                ),
-                value="password"
-            )
-        )]
-        hash_algorithm = None
-
-        import_digital_twins_config_response = client.import_digital_twins(
-            entities, hash_algorithm)
-        if import_digital_twins_config_response:
-            for response in import_digital_twins_config_response:
-                print_response(response)
-        else:
-            print("Invalid import digital twins response")
-        return import_digital_twins_config_response
 
     elif command == "is_authorized_dt":
         digital_twin_id = args.digital_twin_id
@@ -2139,7 +2433,7 @@ Property ID and value of the property where the value is a reference
             policy_tags)
 
         if is_authorized:
-            print_response(is_authorized)
+            api_helper.print_response(is_authorized)
         else:
             print("Invalid is_authorized")
         return is_authorized
@@ -2150,9 +2444,10 @@ Property ID and value of the property where the value is a reference
         resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
         input_params = {}
-        is_authorized = client_authorization.is_authorized_token(access_token, resources, input_params, [])
+        policy_tags = []
+        is_authorized = client_authorization.is_authorized_token(access_token, resources, input_params, policy_tags)
         if is_authorized:
-            print_response(is_authorized)
+            api_helper.print_response(is_authorized)
         else:
             print("Invalid is_authorized")
         return is_authorized
@@ -2164,14 +2459,15 @@ Property ID and value of the property where the value is a reference
         resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
         input_params = {"age":"21"}
+        policy_tags = []
         is_authorized = client_authorization.is_authorized_property_filter(
             property_type,
             property_value,
             resources,
             input_params,
-            [])
+            policy_tags)
         if is_authorized:
-            print_response(is_authorized)
+            api_helper.print_response(is_authorized)
         else:
             print("Invalid is_authorized")
         return is_authorized
@@ -2192,7 +2488,7 @@ Property ID and value of the property where the value is a reference
             policy_tags)
 
         if what_authorized:
-            print_response(what_authorized)
+            api_helper.print_response(what_authorized)
         else:
             print("Invalid what_authorized")
         return what_authorized
@@ -2203,9 +2499,10 @@ Property ID and value of the property where the value is a reference
         resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
         input_params = {}
-        what_authorized = client_authorization.what_authorized_token(access_token, resource_types, input_params, [])
+        policy_tags = []
+        what_authorized = client_authorization.what_authorized_token(access_token, resource_types, input_params, policy_tags)
         if what_authorized:
-            print_response(what_authorized)
+            api_helper.print_response(what_authorized)
         else:
             print("Invalid what_authorized")
         return what_authorized
@@ -2217,14 +2514,15 @@ Property ID and value of the property where the value is a reference
         resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
         input_params = {"age":"21"}
+        policy_tags = []
         what_authorized = client_authorization.what_authorized_property_filter(
             property_type,
             property_value,
             resource_types,
             input_params,
-            [])
+            policy_tags)
         if what_authorized:
-            print_response(what_authorized)
+            api_helper.print_response(what_authorized)
         else:
             print("Invalid what_authorized")
         return what_authorized
@@ -2240,184 +2538,10 @@ Property ID and value of the property where the value is a reference
             policy_tags)
 
         if who_authorized:
-            print_response(who_authorized)
+            api_helper.print_response(who_authorized)
         else:
             print("Invalid who_authorized")
         return who_authorized
-
-    elif command == "create_consent":
-        pii_processor_id = args.pii_processor_id
-        pii_principal_id = args.pii_principal_id
-        properties = ["icecream"]
-        consent_response = client.create_consent(pii_processor_id, pii_principal_id, properties)
-        if consent_response:
-            print_response(consent_response)
-        else:
-            print("Invalid consent response")
-        return consent_response
-
-    elif command == "list_consents":
-        pii_principal_id = args.pii_principal_id
-        consent_response = client.list_consents(pii_principal_id)
-        if consent_response:
-            for c in consent_response:
-                print_response(c)
-        else:
-            print("Invalid consent response")
-        return consent_response
-
-    elif command == "revoke_consent":
-        pii_principal_id = args.pii_principal_id
-        consent_ids = args.consent_ids
-        consent_response = client.revoke_consent(pii_principal_id, consent_ids)
-        if consent_response:
-            print_response(consent_response)
-        else:
-            print("Invalid consent response")
-        return consent_response
-
-    elif command == "check_oauth2_consent_challenge":
-        challenge = args.challenge
-        consent_response = client.check_oauth2_consent_challenge(challenge)
-        if consent_response:
-            print_response(consent_response)
-        else:
-            print("Invalid consent response")
-        return consent_response
-
-    elif command == "create_oauth2_consent_verifier_approval":
-        consent_challenge = args.consent_challenge
-        grant_scopes = ["openid", "email", "profile"]
-        granted_audiences = []
-        # custom claims for jwk (map values to enrich token)
-        access_token = json.loads(args.access_token)
-        consent_response = client.create_oauth2_consent_verifier_approval(
-            consent_challenge,
-            grant_scopes,
-            granted_audiences,
-            access_token,
-            {},
-            {},
-            False,
-            None
-        )
-        if consent_response:
-            print_response(consent_response)
-        else:
-            print("Invalid consent response")
-        return consent_response
-
-    elif command == "create_oauth2_consent_verifier_denial":
-        consent_challenge = args.consent_challenge
-        error = "access_denied"
-        error_description = "Access is denied"
-        error_hint = "Your consent challenge may be not valid: check your OAuth2 host and your clientID"
-        status_code = 403
-        consent_response = client.create_oauth2_consent_verifier_denial(
-            consent_challenge, error,
-            error_description,
-            error_hint,
-            status_code
-        )
-        if consent_response:
-            print_response(consent_response)
-        else:
-            print("Invalid consent response")
-        return consent_response
-
-    elif command == "start_forgotten_password":
-        digital_twin_id = args.digital_twin_id
-        tenant_id = args.tenant_id
-        forgotten_response = client.start_forgotten_password_flow(digital_twin_id, tenant_id)
-        if forgotten_response is not None:
-            print(forgotten_response)
-        else:
-            print("Invalid forgotten password response")
-
-    elif command == "create_email_invitation":
-        reference_id = str(uuid.uuid4())
-        # any unique external reference id
-        print(reference_id)
-        tenant_id = args.tenant_id
-        email = args.email
-        invitation_response = client.create_email_invitation(
-            tenant_id,
-            reference_id,
-            email,
-            invite_at_time=None,
-            expire_time=None,
-            message_attributes=None
-        )
-        if invitation_response is not None:
-            print(invitation_response)
-        else:
-            print("Invalid invitation response")
-
-    elif command == "create_email_invitation_with_date":
-        reference_id = str(uuid.uuid4())
-        print(reference_id)
-        tenant_id = args.tenant_id
-        email = args.email
-        t = datetime.now().timestamp()
-        invite_at_time_in_seconds = int(t) + 3600
-        expire_time_in_seconds = invite_at_time_in_seconds + 172800 # now + 2 days example
-        message_attributes = {"attr1": "value1"}
-        invitation_response = client.create_email_invitation(
-            tenant_id,
-            reference_id,
-            email,
-            invite_at_time_in_seconds,
-            expire_time_in_seconds,
-            message_attributes
-        )
-        if invitation_response is not None:
-            print(invitation_response)
-        else:
-            print("Invalid invitation response")
-
-    elif command == "check_invitation_state":
-        reference_id = args.reference_id
-        # check with either reference_id or invitation_token
-        invitation_response = client.check_invitation_state(reference_id, None)
-        if invitation_response is not None:
-            print_response(invitation_response)
-        else:
-            print("Invalid invitation response")
-
-    elif command == "resend_invitation":
-        reference_id = args.reference_id
-        invitation_response = client.resend_invitation(reference_id)
-        if invitation_response is not None:
-            print(invitation_response)
-        else:
-            print("Invalid invitation response")
-
-    elif command == "cancel_invitation":
-        reference_id = args.reference_id
-        invitation_response = client.cancel_invitation(reference_id)
-        if invitation_response is not None:
-            print(invitation_response)
-        else:
-            print("Invalid invitation response")
-
-    elif command == "register_digital_twin_without_credential":
-        tenant_id = args.tenant_id
-        properties = []
-        definition1 = attributes.PropertyDefinition(
-                property="extid"
-            )
-        property1 = helper.create_property(definition1, None, "44")
-        properties.append(property1)
-        register_response = client.register_digital_twin_without_credential(
-            tenant_id,
-            1,
-            [],
-            properties,
-            [])
-        if register_response is not None:
-            print_response(register_response)
-        else:
-            print("Invalid invitation response")
 
     elif command == "get_http_client":
         token = None
@@ -2439,7 +2563,7 @@ Property ID and value of the property where the value is a reference
         response_post = requests.post(endpoint, json=data, headers=headers)
         print(response_http2.token_source.token.access_token)
         if response_post.text is not None:
-            print_response(response_post.text)
+            api_helper.print_response(response_post.text)
 
     elif command == "get_refreshable_token_source":
         token_source = None
@@ -2468,7 +2592,7 @@ Property ID and value of the property where the value is a reference
                                       properties)
         ingest_record_digital_twin = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_digital_twin:
-            print_response(ingest_record_digital_twin)
+            api_helper.print_response(ingest_record_digital_twin)
         else:
             print("Invalid upsert")
         return ingest_record_digital_twin
@@ -2479,14 +2603,15 @@ Property ID and value of the property where the value is a reference
         type = "ParkingLot"
         ingest_property = client_ingest.ingest_property("customProp", "9654")
         properties = [ingest_property]
+        tags = []
         upsert = client_ingest.upsert_data_node_resource(
                                       external_id,
                                       type,
-                                      [],
+                                      tags,
                                       properties)
         ingest_record_resource = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_resource:
-            print_response(ingest_record_resource)
+            api_helper.print_response(ingest_record_resource)
         else:
             print("Invalid upsert")
         return ingest_record_resource
@@ -2504,7 +2629,7 @@ Property ID and value of the property where the value is a reference
                                       properties)
         ingest_record_relation = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_relation:
-            print_response(ingest_record_relation)
+            api_helper.print_response(ingest_record_relation)
         else:
             print("Invalid upsert")
         return ingest_record_relation
@@ -2515,7 +2640,7 @@ Property ID and value of the property where the value is a reference
         delete = client_ingest.delete_data_node(node)
         delete_record_node = client_ingest.ingest_record_delete(id=record_id, delete=delete)
         if delete_record_node:
-            print_response(delete_record_node)
+            api_helper.print_response(delete_record_node)
         else:
             print("Invalid delete")
         return delete_record_node
@@ -2529,7 +2654,7 @@ Property ID and value of the property where the value is a reference
         delete = client_ingest.delete_data_relation(relation)
         delete_record_relation = client_ingest.ingest_record_delete(id=record_id, delete=delete)
         if delete_record_relation:
-            print_response(delete_record_relation)
+            api_helper.print_response(delete_record_relation)
         else:
             print("Invalid delete")
         return delete_record_relation
@@ -2542,7 +2667,7 @@ Property ID and value of the property where the value is a reference
         delete = client_ingest.delete_data_node_property(node_property)
         delete_record_node_property = client_ingest.ingest_record_delete(id=record_id, delete=delete)
         if delete_record_node_property:
-            print_response(delete_record_node_property)
+            api_helper.print_response(delete_record_node_property)
         else:
             print("Invalid delete")
         return delete_record_node_property
@@ -2556,10 +2681,9 @@ Property ID and value of the property where the value is a reference
         key = "relationPropertyName"
         relation_property = client_ingest.relation_property_match(match, key)
         delete = client_ingest.delete_data_relation_property(relation_property)
-        delete_record_relation_property = client_ingest.ingest_record_delete(id=record_id,
-                                                                                delete=delete)
+        delete_record_relation_property = client_ingest.ingest_record_delete(id=record_id, delete=delete)
         if delete_record_relation_property:
-            print_response(delete_record_relation_property)
+            api_helper.print_response(delete_record_relation_property)
         else:
             print("Invalid delete")
         return delete_record_relation_property
@@ -2570,13 +2694,16 @@ Property ID and value of the property where the value is a reference
         external_id = "external-dt-id1"
         tenant_id = os.getenv('TENANT_ID')
         type = "Person"
+        tags = []
+        identity_properties = []
+        properties = []
         upsert = client_ingest.upsert_data_node_digital_twin(
             external_id,
             type,
-            [],
+            tags,
             tenant_id,
-            [],
-            [])
+            identity_properties,
+            properties)
         record = client_ingest.record_upsert(record_id, upsert)
 
         record_id2 = "145899"
@@ -2584,16 +2711,17 @@ Property ID and value of the property where the value is a reference
         type = "ParkingLot"
         ingest_property = client_ingest.ingest_property("customProp", "9654")
         properties = [ingest_property]
+        tags = []
         upsert2 = client_ingest.upsert_data_node_resource(
             external_id,
             type,
-            [],
+            tags,
             properties)
         record2 = client_ingest.record_upsert(record_id2, upsert2)
         responses = client_ingest.stream_records([record, record2])
         if responses:
             for response in responses:
-                print_response(response)
+                api_helper.print_response(response)
         else:
             print("Invalid ingestion")
         return response
@@ -2601,119 +2729,11 @@ Property ID and value of the property where the value is a reference
     elif command == "get_schema_helpers":
         get_schema_helpers = client_config.get_schema_helpers()
         if get_schema_helpers:
-            print_response(get_schema_helpers)
+            api_helper.print_response(get_schema_helpers)
         else:
             print("Invalid get schema helpers")
         return get_schema_helpers
 
 
-def print_verify_info(digital_twin_info):  # pragma: no cover
-    print("Digital twin info")
-    print("=================")
-    print("Tenant: " + str(UUID(bytes=digital_twin_info.digital_twin.tenant_id)))
-    print("Digital twin: " + str(UUID(bytes=digital_twin_info.digital_twin.id)))
-
-
-def print_credential(credential):  # pragma: no cover
-    print("Credential")
-    print("==========")
-    print("Credential id: " + str(credential.id))
-    print("Kid: " + str(credential.kid))
-    if hasattr(credential, 'agent_config'):
-        print("Agent config: " + str(credential.agent_config))
-    elif hasattr(credential, 'service_account_config'):
-        print("Service account config: " + str(credential.service_account_config))
-    print("Bookmark: " + str(credential.bookmark))
-    print("Create time: " + str(credential.create_time))
-    print("Expire time: " + str(credential.expire_time))
-
-
-def print_token_info(token_info):  # pragma: no cover
-    print("Token info")
-    print("==========")
-    print("Tenant: " + str(UUID(bytes=token_info.tenant_id)))
-    print("Customer: " + str(UUID(bytes=token_info.customer_id)))
-    print("App space: " + str(UUID(bytes=token_info.app_space_id)))
-    print("Application: " + str(UUID(bytes=token_info.application_id)))
-    print("Subject: " + str(UUID(bytes=token_info.subject_id)))
-    print("Expire time: " + str(datetime.fromtimestamp(token_info.expire_time.seconds)))
-
-
-def print_response(resp):  # pragma: no cover
-    def get_default(x):
-        if type(x) is datetime:
-            return str(x)
-        else:
-            return x.__dict__
-
-    if hasattr(resp, "DESCRIPTOR"):
-        js = MessageToJson(resp)
-        js_dict = json.loads(js)
-        prettify(js_dict)
-    else:
-        js_dict = resp
-    pretty_response = json.dumps(js_dict, indent=4, separators=(',', ': '), default=get_default)
-    print(pretty_response)
-
-
-def prettify(js):  # pragma: no cover
-    for k, v in js.items():
-        if isinstance(v, type(dict())):
-            prettify(v)
-        elif isinstance(v, type(list())):
-            for val in v:
-                if isinstance(val, type(str())):
-                    val = format_convert(k, val)
-                    pass
-                elif isinstance(val, type(list())) | isinstance(val, type(float())) | isinstance(val, type(
-                    bool())) | isinstance(val, type(None)):
-                    pass
-                else:
-                    prettify(val)
-        else:
-            if isinstance(v, str):
-                js[k] = format_convert(k, v)
-
-
-def format_convert(k, v):  # pragma: no cover
-    try:
-        if "id" in k:
-            i = int(v)
-            return i
-    except ValueError:
-        pass
-    return str(base64_to_uuid(v))
-
-
-def base64_to_uuid(b):  # pragma: no cover
-    try:
-        s = b.encode('ascii')
-        uid = UUID(bytes=base64.b64decode(s))
-    except ValueError:
-        return b
-    return uid
-
-
-def add_args_to_dict(all_args, action, values):  # pragma: no cover
-    if action == "add" and values is not None:
-        for v in values:
-            all_args["add"].append(v)
-    elif action == "add_by_ref" and values is not None:
-        for v in values:
-            all_args["add_by_ref"].append(v)
-    elif action == "replace" and values is not None:
-        for v in values:
-            all_args["replace"].append(v)
-    elif action == "replace_by_ref" and values is not None:
-        for v in values:
-            all_args["replace_by_ref"].append(v)
-    elif action == "remove" and values is not None:
-        for v in values:
-            all_args["remove"].append(v)
-
-    return all_args
-
-
 if __name__ == '__main__':  # pragma: no cover
     main()
-

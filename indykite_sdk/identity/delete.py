@@ -5,12 +5,13 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def del_digital_twin(self, digital_twin_id, tenant_id):
+def del_digital_twin(self, digital_twin_id, tenant_id, admin_token=""):
     """
     delete DT by id
     :param self:
     :param digital_twin_id: DT gid id string
     :param tenant_id: tenant gid id string
+    :param admin_token: token as string
     :return: DigitalTwin object
     """
     sys.excepthook = logger.handle_excepthook
@@ -22,7 +23,8 @@ def del_digital_twin(self, digital_twin_id, tenant_id):
                         id=str(digital_twin_id),
                         tenant_id=str(tenant_id)
                     )
-                )
+                ),
+                admin_token=admin_token
             )
         )
     except Exception as exception:
