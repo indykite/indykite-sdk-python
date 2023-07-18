@@ -20,7 +20,7 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, 
                                                             ReadIDProviderConfig, KnowledgeGraphSchemaConfig )
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin, \
-    ImportProperties, UserProvider, UserMetadata
+    ImportProperties, UserProvider, UserMetadata, CredentialReference
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt, SHA256
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, \
     EmailDefinition
@@ -32,6 +32,7 @@ from indykite_sdk.model.who_authorized import WhoAuthorizedResource
 from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.ingest import IngestClient
+from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.identity import helper
 import logging
 from indykite_sdk.utils.message_to_value import arg_to_value
@@ -661,6 +662,17 @@ Property ID and value of the property where the value is a reference
     # get_schema_helpers
     get_schema_helpers_parser = subparsers.add_parser("get_schema_helpers")
 
+    # create-custom-login-token
+    create_custom_login_token = subparsers.add_parser("create-custom-login-token")
+    create_custom_login_token.add_argument("dt_id", help="DigitalTwin gid id")
+    create_custom_login_token.add_argument("tenant_id", help="Tenant gid id")
+
+    # create-custom-login-token-property
+    create_custom_login_token_property = subparsers.add_parser("create-custom-login-token-property")
+    create_custom_login_token_property.add_argument("type", help="property_filter type")
+    create_custom_login_token_property.add_argument("value", help="property_filter value")
+    create_custom_login_token_property.add_argument("tenant_id", help="Tenant gid id")
+
     args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
@@ -856,20 +868,13 @@ Property ID and value of the property where the value is a reference
             state="DIGITAL_TWIN_STATE_ACTIVE",
             password=PasswordCredential(
                 email=EmailIdentity(
-                    email="test2214@example.com",
+                    email="test2314@example.com",
                     verified=True
                 ),
                 value="password"
             ),
             tags=[],
-            provider_user_info=[
-                UserProvider(
-                    uid="23456789456",
-                    provider_id="gid:AAAAEezCvUQGV0HgotmCoeCJAck",
-                    email="test@example.com",
-                    display_name="Provider name",
-                    photo_url="https://url_photo"
-                )],
+            provider_user_info=[],
             properties=ImportProperties(
                 operations=[attributes.PropertyBatchOperation(
                     add=attributes.Property(
@@ -890,7 +895,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2215@example.com",
+                        email="test2315@example.com",
                         verified=True
                     ),
                     value="password"
@@ -902,7 +907,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2216@example.com",
+                        email="test2316@example.com",
                         verified=True
                     ),
                     value="password"
@@ -2733,6 +2738,56 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid get schema helpers")
         return get_schema_helpers
+
+    elif command == "create-custom-login-token":
+        digital_twin_id = args.dt_id
+        tenant_id = args.tenant_id
+        token_claims = {"t_claim": "test"}
+        session_claims = {"s_claim": "test"}
+        digital_twin = model.DigitalTwin(
+                    id=str(digital_twin_id),
+                    tenant_id=str(tenant_id)
+                )
+        create_custom_login_token = client.create_custom_login_token(digital_twin, token_claims, session_claims)
+        if create_custom_login_token:
+            api_helper.print_response(create_custom_login_token)
+        else:
+            print("Invalid custom login")
+        return create_custom_login_token
+
+    elif command == "create-custom-login-token-property":
+        type = args.type
+        value = args.value
+        tenant_id = args.tenant_id
+        property_filter = client.property_filter(type, value, tenant_id)
+        token_claims = {"t_claim": "test"}
+        session_claims = {"s_claim": "test"}
+
+        create_custom_login_token = client.create_custom_login_token(property_filter, token_claims, session_claims)
+        if create_custom_login_token:
+            api_helper.print_response(create_custom_login_token)
+        else:
+            print("Invalid custom login")
+        return create_custom_login_token
+
+    elif command == "create-custom-login-token-credential":
+        # ProviderId identifies the credential provider which the uid belongs to (password, webauthn, google.com...)
+        provider_id = args.provider_id
+        # Uid is the unique identifier of subject in the external identity provider referenced by ProviderId
+        uid = args.uid
+        credential_reference = CredentialReference(
+            provider_id=str(provider_id),
+            uid=str(uid)
+        )
+        token_claims = {"t_claim": "test"}
+        session_claims = {"s_claim": "test"}
+
+        create_custom_login_token = client.create_custom_login_token(credential_reference, token_claims, session_claims)
+        if create_custom_login_token:
+            api_helper.print_response(create_custom_login_token)
+        else:
+            print("Invalid custom login")
+        return create_custom_login_token
 
 
 if __name__ == '__main__':  # pragma: no cover

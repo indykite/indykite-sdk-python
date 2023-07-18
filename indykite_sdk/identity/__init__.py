@@ -64,3 +64,4 @@ class IdentityClient(object):
     from .forgotten_password import start_forgotten_password_flow
     from .invitation import create_email_invitation, create_mobile_invitation, check_invitation_state, resend_invitation, cancel_invitation
     from .register_digital_twins_no_cred import register_digital_twin_without_credential
+    from .create_custom_login_token import create_custom_login_token
