@@ -12,14 +12,16 @@ class DigitalTwinCore:
             str(message.id),
             str(message.tenant_id),
             message.kind,
-            message.state
+            message.state,
+            message.tags if message.tags else None
         )
 
-    def __init__(self, dt_id, tenant_id, kind, state):
+    def __init__(self, dt_id, tenant_id, kind, state, tags=None):
         self.id = dt_id
         self.tenantId = tenant_id
         self.kind = kind
         self.state = state
+        self.tags = tags
 
     def __str__(self):
         return (

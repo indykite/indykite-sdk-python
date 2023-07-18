@@ -19,6 +19,7 @@ omit =
   indykite_sdk/utils/logger.py
   tests/*
   examples/*
+  prepare_docs/*
 
 [report]
 exclude_lines =
