@@ -179,7 +179,6 @@ def test_del_service_account_credential_success(capsys):
     client.stub.DeleteServiceAccountCredential = mocked_delete_service_account_credential
     response = client.delete_service_account_credential(service_account_credential_id, etag, [])
     captured = capsys.readouterr()
-    # assert "method DeleteDocument not implemented"
     assert response is not None
 
 
@@ -200,6 +199,7 @@ def test_del_service_account_empty():
 
     id = "gid:AAAAAjLRnbbaJE53rrjm_NJXyO"
     etag = "HcQ77D8CUWV"
+
     def mocked_delete_service_account_credential(request: pb2.DeleteServiceAccountRequest):
         return None
 

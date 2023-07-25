@@ -47,7 +47,7 @@ def test_create_consent_already_exists(capsys):
     assert client is not None
 
     pii_processor_id = data.get_oauth2_application_id()
-    pii_principal_id = "gid:AAAAFZVCTOBCHEPMgdvP44aZLbg"
+    pii_principal_id = "gid:AAAAFXRNmDlB-k18rx7iBXJlEos"
     properties = ["property_name"]
 
     response = client.create_consent(pii_processor_id, pii_principal_id, properties)

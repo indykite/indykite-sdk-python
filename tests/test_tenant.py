@@ -129,6 +129,9 @@ def test_create_tenant_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert tenant is not None
     assert isinstance(tenant, CreateTenant)
+    response = client.delete_tenant(tenant.id, tenant.etag, [])
+    captured = capsys.readouterr()
+    assert response is not None
 
 
 def test_create_tenant_empty():
@@ -149,9 +152,7 @@ def test_create_tenant_empty():
 def test_create_tenant_already_exists(capsys):
     client = ConfigClient()
     assert client is not None
-
     issuer_id = data.get_issuer_id()
-
     tenant = client.create_tenant(issuer_id, "sdk-test-tenant", "SDK Test Tenant", "description", [])
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
@@ -160,9 +161,7 @@ def test_create_tenant_already_exists(capsys):
 def test_create_tenant_fail_invalid_issuer_id(capsys):
     client = ConfigClient()
     assert client is not None
-
     issuer_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
-
     tenant = client.create_tenant(issuer_id, "sdk-test-tenant", "SDK Test Tenant", "description", [])
     captured = capsys.readouterr()
     assert "invalid id value was provided for issuer_id" in captured.err
@@ -171,9 +170,7 @@ def test_create_tenant_fail_invalid_issuer_id(capsys):
 def test_create_tenant_name_fail_type_parameter(capsys):
     client = ConfigClient()
     assert client is not None
-
     issuer_id = data.get_issuer_id()
-
     tenant = client.create_tenant(issuer_id, ["test"], "test create", "description", [])
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
@@ -249,9 +246,7 @@ def test_get_tenant_list_success(capsys):
 
     app_space_id = data.get_app_space_id()
     tenant_name = data.get_tenant_name()
-    match = []
-    match.append(tenant_name)
-
+    match = [tenant_name]
     tenant = client.list_tenants(app_space_id, match, [])
     captured = capsys.readouterr()
 
@@ -265,8 +260,7 @@ def test_get_tenant_list_wrong_app_space(capsys):
 
     app_space_id = "gid:AAAAAXX66V2_Jk3kjCCPThMQGaw"
     tenant_name = data.get_tenant_name()
-    match = []
-    match.append(tenant_name)
+    match = [tenant_name]
     tenant = client.list_tenants(app_space_id, match, [])
     captured = capsys.readouterr()
     assert "invalid id value was provided for app_space_id" in captured.err
@@ -279,7 +273,6 @@ def test_get_tenant_list_wrong_type(capsys):
     app_space_id = data.get_app_space_id()
     tenant_name = data.get_tenant_name()
     match = "test-create"
-
     tenant = client.list_tenants(app_space_id, match, [])
     captured = capsys.readouterr()
     assert "value length must be between 2 and 254 runes" in captured.err
@@ -291,9 +284,7 @@ def test_get_tenant_list_wrong_bookmark(capsys):
 
     app_space_id = data.get_app_space_id()
     tenant_name = data.get_tenant_name()
-    match = []
-    match.append(tenant_name)
-
+    match = [tenant_name]
     tenant = client.list_tenants(app_space_id, match,
                                        ["RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"])
     captured = capsys.readouterr()
@@ -307,7 +298,6 @@ def test_get_tenant_list_empty_match(capsys):
     app_space_id = data.get_app_space_id()
     tenant_name = data.get_tenant_name()
     match = []
-
     tenant = client.list_tenants(app_space_id, match, [])
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
@@ -320,9 +310,7 @@ def test_get_tenant_list_no_answer_match(capsys):
     app_space_id = data.get_app_space_id()
     tenant_name = data.get_tenant_name()
     tenant_name = "test-creation"
-    match = []
-    match.append(tenant_name)
-
+    match = [tenant_name]
     tenant = client.list_tenants(app_space_id, match, [])
     captured = capsys.readouterr()
 
@@ -337,7 +325,6 @@ def test_get_tenant_list_raise_exception(capsys):
 
     app_space_id = data.get_app_space_id()
     match = ""
-
     tenant = client.list_tenants(app_space_id, match, [])
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
@@ -349,8 +336,7 @@ def test_get_tenant_list_empty():
 
     app_space_id = data.get_app_space_id()
     tenant_name = data.get_tenant_name()
-    match = []
-    match.append(tenant_name)
+    match = [tenant_name]
 
     def mocked_get_tenant_list(request: pb2.ListTenantsRequest):
         return None
@@ -369,9 +355,7 @@ def test_del_tenant_success(capsys):
     right_now = str(int(time.time()))
     tenant = client.create_tenant(issuer_id, "automation-" + right_now,
                                   "Automation " + right_now, "description", [])
-
     assert tenant is not None
-
     response = client.delete_tenant(tenant.id, tenant.etag, [] )
     captured = capsys.readouterr()
     assert response is not None

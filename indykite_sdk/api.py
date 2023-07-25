@@ -368,6 +368,11 @@ Property ID and value of the property where the value is a reference
                                                                   help="Service account credential id")
     register_service_account_credential_pem_parser.add_argument("display_name", help="Display name")
 
+    # read_service_account_credential
+    read_service_account_credential_parser = subparsers.add_parser("read_service_account_credential")
+    read_service_account_credential_parser.add_argument("service_account_credential_id",
+                                                        help="Service account credentials id (gid)")
+
     # delete_service_account_credential
     delete_service_account_credential_parser = subparsers.add_parser("delete_service_account_credential")
     delete_service_account_credential_parser.add_argument("service_account_credential_id",
@@ -1713,7 +1718,7 @@ Property ID and value of the property where the value is a reference
             print("Invalid delete_service_account response")
         return delete_service_account_response
 
-    elif command == "service_account_credential":
+    elif command == "read_service_account_credential":
         service_account_credential_id = args.service_account_credential_id
         service_account_credential = client_config.read_service_account_credential(service_account_credential_id)
         if service_account_credential:

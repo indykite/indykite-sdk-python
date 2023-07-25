@@ -85,3 +85,30 @@ def test_register_dt_no_cred_none(capsys):
         properties,
         [])
     assert register_response is None
+
+
+def test_register_dt_no_cred_error(capsys):
+    tenant_id = data.get_tenant()
+    properties = []
+    definition1 = attributes.PropertyDefinition(
+        property="extid"
+    )
+    number = random.randint(1, 1000000)
+    property1 = helper.create_property(definition1, None, str(number))
+    properties.append(property1)
+
+    client = IdentityClient()
+    assert client is not None
+
+    def mocked_register_dt_no_cred(request: RegisterDigitalTwinWithoutCredentialRequest):
+        raise Exception("something went wrong")
+
+    client.stub.RegisterDigitalTwinWithoutCredential = mocked_register_dt_no_cred
+    response = client.register_digital_twin_without_credential(
+        tenant_id,
+        1,
+        [],
+        properties,
+        [])
+    captured = capsys.readouterr()
+    assert "something went wrong" in captured.err

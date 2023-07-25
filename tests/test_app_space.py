@@ -127,6 +127,8 @@ def test_create_app_space_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert app_space is not None
     assert isinstance(app_space, CreateApplicationSpace)
+    response = client.delete_app_space(app_space.id, app_space.etag, [] )
+    assert response is not None
 
 
 def test_create_app_space_empty():
