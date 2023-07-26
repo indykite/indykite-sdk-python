@@ -66,6 +66,8 @@ def test_create_oauth2_application_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert config is not None
     assert isinstance(config, CreateOAuth2Application)
+    response = client.delete_oauth2_application(config.id, config.etag, [])
+    assert response.bookmark is not None
 
 
 def test_create_oauth2_application_empty(capsys):

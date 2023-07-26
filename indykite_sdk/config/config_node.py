@@ -214,22 +214,19 @@ def update_auth_flow_config_node(self,
 
 
 def auth_flow_config(self, source_format,
-                     source,
-                     default):
+                     source):
     """
     create AuthFlowConfig
     :param self:
     :param source_format: AuthFlowConfig.Format enum value
     :param source: bytes of json string
-    :param default: google.protobuf.BoolValue
     :return:
     """
     sys.excepthook = logger.handle_excepthook
     try:
         auth_flow_config = model_pb2.AuthFlowConfig(
             source_format=source_format,
-            source=bytes(source),
-            default=wrappers.BoolValue(value=default)
+            source=bytes(source)
             )
         return auth_flow_config
     except Exception as exception:

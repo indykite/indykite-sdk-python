@@ -131,6 +131,8 @@ def test_create_application_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert application is not None
     assert isinstance(application, CreateApplication)
+    response = client.delete_application(application.id, application.etag, [])
+    assert response.bookmark is not None
 
 
 def test_create_application_empty():

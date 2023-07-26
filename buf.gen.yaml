@@ -2,9 +2,9 @@ version: v1
 managed:
   enabled: true
 plugins:
-  - remote: buf.build/protocolbuffers/plugins/python:v3.19.3-1
+  - plugin: buf.build/protocolbuffers/python:v23.4
     out: indykite_sdk
-  - remote: buf.build/grpc/plugins/python
+  - plugin: buf.build/grpc/python:v1.56.2
     out: indykite_sdk
 # https://buf.build/protocolbuffers/plugins/python
 # https://buf.build/grpc/plugins/python

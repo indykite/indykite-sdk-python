@@ -266,7 +266,6 @@ def get_email_service():
 
     email_service_config = EmailServiceConfig(
         default_from_address=Email(address=default_from_address_address, name=default_from_address_name),
-        default=wrappers.BoolValue(value=True),
         sendgrid=sendgrid,
         invitation_message=EmailDefinition(message=EmailMessage(
             to=message_to,
@@ -286,8 +285,7 @@ def get_auth_flow():
     user_dict = json.dumps(user_dict, indent=4, separators=(',', ': ')).encode('utf-8')
     auth_flow_config = ConfigClient().auth_flow_config(
         "FORMAT_BARE_JSON",
-        user_dict,
-        False
+        user_dict
     )
     return auth_flow_config
 
