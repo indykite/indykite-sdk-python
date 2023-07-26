@@ -20,6 +20,16 @@ class ConfigManagementAPIStub(object):
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerRequest.SerializeToString,
                 response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerResponse.FromString,
                 )
+        self.ReadCustomerConfig = channel.unary_unary(
+                '/indykite.config.v1beta1.ConfigManagementAPI/ReadCustomerConfig',
+                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerConfigRequest.SerializeToString,
+                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerConfigResponse.FromString,
+                )
+        self.UpdateCustomerConfig = channel.unary_unary(
+                '/indykite.config.v1beta1.ConfigManagementAPI/UpdateCustomerConfig',
+                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateCustomerConfigRequest.SerializeToString,
+                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateCustomerConfigResponse.FromString,
+                )
         self.CreateApplicationSpace = channel.unary_unary(
                 '/indykite.config.v1beta1.ConfigManagementAPI/CreateApplicationSpace',
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateApplicationSpaceRequest.SerializeToString,
@@ -44,6 +54,16 @@ class ConfigManagementAPIStub(object):
                 '/indykite.config.v1beta1.ConfigManagementAPI/DeleteApplicationSpace',
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteApplicationSpaceRequest.SerializeToString,
                 response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteApplicationSpaceResponse.FromString,
+                )
+        self.ReadApplicationSpaceConfig = channel.unary_unary(
+                '/indykite.config.v1beta1.ConfigManagementAPI/ReadApplicationSpaceConfig',
+                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadApplicationSpaceConfigRequest.SerializeToString,
+                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadApplicationSpaceConfigResponse.FromString,
+                )
+        self.UpdateApplicationSpaceConfig = channel.unary_unary(
+                '/indykite.config.v1beta1.ConfigManagementAPI/UpdateApplicationSpaceConfig',
+                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateApplicationSpaceConfigRequest.SerializeToString,
+                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateApplicationSpaceConfigResponse.FromString,
                 )
         self.CreateApplication = channel.unary_unary(
                 '/indykite.config.v1beta1.ConfigManagementAPI/CreateApplication',
@@ -170,6 +190,16 @@ class ConfigManagementAPIStub(object):
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantRequest.SerializeToString,
                 response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantResponse.FromString,
                 )
+        self.ReadTenantConfig = channel.unary_unary(
+                '/indykite.config.v1beta1.ConfigManagementAPI/ReadTenantConfig',
+                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantConfigRequest.SerializeToString,
+                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantConfigResponse.FromString,
+                )
+        self.UpdateTenantConfig = channel.unary_unary(
+                '/indykite.config.v1beta1.ConfigManagementAPI/UpdateTenantConfig',
+                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantConfigRequest.SerializeToString,
+                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantConfigResponse.FromString,
+                )
         self.CreateConfigNode = channel.unary_unary(
                 '/indykite.config.v1beta1.ConfigManagementAPI/CreateConfigNode',
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateConfigNodeRequest.SerializeToString,
@@ -263,6 +293,20 @@ class ConfigManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ReadCustomerConfig(self, request, context):
+        """ReadApplicationSpaceConfig reads the default settings of the ApplicationSpace.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateCustomerConfig(self, request, context):
+        """UpdateApplicationSpaceConfig updates the default settings of the ApplicationSpace.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def CreateApplicationSpace(self, request, context):
         """CreateApplicationSpace for a customer.
         For now, we do not support creating custom Issuers, so implicit Issuer is created automatically with this call.
@@ -295,6 +339,20 @@ class ConfigManagementAPIServicer(object):
 
     def DeleteApplicationSpace(self, request, context):
         """DeleteApplicationSpace by ID with optional etag, to prevent deleting AppSpace currently changed by others.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ReadApplicationSpaceConfig(self, request, context):
+        """ReadApplicationSpaceConfig reads the default settings of the ApplicationSpace.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateApplicationSpaceConfig(self, request, context):
+        """UpdateApplicationSpaceConfig updates the default settings of the ApplicationSpace.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -483,6 +541,20 @@ class ConfigManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ReadTenantConfig(self, request, context):
+        """ReadTenantConfig reads the default settings of the Tenant.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateTenantConfig(self, request, context):
+        """UpdateTenantConfig updates the default settings of the Tenant.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def CreateConfigNode(self, request, context):
         """CreateConfigNode on Customer, Application Space or Tenant level.
         All generic configuration nodes are created by this endpoint.
@@ -604,6 +676,16 @@ def add_ConfigManagementAPIServicer_to_server(servicer, server):
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerRequest.FromString,
                     response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerResponse.SerializeToString,
             ),
+            'ReadCustomerConfig': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReadCustomerConfig,
+                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerConfigRequest.FromString,
+                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerConfigResponse.SerializeToString,
+            ),
+            'UpdateCustomerConfig': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateCustomerConfig,
+                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateCustomerConfigRequest.FromString,
+                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateCustomerConfigResponse.SerializeToString,
+            ),
             'CreateApplicationSpace': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateApplicationSpace,
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateApplicationSpaceRequest.FromString,
@@ -628,6 +710,16 @@ def add_ConfigManagementAPIServicer_to_server(servicer, server):
                     servicer.DeleteApplicationSpace,
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteApplicationSpaceRequest.FromString,
                     response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteApplicationSpaceResponse.SerializeToString,
+            ),
+            'ReadApplicationSpaceConfig': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReadApplicationSpaceConfig,
+                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadApplicationSpaceConfigRequest.FromString,
+                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadApplicationSpaceConfigResponse.SerializeToString,
+            ),
+            'UpdateApplicationSpaceConfig': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateApplicationSpaceConfig,
+                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateApplicationSpaceConfigRequest.FromString,
+                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateApplicationSpaceConfigResponse.SerializeToString,
             ),
             'CreateApplication': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateApplication,
@@ -754,6 +846,16 @@ def add_ConfigManagementAPIServicer_to_server(servicer, server):
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantRequest.FromString,
                     response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantResponse.SerializeToString,
             ),
+            'ReadTenantConfig': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReadTenantConfig,
+                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantConfigRequest.FromString,
+                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantConfigResponse.SerializeToString,
+            ),
+            'UpdateTenantConfig': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateTenantConfig,
+                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantConfigRequest.FromString,
+                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantConfigResponse.SerializeToString,
+            ),
             'CreateConfigNode': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateConfigNode,
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateConfigNodeRequest.FromString,
@@ -863,6 +965,40 @@ class ConfigManagementAPI(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def ReadCustomerConfig(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ReadCustomerConfig',
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerConfigRequest.SerializeToString,
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadCustomerConfigResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateCustomerConfig(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/UpdateCustomerConfig',
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateCustomerConfigRequest.SerializeToString,
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateCustomerConfigResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def CreateApplicationSpace(request,
             target,
             options=(),
@@ -944,6 +1080,40 @@ class ConfigManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/DeleteApplicationSpace',
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteApplicationSpaceRequest.SerializeToString,
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteApplicationSpaceResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ReadApplicationSpaceConfig(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ReadApplicationSpaceConfig',
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadApplicationSpaceConfigRequest.SerializeToString,
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadApplicationSpaceConfigResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateApplicationSpaceConfig(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/UpdateApplicationSpaceConfig',
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateApplicationSpaceConfigRequest.SerializeToString,
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateApplicationSpaceConfigResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -1369,6 +1539,40 @@ class ConfigManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/DeleteTenant',
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantRequest.SerializeToString,
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ReadTenantConfig(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ReadTenantConfig',
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantConfigRequest.SerializeToString,
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantConfigResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateTenantConfig(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/UpdateTenantConfig',
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantConfigRequest.SerializeToString,
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantConfigResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

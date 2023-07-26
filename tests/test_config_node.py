@@ -64,6 +64,8 @@ def test_create_email_service_config_node_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
 
 
 def test_create_email_service_config_node_empty(capsys):
@@ -231,6 +233,8 @@ def test_create_auth_flow_config_node_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
 
 
 def test_create_auth_flow_config_node_empty(capsys):
@@ -360,6 +364,8 @@ def test_create_oauth2_client_config_node_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
 
 
 def test_create_oauth2_client_config_node_empty(capsys):
@@ -489,6 +495,8 @@ def test_create_webauthn_provider_config_node_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
 
 
 def test_create_webauthn_provider_config_node_empty(capsys):
@@ -751,6 +759,8 @@ def test_create_readid_provider_config_node_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
 
 
 def test_create_readid_provider_config_node_empty(capsys):
@@ -1036,8 +1046,7 @@ def test_auth_flow_exception(capsys):
     assert client is not None
     auth_flow_config = client.auth_flow_config(
         "",
-        [],
-        False
+        []
     )
     captured = capsys.readouterr()
     assert "ERROR" in captured.err

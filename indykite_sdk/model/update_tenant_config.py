@@ -1,29 +1,28 @@
 from indykite_sdk.utils import timestamp_to_date
 
 
-class UpdateApplicationSpace:
+class UpdateTenantConfig:
     @classmethod
     def deserialize(cls, message):
         if message is None:
             return None
 
-        update_application_space = UpdateApplicationSpace(
+        update_tenant_config = UpdateTenantConfig(
             str(message.id),
             timestamp_to_date(message.create_time),
-            timestamp_to_date(message.update_time),
-            str(message.etag),
-            str(message.bookmark),
             str(message.created_by),
-            str(message.updated_by)
+            timestamp_to_date(message.update_time),
+            str(message.updated_by),
+            str(message.etag),
+            str(message.bookmark)
         )
+        return update_tenant_config
 
-        return update_application_space
-
-    def __init__(self, id, create_time, update_time, etag, bookmark, created_by, updated_by):
+    def __init__(self, id, create_time, created_by, update_time, updated_by, etag, bookmark):
         self.id = id
         self.create_time = create_time
+        self.created_by = created_by
         self.update_time = update_time
+        self.updated_by = updated_by
         self.etag = etag
         self.bookmark = bookmark
-        self.created_by = created_by
-        self.updated_by = updated_by

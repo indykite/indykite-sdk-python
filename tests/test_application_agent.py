@@ -131,6 +131,8 @@ def test_create_application_agent_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert application_agent is not None
     assert isinstance(application_agent, CreateApplicationAgent)
+    response = client.delete_application_agent(application_agent.id, application_agent.etag, [] )
+    assert response.bookmark is not None
 
 
 def test_create_application_agent_empty():
@@ -384,7 +386,6 @@ def test_del_application_agent_success(capsys):
     client.stub.DeleteApplicationAgent = mocked_delete_application_agent
     response = client.delete_application_agent(application_agent.id, application_agent.etag, [] )
     captured = capsys.readouterr()
-    # assert "method DeleteDocument not implemented"
     assert response is not None
 
 

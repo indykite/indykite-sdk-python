@@ -3,6 +3,7 @@ import time
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
+from indykite_sdk.model.application_agent import ApplicationAgent
 from helpers import data
 from datetime import datetime
 
@@ -66,6 +67,10 @@ def test_register_application_agent_credential_jwk_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert application_agent_credential is not None
     assert isinstance(application_agent_credential, RegisterApplicationAgentCredential)
+    application_agent = client.read_application_agent_by_id(application_agent_credential.application_agent_id)
+    assert isinstance(application_agent, ApplicationAgent)
+    response = client.delete_application_agent_credential(application_agent_credential.id, [], application_agent.etag)
+    assert response.bookmark is not None
 
 
 def test_register_application_agent_credential_jwk_empty():
@@ -131,6 +136,10 @@ def test_register_application_agent_credential_pem_success(capsys):
     assert "invalid or expired access_token" not in captured.out
     assert application_agent_credential is not None
     assert isinstance(application_agent_credential, RegisterApplicationAgentCredential)
+    application_agent = client.read_application_agent_by_id(application_agent_credential.application_agent_id)
+    assert isinstance(application_agent, ApplicationAgent)
+    response = client.delete_application_agent_credential(application_agent_credential.id, [], application_agent.etag)
+    assert response.bookmark is not None
 
 
 def test_register_application_agent_credential_pem_empty():
@@ -190,8 +199,6 @@ def test_del_application_agent_credential_success(capsys):
 
     client.stub.DeleteApplicationAgentCredential = mocked_delete_application_agent_credential
     response = client.delete_application_agent_credential(application_agent_credential_id, [], etag)
-    captured = capsys.readouterr()
-    # assert "method DeleteDocument not implemented"
     assert response is not None
 
 

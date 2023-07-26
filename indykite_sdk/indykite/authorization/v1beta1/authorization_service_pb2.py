@@ -4,9 +4,8 @@
 """Generated protocol buffer code."""
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
-from google.protobuf import message as _message
-from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf.internal import builder as _builder
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,273 +18,9 @@ from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as indykite_do
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n:indykite/authorization/v1beta1/authorization_service.proto\x12\x1eindykite.authorization.v1beta1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a*indykite/authorization/v1beta1/model.proto\"\xb9\x05\n\x13IsAuthorizedRequest\x12K\n\x07subject\x18\x01 \x01(\x0b\x32\'.indykite.authorization.v1beta1.SubjectB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x07subject\x12\x66\n\tresources\x18\x02 \x03(\x0b\x32<.indykite.authorization.v1beta1.IsAuthorizedRequest.ResourceB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x10 R\tresources\x12\x98\x01\n\x0cinput_params\x18\x03 \x03(\x0b\x32\x44.indykite.authorization.v1beta1.IsAuthorizedRequest.InputParamsEntryB/\xfa\x42,\x9a\x01)\x08\x00\x10\x14\"#r!\x10\x01\x18\x14\x32\x1b^(?:[a-zA-Z][a-zA-Z0-9]+)+$R\x0binputParams\x12\x43\n\x0bpolicy_tags\x18\x04 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x18\x01\"\x16r\x14\x10\x01\x18\x14\x32\x0e^[a-zA-Z0-9]+$(\x01R\npolicyTags\x1a\xa0\x01\n\x08Resource\x12\x19\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x02\x18\x32R\x02id\x12\x31\n\x04type\x18\x02 \x01(\tB\x1d\xfa\x42\x1ar\x18\x10\x02\x18\x32\x32\x12^(?:[A-Z][a-z]+)+$R\x04type\x12\x46\n\x07\x61\x63tions\x18\x03 \x03(\tB,\xfa\x42)\x92\x01&\x08\x01\x10\x05\" r\x1e\x10\x02\x18\x32\x32\x18^[a-zA-Z0-9.:_\\-\\/]{2,}$R\x07\x61\x63tions\x1aj\n\x10InputParamsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12@\n\x05value\x18\x02 \x01(\x0b\x32*.indykite.authorization.v1beta1.InputParamR\x05value:\x02\x38\x01\"\xc5\x06\n\x14IsAuthorizedResponse\x12?\n\rdecision_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0c\x64\x65\x63isionTime\x12\x61\n\tdecisions\x18\x02 \x03(\x0b\x32\x43.indykite.authorization.v1beta1.IsAuthorizedResponse.DecisionsEntryR\tdecisions\x1a\x1e\n\x06\x41\x63tion\x12\x14\n\x05\x61llow\x18\x01 \x01(\x08R\x05\x61llow\x1a\xe9\x01\n\x08Resource\x12\x64\n\x07\x61\x63tions\x18\x01 \x03(\x0b\x32J.indykite.authorization.v1beta1.IsAuthorizedResponse.Resource.ActionsEntryR\x07\x61\x63tions\x1aw\n\x0c\x41\x63tionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12Q\n\x05value\x18\x02 \x01(\x0b\x32;.indykite.authorization.v1beta1.IsAuthorizedResponse.ActionR\x05value:\x02\x38\x01\x1a\xfb\x01\n\x0cResourceType\x12n\n\tresources\x18\x01 \x03(\x0b\x32P.indykite.authorization.v1beta1.IsAuthorizedResponse.ResourceType.ResourcesEntryR\tresources\x1a{\n\x0eResourcesEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12S\n\x05value\x18\x02 \x01(\x0b\x32=.indykite.authorization.v1beta1.IsAuthorizedResponse.ResourceR\x05value:\x02\x38\x01\x1a\x7f\n\x0e\x44\x65\x63isionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12W\n\x05value\x18\x02 \x01(\x0b\x32\x41.indykite.authorization.v1beta1.IsAuthorizedResponse.ResourceTypeR\x05value:\x02\x38\x01\"\xb7\x05\n\x15WhatAuthorizedRequest\x12K\n\x07subject\x18\x01 \x01(\x0b\x32\'.indykite.authorization.v1beta1.SubjectB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x07subject\x12u\n\x0eresource_types\x18\x02 \x03(\x0b\x32\x42.indykite.authorization.v1beta1.WhatAuthorizedRequest.ResourceTypeB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x10\nR\rresourceTypes\x12\x9a\x01\n\x0cinput_params\x18\x03 \x03(\x0b\x32\x46.indykite.authorization.v1beta1.WhatAuthorizedRequest.InputParamsEntryB/\xfa\x42,\x9a\x01)\x08\x00\x10\x14\"#r!\x10\x01\x18\x14\x32\x1b^(?:[a-zA-Z][a-zA-Z0-9]+)+$R\x0binputParams\x12\x43\n\x0bpolicy_tags\x18\x04 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x18\x01\"\x16r\x14\x10\x01\x18\x14\x32\x0e^[a-zA-Z0-9]+$(\x01R\npolicyTags\x1a\x8b\x01\n\x0cResourceType\x12\x31\n\x04type\x18\x01 \x01(\tB\x1d\xfa\x42\x1ar\x18\x10\x02\x18\x32\x32\x12^(?:[A-Z][a-z]+)+$R\x04type\x12H\n\x07\x61\x63tions\x18\x03 \x03(\tB.\xfa\x42+\x92\x01(\x08\x01\x10\x05\" r\x1e\x10\x02\x18\x32\x32\x18^[a-zA-Z0-9.:_\\-\\/]{2,}$(\x01R\x07\x61\x63tions\x1aj\n\x10InputParamsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12@\n\x05value\x18\x02 \x01(\x0b\x32*.indykite.authorization.v1beta1.InputParamR\x05value:\x02\x38\x01\"\xd0\x05\n\x16WhatAuthorizedResponse\x12?\n\rdecision_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0c\x64\x65\x63isionTime\x12\x63\n\tdecisions\x18\x02 \x03(\x0b\x32\x45.indykite.authorization.v1beta1.WhatAuthorizedResponse.DecisionsEntryR\tdecisions\x1a+\n\x08Resource\x12\x1f\n\x0b\x65xternal_id\x18\x01 \x01(\tR\nexternalId\x1ag\n\x06\x41\x63tion\x12]\n\tresources\x18\x01 \x03(\x0b\x32?.indykite.authorization.v1beta1.WhatAuthorizedResponse.ResourceR\tresources\x1a\xf5\x01\n\x0cResourceType\x12j\n\x07\x61\x63tions\x18\x01 \x03(\x0b\x32P.indykite.authorization.v1beta1.WhatAuthorizedResponse.ResourceType.ActionsEntryR\x07\x61\x63tions\x1ay\n\x0c\x41\x63tionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12S\n\x05value\x18\x02 \x01(\x0b\x32=.indykite.authorization.v1beta1.WhatAuthorizedResponse.ActionR\x05value:\x02\x38\x01\x1a\x81\x01\n\x0e\x44\x65\x63isionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12Y\n\x05value\x18\x02 \x01(\x0b\x32\x43.indykite.authorization.v1beta1.WhatAuthorizedResponse.ResourceTypeR\x05value:\x02\x38\x01\"\xf1\x04\n\x14WhoAuthorizedRequest\x12g\n\tresources\x18\x01 \x03(\x0b\x32=.indykite.authorization.v1beta1.WhoAuthorizedRequest.ResourceB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x10 R\tresources\x12\x99\x01\n\x0cinput_params\x18\x02 \x03(\x0b\x32\x45.indykite.authorization.v1beta1.WhoAuthorizedRequest.InputParamsEntryB/\xfa\x42,\x9a\x01)\x08\x00\x10\x14\"#r!\x10\x01\x18\x14\x32\x1b^(?:[a-zA-Z][a-zA-Z0-9]+)+$R\x0binputParams\x12\x43\n\x0bpolicy_tags\x18\x03 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x18\x01\"\x16r\x14\x10\x01\x18\x14\x32\x0e^[a-zA-Z0-9]+$(\x01R\npolicyTags\x1a\xa2\x01\n\x08Resource\x12\x19\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x02\x18\x32R\x02id\x12\x31\n\x04type\x18\x02 \x01(\tB\x1d\xfa\x42\x1ar\x18\x10\x02\x18\x32\x32\x12^(?:[A-Z][a-z]+)+$R\x04type\x12H\n\x07\x61\x63tions\x18\x03 \x03(\tB.\xfa\x42+\x92\x01(\x08\x01\x10\x05\" r\x1e\x10\x02\x18\x32\x32\x18^[a-zA-Z0-9.:_\\-\\/]{2,}$(\x01R\x07\x61\x63tions\x1aj\n\x10InputParamsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12@\n\x05value\x18\x02 \x01(\x0b\x32*.indykite.authorization.v1beta1.InputParamR\x05value:\x02\x38\x01\"\xbe\x07\n\x15WhoAuthorizedResponse\x12?\n\rdecision_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x0c\x64\x65\x63isionTime\x12\x62\n\tdecisions\x18\x02 \x03(\x0b\x32\x44.indykite.authorization.v1beta1.WhoAuthorizedResponse.DecisionsEntryR\tdecisions\x1a*\n\x07Subject\x12\x1f\n\x0b\x65xternal_id\x18\x01 \x01(\tR\nexternalId\x1a\x63\n\x06\x41\x63tion\x12Y\n\x08subjects\x18\x01 \x03(\x0b\x32=.indykite.authorization.v1beta1.WhoAuthorizedResponse.SubjectR\x08subjects\x1a\xeb\x01\n\x08Resource\x12\x65\n\x07\x61\x63tions\x18\x01 \x03(\x0b\x32K.indykite.authorization.v1beta1.WhoAuthorizedResponse.Resource.ActionsEntryR\x07\x61\x63tions\x1ax\n\x0c\x41\x63tionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12R\n\x05value\x18\x02 \x01(\x0b\x32<.indykite.authorization.v1beta1.WhoAuthorizedResponse.ActionR\x05value:\x02\x38\x01\x1a\xfd\x01\n\x0cResourceType\x12o\n\tresources\x18\x01 \x03(\x0b\x32Q.indykite.authorization.v1beta1.WhoAuthorizedResponse.ResourceType.ResourcesEntryR\tresources\x1a|\n\x0eResourcesEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12T\n\x05value\x18\x02 \x01(\x0b\x32>.indykite.authorization.v1beta1.WhoAuthorizedResponse.ResourceR\x05value:\x02\x38\x01\x1a\x80\x01\n\x0e\x44\x65\x63isionsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12X\n\x05value\x18\x02 \x01(\x0b\x32\x42.indykite.authorization.v1beta1.WhoAuthorizedResponse.ResourceTypeR\x05value:\x02\x38\x01\x32\x8c\x03\n\x10\x41uthorizationAPI\x12y\n\x0cIsAuthorized\x12\x33.indykite.authorization.v1beta1.IsAuthorizedRequest\x1a\x34.indykite.authorization.v1beta1.IsAuthorizedResponse\x12\x7f\n\x0eWhatAuthorized\x12\x35.indykite.authorization.v1beta1.WhatAuthorizedRequest\x1a\x36.indykite.authorization.v1beta1.WhatAuthorizedResponse\x12|\n\rWhoAuthorized\x12\x34.indykite.authorization.v1beta1.WhoAuthorizedRequest\x1a\x35.indykite.authorization.v1beta1.WhoAuthorizedResponseB\xd9\x01\n\"com.indykite.authorization.v1beta1B\x19\x41uthorizationServiceProtoP\x01\xa2\x02\x03IAX\xaa\x02\x1eIndykite.Authorization.V1beta1\xca\x02\x1eIndykite\\Authorization\\V1beta1\xe2\x02*Indykite\\Authorization\\V1beta1\\GPBMetadata\xea\x02 Indykite::Authorization::V1beta1b\x06proto3')
 
-
-
-_ISAUTHORIZEDREQUEST = DESCRIPTOR.message_types_by_name['IsAuthorizedRequest']
-_ISAUTHORIZEDREQUEST_RESOURCE = _ISAUTHORIZEDREQUEST.nested_types_by_name['Resource']
-_ISAUTHORIZEDREQUEST_INPUTPARAMSENTRY = _ISAUTHORIZEDREQUEST.nested_types_by_name['InputParamsEntry']
-_ISAUTHORIZEDRESPONSE = DESCRIPTOR.message_types_by_name['IsAuthorizedResponse']
-_ISAUTHORIZEDRESPONSE_ACTION = _ISAUTHORIZEDRESPONSE.nested_types_by_name['Action']
-_ISAUTHORIZEDRESPONSE_RESOURCE = _ISAUTHORIZEDRESPONSE.nested_types_by_name['Resource']
-_ISAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY = _ISAUTHORIZEDRESPONSE_RESOURCE.nested_types_by_name['ActionsEntry']
-_ISAUTHORIZEDRESPONSE_RESOURCETYPE = _ISAUTHORIZEDRESPONSE.nested_types_by_name['ResourceType']
-_ISAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY = _ISAUTHORIZEDRESPONSE_RESOURCETYPE.nested_types_by_name['ResourcesEntry']
-_ISAUTHORIZEDRESPONSE_DECISIONSENTRY = _ISAUTHORIZEDRESPONSE.nested_types_by_name['DecisionsEntry']
-_WHATAUTHORIZEDREQUEST = DESCRIPTOR.message_types_by_name['WhatAuthorizedRequest']
-_WHATAUTHORIZEDREQUEST_RESOURCETYPE = _WHATAUTHORIZEDREQUEST.nested_types_by_name['ResourceType']
-_WHATAUTHORIZEDREQUEST_INPUTPARAMSENTRY = _WHATAUTHORIZEDREQUEST.nested_types_by_name['InputParamsEntry']
-_WHATAUTHORIZEDRESPONSE = DESCRIPTOR.message_types_by_name['WhatAuthorizedResponse']
-_WHATAUTHORIZEDRESPONSE_RESOURCE = _WHATAUTHORIZEDRESPONSE.nested_types_by_name['Resource']
-_WHATAUTHORIZEDRESPONSE_ACTION = _WHATAUTHORIZEDRESPONSE.nested_types_by_name['Action']
-_WHATAUTHORIZEDRESPONSE_RESOURCETYPE = _WHATAUTHORIZEDRESPONSE.nested_types_by_name['ResourceType']
-_WHATAUTHORIZEDRESPONSE_RESOURCETYPE_ACTIONSENTRY = _WHATAUTHORIZEDRESPONSE_RESOURCETYPE.nested_types_by_name['ActionsEntry']
-_WHATAUTHORIZEDRESPONSE_DECISIONSENTRY = _WHATAUTHORIZEDRESPONSE.nested_types_by_name['DecisionsEntry']
-_WHOAUTHORIZEDREQUEST = DESCRIPTOR.message_types_by_name['WhoAuthorizedRequest']
-_WHOAUTHORIZEDREQUEST_RESOURCE = _WHOAUTHORIZEDREQUEST.nested_types_by_name['Resource']
-_WHOAUTHORIZEDREQUEST_INPUTPARAMSENTRY = _WHOAUTHORIZEDREQUEST.nested_types_by_name['InputParamsEntry']
-_WHOAUTHORIZEDRESPONSE = DESCRIPTOR.message_types_by_name['WhoAuthorizedResponse']
-_WHOAUTHORIZEDRESPONSE_SUBJECT = _WHOAUTHORIZEDRESPONSE.nested_types_by_name['Subject']
-_WHOAUTHORIZEDRESPONSE_ACTION = _WHOAUTHORIZEDRESPONSE.nested_types_by_name['Action']
-_WHOAUTHORIZEDRESPONSE_RESOURCE = _WHOAUTHORIZEDRESPONSE.nested_types_by_name['Resource']
-_WHOAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY = _WHOAUTHORIZEDRESPONSE_RESOURCE.nested_types_by_name['ActionsEntry']
-_WHOAUTHORIZEDRESPONSE_RESOURCETYPE = _WHOAUTHORIZEDRESPONSE.nested_types_by_name['ResourceType']
-_WHOAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY = _WHOAUTHORIZEDRESPONSE_RESOURCETYPE.nested_types_by_name['ResourcesEntry']
-_WHOAUTHORIZEDRESPONSE_DECISIONSENTRY = _WHOAUTHORIZEDRESPONSE.nested_types_by_name['DecisionsEntry']
-IsAuthorizedRequest = _reflection.GeneratedProtocolMessageType('IsAuthorizedRequest', (_message.Message,), {
-
-  'Resource' : _reflection.GeneratedProtocolMessageType('Resource', (_message.Message,), {
-    'DESCRIPTOR' : _ISAUTHORIZEDREQUEST_RESOURCE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedRequest.Resource)
-    })
-  ,
-
-  'InputParamsEntry' : _reflection.GeneratedProtocolMessageType('InputParamsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _ISAUTHORIZEDREQUEST_INPUTPARAMSENTRY,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedRequest.InputParamsEntry)
-    })
-  ,
-  'DESCRIPTOR' : _ISAUTHORIZEDREQUEST,
-  '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedRequest)
-  })
-_sym_db.RegisterMessage(IsAuthorizedRequest)
-_sym_db.RegisterMessage(IsAuthorizedRequest.Resource)
-_sym_db.RegisterMessage(IsAuthorizedRequest.InputParamsEntry)
-
-IsAuthorizedResponse = _reflection.GeneratedProtocolMessageType('IsAuthorizedResponse', (_message.Message,), {
-
-  'Action' : _reflection.GeneratedProtocolMessageType('Action', (_message.Message,), {
-    'DESCRIPTOR' : _ISAUTHORIZEDRESPONSE_ACTION,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedResponse.Action)
-    })
-  ,
-
-  'Resource' : _reflection.GeneratedProtocolMessageType('Resource', (_message.Message,), {
-
-    'ActionsEntry' : _reflection.GeneratedProtocolMessageType('ActionsEntry', (_message.Message,), {
-      'DESCRIPTOR' : _ISAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY,
-      '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-      # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedResponse.Resource.ActionsEntry)
-      })
-    ,
-    'DESCRIPTOR' : _ISAUTHORIZEDRESPONSE_RESOURCE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedResponse.Resource)
-    })
-  ,
-
-  'ResourceType' : _reflection.GeneratedProtocolMessageType('ResourceType', (_message.Message,), {
-
-    'ResourcesEntry' : _reflection.GeneratedProtocolMessageType('ResourcesEntry', (_message.Message,), {
-      'DESCRIPTOR' : _ISAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY,
-      '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-      # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedResponse.ResourceType.ResourcesEntry)
-      })
-    ,
-    'DESCRIPTOR' : _ISAUTHORIZEDRESPONSE_RESOURCETYPE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedResponse.ResourceType)
-    })
-  ,
-
-  'DecisionsEntry' : _reflection.GeneratedProtocolMessageType('DecisionsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _ISAUTHORIZEDRESPONSE_DECISIONSENTRY,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedResponse.DecisionsEntry)
-    })
-  ,
-  'DESCRIPTOR' : _ISAUTHORIZEDRESPONSE,
-  '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.IsAuthorizedResponse)
-  })
-_sym_db.RegisterMessage(IsAuthorizedResponse)
-_sym_db.RegisterMessage(IsAuthorizedResponse.Action)
-_sym_db.RegisterMessage(IsAuthorizedResponse.Resource)
-_sym_db.RegisterMessage(IsAuthorizedResponse.Resource.ActionsEntry)
-_sym_db.RegisterMessage(IsAuthorizedResponse.ResourceType)
-_sym_db.RegisterMessage(IsAuthorizedResponse.ResourceType.ResourcesEntry)
-_sym_db.RegisterMessage(IsAuthorizedResponse.DecisionsEntry)
-
-WhatAuthorizedRequest = _reflection.GeneratedProtocolMessageType('WhatAuthorizedRequest', (_message.Message,), {
-
-  'ResourceType' : _reflection.GeneratedProtocolMessageType('ResourceType', (_message.Message,), {
-    'DESCRIPTOR' : _WHATAUTHORIZEDREQUEST_RESOURCETYPE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedRequest.ResourceType)
-    })
-  ,
-
-  'InputParamsEntry' : _reflection.GeneratedProtocolMessageType('InputParamsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _WHATAUTHORIZEDREQUEST_INPUTPARAMSENTRY,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedRequest.InputParamsEntry)
-    })
-  ,
-  'DESCRIPTOR' : _WHATAUTHORIZEDREQUEST,
-  '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedRequest)
-  })
-_sym_db.RegisterMessage(WhatAuthorizedRequest)
-_sym_db.RegisterMessage(WhatAuthorizedRequest.ResourceType)
-_sym_db.RegisterMessage(WhatAuthorizedRequest.InputParamsEntry)
-
-WhatAuthorizedResponse = _reflection.GeneratedProtocolMessageType('WhatAuthorizedResponse', (_message.Message,), {
-
-  'Resource' : _reflection.GeneratedProtocolMessageType('Resource', (_message.Message,), {
-    'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE_RESOURCE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse.Resource)
-    })
-  ,
-
-  'Action' : _reflection.GeneratedProtocolMessageType('Action', (_message.Message,), {
-    'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE_ACTION,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse.Action)
-    })
-  ,
-
-  'ResourceType' : _reflection.GeneratedProtocolMessageType('ResourceType', (_message.Message,), {
-
-    'ActionsEntry' : _reflection.GeneratedProtocolMessageType('ActionsEntry', (_message.Message,), {
-      'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE_RESOURCETYPE_ACTIONSENTRY,
-      '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-      # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse.ResourceType.ActionsEntry)
-      })
-    ,
-    'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE_RESOURCETYPE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse.ResourceType)
-    })
-  ,
-
-  'DecisionsEntry' : _reflection.GeneratedProtocolMessageType('DecisionsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE_DECISIONSENTRY,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse.DecisionsEntry)
-    })
-  ,
-  'DESCRIPTOR' : _WHATAUTHORIZEDRESPONSE,
-  '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhatAuthorizedResponse)
-  })
-_sym_db.RegisterMessage(WhatAuthorizedResponse)
-_sym_db.RegisterMessage(WhatAuthorizedResponse.Resource)
-_sym_db.RegisterMessage(WhatAuthorizedResponse.Action)
-_sym_db.RegisterMessage(WhatAuthorizedResponse.ResourceType)
-_sym_db.RegisterMessage(WhatAuthorizedResponse.ResourceType.ActionsEntry)
-_sym_db.RegisterMessage(WhatAuthorizedResponse.DecisionsEntry)
-
-WhoAuthorizedRequest = _reflection.GeneratedProtocolMessageType('WhoAuthorizedRequest', (_message.Message,), {
-
-  'Resource' : _reflection.GeneratedProtocolMessageType('Resource', (_message.Message,), {
-    'DESCRIPTOR' : _WHOAUTHORIZEDREQUEST_RESOURCE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedRequest.Resource)
-    })
-  ,
-
-  'InputParamsEntry' : _reflection.GeneratedProtocolMessageType('InputParamsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _WHOAUTHORIZEDREQUEST_INPUTPARAMSENTRY,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedRequest.InputParamsEntry)
-    })
-  ,
-  'DESCRIPTOR' : _WHOAUTHORIZEDREQUEST,
-  '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedRequest)
-  })
-_sym_db.RegisterMessage(WhoAuthorizedRequest)
-_sym_db.RegisterMessage(WhoAuthorizedRequest.Resource)
-_sym_db.RegisterMessage(WhoAuthorizedRequest.InputParamsEntry)
-
-WhoAuthorizedResponse = _reflection.GeneratedProtocolMessageType('WhoAuthorizedResponse', (_message.Message,), {
-
-  'Subject' : _reflection.GeneratedProtocolMessageType('Subject', (_message.Message,), {
-    'DESCRIPTOR' : _WHOAUTHORIZEDRESPONSE_SUBJECT,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedResponse.Subject)
-    })
-  ,
-
-  'Action' : _reflection.GeneratedProtocolMessageType('Action', (_message.Message,), {
-    'DESCRIPTOR' : _WHOAUTHORIZEDRESPONSE_ACTION,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedResponse.Action)
-    })
-  ,
-
-  'Resource' : _reflection.GeneratedProtocolMessageType('Resource', (_message.Message,), {
-
-    'ActionsEntry' : _reflection.GeneratedProtocolMessageType('ActionsEntry', (_message.Message,), {
-      'DESCRIPTOR' : _WHOAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY,
-      '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-      # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedResponse.Resource.ActionsEntry)
-      })
-    ,
-    'DESCRIPTOR' : _WHOAUTHORIZEDRESPONSE_RESOURCE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedResponse.Resource)
-    })
-  ,
-
-  'ResourceType' : _reflection.GeneratedProtocolMessageType('ResourceType', (_message.Message,), {
-
-    'ResourcesEntry' : _reflection.GeneratedProtocolMessageType('ResourcesEntry', (_message.Message,), {
-      'DESCRIPTOR' : _WHOAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY,
-      '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-      # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedResponse.ResourceType.ResourcesEntry)
-      })
-    ,
-    'DESCRIPTOR' : _WHOAUTHORIZEDRESPONSE_RESOURCETYPE,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedResponse.ResourceType)
-    })
-  ,
-
-  'DecisionsEntry' : _reflection.GeneratedProtocolMessageType('DecisionsEntry', (_message.Message,), {
-    'DESCRIPTOR' : _WHOAUTHORIZEDRESPONSE_DECISIONSENTRY,
-    '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-    # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedResponse.DecisionsEntry)
-    })
-  ,
-  'DESCRIPTOR' : _WHOAUTHORIZEDRESPONSE,
-  '__module__' : 'indykite.authorization.v1beta1.authorization_service_pb2'
-  # @@protoc_insertion_point(class_scope:indykite.authorization.v1beta1.WhoAuthorizedResponse)
-  })
-_sym_db.RegisterMessage(WhoAuthorizedResponse)
-_sym_db.RegisterMessage(WhoAuthorizedResponse.Subject)
-_sym_db.RegisterMessage(WhoAuthorizedResponse.Action)
-_sym_db.RegisterMessage(WhoAuthorizedResponse.Resource)
-_sym_db.RegisterMessage(WhoAuthorizedResponse.Resource.ActionsEntry)
-_sym_db.RegisterMessage(WhoAuthorizedResponse.ResourceType)
-_sym_db.RegisterMessage(WhoAuthorizedResponse.ResourceType.ResourcesEntry)
-_sym_db.RegisterMessage(WhoAuthorizedResponse.DecisionsEntry)
-
-_AUTHORIZATIONAPI = DESCRIPTOR.services_by_name['AuthorizationAPI']
+_globals = globals()
+_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'indykite.authorization.v1beta1.authorization_service_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
@@ -350,66 +85,66 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _WHOAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY._serialized_options = b'8\001'
   _WHOAUTHORIZEDRESPONSE_DECISIONSENTRY._options = None
   _WHOAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_options = b'8\001'
-  _ISAUTHORIZEDREQUEST._serialized_start=197
-  _ISAUTHORIZEDREQUEST._serialized_end=894
-  _ISAUTHORIZEDREQUEST_RESOURCE._serialized_start=626
-  _ISAUTHORIZEDREQUEST_RESOURCE._serialized_end=786
-  _ISAUTHORIZEDREQUEST_INPUTPARAMSENTRY._serialized_start=788
-  _ISAUTHORIZEDREQUEST_INPUTPARAMSENTRY._serialized_end=894
-  _ISAUTHORIZEDRESPONSE._serialized_start=897
-  _ISAUTHORIZEDRESPONSE._serialized_end=1734
-  _ISAUTHORIZEDRESPONSE_ACTION._serialized_start=1085
-  _ISAUTHORIZEDRESPONSE_ACTION._serialized_end=1115
-  _ISAUTHORIZEDRESPONSE_RESOURCE._serialized_start=1118
-  _ISAUTHORIZEDRESPONSE_RESOURCE._serialized_end=1351
-  _ISAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY._serialized_start=1232
-  _ISAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY._serialized_end=1351
-  _ISAUTHORIZEDRESPONSE_RESOURCETYPE._serialized_start=1354
-  _ISAUTHORIZEDRESPONSE_RESOURCETYPE._serialized_end=1605
-  _ISAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY._serialized_start=1482
-  _ISAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY._serialized_end=1605
-  _ISAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_start=1607
-  _ISAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_end=1734
-  _WHATAUTHORIZEDREQUEST._serialized_start=1737
-  _WHATAUTHORIZEDREQUEST._serialized_end=2432
-  _WHATAUTHORIZEDREQUEST_RESOURCETYPE._serialized_start=2185
-  _WHATAUTHORIZEDREQUEST_RESOURCETYPE._serialized_end=2324
-  _WHATAUTHORIZEDREQUEST_INPUTPARAMSENTRY._serialized_start=788
-  _WHATAUTHORIZEDREQUEST_INPUTPARAMSENTRY._serialized_end=894
-  _WHATAUTHORIZEDRESPONSE._serialized_start=2435
-  _WHATAUTHORIZEDRESPONSE._serialized_end=3155
-  _WHATAUTHORIZEDRESPONSE_RESOURCE._serialized_start=2627
-  _WHATAUTHORIZEDRESPONSE_RESOURCE._serialized_end=2670
-  _WHATAUTHORIZEDRESPONSE_ACTION._serialized_start=2672
-  _WHATAUTHORIZEDRESPONSE_ACTION._serialized_end=2775
-  _WHATAUTHORIZEDRESPONSE_RESOURCETYPE._serialized_start=2778
-  _WHATAUTHORIZEDRESPONSE_RESOURCETYPE._serialized_end=3023
-  _WHATAUTHORIZEDRESPONSE_RESOURCETYPE_ACTIONSENTRY._serialized_start=2902
-  _WHATAUTHORIZEDRESPONSE_RESOURCETYPE_ACTIONSENTRY._serialized_end=3023
-  _WHATAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_start=3026
-  _WHATAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_end=3155
-  _WHOAUTHORIZEDREQUEST._serialized_start=3158
-  _WHOAUTHORIZEDREQUEST._serialized_end=3783
-  _WHOAUTHORIZEDREQUEST_RESOURCE._serialized_start=3513
-  _WHOAUTHORIZEDREQUEST_RESOURCE._serialized_end=3675
-  _WHOAUTHORIZEDREQUEST_INPUTPARAMSENTRY._serialized_start=788
-  _WHOAUTHORIZEDREQUEST_INPUTPARAMSENTRY._serialized_end=894
-  _WHOAUTHORIZEDRESPONSE._serialized_start=3786
-  _WHOAUTHORIZEDRESPONSE._serialized_end=4744
-  _WHOAUTHORIZEDRESPONSE_SUBJECT._serialized_start=3976
-  _WHOAUTHORIZEDRESPONSE_SUBJECT._serialized_end=4018
-  _WHOAUTHORIZEDRESPONSE_ACTION._serialized_start=4020
-  _WHOAUTHORIZEDRESPONSE_ACTION._serialized_end=4119
-  _WHOAUTHORIZEDRESPONSE_RESOURCE._serialized_start=4122
-  _WHOAUTHORIZEDRESPONSE_RESOURCE._serialized_end=4357
-  _WHOAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY._serialized_start=4237
-  _WHOAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY._serialized_end=4357
-  _WHOAUTHORIZEDRESPONSE_RESOURCETYPE._serialized_start=4360
-  _WHOAUTHORIZEDRESPONSE_RESOURCETYPE._serialized_end=4613
-  _WHOAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY._serialized_start=4489
-  _WHOAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY._serialized_end=4613
-  _WHOAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_start=4616
-  _WHOAUTHORIZEDRESPONSE_DECISIONSENTRY._serialized_end=4744
-  _AUTHORIZATIONAPI._serialized_start=4747
-  _AUTHORIZATIONAPI._serialized_end=5143
+  _globals['_ISAUTHORIZEDREQUEST']._serialized_start=197
+  _globals['_ISAUTHORIZEDREQUEST']._serialized_end=894
+  _globals['_ISAUTHORIZEDREQUEST_RESOURCE']._serialized_start=626
+  _globals['_ISAUTHORIZEDREQUEST_RESOURCE']._serialized_end=786
+  _globals['_ISAUTHORIZEDREQUEST_INPUTPARAMSENTRY']._serialized_start=788
+  _globals['_ISAUTHORIZEDREQUEST_INPUTPARAMSENTRY']._serialized_end=894
+  _globals['_ISAUTHORIZEDRESPONSE']._serialized_start=897
+  _globals['_ISAUTHORIZEDRESPONSE']._serialized_end=1734
+  _globals['_ISAUTHORIZEDRESPONSE_ACTION']._serialized_start=1085
+  _globals['_ISAUTHORIZEDRESPONSE_ACTION']._serialized_end=1115
+  _globals['_ISAUTHORIZEDRESPONSE_RESOURCE']._serialized_start=1118
+  _globals['_ISAUTHORIZEDRESPONSE_RESOURCE']._serialized_end=1351
+  _globals['_ISAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY']._serialized_start=1232
+  _globals['_ISAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY']._serialized_end=1351
+  _globals['_ISAUTHORIZEDRESPONSE_RESOURCETYPE']._serialized_start=1354
+  _globals['_ISAUTHORIZEDRESPONSE_RESOURCETYPE']._serialized_end=1605
+  _globals['_ISAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY']._serialized_start=1482
+  _globals['_ISAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY']._serialized_end=1605
+  _globals['_ISAUTHORIZEDRESPONSE_DECISIONSENTRY']._serialized_start=1607
+  _globals['_ISAUTHORIZEDRESPONSE_DECISIONSENTRY']._serialized_end=1734
+  _globals['_WHATAUTHORIZEDREQUEST']._serialized_start=1737
+  _globals['_WHATAUTHORIZEDREQUEST']._serialized_end=2432
+  _globals['_WHATAUTHORIZEDREQUEST_RESOURCETYPE']._serialized_start=2185
+  _globals['_WHATAUTHORIZEDREQUEST_RESOURCETYPE']._serialized_end=2324
+  _globals['_WHATAUTHORIZEDREQUEST_INPUTPARAMSENTRY']._serialized_start=788
+  _globals['_WHATAUTHORIZEDREQUEST_INPUTPARAMSENTRY']._serialized_end=894
+  _globals['_WHATAUTHORIZEDRESPONSE']._serialized_start=2435
+  _globals['_WHATAUTHORIZEDRESPONSE']._serialized_end=3155
+  _globals['_WHATAUTHORIZEDRESPONSE_RESOURCE']._serialized_start=2627
+  _globals['_WHATAUTHORIZEDRESPONSE_RESOURCE']._serialized_end=2670
+  _globals['_WHATAUTHORIZEDRESPONSE_ACTION']._serialized_start=2672
+  _globals['_WHATAUTHORIZEDRESPONSE_ACTION']._serialized_end=2775
+  _globals['_WHATAUTHORIZEDRESPONSE_RESOURCETYPE']._serialized_start=2778
+  _globals['_WHATAUTHORIZEDRESPONSE_RESOURCETYPE']._serialized_end=3023
+  _globals['_WHATAUTHORIZEDRESPONSE_RESOURCETYPE_ACTIONSENTRY']._serialized_start=2902
+  _globals['_WHATAUTHORIZEDRESPONSE_RESOURCETYPE_ACTIONSENTRY']._serialized_end=3023
+  _globals['_WHATAUTHORIZEDRESPONSE_DECISIONSENTRY']._serialized_start=3026
+  _globals['_WHATAUTHORIZEDRESPONSE_DECISIONSENTRY']._serialized_end=3155
+  _globals['_WHOAUTHORIZEDREQUEST']._serialized_start=3158
+  _globals['_WHOAUTHORIZEDREQUEST']._serialized_end=3783
+  _globals['_WHOAUTHORIZEDREQUEST_RESOURCE']._serialized_start=3513
+  _globals['_WHOAUTHORIZEDREQUEST_RESOURCE']._serialized_end=3675
+  _globals['_WHOAUTHORIZEDREQUEST_INPUTPARAMSENTRY']._serialized_start=788
+  _globals['_WHOAUTHORIZEDREQUEST_INPUTPARAMSENTRY']._serialized_end=894
+  _globals['_WHOAUTHORIZEDRESPONSE']._serialized_start=3786
+  _globals['_WHOAUTHORIZEDRESPONSE']._serialized_end=4744
+  _globals['_WHOAUTHORIZEDRESPONSE_SUBJECT']._serialized_start=3976
+  _globals['_WHOAUTHORIZEDRESPONSE_SUBJECT']._serialized_end=4018
+  _globals['_WHOAUTHORIZEDRESPONSE_ACTION']._serialized_start=4020
+  _globals['_WHOAUTHORIZEDRESPONSE_ACTION']._serialized_end=4119
+  _globals['_WHOAUTHORIZEDRESPONSE_RESOURCE']._serialized_start=4122
+  _globals['_WHOAUTHORIZEDRESPONSE_RESOURCE']._serialized_end=4357
+  _globals['_WHOAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY']._serialized_start=4237
+  _globals['_WHOAUTHORIZEDRESPONSE_RESOURCE_ACTIONSENTRY']._serialized_end=4357
+  _globals['_WHOAUTHORIZEDRESPONSE_RESOURCETYPE']._serialized_start=4360
+  _globals['_WHOAUTHORIZEDRESPONSE_RESOURCETYPE']._serialized_end=4613
+  _globals['_WHOAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY']._serialized_start=4489
+  _globals['_WHOAUTHORIZEDRESPONSE_RESOURCETYPE_RESOURCESENTRY']._serialized_end=4613
+  _globals['_WHOAUTHORIZEDRESPONSE_DECISIONSENTRY']._serialized_start=4616
+  _globals['_WHOAUTHORIZEDRESPONSE_DECISIONSENTRY']._serialized_end=4744
+  _globals['_AUTHORIZATIONAPI']._serialized_start=4747
+  _globals['_AUTHORIZATIONAPI']._serialized_end=5143
 # @@protoc_insertion_point(module_scope)

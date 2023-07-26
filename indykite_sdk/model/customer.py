@@ -49,5 +49,3 @@ class Customer:
         self.description = None
         self.created_by = None
         self.updated_by = None
-
-

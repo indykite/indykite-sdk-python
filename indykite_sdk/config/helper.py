@@ -5,7 +5,6 @@ import unicodedata
 import re
 from authlib.jose import JsonWebKey, jwt
 from datetime import datetime, timedelta, timezone
-
 from indykite_sdk.indykite.identity.v1beta1 import attributes_pb2 as attributes
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as objects
 

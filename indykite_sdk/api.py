@@ -18,7 +18,8 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConf
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig,
                                                             WebAuthnProviderConfig, AuthorizationPolicyConfig,
                                                             ReadIDProviderConfig, KnowledgeGraphSchemaConfig )
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig, \
+    UniquePropertyConstraint, UsernamePolicy
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin, \
     ImportProperties, UserProvider, UserMetadata, CredentialReference
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt, SHA256
@@ -162,6 +163,16 @@ Property ID and value of the property where the value is a reference
     customer_name_parser = subparsers.add_parser("customer_name")
     customer_name_parser.add_argument("customer_name", help="Customer name (not display name)")
 
+    # read_customer_config
+    read_customer_config_parser = subparsers.add_parser("read_customer_config")
+    read_customer_config_parser.add_argument("customer_id", help="Customer gid id")
+
+    # update_customer_config
+    update_customer_config_parser = subparsers.add_parser("update_customer_config")
+    update_customer_config_parser.add_argument("customer_id", help="Customer gid id")
+    update_customer_config_parser.add_argument("etag", help="Etag")
+    update_customer_config_parser.add_argument("default_auth_flow_id", help="Default auth flow gid id")
+
     # service_account
     service_account_parser = subparsers.add_parser("service_account")
 
@@ -198,6 +209,17 @@ Property ID and value of the property where the value is a reference
     delete_app_space_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     delete_app_space_parser.add_argument("etag", nargs='?', help="Optional Etag")
 
+    # read_app_space_config
+    read_app_space_config_parser = subparsers.add_parser("read_app_space_config")
+    read_app_space_config_parser.add_argument("app_space_id", help="AppSpace gid id")
+
+    # update_app_space_config
+    update_app_space_config_parser = subparsers.add_parser("update_app_space_config")
+    update_app_space_config_parser.add_argument("app_space_id", help="AppSpace gid id")
+    update_app_space_config_parser.add_argument("etag", help="Etag")
+    update_app_space_config_parser.add_argument("tenant_id", help="Tenant default gid id")
+    update_app_space_config_parser.add_argument("default_auth_flow_id", help="Default auth flow gid id")
+
     # tenant_id
     tenant_id_parser = subparsers.add_parser("tenant_id")
     tenant_id_parser.add_argument("tenant_id", help="Tenant id (gid)")
@@ -230,6 +252,16 @@ Property ID and value of the property where the value is a reference
     delete_tenant_parser = subparsers.add_parser("delete_tenant")
     delete_tenant_parser.add_argument("tenant_id", help="Tenant Id")
     delete_tenant_parser.add_argument("etag", nargs='?', help="Optional Etag")
+
+    # read_tenant_config
+    read_tenant_config_parser = subparsers.add_parser("read_tenant_config")
+    read_tenant_config_parser.add_argument("tenant_id", help="Tenant gid id")
+
+    # update_tenant_config
+    update_tenant_config_parser = subparsers.add_parser("update_tenant_config")
+    update_tenant_config_parser.add_argument("tenant_id", help="Tenant gid id")
+    update_tenant_config_parser.add_argument("etag", help="Etag")
+    update_tenant_config_parser.add_argument("default_auth_flow_id", help="Default auth flow gid id")
 
     # application_id
     application_id_parser = subparsers.add_parser("application_id")
@@ -367,6 +399,11 @@ Property ID and value of the property where the value is a reference
     register_service_account_credential_pem_parser.add_argument("service_account_id",
                                                                   help="Service account credential id")
     register_service_account_credential_pem_parser.add_argument("display_name", help="Display name")
+
+    # read_service_account_credential
+    read_service_account_credential_parser = subparsers.add_parser("read_service_account_credential")
+    read_service_account_credential_parser.add_argument("service_account_credential_id",
+                                                        help="Service account credentials id (gid)")
 
     # delete_service_account_credential
     delete_service_account_credential_parser = subparsers.add_parser("delete_service_account_credential")
@@ -1234,6 +1271,28 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid customer id")
 
+    elif command == "read_customer_config":
+        # read_customer_config method: to get customer config  info from customer gid id
+        bookmark = []  # or value returned by last write operation
+        customer_config = client_config.read_customer_config(args.customer_id, bookmark)
+        if customer_config:
+            api_helper.print_response(customer_config)
+        else:
+            print("None")
+
+    elif command == "update_customer_config":
+        customer_id = args.customer_id
+        etag = args.etag
+        default_auth_flow_id = args.default_auth_flow_id
+        bookmark = []  # or value returned by last write operation
+        customer_config = client_config.create_customer_config(default_auth_flow_id=default_auth_flow_id, default_email_service_id=None)
+        customer_config_response = client_config.update_customer_config(customer_id, etag, customer_config, bookmark)
+        if customer_config_response:
+            api_helper.print_response(customer_config_response)
+        else:
+            print("None")
+        return customer_config_response
+
     elif command == "service_account":
         # read_service_account method: to get service account info from service account gid id
         # (extracted here from service account credentials)
@@ -1315,6 +1374,41 @@ Property ID and value of the property where the value is a reference
             print("Invalid delete_app_space_response response")
         return delete_app_space_response
 
+    elif command == "read_app_space_config":
+        # read_app_space_config method: to get appSpace config  info from appSpace gid id
+        bookmark = []  # or value returned by last write operation
+        app_space_config = client_config.read_app_space_config(args.app_space_id, bookmark)
+        if app_space_config:
+            api_helper.print_response(app_space_config)
+        else:
+            print("None")
+
+    elif command == "update_app_space_config":
+        app_space_id = args.app_space_id
+        etag = args.etag
+        tenant_id = args.tenant_id
+        default_auth_flow_id = args.default_auth_flow_id
+        bookmark = []  # or value returned by last write operation
+        app_space_config = client_config.create_app_space_config(
+            default_tenant_id=tenant_id,
+            default_auth_flow_id=default_auth_flow_id,
+            default_email_service_id=None,
+            unique_property_constraints={"constraint" : client_config.unique_property_constraints(
+                tenant_unique=True,
+                canonicalization=["unicode", "case-insensitive"])},
+            username_policy=client_config.username_policy(
+                allowed_username_formats=["email", "mobile", "username"],
+                valid_email=False,
+                verify_email=False
+            )
+        )
+        app_space_config_response = client_config.update_app_space_config(app_space_id, etag, app_space_config, bookmark)
+        if app_space_config_response:
+            api_helper.print_response(app_space_config_response)
+        else:
+            print("None")
+        return app_space_config_response
+
     elif command == "tenant_id":
         tenant_id = args.tenant_id
         tenant = client_config.read_tenant_by_id(tenant_id)
@@ -1385,6 +1479,36 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid delete_tenant_response response")
         return delete_tenant_response
+
+    elif command == "read_tenant_config":
+        # read_tenant_config method: to get tenant config  info from tenant gid id
+        bookmark = []  # or value returned by last write operation
+        tenant_config = client_config.read_tenant_config(args.tenant_id, bookmark)
+        if tenant_config:
+            api_helper.print_response(tenant_config)
+        else:
+            print("None")
+
+    elif command == "update_tenant_config":
+        tenant_id = args.tenant_id
+        etag = args.etag
+        default_auth_flow_id = args.default_auth_flow_id
+        bookmark = []  # or value returned by last write operation
+        tenant_config = client_config.create_tenant_config(
+            default_auth_flow_id=default_auth_flow_id,
+            default_email_service_id=None,
+            username_policy=client_config.username_policy(
+                allowed_username_formats=["email", "mobile", "username"],
+                valid_email=False,
+                verify_email=False
+            )
+        )
+        tenant_config_response = client_config.update_tenant_config(tenant_id, etag, tenant_config, bookmark)
+        if tenant_config_response:
+            api_helper.print_response(tenant_config_response)
+        else:
+            print("None")
+        return tenant_config_response
 
     elif command == "application_id":
         application_id = args.application_id
@@ -1713,7 +1837,7 @@ Property ID and value of the property where the value is a reference
             print("Invalid delete_service_account response")
         return delete_service_account_response
 
-    elif command == "service_account_credential":
+    elif command == "read_service_account_credential":
         service_account_credential_id = args.service_account_credential_id
         service_account_credential = client_config.read_service_account_credential(service_account_credential_id)
         if service_account_credential:
@@ -1803,7 +1927,6 @@ Property ID and value of the property where the value is a reference
 
         email_service_config = EmailServiceConfig(
             default_from_address=Email(address=default_from_address_address,name=default_from_address_name),
-            default=wrappers.BoolValue(value=True),
             sendgrid=sendgrid,
             authentication_message=EmailDefinition(
                 message=EmailMessage(
@@ -1866,7 +1989,6 @@ Property ID and value of the property where the value is a reference
                 address=default_from_address_address,
                 name=default_from_address_name
             ),
-            default=wrappers.BoolValue(value=True),
             sendgrid=sendgrid,
             authentication_message=EmailDefinition(
                 message=EmailMessage(
@@ -1917,8 +2039,7 @@ Property ID and value of the property where the value is a reference
         # only bare JSON or YAML source_format is support as input
         auth_flow_config = client_config.auth_flow_config(
             source_format="FORMAT_BARE_JSON",
-            source=user_dict,
-            default=False
+            source=user_dict
         )
 
         create_auth_flow_config_node_response = client_config.create_auth_flow_config_node(
@@ -1949,8 +2070,7 @@ Property ID and value of the property where the value is a reference
         # only bare JSON or YAML source_format is support as input
         auth_flow_config = client_config.auth_flow_config(
             source_format="FORMAT_BARE_JSON",
-            source=user_dict,
-            default=False
+            source=user_dict
         )
 
         update_auth_flow_config_node_response = client_config.update_auth_flow_config_node(
