@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.25.0](https://github.com/indykite/indykite-sdk-python/compare/v1.24.0...v1.25.0) (2023-07-27)
+
+
+### Features
+
+* add spaces config and check deletes ([96908c6](https://github.com/indykite/indykite-sdk-python/commit/96908c6dbef191df702bf998eb429c1f3045e3fa))
+* custom login token ([dc9e77a](https://github.com/indykite/indykite-sdk-python/commit/dc9e77ae442e8d501e25f20c9a75cb8222ae1278))
+* update identity methods ([cb07b18](https://github.com/indykite/indykite-sdk-python/commit/cb07b184829d554c097021f05f8c392cce80a9ed))
+
 ## [1.24.0](https://github.com/indykite/indykite-sdk-python/compare/v1.23.0...v1.24.0) (2023-06-28)
 
 
