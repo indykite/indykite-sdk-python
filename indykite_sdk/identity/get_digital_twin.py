@@ -1,5 +1,3 @@
-import uuid
-
 from indykite_sdk.identity import helper
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model

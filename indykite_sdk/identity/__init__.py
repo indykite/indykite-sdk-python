@@ -1,53 +1,20 @@
-import certifi
-import grpc
-import os
 import sys
-from indykite_sdk.identity import helper
-from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2_grpc as pb2_grpc
+from indykite_sdk.utils import jwt_credentials
+from indykite_sdk.utils.logger import handle_excepthook, logger_error
 
 
 class IdentityClient(object):
 
-    def __init__(self, local=False):
+    def __init__(self, local=False, token_source=None):
+        sys.excepthook = handle_excepthook
         try:
-            cred = os.getenv('INDYKITE_APPLICATION_CREDENTIALS')
-            # Load the config from File (secondary)
-            if not cred:
-                cred = os.getenv('INDYKITE_APPLICATION_CREDENTIALS_FILE')
-                if not cred:
-                    raise Exception("Missing INDYKITE_APPLICATION_CREDENTIALS or "
-                                    "INDYKITE_APPLICATION_CREDENTIALS_FILE environment variable")
-
-                credentials = os.path.join(os.path.dirname(cred), os.path.basename(cred))
-                credentials = helper.load_credentials(credentials)
-
-            # Load the credential json (primary)
-            else:
-                credentials = helper.load_json(cred)
-
-            agent_token = helper.create_agent_jwt(credentials)
-
-            call_credentials = grpc.access_token_call_credentials(agent_token.decode("utf-8"))
-
-            if local:
-                certificate_path = os.getenv('CAPEM')
-                endpoint = credentials.get("local_endpoint")
-            else:
-                certificate_path = certifi.where()
-                endpoint = credentials.get("endpoint")
-
-            with open(certificate_path, "rb") as cert_file:
-                channel_credentials = grpc.ssl_channel_credentials(cert_file.read())
-
-            composite_credentials = grpc.composite_channel_credentials(channel_credentials,
-                                                                       call_credentials)
-
-            self.channel = grpc.secure_channel(endpoint, composite_credentials)
-            self.stub = pb2_grpc.IdentityManagementAPIStub(channel=self.channel)
-
+            self.channel, self.stub, self.credentials, self.token_source = jwt_credentials.get_credentials(
+                client="identity",
+                local=local,
+                token_source=token_source
+            )
         except Exception as exception:
-            tb = sys.exception().__traceback__
-            raise exception(...).with_traceback(tb)
+            return logger_error(exception)
 
     # Imported methods
     from .change_password import change_password_of_user, change_password

@@ -302,3 +302,20 @@ def test_create_customer_config():
         default_auth_flow_id=None,
         default_email_service_id=None)
     assert isinstance(customer_config, CustomerConfig)
+
+
+def test_read_customer_name_token_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    customer_name = data.get_customer_name()
+    customer = client.read_customer_by_name(customer_name)
+    captured = capsys.readouterr()
+    assert customer is not None
+    assert "invalid or expired access_token" not in captured.out
+    assert isinstance(customer, Customer)
+    client_config2 = ConfigClient(False, client.token_source)
+    customer2 = client_config2.read_customer_by_name(customer_name)
+    assert customer2 is not None
+    assert "invalid or expired access_token" not in captured.out
+    assert isinstance(customer2, Customer)

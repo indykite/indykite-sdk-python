@@ -59,12 +59,25 @@ https://www.indykite.com/
     "privateKeyPKCS8": ""
 }
 ```
+A token lifetime is 1h by default. You can change this time (from 2 minutes to 24h) by adding a tokenLifetime parameter.
 
-Conditionally optional parameters:
+It will have to be human-readable and Golang-like see -> https://pkg.go.dev/time#ParseDuration
+
+Examples: 30m, 1.5h, 2h45m
+
+Example at the end of the json file:
+```
+{
+  ...
+  "privateKeyPKCS8": "-----BEGIN PRIVATE KEY-----\nM\n-----END PRIVATE KEY-----",
+  "tokenLifetime": "30m"
+}
+```
+
+Conditionally optional parameters:,
 - baseUrl
 - defaultTenantId
 - endpoint
-
 
 
 2. Credentials 
