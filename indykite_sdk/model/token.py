@@ -1,6 +1,6 @@
 from datetime import datetime
 import sys
-from indykite_sdk.identity import helper
+from indykite_sdk.utils import jwt_credentials
 from indykite_sdk.utils.logger import handle_excepthook, logger_error
 from authlib.jose import JsonWebKey, jwt
 
@@ -13,7 +13,7 @@ class Token:
 
     def valid(self):
         t = datetime.now().timestamp()
-        expire_time_in_seconds = int(t) + (30 * 1000)
+        expire_time_in_seconds = int(t) + 60
         return self.expiry > expire_time_in_seconds
 
 
@@ -28,13 +28,13 @@ class TokenSource:
         try:
             if self.token is None:
                 if self.reusable:
-                    access_token = helper.create_agent_jwt(self.credentials)
+                    access_token = jwt_credentials.create_agent_jwt(self.credentials)
                     access_token_decode = jwt.decode(access_token, self.credentials.get('privateKeyJWK'))
                     self.token = Token(access_token, "Bearer", access_token_decode.exp)
                 else:
                     raise Exception("HTTP Client has no generated token")
             if not self.token.valid and self.reusable:
-                access_token = helper.create_agent_jwt(self.credentials)
+                access_token = jwt_credentials.create_agent_jwt(self.credentials)
                 access_token_decode = jwt.decode(access_token, self.credentials.get('privateKeyJWK'))
                 self.token = Token(access_token, "Bearer", access_token_decode.exp)
         except Exception as exception:

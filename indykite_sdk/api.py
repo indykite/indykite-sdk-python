@@ -5,9 +5,10 @@ import argparse
 import json
 from datetime import datetime
 import uuid
-from google.protobuf.duration_pb2 import Duration
-import os
+import time
 import requests
+import os
+from google.protobuf.duration_pb2 import Duration
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
@@ -17,7 +18,7 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConf
                                                             AmazonSESProviderConfig, MailgunProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig,
                                                             WebAuthnProviderConfig, AuthorizationPolicyConfig,
-                                                            ReadIDProviderConfig, KnowledgeGraphSchemaConfig )
+                                                            ReadIDProviderConfig, KnowledgeGraphSchemaConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig, \
     UniquePropertyConstraint, UsernamePolicy
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin, \
@@ -34,6 +35,7 @@ from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
+from indykite_sdk.utils import credentials_config
 from indykite_sdk.identity import helper
 import logging
 from indykite_sdk.utils.message_to_value import arg_to_value
@@ -163,6 +165,10 @@ Property ID and value of the property where the value is a reference
     customer_name_parser = subparsers.add_parser("customer_name")
     customer_name_parser.add_argument("customer_name", help="Customer name (not display name)")
 
+    # customer_name_token
+    customer_name_token_parser = subparsers.add_parser("customer_name_token")
+    customer_name_token_parser.add_argument("customer_name", help="Customer name (not display name)")
+
     # read_customer_config
     read_customer_config_parser = subparsers.add_parser("read_customer_config")
     read_customer_config_parser.add_argument("customer_id", help="Customer gid id")
@@ -245,7 +251,7 @@ Property ID and value of the property where the value is a reference
     list_tenants_parser = subparsers.add_parser("list_tenants")
     list_tenants_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     list_tenants_parser.add_argument("match_list", help="Matching names separated by ,",
-                                        type=lambda s: [str(item) for item in s.split(',')])
+                                     type=lambda s: [str(item) for item in s.split(',')])
     list_tenants_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
 
     # delete_tenant
@@ -288,7 +294,7 @@ Property ID and value of the property where the value is a reference
     list_applications_parser = subparsers.add_parser("list_applications")
     list_applications_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     list_applications_parser.add_argument("match_list", help="Matching names separated by ,",
-                                     type=lambda s: [str(item) for item in s.split(',')])
+                                          type=lambda s: [str(item) for item in s.split(',')])
     list_applications_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
 
     # delete_application
@@ -302,13 +308,15 @@ Property ID and value of the property where the value is a reference
 
     # application_agent_name
     application_agent_name_parser = subparsers.add_parser("application_agent_name")
-    application_agent_name_parser.add_argument("application_agent_name", help="Application agent name (not display name)")
+    application_agent_name_parser.add_argument("application_agent_name",
+                                               help="Application agent name (not display name)")
     application_agent_name_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
 
     # create_application_agent
     create_application_agent_parser = subparsers.add_parser("create_application_agent")
     create_application_agent_parser.add_argument("application_id", help="Application Id (gid)")
-    create_application_agent_parser.add_argument("application_agent_name", help="Application agent name (not display name)")
+    create_application_agent_parser.add_argument("application_agent_name",
+                                                 help="Application agent name (not display name)")
     create_application_agent_parser.add_argument("display_name", help="Display Name")
 
     # update_application_agent
@@ -321,8 +329,9 @@ Property ID and value of the property where the value is a reference
     list_application_agents_parser = subparsers.add_parser("list_application_agents")
     list_application_agents_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     list_application_agents_parser.add_argument("match_list", help="Matching names separated by ,",
-                                          type=lambda s: [str(item) for item in s.split(',')])
-    list_application_agents_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
+                                                type=lambda s: [str(item) for item in s.split(',')])
+    list_application_agents_parser.add_argument("bookmark", nargs='*',
+                                                help="Optional list of bookmarks separated by space")
 
     # delete_application_agent
     delete_application_agent_parser = subparsers.add_parser("delete_application_agent")
@@ -331,32 +340,41 @@ Property ID and value of the property where the value is a reference
 
     # application_agent_credential
     application_agent_credential_parser = subparsers.add_parser("application_agent_credential")
-    application_agent_credential_parser.add_argument("application_agent_credential_id", help="Application agent credential id")
+    application_agent_credential_parser.add_argument("application_agent_credential_id",
+                                                     help="Application agent credential id")
 
     # register_application_agent_credential_jwk
-    register_application_agent_credential_jwk_parser = subparsers.add_parser("register_application_agent_credential_jwk")
-    register_application_agent_credential_jwk_parser.add_argument("application_agent_id", help="Application agent credential id")
+    register_application_agent_credential_jwk_parser = subparsers.add_parser(
+        "register_application_agent_credential_jwk")
+    register_application_agent_credential_jwk_parser.add_argument("application_agent_id",
+                                                                  help="Application agent credential id")
     register_application_agent_credential_jwk_parser.add_argument("display_name", help="Display name")
     register_application_agent_credential_jwk_parser.add_argument("default_tenant_id", help="Default tenant id")
 
     # register_application_agent_credential_pem
-    register_application_agent_credential_pem_parser = subparsers.add_parser("register_application_agent_credential_pem")
-    register_application_agent_credential_pem_parser.add_argument("application_agent_id", help="Application agent credential id")
+    register_application_agent_credential_pem_parser = subparsers.add_parser(
+        "register_application_agent_credential_pem")
+    register_application_agent_credential_pem_parser.add_argument("application_agent_id",
+                                                                  help="Application agent credential id")
     register_application_agent_credential_pem_parser.add_argument("display_name", help="Display name")
     register_application_agent_credential_pem_parser.add_argument("default_tenant_id", help="Default tenant id")
 
     # delete_application_agent_credential
     delete_application_agent_credential_parser = subparsers.add_parser("delete_application_agent_credential")
-    delete_application_agent_credential_parser.add_argument("application_agent_credential_id", help="Application agent credential id")
-    delete_application_agent_credential_parser.add_argument("etag",help="Etag")
+    delete_application_agent_credential_parser.add_argument("application_agent_credential_id",
+                                                            help="Application agent credential id")
+    delete_application_agent_credential_parser.add_argument("etag", help="Etag")
 
     # create_application_with_agent_credentials
-    create_application_with_agent_credentials_parser = subparsers.add_parser("create_application_with_agent_credentials")
+    create_application_with_agent_credentials_parser = subparsers.add_parser(
+        "create_application_with_agent_credentials")
     create_application_with_agent_credentials_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     create_application_with_agent_credentials_parser.add_argument("tenant_id", help="Tenant Id (gid)")
     create_application_with_agent_credentials_parser.add_argument("application_name", help="Application name")
-    create_application_with_agent_credentials_parser.add_argument("application_agent_name", help="Application Agent Name")
-    create_application_with_agent_credentials_parser.add_argument("application_agent_credentials_name", help="Application Agent Credentials Name")
+    create_application_with_agent_credentials_parser.add_argument("application_agent_name",
+                                                                  help="Application Agent Name")
+    create_application_with_agent_credentials_parser.add_argument("application_agent_credentials_name",
+                                                                  help="Application Agent Credentials Name")
     create_application_with_agent_credentials_parser.add_argument("public_key_type", help="Key type: jwk or pem")
 
     # service_account_id
@@ -373,7 +391,9 @@ Property ID and value of the property where the value is a reference
     create_service_account_parser.add_argument("customer_id", help="Customer id (gid)")
     create_service_account_parser.add_argument("service_account_name", help="Service account name (not display name)")
     create_service_account_parser.add_argument("display_name", help="Display Name")
-    create_service_account_parser.add_argument("role", choices=["all_editor", "all_viewer", "app_editor", "app_viewer", "authn_viewer", "authn_editor"],  help="Roles: all_editor all_viewer app_editor app_viewer authn_viewer authn_editor")
+    create_service_account_parser.add_argument("role", choices=["all_editor", "all_viewer", "app_editor", "app_viewer",
+                                                                "authn_viewer", "authn_editor"],
+                                               help="Roles: all_editor all_viewer app_editor app_viewer authn_viewer authn_editor")
 
     # update_service_account
     update_service_account_parser = subparsers.add_parser("update_service_account")
@@ -390,14 +410,14 @@ Property ID and value of the property where the value is a reference
     register_service_account_credential_jwk_parser = subparsers.add_parser(
         "register_service_account_credential_jwk")
     register_service_account_credential_jwk_parser.add_argument("service_account_id",
-                                                                  help="Service account credential id")
+                                                                help="Service account credential id")
     register_service_account_credential_jwk_parser.add_argument("display_name", help="Display name")
 
     # register_service_account_credential_pem
     register_service_account_credential_pem_parser = subparsers.add_parser(
         "register_service_account_credential_pem")
     register_service_account_credential_pem_parser.add_argument("service_account_id",
-                                                                  help="Service account credential id")
+                                                                help="Service account credential id")
     register_service_account_credential_pem_parser.add_argument("display_name", help="Display name")
 
     # read_service_account_credential
@@ -505,14 +525,16 @@ Property ID and value of the property where the value is a reference
     update_authorization_policy_config_node_parser.add_argument("description", help="Description")
 
     # create_knowledge_graph_schema_config_node
-    create_knowledge_graph_schema_config_node_parser = subparsers.add_parser("create_knowledge_graph_schema_config_node")
+    create_knowledge_graph_schema_config_node_parser = subparsers.add_parser(
+        "create_knowledge_graph_schema_config_node")
     create_knowledge_graph_schema_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
     create_knowledge_graph_schema_config_node_parser.add_argument("name", help="Name (not display name)")
     create_knowledge_graph_schema_config_node_parser.add_argument("display_name", help="Display name")
     create_knowledge_graph_schema_config_node_parser.add_argument("description", help="Description")
 
     # update_authorization_policy_config_node
-    update_knowledge_graph_schema_config_node_parser = subparsers.add_parser("update_knowledge_graph_schema_config_node")
+    update_knowledge_graph_schema_config_node_parser = subparsers.add_parser(
+        "update_knowledge_graph_schema_config_node")
     update_knowledge_graph_schema_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
     update_knowledge_graph_schema_config_node_parser.add_argument("etag", help="Etag")
     update_knowledge_graph_schema_config_node_parser.add_argument("display_name", help="Display name")
@@ -690,7 +712,7 @@ Property ID and value of the property where the value is a reference
     ingest_record_digital_twin_parser = subparsers.add_parser("ingest_record_digital_twin")
     ingest_record_resource_parser = subparsers.add_parser("ingest_record_resource")
     ingest_record_relation_parser = subparsers.add_parser("ingest_record_relation")
-    delete_record_relation_property_parser= subparsers.add_parser("delete_record_relation_property")
+    delete_record_relation_property_parser = subparsers.add_parser("delete_record_relation_property")
     delete_record_node_property_parser = subparsers.add_parser("delete_record_node_property")
     delete_record_relation_parser = subparsers.add_parser("delete_record_relation")
     delete_record_node_parser = subparsers.add_parser("delete_record_node")
@@ -713,7 +735,7 @@ Property ID and value of the property where the value is a reference
     args = parser.parse_args()
     local = args.local
     client = IdentityClient(local)
-    client_config = ConfigClient(local)
+    client_config = ConfigClient()
     client_authorization = AuthorizationClient(local)
     client_ingest = IngestClient(local)
 
@@ -1271,6 +1293,27 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid customer id")
 
+    elif command == "customer_name_token":
+        # add "tokenLifetime": "2m" into service_account credentials json file to test token expiry
+        print(client_config.token_source.token.access_token)
+        # read_customer_by_name method: to get customer info from customer name
+        customer_name = args.customer_name
+        customer = client_config.read_customer_by_name(customer_name)
+        if customer:
+            api_helper.print_response(customer)
+        else:
+            print("Invalid customer id")
+        time.sleep(180)
+        client_config2 = ConfigClient(False, client_config.token_source)
+        print(client_config2.token_source.token.access_token)
+        # read_customer_by_name method: to get customer info from customer name
+        customer_name = args.customer_name
+        customer = client_config2.read_customer_by_name(customer_name)
+        if customer:
+            api_helper.print_response(customer)
+        else:
+            print("Invalid customer id")
+
     elif command == "read_customer_config":
         # read_customer_config method: to get customer config  info from customer gid id
         bookmark = []  # or value returned by last write operation
@@ -1285,7 +1328,8 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         default_auth_flow_id = args.default_auth_flow_id
         bookmark = []  # or value returned by last write operation
-        customer_config = client_config.create_customer_config(default_auth_flow_id=default_auth_flow_id, default_email_service_id=None)
+        customer_config = client_config.create_customer_config(default_auth_flow_id=default_auth_flow_id,
+                                                               default_email_service_id=None)
         customer_config_response = client_config.update_customer_config(customer_id, etag, customer_config, bookmark)
         if customer_config_response:
             api_helper.print_response(customer_config_response)
@@ -1326,7 +1370,8 @@ Property ID and value of the property where the value is a reference
         customer_id = args.customer_id
         display_name = args.display_name
         bookmark = []  # or value returned by last write operation
-        app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name,"description", bookmark)
+        app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name, "description",
+                                                            bookmark)
         if app_space_response:
             api_helper.print_response(app_space_response)
         else:
@@ -1338,7 +1383,8 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         bookmark = []  # or value returned by last write operation
-        app_space_response = client_config.update_app_space(app_space_id, etag, display_name,"description update", bookmark)
+        app_space_response = client_config.update_app_space(app_space_id, etag, display_name, "description update",
+                                                            bookmark)
         if app_space_response:
             api_helper.print_response(app_space_response)
         else:
@@ -1393,7 +1439,7 @@ Property ID and value of the property where the value is a reference
             default_tenant_id=tenant_id,
             default_auth_flow_id=default_auth_flow_id,
             default_email_service_id=None,
-            unique_property_constraints={"constraint" : client_config.unique_property_constraints(
+            unique_property_constraints={"constraint": client_config.unique_property_constraints(
                 tenant_unique=True,
                 canonicalization=["unicode", "case-insensitive"])},
             username_policy=client_config.username_policy(
@@ -1402,7 +1448,8 @@ Property ID and value of the property where the value is a reference
                 verify_email=False
             )
         )
-        app_space_config_response = client_config.update_app_space_config(app_space_id, etag, app_space_config, bookmark)
+        app_space_config_response = client_config.update_app_space_config(app_space_id, etag, app_space_config,
+                                                                          bookmark)
         if app_space_config_response:
             api_helper.print_response(app_space_config_response)
         else:
@@ -1414,7 +1461,7 @@ Property ID and value of the property where the value is a reference
         tenant = client_config.read_tenant_by_id(tenant_id)
         logger = logging.getLogger()
         if tenant and isinstance(tenant, Tenant):
-                api_helper.print_response(tenant)
+            api_helper.print_response(tenant)
         else:
             print("Invalid tenant id")
 
@@ -1432,7 +1479,7 @@ Property ID and value of the property where the value is a reference
         issuer_id = args.issuer_id
         display_name = args.display_name
         bookmark = []  # or value returned by last write operation
-        tenant_response = client_config.create_tenant(issuer_id, tenant_name, display_name,"description", bookmark)
+        tenant_response = client_config.create_tenant(issuer_id, tenant_name, display_name, "description", bookmark)
         if tenant_response:
             api_helper.print_response(tenant_response)
         else:
@@ -1444,7 +1491,7 @@ Property ID and value of the property where the value is a reference
         etag = args.etag
         display_name = args.display_name
         bookmark = []  # or value returned by last write operation
-        tenant_response = client_config.update_tenant(tenant_id, etag, display_name,"description update", bookmark)
+        tenant_response = client_config.update_tenant(tenant_id, etag, display_name, "description update", bookmark)
         if tenant_response:
             api_helper.print_response(tenant_response)
         else:
@@ -1685,7 +1732,7 @@ Property ID and value of the property where the value is a reference
         default_tenant_id = args.default_tenant_id
         jwk = None  # or replace by your JWK public key
         t = datetime.now().timestamp()
-        expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        expire_time_in_seconds = int(t) + 2678400  # now + one month example
         bookmark = []  # or value returned by last write operation
         application_agent_credential_response = client_config.register_application_agent_credential_jwk(
             application_agent_id,
@@ -1707,7 +1754,7 @@ Property ID and value of the property where the value is a reference
         default_tenant_id = args.default_tenant_id
         pem = None  # or replace by your pem public certificate
         t = datetime.now().timestamp()
-        expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        expire_time_in_seconds = int(t) + 2678400  # now + one month example
         bookmark = []  # or value returned by last write operation
         application_agent_credential_response = client_config.register_application_agent_credential_pem(
             application_agent_id,
@@ -1761,7 +1808,8 @@ Property ID and value of the property where the value is a reference
         if create_application_with_agent_credentials_response:
             api_helper.print_response(create_application_with_agent_credentials_response["response_application"])
             api_helper.print_response(create_application_with_agent_credentials_response["response_application_agent"])
-            api_helper.print_credential(create_application_with_agent_credentials_response["response_application_agent_credentials"])
+            api_helper.print_credential(
+                create_application_with_agent_credentials_response["response_application_agent_credentials"])
         else:
             print("Invalid create_application_with_agent_credentials_response")
         return create_application_with_agent_credentials_response
@@ -1850,7 +1898,7 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         jwk = None  # or replace by your JWK public key
         t = datetime.now().timestamp()
-        expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        expire_time_in_seconds = int(t) + 2678400  # now + one month example
         bookmark = []  # or value returned by last write operation
         service_account_credential_response = client_config.register_service_account_credential_jwk(
             service_account_id,
@@ -1868,9 +1916,9 @@ Property ID and value of the property where the value is a reference
     elif command == "register_service_account_credential_pem":
         service_account_id = args.service_account_id
         display_name = args.display_name
-        pem = None # or replace by your pem public certificate
+        pem = None  # or replace by your pem public certificate
         t = datetime.now().timestamp()
-        expire_time_in_seconds = int(t) + 2678400 # now + one month example
+        expire_time_in_seconds = int(t) + 2678400  # now + one month example
         bookmark = []  # or value returned by last write operation
         service_account_credential_response = client_config.register_service_account_credential_pem(
             service_account_id,
@@ -1909,8 +1957,8 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         description = args.description
 
-        default_from_address_address=os.getenv('INDYKITE_DEFAULT_FROM')
-        default_from_address_name="Test Config"
+        default_from_address_address = os.getenv('INDYKITE_DEFAULT_FROM')
+        default_from_address_name = "Test Config"
 
         sendgrid = SendGridProviderConfig(
             api_key=os.getenv('SENDGRID_KEY'),
@@ -1926,7 +1974,7 @@ Property ID and value of the property where the value is a reference
         message_html_content = "<html><body>content html</body></html>"
 
         email_service_config = EmailServiceConfig(
-            default_from_address=Email(address=default_from_address_address,name=default_from_address_name),
+            default_from_address=Email(address=default_from_address_address, name=default_from_address_name),
             sendgrid=sendgrid,
             authentication_message=EmailDefinition(
                 message=EmailMessage(
@@ -1969,8 +2017,8 @@ Property ID and value of the property where the value is a reference
         display_name = args.display_name
         description = args.description
 
-        default_from_address_address="test+config@indykite.com"
-        default_from_address_name="Test Config"
+        default_from_address_address = "test+config@indykite.com"
+        default_from_address_name = "Test Config"
 
         sendgrid = SendGridProviderConfig(
             api_key=os.getenv('SENDGRID_KEY'),
@@ -2300,7 +2348,7 @@ Property ID and value of the property where the value is a reference
             policy=str(policy_dict),
             status="STATUS_ACTIVE",
             tags=[]
-           )
+        )
 
         update_authorization_policy_config_node_response = client_config.update_authorization_policy_config_node(
             config_node_id,
@@ -2473,9 +2521,9 @@ Property ID and value of the property where the value is a reference
             logo_uri="http://localhost:3000/logo",
             user_support_email_address="test@example.com",
             subject_type="CLIENT_SUBJECT_TYPE_PUBLIC",
-            scopes = ["openid", "profile", "email"],
-            token_endpoint_auth_method = "TOKEN_ENDPOINT_AUTH_METHOD_CLIENT_SECRET_BASIC",
-            token_endpoint_auth_signing_alg = "ES256",
+            scopes=["openid", "profile", "email"],
+            token_endpoint_auth_method="TOKEN_ENDPOINT_AUTH_METHOD_CLIENT_SECRET_BASIC",
+            token_endpoint_auth_signing_alg="ES256",
             grant_types=["GRANT_TYPE_AUTHORIZATION_CODE"],
             response_types=["RESPONSE_TYPE_CODE", "RESPONSE_TYPE_TOKEN"]
         )
@@ -2578,12 +2626,12 @@ Property ID and value of the property where the value is a reference
         return is_authorized
 
     elif command == "is_authorized_property":
-        property_type = args.property_type #e.g "email"
-        property_value = args.property_value #e.g test@example.com
+        property_type = args.property_type  # e.g "email"
+        property_value = args.property_value  # e.g test@example.com
         actions = ["ACTION1", "ACTION2"]
         resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
-        input_params = {"age":"21"}
+        input_params = {"age": "21"}
         policy_tags = []
         is_authorized = client_authorization.is_authorized_property_filter(
             property_type,
@@ -2625,7 +2673,8 @@ Property ID and value of the property where the value is a reference
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
         input_params = {}
         policy_tags = []
-        what_authorized = client_authorization.what_authorized_token(access_token, resource_types, input_params, policy_tags)
+        what_authorized = client_authorization.what_authorized_token(access_token, resource_types, input_params,
+                                                                     policy_tags)
         if what_authorized:
             api_helper.print_response(what_authorized)
         else:
@@ -2633,12 +2682,12 @@ Property ID and value of the property where the value is a reference
         return what_authorized
 
     elif command == "what_authorized_property":
-        property_type = args.property_type #e.g "email"
-        property_value = args.property_value #e.g test@example.com
+        property_type = args.property_type  # e.g "email"
+        property_value = args.property_value  # e.g test@example.com
         actions = ["ACTION1", "ACTION2"]
         resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
-        input_params = {"age":"21"}
+        input_params = {"age": "21"}
         policy_tags = []
         what_authorized = client_authorization.what_authorized_property_filter(
             property_type,
@@ -2674,28 +2723,33 @@ Property ID and value of the property where the value is a reference
         # generate an authenticated http client and generate a bearer token from the provided credentials
         client_http = HttpClient()
         response_http = client_http.get_http_client(token)
-        credentials = client_http.get_credentials()
+        client = "identity"
+        credentials = credentials_config.lookup_env_credentials_variables(client)
         # call get_refreshable_token_source again to check the token is the same
         response_source = client_http.get_refreshable_token_source(response_http.token_source, credentials)
+        print(response_source.token.access_token)
         # call get_http_client again to generate another http client and check if the token is the same
         response_http2 = client_http.get_http_client(response_http.token_source)
         access_token = response_http2.get_token()
+        print(response_http2.token_source.token.access_token)
         # make a Knowledge API query
         endpoint = args.base_url
-        data = {"query":"query ExampleQuery { identityProperties { id }}","variables":{},"operationName":"ExampleQuery"}
-        headers = {"Authorization": "Bearer "+access_token,
+        data = {"query": "query ExampleQuery { identityProperties { id }}", "variables": {},
+                "operationName": "ExampleQuery"}
+        headers = {"Authorization": "Bearer " + access_token,
                    'Content-Type': 'application/json'}
         response_post = requests.post(endpoint, json=data, headers=headers)
-        print(response_http2.token_source.token.access_token)
         if response_post.text is not None:
             api_helper.print_response(response_post.text)
 
     elif command == "get_refreshable_token_source":
         token_source = None
         client_http = HttpClient()
-        credentials = client_http.get_credentials()
-        response = client_http.get_refreshable_token_source(token_source, credentials)
+        client = "identity"
+        credentials = credentials_config.lookup_env_credentials_variables(client)
+        response = client_http.get_refreshable_token_source(token_source, credentials, client)
         access_token_bytes = response.token.access_token
+        print(access_token_bytes)
 
     elif command == "ingest_record_digital_twin":
         # replace with actual values
@@ -2709,12 +2763,12 @@ Property ID and value of the property where the value is a reference
         ingest_property = client_ingest.ingest_property("customProp", "741")
         properties = [ingest_property]
         upsert = client_ingest.upsert_data_node_digital_twin(
-                                      external_id,
-                                      type,
-                                      [],
-                                      tenant_id,
-                                      identity_properties,
-                                      properties)
+            external_id,
+            type,
+            [],
+            tenant_id,
+            identity_properties,
+            properties)
         ingest_record_digital_twin = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_digital_twin:
             api_helper.print_response(ingest_record_digital_twin)
@@ -2730,10 +2784,10 @@ Property ID and value of the property where the value is a reference
         properties = [ingest_property]
         tags = []
         upsert = client_ingest.upsert_data_node_resource(
-                                      external_id,
-                                      type,
-                                      tags,
-                                      properties)
+            external_id,
+            type,
+            tags,
+            properties)
         ingest_record_resource = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_resource:
             api_helper.print_response(ingest_record_resource)
@@ -2750,8 +2804,8 @@ Property ID and value of the property where the value is a reference
         ingest_property = client_ingest.ingest_property("customProp", "8742")
         properties = [ingest_property]
         upsert = client_ingest.upsert_data_relation(
-                                      match,
-                                      properties)
+            match,
+            properties)
         ingest_record_relation = client_ingest.ingest_record_upsert(record_id, upsert)
         if ingest_record_relation:
             api_helper.print_response(ingest_record_relation)
@@ -2865,9 +2919,9 @@ Property ID and value of the property where the value is a reference
         token_claims = {"t_claim": "test"}
         session_claims = {"s_claim": "test"}
         digital_twin = model.DigitalTwin(
-                    id=str(digital_twin_id),
-                    tenant_id=str(tenant_id)
-                )
+            id=str(digital_twin_id),
+            tenant_id=str(tenant_id)
+        )
         create_custom_login_token = client.create_custom_login_token(digital_twin, token_claims, session_claims)
         if create_custom_login_token:
             api_helper.print_response(create_custom_login_token)

@@ -1,9 +1,5 @@
-import sys
 import requests
-import unittest
-import indykite_sdk.utils.logger as logger
 from indykite_sdk.model.token import TokenSource, Token
-from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from helpers import data
 from indykite_sdk.oauth2 import HttpClient
 
@@ -111,3 +107,15 @@ def test_get_token_exception(capsys):
     access_token = response_http.get_token()
     captured = capsys.readouterr()
     assert ("object has no attribute" in captured.err)
+
+
+def test_token_success(capsys):
+    token = None
+    client_http = HttpClient()
+    response_http = client_http.get_http_client(token)
+    access_token = client_http.get_token()
+    captured = capsys.readouterr()
+    assert access_token is not None
+    token = Token(access_token, "Bearer", 3155760000)
+    val = token.valid()
+    assert val is not None

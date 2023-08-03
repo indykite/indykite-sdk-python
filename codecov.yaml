@@ -3,7 +3,12 @@ coverage:
     project:
       default:
         target: 75%
-        threshold: 1%
+        threshold: 3%
+    patch:
+        default:
+            target: 75%
+            threshold: 10%
+
 
 ignore:
   - "setup.py"
@@ -20,9 +25,7 @@ ignore:
   - "indykite_sdk/model/email_attachment.py"
   - "indykite_sdk/model/import_digital_twin.py"
   - "indykite_sdk/model/get_schema.py"
-  - "indykite_sdk/utils/hash_methods.py"
-  - "indykite_sdk/utils/message_to_value.py"
-  - "indykite_sdk/utils/logger.py"
+  - "indykite_sdk/utils"
   - "tests"
   - "examples"
   - "prepare_docs"

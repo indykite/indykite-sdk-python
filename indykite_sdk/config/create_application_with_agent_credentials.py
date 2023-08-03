@@ -4,7 +4,7 @@ from indykite_sdk.model.register_application_agent_credential import RegisterApp
 from indykite_sdk.model.key_type import KeyType
 import sys
 import indykite_sdk.utils.logger as logger
-from indykite_sdk.config import helper
+from indykite_sdk.utils import helper
 from datetime import datetime
 
 
