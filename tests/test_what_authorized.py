@@ -19,7 +19,7 @@ def test_what_authorized_token_wrong_token(capsys):
     input_params = {}
     response = client.what_authorized_token(access_token, resource_types, input_params, [])
     captured = capsys.readouterr()
-    assert "StatusCode.INVALID_ARGUMENT" in captured.err
+    assert "Failed to introspect the token" in captured.err
 
 
 def test_what_authorized_token_empty():
@@ -148,7 +148,7 @@ def test_what_authorized_property_wrong_property(capsys):
     input_params = {}
     response = client.what_authorized_property_filter(type_filter, email_value, resource_types, input_params, [])
     captured = capsys.readouterr()
-    assert "digital_twin was not found" in captured.err
+    assert "Failed to find identity by property" in captured.err
 
 
 def test_what_authorized_property_success():
