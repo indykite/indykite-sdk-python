@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.0](https://github.com/indykite/indykite-sdk-python/compare/v1.25.0...v1.26.0) (2023-08-15)
+
+
+### Features
+
+* tokenLifetime, common clients and tokenSource ([ee8ece2](https://github.com/indykite/indykite-sdk-python/commit/ee8ece2a4d75dcae6e43d60afda9142514acb1b4))
+
 ## [1.25.0](https://github.com/indykite/indykite-sdk-python/compare/v1.24.0...v1.25.0) (2023-07-27)
 
 
