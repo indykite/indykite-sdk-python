@@ -53,7 +53,6 @@ class ParseKwargs(argparse.Action):
 def main():
     # Create parent parser
     parser = argparse.ArgumentParser(description="Identity client API.")
-    parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
     subparsers = parser.add_subparsers(dest="command", help="sub-command help")
 
     # Create child parsers
@@ -733,11 +732,10 @@ Property ID and value of the property where the value is a reference
     create_custom_login_token_property.add_argument("tenant_id", help="Tenant gid id")
 
     args = parser.parse_args()
-    local = args.local
-    client = IdentityClient(local)
+    client = IdentityClient()
     client_config = ConfigClient()
-    client_authorization = AuthorizationClient(local)
-    client_ingest = IngestClient(local)
+    client_authorization = AuthorizationClient()
+    client_ingest = IngestClient()
 
     command = args.command
 

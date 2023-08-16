@@ -42,13 +42,11 @@ import argparse
 
     # Create parent parser
     parser = argparse.ArgumentParser(description="Identity client API.")
-    parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
     subparsers = parser.add_subparsers(dest="command", help="sub-command help")
     
     # Create 
     args = parser.parse_args()
-    local = args.local
-    client = IdentityClient(local)
+    client = IdentityClient()
     ................
 
     client.channel.close()
@@ -66,13 +64,11 @@ import argparse
 
   # Create parent parser
   parser = argparse.ArgumentParser(description="Config client API.")
-  parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
   subparsers = parser.add_subparsers(dest="command", help="sub-command help")
   
   # Create 
   args = parser.parse_args()
-  local = args.local
-  client_config = ConfigClient(local)
+  client_config = ConfigClient()
 
  ....................
  
@@ -90,13 +86,11 @@ import argparse
 
   # Create parent parser
   parser = argparse.ArgumentParser(description="Config client API.")
-  parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
   subparsers = parser.add_subparsers(dest="command", help="sub-command help")
   
   # Create 
   args = parser.parse_args()
-  local = args.local
-  client_authorization = AuthorizationClient(local)
+  client_authorization = AuthorizationClient()
 
  ....................
  
@@ -1666,10 +1660,8 @@ To see the subcommands help page, run
 python3 api.py <sub_command> --help
 ```
 
-To execute the functions against the local instance, add the `-l` flag to the command:
-
 ```shell
-python api.py -l introspect USER_TOKEN
+python api.py introspect USER_TOKEN
 ```
 
 ## Development

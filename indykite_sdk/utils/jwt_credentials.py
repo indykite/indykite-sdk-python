@@ -59,11 +59,10 @@ def create_jwt_message(credentials, client):
     return message
 
 
-def get_credentials(client="identity", local=False, token_source=None):
+def get_credentials(client="identity", token_source=None):
     """
     get all credentials necessary info
     :param client: string
-    :param local: bool
     :param token_source: TokenSource object
     :return: secure channel to a server, stub
     """
@@ -91,12 +90,8 @@ def get_credentials(client="identity", local=False, token_source=None):
             agent_token = token_source.token.access_token
 
         call_credentials = grpc.access_token_call_credentials(agent_token.decode("utf-8"))
-        if local:
-            certificate_path = os.getenv('CAPEM')
-            endpoint = credentials.get("local_endpoint")
-        else:
-            certificate_path = certifi.where()
-            endpoint = credentials.get("endpoint")
+        certificate_path = certifi.where()
+        endpoint = credentials.get("endpoint")
 
         with open(certificate_path, "rb") as cert_file:
             channel_credentials = grpc.ssl_channel_credentials(cert_file.read())

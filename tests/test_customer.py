@@ -314,7 +314,7 @@ def test_read_customer_name_token_success(capsys):
     assert customer is not None
     assert "invalid or expired access_token" not in captured.out
     assert isinstance(customer, Customer)
-    client_config2 = ConfigClient(False, client.token_source)
+    client_config2 = ConfigClient(client.token_source)
     customer2 = client_config2.read_customer_by_name(customer_name)
     assert customer2 is not None
     assert "invalid or expired access_token" not in captured.out

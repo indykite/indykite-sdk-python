@@ -5,12 +5,11 @@ from indykite_sdk.utils.logger import handle_excepthook, logger_error
 
 class ConfigClient(object):
 
-    def __init__(self, local=False, token_source=None):
+    def __init__(self, token_source=None):
         sys.excepthook = handle_excepthook
         try:
             self.channel, self.stub, self.credentials, self.token_source = jwt_credentials.get_credentials(
                 client="config",
-                local=local,
                 token_source=token_source
             )
         except Exception as exception:
