@@ -16,7 +16,7 @@ class IngestClient(object):
             return logger_error(exception)
 
     # Imported methods
-    from .ingest_record import ingest_record_upsert, upsert_data_node_digital_twin, identity_property, ingest_property, \
+    from .ingest_record import ingest_record, upsert_data_node_digital_twin, identity_property, ingest_property, \
         upsert_data_node_resource, upsert_data_relation, relation_match, node_match, node_property_match, \
-        relation_property_match, ingest_record_delete, delete_data_node, delete_data_relation, delete_data_node_property, \
-        delete_data_relation_property, generate_records_request, stream_records, record_upsert
+        relation_property_match, ingest_record, delete_data_node, delete_data_relation, delete_data_node_property, \
+        delete_data_relation_property, generate_records_request, stream_records, record_upsert, record_delete
