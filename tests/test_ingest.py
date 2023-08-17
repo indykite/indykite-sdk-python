@@ -25,8 +25,9 @@ def test_ingest_record_digital_twin_success():
         identity_properties,
         properties)
     assert isinstance(upsert, model_pb2.UpsertData)
-
-    response = client.ingest_record_upsert(record_id, upsert)
+    record = client.record_upsert(record_id, upsert)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
 
@@ -45,7 +46,9 @@ def test_ingest_record_resource_success():
                                 [],
                                 properties)
     assert isinstance(upsert, model_pb2.UpsertData)
-    response = client.ingest_record_upsert(record_id, upsert)
+    record = client.record_upsert(record_id, upsert)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
 
@@ -67,13 +70,17 @@ def test_ingest_record_relation_success():
         match,
         properties)
     assert isinstance(upsert, model_pb2.UpsertData)
-    response = client.ingest_record_upsert(record_id, upsert)
+    record = client.record_upsert(record_id, upsert)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
     node = client.node_match("vehicle-1", "Vehicle")
     delete = client.delete_data_node(node)
     assert isinstance(delete, model_pb2.DeleteData)
-    response = client.ingest_record_delete(id=record_id, delete=delete)
+    record = client.record_delete(record_id, delete)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
 
@@ -93,12 +100,16 @@ def test_ingest_record_relation_delete():
         match,
         properties)
     assert isinstance(upsert, model_pb2.UpsertData)
-    response = client.ingest_record_upsert(record_id, upsert)
+    record = client.record_upsert(record_id, upsert)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
     delete = client.delete_data_relation(match)
     assert isinstance(delete, model_pb2.DeleteData)
-    response = client.ingest_record_delete(id=record_id, delete=delete)
+    record = client.record_delete(record_id, delete)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
 
@@ -118,14 +129,18 @@ def test_delete_record_node_property():
         match,
         properties)
     assert isinstance(upsert, model_pb2.UpsertData)
-    response = client.ingest_record_upsert(record_id, upsert)
+    record = client.record_upsert(record_id, upsert)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
     key = "nodePropertyName"
     node_property = client.node_property_match(source_match, key)
     delete = client.delete_data_node_property(node_property)
     assert isinstance(delete, model_pb2.DeleteData)
-    response = client.ingest_record_delete(id=record_id, delete=delete)
+    record = client.record_delete(record_id, delete)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
 
@@ -145,14 +160,17 @@ def test_delete_record_relation_property():
         match,
         properties)
     assert isinstance(upsert, model_pb2.UpsertData)
-    response = client.ingest_record_upsert(record_id, upsert)
+    record = client.record_upsert(record_id, upsert)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
     key = "relationPropertyName"
     relation_property = client.relation_property_match(match, key)
     delete = client.delete_data_relation_property(relation_property)
     assert isinstance(delete, model_pb2.DeleteData)
-    response = client.ingest_record_delete(id=record_id, delete=delete)
+    record = client.record_delete(record_id, delete)
+    assert isinstance(record, model_pb2.Record)
+    response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
 
 
@@ -282,6 +300,7 @@ def test_ingest_record_delete_error(capsys):
     record_id = "745890"
     node = client.node_match("vehicle-11111111111", "Vehicle111111111")
     delete = client.delete_data_node(node)
-    delete_record_node = client.ingest_record_delete(id=record_id, delete=delete)
+    record = client.record_delete(record_id, delete)
+    delete_record_node = client.ingest_record(record)
     captured = capsys.readouterr()
     assert "ERROR" in captured.err

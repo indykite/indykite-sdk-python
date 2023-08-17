@@ -6,29 +6,66 @@ import indykite_sdk.utils.logger as logger
 from indykite_sdk.utils.message_to_value import arg_to_value
 
 
-def ingest_record_upsert(self, id, upsert):
+def ingest_record(self, record):
     """
     data ingestion
     :param self:
-    :param id: id record for client ref
-    :param upsert: UpsertData object
+    :param record: Record object
     :return: record_error
     """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.IngestRecord(
             pb2.IngestRecordRequest(
-                record=model_pb2.Record(
-                    id=str(id),
-                    upsert=upsert
-                )
+                record=record
             )
         )
         if not response:
             return None
-
         return IngestRecordResponse.deserialize(response)
 
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def record_upsert(self, id, upsert):
+    """
+    create record
+    :param self:
+    :param id: id record for client ref
+    :param upsert: UpsertData object
+    :return: record
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        record=model_pb2.Record(
+            id=str(id),
+            upsert=upsert
+        )
+        if not record:
+            return None
+        return record
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def record_delete(self, id, delete):
+    """
+    create record
+    :param self:
+    :param id: id record for client ref
+    :param delete: DeleteData object
+    :return: record
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        record = model_pb2.Record(
+            id=str(id),
+            delete=delete
+        )
+        if not record:
+            return None
+        return record
     except Exception as exception:
         return logger.logger_error(exception)
 
@@ -300,51 +337,6 @@ def delete_data_relation_property(self, relation_property):
             relation_property=relation_property
         )
         return delete
-    except Exception as exception:
-        return logger.logger_error(exception)
-
-
-def ingest_record_delete(self, id, delete):
-    """
-    IngestRecord delete
-    :param self:
-    :param id: record id
-    :param delete: DeleteData object (node, relation, node_property or relation_property)
-    :return: record_error
-    """
-    sys.excepthook = logger.handle_excepthook
-    try:
-        response = self.stub.IngestRecord(
-            pb2.IngestRecordRequest(
-                record=model_pb2.Record(
-                    id=str(id),
-                    delete=delete
-                )
-            )
-        )
-        if not response:
-            return None
-        return IngestRecordResponse.deserialize(response)
-
-    except Exception as exception:
-        return logger.logger_error(exception)
-
-
-def record_upsert(self, id, upsert):
-    """
-    create record
-    :param self:
-    :param id: id record for client ref
-    :param upsert: UpsertData object
-    :return: record
-    """
-    sys.excepthook = logger.handle_excepthook
-    try:
-        record = model_pb2.Record(
-            id=str(id),
-            upsert=upsert
-        )
-        return record
     except Exception as exception:
         return logger.logger_error(exception)
 

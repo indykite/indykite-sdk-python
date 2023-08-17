@@ -1302,7 +1302,7 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid customer id")
         time.sleep(180)
-        client_config2 = ConfigClient(False, client_config.token_source)
+        client_config2 = ConfigClient(client_config.token_source)
         print(client_config2.token_source.token.access_token)
         # read_customer_by_name method: to get customer info from customer name
         customer_name = args.customer_name
@@ -2767,7 +2767,8 @@ Property ID and value of the property where the value is a reference
             tenant_id,
             identity_properties,
             properties)
-        ingest_record_digital_twin = client_ingest.ingest_record_upsert(record_id, upsert)
+        record = client_ingest.record_upsert(record_id, upsert)
+        ingest_record_digital_twin = client_ingest.ingest_record(record)
         if ingest_record_digital_twin:
             api_helper.print_response(ingest_record_digital_twin)
         else:
@@ -2786,7 +2787,8 @@ Property ID and value of the property where the value is a reference
             type,
             tags,
             properties)
-        ingest_record_resource = client_ingest.ingest_record_upsert(record_id, upsert)
+        record = client_ingest.record_upsert(record_id, upsert)
+        ingest_record_resource = client_ingest.ingest_record(record)
         if ingest_record_resource:
             api_helper.print_response(ingest_record_resource)
         else:
@@ -2804,7 +2806,8 @@ Property ID and value of the property where the value is a reference
         upsert = client_ingest.upsert_data_relation(
             match,
             properties)
-        ingest_record_relation = client_ingest.ingest_record_upsert(record_id, upsert)
+        record = client_ingest.record_upsert(record_id, upsert)
+        ingest_record_relation = client_ingest.ingest_record(record)
         if ingest_record_relation:
             api_helper.print_response(ingest_record_relation)
         else:
@@ -2815,7 +2818,8 @@ Property ID and value of the property where the value is a reference
         record_id = "745890"
         node = client_ingest.node_match("vehicle-1", "Vehicle")
         delete = client_ingest.delete_data_node(node)
-        delete_record_node = client_ingest.ingest_record_delete(id=record_id, delete=delete)
+        record = client_ingest.record_delete(record_id, delete)
+        delete_record_node = client_ingest.ingest_record(record)
         if delete_record_node:
             api_helper.print_response(delete_record_node)
         else:
@@ -2829,7 +2833,8 @@ Property ID and value of the property where the value is a reference
         target_match = client_ingest.node_match("lot-1", "ParkingLot")
         relation = client_ingest.relation_match(source_match, target_match, type)
         delete = client_ingest.delete_data_relation(relation)
-        delete_record_relation = client_ingest.ingest_record_delete(id=record_id, delete=delete)
+        record = client_ingest.record_delete(record_id, delete)
+        delete_record_relation = client_ingest.ingest_record(record)
         if delete_record_relation:
             api_helper.print_response(delete_record_relation)
         else:
@@ -2842,7 +2847,8 @@ Property ID and value of the property where the value is a reference
         key = "nodePropertyName"
         node_property = client_ingest.node_property_match(match, key)
         delete = client_ingest.delete_data_node_property(node_property)
-        delete_record_node_property = client_ingest.ingest_record_delete(id=record_id, delete=delete)
+        record = client_ingest.record_delete(record_id, delete)
+        delete_record_node_property = client_ingest.ingest_record(record)
         if delete_record_node_property:
             api_helper.print_response(delete_record_node_property)
         else:
@@ -2858,7 +2864,8 @@ Property ID and value of the property where the value is a reference
         key = "relationPropertyName"
         relation_property = client_ingest.relation_property_match(match, key)
         delete = client_ingest.delete_data_relation_property(relation_property)
-        delete_record_relation_property = client_ingest.ingest_record_delete(id=record_id, delete=delete)
+        record = client_ingest.record_delete(record_id, delete)
+        delete_record_relation_property = client_ingest.ingest_record(record)
         if delete_record_relation_property:
             api_helper.print_response(delete_record_relation_property)
         else:
