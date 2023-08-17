@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.0](https://github.com/indykite/indykite-sdk-python/compare/v1.26.0...v1.27.0) (2023-08-17)
+
+
+### Features
+
+* remove local argument ([c0d67ee](https://github.com/indykite/indykite-sdk-python/commit/c0d67eee13c1c02dd29f38bffb095b90b15d6696))
+
 ## [1.26.0](https://github.com/indykite/indykite-sdk-python/compare/v1.25.0...v1.26.0) (2023-08-15)
 
 
