@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.28.0](https://github.com/indykite/indykite-sdk-python/compare/v1.27.0...v1.28.0) (2023-08-23)
+
+
+### Features
+
+* update ingest methods ([1b02eff](https://github.com/indykite/indykite-sdk-python/commit/1b02effe0824a09606cfa6c408ebc402656b012c))
+
 ## [1.27.0](https://github.com/indykite/indykite-sdk-python/compare/v1.26.0...v1.27.0) (2023-08-17)
 
 
