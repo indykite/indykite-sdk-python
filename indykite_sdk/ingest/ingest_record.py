@@ -1,6 +1,6 @@
 from indykite_sdk.indykite.ingest.v1beta2 import ingest_api_pb2 as pb2
 from indykite_sdk.indykite.ingest.v1beta2 import model_pb2
-from indykite_sdk.model.ingest_record import StreamRecordsResponse, IngestRecordResponse
+from indykite_sdk.model.ingest_record import IngestRecordResponse
 import sys
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.utils.message_to_value import arg_to_value
@@ -38,7 +38,7 @@ def record_upsert(self, id, upsert):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        record=model_pb2.Record(
+        record = model_pb2.Record(
             id=str(id),
             upsert=upsert
         )
@@ -337,44 +337,5 @@ def delete_data_relation_property(self, relation_property):
             relation_property=relation_property
         )
         return delete
-    except Exception as exception:
-        return logger.logger_error(exception)
-
-
-def generate_records_request(self, records):
-    """Create iterator for record requests."""
-    for record in records:
-        record_request = pb2.StreamRecordsRequest(record=record)
-        yield record_request
-
-
-def stream_records(self, record):
-    sys.excepthook = logger.handle_excepthook
-    try:
-        record_iterator = self.generate_records_request(record)
-        response_iterator = self.stub.StreamRecords(record_iterator)
-        responses = list(response_iterator)
-        res = [StreamRecordsResponse.deserialize(response) for response in responses]
-        return res
-
-    except Exception as exception:
-        return logger.logger_error(exception)
-
-
-def change(self, id, data_type):
-    """
-    create change
-    :param self:
-    :param id: change id
-    :param data_type Change.DataType object
-    :return: change
-    """
-    sys.excepthook = logger.handle_excepthook
-    try:
-        change = model_pb2.Change(
-            id=str(id),
-            data_type=data_type
-        )
-        return change
     except Exception as exception:
         return logger.logger_error(exception)

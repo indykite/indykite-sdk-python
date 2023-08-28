@@ -40,6 +40,7 @@ from indykite_sdk.identity import helper
 import logging
 from indykite_sdk.utils.message_to_value import arg_to_value
 from indykite_sdk import api_helper
+import re
 
 
 class ParseKwargs(argparse.Action):
@@ -716,6 +717,8 @@ Property ID and value of the property where the value is a reference
     delete_record_relation_parser = subparsers.add_parser("delete_record_relation")
     delete_record_node_parser = subparsers.add_parser("delete_record_node")
     stream_records_parser = subparsers.add_parser("stream_records")
+    edges_parser = subparsers.add_parser("edges")
+
 
     # get_schema_helpers
     get_schema_helpers_parser = subparsers.add_parser("get_schema_helpers")
@@ -925,7 +928,7 @@ Property ID and value of the property where the value is a reference
             state="DIGITAL_TWIN_STATE_ACTIVE",
             password=PasswordCredential(
                 email=EmailIdentity(
-                    email="test2314@example.com",
+                    email="test562@example.com",
                     verified=True
                 ),
                 value="password"
@@ -952,7 +955,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2315@example.com",
+                        email="test563@example.com",
                         verified=True
                     ),
                     value="password"
@@ -964,7 +967,7 @@ Property ID and value of the property where the value is a reference
                 state="DIGITAL_TWIN_STATE_ACTIVE",
                 password=PasswordCredential(
                     email=EmailIdentity(
-                        email="test2316@example.com",
+                        email="test564@example.com",
                         verified=True
                     ),
                     value="password"
@@ -2751,14 +2754,14 @@ Property ID and value of the property where the value is a reference
 
     elif command == "ingest_record_digital_twin":
         # replace with actual values
-        record_id = "745898"
-        external_id = "external-dt-id3"
+        record_id = "7614125"
+        external_id = "external-dt-id7611"
         kind = "DIGITAL_TWIN_KIND_PERSON"
         tenant_id = os.getenv('TENANT_ID')
         type = "CarOwner"
-        identity_property = client_ingest.identity_property("customIdProp", "456")
+        identity_property = client_ingest.identity_property("customIdProp7611", "456")
         identity_properties = [identity_property]
-        ingest_property = client_ingest.ingest_property("customProp", "741")
+        ingest_property = client_ingest.ingest_property("customProp17611", "741")
         properties = [ingest_property]
         upsert = client_ingest.upsert_data_node_digital_twin(
             external_id,
@@ -2776,10 +2779,10 @@ Property ID and value of the property where the value is a reference
         return ingest_record_digital_twin
 
     elif command == "ingest_record_resource":
-        record_id = "745899"
+        record_id = "74158100"
         external_id = "lot-1"
         type = "ParkingLot"
-        ingest_property = client_ingest.ingest_property("customProp", "9654")
+        ingest_property = client_ingest.ingest_property("customProp100", "9654")
         properties = [ingest_property]
         tags = []
         upsert = client_ingest.upsert_data_node_resource(
@@ -2796,7 +2799,7 @@ Property ID and value of the property where the value is a reference
         return ingest_record_resource
 
     elif command == "ingest_record_relation":
-        record_id = "745890"
+        record_id = "7415890"
         type = "CAN_USE"
         source_match = client_ingest.node_match("vehicle-1", "Vehicle")
         target_match = client_ingest.node_match("lot-1", "ParkingLot")
@@ -2874,13 +2877,15 @@ Property ID and value of the property where the value is a reference
 
     elif command == "stream_records":
         # replace with actual values
-        record_id = "145898"
-        external_id = "external-dt-id1"
+        record_id = "14589904"
+        external_id = "external-dt-id904"
         tenant_id = os.getenv('TENANT_ID')
         type = "Person"
         tags = []
-        identity_properties = []
-        properties = []
+        identity_property = client_ingest.identity_property("customIdPropST904", "456")
+        identity_properties = [identity_property]
+        ingest_property = client_ingest.ingest_property("customPropST1904", "741")
+        properties = [ingest_property]
         upsert = client_ingest.upsert_data_node_digital_twin(
             external_id,
             type,
@@ -2890,10 +2895,10 @@ Property ID and value of the property where the value is a reference
             properties)
         record = client_ingest.record_upsert(record_id, upsert)
 
-        record_id2 = "145899"
-        external_id = "lot-1"
+        record_id2 = "14589905"
+        external_id = "lot-905"
         type = "ParkingLot"
-        ingest_property = client_ingest.ingest_property("customProp", "9654")
+        ingest_property = client_ingest.ingest_property("customProp905", "9654")
         properties = [ingest_property]
         tags = []
         upsert2 = client_ingest.upsert_data_node_resource(
