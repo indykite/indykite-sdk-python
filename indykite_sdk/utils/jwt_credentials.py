@@ -36,9 +36,12 @@ def create_agent_jwt(credentials, client="identity"):
 def create_jwt_message(credentials, client):
     token_lifetime = None
     now = datetime.now()
+    current_time = int(time.time())
+    time_2min = current_time + 120
+    time_day = current_time + 86400
     if "tokenLifetime" in credentials.keys():
         token_lifetime = get_int_from_datetime(now + parse_delta(credentials.get('tokenLifetime')))
-    if not isinstance(token_lifetime, int):
+    if not isinstance(token_lifetime, int) or token_lifetime < time_2min or token_lifetime > time_day:
         token_lifetime = get_int_from_datetime(now + timedelta(hours=1))
     if client == "config":
         message = {
