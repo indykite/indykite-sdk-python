@@ -948,13 +948,20 @@ def test_update_knowledge_graph_schema_config_node_success(capsys):
     assert client is not None
 
     right_now = str(int(time.time()))
-    config_node_id = data.get_kg_schema_config_node_id()
-    response = client.read_config_node(config_node_id)
-    assert response is not None
+
+    def mocked_update_config_node(request: pb2.UpdateConfigNodeRequest):
+        return pb2.UpdateConfigNodeResponse("id",
+                                            right_now,
+                                            right_now,
+                                            "etag",
+                                            [],
+                                            "Automation "+right_now,
+                                            "description "+right_now,
+                                            knowledge_graph_schema_config)
 
     knowledge_graph_schema_config = data.get_kg_schema()
-    config_node_response = client.update_knowledge_graph_schema_config_node(response.id,
-                                                                            response.etag,
+    config_node_response = client.update_knowledge_graph_schema_config_node("id",
+                                                                            "etag",
                                                                             "Automation "+right_now,
                                                                             "description "+right_now,
                                                                             knowledge_graph_schema_config)
@@ -969,18 +976,14 @@ def test_update_knowledge_graph_schema_config_node_empty(capsys):
     assert client is not None
 
     right_now = str(int(time.time()))
-    config_node_id = data.get_kg_schema_config_node_id()
-    response = client.read_config_node(config_node_id)
-    assert response is not None
-
     knowledge_graph_schema_config = data.get_kg_schema()
 
     def mocked_update_config_node(request: pb2.UpdateConfigNodeRequest):
         return None
 
     client.stub.UpdateConfigNode = mocked_update_config_node
-    config_node_response = client.update_knowledge_graph_schema_config_node(response.id,
-                                                                            response.etag,
+    config_node_response = client.update_knowledge_graph_schema_config_node("id",
+                                                                            "etag",
                                                                             "Automation " + right_now,
                                                                             "description " + right_now,
                                                                             knowledge_graph_schema_config,
@@ -994,12 +997,8 @@ def test_update_knowledge_graph_schema_config_node_exception(capsys):
     assert client is not None
 
     right_now = str(int(time.time()))
-    config_node_id = data.get_kg_schema_config_node_id()
-    response = client.read_config_node(config_node_id)
-    assert response is not None
-
-    config_node_response = client.update_knowledge_graph_schema_config_node(response.id,
-                                                                            response.etag,
+    config_node_response = client.update_knowledge_graph_schema_config_node("id",
+                                                                            "etag",
                                                                             "Automation "+right_now,
                                                                             "description "+right_now,
                                                                             "description",

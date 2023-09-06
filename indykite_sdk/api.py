@@ -8,6 +8,7 @@ import uuid
 import time
 import requests
 import os
+from datetime import datetime, timedelta
 from google.protobuf.duration_pb2 import Duration
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt
 from indykite_sdk.identity import IdentityClient
@@ -2877,8 +2878,8 @@ Property ID and value of the property where the value is a reference
 
     elif command == "stream_records":
         # replace with actual values
-        record_id = "14589904"
-        external_id = "external-dt-id904"
+        record_id = "114589904"
+        external_id = "external-dt-id9004"
         tenant_id = os.getenv('TENANT_ID')
         type = "Person"
         tags = []
@@ -2895,8 +2896,8 @@ Property ID and value of the property where the value is a reference
             properties)
         record = client_ingest.record_upsert(record_id, upsert)
 
-        record_id2 = "14589905"
-        external_id = "lot-905"
+        record_id2 = "114589905"
+        external_id = "lot-9050"
         type = "ParkingLot"
         ingest_property = client_ingest.ingest_property("customProp905", "9654")
         properties = [ingest_property]

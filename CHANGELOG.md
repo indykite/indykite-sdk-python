@@ -1,12 +1,5 @@
 # Changelog
 
-## [1.29.0](https://github.com/indykite/indykite-sdk-python/compare/v1.28.0...v1.29.0) (2023-08-29)
-
-
-### Features
-
-* separate stream from ingest ([1e094ee](https://github.com/indykite/indykite-sdk-python/commit/1e094ee26b4ff39df34bdd0a69c8a88e1142da26))
-
 ## [1.28.0](https://github.com/indykite/indykite-sdk-python/compare/v1.27.0...v1.28.0) (2023-08-23)
 
 
