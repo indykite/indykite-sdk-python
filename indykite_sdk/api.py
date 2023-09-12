@@ -455,6 +455,10 @@ Property ID and value of the property where the value is a reference
     delete_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
     delete_config_node_parser.add_argument("etag", help="Etag")
 
+    # list_config_node_versions
+    list_config_node_versions_parser = subparsers.add_parser("list_config_node_versions")
+    list_config_node_versions_parser.add_argument("config_node_id", help="Config node id (gid)")
+
     # create_auth_flow_config_node
     create_auth_flow_config_node_parser = subparsers.add_parser("create_auth_flow_config_node")
     create_auth_flow_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
@@ -2007,7 +2011,8 @@ Property ID and value of the property where the value is a reference
     elif command == "read_config_node":
         config_node_id = args.config_node_id
         bookmark = []  # or value returned by last write operation
-        config_node = client_config.read_config_node(config_node_id, bookmark)
+        version = 0
+        config_node = client_config.read_config_node(config_node_id, bookmark, version)
         if config_node:
             api_helper.print_response(config_node)
         else:
@@ -2074,6 +2079,15 @@ Property ID and value of the property where the value is a reference
             api_helper.print_response(config_node)
         else:
             print("Invalid delete config node response")
+
+    elif command == "list_config_node_versions":
+        config_node_id = args.config_node_id
+        list_config_nodes = client_config.list_config_node_versions(config_node_id)
+        if list_config_nodes:
+            api_helper.print_response(list_config_nodes)
+        else:
+            print("Invalid list_config_nodes response")
+        return list_config_nodes
 
     elif command == "create_auth_flow_config_node":
         location = args.app_space_id

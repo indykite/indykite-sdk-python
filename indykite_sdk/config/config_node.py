@@ -50,19 +50,22 @@ def create_email_service_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def read_config_node(self, config_node_id, bookmarks=[]):
+def read_config_node(self, config_node_id, bookmarks=[], version=0):
     """
     read a specific config node
     :param self:
     :param config_node_id: string gid id
     :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :param version: int
     :return: deserialized ConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadConfigNode(
             pb2.ReadConfigNodeRequest(
-                id=str(config_node_id), bookmarks=bookmarks
+                id=str(config_node_id),
+                bookmarks=bookmarks,
+                version=version
             )
         )
     except Exception as exception:
@@ -794,5 +797,27 @@ def knowledge_graph_schema_config(self, schema):
             schema=str(schema)
             )
         return knowledge_graph_schema
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def list_config_node_versions(self, id_config_node):
+    """
+    list config nodes versions of the specified config node
+    :param self:
+    :param id_config_node: string gid id
+    :return: list of deserialized ConfigNode instances
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        list_config_nodes = self.stub.ListConfigNodeVersions(
+            pb2.ListConfigNodeVersionsRequest(
+                id=id_config_node
+            )
+        )
+        if not list_config_nodes:
+            return None
+        res = [ConfigNode.deserialize(config_node) for config_node in list_config_nodes.config_nodes]
+        return res
     except Exception as exception:
         return logger.logger_error(exception)

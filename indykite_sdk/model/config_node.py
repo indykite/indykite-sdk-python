@@ -68,6 +68,8 @@ class ConfigNode:
         if "updated_by" in fields:
             config_node.updated_by = str(message.updated_by)
 
+        if "version" in fields:
+            config_node.version = message.version
         return config_node
 
     def __init__(self, id, name, display_name, etag, customer_id, app_space_id, tenant_id):
@@ -91,5 +93,6 @@ class ConfigNode:
         self.knowledge_graph_schema_config = None
         self.created_by = None
         self.updated_by = None
+        self.version = None
 
 

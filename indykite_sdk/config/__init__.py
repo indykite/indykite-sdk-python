@@ -46,7 +46,7 @@ class ConfigClient(object):
         readid_property, create_knowledge_graph_schema_config_node, update_knowledge_graph_schema_config_node, \
         knowledge_graph_schema_config, validate_authenticator_attachment, validate_authorization_policy_status, \
         validate_user_verification, validate_conveyance, authorization_policy_config, webauthn_provider_config, \
-        auth_flow_config
+        auth_flow_config, list_config_node_versions
     from .oauth2_provider import create_oauth2_provider, read_oauth2_provider, update_oauth2_provider, \
         delete_oauth2_provider
     from .oauth2_application import create_oauth2_application, read_oauth2_application, update_oauth2_application, \
