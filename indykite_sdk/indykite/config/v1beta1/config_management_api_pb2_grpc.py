@@ -220,6 +220,11 @@ class ConfigManagementAPIStub(object):
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteConfigNodeRequest.SerializeToString,
                 response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteConfigNodeResponse.FromString,
                 )
+        self.ListConfigNodeVersions = channel.unary_unary(
+                '/indykite.config.v1beta1.ConfigManagementAPI/ListConfigNodeVersions',
+                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsRequest.SerializeToString,
+                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsResponse.FromString,
+                )
         self.CreateOAuth2Provider = channel.unary_unary(
                 '/indykite.config.v1beta1.ConfigManagementAPI/CreateOAuth2Provider',
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ProviderRequest.SerializeToString,
@@ -584,6 +589,13 @@ class ConfigManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ListConfigNodeVersions(self, request, context):
+        """ListConfigNodeVersions list previous versions of a given ConfigNode.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def CreateOAuth2Provider(self, request, context):
         """CreateOAuth2Provider under given Application Space.
         """
@@ -875,6 +887,11 @@ def add_ConfigManagementAPIServicer_to_server(servicer, server):
                     servicer.DeleteConfigNode,
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteConfigNodeRequest.FromString,
                     response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteConfigNodeResponse.SerializeToString,
+            ),
+            'ListConfigNodeVersions': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListConfigNodeVersions,
+                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsRequest.FromString,
+                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsResponse.SerializeToString,
             ),
             'CreateOAuth2Provider': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateOAuth2Provider,
@@ -1641,6 +1658,23 @@ class ConfigManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/DeleteConfigNode',
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteConfigNodeRequest.SerializeToString,
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteConfigNodeResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ListConfigNodeVersions(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ListConfigNodeVersions',
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsRequest.SerializeToString,
+            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

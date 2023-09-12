@@ -45,6 +45,18 @@ def test_read_config_node_wrong_id(capsys):
     assert("invalid ReadConfigNodeRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
+def test_read_config_node_version_not_authz(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    config_node_id = data.get_email_service_config_node_id()
+    config_node = client.read_config_node(config_node_id, [], 0)
+    captured = capsys.readouterr()
+
+    assert config_node is not None
+    assert "invalid or expired access_token" not in captured.out
+
+
 def test_create_email_service_config_node_success(capsys):
     client = ConfigClient()
     assert client is not None
@@ -1066,3 +1078,74 @@ def test_webauthn_provider_exception(capsys):
     captured = capsys.readouterr()
     assert "ERROR" in captured.err
 
+
+def test_get_list_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    authorization_policy_config = data.get_authz_policy()
+
+    config_node = client.create_authorization_policy_config_node(app_space_id,
+                                                                 "automation-" + right_now,
+                                                                 "Automation " + right_now,
+                                                                 "description",
+                                                                 authorization_policy_config,
+                                                                 [])
+    captured = capsys.readouterr()
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+    config_node_id = config_node.id
+    list_config_nodes = client.list_config_node_versions(config_node_id)
+    assert list_config_nodes is not None
+    assert list_config_nodes[0].id == config_node_id
+    assert list_config_nodes[0].version is not None
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
+
+
+def test_get_list_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time() + 12))
+    app_space_id = data.get_app_space_id()
+    readid_provider_config = data.get_readid_provider()
+    config_node = client.create_readid_provider_config_node(app_space_id,
+                                                            "automation-" + right_now,
+                                                            "Automation " + right_now,
+                                                            "description",
+                                                            readid_provider_config,
+                                                            [])
+    captured = capsys.readouterr()
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+    config_node_id = config_node.id
+    list_config_nodes = client.list_config_node_versions(config_node_id)
+    assert list_config_nodes == []
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
+
+
+def test_get_list_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time() + 15))
+    app_space_id = data.get_app_space_id()
+    readid_provider_config = data.get_readid_provider()
+    config_node = client.create_readid_provider_config_node(app_space_id,
+                                                            "automation-" + right_now,
+                                                            "Automation " + right_now,
+                                                            "description",
+                                                            readid_provider_config,
+                                                            [])
+    captured = capsys.readouterr()
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+    config_node_id = config_node.id
+    list_config_nodes = client.list_config_node_versions(app_space_id)
+    assert "" in captured.err
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
