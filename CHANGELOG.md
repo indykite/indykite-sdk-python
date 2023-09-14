@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.29.0](https://github.com/indykite/indykite-sdk-python/compare/v1.28.0...v1.29.0) (2023-09-14)
+
+
+### Features
+
+* add authz config node versioning ([7565a8a](https://github.com/indykite/indykite-sdk-python/commit/7565a8a039acc49975018da8e5869eacabcbbfca))
+* change version and add limit in custom token ([9579790](https://github.com/indykite/indykite-sdk-python/commit/9579790b0ab99e08c2561b26fa8db335809a61b0))
+* separate stream from ingest ([1e094ee](https://github.com/indykite/indykite-sdk-python/commit/1e094ee26b4ff39df34bdd0a69c8a88e1142da26))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v4 ([850a833](https://github.com/indykite/indykite-sdk-python/commit/850a833b318ed6c66d05a86466612ab5bb4dd6a8))
+* **master:** release 1.29.0 ([89281ab](https://github.com/indykite/indykite-sdk-python/commit/89281ab9ae5a5340fae735fb93d9c83593fee193))
+
 ## [1.28.0](https://github.com/indykite/indykite-sdk-python/compare/v1.27.0...v1.28.0) (2023-08-23)
 
 
