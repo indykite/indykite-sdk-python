@@ -2,8 +2,12 @@
 
 This project serves as a Software Development Kit for developers of Indykite applications.
 The Python SDK enables you to easily integrate the IndyKite platform gRPC APIs into your Python application. 
-https://console.indykite.id/
-https://www.indykite.com/
+
+Open an account: https://console.indykite.id/
+
+IndyKite: https://www.indykite.com/
+
+Documentation: https://indykite.github.io/indykite-sdk-python/
 
 [![codecov](https://codecov.io/gh/indykite/indykite-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/indykite/indykite-sdk-python)
 
