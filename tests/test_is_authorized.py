@@ -1,9 +1,7 @@
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
 from indykite_sdk.model.is_authorized import IsAuthorizedResource, IsAuthorizedResponse
-from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
-from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as pb2_model
 from helpers import data
 
@@ -36,9 +34,7 @@ def test_is_authorized_token_empty():
     for r in resources:
         res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, type=r.type, actions=r.actions))
     subject = pb2_model.Subject(
-        digital_twin_identifier = model.DigitalTwinIdentifier(
-            access_token=str(access_token)
-        )
+        indykite_access_token=str(access_token)
     )
 
     def mocked_is_authorized(request: pb2.IsAuthorizedRequest):
@@ -63,9 +59,7 @@ def test_is_authorized_token_success():
     for r in resources:
         res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, type=r.type, actions=r.actions))
     subject = pb2_model.Subject(
-        digital_twin_identifier = model.DigitalTwinIdentifier(
-            access_token=str(token)
-        )
+        indykite_access_token=str(token)
     )
 
     def mocked_is_authorized(request: pb2.IsAuthorizedRequest):
@@ -82,12 +76,11 @@ def test_is_authorized_dt_wrong_dt(capsys):
     assert client is not None
 
     digital_twin_id = data.get_tenant_email()
-    tenant_id = data.get_tenant()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                  IsAuthorizedResource("resource2ID", "TypeName", actions)]
     input_params = {}
-    response = client.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, input_params, [])
+    response = client.is_authorized_digital_twin(digital_twin_id, resources, input_params, [])
     captured = capsys.readouterr()
     # assert "id is not valid DigitalTwin identifier" in captured.err
     assert "" in captured.err
@@ -98,12 +91,11 @@ def test_is_authorized_dt_success():
     assert client is not None
 
     digital_twin_id = data.get_digital_twin()
-    tenant_id = data.get_tenant()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions), IsAuthorizedResource("resource2ID", "TypeName", actions)]
     input_params = {"age": "21"}
     policy_tags = ["Car", "Rental", "Sharing"]
-    response = client.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, input_params, policy_tags)
+    response = client.is_authorized_digital_twin(digital_twin_id, resources, input_params, policy_tags)
     assert response is not None
     assert isinstance(response, IsAuthorizedResponse)
 
@@ -118,11 +110,8 @@ def test_is_authorized_dt_empty():
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions), IsAuthorizedResource("resource2ID", "TypeName", actions)]
     input_params = {}
     subject = pb2_model.Subject(
-        digital_twin_identifier=model.DigitalTwinIdentifier(
-            digital_twin=model.DigitalTwin(
-                id=str(digital_twin_id),
-                tenant_id=str(tenant_id)
-            )
+        digital_twin_id=pb2_model.DigitalTwin(
+            id=str(digital_twin_id)
         )
     )
 
@@ -131,7 +120,7 @@ def test_is_authorized_dt_empty():
         return None
 
     client.stub.IsAuthorized = mocked_is_authorized
-    response = client.is_authorized_digital_twin(digital_twin_id, tenant_id, resources, input_params, [])
+    response = client.is_authorized_digital_twin(digital_twin_id, resources, input_params, [])
     assert response is None
 
 
@@ -176,11 +165,9 @@ def test_is_authorized_property_empty():
                  IsAuthorizedResource("resource2ID", "TypeName", actions)]
     input_params = {}
     subject = pb2_model.Subject(
-        digital_twin_identifier=model.DigitalTwinIdentifier(
-            property_filter=attributes.PropertyFilter(
-                type=str(type_filter),
-                value=pb2_struct.Value(string_value=email_value)
-            )
+        digital_twin_property=pb2_model.Property(
+            type=str(type_filter),
+            value=pb2_struct.Value(string_value=email_value)
         )
     )
 
