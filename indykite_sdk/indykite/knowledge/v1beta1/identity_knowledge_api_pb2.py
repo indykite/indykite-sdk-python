@@ -15,7 +15,7 @@ from indykite_sdk.indykite.knowledge.v1beta1 import model_pb2 as indykite_dot_kn
 from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n7indykite/knowledge/v1beta1/identity_knowledge_api.proto\x12\x1aindykite.knowledge.v1beta1\x1a&indykite/knowledge/v1beta1/model.proto\x1a\x17validate/validate.proto\"\xb5\x01\n\x18IdentityKnowledgeRequest\x12O\n\toperation\x18\x01 \x01(\x0e\x32%.indykite.knowledge.v1beta1.OperationB\n\xfa\x42\x07\x82\x01\x04\x10\x01\x18\x01R\toperation\x12\x1d\n\x04path\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04(\x80\xa0\x1fR\x04path\x12)\n\nconditions\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04(\x80\xa0\x1fR\nconditions\"S\n\x19IdentityKnowledgeResponse\x12\x36\n\x05paths\x18\x01 \x03(\x0b\x32 .indykite.knowledge.v1beta1.PathR\x05paths2\x99\x01\n\x14IdentityKnowledgeAPI\x12\x80\x01\n\x11IdentityKnowledge\x12\x34.indykite.knowledge.v1beta1.IdentityKnowledgeRequest\x1a\x35.indykite.knowledge.v1beta1.IdentityKnowledgeResponseB\xc5\x01\n\x1e\x63om.indykite.knowledge.v1beta1B\x19IdentityKnowledgeApiProtoP\x01\xa2\x02\x03IKX\xaa\x02\x1aIndykite.Knowledge.V1beta1\xca\x02\x1aIndykite\\Knowledge\\V1beta1\xe2\x02&Indykite\\Knowledge\\V1beta1\\GPBMetadata\xea\x02\x1cIndykite::Knowledge::V1beta1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n7indykite/knowledge/v1beta1/identity_knowledge_api.proto\x12\x1aindykite.knowledge.v1beta1\x1a&indykite/knowledge/v1beta1/model.proto\x1a\x17validate/validate.proto\"\x87\x03\n\x18IdentityKnowledgeRequest\x12O\n\toperation\x18\x01 \x01(\x0e\x32%.indykite.knowledge.v1beta1.OperationB\n\xfa\x42\x07\x82\x01\x04\x10\x01\x18\x01R\toperation\x12\x1d\n\x04path\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04(\x80\xa0\x1fR\x04path\x12)\n\nconditions\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04(\x80\xa0\x1fR\nconditions\x12h\n\x0cinput_params\x18\x04 \x03(\x0b\x32\x45.indykite.knowledge.v1beta1.IdentityKnowledgeRequest.InputParamsEntryR\x0binputParams\x1a\x66\n\x10InputParamsEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12<\n\x05value\x18\x02 \x01(\x0b\x32&.indykite.knowledge.v1beta1.InputParamR\x05value:\x02\x38\x01\"S\n\x19IdentityKnowledgeResponse\x12\x36\n\x05paths\x18\x01 \x03(\x0b\x32 .indykite.knowledge.v1beta1.PathR\x05paths2\x99\x01\n\x14IdentityKnowledgeAPI\x12\x80\x01\n\x11IdentityKnowledge\x12\x34.indykite.knowledge.v1beta1.IdentityKnowledgeRequest\x1a\x35.indykite.knowledge.v1beta1.IdentityKnowledgeResponseB\xc5\x01\n\x1e\x63om.indykite.knowledge.v1beta1B\x19IdentityKnowledgeApiProtoP\x01\xa2\x02\x03IKX\xaa\x02\x1aIndykite.Knowledge.V1beta1\xca\x02\x1aIndykite\\Knowledge\\V1beta1\xe2\x02&Indykite\\Knowledge\\V1beta1\\GPBMetadata\xea\x02\x1cIndykite::Knowledge::V1beta1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -24,6 +24,8 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\036com.indykite.knowledge.v1beta1B\031IdentityKnowledgeApiProtoP\001\242\002\003IKX\252\002\032Indykite.Knowledge.V1beta1\312\002\032Indykite\\Knowledge\\V1beta1\342\002&Indykite\\Knowledge\\V1beta1\\GPBMetadata\352\002\034Indykite::Knowledge::V1beta1'
+  _IDENTITYKNOWLEDGEREQUEST_INPUTPARAMSENTRY._options = None
+  _IDENTITYKNOWLEDGEREQUEST_INPUTPARAMSENTRY._serialized_options = b'8\001'
   _IDENTITYKNOWLEDGEREQUEST.fields_by_name['operation']._options = None
   _IDENTITYKNOWLEDGEREQUEST.fields_by_name['operation']._serialized_options = b'\372B\007\202\001\004\020\001\030\001'
   _IDENTITYKNOWLEDGEREQUEST.fields_by_name['path']._options = None
@@ -31,9 +33,11 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _IDENTITYKNOWLEDGEREQUEST.fields_by_name['conditions']._options = None
   _IDENTITYKNOWLEDGEREQUEST.fields_by_name['conditions']._serialized_options = b'\372B\006r\004(\200\240\037'
   _globals['_IDENTITYKNOWLEDGEREQUEST']._serialized_start=153
-  _globals['_IDENTITYKNOWLEDGEREQUEST']._serialized_end=334
-  _globals['_IDENTITYKNOWLEDGERESPONSE']._serialized_start=336
-  _globals['_IDENTITYKNOWLEDGERESPONSE']._serialized_end=419
-  _globals['_IDENTITYKNOWLEDGEAPI']._serialized_start=422
-  _globals['_IDENTITYKNOWLEDGEAPI']._serialized_end=575
+  _globals['_IDENTITYKNOWLEDGEREQUEST']._serialized_end=544
+  _globals['_IDENTITYKNOWLEDGEREQUEST_INPUTPARAMSENTRY']._serialized_start=442
+  _globals['_IDENTITYKNOWLEDGEREQUEST_INPUTPARAMSENTRY']._serialized_end=544
+  _globals['_IDENTITYKNOWLEDGERESPONSE']._serialized_start=546
+  _globals['_IDENTITYKNOWLEDGERESPONSE']._serialized_end=629
+  _globals['_IDENTITYKNOWLEDGEAPI']._serialized_start=632
+  _globals['_IDENTITYKNOWLEDGEAPI']._serialized_end=785
 # @@protoc_insertion_point(module_scope)

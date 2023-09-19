@@ -1,6 +1,4 @@
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
-from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
-from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
 from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as pb2_model
 from indykite_sdk.model.what_authorized import WhatAuthorizedResponse
@@ -8,17 +6,14 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def what_authorized_digital_twin(self, digital_twin_id, tenant_id, resource_types=[], input_params={}, policy_tags=[]):
+def what_authorized_digital_twin(self, digital_twin_id, resource_types=[], input_params={}, policy_tags=[]):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.WhatAuthorized(
             pb2.WhatAuthorizedRequest(
                 subject=pb2_model.Subject(
-                    digital_twin_identifier=model.DigitalTwinIdentifier(
-                        digital_twin=model.DigitalTwin(
-                            id=str(digital_twin_id),
-                            tenant_id=str(tenant_id)
-                        )
+                    digital_twin_id=pb2_model.DigitalTwin(
+                        id=str(digital_twin_id)
                     )
                 ),
                 resource_types=request_resource_type(resource_types),
@@ -39,9 +34,7 @@ def what_authorized_token(self, access_token, resource_types=[], input_params={}
         response = self.stub.WhatAuthorized(
             pb2.WhatAuthorizedRequest(
                 subject=pb2_model.Subject(
-                    digital_twin_identifier=model.DigitalTwinIdentifier(
-                        access_token=str(access_token)
-                    )
+                    indykite_access_token=str(access_token)
                 ),
                 resource_types=request_resource_type(resource_types),
                 input_params=request_input_params(input_params),
@@ -61,11 +54,9 @@ def what_authorized_property_filter(self, type_filter, value, resource_types=[],
         response = self.stub.WhatAuthorized(
             pb2.WhatAuthorizedRequest(
                 subject=pb2_model.Subject(
-                    digital_twin_identifier=model.DigitalTwinIdentifier(
-                        property_filter=attributes.PropertyFilter(
-                            type=str(type_filter),
-                            value=pb2_struct.Value(string_value=value)
-                        )
+                    digital_twin_property=pb2_model.Property(
+                        type=str(type_filter),
+                        value=pb2_struct.Value(string_value=value)
                     )
                 ),
                 resource_types=request_resource_type(resource_types),

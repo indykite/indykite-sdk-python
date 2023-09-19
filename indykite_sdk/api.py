@@ -612,7 +612,6 @@ Property ID and value of the property where the value is a reference
     # is_authorized_dt
     is_authorized_dt_parser = subparsers.add_parser("is_authorized_dt")
     is_authorized_dt_parser.add_argument("digital_twin_id", help="Digital Twin id (gid)")
-    is_authorized_dt_parser.add_argument("tenant_id", help="Tenant id (gid)")
 
     # is_authorized_token
     is_authorized_token_parser = subparsers.add_parser("is_authorized_token")
@@ -626,7 +625,6 @@ Property ID and value of the property where the value is a reference
     # what_authorized_dt
     what_authorized_dt_parser = subparsers.add_parser("what_authorized_dt")
     what_authorized_dt_parser.add_argument("digital_twin_id", help="Digital Twin id (gid)")
-    what_authorized_dt_parser.add_argument("tenant_id", help="Tenant id (gid)")
 
     # what_authorized_token
     what_authorized_token_parser = subparsers.add_parser("what_authorized_token")
@@ -2608,7 +2606,6 @@ Property ID and value of the property where the value is a reference
 
     elif command == "is_authorized_dt":
         digital_twin_id = args.digital_twin_id
-        tenant_id = args.tenant_id
         actions = ["ACTION1", "ACTION2"]
         resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
@@ -2616,7 +2613,6 @@ Property ID and value of the property where the value is a reference
         policy_tags = ["Car", "Rental", "Sharing"]
         is_authorized = client_authorization.is_authorized_digital_twin(
             digital_twin_id,
-            tenant_id,
             resources,
             input_params,
             policy_tags)
@@ -2663,7 +2659,6 @@ Property ID and value of the property where the value is a reference
 
     elif command == "what_authorized_dt":
         digital_twin_id = args.digital_twin_id
-        tenant_id = args.tenant_id
         actions = ["ACTION1", "ACTION2"]
         resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
@@ -2671,7 +2666,6 @@ Property ID and value of the property where the value is a reference
         policy_tags = ["Car", "Rental", "Sharing"]
         what_authorized = client_authorization.what_authorized_digital_twin(
             digital_twin_id,
-            tenant_id,
             resource_types,
             input_params,
             policy_tags)

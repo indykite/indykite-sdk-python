@@ -37,9 +37,7 @@ def test_what_authorized_token_empty():
         for r in resource_types
     ]
     subject = pb2_model.Subject(
-        digital_twin_identifier = model.DigitalTwinIdentifier(
-            access_token=str(access_token)
-        )
+            indykite_access_token=str(access_token)
     )
 
     def mocked_what_authorized(request: pb2.WhatAuthorizedRequest):
@@ -64,9 +62,7 @@ def test_what_authorized_token_success():
         for r in resource_types
     ]
     subject = pb2_model.Subject(
-        digital_twin_identifier = model.DigitalTwinIdentifier(
-            access_token=str(token)
-        )
+        indykite_access_token=str(token)
     )
 
     def mocked_what_authorized(request: pb2.WhatAuthorizedRequest):
@@ -83,12 +79,11 @@ def test_what_authorized_dt_wrong_dt(capsys):
     assert client is not None
 
     digital_twin_id = data.get_tenant_email()
-    tenant_id = data.get_tenant()
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
     input_params = {}
-    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, input_params, [])
+    response = client.what_authorized_digital_twin(digital_twin_id, resource_types, input_params, [])
     captured = capsys.readouterr()
     # assert "id is not valid DigitalTwin identifier" in captured.err
     assert "" in captured.err
@@ -99,13 +94,12 @@ def test_what_authorized_dt_success():
     assert client is not None
 
     digital_twin_id = data.get_digital_twin()
-    tenant_id = data.get_tenant()
     actions = ["ACTION1", "ACTION2"]
     resource_types = [WhatAuthorizedResourceTypes("TypeNamePrime", actions),
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
     input_params = {"age": "21"}
     policy_tags = ["Car", "Rental", "Sharing"]
-    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, input_params, policy_tags)
+    response = client.what_authorized_digital_twin(digital_twin_id, resource_types, input_params, policy_tags)
     assert response is not None
     assert isinstance(response, WhatAuthorizedResponse)
 
@@ -121,11 +115,8 @@ def test_what_authorized_dt_empty():
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
     input_params = {}
     subject = pb2_model.Subject(
-        digital_twin_identifier=model.DigitalTwinIdentifier(
-            digital_twin=model.DigitalTwin(
-                id=str(digital_twin_id),
-                tenant_id=str(tenant_id)
-            )
+        digital_twin_id=pb2_model.DigitalTwin(
+            id=str(digital_twin_id)
         )
     )
 
@@ -134,7 +125,7 @@ def test_what_authorized_dt_empty():
         return None
 
     client.stub.WhatAuthorized = mocked_what_authorized
-    response = client.what_authorized_digital_twin(digital_twin_id, tenant_id, resource_types, input_params, [])
+    response = client.what_authorized_digital_twin(digital_twin_id, resource_types, input_params, [])
     assert response is None
 
 
@@ -180,11 +171,9 @@ def test_what_authorized_property_empty():
                       WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
     input_params = {}
     subject = pb2_model.Subject(
-        digital_twin_identifier=model.DigitalTwinIdentifier(
-            property_filter=attributes.PropertyFilter(
-                type=str(type_filter),
-                value=pb2_struct.Value(string_value=email_value)
-            )
+        digital_twin_property=pb2_model.Property(
+            type=str(type_filter),
+            value=pb2_struct.Value(string_value=email_value)
         )
     )
 
