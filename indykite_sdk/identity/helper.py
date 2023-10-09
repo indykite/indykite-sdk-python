@@ -1,6 +1,7 @@
 import json
 import time
 import uuid
+import warnings
 
 from authlib.jose import JsonWebKey, jwt
 from datetime import datetime, timedelta, timezone
@@ -111,3 +112,14 @@ def create_property(definition, meta, value):
         object_value=objects.Value(string_value=value)
         )
     return prop
+
+
+def deprecated(message):
+    def deprecated_decorator(func):
+        def deprecated_func(*args, **kwargs):
+            warnings.warn("{} is a deprecated function. {}".format(func.__name__, message),
+                          category=DeprecationWarning, stacklevel=2)
+            warnings.simplefilter('default', DeprecationWarning)
+            return func(*args, **kwargs)
+        return deprecated_func
+    return deprecated_decorator
