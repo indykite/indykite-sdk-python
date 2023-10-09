@@ -6,8 +6,10 @@ from indykite_sdk.utils.message_to_value import arg_to_value
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 import sys
 import indykite_sdk.utils.logger as logger
+from indykite_sdk.identity.helper import deprecated
 
 
+@deprecated("Use the equivalent function in the knowledge package")
 def get_digital_twin(self, digital_twin_id, tenant_id, fields):
     """
     get a digital twin with a DigitalTwin object
@@ -35,6 +37,7 @@ def get_digital_twin(self, digital_twin_id, tenant_id, fields):
         return logger.logger_error(exception)
 
 
+@deprecated("Use the equivalent function in the knowledge package")
 def get_digital_twin_by_token(self, token, fields):
     """
     get a digital twin with its token
@@ -62,6 +65,7 @@ def get_digital_twin_by_token(self, token, fields):
         return logger.logger_error(exception)
 
 
+@deprecated("Use the equivalent function in the knowledge package")
 def get_digital_twin_by_property(self, property_filter, fields):
     """
     get a digital twin with a filter on its properties

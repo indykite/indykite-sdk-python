@@ -15,7 +15,7 @@ from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as indykite_dot_obj
 from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&indykite/knowledge/v1beta1/model.proto\x12\x1aindykite.knowledge.v1beta1\x1a%indykite/objects/v1beta1/struct.proto\x1a\x17validate/validate.proto\"\x8e\x01\n\x04Path\x12\x36\n\x05nodes\x18\x01 \x03(\x0b\x32 .indykite.knowledge.v1beta1.NodeR\x05nodes\x12N\n\rrelationships\x18\x02 \x03(\x0b\x32(.indykite.knowledge.v1beta1.RelationshipR\rrelationships\"\xa5\x01\n\x04Node\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n\x0b\x65xternal_id\x18\x02 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x03 \x01(\tR\x04type\x12\x12\n\x04tags\x18\x04 \x03(\tR\x04tags\x12\x44\n\nproperties\x18\x05 \x03(\x0b\x32$.indykite.knowledge.v1beta1.PropertyR\nproperties\"\xbd\x02\n\x0cRelationship\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n\x0b\x65xternal_id\x18\x02 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x03 \x01(\tR\x04type\x12\x16\n\x06source\x18\x04 \x01(\tR\x06source\x12\x16\n\x06target\x18\x05 \x01(\tR\x06target\x12X\n\nproperties\x18\x06 \x03(\x0b\x32\x38.indykite.knowledge.v1beta1.Relationship.PropertiesEntryR\nproperties\x1a^\n\x0fPropertiesEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueR\x05value:\x02\x38\x01\"S\n\x08Property\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueR\x05value\"\xb7\x01\n\nInputParam\x12.\n\x0cstring_value\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x32H\x00R\x0bstringValue\x12\x1f\n\nbool_value\x18\x02 \x01(\x08H\x00R\tboolValue\x12%\n\rinteger_value\x18\x03 \x01(\x03H\x00R\x0cintegerValue\x12#\n\x0c\x64ouble_value\x18\x04 \x01(\x01H\x00R\x0b\x64oubleValueB\x0c\n\x05value\x12\x03\xf8\x42\x01*6\n\tOperation\x12\x15\n\x11OPERATION_INVALID\x10\x00\x12\x12\n\x0eOPERATION_READ\x10\x01\x42\xb6\x01\n\x1e\x63om.indykite.knowledge.v1beta1B\nModelProtoP\x01\xa2\x02\x03IKX\xaa\x02\x1aIndykite.Knowledge.V1beta1\xca\x02\x1aIndykite\\Knowledge\\V1beta1\xe2\x02&Indykite\\Knowledge\\V1beta1\\GPBMetadata\xea\x02\x1cIndykite::Knowledge::V1beta1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&indykite/knowledge/v1beta1/model.proto\x12\x1aindykite.knowledge.v1beta1\x1a%indykite/objects/v1beta1/struct.proto\x1a\x17validate/validate.proto\"\x8e\x01\n\x04Path\x12\x36\n\x05nodes\x18\x01 \x03(\x0b\x32 .indykite.knowledge.v1beta1.NodeR\x05nodes\x12N\n\rrelationships\x18\x02 \x03(\x0b\x32(.indykite.knowledge.v1beta1.RelationshipR\rrelationships\"\xa5\x01\n\x04Node\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n\x0b\x65xternal_id\x18\x02 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x03 \x01(\tR\x04type\x12\x12\n\x04tags\x18\x04 \x03(\tR\x04tags\x12\x44\n\nproperties\x18\x05 \x03(\x0b\x32$.indykite.knowledge.v1beta1.PropertyR\nproperties\"\xa2\x02\n\x0cRelationship\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04type\x18\x03 \x01(\tR\x04type\x12\x16\n\x06source\x18\x04 \x01(\tR\x06source\x12\x16\n\x06target\x18\x05 \x01(\tR\x06target\x12X\n\nproperties\x18\x06 \x03(\x0b\x32\x38.indykite.knowledge.v1beta1.Relationship.PropertiesEntryR\nproperties\x1a^\n\x0fPropertiesEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueR\x05value:\x02\x38\x01J\x04\x08\x02\x10\x03\"S\n\x08Property\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueR\x05value\"\xb7\x01\n\nInputParam\x12.\n\x0cstring_value\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x32H\x00R\x0bstringValue\x12\x1f\n\nbool_value\x18\x02 \x01(\x08H\x00R\tboolValue\x12%\n\rinteger_value\x18\x03 \x01(\x03H\x00R\x0cintegerValue\x12#\n\x0c\x64ouble_value\x18\x04 \x01(\x01H\x00R\x0b\x64oubleValueB\x0c\n\x05value\x12\x03\xf8\x42\x01*6\n\tOperation\x12\x15\n\x11OPERATION_INVALID\x10\x00\x12\x12\n\x0eOPERATION_READ\x10\x01\x42\xb6\x01\n\x1e\x63om.indykite.knowledge.v1beta1B\nModelProtoP\x01\xa2\x02\x03IKX\xaa\x02\x1aIndykite.Knowledge.V1beta1\xca\x02\x1aIndykite\\Knowledge\\V1beta1\xe2\x02&Indykite\\Knowledge\\V1beta1\\GPBMetadata\xea\x02\x1cIndykite::Knowledge::V1beta1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -30,18 +30,18 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _INPUTPARAM.oneofs_by_name['value']._serialized_options = b'\370B\001'
   _INPUTPARAM.fields_by_name['string_value']._options = None
   _INPUTPARAM.fields_by_name['string_value']._serialized_options = b'\372B\006r\004\020\001\0302'
-  _globals['_OPERATION']._serialized_start=1038
-  _globals['_OPERATION']._serialized_end=1092
+  _globals['_OPERATION']._serialized_start=1011
+  _globals['_OPERATION']._serialized_end=1065
   _globals['_PATH']._serialized_start=135
   _globals['_PATH']._serialized_end=277
   _globals['_NODE']._serialized_start=280
   _globals['_NODE']._serialized_end=445
   _globals['_RELATIONSHIP']._serialized_start=448
-  _globals['_RELATIONSHIP']._serialized_end=765
-  _globals['_RELATIONSHIP_PROPERTIESENTRY']._serialized_start=671
-  _globals['_RELATIONSHIP_PROPERTIESENTRY']._serialized_end=765
-  _globals['_PROPERTY']._serialized_start=767
-  _globals['_PROPERTY']._serialized_end=850
-  _globals['_INPUTPARAM']._serialized_start=853
-  _globals['_INPUTPARAM']._serialized_end=1036
+  _globals['_RELATIONSHIP']._serialized_end=738
+  _globals['_RELATIONSHIP_PROPERTIESENTRY']._serialized_start=638
+  _globals['_RELATIONSHIP_PROPERTIESENTRY']._serialized_end=732
+  _globals['_PROPERTY']._serialized_start=740
+  _globals['_PROPERTY']._serialized_end=823
+  _globals['_INPUTPARAM']._serialized_start=826
+  _globals['_INPUTPARAM']._serialized_end=1009
 # @@protoc_insertion_point(module_scope)

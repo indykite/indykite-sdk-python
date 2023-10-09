@@ -35,7 +35,9 @@ from indykite_sdk.model.who_authorized import WhoAuthorizedResource
 from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.ingest import IngestClient
+from indykite_sdk.knowledge import KnowledgeClient
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
+from indykite_sdk.model.identity_knowledge import Node as node_model
 from indykite_sdk.utils import credentials_config
 from indykite_sdk.identity import helper
 import logging
@@ -722,7 +724,6 @@ Property ID and value of the property where the value is a reference
     stream_records_parser = subparsers.add_parser("stream_records")
     edges_parser = subparsers.add_parser("edges")
 
-
     # get_schema_helpers
     get_schema_helpers_parser = subparsers.add_parser("get_schema_helpers")
 
@@ -737,11 +738,35 @@ Property ID and value of the property where the value is a reference
     create_custom_login_token_property.add_argument("value", help="property_filter value")
     create_custom_login_token_property.add_argument("tenant_id", help="Tenant gid id")
 
+    # knowledge
+    read_identity_knowledge_parser = subparsers.add_parser("read_identity_knowledge")
+
+    get_digital_twin_by_id_parser = subparsers.add_parser("get_digital_twin_by_id")
+    get_digital_twin_by_id_parser.add_argument("id", help="DigitalTwin gid id")
+
+    get_digital_twin_by_identifier_parser = subparsers.add_parser("get_digital_twin_by_identifier")
+    get_digital_twin_by_identifier_parser.add_argument("external_id", help="DigitalTwin external id")
+    get_digital_twin_by_identifier_parser.add_argument("type", help="DT type")
+
+    get_resource_by_id_parser = subparsers.add_parser("get_resource_by_id")
+    get_resource_by_id_parser.add_argument("id", help="Resource gid id")
+
+    get_resource_by_identifier_parser = subparsers.add_parser("get_resource_by_identifier")
+    get_resource_by_identifier_parser.add_argument("external_id", help="Resource external id")
+    get_resource_by_identifier_parser.add_argument("type", help="Resource type")
+
+    list_digital_twins_parser = subparsers.add_parser("list_digital_twins")
+    list_resources_parser = subparsers.add_parser("list_resources")
+    list_digital_twins_by_property_parser = subparsers.add_parser("list_digital_twins_by_property")
+    list_resources_by_property_parser = subparsers.add_parser("list_resources_by_property")
+    get_property_parser = subparsers.add_parser("get_property")
+
     args = parser.parse_args()
     client = IdentityClient()
     client_config = ConfigClient()
     client_authorization = AuthorizationClient()
     client_ingest = IngestClient()
+    client_knowledge = KnowledgeClient()
 
     command = args.command
 
@@ -2982,6 +3007,106 @@ Property ID and value of the property where the value is a reference
             print("Invalid custom login")
         return create_custom_login_token
 
+    elif command == "read_identity_knowledge":
+        # replace with actual values
+        input_params = {"external_id": "wSgEdafPwvjAwWH"}
+        path = "(:Individual)-[:BELONGS_TO]->(n:Organization)"
+        conditions = "WHERE n.external_id = $external_id"
+        responses = client_knowledge.read(path, conditions, input_params)
+        if responses:
+            for response in responses:
+                api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "get_digital_twin_by_id":
+        id = args.id
+        response = client_knowledge.get_digital_twin_by_id(id)
+        if response:
+            api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "get_digital_twin_by_identifier":
+        external_id = args.external_id
+        type = args.type
+        responses = client_knowledge.get_digital_twin_by_identifier(external_id, type)
+        if responses:
+            for response in responses:
+                api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "get_resource_by_id":
+        id = args.id
+        response = client_knowledge.get_resource_by_id(id)
+        if response:
+            api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "get_resource_by_identifier":
+        external_id = args.external_id
+        type = args.type
+        responses = client_knowledge.get_resource_by_identifier(external_id, type)
+        if responses:
+            for response in responses:
+                api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "list_resources":
+        responses = client_knowledge.list_resources()
+        if responses:
+            for response in responses:
+                api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "list_digital_twins":
+        responses = client_knowledge.list_digital_twins()
+        if responses:
+            for response in responses:
+                api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "list_resources_by_property":
+        # replace by own values
+        property = {"colour": "blue"}
+        responses = client_knowledge.list_resources_by_property(property)
+        if responses:
+            for response in responses:
+                api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "list_digital_twins_by_property":
+        # replace by own values
+        property = {"last_name": "mushu"}
+        responses = client_knowledge.list_digital_twins_by_property(property)
+        if responses:
+            for response in responses:
+                api_helper.print_response(response)
+        else:
+            print("No result")
+
+    elif command == "get_property":
+        node1 = node_model(
+            id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
+            external_id="PEpkjOvUJQvqTFw",
+            type="individual",
+            tags=[],
+            properties=[
+                {
+                    "key": "last_name",
+                    "value": {
+                        "stringValue": "mushu"
+                    }
+                }
+            ])
+        property1 = node1.get_property(node1, "last_name")
+        print(property1)
 
 if __name__ == '__main__':  # pragma: no cover
     main()
