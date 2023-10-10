@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.30.0](https://github.com/indykite/indykite-sdk-python/compare/v1.29.0...v1.30.0) (2023-10-10)
+
+
+### Features
+
+* add authz config node versioning ([7565a8a](https://github.com/indykite/indykite-sdk-python/commit/7565a8a039acc49975018da8e5869eacabcbbfca))
+* add identity knowledge methods ([9b041e6](https://github.com/indykite/indykite-sdk-python/commit/9b041e68f1baffd36041362c254593ad071e3a6f))
+* change version and add limit in custom token ([9579790](https://github.com/indykite/indykite-sdk-python/commit/9579790b0ab99e08c2561b26fa8db335809a61b0))
+* update authorization subject ([1dbe080](https://github.com/indykite/indykite-sdk-python/commit/1dbe0800c1c8a9902821160a7a6ec25718ee0778))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v4 ([850a833](https://github.com/indykite/indykite-sdk-python/commit/850a833b318ed6c66d05a86466612ab5bb4dd6a8))
+* **deps:** update codecov/codecov-action action to v4 ([2a7a805](https://github.com/indykite/indykite-sdk-python/commit/2a7a80549e1f9ff84e7c337c47b250ad49918b21))
+* **master:** release 1.29.0 ([fd1655a](https://github.com/indykite/indykite-sdk-python/commit/fd1655a1d784505d5599defc23220b61c52ffa31))
+
 ## [1.29.0](https://github.com/indykite/indykite-sdk-python/compare/v1.28.0...v1.29.0) (2023-09-14)
 
 
