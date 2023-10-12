@@ -27,8 +27,8 @@ class WhoAuthorizedResponse:
 
 class WhoAuthorizedResource:
 
-    def __init__(self, id: any, type, actions=[]):
-        self.id = id
+    def __init__(self, external_id: any, type, actions=[]):
+        self.external_id = external_id
         self.type = type
         self.actions = actions
 

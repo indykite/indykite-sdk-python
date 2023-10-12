@@ -26,7 +26,7 @@ def who_authorized(self,  resources=[], input_params={}, policy_tags=[]):
 
 def request_resource(resources):
     return [
-        pb2.WhoAuthorizedRequest.Resource(id=r.id, type=r.type, actions=list(r.actions))
+        pb2.WhoAuthorizedRequest.Resource(external_id=r.external_id, type=r.type, actions=list(r.actions))
         for r in resources
     ]
 

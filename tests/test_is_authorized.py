@@ -32,7 +32,7 @@ def test_is_authorized_token_empty():
     input_params = {}
     res = []
     for r in resources:
-        res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, type=r.type, actions=r.actions))
+        res.append(pb2.IsAuthorizedRequest.Resource(external_id=r.external_id, type=r.type, actions=r.actions))
     subject = pb2_model.Subject(
         indykite_access_token=str(access_token)
     )
@@ -57,7 +57,7 @@ def test_is_authorized_token_success():
     policy_tags = []
     res = []
     for r in resources:
-        res.append(pb2.IsAuthorizedRequest.Resource(id=r.id, type=r.type, actions=r.actions))
+        res.append(pb2.IsAuthorizedRequest.Resource(external_id=r.external_id, type=r.type, actions=r.actions))
     subject = pb2_model.Subject(
         indykite_access_token=str(token)
     )
