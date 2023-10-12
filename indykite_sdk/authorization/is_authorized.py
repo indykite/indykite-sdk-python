@@ -79,7 +79,7 @@ def is_authorized_property_filter(self, type_filter, value, resources=[], input_
 
 def request_resource(resources):
     return [
-        pb2.IsAuthorizedRequest.Resource(id=r.id, type=r.type, actions=list(r.actions))
+        pb2.IsAuthorizedRequest.Resource(external_id=r.external_id, type=r.type, actions=list(r.actions))
         for r in resources
     ]
 

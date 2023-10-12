@@ -46,6 +46,21 @@ def test_del_digital_twin_nonexisting_twin_id(capsys):
     assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
 
+def test_del_digital_twin_empty(capsys):
+    digital_twin_id = data.get_digital_twin()
+    tenant_id = data.get_tenant()
+
+    client = IdentityClient()
+    assert client is not None
+
+    def mocked_del_digital_twin(request: pb2.DeleteDigitalTwinRequest):
+        return None
+
+    client.stub.DeleteDigitalTwin = mocked_del_digital_twin
+    response = client.del_digital_twin(digital_twin_id, tenant_id)
+    assert response is None
+
+
 def test_del_digital_twin_success(capsys):
     digital_twin_id = data.get_digital_twin()
     tenant_id = data.get_tenant()
