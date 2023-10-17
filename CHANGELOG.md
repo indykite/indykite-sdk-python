@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.31.0](https://github.com/indykite/indykite-sdk-python/compare/v1.30.0...v1.31.0) (2023-10-17)
+
+
+### Features
+
+* change resource id with external_id in authz ([05bae8f](https://github.com/indykite/indykite-sdk-python/commit/05bae8fb9e0ad9a2340351e16d0715b3b299f06c))
+
 ## [1.30.0](https://github.com/indykite/indykite-sdk-python/compare/v1.29.0...v1.30.0) (2023-10-10)
 
 
