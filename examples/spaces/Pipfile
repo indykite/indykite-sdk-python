@@ -7,10 +7,10 @@ name = "pypi"
 connexion = {version = ">=2.6.0", extras = ["swagger-ui"]}
 swagger-ui-bundle = ">=0.0.9"
 python-dateutil = ">=2.8.2"
-indykite-sdk-python = {ref = "v1.27.0", git = "https://github.com/indykite/indykite-sdk-python"}
+indykite-sdk-python = {ref = "v1.32.0", git = "https://github.com/indykite/indykite-sdk-python"}
 python-jose = "3.3.0"
 gql = "3.4.1"
-urllib3 = "1.26.17"
+urllib3 = "1.26.18"
 requests = ">=2.31.0"
 requests-toolbelt = "*"
 flask = "2.3.3"
