@@ -64,26 +64,6 @@ def main():
     introspect_parser = subparsers.add_parser("introspect")
     introspect_parser.add_argument("user_token", help="JWT bearer token")
 
-    # SESSION_INTROSPECT
-    session_introspect_parser = subparsers.add_parser("session_introspect")
-    session_introspect_parser.add_argument("tenant_id", help="gid ID of the tenant")
-    session_introspect_parser.add_argument("access_token", help="JWT bearer token")
-
-    # VERIFY
-    verify_parser = subparsers.add_parser("verify")
-    verify_parser.add_argument("verification_token", help="Token from email to verify")
-
-    # CHANGE-PASSWORD (self-service)
-    password_change = subparsers.add_parser("change-password")
-    password_change.add_argument("user_token", help="JWT bearer token")
-    password_change.add_argument("new_password", help="New password for the user in '' (single quotation mark)")
-
-    # CHANGE-PASSWORD-OF-USER (admin activity)
-    password_change_of_user = subparsers.add_parser("change-password-of-user")
-    password_change_of_user.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
-    password_change_of_user.add_argument("tenant_id", help="gid ID of the tenant")
-    password_change_of_user.add_argument("new_password", help="New password for the user in '' (single quotation mark)")
-
     # GET-DT
     get_dt = subparsers.add_parser("get-dt")
     get_dt.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
@@ -130,12 +110,6 @@ Property ID and new value (--replace 111 a@a.a)''')
 Property ID and value of the property where the value is a reference
             ''')
     patch_properties_by_token.add_argument("--remove", nargs="+", help="Remove the properties with the given IDs")
-
-    # START-DT-EMAIL-VERIFICATION
-    start_dt_email_verification = subparsers.add_parser("start-dt-email-verification")
-    start_dt_email_verification.add_argument("digital_twin", help="gid of the digital twin")
-    start_dt_email_verification.add_argument("tenant_id", help="gid of the tenant")
-    start_dt_email_verification.add_argument("email", help="email address to validate")
 
     # DELETE-USER (admin activity)
     del_dt = subparsers.add_parser("del-dt")
@@ -670,11 +644,6 @@ Property ID and value of the property where the value is a reference
     create_oauth2_consent_verifier_denial_parser.add_argument("consent_challenge",
                                                               help="Consent challenge extracted from consent URL")
 
-    # FORGOTTEN_PASSWORD
-    start_forgotten_password = subparsers.add_parser("start_forgotten_password")
-    start_forgotten_password.add_argument("digital_twin_id", help="gid ID of the digital twin with forgotten password")
-    start_forgotten_password.add_argument("tenant_id", help="gid ID of the tenant")
-
     # create_email_invitation
     create_email_invitation = subparsers.add_parser("create_email_invitation")
     create_email_invitation.add_argument("tenant_id", help="gid ID of the tenant")
@@ -727,17 +696,6 @@ Property ID and value of the property where the value is a reference
     # get_schema_helpers
     get_schema_helpers_parser = subparsers.add_parser("get_schema_helpers")
 
-    # create-custom-login-token
-    create_custom_login_token = subparsers.add_parser("create-custom-login-token")
-    create_custom_login_token.add_argument("dt_id", help="DigitalTwin gid id")
-    create_custom_login_token.add_argument("tenant_id", help="Tenant gid id")
-
-    # create-custom-login-token-property
-    create_custom_login_token_property = subparsers.add_parser("create-custom-login-token-property")
-    create_custom_login_token_property.add_argument("type", help="property_filter type")
-    create_custom_login_token_property.add_argument("value", help="property_filter value")
-    create_custom_login_token_property.add_argument("tenant_id", help="Tenant gid id")
-
     # knowledge
     read_identity_knowledge_parser = subparsers.add_parser("read_identity_knowledge")
 
@@ -760,6 +718,8 @@ Property ID and value of the property where the value is a reference
     list_digital_twins_by_property_parser = subparsers.add_parser("list_digital_twins_by_property")
     list_resources_by_property_parser = subparsers.add_parser("list_resources_by_property")
     get_property_parser = subparsers.add_parser("get_property")
+    delete_all_nodes_parser = subparsers.add_parser("delete_all_nodes")
+    delete_all_nodes_parser.add_argument("node_type", help="DigitalTwin, Resource")
 
     args = parser.parse_args()
     client = IdentityClient()
@@ -778,42 +738,6 @@ Property ID and value of the property where the value is a reference
             api_helper.print_response(token_info)
         else:
             print("Invalid token")
-
-    elif command == "session_introspect":
-        # session_introspect method: to get info on an access token
-        tenant_id = args.tenant_id
-        access_token = args.access_token
-        session_response = client.session_introspect(tenant_id, access_token)
-        if session_response is not None:
-            api_helper.print_response(session_response)
-        else:
-            print("Invalid session token")
-
-    elif command == "verify":
-        # verify_digital_twin_email method: to get DigitalTwin object from a verification token
-        #  confirms that the message from start_digital_twin_email_verification function was sent
-        #  and user visited the link
-        verification_token = args.verification_token
-        digital_twin_info = client.verify_digital_twin_email(verification_token)
-        if digital_twin_info is not None:
-            api_helper.print_response({"digitalTwin": digital_twin_info})
-
-    elif command == "change-password":
-        # change_password method: to create new account password with user token as argument
-        user_token = args.user_token
-        new_password = args.new_password
-        response = client.change_password(user_token, new_password)
-        if response is not None:
-            api_helper.print(response)
-
-    elif command == "change-password-of-user":
-        # change_password method: to create new account password with digital twin id and tenant id as arguments
-        digital_twin_id = args.digital_twin_id
-        tenant_id = args.tenant_id
-        new_password = args.new_password
-        response = client.change_password_of_user(digital_twin_id, tenant_id, new_password)
-        if response is not None:
-            api_helper.print(response)
 
     elif command == "get-dt":
         # get_digital_twin method: to get digital twin and token info
@@ -898,17 +822,6 @@ Property ID and value of the property where the value is a reference
         properties = client.patch_properties_by_token(user_token, all_args)
         if properties is not None:
             print(properties)
-
-    elif command == "start-dt-email-verification":
-        # start_digital_twin_email_verification method: to initialize the flow where IndyKite systems sends
-        # a notification to a DigitalTwin with a link to verify the control over the notification channel
-        # with digital twin id, tenant id, email and optional attributes as arguments
-        digital_twin_id = args.digital_twin
-        tenant_id = args.tenant_id
-        email = args.email
-        resp = client.start_digital_twin_email_verification(digital_twin_id, tenant_id, email)
-        if resp is not None:
-            print(resp)
 
     elif command == "del-dt":
         # del_digital_twin method: to delete a digital twin with digital twin id and tenant id as arguments
@@ -1186,18 +1099,6 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid consent response")
         return consent_response
-
-    elif command == "start_forgotten_password":
-        # to start forgotten password process with digital twin GID id and tenant GID id as arguments
-        # sends a message with a link to digital twin if has primary contact
-        # when link clicked -> redirects to auth flow where user set new password
-        digital_twin_id = args.digital_twin_id
-        tenant_id = args.tenant_id
-        forgotten_response = client.start_forgotten_password_flow(digital_twin_id, tenant_id)
-        if forgotten_response is not None:
-            print(forgotten_response)
-        else:
-            print("Invalid forgotten password response")
 
     elif command == "create_email_invitation":
         # create_email_invitation method: to create an invitation email
@@ -2237,7 +2138,7 @@ Property ID and value of the property where the value is a reference
         description = args.description
 
         webauthn_provider_config = client_config.webauthn_provider_config(
-            relying_parties=os.getenv('RELYING_PARTIES'),  # e.g {"http://localhost": "localhost"}
+            relying_parties={"http://localhost": "localhost"},  # e.g {"http://localhost": "localhost"}
             attestation_preference="CONVEYANCE_PREFERENCE_NONE",
             authenticator_attachment="AUTHENTICATOR_ATTACHMENT_DEFAULT",
             require_resident_key=False,
@@ -2788,14 +2689,14 @@ Property ID and value of the property where the value is a reference
 
     elif command == "ingest_record_digital_twin":
         # replace with actual values
-        record_id = "7614125"
-        external_id = "external-dt-id7611"
+        record_id = "96523658"
+        external_id = "external-dt-id22737"
         kind = "DIGITAL_TWIN_KIND_PERSON"
         tenant_id = os.getenv('TENANT_ID')
         type = "CarOwner"
-        identity_property = client_ingest.identity_property("customIdProp7611", "456")
+        identity_property = client_ingest.identity_property("somethingElse", "456")
         identity_properties = [identity_property]
-        ingest_property = client_ingest.ingest_property("customProp17611", "741")
+        ingest_property = client_ingest.ingest_property("something", "741")
         properties = [ingest_property]
         upsert = client_ingest.upsert_data_node_digital_twin(
             external_id,
@@ -2957,56 +2858,6 @@ Property ID and value of the property where the value is a reference
             print("Invalid get schema helpers")
         return get_schema_helpers
 
-    elif command == "create-custom-login-token":
-        digital_twin_id = args.dt_id
-        tenant_id = args.tenant_id
-        token_claims = {"t_claim": "test"}
-        session_claims = {"s_claim": "test"}
-        digital_twin = model.DigitalTwin(
-            id=str(digital_twin_id),
-            tenant_id=str(tenant_id)
-        )
-        create_custom_login_token = client.create_custom_login_token(digital_twin, token_claims, session_claims)
-        if create_custom_login_token:
-            api_helper.print_response(create_custom_login_token)
-        else:
-            print("Invalid custom login")
-        return create_custom_login_token
-
-    elif command == "create-custom-login-token-property":
-        type = args.type
-        value = args.value
-        tenant_id = args.tenant_id
-        property_filter = client.property_filter(type, value, tenant_id)
-        token_claims = {"t_claim": "test"}
-        session_claims = {"s_claim": "test"}
-
-        create_custom_login_token = client.create_custom_login_token(property_filter, token_claims, session_claims)
-        if create_custom_login_token:
-            api_helper.print_response(create_custom_login_token)
-        else:
-            print("Invalid custom login")
-        return create_custom_login_token
-
-    elif command == "create-custom-login-token-credential":
-        # ProviderId identifies the credential provider which the uid belongs to (password, webauthn, google.com...)
-        provider_id = args.provider_id
-        # Uid is the unique identifier of subject in the external identity provider referenced by ProviderId
-        uid = args.uid
-        credential_reference = CredentialReference(
-            provider_id=str(provider_id),
-            uid=str(uid)
-        )
-        token_claims = {"t_claim": "test"}
-        session_claims = {"s_claim": "test"}
-
-        create_custom_login_token = client.create_custom_login_token(credential_reference, token_claims, session_claims)
-        if create_custom_login_token:
-            api_helper.print_response(create_custom_login_token)
-        else:
-            print("Invalid custom login")
-        return create_custom_login_token
-
     elif command == "read_identity_knowledge":
         # replace with actual values
         input_params = {"external_id": "wSgEdafPwvjAwWH"}
@@ -3107,6 +2958,15 @@ Property ID and value of the property where the value is a reference
             ])
         property1 = node1.get_property(node1, "last_name")
         print(property1)
+
+    elif command == "delete_all_nodes":
+        responses = client_knowledge.delete_all_with_node_type(args.node_type)
+        if responses:
+            for response in responses:
+                api_helper.print_response(response)
+        else:
+            print("No result")
+
 
 if __name__ == '__main__':  # pragma: no cover
     main()

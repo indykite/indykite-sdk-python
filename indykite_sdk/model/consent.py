@@ -1,5 +1,5 @@
-from indykite_sdk.utils import timestamp_to_date
 from google.protobuf.json_format import MessageToDict
+from indykite_sdk.utils import timestamp_to_date
 from indykite_sdk.model.digital_twin import DigitalTwin
 from indykite_sdk.model.scope_item import ScopeItem
 from indykite_sdk.model.audience_item import AudienceItem

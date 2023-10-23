@@ -1,9 +1,13 @@
+import sys
+import uuid
 from indykite_sdk.indykite.knowledge.v1beta1 import identity_knowledge_api_pb2 as pb2
 from indykite_sdk.indykite.knowledge.v1beta1 import model_pb2
+from indykite_sdk.indykite.ingest.v1beta2 import model_pb2 as ingest_model_pb2
 from indykite_sdk.model.identity_knowledge import Path
-import sys
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.model.operation import Operation
+from indykite_sdk.model.ingest_record import StreamRecordsResponse
+from indykite_sdk.ingest import IngestClient
 
 
 def read(self, path, conditions, input_params={}):
@@ -295,3 +299,45 @@ def request_input_params(input_params):
         for k, v in input_params.items()
     }
     return input_params_dict
+
+
+def delete_all_with_node_type(self, node_type):
+    """
+    delete all nodes of defined type
+    :param self:
+    :param node_type: string in PascalCase
+    :return: list of deleted responses
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        path: str = "(:{0})".format(node_type)
+        identity_knowledge_response = self.stub.IdentityKnowledge(
+            pb2.IdentityKnowledgeRequest(
+                    operation=Operation.OPERATION_READ.value,
+                    path=path
+            )
+        )
+        if not identity_knowledge_response:
+            return None
+        records = []
+        for path in identity_knowledge_response.paths:
+            for node in path.nodes:
+                node = ingest_model_pb2.NodeMatch(
+                    external_id=str(node.external_id),
+                    type=str(node.type).capitalize()
+                )
+                delete = ingest_model_pb2.DeleteData(
+                    node=node
+                )
+                record = ingest_model_pb2.Record(
+                    id=str(uuid.uuid4()),
+                    delete=delete
+                )
+                records.append(record)
+        client_ingest = IngestClient()
+        if records:
+            responses = client_ingest.stream_records(records)
+            return responses
+        return None
+    except Exception as exception:
+        return logger.logger_error(exception)

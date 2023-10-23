@@ -110,7 +110,7 @@ def test_get_digital_twin_by_token_success(registration):
 
 def test_get_digital_twin_by_property_success():
     digital_twin_email = data.get_digital_twin_property()
-    tenant_id = data.get_tenant()
+    tenant_id = data.get_tenant_id()
 
     client = IdentityClient()
     assert client is not None

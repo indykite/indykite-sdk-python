@@ -1,6 +1,6 @@
 from indykite_sdk.indykite.knowledge.v1beta1 import model_pb2
 from google.protobuf.json_format import MessageToDict
-from indykite_sdk.utils.message_to_value import arg_to_value
+from indykite_sdk.utils.message_to_value import arg_to_value, object_to_value
 
 
 class IdentityKnowledgeResponse:
@@ -105,7 +105,7 @@ class Path:
         for relationship in path.relationships:
             relationships.append(Relationship.deserialize(relationship))
         ik_path.relationships = relationships
-        return path
+        return ik_path
 
     def __init__(self, nodes=[], relationships=[]):
         self.nodes = nodes
@@ -119,7 +119,7 @@ class Property:
             return None
         return Property(
             property.key if property.key else None,
-            arg_to_value(property.value) if property.value else None
+            object_to_value(property.value) if property.value else None
         )
 
     def __init__(self, key=None, value=None):

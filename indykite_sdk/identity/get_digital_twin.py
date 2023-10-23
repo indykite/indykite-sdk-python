@@ -1,10 +1,10 @@
+import sys
 from indykite_sdk.identity import helper
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
 from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.utils.deserialize_digital_twin_with_token_info import deserialize_digital_twin_with_token_info
 from indykite_sdk.utils.message_to_value import arg_to_value
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
-import sys
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.identity.helper import deprecated
 
