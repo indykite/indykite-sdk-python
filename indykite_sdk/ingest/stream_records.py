@@ -1,5 +1,5 @@
 from indykite_sdk.indykite.ingest.v1beta2 import ingest_api_pb2 as pb2
-from indykite_sdk.model.ingest_record import StreamRecordsResponse, IngestRecordResponse
+from indykite_sdk.model.ingest_record import StreamRecordsResponse
 import sys
 import indykite_sdk.utils.logger as logger
 
@@ -34,5 +34,3 @@ def stream_records(self, records):
 
     except Exception as exception:
         return logger.logger_error(exception)
-
-

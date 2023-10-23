@@ -1,6 +1,7 @@
-from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
-from indykite_sdk.model.consent import CreateConsentResponse, CheckOAuth2ConsentChallengeResponse, CreateOAuth2ConsentVerifierResponse, ConsentRequestSessionData
 import sys
+from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
+from indykite_sdk.model.consent import (CreateConsentResponse, CheckOAuth2ConsentChallengeResponse,
+                                        CreateOAuth2ConsentVerifierResponse)
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.utils.message_to_value import arg_to_value
 

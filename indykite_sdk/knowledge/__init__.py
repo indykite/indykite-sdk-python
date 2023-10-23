@@ -21,4 +21,5 @@ class KnowledgeClient(object):
                                      get_resource_by_id, get_resource_by_identifier,
                                      parse_multiple_nodes_from_paths, list_nodes_by_property, list_nodes,
                                      list_resources, list_digital_twins,
-                                     list_resources_by_property, list_digital_twins_by_property)
+                                     list_resources_by_property, list_digital_twins_by_property,
+                                     delete_all_with_node_type)

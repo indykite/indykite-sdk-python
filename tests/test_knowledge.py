@@ -1,8 +1,11 @@
+import os
+
 from indykite_sdk.indykite.knowledge.v1beta1 import identity_knowledge_api_pb2 as pb2
 from indykite_sdk.model.identity_knowledge import Node
-import os
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.knowledge import KnowledgeClient
+from indykite_sdk.ingest import IngestClient
+from indykite_sdk.indykite.ingest.v1beta2 import model_pb2
 
 
 def test_read_identity_knowledge_success():
@@ -155,7 +158,7 @@ def test_get_resource_by_identifier_exception(capsys):
 def test_list_resources_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_resources_by_property({"colour": "gray"})
+    response = client.list_resources_by_property({"colour": "blue"})
     assert response[0].external_id == os.getenv('ASSET_EXTERNAL_ID')
     assert response[0].type == "asset"
 
@@ -184,7 +187,7 @@ def test_list_resources_by_property_exception(capsys):
 def test_list_digital_twin_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_digital_twins_by_property({"last_name": "mushu"})
+    response = client.list_digital_twins_by_property({"first_name": "renno"})
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
     assert response[0].type == "individual"
 
@@ -318,3 +321,18 @@ def test_get_property_non_valid():
     print(node1)
     property = node1.get_property(node1, "unknown")
     assert property is None
+
+
+def test_delete_empty():
+    client = KnowledgeClient()
+    assert client is not None
+    responses = client.delete_all_with_node_type("whatever")
+    assert responses is None
+
+
+def test_delete_fail(capsys):
+    client = KnowledgeClient()
+    assert client is not None
+    responses = client.delete_all_with_node_type("")
+    captured = capsys.readouterr()
+    assert "ERROR" in captured.err

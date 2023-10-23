@@ -50,7 +50,9 @@ class IngestRecordResponse:
 
         if "info" in fields:
             info = Info.deserialize(message.info)
-            changes = list(map(Change.deserialize, info.changes))
+            changes = []
+            if info.changes:
+                changes = list(map(Change.deserialize, info.changes))
             ingest_records.info = changes
 
         return ingest_records
@@ -68,10 +70,13 @@ class Change:
         if message is None:
             return None
         dict_message = MessageToDict(message)
-        return Change(
-            dict_message['id'],
-            dict_message['dataType']
-        )
+        print(dict_message)
+        if dict_message:
+            return Change(
+                dict_message['id'],
+                dict_message['dataType']
+            )
+        return None
 
     def __init__(self, id=None, data_type=None):
         self.id = id

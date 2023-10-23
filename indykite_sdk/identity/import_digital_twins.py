@@ -1,7 +1,7 @@
+import sys
 from indykite_sdk.indykite.identity.v1beta2 import import_pb2
 from indykite_sdk.model.digital_twin_kind import DigitalTwinKind
 from indykite_sdk.model.digital_twin_state import DigitalTwinState
-import sys
 import indykite_sdk.utils.logger as logger
 
 

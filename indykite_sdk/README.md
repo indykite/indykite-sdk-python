@@ -112,56 +112,6 @@ optional arguments:
 
 ```
 
-2. To verify a digital twin email, execute
-
-```shell
-python3 api.py verify VERIFICATION_TOKEN
-```
-
-```shell
-positional arguments:
-  verification_token  Token from email to verify
-
-optional arguments:
-  -h, --help          show this help message and exit
-```
-
-3. Change password using the bearer token
-
-    - The password should be in single quotation marks
-
-```shell
-python3 api.py change-password BEARER_TOKEN 'NEW_PASSWORD'
-```
-
-```shell
-positional arguments:
-  user_token    JWT bearer token
-  new_password  New password for the user in '' (single quotation mark)
-
-optional arguments:
-  -h, --help    show this help message and exit
-```
-
-4. Change password using the bearer token and the user's digital twin ID
-
-    - The digital twin ID should be in GID format
-    - The password should be in single quotation marks
-
-```shell
-python3 api.py change-password-of-user BEARER_TOKEN DIGITAL_TWIN_ID 'NEW_PASSWORD'
-```
-
-```shell
-positional arguments:
-  user_token       JWT bearer token
-  digital_twin_id  gid ID of the digital twin for password change
-  new_password     New password for the user in '' (single quotation mark)
-
-optional arguments:
-  -h, --help       show this help message and exit
-```
-
 5. Get digital twin information
     - The digital twin ID should be in GID format
     - The tenant ID should be in GID format
@@ -318,25 +268,6 @@ python3 api.py patch-properties-by-token TOKEN --remove 3838323232
 ```
 
 You can combine the subcommands, it will compile in the following order: add, replace, remove
-
-9. Send verification email
-
-Sends out a verification email for the specified digital twin to the given email
-
-    - the digital twin should be in GID form
-    - the tenant ID should be in GID form
-
-```shell
-usage: api.py start-dt-email-verification [-h] digital_twin tenant_id email
-
-positional arguments:
-  digital_twin  GID of the digital twin
-  tenant_id     GID of the tenant
-  email         email address to validate
-
-optional arguments:
-  -h, --help    show this help message and exit
-```
 
 10. Delete a user (admin delete)
 
