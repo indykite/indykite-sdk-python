@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.32.0](https://github.com/indykite/indykite-sdk-python/compare/v1.31.0...v1.32.0) (2023-10-23)
+
+
+### Features
+
+* add delete all nodes and old methods removal ([b9c17f2](https://github.com/indykite/indykite-sdk-python/commit/b9c17f2431b55614c605a41b78062594c41f8659))
+
 ## [1.31.0](https://github.com/indykite/indykite-sdk-python/compare/v1.30.0...v1.31.0) (2023-10-17)
 
 
