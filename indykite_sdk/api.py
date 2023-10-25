@@ -19,7 +19,7 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConf
                                                             AmazonSESProviderConfig, MailgunProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig,
                                                             WebAuthnProviderConfig, AuthorizationPolicyConfig,
-                                                            ReadIDProviderConfig, KnowledgeGraphSchemaConfig)
+                                                            KnowledgeGraphSchemaConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig, \
     UniquePropertyConstraint, UsernamePolicy
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin, \
@@ -476,20 +476,6 @@ Property ID and value of the property where the value is a reference
     update_webauthn_provider_config_node_parser.add_argument("etag", help="Etag")
     update_webauthn_provider_config_node_parser.add_argument("display_name", help="Display name")
     update_webauthn_provider_config_node_parser.add_argument("description", help="Description")
-
-    # create_readid_provider_config_node
-    create_readid_provider_config_node_parser = subparsers.add_parser("create_readid_provider_config_node")
-    create_readid_provider_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
-    create_readid_provider_config_node_parser.add_argument("name", help="Name (not display name)")
-    create_readid_provider_config_node_parser.add_argument("display_name", help="Display name")
-    create_readid_provider_config_node_parser.add_argument("description", help="Description")
-
-    # update_readid_provider_config_node
-    update_readid_provider_config_node_parser = subparsers.add_parser("update_readid_provider_config_node")
-    update_readid_provider_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
-    update_readid_provider_config_node_parser.add_argument("etag", help="Etag")
-    update_readid_provider_config_node_parser.add_argument("display_name", help="Display name")
-    update_readid_provider_config_node_parser.add_argument("description", help="Description")
 
     # create_authorization_policy_config_node
     create_authorization_policy_config_node_parser = subparsers.add_parser("create_authorization_policy_config_node")
@@ -2184,65 +2170,6 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid update webauthn provider config node response")
         return update_webauthn_provider_config_node_response
-
-    elif command == "create_readid_provider_config_node":
-        location = args.app_space_id
-        name = args.name
-        display_name = args.display_name
-        description = args.description
-        bookmark = []  # or value returned by last write operation
-        readid_property = client_config.readid_property("c.secondaryIdentifier", True)
-        readid_provider_config = client_config.readid_provider_config(
-            submitter_secret=os.getenv('SUBMITTER_SECRET'),
-            manager_secret=os.getenv('MANAGER_SECRET'),
-            submitter_password="123456",
-            host_address="<https://saas-preprod.readid.com>",
-            property_map={"givenname": readid_property},
-            unique_property_name="propertyname"
-        )
-        create_readid_provider_config_node_response = client_config.create_readid_provider_config_node(
-            location,
-            name,
-            display_name,
-            description,
-            readid_provider_config,
-            bookmark
-        )
-        if create_readid_provider_config_node_response:
-            api_helper.print_response(create_readid_provider_config_node_response)
-        else:
-            print("Invalid create readid provider config node response")
-            return create_readid_provider_config_node_response
-
-    elif command == "update_readid_provider_config_node":
-        config_node_id = args.config_node_id
-        etag = args.etag
-        display_name = args.display_name
-        description = args.description
-        readid_property = client_config.readid_property("c.secondaryIdentifier", True)
-        bookmark = []  # or value returned by last write operation
-        readid_provider_config = client_config.readid_provider_config(
-            submitter_secret=os.getenv('SUBMITTER_SECRET'),
-            manager_secret=os.getenv('MANAGER_SECRET'),
-            submitter_password="12345689",
-            host_address="<https://saas-preprod.readid.com>",
-            property_map={"givenname": readid_property},
-            unique_property_name="propertyname2"
-        )
-
-        update_readid_provider_config_node_response = client_config.update_readid_provider_config_node(
-            config_node_id,
-            etag,
-            display_name,
-            description,
-            readid_provider_config,
-            bookmark)
-
-        if update_readid_provider_config_node_response:
-            api_helper.print_response(update_readid_provider_config_node_response)
-        else:
-            print("Invalid update readid provider config node response")
-        return update_readid_provider_config_node_response
 
     elif command == "create_authorization_policy_config_node":
         location = args.app_space_id

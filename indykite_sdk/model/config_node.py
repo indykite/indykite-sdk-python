@@ -2,7 +2,6 @@ from indykite_sdk.utils import timestamp_to_date
 from indykite_sdk.model.email_service_config import EmailServiceConfig
 from indykite_sdk.model.auth_flow_config import AuthFlowConfig
 from indykite_sdk.model.oauth2_client_config import OAuth2ClientConfig
-from indykite_sdk.model.readid_provider_config import ReadIdProviderConfig
 from indykite_sdk.model.webauthn_provider_config import WebAuthnProviderConfig
 from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
 from indykite_sdk.model.knowledge_graph_schema_config import KnowledgeGraphSchemaConfig
@@ -50,9 +49,6 @@ class ConfigNode:
 
         if "webauthn_provider_config" in fields:
             config_node.webauthn_provider_config = WebAuthnProviderConfig.deserialize(message.webauthn_provider_config)
-
-        if "readid_provider_config" in fields:
-            config_node.readid_provider_config = ReadIdProviderConfig.deserialize(message.readid_provider_config)
 
         if "authorization_policy_config" in fields:
             config_node.authorization_policy_config = AuthorizationPolicyConfig.deserialize(
