@@ -70,7 +70,6 @@ class Change:
         if message is None:
             return None
         dict_message = MessageToDict(message)
-        print(dict_message)
         if dict_message:
             return Change(
                 dict_message['id'],
