@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.33.0](https://github.com/indykite/indykite-sdk-python/compare/v1.32.0...v1.33.0) (2023-10-30)
+
+
+### Features
+
+* remove readid config node ([c4cc60c](https://github.com/indykite/indykite-sdk-python/commit/c4cc60c565035949ae2fbe3746d6f1dbd4daa6f8))
+* update dependencies ([c974826](https://github.com/indykite/indykite-sdk-python/commit/c974826fde48b9dfaab656c254245627e9548848))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/setup-node action to v4 ([6bd190e](https://github.com/indykite/indykite-sdk-python/commit/6bd190ed34e9cd913905f990b4ca4d7143a2c57c))
+
 ## [1.32.0](https://github.com/indykite/indykite-sdk-python/compare/v1.31.0...v1.32.0) (2023-10-23)
 
 
