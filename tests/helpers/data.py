@@ -233,10 +233,6 @@ def get_webauthn_provider_config_node_id():
     return WEBAUTHN_PROVIDER_CONFIG_NODE
 
 
-def get_readid_provider_config_node_id():
-    return READID_PROVIDER_CONFIG_NODE
-
-
 def get_authz_policy_config_node_id():
     return AUTHZ_POLICY_CONFIG_NODE
 
@@ -382,43 +378,3 @@ def get_kg_schema():
         file_data = "\n".join(file.read().split("\n"))
     schema_config = ConfigClient().knowledge_graph_schema_config(file_data)
     return schema_config
-
-
-def get_readid_provider():
-    submitter_secret = os.getenv('SUBMITTER_SECRET')
-    manager_secret = os.getenv('MANAGER_SECRET')
-    # random example
-    submitter_password = "1234566677"
-    host_address = "<https://saas-preprod.readid.com>"
-    readid_property = ConfigClient().readid_property("c.secondaryIdentifier", True)
-    property_map = {"givenname": readid_property}
-    unique_property_name = "uniquepropertyname"
-
-    readid_provider_config = ConfigClient().readid_provider_config(
-        submitter_secret,
-        manager_secret,
-        submitter_password,
-        host_address,
-        property_map,
-        unique_property_name
-    )
-    return readid_provider_config
-
-
-def get_readid_provider_exception():
-    submitter_secret = "randomvalue"
-    manager_secret = "randomvalue"
-    submitter_password = "444466677"
-    host_address = "saas-preprod.readid.com"
-    property_map = {"givenname": []}
-    unique_property_name = "uniquepropertyname"
-
-    readid_provider_config = ConfigClient().readid_provider_config(
-        submitter_secret,
-        manager_secret,
-        submitter_password,
-        host_address,
-        property_map,
-        unique_property_name
-    )
-    return readid_provider_config
