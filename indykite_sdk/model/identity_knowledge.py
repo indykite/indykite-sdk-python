@@ -1,5 +1,3 @@
-from indykite_sdk.indykite.knowledge.v1beta1 import model_pb2
-from google.protobuf.json_format import MessageToDict
 from indykite_sdk.utils.message_to_value import arg_to_value, object_to_value
 
 
@@ -35,7 +33,7 @@ class Node:
         if node.type:
             ik_node.type=node.type
         if node.tags:
-            ik_node.tags = node.tags
+            ik_node.tags = [tag for tag in node.tags]
         if node.properties:
             properties = [Property.deserialize(property) for property in node.properties]
             ik_node.properties = properties

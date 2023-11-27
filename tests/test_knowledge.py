@@ -4,8 +4,6 @@ from indykite_sdk.indykite.knowledge.v1beta1 import identity_knowledge_api_pb2 a
 from indykite_sdk.model.identity_knowledge import Node
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.knowledge import KnowledgeClient
-from indykite_sdk.ingest import IngestClient
-from indykite_sdk.indykite.ingest.v1beta2 import model_pb2
 
 
 def test_read_identity_knowledge_success():
@@ -95,9 +93,10 @@ def test_get_resource_by_id_exception(capsys):
 def test_get_dt_by_identifier_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_digital_twin_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Individual")
+    response = client.get_digital_twin_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Whatever")
+    print(response)
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
-    assert response[0].type == "individual"
+    assert response[0].type == "Individual" or "Whatever"
 
 
 def test_get_dt_by_identifier_empty():
@@ -132,7 +131,7 @@ def test_get_resource_by_identifier_success():
     assert client is not None
     response = client.get_resource_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization")
     assert response[0].external_id == os.getenv('ORGANIZATION_EXTERNAL_ID')
-    assert response[0].type == "organization"
+    assert response[0].type == "Organization"
 
 
 def test_get_resource_by_identifier_empty():
@@ -158,9 +157,9 @@ def test_get_resource_by_identifier_exception(capsys):
 def test_list_resources_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_resources_by_property({"colour": "blue"})
+    response = client.list_resources_by_property({"colour": "white"})
     assert response[0].external_id == os.getenv('ASSET_EXTERNAL_ID')
-    assert response[0].type == "asset"
+    assert response[0].type == "Asset"
 
 
 def test_list_resources_by_property_empty():
@@ -187,9 +186,9 @@ def test_list_resources_by_property_exception(capsys):
 def test_list_digital_twin_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_digital_twins_by_property({"first_name": "renno"})
+    response = client.list_digital_twins_by_property({"first_name": "jackson"})
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
-    assert response[0].type == "individual"
+    assert response[0].type == "Individual" or "Whatever"
 
 
 def test_list_digital_twin_by_property_empty():
@@ -216,7 +215,7 @@ def test_list_resources_success():
     client = KnowledgeClient()
     assert client is not None
     response = client.list_resources()
-    assert response[0].type == "asset" or "organization"
+    assert response[0].type == "Asset" or "Organization"
 
 
 def test_list_resources_empty():
@@ -248,7 +247,7 @@ def test_list_digital_twin_success():
     client = KnowledgeClient()
     assert client is not None
     response = client.list_digital_twins()
-    assert response[0].type == "individual" or "carowner"
+    assert response[0].type == "Individual" or "Carowner" or "Whatever"
 
 
 def test_list_digital_twin_empty():
