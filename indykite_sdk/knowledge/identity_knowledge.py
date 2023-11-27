@@ -6,7 +6,6 @@ from indykite_sdk.indykite.ingest.v1beta2 import model_pb2 as ingest_model_pb2
 from indykite_sdk.model.identity_knowledge import Path
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.model.operation import Operation
-from indykite_sdk.model.ingest_record import StreamRecordsResponse
 from indykite_sdk.ingest import IngestClient
 
 
@@ -324,7 +323,7 @@ def delete_all_with_node_type(self, node_type):
             for node in path.nodes:
                 node = ingest_model_pb2.NodeMatch(
                     external_id=str(node.external_id),
-                    type=str(node.type).capitalize()
+                    type=str(node.type)
                 )
                 delete = ingest_model_pb2.DeleteData(
                     node=node

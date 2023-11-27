@@ -2851,7 +2851,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "list_resources_by_property":
         # replace by own values
-        property = {"colour": "blue"}
+        property = {"colour": "green"}
         responses = client_knowledge.list_resources_by_property(property)
         if responses:
             for response in responses:
