@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.33.1](https://github.com/indykite/indykite-sdk-python/compare/v1.33.0...v1.33.1) (2023-11-28)
+
+
+### Bug Fixes
+
+* fix tests and scripts broken after type modif ([89d8927](https://github.com/indykite/indykite-sdk-python/commit/89d8927a03fcb45a0738e414adb2c8e329982e80))
+* update outdated dependencies ([f413859](https://github.com/indykite/indykite-sdk-python/commit/f413859dfd4f34e961e4e7b3ce141fe02073b090))
+
 ## [1.33.0](https://github.com/indykite/indykite-sdk-python/compare/v1.32.0...v1.33.0) (2023-10-30)
 
 
