@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.34.0](https://github.com/indykite/indykite-sdk-python/compare/v1.33.1...v1.34.0) (2023-12-04)
+
+
+### Features
+
+* add externalId subject in authz ([3e5c5d4](https://github.com/indykite/indykite-sdk-python/commit/3e5c5d423e7212ad7ea5310fe25e2f8d7de30158))
+
+
+### Miscellaneous Chores
+
+* **deps:** update google-github-actions/auth action to v2 ([0b64774](https://github.com/indykite/indykite-sdk-python/commit/0b647747bcb2262454dc45bf80ce942fab1c5dc2))
+
 ## [1.33.1](https://github.com/indykite/indykite-sdk-python/compare/v1.33.0...v1.33.1) (2023-11-28)
 
 
