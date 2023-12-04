@@ -584,6 +584,11 @@ Property ID and value of the property where the value is a reference
     is_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
     is_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
 
+    # is_authorized_external_id
+    is_authorized_external_id_parser = subparsers.add_parser("is_authorized_external_id")
+    is_authorized_external_id_parser.add_argument("type", help="Digital Twin node type")
+    is_authorized_external_id_parser.add_argument("external_id", help="Digital Twin external id")
+
     # what_authorized_dt
     what_authorized_dt_parser = subparsers.add_parser("what_authorized_dt")
     what_authorized_dt_parser.add_argument("digital_twin_id", help="Digital Twin id (gid)")
@@ -596,6 +601,11 @@ Property ID and value of the property where the value is a reference
     what_authorized_property_parser = subparsers.add_parser("what_authorized_property")
     what_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
     what_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
+
+    # what_authorized_external_id
+    what_authorized_external_id_parser = subparsers.add_parser("what_authorized_external_id")
+    what_authorized_external_id_parser.add_argument("node_type", help="Digital Twin node type")
+    what_authorized_external_id_parser.add_argument("external_id", help="Digital Twin external_id")
 
     # who_authorized
     who_authorized_parser = subparsers.add_parser("who_authorized")
@@ -2510,6 +2520,27 @@ Property ID and value of the property where the value is a reference
             print("Invalid is_authorized")
         return is_authorized
 
+    elif command == "is_authorized_external_id":
+        node_type = args.type
+        external_id = args.external_id
+        actions = ["SUBSCRIBES_TO"]
+        resources = [IsAuthorizedResource("CCbJwkQtLOmCdLq", "Asset", actions),
+                     IsAuthorizedResource("aXQMRIcTzyIyeKC", "Asset", actions)]
+        input_params = {}
+        policy_tags = []
+        is_authorized = client_authorization.is_authorized_external_id(
+            node_type,
+            external_id,
+            resources,
+            input_params,
+            policy_tags)
+
+        if is_authorized:
+            api_helper.print_response(is_authorized)
+        else:
+            print("Invalid is_authorized")
+        return is_authorized
+
     elif command == "what_authorized_dt":
         digital_twin_id = args.digital_twin_id
         actions = ["ACTION1", "ACTION2"]
@@ -2555,6 +2586,26 @@ Property ID and value of the property where the value is a reference
         what_authorized = client_authorization.what_authorized_property_filter(
             property_type,
             property_value,
+            resource_types,
+            input_params,
+            policy_tags)
+        if what_authorized:
+            api_helper.print_response(what_authorized)
+        else:
+            print("Invalid what_authorized")
+        return what_authorized
+
+    elif command == "what_authorized_external_id":
+        node_type = args.node_type  # e.g "Individual"
+        external_id = args.external_id
+        actions = ["SUBSCRIBES_TO"]
+        resource_types = [WhatAuthorizedResourceTypes("Asset", actions),
+                          WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
+        input_params = {}
+        policy_tags = []
+        what_authorized = client_authorization.what_authorized_external_id(
+            node_type,
+            external_id,
             resource_types,
             input_params,
             policy_tags)

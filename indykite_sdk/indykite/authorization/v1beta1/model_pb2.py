@@ -16,7 +16,7 @@ from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as indykite_dot_ide
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as indykite_dot_objects_dot_v1beta1_dot_struct__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n*indykite/authorization/v1beta1/model.proto\x12\x1eindykite.authorization.v1beta1\x1a\x17validate/validate.proto\x1a%indykite/identity/v1beta2/model.proto\x1a%indykite/objects/v1beta1/struct.proto\"\x9b\x03\n\x07Subject\x12v\n\x17\x64igital_twin_identifier\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\n\x18\x01\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x15\x64igitalTwinIdentifier\x12_\n\x0f\x64igital_twin_id\x18\x02 \x01(\x0b\x32+.indykite.authorization.v1beta1.DigitalTwinB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\rdigitalTwinId\x12h\n\x15\x64igital_twin_property\x18\x03 \x01(\x0b\x32(.indykite.authorization.v1beta1.PropertyB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x13\x64igitalTwinProperty\x12=\n\x15indykite_access_token\x18\x04 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x14H\x00R\x13indykiteAccessTokenB\x0e\n\x07subject\x12\x03\xf8\x42\x01\"E\n\x0b\x44igitalTwin\x12\x36\n\x02id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x02id\"j\n\x08Property\x12\x1d\n\x04type\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x02\x18\x14R\x04type\x12?\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x05value\"\xb7\x01\n\nInputParam\x12.\n\x0cstring_value\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x32H\x00R\x0bstringValue\x12\x1f\n\nbool_value\x18\x02 \x01(\x08H\x00R\tboolValue\x12%\n\rinteger_value\x18\x03 \x01(\x03H\x00R\x0cintegerValue\x12#\n\x0c\x64ouble_value\x18\x04 \x01(\x01H\x00R\x0b\x64oubleValueB\x0c\n\x05value\x12\x03\xf8\x42\x01\x42\xca\x01\n\"com.indykite.authorization.v1beta1B\nModelProtoP\x01\xa2\x02\x03IAX\xaa\x02\x1eIndykite.Authorization.V1beta1\xca\x02\x1eIndykite\\Authorization\\V1beta1\xe2\x02*Indykite\\Authorization\\V1beta1\\GPBMetadata\xea\x02 Indykite::Authorization::V1beta1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n*indykite/authorization/v1beta1/model.proto\x12\x1eindykite.authorization.v1beta1\x1a\x17validate/validate.proto\x1a%indykite/identity/v1beta2/model.proto\x1a%indykite/objects/v1beta1/struct.proto\"\xf4\x03\n\x07Subject\x12v\n\x17\x64igital_twin_identifier\x18\x01 \x01(\x0b\x32\x30.indykite.identity.v1beta2.DigitalTwinIdentifierB\n\x18\x01\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x15\x64igitalTwinIdentifier\x12_\n\x0f\x64igital_twin_id\x18\x02 \x01(\x0b\x32+.indykite.authorization.v1beta1.DigitalTwinB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\rdigitalTwinId\x12h\n\x15\x64igital_twin_property\x18\x03 \x01(\x0b\x32(.indykite.authorization.v1beta1.PropertyB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\x13\x64igitalTwinProperty\x12=\n\x15indykite_access_token\x18\x04 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x14H\x00R\x13indykiteAccessToken\x12W\n\x0b\x65xternal_id\x18\x05 \x01(\x0b\x32*.indykite.authorization.v1beta1.ExternalIDB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01H\x00R\nexternalIdB\x0e\n\x07subject\x12\x03\xf8\x42\x01\"E\n\x0b\x44igitalTwin\x12\x36\n\x02id\x18\x01 \x01(\tB&\xfa\x42#r!\x10\x1b\x18\x64\x32\x1b^gid:[A-Za-z0-9-_]{27,100}$R\x02id\"j\n\x08Property\x12\x1d\n\x04type\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x02\x18\x14R\x04type\x12?\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x05value\"`\n\nExternalID\x12(\n\x04type\x18\x01 \x01(\tB\x14\xfa\x42\x11r\x0f\x18@2\x0b^[a-zA-Z]*$R\x04type\x12(\n\x0b\x65xternal_id\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x01R\nexternalId\"\xb7\x01\n\nInputParam\x12.\n\x0cstring_value\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x32H\x00R\x0bstringValue\x12\x1f\n\nbool_value\x18\x02 \x01(\x08H\x00R\tboolValue\x12%\n\rinteger_value\x18\x03 \x01(\x03H\x00R\x0cintegerValue\x12#\n\x0c\x64ouble_value\x18\x04 \x01(\x01H\x00R\x0b\x64oubleValueB\x0c\n\x05value\x12\x03\xf8\x42\x01\x42\xca\x01\n\"com.indykite.authorization.v1beta1B\nModelProtoP\x01\xa2\x02\x03IAX\xaa\x02\x1eIndykite.Authorization.V1beta1\xca\x02\x1eIndykite\\Authorization\\V1beta1\xe2\x02*Indykite\\Authorization\\V1beta1\\GPBMetadata\xea\x02 Indykite::Authorization::V1beta1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,22 +35,30 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _SUBJECT.fields_by_name['digital_twin_property']._serialized_options = b'\372B\005\212\001\002\020\001'
   _SUBJECT.fields_by_name['indykite_access_token']._options = None
   _SUBJECT.fields_by_name['indykite_access_token']._serialized_options = b'\372B\004r\002\020\024'
+  _SUBJECT.fields_by_name['external_id']._options = None
+  _SUBJECT.fields_by_name['external_id']._serialized_options = b'\372B\005\212\001\002\020\001'
   _DIGITALTWIN.fields_by_name['id']._options = None
   _DIGITALTWIN.fields_by_name['id']._serialized_options = b'\372B#r!\020\033\030d2\033^gid:[A-Za-z0-9-_]{27,100}$'
   _PROPERTY.fields_by_name['type']._options = None
   _PROPERTY.fields_by_name['type']._serialized_options = b'\372B\006r\004\020\002\030\024'
   _PROPERTY.fields_by_name['value']._options = None
   _PROPERTY.fields_by_name['value']._serialized_options = b'\372B\005\212\001\002\020\001'
+  _EXTERNALID.fields_by_name['type']._options = None
+  _EXTERNALID.fields_by_name['type']._serialized_options = b'\372B\021r\017\030@2\013^[a-zA-Z]*$'
+  _EXTERNALID.fields_by_name['external_id']._options = None
+  _EXTERNALID.fields_by_name['external_id']._serialized_options = b'\372B\004r\002\020\001'
   _INPUTPARAM.oneofs_by_name['value']._options = None
   _INPUTPARAM.oneofs_by_name['value']._serialized_options = b'\370B\001'
   _INPUTPARAM.fields_by_name['string_value']._options = None
   _INPUTPARAM.fields_by_name['string_value']._serialized_options = b'\372B\006r\004\020\001\0302'
   _globals['_SUBJECT']._serialized_start=182
-  _globals['_SUBJECT']._serialized_end=593
-  _globals['_DIGITALTWIN']._serialized_start=595
-  _globals['_DIGITALTWIN']._serialized_end=664
-  _globals['_PROPERTY']._serialized_start=666
-  _globals['_PROPERTY']._serialized_end=772
-  _globals['_INPUTPARAM']._serialized_start=775
-  _globals['_INPUTPARAM']._serialized_end=958
+  _globals['_SUBJECT']._serialized_end=682
+  _globals['_DIGITALTWIN']._serialized_start=684
+  _globals['_DIGITALTWIN']._serialized_end=753
+  _globals['_PROPERTY']._serialized_start=755
+  _globals['_PROPERTY']._serialized_end=861
+  _globals['_EXTERNALID']._serialized_start=863
+  _globals['_EXTERNALID']._serialized_end=959
+  _globals['_INPUTPARAM']._serialized_start=962
+  _globals['_INPUTPARAM']._serialized_end=1145
 # @@protoc_insertion_point(module_scope)

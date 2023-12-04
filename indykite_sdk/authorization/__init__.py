@@ -15,6 +15,8 @@ class AuthorizationClient(object):
         except Exception as exception:
             return logger_error(exception)
     # Imported methods
-    from .is_authorized import is_authorized_token, is_authorized_digital_twin, is_authorized_property_filter
-    from .what_authorized import what_authorized_token, what_authorized_digital_twin, what_authorized_property_filter
+    from .is_authorized import is_authorized_token, is_authorized_digital_twin, is_authorized_property_filter, \
+        is_authorized_external_id
+    from .what_authorized import what_authorized_token, what_authorized_digital_twin, what_authorized_property_filter, \
+        what_authorized_external_id
     from .who_authorized import who_authorized

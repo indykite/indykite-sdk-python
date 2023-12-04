@@ -71,6 +71,29 @@ def what_authorized_property_filter(self, type_filter, value, resource_types=[],
         return logger.logger_error(exception)
 
 
+def what_authorized_external_id(self, type, external_id, resource_types=[], input_params={}, policy_tags=[]):
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.WhatAuthorized(
+            pb2.WhatAuthorizedRequest(
+                subject=pb2_model.Subject(
+                    external_id=pb2_model.ExternalID(
+                        type=str(type),
+                        external_id=str(external_id)
+                    )
+                ),
+                resource_types=request_resource_type(resource_types),
+                input_params=request_input_params(input_params),
+                policy_tags=policy_tags
+            )
+        )
+        if not response:
+            return None
+        return WhatAuthorizedResponse.deserialize(response)
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
 def request_resource_type(resource_types):
     return [
         pb2.WhatAuthorizedRequest.ResourceType(type=r.type, actions=list(r.actions))
