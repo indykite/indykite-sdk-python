@@ -178,3 +178,59 @@ def test_is_authorized_property_empty():
     client.stub.IsAuthorized = mocked_is_authorized
     response = client.is_authorized_property_filter(type_filter, email_value, resources, input_params, [])
     assert response is None
+
+
+def test_is_authorized_external_id_wrong_type(capsys):
+    client = AuthorizationClient()
+    assert client is not None
+
+    node_type = "Nobody"
+    external_id = "DfyUjOlkMnHyFd"
+    actions = ["SUBSCRIBES_TO"]
+    resources = [IsAuthorizedResource("CCbJwkQtLOmCdLq", "Asset", actions),
+                 IsAuthorizedResource("aXQMRIcTzyIyeKC", "Asset", actions)]
+    input_params = {}
+    response = client.is_authorized_external_id(node_type, external_id, resources, input_params, [])
+    captured = capsys.readouterr()
+    assert "" in captured.err
+
+
+def test_is_authorized_external_id_success():
+    client = AuthorizationClient()
+    assert client is not None
+
+    node_type = "Individual"
+    external_id = "DfyUjOlkMnHyFd"
+    actions = ["SUBSCRIBES_TO"]
+    resources = [IsAuthorizedResource("CCbJwkQtLOmCdLq", "Asset", actions),
+                 IsAuthorizedResource("aXQMRIcTzyIyeKC", "Asset", actions)]
+    input_params = {}
+    response = client.is_authorized_external_id(node_type, external_id, resources, input_params, [])
+    assert response is not None
+    assert isinstance(response, IsAuthorizedResponse)
+
+
+def test_is_authorized_external_id_empty():
+    client = AuthorizationClient()
+    assert client is not None
+
+    node_type = "Individual"
+    external_id = "DfyUjOlkMnHyFd"
+    actions = ["ACTION1", "ACTION2"]
+    resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
+                 IsAuthorizedResource("resource2ID", "TypeName", actions)]
+    input_params = {}
+    subject = pb2_model.Subject(
+        external_id=pb2_model.ExternalID(
+            type=str(node_type),
+            external_id=str(external_id)
+        )
+    )
+
+    def mocked_is_authorized(request: pb2.IsAuthorizedRequest):
+        assert request.subject == subject
+        return None
+
+    client.stub.IsAuthorized = mocked_is_authorized
+    response = client.is_authorized_external_id(node_type, external_id, resources, input_params, [])
+    assert response is None
