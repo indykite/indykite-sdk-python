@@ -9,9 +9,7 @@ def test_ingest_record_digital_twin_success():
     assert client is not None
     record_id = "745898"
     external_id = "external-dt-id345"
-    tenant_id = data.get_tenant()
     type = "Owner"
-    identity_properties = []
     ingest_property = client.ingest_property("customProp", "741")
     assert isinstance(ingest_property, model_pb2.Property)
     properties = [ingest_property]
@@ -19,8 +17,6 @@ def test_ingest_record_digital_twin_success():
         external_id,
         type,
         [],
-        tenant_id,
-        identity_properties,
         properties)
     assert isinstance(upsert, model_pb2.UpsertData)
     record = client.record_upsert(record_id, upsert)
@@ -175,18 +171,10 @@ def test_delete_record_relation_property():
     assert isinstance(response, IngestRecordResponse)
 
 
-def test_identity_property(capsys):
-    client = IngestClient()
-    assert client is not None
-    identity_property = client.identity_property([],[])
-    captured = capsys.readouterr()
-    assert "ERROR" in captured.err
-
-
 def test_ingest_property(capsys):
     client = IngestClient()
     assert client is not None
-    identity_property = client.ingest_property([],[])
+    ing_property = client.ingest_property([],[])
     captured = capsys.readouterr()
     assert "ERROR" in captured.err
 

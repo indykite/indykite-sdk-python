@@ -74,8 +74,6 @@ def upsert_data_node_digital_twin(self,
                                   external_id,
                                   type,
                                   tags=[],
-                                  tenant_id="",
-                                  identity_properties=[],
                                   properties=[]):
     """
     upsertData with digital twin
@@ -83,8 +81,6 @@ def upsert_data_node_digital_twin(self,
     :param external_id: id for client ref
     :param type:
     :param tags:
-    :param tenant_id: tenant id of the DT
-    :param identity_properties: List of IdentityProperty objects max 10
     :param properties: List of Property objects max 10
     :return: UpsertData object
     """
@@ -96,32 +92,11 @@ def upsert_data_node_digital_twin(self,
                     external_id=str(external_id),
                     type=str(type),
                     tags=tags,
-                    tenant_id=str(tenant_id),
-                    identity_properties=identity_properties,
                     properties=properties
                 )
             )
         )
         return upsert
-    except Exception as exception:
-        return logger.logger_error(exception)
-
-
-def identity_property(self, key, value):
-    """
-    create identity property
-    :param self:
-    :param key:
-    :param value:
-    :return: IdentityProperty object
-    """
-    sys.excepthook = logger.handle_excepthook
-    try:
-        ip = model_pb2.IdentityProperty(
-            key=str(key),
-            value=arg_to_value(value)
-            )
-        return ip
     except Exception as exception:
         return logger.logger_error(exception)
 
