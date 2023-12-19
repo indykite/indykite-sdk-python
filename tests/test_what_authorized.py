@@ -1,9 +1,7 @@
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
 from indykite_sdk.model.what_authorized import WhatAuthorizedResourceTypes, WhatAuthorizedResponse
-from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
-from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as pb2_model
 from helpers import data
 

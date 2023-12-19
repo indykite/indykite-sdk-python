@@ -2670,18 +2670,13 @@ Property ID and value of the property where the value is a reference
         record_id = "96523658"
         external_id = "external-dt-id22737"
         kind = "DIGITAL_TWIN_KIND_PERSON"
-        tenant_id = os.getenv('TENANT_ID')
         type = "CarOwner"
-        identity_property = client_ingest.identity_property("somethingElse", "456")
-        identity_properties = [identity_property]
         ingest_property = client_ingest.ingest_property("something", "741")
         properties = [ingest_property]
         upsert = client_ingest.upsert_data_node_digital_twin(
             external_id,
             type,
             [],
-            tenant_id,
-            identity_properties,
             properties)
         record = client_ingest.record_upsert(record_id, upsert)
         ingest_record_digital_twin = client_ingest.ingest_record(record)
@@ -2792,19 +2787,14 @@ Property ID and value of the property where the value is a reference
         # replace with actual values
         record_id = "114589904"
         external_id = "external-dt-id9004"
-        tenant_id = os.getenv('TENANT_ID')
         type = "Person"
         tags = []
-        identity_property = client_ingest.identity_property("customIdPropST904", "456")
-        identity_properties = [identity_property]
         ingest_property = client_ingest.ingest_property("customPropST1904", "741")
         properties = [ingest_property]
         upsert = client_ingest.upsert_data_node_digital_twin(
             external_id,
             type,
             tags,
-            tenant_id,
-            identity_properties,
             properties)
         record = client_ingest.record_upsert(record_id, upsert)
 
