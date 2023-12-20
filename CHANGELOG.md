@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.35.0](https://github.com/indykite/indykite-sdk-python/compare/v1.34.0...v1.35.0) (2023-12-20)
+
+
+### Features
+
+* clean identity deprecated param ([62f83b0](https://github.com/indykite/indykite-sdk-python/commit/62f83b0b4474ae2249d713f6ea81ebd373a16d9f))
+
 ## [1.34.0](https://github.com/indykite/indykite-sdk-python/compare/v1.33.1...v1.34.0) (2023-12-04)
 
 
