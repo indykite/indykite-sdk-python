@@ -1,278 +1,295 @@
 import os
 
-from indykite_sdk.indykite.knowledge.v1beta1 import identity_knowledge_api_pb2 as pb2
+from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 as pb2
 from indykite_sdk.model.identity_knowledge import Node
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.knowledge import KnowledgeClient
+from indykite_sdk.indykite.knowledge.v1beta2.model_pb2 import Return as ReturnKnowledge
 
 
 def test_read_identity_knowledge_success():
     client = KnowledgeClient()
     assert client is not None
     input_params = {"external_id": os.getenv('ORGANIZATION_EXTERNAL_ID')}
-    path = "(:Individual)-[:BELONGS_TO]->(n:Organization)"
-    conditions = "WHERE n.external_id = $external_id"
-    responses = client.read(path, conditions, input_params)
-    for response in responses:
-        assert response is not None
+    query = "MATCH (n:Individual)-[:BELONGS_TO]->(n:Organization) WHERE n.external_id = $external_id"
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.identity_knowledge_read(query, input_params, returns)
+    assert response is not None
 
 
 def test_read_identity_knowledge_empty():
     client = KnowledgeClient()
     assert client is not None
-    input_params = {"external_id": os.getenv('ORGANIZATION_EXTERNAL_ID')}
-    path = "(:Whatever)-[:BELONGS_TO]->(n:Organization)"
-    conditions = "WHERE n.external_id = $external_id"
-    responses = client.read(path, conditions, input_params)
-    assert not responses
+    input_params = {"external_id": "VJnoVVgnVVVViMg"}
+    query = "MATCH (n:Resource) WHERE n.external_id = $external_id"
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.identity_knowledge_read(query, input_params, returns)
+    assert len(response.nodes) == 0
 
 
 def test_read_identity_knowledge_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
     input_params = []
-    path = 3
-    conditions = 2
-    responses = client.read(path, conditions, input_params)
+    query = 3
+    returns = [ReturnKnowledge(variable="n")]
+    responses = client.identity_knowledge_read(query, input_params, returns)
     captured = capsys.readouterr()
     assert "ERROR 'list' object has no attribute" in captured.err
 
 
-def test_get_dt_by_id_success():
+def test_get_identity_by_id_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_digital_twin_by_id(os.getenv('INDIVIDUAL_ID'))
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_identity_by_id(os.getenv('INDIVIDUAL_ID'), returns)
     assert response.id == os.getenv('INDIVIDUAL_ID')
 
 
-def test_get_dt_by_id_empty():
+def test_get_identity_by_id_empty():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_digital_twin_by_id(os.getenv('ORGANIZATION_ID'))
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_identity_by_id("gid:AAAAFRv0C-BcFVoVqfl623K8vvv", returns)
     assert response is None
 
 
-def test_get_dt_by_id_exception(capsys):
+def test_get_identity_by_id_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_digital_twin_by_id([])
+    response = client.get_identity_by_id([], [])
     captured = capsys.readouterr()
-    assert "invalid format for input param 'id'" in captured.err
+    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
 def test_get_node_by_id_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_node_by_id([], "DigitalTwin")
+    response = client.get_node_by_id([], [])
     captured = capsys.readouterr()
     assert "invalid format for input param 'id'" in captured.err
 
 
-def test_get_resource_by_id_success():
+def test_get_node_by_id_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_resource_by_id(os.getenv('ORGANIZATION_ID'))
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_node_by_id(os.getenv('ORGANIZATION_ID'), returns)
     assert response.id == os.getenv('ORGANIZATION_ID')
 
 
-def test_get_resource_by_id_empty():
+def test_get_node_by_id_empty():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_resource_by_id(os.getenv('INDIVIDUAL_ID'))
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_node_by_id("gid:AAAAFRv0C-BcFVoVqfl623K8vvv", returns)
     assert response is None
 
 
-def test_get_resource_by_id_exception(capsys):
+def test_get_node_by_id_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_resource_by_id([])
+    response = client.get_node_by_id([], [], False)
     captured = capsys.readouterr()
-    assert "invalid format for input param 'id'" in captured.err
+    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
-def test_get_dt_by_identifier_success():
+def test_get_identity_by_identifier_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_digital_twin_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Whatever")
-    print(response)
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Whatever", returns)
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
     assert response[0].type == "Individual" or "Whatever"
 
 
-def test_get_dt_by_identifier_empty():
+def test_get_identity_by_identifier_empty():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_digital_twin_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Individual")
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_identity_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Individual", returns)
     assert response is None
 
 
 def test_get_node_by_identifier_empty():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_node_by_identifier("DigitalTwin", os.getenv('ORGANIZATION_EXTERNAL_ID'), "Individual")
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Individual", returns, True)
     assert not response
 
 
-def test_get_dt_by_identifier_exception(capsys):
+def test_get_identity_by_identifier_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_get_digital_twin_by_identifier(request: pb2.IdentityKnowledgeRequest):
-        return logger.logger_error("missing 1 required positional argument")
+    def mocked_get_identity_by_identifier(request: pb2.IdentityKnowledgeReadRequest):
+        return logger.logger_error("missing 1 required positional argument: 'returns'")
 
-    client.stub.IdentityKnowledge = mocked_get_digital_twin_by_identifier
-    response = client.get_digital_twin_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Individual")
+    client.stub.IdentityKnowledgeRead = mocked_get_identity_by_identifier
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Individual", returns)
     captured = capsys.readouterr()
-    assert "missing 1 required positional argument" in captured.err
+    assert "missing 1 required positional argument: 'returns'" in captured.err
 
 
-def test_get_resource_by_identifier_success():
+def test_get_node_by_identifier_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_resource_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization")
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization", returns)
     assert response[0].external_id == os.getenv('ORGANIZATION_EXTERNAL_ID')
     assert response[0].type == "Organization"
 
 
-def test_get_resource_by_identifier_empty():
+def test_get_node_by_identifier_empty():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_resource_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Organization")
-    assert response is None
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.get_node_by_identifier("pVmaIfVVVglVVfx", "Organization", returns)
+    assert len(response) == 0
 
 
-def test_get_resource_by_identifier_exception(capsys):
+def test_get_node_by_identifier_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_get_resource_by_identifier(request: pb2.IdentityKnowledgeRequest):
-        return logger.logger_error("missing 1 required positional argument")
+    def mocked_get_node_by_identifier(request: pb2.IdentityKnowledgeReadRequest):
+        return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
 
-    client.stub.IdentityKnowledge = mocked_get_resource_by_identifier
-    response = client.get_resource_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization")
+    client.stub.IdentityKnowledge = mocked_get_node_by_identifier
+    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization", [])
     captured = capsys.readouterr()
-    assert "missing 1 required positional argument" in captured.err
+    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
-def test_list_resources_by_property_success():
+def test_list_nodes_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_resources_by_property({"colour": "white"})
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.list_nodes_by_property({"colour": "white"}, returns)
     assert response[0].external_id == os.getenv('ASSET_EXTERNAL_ID')
     assert response[0].type == "Asset"
 
 
-def test_list_resources_by_property_empty():
+def test_list_nodes_by_property_empty():
     client = KnowledgeClient()
     assert client is not None
     property = {"colour": "unknown"}
-    response = client.list_resources_by_property(property)
-    assert response is None
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.list_nodes_by_property(property, returns)
+    assert len(response) == 0
 
 
-def test_list_resources_by_property_exception(capsys):
+def test_list_nodes_by_property_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_list_resources_by_property(request: pb2.IdentityKnowledgeRequest):
-        return logger.logger_error("missing 1 required positional argument")
+    def mocked_list_nodes_by_property(request: pb2.IdentityKnowledgeReadRequest):
+        return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
 
-    client.stub.IdentityKnowledge = mocked_list_resources_by_property
-    response = client.list_resources_by_property({"colour": "gray"})
+    client.stub.IdentityKnowledge = mocked_list_nodes_by_property
+    response = client.list_nodes_by_property({"colour": "gray"}, [])
     captured = capsys.readouterr()
-    assert "missing 1 required positional argument" in captured.err
+    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
-def test_list_digital_twin_by_property_success():
+def test_list_identities_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_digital_twins_by_property({"first_name": "jackson"})
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.list_identities_by_property({"first_name": "jackson"}, returns)
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
     assert response[0].type == "Individual" or "Whatever"
 
 
-def test_list_digital_twin_by_property_empty():
+def test_list_identities_by_property_empty():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_digital_twins_by_property({"last_name": "unknown"})
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.list_identities_by_property({"last_name": "unknown"}, returns)
     assert response is None
 
 
-def test_list_digital_twin_by_property_exception(capsys):
+def test_list_identities_by_property_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_list_digital_twin_by_property(request: pb2.IdentityKnowledgeRequest):
-        return logger.logger_error("missing 1 required positional argument")
+    def mocked_list_identities_by_property(request: pb2.IdentityKnowledgeReadRequest):
+        return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
 
-    client.stub.IdentityKnowledge = mocked_list_digital_twin_by_property
-    response = client.list_digital_twins_by_property({"last_name": "mushu"})
+    client.stub.IdentityKnowledgeRead = mocked_list_identities_by_property
+    response = client.list_identities_by_property({"last_name": "mushu"}, [])
     captured = capsys.readouterr()
-    assert "missing 1 required positional argument" in captured.err
+    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
-def test_list_resources_success():
+def test_list_nodes_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_resources()
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.list_nodes(returns)
     assert response[0].type == "Asset" or "Organization"
 
 
-def test_list_resources_empty():
+def test_list_nodes_empty():
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_list_resources(request: pb2.IdentityKnowledgeRequest):
+    def mocked_list_resources(request: pb2.IdentityKnowledgeReadRequest):
         return None
 
-    client.stub.IdentityKnowledge = mocked_list_resources
-    response = client.list_resources()
+    client.stub.IdentityKnowledgeRead = mocked_list_resources
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.list_nodes(returns)
     assert response is None
 
 
-def test_list_resources_exception(capsys):
+def test_list_nodes_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_list_resources(request: pb2.IdentityKnowledgeRequest):
-        return logger.logger_error("missing 1 required positional argument")
+    def mocked_list_resources(request: pb2.IdentityKnowledgeReadRequest):
+        return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
 
-    client.stub.IdentityKnowledge = mocked_list_resources
-    response = client.list_resources()
+    client.stub.IdentityKnowledgeRead = mocked_list_resources
+    response = client.list_nodes([])
     captured = capsys.readouterr()
-    assert "missing 1 required positional argument" in captured.err
+    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
-def test_list_digital_twin_success():
+def test_list_identities_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_digital_twins()
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.list_identities(returns)
     assert response[0].type == "Individual" or "Carowner" or "Whatever"
 
 
-def test_list_digital_twin_empty():
+def test_list_identities_empty():
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_list_digital_twin(request: pb2.IdentityKnowledgeRequest):
+    def mocked_list_digital_twin(request: pb2.IdentityKnowledgeReadRequest):
         return None
 
-    client.stub.IdentityKnowledge = mocked_list_digital_twin
-    response = client.list_digital_twins()
+    client.stub.IdentityKnowledgeRead = mocked_list_digital_twin
+    returns = [ReturnKnowledge(variable="n")]
+    response = client.list_identities(returns)
     assert response is None
 
 
-def test_list_digital_twin_exception(capsys):
+def test_list_identities_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_list_digital_twin(request: pb2.IdentityKnowledgeRequest):
-        return logger.logger_error("missing 1 required positional argument")
+    def mocked_list_digital_twin(request: pb2.IdentityKnowledgeReadRequest):
+        return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
 
-    client.stub.IdentityKnowledge = mocked_list_digital_twin
-    response = client.list_digital_twins()
+    client.stub.IdentityKnowledgeRead = mocked_list_digital_twin
+    response = client.list_identities([])
     captured = capsys.readouterr()
-    assert "missing 1 required positional argument" in captured.err
+    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
 def test_get_property_success():
@@ -289,7 +306,6 @@ def test_get_property_success():
             }
         }
         ])
-    print(node1)
     property = node1.get_property(node1, "last_name")
     assert property == "mushu"
 
@@ -317,7 +333,6 @@ def test_get_property_non_valid():
             }
         }
         ])
-    print(node1)
     property = node1.get_property(node1, "unknown")
     assert property is None
 
@@ -325,7 +340,7 @@ def test_get_property_non_valid():
 def test_delete_empty():
     client = KnowledgeClient()
     assert client is not None
-    responses = client.delete_all_with_node_type("whatever")
+    responses = client.delete_all_with_node_type("whenever")
     assert responses is None
 
 
