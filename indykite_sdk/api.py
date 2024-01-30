@@ -8,8 +8,9 @@ import uuid
 import time
 import requests
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from google.protobuf.duration_pb2 import Duration
+import logging
 from indykite_sdk.utils.hash_methods import encrypt_bcrypt
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
@@ -18,8 +19,7 @@ from indykite_sdk.oauth2 import HttpClient
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (SendGridProviderConfig, MailJetProviderConfig,
                                                             AmazonSESProviderConfig, MailgunProviderConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, AuthFlowConfig, OAuth2ClientConfig,
-                                                            WebAuthnProviderConfig, AuthorizationPolicyConfig,
-                                                            KnowledgeGraphSchemaConfig)
+                                                            WebAuthnProviderConfig, AuthorizationPolicyConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig, \
     UniquePropertyConstraint, UsernamePolicy
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin, \
@@ -29,6 +29,7 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Emai
     EmailDefinition
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIdentity
+from indykite_sdk.indykite.knowledge.v1beta2.model_pb2 import Return as ReturnKnowledge
 from indykite_sdk.model.is_authorized import IsAuthorizedResource
 from indykite_sdk.model.what_authorized import WhatAuthorizedResourceTypes
 from indykite_sdk.model.who_authorized import WhoAuthorizedResource
@@ -36,14 +37,11 @@ from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.knowledge import KnowledgeClient
-from indykite_sdk.indykite.identity.v1beta2 import model_pb2 as model
-from indykite_sdk.model.identity_knowledge import Node as node_model
+from indykite_sdk.model.identity_knowledge import Node as NodeModel, Return as ReturnModel
 from indykite_sdk.utils import credentials_config
 from indykite_sdk.identity import helper
-import logging
 from indykite_sdk.utils.message_to_value import arg_to_value
 from indykite_sdk import api_helper
-import re
 
 
 class ParseKwargs(argparse.Action):
@@ -491,22 +489,6 @@ Property ID and value of the property where the value is a reference
     update_authorization_policy_config_node_parser.add_argument("display_name", help="Display name")
     update_authorization_policy_config_node_parser.add_argument("description", help="Description")
 
-    # create_knowledge_graph_schema_config_node
-    create_knowledge_graph_schema_config_node_parser = subparsers.add_parser(
-        "create_knowledge_graph_schema_config_node")
-    create_knowledge_graph_schema_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
-    create_knowledge_graph_schema_config_node_parser.add_argument("name", help="Name (not display name)")
-    create_knowledge_graph_schema_config_node_parser.add_argument("display_name", help="Display name")
-    create_knowledge_graph_schema_config_node_parser.add_argument("description", help="Description")
-
-    # update_authorization_policy_config_node
-    update_knowledge_graph_schema_config_node_parser = subparsers.add_parser(
-        "update_knowledge_graph_schema_config_node")
-    update_knowledge_graph_schema_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
-    update_knowledge_graph_schema_config_node_parser.add_argument("etag", help="Etag")
-    update_knowledge_graph_schema_config_node_parser.add_argument("display_name", help="Display name")
-    update_knowledge_graph_schema_config_node_parser.add_argument("description", help="Description")
-
     # read_oauth2_provider
     read_oauth2_provider_parser = subparsers.add_parser("read_oauth2_provider")
     read_oauth2_provider_parser.add_argument("oauth2_provider_id", help="Oauth2 provider id (gid)")
@@ -695,24 +677,24 @@ Property ID and value of the property where the value is a reference
     # knowledge
     read_identity_knowledge_parser = subparsers.add_parser("read_identity_knowledge")
 
-    get_digital_twin_by_id_parser = subparsers.add_parser("get_digital_twin_by_id")
-    get_digital_twin_by_id_parser.add_argument("id", help="DigitalTwin gid id")
+    get_identity_by_id_parser = subparsers.add_parser("get_identity_by_id")
+    get_identity_by_id_parser.add_argument("id", help="DigitalTwin gid id")
 
-    get_digital_twin_by_identifier_parser = subparsers.add_parser("get_digital_twin_by_identifier")
-    get_digital_twin_by_identifier_parser.add_argument("external_id", help="DigitalTwin external id")
-    get_digital_twin_by_identifier_parser.add_argument("type", help="DT type")
+    get_identity_by_identifier_parser = subparsers.add_parser("get_identity_by_identifier")
+    get_identity_by_identifier_parser.add_argument("external_id", help="DigitalTwin external id")
+    get_identity_by_identifier_parser.add_argument("type", help="DT type")
 
-    get_resource_by_id_parser = subparsers.add_parser("get_resource_by_id")
-    get_resource_by_id_parser.add_argument("id", help="Resource gid id")
+    get_node_by_id_parser = subparsers.add_parser("get_node_by_id")
+    get_node_by_id_parser.add_argument("id", help="Resource gid id")
 
-    get_resource_by_identifier_parser = subparsers.add_parser("get_resource_by_identifier")
-    get_resource_by_identifier_parser.add_argument("external_id", help="Resource external id")
-    get_resource_by_identifier_parser.add_argument("type", help="Resource type")
+    get_node_by_identifier_parser = subparsers.add_parser("get_node_by_identifier")
+    get_node_by_identifier_parser.add_argument("external_id", help="Resource external id")
+    get_node_by_identifier_parser.add_argument("type", help="Resource type")
 
-    list_digital_twins_parser = subparsers.add_parser("list_digital_twins")
-    list_resources_parser = subparsers.add_parser("list_resources")
-    list_digital_twins_by_property_parser = subparsers.add_parser("list_digital_twins_by_property")
-    list_resources_by_property_parser = subparsers.add_parser("list_resources_by_property")
+    list_identities_parser = subparsers.add_parser("list_identities")
+    list_nodes_parser = subparsers.add_parser("list_nodes")
+    list_identities_by_property_parser = subparsers.add_parser("list_identities_by_property")
+    list_nodes_by_property_parser = subparsers.add_parser("list_nodes_by_property")
     get_property_parser = subparsers.add_parser("get_property")
     delete_all_nodes_parser = subparsers.add_parser("delete_all_nodes")
     delete_all_nodes_parser.add_argument("node_type", help="DigitalTwin, Resource")
@@ -2241,54 +2223,6 @@ Property ID and value of the property where the value is a reference
             print("Invalid update authorization policy config node response")
         return update_authorization_policy_config_node_response
 
-    elif command == "create_knowledge_graph_schema_config_node":
-        location = args.app_space_id
-        name = args.name
-        display_name = args.display_name
-        description = args.description
-        bookmark = []  # or value returned by last write operation
-        with open("utils/sdk_schema.txt", "r") as file:
-            file_data = "\n".join(file.read().split("\n"))
-        schema_config = client_config.knowledge_graph_schema_config(schema=file_data)
-        create_knowledge_graph_schema_config_node_response = client_config.create_knowledge_graph_schema_config_node(
-            location,
-            name,
-            display_name,
-            description,
-            schema_config,
-            bookmark
-        )
-
-        if create_knowledge_graph_schema_config_node_response:
-            api_helper.print_response(create_knowledge_graph_schema_config_node_response)
-        else:
-            print("Invalid create knowledge graph schema config node response")
-        return create_knowledge_graph_schema_config_node_response
-
-    elif command == "update_knowledge_graph_schema_config_node":
-        config_node_id = args.config_node_id
-        etag = args.etag
-        display_name = args.display_name
-        description = args.description
-        bookmark = []  # or value returned by last write operation
-        with open("utils/sdk_schema.txt", "r") as file:
-            file_data = "\n".join(file.read().split("\n"))
-        schema_config = client_config.knowledge_graph_schema_config(file_data)
-
-        update_knowledge_graph_schema_config_node_response = client_config.update_knowledge_graph_schema_config_node(
-            config_node_id,
-            etag,
-            display_name,
-            description,
-            schema_config,
-            bookmark
-        )
-        if update_knowledge_graph_schema_config_node_response:
-            api_helper.print_response(update_knowledge_graph_schema_config_node_response)
-        else:
-            print("Invalid update knowledge graph schema config node response")
-        return update_knowledge_graph_schema_config_node_response
-
     elif command == "read_oauth2_provider":
         oauth2_provider_id = args.oauth2_provider_id
         bookmark = []  # or value returned by last write operation
@@ -2828,82 +2762,86 @@ Property ID and value of the property where the value is a reference
 
     elif command == "read_identity_knowledge":
         # replace with actual values
-        input_params = {"external_id": "wSgEdafPwvjAwWH"}
-        path = "(:Individual)-[:BELONGS_TO]->(n:Organization)"
-        conditions = "WHERE n.external_id = $external_id"
-        responses = client_knowledge.read(path, conditions, input_params)
-        if responses:
-            for response in responses:
-                api_helper.print_response(response)
-        else:
-            print("No result")
+        input_params = {"external_id": "CJnoXYgnPNDAiMg"}
+        query = "MATCH (n:Resource) WHERE n.external_id = $external_id"
+        returns = [ReturnKnowledge(variable="n")]
+        responses = client_knowledge.identity_knowledge_read(query, input_params, returns)
+        api_helper.print_response(responses)
 
-    elif command == "get_digital_twin_by_id":
+    elif command == "get_identity_by_id":
         id = args.id
-        response = client_knowledge.get_digital_twin_by_id(id)
+        returns = [ReturnKnowledge(variable="n")]
+        response = client_knowledge.get_identity_by_id(id, returns)
         if response:
             api_helper.print_response(response)
         else:
             print("No result")
 
-    elif command == "get_digital_twin_by_identifier":
+    elif command == "get_identity_by_identifier":
         external_id = args.external_id
         type = args.type
-        responses = client_knowledge.get_digital_twin_by_identifier(external_id, type)
+        returns = [ReturnKnowledge(variable="n")]
+        responses = client_knowledge.get_identity_by_identifier(external_id, type, returns)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
         else:
             print("No result")
 
-    elif command == "get_resource_by_id":
+    elif command == "get_node_by_id":
         id = args.id
-        response = client_knowledge.get_resource_by_id(id)
+        returns = [ReturnKnowledge(variable="n")]
+        response = client_knowledge.get_node_by_id(id, returns)
         if response:
             api_helper.print_response(response)
         else:
             print("No result")
 
-    elif command == "get_resource_by_identifier":
+    elif command == "get_node_by_identifier":
         external_id = args.external_id
         type = args.type
-        responses = client_knowledge.get_resource_by_identifier(external_id, type)
+        returns = [ReturnKnowledge(variable="n")]
+        responses = client_knowledge.get_node_by_identifier(external_id, type, returns)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
         else:
             print("No result")
 
-    elif command == "list_resources":
-        responses = client_knowledge.list_resources()
+    elif command == "list_nodes":
+        returns = [ReturnKnowledge(variable="n")]
+        responses = client_knowledge.list_nodes(returns)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
         else:
             print("No result")
 
-    elif command == "list_digital_twins":
-        responses = client_knowledge.list_digital_twins()
+    elif command == "list_identities":
+        returns = [ReturnKnowledge(variable="n")]
+        responses = client_knowledge.list_identities(returns)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
         else:
             print("No result")
 
-    elif command == "list_resources_by_property":
+    elif command == "list_nodes_by_property":
         # replace by own values
         property = {"colour": "green"}
-        responses = client_knowledge.list_resources_by_property(property)
+        returns = [ReturnKnowledge(variable="n")]
+        responses = client_knowledge.list_nodes_by_property(property, returns)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
         else:
             print("No result")
 
-    elif command == "list_digital_twins_by_property":
+    elif command == "list_identities_by_property":
         # replace by own values
         property = {"last_name": "mushu"}
-        responses = client_knowledge.list_digital_twins_by_property(property)
+        returns = [ReturnKnowledge(variable="n")]
+        responses = client_knowledge.list_identities_by_property(property, returns)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
@@ -2911,7 +2849,7 @@ Property ID and value of the property where the value is a reference
             print("No result")
 
     elif command == "get_property":
-        node1 = node_model(
+        node1 = NodeModel(
             id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
             external_id="PEpkjOvUJQvqTFw",
             type="individual",

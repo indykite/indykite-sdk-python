@@ -1,133 +1,134 @@
 import sys
 import uuid
-from indykite_sdk.indykite.knowledge.v1beta1 import identity_knowledge_api_pb2 as pb2
-from indykite_sdk.indykite.knowledge.v1beta1 import model_pb2
+from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 as pb2
+from indykite_sdk.indykite.knowledge.v1beta2 import model_pb2
 from indykite_sdk.indykite.ingest.v1beta2 import model_pb2 as ingest_model_pb2
-from indykite_sdk.model.identity_knowledge import Path
+from indykite_sdk.model.identity_knowledge import IdentityKnowledgeReadResponse
 import indykite_sdk.utils.logger as logger
-from indykite_sdk.model.operation import Operation
 from indykite_sdk.ingest import IngestClient
 
 
-def read(self, path, conditions, input_params={}):
+def identity_knowledge_read(self, query, input_params={}, returns=[]):
     """
     read ingested data
     :param self:
-    :param path: string
-    :param conditions: string
+    :param query: string
     :param input_params: map{string, InputParam}
-    :return: array of IdentityKnowledgeResponse paths
+    :param returns: array of Identity Knowedge Returns
+    :return: deserialized IdentityKnowledgeReadResponse
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        identity_knowledge_response = self.stub.IdentityKnowledge(
-            pb2.IdentityKnowledgeRequest(
-                operation=Operation.OPERATION_READ.value,
-                path=path,
-                conditions=conditions,
+        identity_knowledge_response = self.stub.IdentityKnowledgeRead(
+            pb2.IdentityKnowledgeReadRequest(
+                query=query,
                 input_params=request_input_params(input_params),
+                returns=returns
             )
         )
         if not identity_knowledge_response:
-            return []
-        res = [Path.deserialize(path)
-               for path in identity_knowledge_response.paths]
-        return res
+            return None
+        return IdentityKnowledgeReadResponse.deserialize(identity_knowledge_response)
 
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def get_node_by_id(self, id, node_type):
+def get_node_by_id(self, id , returns, is_identity=False):
     """
     read node by gid id
     :param self:
     :param id: string
-    :param node_type: string in PascalCase
+    :param returns: array of Identity Knowledge Returns
+    :param is_identity: boolean
     :return: Node
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        path: str = "(n:{0})".format(node_type)
-        conditions: str = "WHERE n.{0} = ${1}".format("id", "id")
+        label = "Resource"
+        if is_identity:
+            label = "DigitalTwin"
+        query: str = "MATCH (n:{flabel}) WHERE n.id=$id".format(flabel=label)
         params = {"id": id}
-        identity_knowledge_response = self.stub.IdentityKnowledge(
-            pb2.IdentityKnowledgeRequest(
-                    operation=Operation.OPERATION_READ.value,
-                    path=path,
-                    conditions=conditions,
+        identity_knowledge_response = self.stub.IdentityKnowledgeRead(
+            pb2.IdentityKnowledgeReadRequest(
+                    query=query,
                     input_params=request_input_params(params),
+                    returns=returns
             )
         )
-        if not identity_knowledge_response or len(identity_knowledge_response.paths) == 0:
+        if not identity_knowledge_response or len(identity_knowledge_response.nodes) == 0:
             return None
-        if len(identity_knowledge_response.paths) == 1 and identity_knowledge_response.paths[0].nodes[0]:
-            return identity_knowledge_response.paths[0].nodes[0]
+        if len(identity_knowledge_response.nodes) == 1:
+            return identity_knowledge_response.nodes[0]
         else:
             raise Exception("Internal error: unable to complete request")
+        return identity_knowledge_response
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def get_node_by_identifier(self, node_type, external_id, type):
+def get_node_by_identifier(self, external_id, type, returns, is_identity=False):
     """
-    read node by gid id
+    read node by identifier type + external_id
     :param self:
-    :param node_type: string in PascalCase
     :param external_id: string
     :param type: string
+    :param returns: array of Identity Knowledge Returns
+    :param is_identity: boolean
     :return: Node
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        path: str = "(n:{0})".format(node_type)
-        conditions: str = "WHERE n.{0} = ${1} and n.{2} = ${3}".format(
-            "external_id", "external_id", "type", "type")
+        label = "Resource"
+        if is_identity:
+            label = "DigitalTwin"
+        query: str = "MATCH (n:{0}) WHERE n.external_id = '{1}' and n.type = '{2}'".format(
+            label, external_id, type)
         params = {
             "external_id": external_id,
             "type": type
             }
-        identity_knowledge_response = self.stub.IdentityKnowledge(
-            pb2.IdentityKnowledgeRequest(
-                    operation=Operation.OPERATION_READ.value,
-                    path=path,
-                    conditions=conditions,
-                    input_params=request_input_params(params),
+        identity_knowledge_response = self.stub.IdentityKnowledgeRead(
+            pb2.IdentityKnowledgeReadRequest(
+                query=query,
+                input_params=request_input_params(params),
+                returns=returns
             )
         )
         if not identity_knowledge_response:
             return None
-        responses = [Path.deserialize(path)
-                     for path in identity_knowledge_response.paths]
-        return parse_multiple_nodes_from_paths(responses)
+        return IdentityKnowledgeReadResponse.deserialize(identity_knowledge_response).nodes
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def get_digital_twin_by_id(self, id):
+def get_identity_by_id(self, id, returns):
     """
     get DT by id
     :param self:
     :param id: string
+    :param returns: array of Identity Knowledge Returns
     :return: Node
     """
-    node = self.get_node_by_id(id, "DigitalTwin")
+    node = self.get_node_by_id(id, returns, True)
     if not node:
         return None
     return node
 
 
-def get_digital_twin_by_identifier(self, external_id, type):
+def get_identity_by_identifier(self, external_id, type, returns):
     """
     get DT by identifier
     :param self:
     :param external_id: string
     :param type: string
+    :param returns: array of Identity Knowledge Returns
     :return: Node
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        nodes = self.get_node_by_identifier("DigitalTwin", external_id, type)
+        nodes = self.get_node_by_identifier(external_id, type, returns, True)
         if not nodes:
             return None
         return nodes
@@ -136,154 +137,89 @@ def get_digital_twin_by_identifier(self, external_id, type):
         return logger.logger_error(exception)
 
 
-def get_resource_by_id(self, id):
-    """
-    get DT by id
-    :param self:
-    :param id: string
-    :return: Node
-    """
-    node = self.get_node_by_id(id, "Resource")
-    if not node:
-        return None
-    return node
-
-
-def get_resource_by_identifier(self, external_id, type):
-    """
-    get DT by identifier
-    :param self:
-    :param external_id: string
-    :param type: string
-    :return: Node
-    """
-    sys.excepthook = logger.handle_excepthook
-    try:
-        nodes = self.get_node_by_identifier("Resource", external_id, type)
-        if not nodes:
-            return None
-        return nodes
-
-    except Exception as exception:
-        return logger.logger_error(exception)
-
-
-def list_nodes(self, node_type):
+def list_nodes(self, returns, is_identity=False):
     """
     list all nodes, DTs like resources
     :param self:
-    :param node_type: string in PascalCase
+    :param returns: array of Identity Knowledge Returns
+    :param is_identity: boolean
     :return: list of Node objects
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        path: str = "(:{0})".format(node_type)
-        identity_knowledge_response = self.stub.IdentityKnowledge(
-            pb2.IdentityKnowledgeRequest(
-                    operation=Operation.OPERATION_READ.value,
-                    path=path
+        label = "Resource"
+        if is_identity:
+            label = "DigitalTwin"
+        query: str = "MATCH (n:{0})".format(label)
+
+        identity_knowledge_response = self.stub.IdentityKnowledgeRead(
+            pb2.IdentityKnowledgeReadRequest(
+                query=query,
+                input_params={},
+                returns=returns
             )
         )
         if not identity_knowledge_response:
             return None
-        responses = [Path.deserialize(path)
-                     for path in identity_knowledge_response.paths]
-        return parse_multiple_nodes_from_paths(responses)
+        return IdentityKnowledgeReadResponse.deserialize(identity_knowledge_response).nodes
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def list_nodes_by_property(self, node_type, property):
+def list_nodes_by_property(self, property, returns, is_identity=False):
     """
     list all nodes, DTs like resources
     :param self:
-    :param node_type: string in PascalCase
+    :param property: Knowledge Object Property
+    :param returns: array of Identity Knowledge Returns
+    :param is_identity: boolean
     :return: list of Node objects
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        path: str = "(n:{0})".format(node_type)
         (k, v), = property.items()
-        conditions: str = "WHERE n.{0} = ${1}".format(k, k)
-        if not isinstance(v, int) and not isinstance(v, str):
-            raise Exception("InvalidArgument: only string or integer properties can be used for queries")
+        label = "Resource"
+        if is_identity:
+            label = "DigitalTwin"
+        query: str = "MATCH (n:{0}) WHERE n.{1} = ${2}".format(label, k, k)
         params = {k: v}
-        identity_knowledge_response = self.stub.IdentityKnowledge(
-            pb2.IdentityKnowledgeRequest(
-                operation=Operation.OPERATION_READ.value,
-                path=path,
-                conditions=conditions,
-                input_params=request_input_params(params)
+        identity_knowledge_response = self.stub.IdentityKnowledgeRead(
+            pb2.IdentityKnowledgeReadRequest(
+                query=query,
+                input_params=request_input_params(params),
+                returns=returns
             )
         )
         if not identity_knowledge_response:
             return None
-        responses = [Path.deserialize(path)
-                     for path in identity_knowledge_response.paths]
-        return parse_multiple_nodes_from_paths(responses)
+        return IdentityKnowledgeReadResponse.deserialize(identity_knowledge_response).nodes
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def list_resources(self):
-    """
-    list all resources
-    :param self:
-    :return: list of Node objects
-    """
-    nodes = self.list_nodes("Resource")
-    if not nodes:
-        return None
-    return nodes
-
-
-def list_digital_twins(self):
+def list_identities(self, returns):
     """
     list all DTs
     :param self:
+    :param returns: array of Identity Knowledge Returns
     :return: list of Node objects
     """
-    nodes = self.list_nodes("DigitalTwin")
+    nodes = self.list_nodes(returns, True)
     if not nodes:
         return None
     return nodes
 
 
-def list_resources_by_property(self, property):
+def list_identities_by_property(self, property, returns):
     """
-    list all resources
-    :param self:
+    list all identities
     :param property: dict
+    :param returns: array of Identity Knowledge Returns
     :return: list of Node objects
     """
-
-    nodes = self.list_nodes_by_property("Resource", property)
+    nodes = self.list_nodes_by_property(property, returns, True)
     if not nodes:
         return None
-    return nodes
-
-
-def list_digital_twins_by_property(self, property):
-    """
-    list all DTs
-    :param property: dict
-    :return: list of Node objects
-    """
-    nodes = self.list_nodes_by_property("DigitalTwin", property)
-    if not nodes:
-        return None
-    return nodes
-
-
-def parse_multiple_nodes_from_paths(paths):
-    """
-    get nodes from paths
-    :param paths IdentityKnowledgeRequest.paths
-    :return: list of node objects
-    """
-    nodes = []
-    for path in paths:
-        nodes.append(path.nodes[0])
     return nodes
 
 
@@ -309,30 +245,31 @@ def delete_all_with_node_type(self, node_type):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        path: str = "(:{0})".format(node_type)
-        identity_knowledge_response = self.stub.IdentityKnowledge(
-            pb2.IdentityKnowledgeRequest(
-                    operation=Operation.OPERATION_READ.value,
-                    path=path
+        query: str = "MATCH (n:{0})".format(node_type)
+        returns = [model_pb2.Return(variable="n")]
+        identity_knowledge_response = self.stub.IdentityKnowledgeRead(
+            pb2.IdentityKnowledgeReadRequest(
+                query=query,
+                input_params={},
+                returns=returns
             )
         )
         if not identity_knowledge_response:
             return None
         records = []
-        for path in identity_knowledge_response.paths:
-            for node in path.nodes:
-                node = ingest_model_pb2.NodeMatch(
-                    external_id=str(node.external_id),
-                    type=str(node.type)
-                )
-                delete = ingest_model_pb2.DeleteData(
-                    node=node
-                )
-                record = ingest_model_pb2.Record(
-                    id=str(uuid.uuid4()),
-                    delete=delete
-                )
-                records.append(record)
+        for node in identity_knowledge_response.nodes:
+            node = ingest_model_pb2.NodeMatch(
+                external_id=str(node.external_id),
+                type=str(node.type)
+            )
+            delete = ingest_model_pb2.DeleteData(
+                node=node
+            )
+            record = ingest_model_pb2.Record(
+                id=str(uuid.uuid4()),
+                delete=delete
+            )
+            records.append(record)
         client_ingest = IngestClient()
         if records:
             responses = client_ingest.stream_records(records)

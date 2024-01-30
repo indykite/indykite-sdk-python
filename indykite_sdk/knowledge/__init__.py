@@ -16,10 +16,10 @@ class KnowledgeClient(object):
             return logger_error(exception)
 
     # Imported methods,
-    from .identity_knowledge import (read, get_node_by_id, get_node_by_identifier,
-                                     get_digital_twin_by_id, get_digital_twin_by_identifier,
-                                     get_resource_by_id, get_resource_by_identifier,
-                                     parse_multiple_nodes_from_paths, list_nodes_by_property, list_nodes,
-                                     list_resources, list_digital_twins,
-                                     list_resources_by_property, list_digital_twins_by_property,
+    from .identity_knowledge import (identity_knowledge_read, get_node_by_id, get_node_by_identifier,
+                                     get_identity_by_id, get_identity_by_identifier,
+                                     get_node_by_id, get_node_by_identifier,
+                                     list_nodes_by_property, list_nodes,
+                                     list_identities, list_identities_by_property,
+                                     list_nodes_by_property, list_nodes_by_property,
                                      delete_all_with_node_type)

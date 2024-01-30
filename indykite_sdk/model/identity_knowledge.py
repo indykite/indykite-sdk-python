@@ -1,24 +1,31 @@
 from indykite_sdk.utils.message_to_value import arg_to_value, object_to_value
+from indykite_sdk.utils import timestamp_to_date
 
 
-class IdentityKnowledgeResponse:
+class IdentityKnowledgeReadResponse:
     @classmethod
     def deserialize(cls, message):
         if message is None:
             return None
         fields = [desc.name for desc, val in message.ListFields()]
-        identity_knowledge = IdentityKnowledgeResponse()
+        identity_knowledge = IdentityKnowledgeReadResponse()
 
-        if "paths" in fields:
-            paths = []
-            for e in message.paths:
-                paths.append(Path.deserialize(e))
-            identity_knowledge.paths = paths
+        nodes = []
+        if "nodes" in fields:
+            for node in message.nodes:
+                nodes.append(Node.deserialize(node))
+        identity_knowledge.nodes = nodes
+        relationships = []
+        if "relationship" in fields:
+            for relationship in message.relationships:
+                relationships.append(Relationship.deserialize(relationship))
+        identity_knowledge.relationships = relationships
 
         return identity_knowledge
 
-    def __init__(self, path=None):
-        self.path = path
+    def __init__(self, nodes=None, relationships=None):
+        self.nodes = nodes
+        self.relationships = relationships
 
 
 class Node:
@@ -37,6 +44,13 @@ class Node:
         if node.properties:
             properties = [Property.deserialize(property) for property in node.properties]
             ik_node.properties = properties
+        if node.create_time:
+            ik_node.create_time = timestamp_to_date(node.create_time)
+        if node.update_time:
+            ik_node.update_time = timestamp_to_date(node.update_time)
+        ik_node.is_identity=False
+        if node.is_identity:
+            ik_node.is_identity=node.is_identity
         return ik_node
 
     @classmethod
@@ -55,12 +69,16 @@ class Node:
             return res[0].get('stringValue', None)
         return None
 
-    def __init__(self, id=None, external_id=None, type=None, tags=None, properties=None):
+    def __init__(self, id=None, external_id=None, type=None, tags=None, create_time=None, update_time=None,
+                 properties=None, is_identity=None):
         self.id = id
         self.external_id = external_id
         self.type = type
         self.tags = tags
+        self.create_time = create_time
+        self.update_time = update_time
         self.properties = properties
+        self.is_identity = is_identity
 
 
 class Relationship:
@@ -74,6 +92,10 @@ class Relationship:
             source=relationship.source,
             target=relationship.target,
         )
+        if relationship.create_time:
+            ik_relationship.create_time = timestamp_to_date(relationship.create_time)
+        if relationship.update_time:
+            ik_relationship.update_time = timestamp_to_date(relationship.update_time)
         property_map = {
             k: Property(arg_to_value(v))
             for k, v in relationship.properties.items()
@@ -81,33 +103,15 @@ class Relationship:
         ik_relationship.properties = property_map
         return ik_relationship
 
-    def __init__(self, id=None, type=None, source=None, target=None, properties=None):
+    def __init__(self, id=None, type=None, source=None, target=None, create_time=None, update_time=None,
+                 properties=None):
         self.id = id
         self.type = type
         self.source = source
         self.target = target
+        self.create_time = create_time
+        self.update_time = update_time
         self.properties = properties
-
-
-class Path:
-    @classmethod
-    def deserialize(cls, path):
-        if path is None:
-            return None
-        ik_path = Path()
-        nodes = []
-        for node in path.nodes:
-            nodes.append(Node.deserialize(node))
-        ik_path.nodes = nodes
-        relationships = []
-        for relationship in path.relationships:
-            relationships.append(Relationship.deserialize(relationship))
-        ik_path.relationships = relationships
-        return ik_path
-
-    def __init__(self, nodes=[], relationships=[]):
-        self.nodes = nodes
-        self.relationships = relationships
 
 
 class Property:
@@ -116,10 +120,25 @@ class Property:
         if property is None:
             return None
         return Property(
-            property.key if property.key else None,
+            property.type if property.type else None,
             object_to_value(property.value) if property.value else None
         )
 
-    def __init__(self, key=None, value=None):
-        self.key = key
+    def __init__(self, type=None, value=None):
+        self.type = type
         self.value = value
+
+
+class Return:
+    @classmethod
+    def deserialize(cls, returned):
+        if returned is None:
+            return None
+        return Return(
+            returned.variable or None,
+            returned.properties or None,
+        )
+
+    def __init__(self, variable=None, properties=None):
+        self.variable = variable
+        self.properties = properties
