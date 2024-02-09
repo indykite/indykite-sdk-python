@@ -4,6 +4,7 @@ from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 a
 from indykite_sdk.indykite.knowledge.v1beta2 import model_pb2
 from indykite_sdk.indykite.ingest.v1beta2 import model_pb2 as ingest_model_pb2
 from indykite_sdk.model.identity_knowledge import IdentityKnowledgeReadResponse
+from indykite_sdk.indykite.objects.v1beta2 import value_pb2
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.ingest import IngestClient
 
@@ -13,8 +14,8 @@ def identity_knowledge_read(self, query, input_params={}, returns=[]):
     read ingested data
     :param self:
     :param query: string
-    :param input_params: map{string, InputParam}
-    :param returns: array of Identity Knowedge Returns
+    :param input_params: map{string, indykite.objects.v1beta2.Value}
+    :param returns: array of Identity Knowledge Returns
     :return: deserialized IdentityKnowledgeReadResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -34,12 +35,11 @@ def identity_knowledge_read(self, query, input_params={}, returns=[]):
         return logger.logger_error(exception)
 
 
-def get_node_by_id(self, id , returns, is_identity=False):
+def get_node_by_id(self, id , is_identity=False):
     """
     read node by gid id
     :param self:
     :param id: string
-    :param returns: array of Identity Knowledge Returns
     :param is_identity: boolean
     :return: Node
     """
@@ -50,6 +50,7 @@ def get_node_by_id(self, id , returns, is_identity=False):
             label = "DigitalTwin"
         query: str = "MATCH (n:{flabel}) WHERE n.id=$id".format(flabel=label)
         params = {"id": id}
+        returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
             pb2.IdentityKnowledgeReadRequest(
                     query=query,
@@ -68,13 +69,12 @@ def get_node_by_id(self, id , returns, is_identity=False):
         return logger.logger_error(exception)
 
 
-def get_node_by_identifier(self, external_id, type, returns, is_identity=False):
+def get_node_by_identifier(self, external_id, type, is_identity=False):
     """
     read node by identifier type + external_id
     :param self:
     :param external_id: string
     :param type: string
-    :param returns: array of Identity Knowledge Returns
     :param is_identity: boolean
     :return: Node
     """
@@ -84,11 +84,12 @@ def get_node_by_identifier(self, external_id, type, returns, is_identity=False):
         if is_identity:
             label = "DigitalTwin"
         query: str = "MATCH (n:{0}) WHERE n.external_id = '{1}' and n.type = '{2}'".format(
-            label, external_id, type)
+            label, str(external_id), str(type))
         params = {
-            "external_id": external_id,
-            "type": type
+            "external_id": str(external_id),
+            "type": str(type)
             }
+        returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
             pb2.IdentityKnowledgeReadRequest(
                 query=query,
@@ -103,32 +104,30 @@ def get_node_by_identifier(self, external_id, type, returns, is_identity=False):
         return logger.logger_error(exception)
 
 
-def get_identity_by_id(self, id, returns):
+def get_identity_by_id(self, id):
     """
     get DT by id
     :param self:
     :param id: string
-    :param returns: array of Identity Knowledge Returns
     :return: Node
     """
-    node = self.get_node_by_id(id, returns, True)
+    node = self.get_node_by_id(id, True)
     if not node:
         return None
     return node
 
 
-def get_identity_by_identifier(self, external_id, type, returns):
+def get_identity_by_identifier(self, external_id, type):
     """
     get DT by identifier
     :param self:
     :param external_id: string
     :param type: string
-    :param returns: array of Identity Knowledge Returns
     :return: Node
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        nodes = self.get_node_by_identifier(external_id, type, returns, True)
+        nodes = self.get_node_by_identifier(external_id, type, True)
         if not nodes:
             return None
         return nodes
@@ -137,21 +136,18 @@ def get_identity_by_identifier(self, external_id, type, returns):
         return logger.logger_error(exception)
 
 
-def list_nodes(self, returns, is_identity=False):
+def list_nodes(self, node_type="Resource"):
     """
     list all nodes, DTs like resources
     :param self:
-    :param returns: array of Identity Knowledge Returns
-    :param is_identity: boolean
+    :param node_type: string
     :return: list of Node objects
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        label = "Resource"
-        if is_identity:
-            label = "DigitalTwin"
+        label = node_type
         query: str = "MATCH (n:{0})".format(label)
-
+        returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
             pb2.IdentityKnowledgeReadRequest(
                 query=query,
@@ -166,12 +162,11 @@ def list_nodes(self, returns, is_identity=False):
         return logger.logger_error(exception)
 
 
-def list_nodes_by_property(self, property, returns, is_identity=False):
+def list_nodes_by_property(self, property, is_identity=False):
     """
     list all nodes, DTs like resources
     :param self:
     :param property: Knowledge Object Property
-    :param returns: array of Identity Knowledge Returns
     :param is_identity: boolean
     :return: list of Node objects
     """
@@ -183,6 +178,7 @@ def list_nodes_by_property(self, property, returns, is_identity=False):
             label = "DigitalTwin"
         query: str = "MATCH (n:{0}) WHERE n.{1} = ${2}".format(label, k, k)
         params = {k: v}
+        returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
             pb2.IdentityKnowledgeReadRequest(
                 query=query,
@@ -197,27 +193,25 @@ def list_nodes_by_property(self, property, returns, is_identity=False):
         return logger.logger_error(exception)
 
 
-def list_identities(self, returns):
+def list_identities(self):
     """
     list all DTs
     :param self:
-    :param returns: array of Identity Knowledge Returns
     :return: list of Node objects
     """
-    nodes = self.list_nodes(returns, True)
+    nodes = self.list_nodes("DigitalTwin")
     if not nodes:
         return None
     return nodes
 
 
-def list_identities_by_property(self, property, returns):
+def list_identities_by_property(self, property):
     """
     list all identities
     :param property: dict
-    :param returns: array of Identity Knowledge Returns
     :return: list of Node objects
     """
-    nodes = self.list_nodes_by_property(property, returns, True)
+    nodes = self.list_nodes_by_property(property, True)
     if not nodes:
         return None
     return nodes
@@ -230,7 +224,7 @@ def request_input_params(input_params):
     :return: dict input_params_dict
     """
     input_params_dict = {
-        k: model_pb2.InputParam(string_value=str(v))
+        k: value_pb2.Value(string_value=str(v))
         for k, v in input_params.items()
     }
     return input_params_dict

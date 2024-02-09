@@ -2762,16 +2762,15 @@ Property ID and value of the property where the value is a reference
 
     elif command == "read_identity_knowledge":
         # replace with actual values
-        input_params = {"external_id": "CJnoXYgnPNDAiMg"}
-        query = "MATCH (n:Resource) WHERE n.external_id = $external_id"
+        input_params = {"external_id": "CJnoXYgnPNDAiMg", "type": "Organization"}
+        query = "MATCH (n:Resource) WHERE n.external_id = $external_id and n.type=$type"
         returns = [ReturnKnowledge(variable="n")]
         responses = client_knowledge.identity_knowledge_read(query, input_params, returns)
         api_helper.print_response(responses)
 
     elif command == "get_identity_by_id":
         id = args.id
-        returns = [ReturnKnowledge(variable="n")]
-        response = client_knowledge.get_identity_by_id(id, returns)
+        response = client_knowledge.get_identity_by_id(id)
         if response:
             api_helper.print_response(response)
         else:
@@ -2780,8 +2779,7 @@ Property ID and value of the property where the value is a reference
     elif command == "get_identity_by_identifier":
         external_id = args.external_id
         type = args.type
-        returns = [ReturnKnowledge(variable="n")]
-        responses = client_knowledge.get_identity_by_identifier(external_id, type, returns)
+        responses = client_knowledge.get_identity_by_identifier(external_id, type)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
@@ -2790,8 +2788,7 @@ Property ID and value of the property where the value is a reference
 
     elif command == "get_node_by_id":
         id = args.id
-        returns = [ReturnKnowledge(variable="n")]
-        response = client_knowledge.get_node_by_id(id, returns)
+        response = client_knowledge.get_node_by_id(id)
         if response:
             api_helper.print_response(response)
         else:
@@ -2800,8 +2797,7 @@ Property ID and value of the property where the value is a reference
     elif command == "get_node_by_identifier":
         external_id = args.external_id
         type = args.type
-        returns = [ReturnKnowledge(variable="n")]
-        responses = client_knowledge.get_node_by_identifier(external_id, type, returns)
+        responses = client_knowledge.get_node_by_identifier(external_id, type)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
@@ -2809,8 +2805,7 @@ Property ID and value of the property where the value is a reference
             print("No result")
 
     elif command == "list_nodes":
-        returns = [ReturnKnowledge(variable="n")]
-        responses = client_knowledge.list_nodes(returns)
+        responses = client_knowledge.list_nodes()
         if responses:
             for response in responses:
                 api_helper.print_response(response)
@@ -2818,8 +2813,7 @@ Property ID and value of the property where the value is a reference
             print("No result")
 
     elif command == "list_identities":
-        returns = [ReturnKnowledge(variable="n")]
-        responses = client_knowledge.list_identities(returns)
+        responses = client_knowledge.list_identities()
         if responses:
             for response in responses:
                 api_helper.print_response(response)
@@ -2828,9 +2822,8 @@ Property ID and value of the property where the value is a reference
 
     elif command == "list_nodes_by_property":
         # replace by own values
-        property = {"colour": "green"}
-        returns = [ReturnKnowledge(variable="n")]
-        responses = client_knowledge.list_nodes_by_property(property, returns)
+        property = {"role": "Employee"}
+        responses = client_knowledge.list_nodes_by_property(property)
         if responses:
             for response in responses:
                 api_helper.print_response(response)
@@ -2840,8 +2833,7 @@ Property ID and value of the property where the value is a reference
     elif command == "list_identities_by_property":
         # replace by own values
         property = {"last_name": "mushu"}
-        returns = [ReturnKnowledge(variable="n")]
-        responses = client_knowledge.list_identities_by_property(property, returns)
+        responses = client_knowledge.list_identities_by_property(property)
         if responses:
             for response in responses:
                 api_helper.print_response(response)

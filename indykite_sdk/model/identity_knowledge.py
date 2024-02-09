@@ -1,4 +1,4 @@
-from indykite_sdk.utils.message_to_value import arg_to_value, object_to_value
+from indykite_sdk.utils.message_to_value import arg_to_value, grpc_to_value
 from indykite_sdk.utils import timestamp_to_date
 
 
@@ -121,7 +121,7 @@ class Property:
             return None
         return Property(
             property.type if property.type else None,
-            object_to_value(property.value) if property.value else None
+            grpc_to_value(property.value) if property.value else None
         )
 
     def __init__(self, type=None, value=None):
