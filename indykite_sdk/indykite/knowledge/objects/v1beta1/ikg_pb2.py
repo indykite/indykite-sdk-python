@@ -12,11 +12,11 @@ _sym_db = _symbol_database.Default()
 
 
 from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
-from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as indykite_dot_objects_dot_v1beta1_dot_struct__pb2
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
+from indykite_sdk.indykite.objects.v1beta2 import value_pb2 as indykite_dot_objects_dot_v1beta2_dot_value__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n,indykite/knowledge/objects/v1beta1/ikg.proto\x12\"indykite.knowledge.objects.v1beta1\x1a\x17validate/validate.proto\x1a%indykite/objects/v1beta1/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb2\x03\n\x04Node\x12#\n\x02id\x18\x01 \x01(\tB\x13\xfa\x42\x10r\x0e\x10\x16\x18\x80\x02:\x04gid:\xd0\x01\x01R\x02id\x12+\n\x0b\x65xternal_id\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\x80\x02R\nexternalId\x12-\n\x04type\x18\x03 \x01(\tB\x19\xfa\x42\x16r\x14\x18@2\x10^([A-Z][a-z]+)+$R\x04type\x12\x36\n\x04tags\x18\x04 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x10 \x18\x01\"\x16r\x14\x18@2\x10^([A-Z][a-z]+)+$R\x04tags\x12;\n\x0b\x63reate_time\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\ncreateTime\x12;\n\x0bupdate_time\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\nupdateTime\x12V\n\nproperties\x18\x07 \x03(\x0b\x32,.indykite.knowledge.objects.v1beta1.PropertyB\x08\xfa\x42\x05\x92\x01\x02\x10\x32R\nproperties\x12\x1f\n\x0bis_identity\x18\x08 \x01(\x08R\nisIdentity\"\x9e\x03\n\x0cRelationship\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04type\x18\x02 \x01(\tR\x04type\x12\x16\n\x06source\x18\x03 \x01(\tR\x06source\x12\x16\n\x06target\x18\x04 \x01(\tR\x06target\x12;\n\x0b\x63reate_time\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\ncreateTime\x12;\n\x0bupdate_time\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\nupdateTime\x12`\n\nproperties\x18\x07 \x03(\x0b\x32@.indykite.knowledge.objects.v1beta1.Relationship.PropertiesEntryR\nproperties\x1a^\n\x0fPropertiesEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueR\x05value:\x02\x38\x01\"U\n\x08Property\x12\x12\n\x04type\x18\x01 \x01(\tR\x04type\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta1.ValueR\x05valueB\xdd\x01\n&com.indykite.knowledge.objects.v1beta1B\x08IkgProtoP\x01\xa2\x02\x03IKO\xaa\x02\"Indykite.Knowledge.Objects.V1beta1\xca\x02\"Indykite\\Knowledge\\Objects\\V1beta1\xe2\x02.Indykite\\Knowledge\\Objects\\V1beta1\\GPBMetadata\xea\x02%Indykite::Knowledge::Objects::V1beta1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n,indykite/knowledge/objects/v1beta1/ikg.proto\x12\"indykite.knowledge.objects.v1beta1\x1a\x17validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a$indykite/objects/v1beta2/value.proto\"\xb2\x03\n\x04Node\x12#\n\x02id\x18\x01 \x01(\tB\x13\xfa\x42\x10r\x0e\x10\x16\x18\x80\x02:\x04gid:\xd0\x01\x01R\x02id\x12+\n\x0b\x65xternal_id\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\x80\x02R\nexternalId\x12-\n\x04type\x18\x03 \x01(\tB\x19\xfa\x42\x16r\x14\x18@2\x10^([A-Z][a-z]+)+$R\x04type\x12\x36\n\x04tags\x18\x04 \x03(\tB\"\xfa\x42\x1f\x92\x01\x1c\x10 \x18\x01\"\x16r\x14\x18@2\x10^([A-Z][a-z]+)+$R\x04tags\x12;\n\x0b\x63reate_time\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\ncreateTime\x12;\n\x0bupdate_time\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\nupdateTime\x12V\n\nproperties\x18\x07 \x03(\x0b\x32,.indykite.knowledge.objects.v1beta1.PropertyB\x08\xfa\x42\x05\x92\x01\x02\x10\x32R\nproperties\x12\x1f\n\x0bis_identity\x18\x08 \x01(\x08R\nisIdentity\"\x9e\x03\n\x0cRelationship\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04type\x18\x02 \x01(\tR\x04type\x12\x16\n\x06source\x18\x03 \x01(\tR\x06source\x12\x16\n\x06target\x18\x04 \x01(\tR\x06target\x12;\n\x0b\x63reate_time\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\ncreateTime\x12;\n\x0bupdate_time\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\nupdateTime\x12`\n\nproperties\x18\x07 \x03(\x0b\x32@.indykite.knowledge.objects.v1beta1.Relationship.PropertiesEntryR\nproperties\x1a^\n\x0fPropertiesEntry\x12\x10\n\x03key\x18\x01 \x01(\tR\x03key\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta2.ValueR\x05value:\x02\x38\x01\"|\n\x08Property\x12\x39\n\x04type\x18\x01 \x01(\tB%\xfa\x42\"r (\x80\x02\x32\x18^[a-zA-Z_][a-zA-Z0-9_]+$\xd0\x01\x01R\x04type\x12\x35\n\x05value\x18\x02 \x01(\x0b\x32\x1f.indykite.objects.v1beta2.ValueR\x05valueB\xdd\x01\n&com.indykite.knowledge.objects.v1beta1B\x08IkgProtoP\x01\xa2\x02\x03IKO\xaa\x02\"Indykite.Knowledge.Objects.V1beta1\xca\x02\"Indykite\\Knowledge\\Objects\\V1beta1\xe2\x02.Indykite\\Knowledge\\Objects\\V1beta1\\GPBMetadata\xea\x02%Indykite::Knowledge::Objects::V1beta1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -37,12 +37,14 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _NODE.fields_by_name['properties']._serialized_options = b'\372B\005\222\001\002\0202'
   _RELATIONSHIP_PROPERTIESENTRY._options = None
   _RELATIONSHIP_PROPERTIESENTRY._serialized_options = b'8\001'
-  _globals['_NODE']._serialized_start=182
-  _globals['_NODE']._serialized_end=616
-  _globals['_RELATIONSHIP']._serialized_start=619
-  _globals['_RELATIONSHIP']._serialized_end=1033
-  _globals['_RELATIONSHIP_PROPERTIESENTRY']._serialized_start=939
-  _globals['_RELATIONSHIP_PROPERTIESENTRY']._serialized_end=1033
-  _globals['_PROPERTY']._serialized_start=1035
-  _globals['_PROPERTY']._serialized_end=1120
+  _PROPERTY.fields_by_name['type']._options = None
+  _PROPERTY.fields_by_name['type']._serialized_options = b'\372B\"r (\200\0022\030^[a-zA-Z_][a-zA-Z0-9_]+$\320\001\001'
+  _globals['_NODE']._serialized_start=181
+  _globals['_NODE']._serialized_end=615
+  _globals['_RELATIONSHIP']._serialized_start=618
+  _globals['_RELATIONSHIP']._serialized_end=1032
+  _globals['_RELATIONSHIP_PROPERTIESENTRY']._serialized_start=938
+  _globals['_RELATIONSHIP_PROPERTIESENTRY']._serialized_end=1032
+  _globals['_PROPERTY']._serialized_start=1034
+  _globals['_PROPERTY']._serialized_end=1158
 # @@protoc_insertion_point(module_scope)

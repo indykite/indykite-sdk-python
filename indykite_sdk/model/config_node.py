@@ -4,7 +4,6 @@ from indykite_sdk.model.auth_flow_config import AuthFlowConfig
 from indykite_sdk.model.oauth2_client_config import OAuth2ClientConfig
 from indykite_sdk.model.webauthn_provider_config import WebAuthnProviderConfig
 from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
-from indykite_sdk.model.knowledge_graph_schema_config import KnowledgeGraphSchemaConfig
 
 
 class ConfigNode:
@@ -53,10 +52,6 @@ class ConfigNode:
         if "authorization_policy_config" in fields:
             config_node.authorization_policy_config = AuthorizationPolicyConfig.deserialize(
                 message.authorization_policy_config)
-
-        if "knowledge_graph_schema_config" in fields:
-            config_node.knowledge_graph_schema_config = KnowledgeGraphSchemaConfig.deserialize(
-                message.knowledge_graph_schema_config)
 
         if "created_by" in fields:
             config_node.created_by = str(message.created_by)

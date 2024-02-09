@@ -41,31 +41,29 @@ def test_read_identity_knowledge_exception(capsys):
 def test_get_identity_by_id_success():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_identity_by_id(os.getenv('INDIVIDUAL_ID'), returns)
+    response = client.get_identity_by_id(os.getenv('INDIVIDUAL_ID'))
     assert response.id == os.getenv('INDIVIDUAL_ID')
 
 
 def test_get_identity_by_id_empty():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_identity_by_id("gid:AAAAFRv0C-BcFVoVqfl623K8vvv", returns)
+    response = client.get_identity_by_id("gid:AAAAFRv0C-BcFVoVqfl623K8vvv")
     assert response is None
 
 
 def test_get_identity_by_id_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_identity_by_id([], [])
+    response = client.get_identity_by_id([])
     captured = capsys.readouterr()
-    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
+    assert "invalid format for input param 'id'" in captured.err
 
 
 def test_get_node_by_id_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_node_by_id([], [])
+    response = client.get_node_by_id([])
     captured = capsys.readouterr()
     assert "invalid format for input param 'id'" in captured.err
 
@@ -73,32 +71,21 @@ def test_get_node_by_id_exception(capsys):
 def test_get_node_by_id_success():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_node_by_id(os.getenv('ORGANIZATION_ID'), returns)
+    response = client.get_node_by_id(os.getenv('ORGANIZATION_ID'))
     assert response.id == os.getenv('ORGANIZATION_ID')
 
 
 def test_get_node_by_id_empty():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_node_by_id("gid:AAAAFRv0C-BcFVoVqfl623K8vvv", returns)
+    response = client.get_node_by_id("gid:AAAAFRv0C-BcFVoVqfl623K8vvv")
     assert response is None
-
-
-def test_get_node_by_id_exception(capsys):
-    client = KnowledgeClient()
-    assert client is not None
-    response = client.get_node_by_id([], [], False)
-    captured = capsys.readouterr()
-    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
 def test_get_identity_by_identifier_success():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Whatever", returns)
+    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Whatever")
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
     assert response[0].type == "Individual" or "Whatever"
 
@@ -106,16 +93,14 @@ def test_get_identity_by_identifier_success():
 def test_get_identity_by_identifier_empty():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_identity_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Individual", returns)
+    response = client.get_identity_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Individual")
     assert response is None
 
 
 def test_get_node_by_identifier_empty():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Individual", returns, True)
+    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Individual", True)
     assert not response
 
 
@@ -127,8 +112,7 @@ def test_get_identity_by_identifier_exception(capsys):
         return logger.logger_error("missing 1 required positional argument: 'returns'")
 
     client.stub.IdentityKnowledgeRead = mocked_get_identity_by_identifier
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Individual", returns)
+    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Individual")
     captured = capsys.readouterr()
     assert "missing 1 required positional argument: 'returns'" in captured.err
 
@@ -136,8 +120,7 @@ def test_get_identity_by_identifier_exception(capsys):
 def test_get_node_by_identifier_success():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization", returns)
+    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization")
     assert response[0].external_id == os.getenv('ORGANIZATION_EXTERNAL_ID')
     assert response[0].type == "Organization"
 
@@ -145,29 +128,14 @@ def test_get_node_by_identifier_success():
 def test_get_node_by_identifier_empty():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.get_node_by_identifier("pVmaIfVVVglVVfx", "Organization", returns)
+    response = client.get_node_by_identifier("pVmaIfVVVglVVfx", "Organization")
     assert len(response) == 0
-
-
-def test_get_node_by_identifier_exception(capsys):
-    client = KnowledgeClient()
-    assert client is not None
-
-    def mocked_get_node_by_identifier(request: pb2.IdentityKnowledgeReadRequest):
-        return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
-
-    client.stub.IdentityKnowledge = mocked_get_node_by_identifier
-    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization", [])
-    captured = capsys.readouterr()
-    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
 def test_list_nodes_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.list_nodes_by_property({"colour": "white"}, returns)
+    response = client.list_nodes_by_property({"colour": "white"})
     assert response[0].external_id == os.getenv('ASSET_EXTERNAL_ID')
     assert response[0].type == "Asset"
 
@@ -176,8 +144,7 @@ def test_list_nodes_by_property_empty():
     client = KnowledgeClient()
     assert client is not None
     property = {"colour": "unknown"}
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.list_nodes_by_property(property, returns)
+    response = client.list_nodes_by_property(property)
     assert len(response) == 0
 
 
@@ -186,19 +153,18 @@ def test_list_nodes_by_property_exception(capsys):
     assert client is not None
 
     def mocked_list_nodes_by_property(request: pb2.IdentityKnowledgeReadRequest):
-        return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
+        return logger.logger_error("Logging error")
 
     client.stub.IdentityKnowledge = mocked_list_nodes_by_property
-    response = client.list_nodes_by_property({"colour": "gray"}, [])
+    response = client.list_nodes_by_property({}, "Error")
     captured = capsys.readouterr()
-    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
+    assert "Logging error" in captured.err
 
 
 def test_list_identities_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.list_identities_by_property({"first_name": "jackson"}, returns)
+    response = client.list_identities_by_property({"first_name": "jackson"})
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
     assert response[0].type == "Individual" or "Whatever"
 
@@ -206,8 +172,7 @@ def test_list_identities_by_property_success():
 def test_list_identities_by_property_empty():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.list_identities_by_property({"last_name": "unknown"}, returns)
+    response = client.list_identities_by_property({"last_name": "unknown"})
     assert response is None
 
 
@@ -219,7 +184,7 @@ def test_list_identities_by_property_exception(capsys):
         return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
 
     client.stub.IdentityKnowledgeRead = mocked_list_identities_by_property
-    response = client.list_identities_by_property({"last_name": "mushu"}, [])
+    response = client.list_identities_by_property({"last_name": "mushu"})
     captured = capsys.readouterr()
     assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
@@ -227,8 +192,7 @@ def test_list_identities_by_property_exception(capsys):
 def test_list_nodes_success():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.list_nodes(returns)
+    response = client.list_nodes()
     assert response[0].type == "Asset" or "Organization"
 
 
@@ -240,8 +204,7 @@ def test_list_nodes_empty():
         return None
 
     client.stub.IdentityKnowledgeRead = mocked_list_resources
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.list_nodes(returns)
+    response = client.list_nodes()
     assert response is None
 
 
@@ -261,8 +224,7 @@ def test_list_nodes_exception(capsys):
 def test_list_identities_success():
     client = KnowledgeClient()
     assert client is not None
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.list_identities(returns)
+    response = client.list_identities()
     assert response[0].type == "Individual" or "Carowner" or "Whatever"
 
 
@@ -274,8 +236,7 @@ def test_list_identities_empty():
         return None
 
     client.stub.IdentityKnowledgeRead = mocked_list_digital_twin
-    returns = [ReturnKnowledge(variable="n")]
-    response = client.list_identities(returns)
+    response = client.list_identities()
     assert response is None
 
 
@@ -284,12 +245,12 @@ def test_list_identities_exception(capsys):
     assert client is not None
 
     def mocked_list_digital_twin(request: pb2.IdentityKnowledgeReadRequest):
-        return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
+        return logger.logger_error("list_identities() takes 1 positional argument but 2 were given")
 
     client.stub.IdentityKnowledgeRead = mocked_list_digital_twin
-    response = client.list_identities([])
+    response = client.list_identities()
     captured = capsys.readouterr()
-    assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
+    assert "list_identities() takes 1 positional argument but 2 were given" in captured.err
 
 
 def test_get_property_success():
