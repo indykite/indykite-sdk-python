@@ -1,9 +1,9 @@
 # Changelog
 
-## [2.0.0](https://github.com/indykite/indykite-sdk-python/compare/v1.35.0...v2.0.0) (2024-02-13)
+## [1.36.0](https://github.com/indykite/indykite-sdk-python/compare/v1.35.0...v1.36.0) (2024-02-13)
 
 
-### ⚠ BREAKING CHANGES
+### implement
 
 * ENG-2778
 
