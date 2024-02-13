@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/indykite/indykite-sdk-python/compare/v1.35.0...v2.0.0) (2024-02-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* ENG-2778
+
+### Features
+
+* implement knowledge and objects v1beta2 ([920e7ad](https://github.com/indykite/indykite-sdk-python/commit/920e7ad4b0b2706d76a1a6d4b840bcb0cf9c883a))
+
 ## [1.35.0](https://github.com/indykite/indykite-sdk-python/compare/v1.34.0...v1.35.0) (2023-12-20)
 
 
