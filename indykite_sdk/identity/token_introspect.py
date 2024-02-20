@@ -1,6 +1,6 @@
 import sys
 from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2 as pb2
-from indykite_sdk.model.token_info import TokenInfo
+from indykite_sdk.model.token_info import IdentityTokenInfo, ThirdPartyIdentityTokenInfo
 import indykite_sdk.utils.logger as logger
 
 
@@ -20,4 +20,8 @@ def token_introspect(self, user_token):
     if not response or not response.active:
         return None
 
-    return TokenInfo.deserialize(response.token_info)
+    if response.identity_token_info:
+        return IdentityTokenInfo.deserialize(response.identity_token_info)
+    elif response.third_party_identity_token:
+        return ThirdPartyIdentityTokenInfo.deserialize(response.third_party_identity_token)
+    return None

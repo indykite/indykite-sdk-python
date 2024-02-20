@@ -1,4 +1,4 @@
-from indykite_sdk.indykite.ingest.v1beta2 import model_pb2
+from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 from google.protobuf.json_format import MessageToDict
 
 
@@ -42,11 +42,6 @@ class IngestRecordResponse:
         ingest_records = IngestRecordResponse(
             str(message.record_id)
         )
-        if "record_error" in fields:
-            ingest_records.record_error = message.record_error
-
-        if "status_error" in fields:
-            ingest_records.status_error = message.status_error
 
         if "info" in fields:
             info = Info.deserialize(message.info)
@@ -59,8 +54,6 @@ class IngestRecordResponse:
 
     def __init__(self, record_id):
         self.record_id = record_id
-        self.record_error = None
-        self.status_error = None
         self.info = None
 
 
@@ -69,12 +62,12 @@ class Change:
     def deserialize(cls, message):
         if message is None:
             return None
+        fields = [desc.name for desc, val in message.ListFields()]
         dict_message = MessageToDict(message)
         if dict_message:
-            return Change(
-                dict_message['id'],
-                dict_message['dataType']
-            )
+            if "id" in fields:
+                return Change(dict_message['id'], dict_message['dataType'])
+            return Change(None, dict_message['dataType'])
         return None
 
     def __init__(self, id=None, data_type=None):

@@ -1,4 +1,4 @@
-from indykite_sdk.indykite.ingest.v1beta2 import ingest_api_pb2 as pb2
+from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2 as pb2
 from indykite_sdk.model.ingest_record import StreamRecordsResponse
 import sys
 import indykite_sdk.utils.logger as logger
