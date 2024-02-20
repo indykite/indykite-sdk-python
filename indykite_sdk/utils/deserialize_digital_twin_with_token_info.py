@@ -1,5 +1,5 @@
 from indykite_sdk.model.digital_twin import DigitalTwin
-from indykite_sdk.model.token_info import TokenInfo
+from indykite_sdk.model.token_info import IdentityTokenInfo
 
 
 def deserialize_digital_twin_with_token_info(response):
@@ -12,6 +12,6 @@ def deserialize_digital_twin_with_token_info(response):
         dt_result["digitalTwin"] = DigitalTwin.deserialize(response.digital_twin)
 
     if response.HasField('token_info'):
-        dt_result["tokenInfo"] = TokenInfo.deserialize(response.token_info)
+        dt_result["tokenInfo"] = IdentityTokenInfo.deserialize(response.token_info)
 
     return dt_result

@@ -1,9 +1,10 @@
-from indykite_sdk.indykite.ingest.v1beta2 import ingest_api_pb2 as pb2
-from indykite_sdk.indykite.ingest.v1beta2 import model_pb2
+from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2 as pb2
+from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
+from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
 from indykite_sdk.model.ingest_record import IngestRecordResponse
 import sys
 import indykite_sdk.utils.logger as logger
-from indykite_sdk.utils.message_to_value import arg_to_value
+from indykite_sdk.utils.message_to_value import param_to_value
 
 
 def ingest_record(self, record):
@@ -70,80 +71,53 @@ def record_delete(self, id, delete):
         return logger.logger_error(exception)
 
 
-def upsert_data_node_digital_twin(self,
-                                  external_id,
-                                  type,
-                                  tags=[],
-                                  properties=[]):
-    """
-    upsertData with digital twin
-    :param self:
-    :param external_id: id for client ref
-    :param type:
-    :param tags:
-    :param properties: List of Property objects max 10
-    :return: UpsertData object
-    """
-    sys.excepthook = logger.handle_excepthook
-    try:
-        upsert = model_pb2.UpsertData(
-            node=model_pb2.Node(
-                digital_twin=model_pb2.DigitalTwin(
-                    external_id=str(external_id),
-                    type=str(type),
-                    tags=tags,
-                    properties=properties
-                )
-            )
-        )
-        return upsert
-    except Exception as exception:
-        return logger.logger_error(exception)
-
-
-def ingest_property(self, key, value):
+def ingest_property(self, type, value):
     """
     create Property object
     :param self:
-    :param key:
+    :param type:
     :param value:
     :return: Property object
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        ip = model_pb2.Property(
-            key=str(key),
-            value=arg_to_value(value)
+        ip = ikg_pb2.Property(
+            type=str(type),
+            value=param_to_value(value)
             )
         return ip
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def upsert_data_node_resource(self,
-                              external_id,
-                              type,
-                              tags=[],
-                              properties=[]):
+def upsert_data_node(self,
+                     external_id,
+                     type,
+                     tags=[],
+                     properties=[],
+                     id="",
+                     is_identity=False):
     """
-    upsertData with resource
+    upsertData with node
     :param self:
     :param external_id: id for client reference
-    :param type:
-    :param tags:
+    :param type: string
+    :param tags: array of strings
     :param properties: List of Property objects max 10
+    :param id: gid
+    :param is_identity: boolean
     :return: upsertData object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         upsert = model_pb2.UpsertData(
-            node=model_pb2.Node(
-                resource=model_pb2.Resource(
-                    external_id=str(external_id),
-                    type=str(type),
-                    tags=tags,
-                    properties=properties
-                )
+            node=ikg_pb2.Node(
+                id=str(id),
+                external_id=str(external_id),
+                type=str(type),
+                tags=tags,
+                properties=properties,
+                is_identity=is_identity
             )
         )
         return upsert
@@ -151,46 +125,31 @@ def upsert_data_node_resource(self,
         return logger.logger_error(exception)
 
 
-def upsert_data_relation(self,
-                         match,
-                         properties=[]):
+def upsert_data_relationship(self,
+                             source_match,
+                             target_match,
+                             type="",
+                             properties=[]):
     """
     create upsertData with relation
     :param self:
-    :param match: RelationMatch object
+    :param source_match: NodeMatch
+    :param target_match: NodeMatch
+    :param type: string
     :param properties: List of Property objects max 10
     :return: upsertData object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         upsert = model_pb2.UpsertData(
-            relation=model_pb2.Relation(
-                match=match,
+            relationship=model_pb2.Relationship(
+                source=source_match,
+                target=target_match,
+                type=str(type),
                 properties=properties
             )
         )
         return upsert
-    except Exception as exception:
-        return logger.logger_error(exception)
-
-
-def relation_match(self, source_match, target_match, type=""):
-    """
-    create RelationMatch object
-    :param self:
-    :param source_match: NodeMatch
-    :param target_match: NodeMatch
-    :param type:
-    :return: RelationMatch
-    """
-    sys.excepthook = logger.handle_excepthook
-    try:
-        rm = model_pb2.RelationMatch(
-            source_match=source_match,
-            target_match=target_match,
-            type=str(type)
-            )
-        return rm
     except Exception as exception:
         return logger.logger_error(exception)
 
@@ -210,38 +169,42 @@ def node_match(self, external_id, type=""):
     return nm
 
 
-def node_property_match(self, match, key=""):
+def node_property_match(self, match, property_type=""):
     """
     create DeleteData.NodePropertyMatch object
     :param self:
     :param match: NodeMatch object
-    :param key: str
+    :param property_type: str
     :return: DeleteData.NodePropertyMatch
     """
     sys.excepthook = logger.handle_excepthook
     try:
         npm = model_pb2.DeleteData.NodePropertyMatch(
             match=match,
-            key=str(key)
+            property_type=str(property_type)
             )
         return npm
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def relation_property_match(self, match, key=""):
+def relationship_property_match(self, source, target, type, property_type=""):
     """
-    create DeleteData.RelationPropertyMatch object
+    create DeleteData.RelationshipPropertyMatch object
     :param self:
-    :param match: RelationMatch object
-    :param key: str
-    :return: DeleteData.RelationPropertyMatch
+    :param source: NodeMatch object
+    :param target: NodeMatch object
+    :param type: str
+    :param property_type: str
+    :return: DeleteData.RelationshipPropertyMatch
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        npm = model_pb2.DeleteData.RelationPropertyMatch(
-            match=match,
-            key=str(key)
+        npm = model_pb2.DeleteData.RelationshipPropertyMatch(
+            source=source,
+            target=target,
+            type=type,
+            property_type=str(property_type)
             )
         return npm
     except Exception as exception:
@@ -265,17 +228,17 @@ def delete_data_node(self, node):
         return logger.logger_error(exception)
 
 
-def delete_data_relation(self, relation):
+def delete_data_relationship(self, relationship):
     """
     create deleteData with relation
     :param self:
-    :param relation RelationMatch object
+    :param relationship is a Relationship object
     :return: deleteData object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         delete = model_pb2.DeleteData(
-            relation=relation
+            relationship=relationship
         )
         return delete
     except Exception as exception:
@@ -299,17 +262,17 @@ def delete_data_node_property(self, node_property):
         return logger.logger_error(exception)
 
 
-def delete_data_relation_property(self, relation_property):
+def delete_data_relationship_property(self, relationship_property):
     """
     create deleteData with node
     :param self:
-    :param relation_property RelationPropertyMatch object
+    :param relationship_property RelationshipPropertyMatch object
     :return: deleteData object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         delete = model_pb2.DeleteData(
-            relation_property=relation_property
+            relationship_property=relationship_property
         )
         return delete
     except Exception as exception:

@@ -1,8 +1,8 @@
 from indykite_sdk.ingest import IngestClient
-from indykite_sdk.indykite.ingest.v1beta2 import model_pb2, ingest_api_pb2 as pb2
+from indykite_sdk.indykite.ingest.v1beta3 import model_pb2, ingest_api_pb2 as pb2
 
 
-def test_stream_records_exception():
+def test_stream_records_exception(capsys):
     client = IngestClient()
     assert client is not None
     record_id = "145899"
@@ -10,7 +10,7 @@ def test_stream_records_exception():
     type = "ParkingLot"
     ingest_property = client.ingest_property("customProp", "9654")
     properties = [ingest_property]
-    upsert = client.upsert_data_node_resource(
+    upsert = client.upsert_data_node(
         external_id,
         type,
         [],
@@ -29,11 +29,8 @@ def test_stream_records_exception():
 
     client.stub.StreamRecords = mocked_stream_records
     responses = client.stream_records([record])
-    head, *tail = responses
-    assert head.record_id == "145899"
-    assert len(head.record_error.property_errors) is 1
-    assert head.record_error.property_errors["reason"].messages == ["problem"]
-    assert tail == []
+    captured = capsys.readouterr()
+    assert "ERROR" in captured.err
 
 
 def test_stream_records_success():
@@ -44,7 +41,7 @@ def test_stream_records_success():
     type = "ParkingLot"
     ingest_property = client.ingest_property("customProp", "9654")
     properties = [ingest_property]
-    upsert = client.upsert_data_node_resource(
+    upsert = client.upsert_data_node(
         external_id,
         type,
         [],
@@ -60,7 +57,7 @@ def test_stream_records_success():
     head, tail = responses[0], responses[1:]
 
     assert head.record_id == "145899"
-    assert len(head.record_error.property_errors) is 0
+    assert len(head.record_error.error) is 0
     assert tail == []
 
 

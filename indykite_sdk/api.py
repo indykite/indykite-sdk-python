@@ -2603,15 +2603,17 @@ Property ID and value of the property where the value is a reference
         # replace with actual values
         record_id = "96523658"
         external_id = "external-dt-id22737"
-        kind = "DIGITAL_TWIN_KIND_PERSON"
         type = "CarOwner"
         ingest_property = client_ingest.ingest_property("something", "741")
         properties = [ingest_property]
-        upsert = client_ingest.upsert_data_node_digital_twin(
+        upsert = client_ingest.upsert_data_node(
             external_id,
             type,
             [],
-            properties)
+            properties,
+            "",
+            True
+        )
         record = client_ingest.record_upsert(record_id, upsert)
         ingest_record_digital_twin = client_ingest.ingest_record(record)
         if ingest_record_digital_twin:
@@ -2627,11 +2629,13 @@ Property ID and value of the property where the value is a reference
         ingest_property = client_ingest.ingest_property("customProp100", "9654")
         properties = [ingest_property]
         tags = []
-        upsert = client_ingest.upsert_data_node_resource(
+        upsert = client_ingest.upsert_data_node(
             external_id,
             type,
             tags,
-            properties)
+            properties,
+            "",
+            False)
         record = client_ingest.record_upsert(record_id, upsert)
         ingest_record_resource = client_ingest.ingest_record(record)
         if ingest_record_resource:
@@ -2645,11 +2649,10 @@ Property ID and value of the property where the value is a reference
         type = "CAN_USE"
         source_match = client_ingest.node_match("vehicle-1", "Vehicle")
         target_match = client_ingest.node_match("lot-1", "ParkingLot")
-        match = client_ingest.relation_match(source_match, target_match, type)
         ingest_property = client_ingest.ingest_property("customProp", "8742")
         properties = [ingest_property]
-        upsert = client_ingest.upsert_data_relation(
-            match,
+        upsert = client_ingest.upsert_data_relationship(
+            source_match, target_match, type,
             properties)
         record = client_ingest.record_upsert(record_id, upsert)
         ingest_record_relation = client_ingest.ingest_record(record)
@@ -2676,8 +2679,8 @@ Property ID and value of the property where the value is a reference
         type = "CAN_USE"
         source_match = client_ingest.node_match("vehicle-1", "Vehicle")
         target_match = client_ingest.node_match("lot-1", "ParkingLot")
-        relation = client_ingest.relation_match(source_match, target_match, type)
-        delete = client_ingest.delete_data_relation(relation)
+        relationship = client_ingest.relationship(source_match, target_match, type, [])
+        delete = client_ingest.delete_data_relation(relationship)
         record = client_ingest.record_delete(record_id, delete)
         delete_record_relation = client_ingest.ingest_record(record)
         if delete_record_relation:
@@ -2689,8 +2692,8 @@ Property ID and value of the property where the value is a reference
     elif command == "delete_record_node_property":
         record_id = "745890"
         match = client_ingest.node_match("vehicle-1", "Vehicle")
-        key = "nodePropertyName"
-        node_property = client_ingest.node_property_match(match, key)
+        property_type = "nodePropertyName"
+        node_property = client_ingest.node_property_match(match, property_type)
         delete = client_ingest.delete_data_node_property(node_property)
         record = client_ingest.record_delete(record_id, delete)
         delete_record_node_property = client_ingest.ingest_record(record)
@@ -2705,10 +2708,9 @@ Property ID and value of the property where the value is a reference
         type = "CAN_USE"
         source_match = client_ingest.node_match("vehicle-1", "Vehicle")
         target_match = client_ingest.node_match("lot-1", "ParkingLot")
-        match = client_ingest.relation_match(source_match, target_match, type)
-        key = "relationPropertyName"
-        relation_property = client_ingest.relation_property_match(match, key)
-        delete = client_ingest.delete_data_relation_property(relation_property)
+        property_type = "relationPropertyName"
+        relationship_property = client_ingest.relationship_property_match(source_match, target_match, type, property_type)
+        delete = client_ingest.delete_data_relation_property(relationship_property)
         record = client_ingest.record_delete(record_id, delete)
         delete_record_relation_property = client_ingest.ingest_record(record)
         if delete_record_relation_property:
@@ -2725,11 +2727,13 @@ Property ID and value of the property where the value is a reference
         tags = []
         ingest_property = client_ingest.ingest_property("customPropST1904", "741")
         properties = [ingest_property]
-        upsert = client_ingest.upsert_data_node_digital_twin(
+        upsert = client_ingest.upsert_data_node(
             external_id,
             type,
             tags,
-            properties)
+            properties,
+            "",
+            True)
         record = client_ingest.record_upsert(record_id, upsert)
 
         record_id2 = "114589905"
@@ -2738,7 +2742,7 @@ Property ID and value of the property where the value is a reference
         ingest_property = client_ingest.ingest_property("customProp905", "9654")
         properties = [ingest_property]
         tags = []
-        upsert2 = client_ingest.upsert_data_node_resource(
+        upsert2 = client_ingest.upsert_data_node(
             external_id,
             type,
             tags,
