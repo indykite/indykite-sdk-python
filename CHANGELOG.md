@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.37.0](https://github.com/indykite/indykite-sdk-python/compare/v1.36.0...v1.37.0) (2024-02-21)
+
+
+### Features
+
+* replace ingestv2 by ingestv3 ([8e4ba3e](https://github.com/indykite/indykite-sdk-python/commit/8e4ba3ee3772947899fbccc3bcfbe3c25a2cc113))
+
 ## [1.36.0](https://github.com/indykite/indykite-sdk-python/compare/v1.35.0...v1.36.0) (2024-02-13)
 
 
