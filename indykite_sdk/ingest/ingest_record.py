@@ -1,8 +1,11 @@
+import sys
+from datetime import datetime
+
 from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2 as pb2
 from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
+from indykite_sdk.indykite.objects.v1beta2 import value_pb2
 from indykite_sdk.model.ingest_record import IngestRecordResponse
-import sys
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.utils.message_to_value import param_to_value
 
@@ -71,19 +74,59 @@ def record_delete(self, id, delete):
         return logger.logger_error(exception)
 
 
-def ingest_property(self, type, value):
+def ingest_property(self, type, value, metadata=None):
     """
     create Property object
     :param self:
     :param type:
     :param value:
+    :param metadata:MetadataObject
     :return: Property object
     """
     sys.excepthook = logger.handle_excepthook
     try:
+        if not type:
+            raise Exception('type is missing')
+        if not value:
+            raise Exception('value is missing')
         ip = ikg_pb2.Property(
             type=str(type),
-            value=param_to_value(value)
+            value=param_to_value(value),
+            metadata=metadata
+            )
+        return ip
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def ingest_metadata(self,
+                    assurance_level=None,
+                    source=None,
+                    custom_metadata={},
+                    verification_time=datetime.now().timestamp(),):
+    """
+    create Metadata object
+    :param self:
+    :param assurance_level: 1,2,3
+    :param verification_time: datetime
+    :param source: string
+    :param custom_metadata: dict
+    :return: Metadata object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        custom_metadata_dict = {}
+        if custom_metadata:
+            custom_metadata_dict = {
+                k: value_pb2.Value(string_value=str(v))
+                for k, v in custom_metadata.items()
+             }
+        ip = ikg_pb2.Metadata(
+            assurance_level=assurance_level,
+            verification_time=verification_time,
+            source=source,
+            custom_metadata=custom_metadata_dict
+
             )
         return ip
     except Exception as exception:

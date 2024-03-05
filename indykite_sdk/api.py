@@ -3,7 +3,6 @@ Commandline interface for making an API request with the SDK.
 """
 import argparse
 import json
-from datetime import datetime
 import uuid
 import time
 import requests
@@ -37,10 +36,10 @@ from indykite_sdk.model.tenant import Tenant
 from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.knowledge import KnowledgeClient
-from indykite_sdk.model.identity_knowledge import Node as NodeModel, Return as ReturnModel
+from indykite_sdk.model.identity_knowledge import Node as NodeModel, Metadata
 from indykite_sdk.utils import credentials_config
 from indykite_sdk.identity import helper
-from indykite_sdk.utils.message_to_value import arg_to_value
+from indykite_sdk.utils.message_to_value import arg_to_value, param_to_value
 from indykite_sdk import api_helper
 
 
@@ -696,6 +695,7 @@ Property ID and value of the property where the value is a reference
     list_identities_by_property_parser = subparsers.add_parser("list_identities_by_property")
     list_nodes_by_property_parser = subparsers.add_parser("list_nodes_by_property")
     get_property_parser = subparsers.add_parser("get_property")
+    get_metadata_parser = subparsers.add_parser("get_metadata")
     delete_all_nodes_parser = subparsers.add_parser("delete_all_nodes")
     delete_all_nodes_parser.add_argument("node_type", help="DigitalTwin, Resource")
 
@@ -2820,17 +2820,17 @@ Property ID and value of the property where the value is a reference
         responses = client_knowledge.list_identities()
         if responses:
             for response in responses:
-                api_helper.print_response(response)
+                print(vars(response))
         else:
             print("No result")
 
     elif command == "list_nodes_by_property":
         # replace by own values
-        property = {"role": "Employee"}
+        property = {"color": "white"}
         responses = client_knowledge.list_nodes_by_property(property)
         if responses:
             for response in responses:
-                api_helper.print_response(response)
+               print(vars(response))
         else:
             print("No result")
 
@@ -2840,7 +2840,7 @@ Property ID and value of the property where the value is a reference
         responses = client_knowledge.list_identities_by_property(property)
         if responses:
             for response in responses:
-                api_helper.print_response(response)
+                print(vars(response))
         else:
             print("No result")
 
@@ -2860,6 +2860,32 @@ Property ID and value of the property where the value is a reference
             ])
         property1 = node1.get_property(node1, "last_name")
         print(property1)
+
+    elif command == "get_metadata":
+        metadata1 = Metadata(
+            assurance_level=1,
+            verification_time=datetime.now().timestamp(),
+            source="Myself",
+            custom_metadata={
+                "customData": param_to_value("customValue")
+            }
+        )
+        node1 = NodeModel(
+            id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
+            external_id="PEpkjOvUJQvqTFw",
+            type="individual",
+            tags=[],
+            properties=[
+                {
+                    "key": "last_name",
+                    "value": {
+                        "stringValue": "mushu"
+                    },
+                    "metadata": metadata1
+                }
+            ])
+        metadata1 = node1.get_metadata(node1, "last_name")
+        print(print(metadata1.__dir__()))
 
     elif command == "delete_all_nodes":
         responses = client_knowledge.delete_all_with_node_type(args.node_type)
