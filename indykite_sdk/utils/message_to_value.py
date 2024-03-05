@@ -126,7 +126,7 @@ def arg_to_value(value):
 
 def param_to_value(v):
     if not v:
-        return value.Value(null_value=value)
+        return None
 
     if isinstance(v, int):
         return value.Value(integer_value=v)

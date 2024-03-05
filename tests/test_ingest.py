@@ -10,7 +10,7 @@ def test_ingest_record_digital_twin_success():
     record_id = "745898"
     external_id = "external-dt-id345"
     type = "Owner"
-    ingest_property = client.ingest_property("customProp", "741")
+    ingest_property = client.ingest_property("customProp2", "742")
     assert isinstance(ingest_property, ikg_pb2.Property)
     properties = [ingest_property]
     upsert = client.upsert_data_node(
@@ -164,12 +164,20 @@ def test_delete_record_relationship_property():
     assert isinstance(response, IngestRecordResponse)
 
 
-def test_ingest_property(capsys):
+def test_ingest_property_no_type(capsys):
     client = IngestClient()
     assert client is not None
-    ing_property = client.ingest_property([],[])
+    ing_property = client.ingest_property("","")
     captured = capsys.readouterr()
-    assert "ERROR" in captured.err
+    assert "type is missing" in captured.err
+
+
+def test_ingest_property_no_value(capsys):
+    client = IngestClient()
+    assert client is not None
+    ing_property = client.ingest_property("role","")
+    captured = capsys.readouterr()
+    assert "value is missing" in captured.err
 
 
 def test_upsert_node_error(capsys):

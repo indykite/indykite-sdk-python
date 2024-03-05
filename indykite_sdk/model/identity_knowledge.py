@@ -69,7 +69,24 @@ class Node:
             return res[0].get('stringValue', None)
         return None
 
-    def __init__(self, id=None, external_id=None, type=None, tags=None, create_time=None, update_time=None,
+    @classmethod
+    def get_metadata(cls, node, property):
+        """
+        get the property metadata from the node's list of properties
+        :param cls:
+        :param node: node object
+        :param property: string
+        :return: value if found, None if not found
+        """
+        if not node.properties:
+            return None
+        res = [p for p in node.properties if p['key'] == property]
+        if len(res) > 0:
+            return res[0].get('metadata', None)
+        return None
+
+    def __init__(self, id=None, external_id=None, type=None,
+                 tags=None, create_time=None, update_time=None,
                  properties=None, is_identity=None):
         self.id = id
         self.external_id = external_id
@@ -121,12 +138,33 @@ class Property:
             return None
         return Property(
             property.type if property.type else None,
-            grpc_to_value(property.value) if property.value else None
+            grpc_to_value(property.value) if property.value else None,
+            property.metadata if property.metadata else None,
         )
 
-    def __init__(self, type=None, value=None):
+    def __init__(self, type=None, value=None, metadata=None):
         self.type = type
         self.value = value
+        self.metadata = metadata
+
+
+class Metadata:
+    @classmethod
+    def deserialize(cls, metadata):
+        if metadata is None:
+            return None
+        return Metadata(
+            metadata.assurance_level if hasattr(metadata, 'assurance_level') else None,
+            metadata.verification_time if hasattr(metadata, 'verification_time') else None,
+            metadata.source if hasattr(metadata, 'source') else None,
+            metadata.custom_metadata if hasattr(metadata, 'custom_metadata') else {}
+        )
+
+    def __init__(self, assurance_level=None, verification_time=None, source=None, custom_metadata={}):
+        self.assurance_level = assurance_level
+        self.verification_time = verification_time
+        self.source = source
+        self.custom_metadata = custom_metadata
 
 
 class Return:

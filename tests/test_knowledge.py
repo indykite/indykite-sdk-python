@@ -1,10 +1,12 @@
+from datetime import datetime
 import os
 
 from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 as pb2
-from indykite_sdk.model.identity_knowledge import Node
+from indykite_sdk.model.identity_knowledge import Metadata, Node
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.knowledge import KnowledgeClient
 from indykite_sdk.indykite.knowledge.v1beta2.model_pb2 import Return as ReturnKnowledge
+from indykite_sdk.indykite.objects.v1beta2 import value_pb2
 
 
 def test_read_identity_knowledge_success():
@@ -55,17 +57,17 @@ def test_get_identity_by_id_empty():
 def test_get_identity_by_id_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_identity_by_id([])
+    response = client.get_identity_by_id("")
     captured = capsys.readouterr()
-    assert "invalid format for input param 'id'" in captured.err
+    assert "id is missing" in captured.err
 
 
 def test_get_node_by_id_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_node_by_id([])
+    response = client.get_node_by_id("")
     captured = capsys.readouterr()
-    assert "invalid format for input param 'id'" in captured.err
+    assert "id is missing" in captured.err
 
 
 def test_get_node_by_id_success():
@@ -85,9 +87,9 @@ def test_get_node_by_id_empty():
 def test_get_identity_by_identifier_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Whatever")
+    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Person")
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
-    assert response[0].type == "Individual" or "Whatever"
+    assert response[0].type == "Person" or "Whatever"
 
 
 def test_get_identity_by_identifier_empty():
@@ -164,9 +166,9 @@ def test_list_nodes_by_property_exception(capsys):
 def test_list_identities_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_identities_by_property({"first_name": "jackson"})
+    response = client.list_identities_by_property({"first_name": "biche"})
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
-    assert response[0].type == "Individual" or "Whatever"
+    assert response[0].type == "Person"
 
 
 def test_list_identities_by_property_empty():
@@ -253,6 +255,70 @@ def test_list_identities_exception(capsys):
     assert "list_identities() takes 1 positional argument but 2 were given" in captured.err
 
 
+def test_get_metadata_success():
+    metadata1 = Metadata(
+        assurance_level=1,
+        verification_time=datetime.now().timestamp(),
+        source="Myself",
+        custom_metadata={
+            "customData": value_pb2.Value(string_value="customValue")
+        }
+    )
+    node1 = Node(
+        id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
+        external_id="PEpkjOvUJQvqTFw",
+        type="individual",
+        tags=[],
+        properties=[
+            {
+                "key": "last_name",
+                "value": {
+                    "stringValue": "mushu"
+                },
+                "metadata": metadata1
+            }
+        ])
+    metadata = node1.get_metadata(node1, "last_name")
+    assert metadata.source == "Myself"
+
+
+def test_get_metadata_no_data():
+    node1 = Node(
+        id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
+        external_id="PEpkjOvUJQvqTFw",
+        type="individual")
+    metadata = node1.get_metadata(node1, "unknown")
+    assert metadata is None
+
+
+def test_get_metadata_non_valid():
+    metadata1 = Metadata(
+        assurance_level=1,
+        verification_time=datetime.now().timestamp(),
+        source="Myself",
+        custom_metadata={
+            "customData": value_pb2.Value(string_value="customValue")
+        }
+    )
+    node1 = Node(
+        id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
+        external_id="PEpkjOvUJQvqTFw",
+        type="individual",
+        tags=[],
+        properties=[
+        {
+            "key": "last_name",
+            "value": {
+                "stringValue": "mushu"
+            },
+            "metadata": metadata1
+        }
+        ]
+    )
+    metadata = node1.get_metadata(node1, "unknown")
+    assert metadata is None
+
+
 def test_get_property_success():
     node1 = Node(
         id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
@@ -264,7 +330,8 @@ def test_get_property_success():
             "key": "last_name",
             "value": {
                 "stringValue": "mushu"
-            }
+            },
+            "metadata": {}
         }
         ])
     property = node1.get_property(node1, "last_name")

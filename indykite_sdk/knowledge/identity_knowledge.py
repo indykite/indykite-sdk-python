@@ -7,6 +7,7 @@ from indykite_sdk.model.identity_knowledge import IdentityKnowledgeReadResponse
 from indykite_sdk.indykite.objects.v1beta2 import value_pb2
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.ingest import IngestClient
+from indykite_sdk.utils.message_to_value import param_to_value
 
 
 def identity_knowledge_read(self, query, input_params={}, returns=[]):
@@ -45,6 +46,8 @@ def get_node_by_id(self, id , is_identity=False):
     """
     sys.excepthook = logger.handle_excepthook
     try:
+        if not id:
+            raise Exception('id is missing')
         label = "Resource"
         if is_identity:
             label = "DigitalTwin"
@@ -166,7 +169,7 @@ def list_nodes_by_property(self, property, is_identity=False):
     """
     list all nodes, DTs like resources
     :param self:
-    :param property: Knowledge Object Property
+    :param property: dict key/value
     :param is_identity: boolean
     :return: list of Node objects
     """
@@ -176,7 +179,8 @@ def list_nodes_by_property(self, property, is_identity=False):
         label = "Resource"
         if is_identity:
             label = "DigitalTwin"
-        query: str = "MATCH (n:{0}) WHERE n.{1} = ${2}".format(label, k, k)
+        query: str = ("MATCH (n:{0}) -[:HAS]->(p:Property) "
+                      "WHERE p.type = '{1}' and p.value = '{2}'").format(label, str(k), v)
         params = {k: v}
         returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
@@ -224,7 +228,7 @@ def request_input_params(input_params):
     :return: dict input_params_dict
     """
     input_params_dict = {
-        k: value_pb2.Value(string_value=str(v))
+        k: param_to_value(v)
         for k, v in input_params.items()
     }
     return input_params_dict
