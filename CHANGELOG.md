@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.38.0](https://github.com/indykite/indykite-sdk-python/compare/v1.37.0...v1.38.0) (2024-03-07)
+
+
+### Features
+
+* add metadata to knowledge api properties ([2db6352](https://github.com/indykite/indykite-sdk-python/commit/2db6352e6cf17660f9e5044b23d3384b428e7dea))
+
 ## [1.37.0](https://github.com/indykite/indykite-sdk-python/compare/v1.36.0...v1.37.0) (2024-02-21)
 
 
