@@ -10,7 +10,6 @@ import os
 from datetime import datetime
 from google.protobuf.duration_pb2 import Duration
 import logging
-from indykite_sdk.utils.hash_methods import encrypt_bcrypt
 from indykite_sdk.identity import IdentityClient
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.authorization import AuthorizationClient
@@ -21,25 +20,19 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import (EmailServiceConfig, 
                                                             WebAuthnProviderConfig, AuthorizationPolicyConfig)
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import OAuth2ProviderConfig, OAuth2ApplicationConfig, \
     UniquePropertyConstraint, UsernamePolicy
-from indykite_sdk.indykite.identity.v1beta2.import_pb2 import ImportDigitalTwinsRequest, ImportDigitalTwin, \
-    ImportProperties, UserProvider, UserMetadata, CredentialReference
-from indykite_sdk.indykite.identity.v1beta2.import_pb2 import PasswordCredential, PasswordHash, Bcrypt, SHA256
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import EmailAttachment, Email, EmailMessage, EmailTemplate, \
     EmailDefinition
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
-from indykite_sdk.indykite.identity.v1beta2.import_pb2 import Email as EmailIdentity
 from indykite_sdk.indykite.knowledge.v1beta2.model_pb2 import Return as ReturnKnowledge
 from indykite_sdk.model.is_authorized import IsAuthorizedResource
 from indykite_sdk.model.what_authorized import WhatAuthorizedResourceTypes
 from indykite_sdk.model.who_authorized import WhoAuthorizedResource
 from indykite_sdk.model.tenant import Tenant
-from indykite_sdk.indykite.identity.v1beta2 import attributes_pb2 as attributes
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.knowledge import KnowledgeClient
 from indykite_sdk.model.identity_knowledge import Node as NodeModel, Metadata
 from indykite_sdk.utils import credentials_config
-from indykite_sdk.identity import helper
-from indykite_sdk.utils.message_to_value import arg_to_value, param_to_value
+from indykite_sdk.utils.message_to_value import param_to_value
 from indykite_sdk import api_helper
 
 
@@ -60,68 +53,6 @@ def main():
     # INTROSPECT
     introspect_parser = subparsers.add_parser("introspect")
     introspect_parser.add_argument("user_token", help="JWT bearer token")
-
-    # GET-DT
-    get_dt = subparsers.add_parser("get-dt")
-    get_dt.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
-    get_dt.add_argument("tenant_id", help="gid ID of the tenant")
-    get_dt.add_argument("property_list", nargs="+", help="Array list of the required properties")
-
-    # GET-DT-BY-TOKEN
-    get_dt_by_token = subparsers.add_parser("get-dt-by-token")
-    get_dt_by_token.add_argument("user_token", help="JWT bearer token")
-    get_dt_by_token.add_argument("property_list", nargs="+", help="Array list of the required properties")
-
-    # GET-DT-BY-PROPERTY
-    get_dt_by_property = subparsers.add_parser("get-dt-by-property")
-    get_dt_by_property.add_argument("type", help="property_filter type")
-    get_dt_by_property.add_argument("value", help="property_filter value")
-    get_dt_by_property.add_argument("tenant_id", help="property_filter tenant_id")
-    get_dt_by_property.add_argument("property_list", nargs="+", help="Array list of the required properties")
-
-    # PATCH-PROPERTIES
-    patch_properties = subparsers.add_parser("patch-properties")
-    patch_properties.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
-    patch_properties.add_argument("tenant_id", help="gid ID of the tenant")
-    patch_properties.add_argument("--add", nargs="+", help="Name and value of the property to add (--add email x@x.x)")
-    patch_properties.add_argument("--add_by_ref", nargs="+", help='''
-Name and value of the property where the value is a reference
-    ''')
-    patch_properties.add_argument("--replace", nargs="+", help="Property ID and new value (--replace 111 a@a.a)")
-    patch_properties.add_argument("--replace_by_ref", nargs="+", help='''
-Property ID and value of the property where the value is a reference
-        ''')
-    patch_properties.add_argument("--remove", nargs="+", help="Remove the properties with the given ID")
-
-    # PATCH-PROPERTIES-BY-TOKEN
-    patch_properties_by_token = subparsers.add_parser("patch-properties-by-token")
-    patch_properties_by_token.add_argument("user_token", help="JWT bearer token")
-    patch_properties_by_token.add_argument("--add", nargs="+", help='''
-Name and value of the property to add (--add email x@x.x)''')
-    patch_properties_by_token.add_argument("--add_by_ref", nargs="+", help='''
-Name and value of the property where the value is a reference
-        ''')
-    patch_properties_by_token.add_argument("--replace", nargs="+", help='''
-Property ID and new value (--replace 111 a@a.a)''')
-    patch_properties_by_token.add_argument("--replace_by_ref", nargs="+", help='''
-Property ID and value of the property where the value is a reference
-            ''')
-    patch_properties_by_token.add_argument("--remove", nargs="+", help="Remove the properties with the given IDs")
-
-    # DELETE-USER (admin activity)
-    del_dt = subparsers.add_parser("del-dt")
-    del_dt.add_argument("digital_twin_id", help="gid ID of the digital twin for password change")
-    del_dt.add_argument("tenant_id", help="gid ID of the tenant")
-
-    # DELETE-USER-BY-TOKEN (self-service)
-    del_dt_by_token = subparsers.add_parser("del-dt-by-token")
-    del_dt_by_token.add_argument("user_token", help="JWT bearer token")
-
-    # DELETE-DT-BY-PROPERTY
-    del_dt_by_property = subparsers.add_parser("del-dt-by-property")
-    del_dt_by_property.add_argument("type", help="property_filter type")
-    del_dt_by_property.add_argument("value", help="property_filter value")
-    del_dt_by_property.add_argument("tenant_id", help="property_filter tenant_id")
 
     # ENRICH-TOKEN
     enrich_token = subparsers.add_parser("enrich-token")
@@ -534,24 +465,6 @@ Property ID and value of the property where the value is a reference
     delete_oauth2_application_parser.add_argument("oauth2_application_id", help="OAuth2 application id (gid)")
     delete_oauth2_application_parser.add_argument("etag", help="Etag")
 
-    # import_digital_twins
-    import_digital_twins_parser = subparsers.add_parser("import_digital_twins")
-    import_digital_twins_parser.add_argument("tenant_id", help="Tenant id (gid)")
-
-    # import_digital_twins_hash
-    import_digital_twins_hash_parser = subparsers.add_parser("import_digital_twins_hash")
-    import_digital_twins_hash_parser.add_argument("tenant_id", help="Tenant id (gid)")
-
-    # import_digital_twins_hash_sha
-    import_digital_twins_hash_sha_parser = subparsers.add_parser("import_digital_twins_hash_sha")
-    import_digital_twins_hash_sha_parser.add_argument("tenant_id", help="Tenant id (gid)")
-    import_digital_twins_hash_sha_parser.add_argument("hash_password", help="Hashed password")
-
-    # import_digital_twins_update
-    import_digital_twins_update_parser = subparsers.add_parser("import_digital_twins_update")
-    import_digital_twins_update_parser.add_argument("id", help="Digital Twin id (gid)")
-    import_digital_twins_update_parser.add_argument("tenant_id", help="Tenant id (gid)")
-
     # is_authorized_dt
     is_authorized_dt_parser = subparsers.add_parser("is_authorized_dt")
     is_authorized_dt_parser.add_argument("digital_twin_id", help="Digital Twin id (gid)")
@@ -670,9 +583,6 @@ Property ID and value of the property where the value is a reference
     stream_records_parser = subparsers.add_parser("stream_records")
     edges_parser = subparsers.add_parser("edges")
 
-    # get_schema_helpers
-    get_schema_helpers_parser = subparsers.add_parser("get_schema_helpers")
-
     # knowledge
     read_identity_knowledge_parser = subparsers.add_parser("read_identity_knowledge")
 
@@ -717,115 +627,6 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid token")
 
-    elif command == "get-dt":
-        # get_digital_twin method: to get digital twin and token info
-        # with digital twin id, tenant id and list of properties as arguments
-        digital_twin_id = args.digital_twin_id
-        tenant_id = args.tenant_id
-        property_list = args.property_list
-        dt = client.get_digital_twin(digital_twin_id, tenant_id, property_list[1:])
-        if dt is not None:
-            api_helper.print_response(dt)
-
-    elif command == "get-dt-by-token":
-        # get_digital_twin method: get digital twin and token info
-        # with user token and list of properties as arguments
-        user_token = args.user_token
-        property_list = args.property_list
-        dt = client.get_digital_twin_by_token(user_token, property_list[1:])
-        if dt is not None:
-            api_helper.print_response(dt)
-
-    elif command == "get-dt-by-property":
-        # get_digital_twin method: to get digital twin and token info
-        # with property filter and list of properties as arguments
-        type = args.type
-        value = args.value
-        tenant_id = args.tenant_id
-        property_list = args.property_list
-        property_filter = client.property_filter(type, value, tenant_id)
-        dt = client.get_digital_twin_by_property(property_filter, property_list[1:])
-        if dt is not None:
-            api_helper.print_response(dt)
-
-    elif command == "patch-properties":
-        # patch_properties method: to update digital twin properties with digital twin id, tenant id
-        # and list of operations and get list of BatchOperationResult as a result
-        digital_twin_id = args.digital_twin_id
-        tenant_id = args.tenant_id
-        all_args = {
-            "add": [],
-            "add_by_ref": [],
-            "replace": [],
-            "replace_by_ref": [],
-            "remove": []
-        }
-
-        props = args.add
-        api_helper.add_args_to_dict(all_args, "add", props)
-        props = args.add_by_ref
-        api_helper.add_args_to_dict(all_args, "add_by_ref", props)
-        props = args.replace
-        api_helper.add_args_to_dict(all_args, "replace", props)
-        props = args.replace_by_ref
-        api_helper.add_args_to_dict(all_args, "replace_by_ref", props)
-        props = args.remove
-        api_helper.add_args_to_dict(all_args, "remove", props)
-        properties = client.patch_properties(digital_twin_id, tenant_id, all_args)
-        if properties is not None:
-            print(properties)
-
-    elif command == "patch-properties-by-token":
-        # patch_properties_by_token method: to update digital twin properties with a user token
-        # and list of operations and get list of BatchOperationResult as a result
-        user_token = args.user_token
-        all_args = {
-            "add": [],
-            "add_by_ref": [],
-            "replace": [],
-            "replace_by_ref": [],
-            "remove": []
-        }
-
-        props = args.add
-        api_helper.add_args_to_dict(all_args, "add", props)
-        props = args.add_by_ref
-        api_helper.add_args_to_dict(all_args, "add_by_ref", props)
-        props = args.replace
-        api_helper.add_args_to_dict(all_args, "replace", props)
-        props = args.replace_by_ref
-        api_helper.add_args_to_dict(all_args, "replace_by_ref", props)
-        props = args.remove
-        api_helper.add_args_to_dict(all_args, "remove", props)
-        properties = client.patch_properties_by_token(user_token, all_args)
-        if properties is not None:
-            print(properties)
-
-    elif command == "del-dt":
-        # del_digital_twin method: to delete a digital twin with digital twin id and tenant id as arguments
-        digital_twin_id = args.digital_twin_id
-        tenant_id = args.tenant_id
-        dt = client.del_digital_twin(digital_twin_id, tenant_id)
-        if dt is not None:
-            api_helper.print_response({"digitalTwin": dt})
-
-    elif command == "del-dt-by-token":
-        # del_digital_twin_by_token method: to delete a digital twin with user_token as argument
-        user_token = args.user_token
-        dt = client.del_digital_twin_by_token(user_token)
-        if dt is not None:
-            api_helper.print_response({"digitalTwin": dt})
-
-    elif command == "del-dt-by-property":
-        # del_digital_twin_by_property method: to delete a digital twin with property_filter as argument
-        type = args.type
-        value = args.value
-        tenant_id = args.tenant_id
-        property_filter = client.property_filter(type, value, tenant_id)
-        dt = client.del_digital_twin_by_property(property_filter)
-        if dt is not None:
-            api_helper.print_response(dt)
-
     elif command == "enrich-token":
         # enrich_token method: to allow a session and an access token to be enriched with additional data
         # with user token (access token) and token claims (dict) and session claims (dict) as arguments
@@ -837,157 +638,6 @@ Property ID and value of the property where the value is a reference
             print("Successfully enriched token")
         else:
             print("Invalid token")
-
-    elif command == "import_digital_twins":
-        # import_digital_twins method: to import digital twins into the identity database (no more than 1000 per call)
-        # with list of ImportDigitalTwin entities as arguments
-        entities = [ImportDigitalTwin(
-            tenant_id=args.tenant_id,
-            kind="DIGITAL_TWIN_KIND_PERSON",
-            state="DIGITAL_TWIN_STATE_ACTIVE",
-            password=PasswordCredential(
-                email=EmailIdentity(
-                    email="test562@example.com",
-                    verified=True
-                ),
-                value="password"
-            ),
-            tags=[],
-            provider_user_info=[],
-            properties=ImportProperties(
-                operations=[attributes.PropertyBatchOperation(
-                    add=attributes.Property(
-                        definition=attributes.PropertyDefinition(
-                            context="http://schema.org/", type="Person", property="email"
-                        ),
-                        object_value=arg_to_value("testem@example.com")))],
-                force_delete=False),
-            metadata=UserMetadata(
-                creation_timestamp=1688041390,
-                last_log_in_timestamp=1688041827,
-                last_refresh_timestamp=0  # time when user was last active or 0 if never been
-            )
-        ),
-            ImportDigitalTwin(
-                tenant_id=args.tenant_id,
-                kind="DIGITAL_TWIN_KIND_PERSON",
-                state="DIGITAL_TWIN_STATE_ACTIVE",
-                password=PasswordCredential(
-                    email=EmailIdentity(
-                        email="test563@example.com",
-                        verified=True
-                    ),
-                    value="password"
-                )
-            ),
-            ImportDigitalTwin(
-                tenant_id=args.tenant_id,
-                kind="DIGITAL_TWIN_KIND_PERSON",
-                state="DIGITAL_TWIN_STATE_ACTIVE",
-                password=PasswordCredential(
-                    email=EmailIdentity(
-                        email="test564@example.com",
-                        verified=True
-                    ),
-                    value="password"
-                )
-            )
-        ]
-        hash_algorithm = None
-
-        import_digital_twins_config_response = client.import_digital_twins(
-            entities, hash_algorithm)
-        if import_digital_twins_config_response:
-            for response in import_digital_twins_config_response:
-                api_helper.print_response(response)
-        else:
-            print("Invalid import digital twins response")
-        return import_digital_twins_config_response
-
-    elif command == "import_digital_twins_hash":
-        # import_digital_twins method: to import digital twins into the identity database (no more than 1000 per call)
-        # with list of ImportDigitalTwin entities and a hash algorithm as arguments
-        password = 'passwordabc'
-        hash_dict = encrypt_bcrypt(password)
-        for key in hash_dict:
-            salt = key
-            hash_password = hash_dict[key]
-
-        entities = [ImportDigitalTwin(
-            tenant_id=args.tenant_id,
-            kind="DIGITAL_TWIN_KIND_PERSON",
-            state="DIGITAL_TWIN_STATE_ACTIVE",
-            password=PasswordCredential(
-                email=EmailIdentity(
-                    email="test2002@example.com",
-                    verified=True
-                ),
-                hash=PasswordHash(password_hash=hash_password, salt=salt)
-            )
-        )]
-        hash_algorithm = {"bcrypt": {}}
-
-        import_digital_twins_config_response = client.import_digital_twins(
-            entities, hash_algorithm)
-        if import_digital_twins_config_response:
-            for response in import_digital_twins_config_response:
-                api_helper.print_response(response)
-        else:
-            print("Invalid import digital twins response")
-        return import_digital_twins_config_response
-
-    elif command == "import_digital_twins_hash_sha":
-        # import_digital_twins method: to import digital twins into the identity database (no more than 1000 per call)
-        # with list of ImportDigitalTwin entities and SHA256 hash algorithm as arguments
-        entities = [ImportDigitalTwin(
-            tenant_id=args.tenant_id,
-            kind="DIGITAL_TWIN_KIND_PERSON",
-            state="DIGITAL_TWIN_STATE_ACTIVE",
-            password=PasswordCredential(
-                email=EmailIdentity(
-                    email="test2002@example.com",
-                    verified=True
-                ),
-                hash=PasswordHash(password_hash=args.hash_password)
-            )
-        )]
-        hash_algorithm = {"sha256": SHA256(rounds=14)}
-
-        import_digital_twins_config_response = client.import_digital_twins(
-            entities, hash_algorithm)
-        if import_digital_twins_config_response:
-            for response in import_digital_twins_config_response:
-                api_helper.print_response(response)
-        else:
-            print("Invalid import digital twins response")
-        return import_digital_twins_config_response
-
-    elif command == "import_digital_twins_update":
-        # import_digital_twins method: to update import digital twins into the identity database
-        # with list of ImportDigitalTwin entities and no hash algorithm on password as arguments
-        entities = [ImportDigitalTwin(
-            id=args.id,
-            tenant_id=args.tenant_id,
-            kind="DIGITAL_TWIN_KIND_PERSON",
-            state="DIGITAL_TWIN_STATE_ACTIVE",
-            password=PasswordCredential(
-                email=EmailIdentity(
-                    email="test2003@example.com",
-                    verified=True
-                ),
-                value="password"
-            )
-        )]
-        hash_algorithm = None
-
-        import_digital_twins_config_response = client.import_digital_twins(
-            entities, hash_algorithm)
-        if import_digital_twins_config_response:
-            for response in import_digital_twins_config_response:
-                api_helper.print_response(response)
-        else:
-            print("Invalid import digital twins response")
-        return import_digital_twins_config_response
 
     elif command == "create_consent":
         # create_consent method: to create a consent to an application (pii_processor_id ID in GID format)
@@ -1149,30 +799,6 @@ Property ID and value of the property where the value is a reference
         invitation_response = client.cancel_invitation(reference_id)
         if invitation_response is not None:
             print(invitation_response)
-        else:
-            print("Invalid invitation response")
-
-    elif command == "register_digital_twin_without_credential":
-        # register_digital_twin_without_credential method:
-        # to create a DigitalTwin without credentials, but with properties
-        # with tenant GID id, kind (enum), tags (list), Property objects (list), bookmarks (list) as arguments
-        tenant_id = args.tenant_id
-        properties = []
-        definition1 = attributes.PropertyDefinition(
-            property="extid"
-        )
-        property1 = helper.create_property(definition1, None, "44")
-        properties.append(property1)
-        digital_twin_tags = []
-        bookmarks = []
-        register_response = client.register_digital_twin_without_credential(
-            tenant_id,
-            1,
-            digital_twin_tags,
-            properties,
-            bookmarks)
-        if register_response is not None:
-            api_helper.print_response(register_response)
         else:
             print("Invalid invitation response")
 
@@ -2755,14 +2381,6 @@ Property ID and value of the property where the value is a reference
         else:
             print("Invalid ingestion")
         return response
-
-    elif command == "get_schema_helpers":
-        get_schema_helpers = client_config.get_schema_helpers()
-        if get_schema_helpers:
-            api_helper.print_response(get_schema_helpers)
-        else:
-            print("Invalid get schema helpers")
-        return get_schema_helpers
 
     elif command == "read_identity_knowledge":
         # replace with actual values

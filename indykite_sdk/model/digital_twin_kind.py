@@ -1,9 +1,0 @@
-from enum import Enum
-
-
-class DigitalTwinKind(Enum):
-    DIGITAL_TWIN_KIND_INVALID = 0
-    DIGITAL_TWIN_KIND_PERSON = 1
-    DIGITAL_TWIN_KIND_SERVICE = 2
-    DIGITAL_TWIN_KIND_THING = 3
-
