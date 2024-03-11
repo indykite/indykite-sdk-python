@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.39.0](https://github.com/indykite/indykite-sdk-python/compare/v1.38.0...v1.39.0) (2024-03-11)
+
+
+### Features
+
+* remove deprecated functions ([9306836](https://github.com/indykite/indykite-sdk-python/commit/9306836b825fc3e9e44a9ecadeff34c299b39394))
+
 ## [1.38.0](https://github.com/indykite/indykite-sdk-python/compare/v1.37.0...v1.38.0) (2024-03-07)
 
 
