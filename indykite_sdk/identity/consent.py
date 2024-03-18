@@ -11,7 +11,7 @@ def create_consent(self, pii_processor_id, pii_principal_id, properties=[]):
     create consent
     :param self:
     :param pii_processor_id: string GID id of OAuth2 Application
-    :param pii_principal_id: string GID id of digital twin
+    :param pii_principal_id: string GID id of identity node
     :param properties: list of strings
     :return: deserialized CreateConsentResponse
     """
@@ -37,7 +37,7 @@ def list_consents(self, pii_principal_id):
     """
     lists consents
     :param self:
-    :param pii_principal_id: string GID id of digital twin
+    :param pii_principal_id: string GID id of identity node
     :return: list of ConsentReceipt objects
     """
     sys.excepthook = logger.handle_excepthook
@@ -67,7 +67,7 @@ def revoke_consent(self, pii_principal_id, consent_ids=[]):
     """
     revoke consent
     :param self:
-    :param pii_principal_id:  string GID id of digital twin
+    :param pii_principal_id:  string GID id of identity node
     :param consent_ids: list of consents (IDs in GID format)
     :return: RevokeConsentResponse
     """

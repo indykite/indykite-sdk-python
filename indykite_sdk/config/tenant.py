@@ -9,8 +9,10 @@ from indykite_sdk.model.update_tenant_config import UpdateTenantConfig
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import TenantConfig, UsernamePolicy
 import sys
 import indykite_sdk.utils.logger as logger
+from indykite_sdk.identity.helper import deprecated
 
 
+@deprecated("Tenants are not used anymore")
 def read_tenant_by_id(self, tenant_id, bookmarks=[]):
     """
     get tenant info from its id
@@ -35,6 +37,7 @@ def read_tenant_by_id(self, tenant_id, bookmarks=[]):
     return Tenant.deserialize(response.tenant)
 
 
+@deprecated("Tenants are not used anymore")
 def read_tenant_by_name(self, app_space_id, tenant_name, bookmarks=[]):
     """
     get tenant information from its name
@@ -63,6 +66,7 @@ def read_tenant_by_name(self, app_space_id, tenant_name, bookmarks=[]):
     return Tenant.deserialize(response.tenant)
 
 
+@deprecated("Tenants are not used anymore")
 def create_tenant(self,
                   issuer_id,
                   name,
@@ -98,6 +102,7 @@ def create_tenant(self,
     return CreateTenant.deserialize(response)
 
 
+@deprecated("Tenants are not used anymore")
 def update_tenant(self,
                   tenant_id,
                   etag,
@@ -134,6 +139,7 @@ def update_tenant(self,
     return UpdateTenant.deserialize(response)
 
 
+@deprecated("Tenants are not used anymore")
 def list_tenants(self, app_space_id, match=[], bookmarks=[]):
     """
     list tenants which match the match param
@@ -165,6 +171,7 @@ def list_tenants(self, app_space_id, match=[], bookmarks=[]):
         return logger.logger_error(exception)
 
 
+@deprecated("Tenants are not used anymore")
 def delete_tenant(self, tenant_id, etag, bookmarks):
     """
     delete tenant
@@ -191,6 +198,7 @@ def delete_tenant(self, tenant_id, etag, bookmarks):
     return response
 
 
+@deprecated("Tenants are not used anymore")
 def read_tenant_config(self, tenant_id, bookmarks=[]):
     """
     get TenantConfig object from tenant id
@@ -216,6 +224,7 @@ def read_tenant_config(self, tenant_id, bookmarks=[]):
     return ReadTenantConfig.deserialize(response)
 
 
+@deprecated("Tenants are not used anymore")
 def update_tenant_config(self, tenant_id, etag, tenant_config, bookmarks=[]):
     """
     get TenantConfig object from tenant id
@@ -243,6 +252,7 @@ def update_tenant_config(self, tenant_id, etag, tenant_config, bookmarks=[]):
     return UpdateTenantConfig.deserialize(response)
 
 
+@deprecated("Tenants are not used anymore")
 def create_tenant_config(
     self,
     default_auth_flow_id=None,

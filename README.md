@@ -9,37 +9,118 @@ https://www.indykite.com/
 
 ## Requirements
 
-* Python 3.11
+* Python >=3.11
 
 ## Installation
 
-    pip install indykite-sdk-python
+    add to pipfile [packages]:
+    indykite-sdk-python = {ref = "v1.39.0", git = "https://github.com/indykite/indykite-sdk-python"}
+
 
 ## Used terminology
+To do anything at all in the IndyKite platform, you must first create an 
+Organization (Customer) in the Hub (https://console.indykite.id/) — the Web interface used to interact with and do tasks in the IndyKite platform 
+and get your credentials (https://docs.indykite.com/docs/get-started/initial-setup).
 
-| Definition | Description |
-| ---------- | ----------- |
-| Digital Twin | A digital twin is the digital identity of a physical entity on/in a software/identity system |
-| Application Space ID | ID of the application space the digital twin belongs to |
-| Application Agent ID | ID of the agent which makes the application available for the different calls |
-| Tenant ID | ID of the tenant the digital twin belongs to. The tenant belongs to an application space |
-| Private Key and Settings | The secret which required to reach the system. Indykite provides the necessary secrets |
-| Property | The digital twin's property (eg.: email, name) |
-| JWT | JSON Web Tokens |
-| Introspect | A process used to validate the token and to retrieve properties assigned to the token |
-| Patch property | Add, change or delete a property of a digital twin |
+Once you have created a Customer, a service account, and you have your service account credentials, 
+you can set up the SDK.
+
+| Definition               | Description                                                                                                                                          |
+|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Identity Knowledge Graph | The Identity Knowledge Graph is a contextualized data model that constructed entities and their relationships (data entities) using a graph database. | 
+| Nodes                    | Data points stored as nodes (identity nodes and resources) and edges (relationships)                                                                 | 
+| Identity node            | An identity node (node with is_identity=True) is the digital identity of a physical entity on/in a software/identity system                          |
+| Application Space ID     | ID of the application space the nodes belong to                                                                                                      |
+| Application Agent ID     | ID of the agent which makes the application available for the different calls                                                                        |
+| Private Key and Settings | The secret which required to reach the system.                                                                                                       |
+| JWT                      | JSON Web Tokens                                                                                                                                      |
+| Introspect               | A process used to validate the token and to retrieve properties assigned to the token                                                                |
+
 
 ## Initial settings
 
-1. You need to have an AppAgent credentials json file to be able to use the IndyKite Python SDK. You can get it from the 
-   Indykite console: https://console.indykite.id/.
+:one: **Service account credentials**
+
+You need to have a Service Account credentials json file to be able to use the IndyKite Python SDK. You can get it from the 
+   IndyKite hub: https://console.indykite.id/.
+
+#### Config
+To manage its spaces, among other things, the **owner** of the relevant customer creates a **service account**.
+
+A service account is a non-person entity which belongs to the **owner** who created it. 
+It is a **node** with its own credential which acts only through its owner.
+
+A service account is always created under a customer.
+
+The purpose of a service account is for a non-person entity to manage the platform configuration: creating Projects (AppSpaces),  Applications, Agent credentials, other service accounts, configuration nodes or any action through the **Graph DB**.
+
+The service account is also needed if you want to use Terraform for your configuration.
+
+You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS`
+environment variable or set the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE` environment variable to the configuration file's path.
+
+You should use an absolute path for the file.
+
+   - **on Linux and OSX**
+       ```
+        export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
+         "serviceAccountId":"",
+         "endpoint":"",
+         "privateKeyJWK":{
+           "alg":"ES256",
+           "crv":"P-256",
+           "d":"",
+           "kid":"",
+           "kty":"EC",
+           "use":"sig",
+           "x":"",
+           "y":""
+           },
+         "privateKeyPKCS8Base64":"",
+         "privateKeyPKCS8":"-----BEGIN PRIVATE KEY----------END PRIVATE KEY-----\n"
+         }'
+        ```
+
+     or
+
+      `export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE=/Users/xx/configuration.json`
+
+
+   - **on Windows command line**
+       ```
+        setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
+         "serviceAccountId":"",
+         "endpoint":"",
+         "privateKeyJWK":{
+           "alg":"ES256",
+           "crv":"P-256",
+           "d":"",
+           "kid":"",
+           "kty":"EC",
+           "use":"sig",
+           "x":"",
+           "y":""
+           },
+         "privateKeyPKCS8Base64":"",
+         "privateKeyPKCS8":"-----BEGIN PRIVATE KEY----------END PRIVATE KEY-----\n"
+         }'
+        ```
+
+     or
+
+      `setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
+
+
+:two: **AppAgent Credentials**
+
+You will also need to have an Application Agent credentials json file to be able to use the other services like IKG (ingestion) and KBAC (authorization). 
+You can get it from the IndyKite hub (https://console.indykite.id/) or using the SDK.
 
     Example configuration file:
 
 ```json
 {
     "baseUrl": "",
-    "defaultTenantId": "",
     "applicationId": "",
     "appSpaceId": "",
     "appAgentId": "",
@@ -74,14 +155,8 @@ Example at the end of the json file:
 }
 ```
 
-Conditionally optional parameters:,
-- baseUrl
-- defaultTenantId
-- endpoint
+**Identity**
 
-
-2. Credentials 
-    #### Identity
     You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_APPLICATION_CREDENTIALS`
     environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environment variable to the configuration file's path.
 
@@ -90,7 +165,6 @@ Conditionally optional parameters:,
        ```
         export INDYKITE_APPLICATION_CREDENTIALS='{
           "baseUrl": "",
-          "defaultTenantId": "",
           "applicationId": "",
           "appSpaceId": "",
           "appAgentId": "",
@@ -115,13 +189,13 @@ Conditionally optional parameters:,
 
       `export INDYKITE_APPLICATION_CREDENTIALS_FILE=/Users/xx/configuration.json`
 
+
    - on Windows command line
 
 
        ```
         setex INDYKITE_APPLICATION_CREDENTIALS='{
-            "baseUrl": "",
-            "defaultTenantId": "",
+            "baseUrl": ""
             "applicationId": "",
             "appSpaceId": "",
             "appAgentId": "",
@@ -146,74 +220,9 @@ Conditionally optional parameters:,
 
       `setex INDYKITE_APPLICATION_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
 
+:three: **Initialize a client to establish the connection.** 
 
-
-
-#### Config
-To manage its spaces, among other things, the **DigitalTwin (DT)** who owns the relevant customer creates a **service account**.
-
-A service account is a non person entity which belongs to the **DT** who created it. It is a **DT** with its own credential which acts only through its owner.
-
-A service account is always created under a customer.
-
-The purpose of a service account is for a non person entity to manage the platform configuration: creating AppSpaces, creating applications, creating agent credentials, creating other service accounts, modify user permissions or any action through the **Graph DB**.
-The service account is also needed if you want to use Terraform for your configuration.
-
-You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS`
-environment variable or set the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE` environment variable to the configuration file's path.
-
-   - on Linux and OSX
-       ```
-        export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
-         "serviceAccountId":"",
-         "endpoint":"",
-         "privateKeyJWK":{
-           "alg":"ES256",
-           "crv":"P-256",
-           "d":"",
-           "kid":"",
-           "kty":"EC",
-           "use":"sig",
-           "x":"",
-           "y":""
-           },
-         "privateKeyPKCS8Base64":"",
-         "privateKeyPKCS8":"-----BEGIN PRIVATE KEY----------END PRIVATE KEY-----\n"
-         }'
-        ```
-
-     or
-
-      `export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE=/Users/xx/configuration.json`
-
-   - on Windows command line
-
-
-       ```
-        setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
-         "serviceAccountId":"",
-         "endpoint":"",
-         "privateKeyJWK":{
-           "alg":"ES256",
-           "crv":"P-256",
-           "d":"",
-           "kid":"",
-           "kty":"EC",
-           "use":"sig",
-           "x":"",
-           "y":""
-           },
-         "privateKeyPKCS8Base64":"",
-         "privateKeyPKCS8":"-----BEGIN PRIVATE KEY----------END PRIVATE KEY-----\n"
-         }'
-        ```
-
-     or
-
-      `setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
-
-
-3. Initialize a client to establish the connection. This client instance's `self.stub` will be used by the other functions.
+This client instance's `self.stub` will be used by the other functions.
 
 *Note:* The client is opening a GRPC channel and the client *must* close the channel, too! If the client doesn't close the channel
 after use, it can cause surprises like `_InactiveRpcErrors`.
@@ -233,7 +242,7 @@ import argparse
     client = IdentityClient(local)
 ```
 
-4. Close a GRPC channel
+:four: Close a GRPC channel
 You simple call the `close()` function on the channel (The `IdentityClient()` function below represents the def in the previous step)
 ```python
 from indykite_sdk.identity import IdentityClient

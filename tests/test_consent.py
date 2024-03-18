@@ -11,7 +11,7 @@ def test_create_consent_success():
     assert client is not None
 
     pii_processor_id = data.get_oauth2_application_id()
-    pii_principal_id = data.get_digital_twin()
+    pii_principal_id = data.get_identity_node()
     properties = ["property_name"]
 
     def mocked_create_consent(request: pb2.CreateConsentRequest):
@@ -30,7 +30,7 @@ def test_create_consent_empty():
     assert client is not None
 
     pii_processor_id = data.get_oauth2_application_id()
-    pii_principal_id = data.get_digital_twin()
+    pii_principal_id = data.get_identity_node()
     properties = ["property_name"]
 
     def mocked_create_consent(request: pb2.CreateConsentRequest):
@@ -72,7 +72,7 @@ def test_consent_list_success():
     client = IdentityClient()
     assert client is not None
 
-    pii_principal_id = data.get_digital_twin_consent()
+    pii_principal_id = data.get_identity_node_consent()
 
     consent = client.list_consents(pii_principal_id)
 
@@ -105,7 +105,7 @@ def test_consent_list_empty():
     client = IdentityClient()
     assert client is not None
 
-    pii_principal_id = data.get_digital_twin()
+    pii_principal_id = data.get_identity_node()
 
     def mocked_list_consents(request: pb2.ListConsentsRequest):
         return None
@@ -120,7 +120,7 @@ def test_revoke_consent_success(capsys):
     client = IdentityClient()
     assert client is not None
 
-    pii_principal_id = data.get_digital_twin()
+    pii_principal_id = data.get_identity_node()
     consent_ids = ["f42db2b3-b9ed-49c3-bdee-5077d2dcdda2"]
 
     def mocked_revoke_consent(request: pb2.RevokeConsentRequest):
@@ -138,7 +138,7 @@ def test_revoke_consent_wrong_consent_id(capsys):
     client = IdentityClient()
     assert client is not None
 
-    pii_principal_id = data.get_digital_twin()
+    pii_principal_id = data.get_identity_node()
     consent_ids = ["f414b2b3-b9ed-49c3-b754e-5077d2dcdda2"]
     consent_response = client.revoke_consent(pii_principal_id, consent_ids)
     captured = capsys.readouterr()
@@ -149,7 +149,7 @@ def test_revoke_consent_empty():
     client = IdentityClient()
     assert client is not None
 
-    pii_principal_id = data.get_digital_twin()
+    pii_principal_id = data.get_identity_node()
     consent_ids = ["f42db2b3-b9ed-49c3-bdee-5077d2dcdda2"]
 
     def mocked_revoke_consent(request: pb2.RevokeConsentRequest):

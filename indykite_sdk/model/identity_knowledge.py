@@ -139,7 +139,7 @@ class Property:
         return Property(
             property.type if property.type else None,
             grpc_to_value(property.value) if property.value else None,
-            property.metadata if property.metadata else None,
+            Metadata.deserialize(property.metadata) if property.metadata else None,
         )
 
     def __init__(self, type=None, value=None, metadata=None):
@@ -153,11 +153,22 @@ class Metadata:
     def deserialize(cls, metadata):
         if metadata is None:
             return None
+        if (not metadata.assurance_level
+            and not metadata.source
+            and str(metadata.verification_time) == ""
+            and not metadata.custom_metadata):
+            return None
+        custom = {}
+        if hasattr(metadata, 'custom_metadata'):
+            custom = {
+                k: v
+                for k, v in metadata.custom_metadata.items()
+            }
         return Metadata(
             metadata.assurance_level if hasattr(metadata, 'assurance_level') else None,
-            metadata.verification_time if hasattr(metadata, 'verification_time') else None,
+            timestamp_to_date(metadata.verification_time) if hasattr(metadata, 'verification_time') else None,
             metadata.source if hasattr(metadata, 'source') else None,
-            metadata.custom_metadata if hasattr(metadata, 'custom_metadata') else {}
+            custom
         )
 
     def __init__(self, assurance_level=None, verification_time=None, source=None, custom_metadata={}):

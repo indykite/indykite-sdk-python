@@ -16,7 +16,7 @@ def identity_knowledge_read(self, query, input_params={}, returns=[]):
     :param self:
     :param query: string
     :param input_params: map{string, indykite.objects.v1beta2.Value}
-    :param returns: array of Identity Knowledge Returns
+    :param returns: array of Identity Knowledge Return {string[1-50] variable, array of strings properties}
     :return: deserialized IdentityKnowledgeReadResponse
     """
     sys.excepthook = logger.handle_excepthook

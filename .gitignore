@@ -27,6 +27,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 indykite_sdk/ingest.py
+indykite_sdk/api.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
