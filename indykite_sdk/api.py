@@ -455,19 +455,22 @@ def main():
 
     # update_oauth2_application
     update_oauth2_application_parser = subparsers.add_parser("update_oauth2_application")
-    update_oauth2_application_parser.add_argument("oauth2_application_id", help="OAuth2 application id (gid)")
+    update_oauth2_application_parser.add_argument("oauth2_application_id",
+                                                  help="OAuth2 application id (gid)")
     update_oauth2_application_parser.add_argument("etag", help="Etag")
     update_oauth2_application_parser.add_argument("display_name", help="Display name")
     update_oauth2_application_parser.add_argument("description", help="Description")
 
     # delete_oauth2_application
     delete_oauth2_application_parser = subparsers.add_parser("delete_oauth2_application")
-    delete_oauth2_application_parser.add_argument("oauth2_application_id", help="OAuth2 application id (gid)")
+    delete_oauth2_application_parser.add_argument("oauth2_application_id",
+                                                  help="OAuth2 application id (gid)")
     delete_oauth2_application_parser.add_argument("etag", help="Etag")
 
-    # is_authorized_dt
-    is_authorized_dt_parser = subparsers.add_parser("is_authorized_dt")
-    is_authorized_dt_parser.add_argument("digital_twin_id", help="Digital Twin id (gid)")
+    # is_authorized_identity_node
+    is_authorized_identity_node_parser = subparsers.add_parser("is_authorized_identity_node")
+    is_authorized_identity_node_parser.add_argument("identity_node_id",
+                                         help="Identity node gid (node with is_identity equal True)")
 
     # is_authorized_token
     is_authorized_token_parser = subparsers.add_parser("is_authorized_token")
@@ -475,17 +478,19 @@ def main():
 
     # is_authorized_property
     is_authorized_property_parser = subparsers.add_parser("is_authorized_property")
-    is_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
-    is_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
+    is_authorized_property_parser.add_argument("property_type", help="Identity node Identity Property")
+    is_authorized_property_parser.add_argument("property_value",
+                                               help="Identity node Identity Property value")
 
     # is_authorized_external_id
     is_authorized_external_id_parser = subparsers.add_parser("is_authorized_external_id")
-    is_authorized_external_id_parser.add_argument("type", help="Digital Twin node type")
-    is_authorized_external_id_parser.add_argument("external_id", help="Digital Twin external id")
+    is_authorized_external_id_parser.add_argument("type", help="Identity node type")
+    is_authorized_external_id_parser.add_argument("external_id", help="Identity node external id")
 
-    # what_authorized_dt
-    what_authorized_dt_parser = subparsers.add_parser("what_authorized_dt")
-    what_authorized_dt_parser.add_argument("digital_twin_id", help="Digital Twin id (gid)")
+    # what_authorized_identity_node
+    what_authorized_identity_node_parser = subparsers.add_parser("what_authorized_identity_node")
+    what_authorized_identity_node_parser.add_argument("identity_node_id",
+                                           help="Identity node gid (node with is_identity equal True)")
 
     # what_authorized_token
     what_authorized_token_parser = subparsers.add_parser("what_authorized_token")
@@ -493,13 +498,14 @@ def main():
 
     # what_authorized_property
     what_authorized_property_parser = subparsers.add_parser("what_authorized_property")
-    what_authorized_property_parser.add_argument("property_type", help="Digital Twin Identity Property")
-    what_authorized_property_parser.add_argument("property_value", help="Digital Twin Identity Property value")
+    what_authorized_property_parser.add_argument("property_type", help="Identity node Identity Property")
+    what_authorized_property_parser.add_argument("property_value",
+                                                 help="Identity node Identity Property value")
 
     # what_authorized_external_id
     what_authorized_external_id_parser = subparsers.add_parser("what_authorized_external_id")
-    what_authorized_external_id_parser.add_argument("node_type", help="Digital Twin node type")
-    what_authorized_external_id_parser.add_argument("external_id", help="Digital Twin external_id")
+    what_authorized_external_id_parser.add_argument("node_type", help="Identity node node type")
+    what_authorized_external_id_parser.add_argument("external_id", help="Identity node external_id")
 
     # who_authorized
     who_authorized_parser = subparsers.add_parser("who_authorized")
@@ -507,16 +513,20 @@ def main():
     # create_consent
     create_consent_parser = subparsers.add_parser("create_consent")
     create_consent_parser.add_argument("pii_processor_id", help="ID of OAuth2 Application")
-    create_consent_parser.add_argument("pii_principal_id", help="DigitalTwin Id (gid)")
+    create_consent_parser.add_argument("pii_principal_id",
+                                       help="Identity node gid (node with is_identity equal True)")
 
     # list_consents
     list_consents_parser = subparsers.add_parser("list_consents")
-    list_consents_parser.add_argument("pii_principal_id", help="DigitalTwin Id (gid)")
+    list_consents_parser.add_argument("pii_principal_id",
+                                      help="Identity node gid (node with is_identity equal True)")
 
     # revoke_consent
     revoke_consent_parser = subparsers.add_parser("revoke_consent")
-    revoke_consent_parser.add_argument("pii_principal_id", help="DigitalTwin Id (gid)")
-    revoke_consent_parser.add_argument("consent_ids", nargs='*', help="List of consent ids separated by space")
+    revoke_consent_parser.add_argument("pii_principal_id",
+                                       help="Identity node gid (node with is_identity equal True)")
+    revoke_consent_parser.add_argument("consent_ids", nargs='*',
+                                       help="List of consent ids separated by space")
 
     # check_oauth2_consent_challenge
     check_oauth2_consent_challenge_parser = subparsers.add_parser("check_oauth2_consent_challenge")
@@ -561,10 +571,6 @@ def main():
     cancel_invitation = subparsers.add_parser("cancel_invitation")
     cancel_invitation.add_argument("reference_id", help="external ID of the invitation reference")
 
-    # register_digital_twin_without_credential
-    register_digital_twin_without_credential = subparsers.add_parser("register_digital_twin_without_credential")
-    register_digital_twin_without_credential.add_argument("tenant_id", help="gid ID of the tenant")
-
     # get_http_client
     get_http_client = subparsers.add_parser("get_http_client")
     get_http_client.add_argument("base_url", help="knowledge endpoint")
@@ -573,7 +579,7 @@ def main():
     get_refreshable_token_source = subparsers.add_parser("get_refreshable_token_source")
 
     # ingest
-    ingest_record_digital_twin_parser = subparsers.add_parser("ingest_record_digital_twin")
+    ingest_record_identity_node_parser = subparsers.add_parser("ingest_record_identity_node")
     ingest_record_resource_parser = subparsers.add_parser("ingest_record_resource")
     ingest_record_relation_parser = subparsers.add_parser("ingest_record_relation")
     delete_record_relation_property_parser = subparsers.add_parser("delete_record_relation_property")
@@ -587,11 +593,12 @@ def main():
     read_identity_knowledge_parser = subparsers.add_parser("read_identity_knowledge")
 
     get_identity_by_id_parser = subparsers.add_parser("get_identity_by_id")
-    get_identity_by_id_parser.add_argument("id", help="DigitalTwin gid id")
+    get_identity_by_id_parser.add_argument("id",
+                                           help="Identity node gid (node with is_identity equal True)")
 
     get_identity_by_identifier_parser = subparsers.add_parser("get_identity_by_identifier")
-    get_identity_by_identifier_parser.add_argument("external_id", help="DigitalTwin external id")
-    get_identity_by_identifier_parser.add_argument("type", help="DT type")
+    get_identity_by_identifier_parser.add_argument("external_id", help="Identity node external id")
+    get_identity_by_identifier_parser.add_argument("type", help="Identity node type")
 
     get_node_by_id_parser = subparsers.add_parser("get_node_by_id")
     get_node_by_id_parser.add_argument("id", help="Resource gid id")
@@ -641,7 +648,7 @@ def main():
 
     elif command == "create_consent":
         # create_consent method: to create a consent to an application (pii_processor_id ID in GID format)
-        # given by a digital twin (pii_principal_id ID in GID format)
+        # given by an identity node (pii_principal_id ID in GID format)
         pii_processor_id = args.pii_processor_id
         pii_principal_id = args.pii_principal_id
         properties = ["icecream"]
@@ -653,7 +660,7 @@ def main():
         return consent_response
 
     elif command == "list_consents":
-        # list_consents method: to list the consents given by a digital twin (pii_principal_id ID in GID format)
+        # list_consents method: to list the consents given by an identity node (pii_principal_id ID in GID format)
         pii_principal_id = args.pii_principal_id
         consent_response = client.list_consents(pii_principal_id)
         if consent_response:
@@ -665,7 +672,7 @@ def main():
 
     elif command == "revoke_consent":
         # revoke_consent method: to revoke list of consents (IDs in GID format)
-        # given by a digital twin (pii_principal_id ID in GID format)
+        # given by an identity node (pii_principal_id ID in GID format)
         pii_principal_id = args.pii_principal_id
         consent_ids = args.consent_ids
         consent_response = client.revoke_consent(pii_principal_id, consent_ids)
@@ -2027,15 +2034,15 @@ def main():
         else:
             print("Invalid delete oauth2 application response")
 
-    elif command == "is_authorized_dt":
-        digital_twin_id = args.digital_twin_id
+    elif command == "is_authorized_identity_node":
+        identity_node_id = args.identity_node_id
         actions = ["ACTION1", "ACTION2"]
         resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
         input_params = {"age": "21"}
         policy_tags = ["Car", "Rental", "Sharing"]
         is_authorized = client_authorization.is_authorized_digital_twin(
-            digital_twin_id,
+            identity_node_id,
             resources,
             input_params,
             policy_tags)
@@ -2101,15 +2108,15 @@ def main():
             print("Invalid is_authorized")
         return is_authorized
 
-    elif command == "what_authorized_dt":
-        digital_twin_id = args.digital_twin_id
+    elif command == "what_authorized_identity_node":
+        identity_node_id = args.identity_node_id
         actions = ["ACTION1", "ACTION2"]
         resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
                           WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
         input_params = {"age": "21"}
         policy_tags = ["Car", "Rental", "Sharing"]
         what_authorized = client_authorization.what_authorized_digital_twin(
-            digital_twin_id,
+            identity_node_id,
             resource_types,
             input_params,
             policy_tags)
@@ -2225,7 +2232,7 @@ def main():
         access_token_bytes = response.token.access_token
         print(access_token_bytes)
 
-    elif command == "ingest_record_digital_twin":
+    elif command == "ingest_record_identity_node":
         # replace with actual values
         record_id = "96523658"
         external_id = "external-dt-id22737"
@@ -2241,12 +2248,12 @@ def main():
             True
         )
         record = client_ingest.record_upsert(record_id, upsert)
-        ingest_record_digital_twin = client_ingest.ingest_record(record)
-        if ingest_record_digital_twin:
-            api_helper.print_response(ingest_record_digital_twin)
+        ingest_record_identity_node = client_ingest.ingest_record(record)
+        if ingest_record_identity_node:
+            api_helper.print_response(ingest_record_identity_node)
         else:
             print("Invalid upsert")
-        return ingest_record_digital_twin
+        return ingest_record_identity_node
 
     elif command == "ingest_record_resource":
         record_id = "74158100"
@@ -2503,7 +2510,7 @@ def main():
                 }
             ])
         metadata1 = node1.get_metadata(node1, "last_name")
-        print(print(metadata1.__dir__()))
+        print(metadata1.__dir__())
 
     elif command == "delete_all_nodes":
         responses = client_knowledge.delete_all_with_node_type(args.node_type)

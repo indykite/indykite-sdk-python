@@ -1,13 +1,12 @@
 import sys
-from datetime import datetime
 
 from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2 as pb2
 from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
-from indykite_sdk.indykite.objects.v1beta2 import value_pb2
 from indykite_sdk.model.ingest_record import IngestRecordResponse
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.utils.message_to_value import param_to_value
+from indykite_sdk.utils import date_to_timestamp, timestamp_to_date
 
 
 def ingest_record(self, record):
@@ -101,9 +100,9 @@ def ingest_property(self, type, value, metadata=None):
 
 def ingest_metadata(self,
                     assurance_level=None,
+                    verification_time=None,
                     source=None,
-                    custom_metadata={},
-                    verification_time=datetime.now().timestamp(),):
+                    custom_metadata={}):
     """
     create Metadata object
     :param self:
@@ -118,15 +117,14 @@ def ingest_metadata(self,
         custom_metadata_dict = {}
         if custom_metadata:
             custom_metadata_dict = {
-                k: value_pb2.Value(string_value=str(v))
+                k: param_to_value(v)
                 for k, v in custom_metadata.items()
              }
         ip = ikg_pb2.Metadata(
             assurance_level=assurance_level,
-            verification_time=verification_time,
+            verification_time=date_to_timestamp(verification_time),
             source=source,
             custom_metadata=custom_metadata_dict
-
             )
         return ip
     except Exception as exception:

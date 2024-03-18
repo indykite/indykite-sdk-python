@@ -234,10 +234,10 @@ def test_list_identities_empty():
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_list_digital_twin(request: pb2.IdentityKnowledgeReadRequest):
+    def mocked_list_identity_node(request: pb2.IdentityKnowledgeReadRequest):
         return None
 
-    client.stub.IdentityKnowledgeRead = mocked_list_digital_twin
+    client.stub.IdentityKnowledgeRead = mocked_list_identity_node
     response = client.list_identities()
     assert response is None
 
@@ -246,10 +246,10 @@ def test_list_identities_exception(capsys):
     client = KnowledgeClient()
     assert client is not None
 
-    def mocked_list_digital_twin(request: pb2.IdentityKnowledgeReadRequest):
+    def mocked_list_identity_node(request: pb2.IdentityKnowledgeReadRequest):
         return logger.logger_error("list_identities() takes 1 positional argument but 2 were given")
 
-    client.stub.IdentityKnowledgeRead = mocked_list_digital_twin
+    client.stub.IdentityKnowledgeRead = mocked_list_identity_node
     response = client.list_identities()
     captured = capsys.readouterr()
     assert "list_identities() takes 1 positional argument but 2 were given" in captured.err

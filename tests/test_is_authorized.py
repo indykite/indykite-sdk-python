@@ -71,47 +71,46 @@ def test_is_authorized_token_success():
     assert response is not None
 
 
-def test_is_authorized_dt_wrong_dt(capsys):
+def test_is_authorized_identity_node_wrong_identity_node(capsys):
     client = AuthorizationClient()
     assert client is not None
 
-    digital_twin_id = data.get_tenant_email()
+    identity_node_id = data.get_tenant_email()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                  IsAuthorizedResource("resource2ID", "TypeName", actions)]
     input_params = {}
-    response = client.is_authorized_digital_twin(digital_twin_id, resources, input_params, [])
+    response = client.is_authorized_digital_twin(identity_node_id, resources, input_params, [])
     captured = capsys.readouterr()
-    # assert "id is not valid DigitalTwin identifier" in captured.err
     assert "" in captured.err
 
 
-def test_is_authorized_dt_success():
+def test_is_authorized_identity_node_success():
     client = AuthorizationClient()
     assert client is not None
 
-    digital_twin_id = data.get_digital_twin()
+    identity_node_id = data.get_identity_node()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions), IsAuthorizedResource("resource2ID", "TypeName", actions)]
     input_params = {"age": "21"}
     policy_tags = ["Car", "Rental", "Sharing"]
-    response = client.is_authorized_digital_twin(digital_twin_id, resources, input_params, policy_tags)
+    response = client.is_authorized_digital_twin(identity_node_id, resources, input_params, policy_tags)
     assert response is not None
     assert isinstance(response, IsAuthorizedResponse)
 
 
-def test_is_authorized_dt_empty():
+def test_is_authorized_identity_node_empty():
     client = AuthorizationClient()
     assert client is not None
 
-    digital_twin_id = data.get_digital_twin()
+    identity_node_id = data.get_identity_node()
     tenant_id = data.get_tenant()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions), IsAuthorizedResource("resource2ID", "TypeName", actions)]
     input_params = {}
     subject = pb2_model.Subject(
         digital_twin_id=pb2_model.DigitalTwin(
-            id=str(digital_twin_id)
+            id=str(identity_node_id)
         )
     )
 
@@ -120,7 +119,7 @@ def test_is_authorized_dt_empty():
         return None
 
     client.stub.IsAuthorized = mocked_is_authorized
-    response = client.is_authorized_digital_twin(digital_twin_id, resources, input_params, [])
+    response = client.is_authorized_digital_twin(identity_node_id, resources, input_params, [])
     assert response is None
 
 

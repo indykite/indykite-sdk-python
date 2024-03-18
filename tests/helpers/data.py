@@ -17,10 +17,10 @@ EMAIL_TOKEN = os.getenv('EMAIL_TOKEN')
 APPLICATION = os.getenv('APPLICATION')
 TENANT = os.getenv('TENANT')
 TENANT_EMAIL = os.getenv('TENANT_EMAIL')
-DIGITAL_TWIN = os.getenv('DIGITAL_TWIN')
-DIGITAL_TWIN_TEST = os.getenv('DIGITAL_TWIN_TEST')
-DIGITAL_TWIN_CONSENT = os.getenv('DIGITAL_TWIN_CONSENT')
-DIGITAL_TWIN_PROPERTY = os.getenv('DIGITAL_TWIN_PROPERTY')
+IDENTITY_NODE = os.getenv('IDENTITY_NODE')
+IDENTITY_NODE_TEST = os.getenv('IDENTITY_NODE_TEST')
+IDENTITY_NODE_CONSENT = os.getenv('IDENTITY_NODE_CONSENT')
+IDENTITY_NODE_PROPERTY = os.getenv('IDENTITY_NODE_PROPERTY')
 CODE_VERIFIER = os.getenv('CODE_VERIFIER')
 CODE_CHALLENGE = os.getenv('CODE_CHALLENGE')
 VERIFICATION_BEARER = os.getenv('VERIFICATION_BEARER')
@@ -105,20 +105,20 @@ def get_tenant_email():
     return TENANT_EMAIL
 
 
-def get_digital_twin():
-    return DIGITAL_TWIN
+def get_identity_node():
+    return IDENTITY_NODE
 
 
-def get_digital_twin_test():
-    return DIGITAL_TWIN_TEST
+def get_identity_node_test():
+    return IDENTITY_NODE_TEST
 
 
-def get_digital_twin_consent():
-    return DIGITAL_TWIN_CONSENT
+def get_identity_node_consent():
+    return IDENTITY_NODE_CONSENT
 
 
-def get_digital_twin_property():
-    return DIGITAL_TWIN_PROPERTY
+def get_identity_node_property():
+    return IDENTITY_NODE_PROPERTY
 
 
 def get_url():

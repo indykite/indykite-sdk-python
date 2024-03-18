@@ -4,7 +4,7 @@ from indykite_sdk.model.ingest_record import IngestRecordResponse
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
 
 
-def test_ingest_record_digital_twin_success():
+def test_ingest_record_identity_node_success():
     client = IngestClient()
     assert client is not None
     record_id = "745898"
