@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.40.0](https://github.com/indykite/indykite-sdk-python/compare/v1.39.0...v1.40.0) (2024-03-20)
+
+
+### Features
+
+* update readme ([311e78e](https://github.com/indykite/indykite-sdk-python/commit/311e78e47a2bbb3944dc41f7037d53c9d88461e9))
+
 ## [1.39.0](https://github.com/indykite/indykite-sdk-python/compare/v1.38.0...v1.39.0) (2024-03-11)
 
 
