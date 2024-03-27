@@ -243,7 +243,7 @@ import argparse
 ```
 
 :four: Close a GRPC channel
-You simple call the `close()` function on the channel (The `IdentityClient()` function below represents the def in the previous step)
+You simply call the `close()` function on the channel (The `IdentityClient()` function below represents the def in the previous step)
 ```python
 from indykite_sdk.identity import IdentityClient
 
@@ -267,7 +267,7 @@ To display code coverage, enter
 https://indykite.github.io/indykite-sdk-python/
 
 
-### Examples
+## Examples
 
 https://github.com/indykite/indykite-sdk-python/tree/master/indykite_sdk
 

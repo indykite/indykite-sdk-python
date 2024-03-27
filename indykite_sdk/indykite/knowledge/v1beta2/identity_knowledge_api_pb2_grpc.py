@@ -67,3 +67,67 @@ class IdentityKnowledgeAPI(object):
             indykite_dot_knowledge_dot_v1beta2_dot_identity__knowledge__api__pb2.IdentityKnowledgeReadResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class TrustedDataAccessAPIStub(object):
+    """TrustedDataAccessAPI represents the service interface for the Trusted Data Access API.
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.TrustedDataAccess = channel.unary_unary(
+                '/indykite.knowledge.v1beta2.TrustedDataAccessAPI/TrustedDataAccess',
+                request_serializer=indykite_dot_knowledge_dot_v1beta2_dot_identity__knowledge__api__pb2.TrustedDataAccessRequest.SerializeToString,
+                response_deserializer=indykite_dot_knowledge_dot_v1beta2_dot_identity__knowledge__api__pb2.TrustedDataAccessResponse.FromString,
+                )
+
+
+class TrustedDataAccessAPIServicer(object):
+    """TrustedDataAccessAPI represents the service interface for the Trusted Data Access API.
+    """
+
+    def TrustedDataAccess(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_TrustedDataAccessAPIServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'TrustedDataAccess': grpc.unary_unary_rpc_method_handler(
+                    servicer.TrustedDataAccess,
+                    request_deserializer=indykite_dot_knowledge_dot_v1beta2_dot_identity__knowledge__api__pb2.TrustedDataAccessRequest.FromString,
+                    response_serializer=indykite_dot_knowledge_dot_v1beta2_dot_identity__knowledge__api__pb2.TrustedDataAccessResponse.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'indykite.knowledge.v1beta2.TrustedDataAccessAPI', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class TrustedDataAccessAPI(object):
+    """TrustedDataAccessAPI represents the service interface for the Trusted Data Access API.
+    """
+
+    @staticmethod
+    def TrustedDataAccess(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.knowledge.v1beta2.TrustedDataAccessAPI/TrustedDataAccess',
+            indykite_dot_knowledge_dot_v1beta2_dot_identity__knowledge__api__pb2.TrustedDataAccessRequest.SerializeToString,
+            indykite_dot_knowledge_dot_v1beta2_dot_identity__knowledge__api__pb2.TrustedDataAccessResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

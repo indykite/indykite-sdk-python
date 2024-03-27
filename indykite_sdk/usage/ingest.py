@@ -83,7 +83,7 @@ def main():
         """shell
             python3 ingest.py ingest_record_resource
         """
-        # ingest an identity node record in the IKG service
+        # ingest a resource node record in the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -123,7 +123,7 @@ def main():
         """shell
             python3 ingest.py ingest_record_relation
         """
-        # ingest an identity node record in the IKG service
+        # ingest a relationship record in the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -152,7 +152,7 @@ def main():
         """shell
             python3 ingest.py delete_record_node
         """
-        # ingest an identity node record in the IKG service
+        # delete a node record from the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -176,7 +176,7 @@ def main():
         """shell
             python3 ingest.py delete_record_relation
         """
-        # ingest an identity node record in the IKG service
+        # delete a relationship record from the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -204,7 +204,7 @@ def main():
         """shell
             python3 ingest.py delete_record_node_property
         """
-        # ingest an identity node record in the IKG service
+        # delete a node by property from the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -229,7 +229,7 @@ def main():
         """shell
             python3 ingest.py delete_record_relation_property
         """
-        # ingest an identity node record in the IKG service
+        # delete a relationship by property from the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -258,7 +258,7 @@ def main():
         """shell
             python3 ingest.py stream_records
         """
-        # ingest an identity node record in the IKG service
+        # ingest a stream of nodes records in the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
