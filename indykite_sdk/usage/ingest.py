@@ -54,10 +54,10 @@ def main():
         type = "Person"
         # properties
         ingest_property1 = client_ingest.ingest_property("first_name", "deer")
-        ingest_property2 = client_ingest.ingest_property("last_name", "choris")
+        ingest_property2 = client_ingest.ingest_property("last_name", "grumpy")
         ingest_property3 = client_ingest.ingest_property("birthdate", "20 Sep, 1977")
         ingest_property4 = client_ingest.ingest_property("role", "Employee")
-        ingest_property5 = client_ingest.ingest_property("email", "deer@yahoo.uk")
+        ingest_property5 = client_ingest.ingest_property("email", "grumpy@yahoo.uk")
         properties = [ingest_property1, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
         upsert = client_ingest.upsert_data_node(
@@ -83,7 +83,7 @@ def main():
         """shell
             python3 ingest.py ingest_record_resource
         """
-        # ingest an identity node record in the IKG service
+        # ingest a resource node record in the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -95,10 +95,10 @@ def main():
         type = "Asset"
         # properties
         t = datetime.now()
-        ingest_metadata = client_ingest.ingest_metadata(1, t, "BRICA", {"customVin": "customVinValue"})
+        ingest_metadata = client_ingest.ingest_metadata(1, t, "BRUCE", {"customVin": "customVinValue"})
         ingest_property = client_ingest.ingest_property("maker", "FORD")
-        ingest_property2 = client_ingest.ingest_property("vin", "POLJU", ingest_metadata)
-        ingest_property3 = client_ingest.ingest_property("colour", "pink")
+        ingest_property2 = client_ingest.ingest_property("vin", "PjOkiLpNjm", ingest_metadata)
+        ingest_property3 = client_ingest.ingest_property("colour", "blue")
         ingest_property4 = client_ingest.ingest_property("asset", "T")
         ingest_property5 = client_ingest.ingest_property("status", "Active")
         properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
@@ -123,7 +123,7 @@ def main():
         """shell
             python3 ingest.py ingest_record_relation
         """
-        # ingest an identity node record in the IKG service
+        # ingest a relationship record in the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -152,7 +152,7 @@ def main():
         """shell
             python3 ingest.py delete_record_node
         """
-        # ingest an identity node record in the IKG service
+        # delete a node record from the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -176,7 +176,7 @@ def main():
         """shell
             python3 ingest.py delete_record_relation
         """
-        # ingest an identity node record in the IKG service
+        # delete a relationship record from the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -204,7 +204,7 @@ def main():
         """shell
             python3 ingest.py delete_record_node_property
         """
-        # ingest an identity node record in the IKG service
+        # delete a node by property from the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -229,7 +229,7 @@ def main():
         """shell
             python3 ingest.py delete_record_relation_property
         """
-        # ingest an identity node record in the IKG service
+        # delete a relationship by property from the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random
@@ -258,7 +258,7 @@ def main():
         """shell
             python3 ingest.py stream_records
         """
-        # ingest an identity node record in the IKG service
+        # ingest a stream of nodes records in the IKG service
         # replace with your own values
         client_ingest = IngestClient()
         # unique value which can be random

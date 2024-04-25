@@ -25,7 +25,7 @@ def main():
     # Create child parsers
     # is_authorized_identity_node
     is_authorized_identity_node_parser = subparsers.add_parser("is_authorized_identity_node")
-    is_authorized_identity_node_parser.add_argument("identity_node",
+    is_authorized_identity_node_parser.add_argument("identity_node_id",
                                                     help="Identity node gid (node with is_identity equal True)")
 
     # is_authorized_token
@@ -66,24 +66,23 @@ def main():
 
     args = parser.parse_args()
     command = args.command
-    if command == "is_authorized_dt":
+    if command == "is_authorized_identity_node":
         """shell
-                python3 authorization.py is_authorized_dt IDENTITY_NODE_GID
+                python3 authorization.py is_authorized_identity_node IDENTITY_NODE_GID
         """
         # is a given subject, identified by its gid, authorized to have a specific action on specific resources
         # replace actions and resources according to your data
         client_authorization = AuthorizationClient()
         identity_node_id = args.identity_node_id
-        actions = ["ACTION1", "ACTION2"]
-        resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
+        actions = ["SUBSCRIBES_TO"]
+        resources = [IsAuthorizedResource("pFlpMtkWqCPXVue", "Asset", actions),
                      IsAuthorizedResource("resource2ID", "TypeName", actions)]
-        input_params = {"age": "21"}
-        policy_tags = ["Car", "Rental", "Sharing"]
+        input_params = {} #{"age": "21"}
+        # policy_tags = ["Car", "Rental", "Sharing"]
         is_authorized = client_authorization.is_authorized_digital_twin(
             identity_node_id,
             resources,
-            input_params,
-            policy_tags)
+            input_params)
 
         if is_authorized:
             api_helper.print_response(is_authorized)
@@ -142,7 +141,7 @@ def main():
 
     elif command == "is_authorized_external_id":
         """shell
-                python3 authorization.py is_authorized_external_id IDENTITY_NODE_EXTERNAL_ID
+                python3 authorization.py is_authorized_external_id TYPE IDENTITY_NODE_EXTERNAL_ID
         """
         # is a given subject, identified by its external_id, authorized to have a specific action on specific resources
         # replace actions and resources according to your data
@@ -150,8 +149,8 @@ def main():
         node_type = args.type
         external_id = args.external_id
         actions = ["SUBSCRIBES_TO"]
-        resources = [IsAuthorizedResource("CCbJwkQtLOmCdLq", "Asset", actions),
-                     IsAuthorizedResource("aXQMRIcTzyIyeKC", "Asset", actions)]
+        resources = [IsAuthorizedResource("pFlpMtkWqCPXVue", "Asset", actions),
+                     IsAuthorizedResource("CCbJwkQtLOmCdLq", "Asset", actions)]
         input_params = {}
         policy_tags = []
         is_authorized = client_authorization.is_authorized_external_id(

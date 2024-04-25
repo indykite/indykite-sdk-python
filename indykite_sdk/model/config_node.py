@@ -4,6 +4,7 @@ from indykite_sdk.model.auth_flow_config import AuthFlowConfig
 from indykite_sdk.model.oauth2_client_config import OAuth2ClientConfig
 from indykite_sdk.model.webauthn_provider_config import WebAuthnProviderConfig
 from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
+from indykite_sdk.model.consent_configuration import ConsentConfiguration
 
 
 class ConfigNode:
@@ -53,6 +54,10 @@ class ConfigNode:
             config_node.authorization_policy_config = AuthorizationPolicyConfig.deserialize(
                 message.authorization_policy_config)
 
+        if "consent_config" in fields:
+            config_node.consent_config = ConsentConfiguration.deserialize(
+                message.consent_config)
+
         if "created_by" in fields:
             config_node.created_by = str(message.created_by)
 
@@ -81,7 +86,7 @@ class ConfigNode:
         self.oauth2_client_config = None
         self.webauthn_provider_config = None
         self.authorization_policy_config = None
-        self.knowledge_graph_schema_config = None
+        self.consent_config = None
         self.created_by = None
         self.updated_by = None
         self.version = None

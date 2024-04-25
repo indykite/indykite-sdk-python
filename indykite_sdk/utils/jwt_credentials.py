@@ -12,6 +12,7 @@ from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2_g
 from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2_grpc as ingest_pb2_grpc
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2_grpc as authz_pb2
 from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2_grpc as knowledge_pb2_grpc
+from indykite_sdk.indykite.tda.v1beta1 import trusted_data_access_api_pb2_grpc as tda_pb2_grpc
 from indykite_sdk.utils import credentials_config
 from indykite_sdk.model.token import TokenSource, Token
 
@@ -112,6 +113,8 @@ def get_credentials(client="identity", token_source=None):
             stub = authz_pb2.AuthorizationAPIStub(channel=channel)
         elif client == "knowledge":
             stub = knowledge_pb2_grpc.IdentityKnowledgeAPIStub(channel=channel)
+        elif client == "tda":
+            stub = tda_pb2_grpc.TrustedDataAccessAPIStub(channel=channel)
         else:
             stub = pb2_grpc.IdentityManagementAPIStub(channel=channel)
         return channel, stub, credentials, token_source

@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from indykite_sdk.indykite.knowledge.v1beta1 import identity_knowledge_api_pb2 as indykite_dot_knowledge_dot_v1beta1_dot_identity__knowledge__api__pb2
+from indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite_sdk.indykite.knowledge.v1beta1 import identity_knowledge_api_pb2 as indykite_dot_knowledge_dot_v1beta1_dot_identity__knowledge__api__pb2
 
 
 class IdentityKnowledgeAPIStub(object):

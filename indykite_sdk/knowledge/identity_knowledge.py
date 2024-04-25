@@ -4,7 +4,6 @@ from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 a
 from indykite_sdk.indykite.knowledge.v1beta2 import model_pb2
 from indykite_sdk.indykite.ingest.v1beta2 import model_pb2 as ingest_model_pb2
 from indykite_sdk.model.identity_knowledge import IdentityKnowledgeReadResponse
-from indykite_sdk.indykite.objects.v1beta2 import value_pb2
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.utils.message_to_value import param_to_value

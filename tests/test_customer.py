@@ -93,7 +93,7 @@ def test_read_customer_by_name_wrong_name(capsys):
 
     response = client.read_customer_by_name(customer_name)
     captured = capsys.readouterr()
-    assert("StatusCode.NOT_FOUND" in captured.err)
+    assert("StatusCode.PERMISSION_DENIED" in captured.err)
 
 
 def test_read_customer_name_success(capsys):

@@ -161,6 +161,22 @@ def main():
     delete_oauth2_application_parser.add_argument("oauth2_application_id", help="OAuth2 application id (gid)")
     delete_oauth2_application_parser.add_argument("etag", help="Etag")
 
+    # create_consent_config_node
+    create_consent_config_node_parser = subparsers.add_parser("create_consent_config_node")
+    create_consent_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_consent_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_consent_config_node_parser.add_argument("display_name", help="Display name")
+    create_consent_config_node_parser.add_argument("description", help="Description")
+    create_consent_config_node_parser.add_argument("application_id", help="Application (gid)")
+
+    # update_consent_config_node
+    update_consent_config_node_parser = subparsers.add_parser("update_consent_config_node")
+    update_consent_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_consent_config_node_parser.add_argument("etag", help="Etag")
+    update_consent_config_node_parser.add_argument("display_name", help="Display name")
+    update_consent_config_node_parser.add_argument("description", help="Description")
+    update_consent_config_node_parser.add_argument("application_id", help="Application (gid)")
+
     args = parser.parse_args()
     command = args.command
 
@@ -196,7 +212,7 @@ def main():
         email_service_config = EmailServiceConfig(
             default_from_address=Email(address=default_from_address_address, name=default_from_address_name),
             sendgrid=sendgrid,
-            authentication_message=EmailDefinition(
+            invitation_message=EmailDefinition(
                 message=EmailMessage(
                     to=message_to,
                     cc=[],
@@ -326,7 +342,7 @@ def main():
         display_name = args.display_name
         description = args.description
         bookmark = []  # or value returned by last write operation
-        with open("utils/sdk_simple_flow.json") as f:
+        with open("../utils/sdk_simple_flow.json") as f:
             file_data = f.read()
         user_dict = json.loads(file_data)
         user_dict = json.dumps(user_dict, indent=4, separators=(',', ': ')).encode('utf-8')
@@ -526,7 +542,7 @@ def main():
         description = args.description
         bookmark = []  # or value returned by last write operation
         # replace the json file by your own
-        with open("utils/sdk_policy_config.json") as f:
+        with open("../utils/sdk_policy_config.json") as f:
             file_data = f.read()
         policy_dict = json.loads(file_data)
         policy_dict = json.dumps(policy_dict)
@@ -785,6 +801,71 @@ def main():
         else:
             print("Invalid delete oauth2 application response")
         client_config.channel.close()
+
+    elif command == "create_consent_config_node":
+        # to create a consent config node to query against in trusted data access
+        """shell
+           python3 configuration_config_nodes.py create_consent_config_node
+           APP_SPACE_ID CONSENT_NAME CONSENT_DISPLAY_NAME CONSENT_DESCRIPTION APPLICATION_ID
+        """
+        client_config = ConfigClient()
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+        application_id = args.application_id
+        bookmark = []  # or value returned by last write operation
+        # replace the json file by your own
+        consent_config = ConfigClient().consent_config(
+            purpose="Taking control",
+            data_points={"lastname", "firstname", "email"},
+            application_id=application_id
+        )
+        create_consent_config_node_response = client_config.create_consent_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            consent_config,
+            bookmark
+        )
+
+        if create_consent_config_node_response:
+            api_helper.print_response(create_consent_config_node_response)
+        else:
+            print("Invalid create consent config node response")
+        client_config.channel.close()
+        return create_consent_config_node_response
+
+    elif command == "update_consent_config_node":
+        # to update a consent config node to query against in trusted data access
+        client_config = ConfigClient()
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+        application_id = args.application_id
+        bookmark = []  # or value returned by last write operation
+        consent_config = ConfigClient().consent_config(
+            purpose="Taking control",
+            data_points={"lastname", "firstname", "email"},
+            application_id=application_id
+        )
+
+        update_consent_config_node_response = client_config.update_consent_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            consent_config,
+            bookmark
+        )
+        if update_consent_config_node_response:
+            api_helper.print_response(update_consent_config_node_response)
+        else:
+            print("Invalid update consent config node response")
+        client_config.channel.close()
+        return update_consent_config_node_response
 
 
 if __name__ == '__main__':  # pragma: no cover

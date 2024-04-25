@@ -157,7 +157,7 @@ def test_create_application_agent_already_exists(capsys):
 
     application_id = data.get_application_id()
 
-    application_agent = client.create_application_agent(application_id, "agent-sdk", "ApplicationAgent test sdk", "description", [])
+    application_agent = client.create_application_agent(application_id, "appagentpython", "ApplicationAgent test sdk", "description", [])
     captured = capsys.readouterr()
 
     assert "config entity with given name already exist" in captured.err

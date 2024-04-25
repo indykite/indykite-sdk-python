@@ -157,7 +157,7 @@ def test_create_application_already_exists(capsys):
 
     app_space_id = data.get_app_space_id()
 
-    application = client.create_application(app_space_id, "wonka-bars", "Application test sdk", "description", [])
+    application = client.create_application(app_space_id, "applicationpython", "Application test sdk", "description", [])
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
 

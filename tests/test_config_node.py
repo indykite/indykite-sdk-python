@@ -1,3 +1,4 @@
+
 import time
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
@@ -752,6 +753,66 @@ def test_update_authorization_policy_config_node_exception(capsys):
     assert "'str' object has no attribute 'status'" in captured.err
 
 
+def test_create_consent_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    consent_config = data.get_consent_config()
+
+    config_node = client.create_consent_config_node(app_space_id,
+                                                    "automation-"+right_now,
+                                                    "Automation "+right_now,
+                                                    "description",
+                                                    consent_config,
+                                                    [])
+    captured = capsys.readouterr()
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
+
+
+def test_create_consent_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    consent_config = data.get_consent_config()
+
+    def mocked_create_config_node(request: pb2.CreateConfigNodeRequest):
+        return None
+
+    client.stub.CreateConfigNode = mocked_create_config_node
+    config_node = client.create_consent_config_node(app_space_id,
+                                                    "automation-"+right_now,
+                                                    "Automation "+right_now,
+                                                    "description",
+                                                    consent_config,
+                                                    [])
+
+    assert config_node is None
+
+
+def test_create_consent_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    config_node = client.create_consent_config_node(app_space_id,
+                                                    "automation-"+right_now,
+                                                    "Automation "+right_now,
+                                                    "description",
+                                                    "description",
+                                                    [])
+
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
+
+
 def test_validate_authorization_policy_status(capsys):
     client = ConfigClient()
     assert client is not None
@@ -782,6 +843,14 @@ def test_validate_conveyance(capsys):
     response = client.validate_conveyance("wrong")
     captured = capsys.readouterr()
     assert "conveyance must be a member of ConveyancePreference" in captured.err
+
+
+def test_validate_data_points(capsys):
+    client = ConfigClient()
+    assert client is not None
+    response = client.validate_data_points(False)
+    captured = capsys.readouterr()
+    assert "ERROR" in captured.err
 
 
 def test_auth_flow_exception(capsys):

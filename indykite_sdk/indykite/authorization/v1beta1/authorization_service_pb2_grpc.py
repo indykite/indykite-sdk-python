@@ -7,6 +7,7 @@ from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb
 
 class AuthorizationAPIStub(object):
     """AuthorizationAPI represents the service interface for authorization.
+    Validation fails if a request contains an unknown field.
     """
 
     def __init__(self, channel):
@@ -34,6 +35,7 @@ class AuthorizationAPIStub(object):
 
 class AuthorizationAPIServicer(object):
     """AuthorizationAPI represents the service interface for authorization.
+    Validation fails if a request contains an unknown field.
     """
 
     def IsAuthorized(self, request, context):
@@ -81,6 +83,7 @@ def add_AuthorizationAPIServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class AuthorizationAPI(object):
     """AuthorizationAPI represents the service interface for authorization.
+    Validation fails if a request contains an unknown field.
     """
 
     @staticmethod
