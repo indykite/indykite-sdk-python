@@ -137,7 +137,7 @@ def test_get_node_by_identifier_empty():
 def test_list_nodes_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_nodes_by_property({"colour": "white"})
+    response = client.list_nodes_by_property({"colour": "grey"})
     assert response[0].external_id == os.getenv('ASSET_EXTERNAL_ID')
     assert response[0].type == "Asset"
 
@@ -166,7 +166,7 @@ def test_list_nodes_by_property_exception(capsys):
 def test_list_identities_by_property_success():
     client = KnowledgeClient()
     assert client is not None
-    response = client.list_identities_by_property({"first_name": "biche"})
+    response = client.list_identities_by_property({"first_name": "darna"})
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
     assert response[0].type == "Person"
 

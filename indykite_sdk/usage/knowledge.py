@@ -20,7 +20,7 @@ class ParseKwargs(argparse.Action):
 
 def main():
     # Create parent parser
-    parser = argparse.ArgumentParser(description="Identity client API.")
+    parser = argparse.ArgumentParser(description="Knowledge client API.")
     subparsers = parser.add_subparsers(dest="command", help="sub-command help")
 
     # Create child parsers
@@ -62,7 +62,6 @@ def main():
         # and get a response
         # replace with your own values
         client_knowledge = KnowledgeClient()
-        # replace with your own values
         # parameters used in the cypher query
         input_params = {"external_id": "CJnoXYgnPNDAiMg", "type": "Organization"}
         # cypher query
@@ -148,7 +147,7 @@ def main():
         client_knowledge = KnowledgeClient()
         responses = client_knowledge.list_nodes()
         if responses:
-            for response in responses.nodes:
+            for response in responses:
                 api_helper.print_response(response)
         else:
             print("No result")

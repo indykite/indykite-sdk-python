@@ -43,7 +43,8 @@ class ConfigClient(object):
         create_authorization_policy_config_node, update_authorization_policy_config_node, \
         validate_authenticator_attachment, validate_authorization_policy_status, \
         validate_user_verification, validate_conveyance, authorization_policy_config, webauthn_provider_config, \
-        auth_flow_config, list_config_node_versions
+        auth_flow_config, list_config_node_versions, \
+        consent_config, create_consent_config_node, update_consent_config_node, validate_data_points
     from .oauth2_provider import create_oauth2_provider, read_oauth2_provider, update_oauth2_provider, \
         delete_oauth2_provider
     from .oauth2_application import create_oauth2_application, read_oauth2_application, update_oauth2_application, \

@@ -542,6 +542,104 @@ def authorization_policy_config(self, policy, status, tags=[]):
         return logger.logger_error(exception)
 
 
+def create_consent_config_node(self,
+                               location,
+                               name,
+                               display_name,
+                               description,
+                               consent_config,
+                               bookmarks=[]):
+    """
+    create consent configuration
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param consent_config: ConsentConfiguration object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.CreateConfigNode(
+            pb2.CreateConfigNodeRequest(
+                location=location,
+                name=name,
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                consent_config=consent_config,
+                bookmarks=bookmarks
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return CreateConfigNode.deserialize(response)
+
+
+def update_consent_config_node(self,
+                               config_node_id,
+                               etag,
+                               display_name,
+                               description,
+                               consent_config,
+                               bookmarks=[]):
+    """
+    update consent configuration
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param consent_config: ConsentConfiguration object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.UpdateConfigNode(
+            pb2.UpdateConfigNodeRequest(
+                id=config_node_id,
+                etag=wrappers.StringValue(value=etag),
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                consent_config= consent_config,
+                bookmarks=bookmarks
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return UpdateConfigNode.deserialize(response)
+
+
+def consent_config(self, purpose, data_points, application_id):
+    """
+    create ConsentConfiguration
+    :param self:
+    :param purpose: string
+    :param data_points: list
+    :param application_id: gid
+    :return: ConsentConfiguration object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        if data_points:
+            data_points = self.validate_data_points(data_points)
+        return model_pb2.ConsentConfiguration(
+            purpose=purpose,
+            data_points=data_points,
+            application_id=application_id
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
 def validate_conveyance(self, conveyance):
     """
     validate conveyance
@@ -586,6 +684,19 @@ def validate_authenticator_attachment(self, authenticator_attachment):
         if authenticator_attachment not in authenticator_attachments:
             raise TypeError("authenticator_attachment must be a member of AuthenticatorAttachment")
         return True
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_data_points(self, data_points):
+    """
+    validate data_points requirement
+    :param self:
+    :param data_points: array
+    :return: reduces to unique list
+    """
+    try:
+        return list(dict.fromkeys(data_points))
     except Exception as exception:
         return logger.logger_error(exception)
 

@@ -1,4 +1,5 @@
 from indykite_sdk.utils import timestamp_to_date
+from indykite_sdk.model.ikg_status import AppSpaceIKGStatus
 
 
 class ApplicationSpace:
@@ -37,6 +38,12 @@ class ApplicationSpace:
         if "updated_by" in fields:
             application_space.updated_by = str(message.updated_by)
 
+        if "ikg_status" in fields:
+            statuses = [s.value for s in AppSpaceIKGStatus]
+            if message.ikg_status and message.ikg_status not in statuses:
+                raise TypeError("status must be a member of AppSpace.AppSpaceIKGStatus")
+            application_space.ikg_status = message.ikg_status
+
         return application_space
 
     def __init__(self, id, name, display_name, etag, customer_id,issuer_id):
@@ -53,3 +60,4 @@ class ApplicationSpace:
         self.description = None
         self.created_by = None
         self.updated_by = None
+        self.ikg_status = None

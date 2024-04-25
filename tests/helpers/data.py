@@ -49,9 +49,10 @@ AUTH_FLOW_CONFIG_NODE = os.getenv('AUTH_FLOW_CONFIG_NODE')
 OAUTH2_CLIENT_CONFIG_NODE = os.getenv('OAUTH2_CLIENT_CONFIG_NODE')
 WEBAUTHN_PROVIDER_CONFIG_NODE = os.getenv('WEBAUTHN_PROVIDER_CONFIG_NODE')
 AUTHZ_POLICY_CONFIG_NODE = os.getenv('AUTHZ_POLICY_CONFIG_NODE')
-KG_SCHEMA_CONFIG_NODE = os.getenv('KG_SCHEMA_CONFIG_NODE')
+CONSENT_CONFIG_NODE = os.getenv('CONSENT_CONFIG_NODE')
 OAUTH2_PROVIDER = os.getenv('OAUTH2_PROVIDER')
 OAUTH2_APPLICATION = os.getenv('OAUTH2_APPLICATION')
+CONSENT_ID = os.getenv('CONSENT_ID')
 PASSWORD = os.getenv('PASSWORD')
 NEW_PASSWORD = os.getenv('NEW_PASSWORD')
 BCRYPT = os.getenv('BCRYPT')
@@ -106,7 +107,11 @@ def get_tenant_email():
 
 
 def get_identity_node():
-    return IDENTITY_NODE
+    return INDIVIDUAL_ID
+
+
+def get_identity_node_external_id():
+    return INDIVIDUAL_EXTERNAL_ID
 
 
 def get_identity_node_test():
@@ -237,8 +242,8 @@ def get_authz_policy_config_node_id():
     return AUTHZ_POLICY_CONFIG_NODE
 
 
-def get_kg_schema_config_node_id():
-    return KG_SCHEMA_CONFIG_NODE
+def get_consent_config_node_id():
+    return CONSENT_CONFIG_NODE
 
 
 def get_oauth2_provider_id():
@@ -247,6 +252,10 @@ def get_oauth2_provider_id():
 
 def get_oauth2_application_id():
     return OAUTH2_APPLICATION
+
+
+def get_consent_id():
+    return CONSENT_ID
 
 
 def get_email_service():
@@ -373,8 +382,10 @@ def get_authz_policy():
     return policy_config
 
 
-def get_kg_schema():
-    with open(os.path.dirname(__file__) + "/sdk_schema.txt", "r") as file:
-        file_data = "\n".join(file.read().split("\n"))
-    schema_config = ConfigClient().knowledge_graph_schema_config(file_data)
-    return schema_config
+def get_consent_config():
+    consent_config = ConfigClient().consent_config(
+        purpose = "Taking control",
+        data_points = {"lastname", "firstname", "email"},
+        application_id = get_application_id()
+    )
+    return consent_config

@@ -230,7 +230,7 @@ def test_create_service_account_already_exists(capsys):
 
     customer_id = data.get_customer_id()
 
-    service_account = client.create_service_account(customer_id, "service-account-test-sdk", "ServiceAccount test sdk",
+    service_account = client.create_service_account(customer_id, "sa-to-expire", "ServiceAccount test sdk",
                                                     "description", "all_viewer", [])
     captured = capsys.readouterr()
 

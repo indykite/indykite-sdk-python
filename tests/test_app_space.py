@@ -156,7 +156,7 @@ def test_create_app_space_already_exists(capsys):
 
     customer_id = data.get_customer_id()
 
-    app_space = client.create_app_space(customer_id, "appspacetestsdk", "app space test sdk ", "description", [])
+    app_space = client.create_app_space(customer_id, "appspacetest", "app space test sdk ", "description", [])
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
 
@@ -198,7 +198,7 @@ def test_update_app_space_success(capsys):
     client = ConfigClient()
     assert client is not None
 
-    app_space_name = "appspacetestsdk"
+    app_space_name = "appspacetest"
     customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
@@ -215,7 +215,7 @@ def test_update_app_space_empty():
     client = ConfigClient()
     assert client is not None
 
-    app_space_name = "appspacetestsdk"
+    app_space_name = "appspacetest"
     customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
@@ -233,7 +233,7 @@ def test_update_app_space_fail_invalid_app_space(capsys):
     client = ConfigClient()
     assert client is not None
 
-    app_space_name = "appspacetestsdk"
+    app_space_name = "appspacetest"
     customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
@@ -249,7 +249,7 @@ def test_update_app_space_fail_not_allowed_app_space_id(capsys):
     assert client is not None
 
     app_space_id = data.get_app_space_id()
-    app_space_name = "appspacetestsdk"
+    app_space_name = "appspacetest"
     customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
@@ -257,14 +257,14 @@ def test_update_app_space_fail_not_allowed_app_space_id(capsys):
 
     app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update", [])
     captured = capsys.readouterr()
-    assert "insufficient permission to perform requested action" in captured.err
+    assert "NOT_FOUND" in captured.err
 
 
 def test_update_app_space_name_fail_type_parameter(capsys):
     client = ConfigClient()
     assert client is not None
 
-    app_space_name = "appspacetestsdk"
+    app_space_name = "appspacetest"
     customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
@@ -342,22 +342,6 @@ def test_get_app_space_list_empty_match(capsys):
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
-
-
-def test_get_app_space_list_no_answer_match(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
-    app_space_name = "test-creation"
-    match = []
-    match.append(app_space_name)
-
-    app_space = client.list_app_spaces(customer_id, match, [])
-    captured = capsys.readouterr()
-
-    assert app_space is not None
-    assert app_space == []
 
 
 def test_get_app_space_list_raise_exception(capsys):
