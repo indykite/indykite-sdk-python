@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.41.0](https://github.com/indykite/indykite-sdk-python/compare/v1.40.0...v1.41.0) (2024-04-25)
+
+
+### Features
+
+* add tda and update outdated tests ([90ef7d8](https://github.com/indykite/indykite-sdk-python/commit/90ef7d81d6e14ff18bab90409c2f504fa78a0a87))
+
 ## [1.40.0](https://github.com/indykite/indykite-sdk-python/compare/v1.39.0...v1.40.0) (2024-03-20)
 
 
