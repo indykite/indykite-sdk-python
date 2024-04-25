@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.41.1](https://github.com/indykite/indykite-sdk-python/compare/v1.41.0...v1.41.1) (2024-04-25)
+
+
+### Bug Fixes
+
+* add gnostic in ignore-paths ([65efe10](https://github.com/indykite/indykite-sdk-python/commit/65efe102dc0820558bbd3f2662494631179791b6))
+
 ## [1.41.0](https://github.com/indykite/indykite-sdk-python/compare/v1.40.0...v1.41.0) (2024-04-25)
 
 
