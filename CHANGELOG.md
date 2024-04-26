@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.41.2](https://github.com/indykite/indykite-sdk-python/compare/v1.41.1...v1.41.2) (2024-04-26)
+
+
+### Bug Fixes
+
+* add missing packages ([5740e3f](https://github.com/indykite/indykite-sdk-python/commit/5740e3f4e816ea51c5f5e40e04ff34adb18750ea))
+
 ## [1.41.1](https://github.com/indykite/indykite-sdk-python/compare/v1.41.0...v1.41.1) (2024-04-25)
 
 
