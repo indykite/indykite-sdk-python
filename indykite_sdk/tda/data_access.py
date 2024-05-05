@@ -18,7 +18,6 @@ def grant_consent(self, user, consent_id, revoke_after_use=False):
     sys.excepthook = logger.handle_excepthook
     try:
         user_obj = user_validation(user)
-        print(user_obj)
         response = self.stub.GrantConsent(
             pb2.GrantConsentRequest(
                 user=user_obj,
@@ -95,9 +94,7 @@ def list_consents(self, user, application_id):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        print(user)
         user_obj = user_validation(user)
-        print(user_obj)
         response = self.stub.ListConsents(
             pb2.ListConsentsRequest(
                 user=user_obj,
