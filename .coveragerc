@@ -14,7 +14,6 @@ omit =
   indykite_sdk/model/data_access.py
   indykite_sdk/model/email_attachment.py
   indykite_sdk/identity/consent.py
-  indykite_sdk/tda/*
   indykite_sdk/utils/*
   tests/*
   examples/*

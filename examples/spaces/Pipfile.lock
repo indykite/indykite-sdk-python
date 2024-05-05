@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "677687a02f45a807f14c43cfc9bcad3f35247d601325da6bdd9017cf15c212af"
+            "sha256": "61e3e69e4c5961fdd7d1faa72b72f245a987b4039c2df8f14ab7c88b1f46e22c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -707,7 +707,7 @@
         "indykite-sdk-python": {
             "git": "https://github.com/indykite/indykite-sdk-python",
             "markers": "python_version ~= '3.11'",
-            "ref": "339b44f11792390521799985795a94beddc309c3"
+            "ref": "c15956fd2efd1b8011c9c2b3210d252b40ae3ed3"
         },
         "inflection": {
             "hashes": [
@@ -1104,7 +1104,7 @@
                 "sha256:a1bac0ce561155ecc3ed78ca94d3c9378656ad4c94c1270de543f621420f94ad",
                 "sha256:f9db75911801ed778fe61bb643079ff86601aca99fcae6345aa67292038fb742"
             ],
-            "markers": "python_version > '3.0'",
+            "markers": "python_version >= '3.1'",
             "version": "==3.1.2"
         },
         "python-dateutil": {
@@ -1113,7 +1113,7 @@
                 "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
             ],
             "index": "pypi",
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.9.0.post0"
         },
         "python-dotenv": {
@@ -1367,7 +1367,7 @@
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
                 "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.16.0"
         },
         "sniffio": {
