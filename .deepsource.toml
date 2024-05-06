@@ -1,20 +1,6 @@
 version = 1
 
 [[analyzers]]
-name = "javascript"
-
-  [analyzers.meta]
-  plugins = ["react"]
-  environment = [
-    "nodejs",
-    "browser",
-    "cypress"
-  ]
-
-[[analyzers]]
-name = "shell"
-
-[[analyzers]]
 name = "python"
 
   [analyzers.meta]
