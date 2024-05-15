@@ -25,7 +25,7 @@ The following scripts from the usage folder give an example for each function.
 - Ingest service [ingest.py](usage/ingest.py)
 - Knowledge service [knowledge.py](usage/knowledge.py)
 - Authorization service [authorization.py](usage/authorization.py)
-- HTTP service [http.py](usage/http.py)
+- HTTP service [http.py](usage/httpo.py)
 
 ## Running the sdk with the scripts in the "usage" folder: examples for each function
 
