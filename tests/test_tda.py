@@ -166,6 +166,17 @@ def test_data_access_success():
     assert isinstance(nodes, DataAccessResponse)
 
 
+def test_data_access_external_id_success():
+    client = DataAccessClient()
+    assert client is not None
+
+    user = {"external_id": {"external_id": data.get_identity_node_external_id(), "type": "Person"}}
+    application_id = data.get_application_id()
+    consent_id = data.get_consent_config_node_id()
+    nodes = client.data_access(consent_id, application_id, user)
+    assert isinstance(nodes, DataAccessResponse)
+    
+
 def test_data_access_no_user(capsys):
     client = DataAccessClient()
     assert client is not None
@@ -189,6 +200,43 @@ def test_data_access_wrong_user(capsys):
     nodes = client.data_access(consent_id, application_id, user)
     captured = capsys.readouterr()
     assert "INVALID_ARGUMENT" in captured.err
+
+
+def test_data_access_external_id_wrong_user(capsys):
+    client = DataAccessClient()
+    assert client is not None
+
+    user = {"external_id": data.get_identity_node_external_id()}
+    application_id = data.get_application_id()
+    consent_id = data.get_consent_config_node_id()
+    nodes = client.data_access(consent_id, application_id, user)
+    captured = capsys.readouterr()
+    assert "should be a dictionary" in captured.err
+
+
+def test_data_access_property_wrong_user(capsys):
+    client = DataAccessClient()
+    assert client is not None
+
+    user = {"property": "last_name"}
+    application_id = data.get_application_id()
+    consent_id = data.get_consent_config_node_id()
+    nodes = client.data_access(consent_id, application_id, user)
+    captured = capsys.readouterr()
+    assert "should be a dictionary" in captured.err
+
+
+def test_data_access_other_wrong_user(capsys):
+    client = DataAccessClient()
+    assert client is not None
+
+    user = {"other": "last_name"}
+    application_id = data.get_application_id()
+    consent_id = data.get_consent_config_node_id()
+    nodes = client.data_access(consent_id, application_id, user)
+    captured = capsys.readouterr()
+    assert "Key should be" in captured.err
+
 
 
 def test_data_access_empty():
