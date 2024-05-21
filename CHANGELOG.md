@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.42.0](https://github.com/indykite/indykite-sdk-python/compare/v1.41.2...v1.42.0) (2024-05-21)
+
+
+### Features
+
+* add deepsource file ([00e53af](https://github.com/indykite/indykite-sdk-python/commit/00e53afb1fd095de65e70815adb148b24bac5a78))
+* update dependencies ([f35a699](https://github.com/indykite/indykite-sdk-python/commit/f35a69959e36a95d23e50b759de4d58ec214108f))
+* update dependencies + add some tests ([51cc7a0](https://github.com/indykite/indykite-sdk-python/commit/51cc7a098ede6a1bb6c7dc724538582ed560ebaa))
+
+
+### Miscellaneous Chores
+
+* **deps:** bump idna from 3.6 to 3.7 ([3a3bbcb](https://github.com/indykite/indykite-sdk-python/commit/3a3bbcb701bb79d69093973728ccba2ecc4d1671))
+
 ## [1.41.2](https://github.com/indykite/indykite-sdk-python/compare/v1.41.1...v1.41.2) (2024-04-26)
 
 
