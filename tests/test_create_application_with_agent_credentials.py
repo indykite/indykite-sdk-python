@@ -12,7 +12,6 @@ def test_create_application_with_agent_cred_success(capsys):
     assert client is not None
 
     app_space_id = data.get_app_space_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = int(time.time())
     application_name = "automation-application-"+str(right_now)
     application_agent_name = "automation-agent-"+str(right_now)
@@ -22,7 +21,6 @@ def test_create_application_with_agent_cred_success(capsys):
 
     response = client.create_application_with_agent_credentials(
             app_space_id,
-            default_tenant_id,
             application_name,
             application_agent_name,
             application_agent_credentials_name,
@@ -45,7 +43,6 @@ def test_create_application_with_agent_cred_exists(capsys):
     assert client is not None
 
     app_space_id = data.get_app_space_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = int(time.time())
     application_name = "automation-application-" + str(right_now)
     application_agent_name = "automation-agent-" + str(right_now)
@@ -55,7 +52,6 @@ def test_create_application_with_agent_cred_exists(capsys):
 
     response = client.create_application_with_agent_credentials(
         app_space_id,
-        default_tenant_id,
         application_name,
         application_agent_name,
         application_agent_credentials_name,
@@ -65,7 +61,6 @@ def test_create_application_with_agent_cred_exists(capsys):
 
     response2 = client.create_application_with_agent_credentials(
         app_space_id,
-        default_tenant_id,
         application_name,
         application_agent_name,
         application_agent_credentials_name,
@@ -81,7 +76,6 @@ def test_create_application_with_agent_cred_no_expire_time(capsys):
     assert client is not None
 
     app_space_id = data.get_app_space_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = int(time.time() + 12365)
     application_name = "automation-application-"+str(right_now)
     application_agent_name = "automation-agent-"+str(right_now)
@@ -90,7 +84,6 @@ def test_create_application_with_agent_cred_no_expire_time(capsys):
 
     response = client.create_application_with_agent_credentials(
             app_space_id,
-            default_tenant_id,
             application_name,
             application_agent_name,
             application_agent_credentials_name,

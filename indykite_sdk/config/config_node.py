@@ -618,13 +618,15 @@ def update_consent_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def consent_config(self, purpose, data_points, application_id):
+def consent_config(self, purpose, data_points, application_id, validity_period, revoke_after_use=False):
     """
     create ConsentConfiguration
     :param self:
-    :param purpose: string
+    :param purpose: string max_len: 1024
     :param data_points: list
-    :param application_id: gid
+    :param application_id: gid min_len:22, max_len: 254, pattern:"^[A-Za-z0-9-_:]{22,254}$"
+    :param validity_period: int minimum value is 1 day and the maximum value is 2 years
+    :param revoke_after_use: bool
     :return: ConsentConfiguration object
     """
     sys.excepthook = logger.handle_excepthook
@@ -634,7 +636,9 @@ def consent_config(self, purpose, data_points, application_id):
         return model_pb2.ConsentConfiguration(
             purpose=purpose,
             data_points=data_points,
-            application_id=application_id
+            application_id=application_id,
+            validity_period=validity_period,
+            revoke_after_use=revoke_after_use
         )
     except Exception as exception:
         return logger.logger_error(exception)

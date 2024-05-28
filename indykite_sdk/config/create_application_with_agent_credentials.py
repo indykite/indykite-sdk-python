@@ -10,7 +10,6 @@ from datetime import datetime
 
 def create_application_with_agent_credentials(self,
                                               app_space_id,
-                                              default_tenant_id,
                                               application_name,
                                               application_agent_name,
                                               application_agent_credentials_name,
@@ -18,10 +17,9 @@ def create_application_with_agent_credentials(self,
                                               public_key=None,
                                               expire_time=None):
     """
-    create application, application agent and application credentials for a tenant in an appSpace
+    create application, application agent and application credentials in an appSpace
     :param self:
     :param app_space_id: string
-    :param default_tenant_id: string
     :param application_name: string
     :param application_agent_name: string
     :param application_agent_credentials_name: string
@@ -62,7 +60,6 @@ def create_application_with_agent_credentials(self,
                         application_agent_credentials_name,
                         public_key,
                         expire_time,
-                        str(default_tenant_id),
                         [])
                 elif public_key_type == 'pem':
                     response_application_agent_credentials = self.register_application_agent_credential_pem(
@@ -70,7 +67,6 @@ def create_application_with_agent_credentials(self,
                         application_agent_credentials_name,
                         public_key,
                         expire_time,
-                        str(default_tenant_id),
                         [])
                 if isinstance(response_application_agent_credentials, RegisterApplicationAgentCredential):
                     response = {"response_application": response_application,

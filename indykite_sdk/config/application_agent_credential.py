@@ -37,7 +37,6 @@ def register_application_agent_credential_jwk(self,
                                               display_name,
                                               jwk_in_bytes,
                                               expire_time_in_seconds,
-                                              default_tenant_id,
                                               bookmarks=[]):
     """
     register jwk credentials for your AppAgent
@@ -46,7 +45,6 @@ def register_application_agent_credential_jwk(self,
     :param display_name: string
     :param jwk_in_bytes: bytes
     :param expire_time_in_seconds: int
-    :param default_tenant_id: string gid id
     :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized RegisterApplicationAgentCredential
     """
@@ -58,7 +56,6 @@ def register_application_agent_credential_jwk(self,
                 display_name=display_name,
                 jwk=jwk_in_bytes,
                 expire_time=Timestamp(seconds=expire_time_in_seconds),
-                default_tenant_id=str(default_tenant_id),
                 bookmarks=bookmarks
             )
         )
@@ -76,7 +73,6 @@ def register_application_agent_credential_pem(self,
                                               display_name,
                                               pem_in_bytes,
                                               expire_time_in_seconds,
-                                              default_tenant_id,
                                               bookmarks=[]):
     """
     register pem credentials for your AppAgent
@@ -85,7 +81,6 @@ def register_application_agent_credential_pem(self,
     :param display_name: string
     :param pem_in_bytes: bytes
     :param expire_time_in_seconds: int
-    :param default_tenant_id: string gid id
     :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return:
     """
@@ -97,7 +92,6 @@ def register_application_agent_credential_pem(self,
                 display_name=display_name,
                 pem=pem_in_bytes,
                 expire_time=Timestamp(seconds=expire_time_in_seconds),
-                default_tenant_id=str(default_tenant_id),
                 bookmarks=bookmarks
             )
         )

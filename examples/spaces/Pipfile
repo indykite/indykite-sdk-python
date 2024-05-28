@@ -11,7 +11,7 @@ indykite-sdk-python = {ref = "v1.41.2", git = "https://github.com/indykite/indyk
 python-jose = "3.3.0"
 gql = "3.5.0"
 urllib3 = "2.2.1"
-requests = ">=2.31.0"
+requests = "*"
 requests-toolbelt = "*"
 flask = "2.3.3"
 markupsafe = "2.1.5"

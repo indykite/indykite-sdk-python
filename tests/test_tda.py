@@ -12,17 +12,17 @@ def test_grant_consent_success():
 
     user_id = data.get_identity_node_consent()
     consent_id = data.get_consent_config_node_id()
-    revoke_after_use = False
+    validity_period = 86400
     user = {"user_id": user_id}
 
     def mocked_grant_consent(request: pb2.GrantConsentRequest):
         assert request.user == user
         assert request.consent_id == consent_id
-        assert request.revoke_after_use == revoke_after_use
+        assert request.validity_period == validity_period
         return pb2.GrantConsentResponse()
 
     client.stub.GrantConsent = mocked_grant_consent
-    response = client.grant_consent(user, consent_id, revoke_after_use)
+    response = client.grant_consent(user, consent_id, validity_period)
     assert response is not None
 
 
@@ -32,14 +32,14 @@ def test_grant_consent_empty():
 
     user_id = data.get_identity_node_consent()
     consent_id = data.get_consent_config_node_id()
-    revoke_after_use = False
+    validity_period = 86400
     user = {"user_id": user_id}
 
     def mocked_grant_consent(request: pb2.GrantConsentRequest):
         return None
 
     client.stub.GrantConsent = mocked_grant_consent
-    response = client.grant_consent(user, consent_id, revoke_after_use)
+    response = client.grant_consent(user, consent_id, validity_period)
     assert response is None
 
 
@@ -49,10 +49,10 @@ def test_grant_consent_fail_invalid_user_id(capsys):
 
     user_id = "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
     consent_id = data.get_consent_config_node_id()
-    revoke_after_use = False
+    validity_period = 86400
     user = {"user_id": user_id}
 
-    consent = client.grant_consent(user, consent_id, revoke_after_use)
+    consent = client.grant_consent(user, consent_id, validity_period)
     captured = capsys.readouterr()
     assert "INVALID_ARGUMENT" in captured.err
 
@@ -121,7 +121,7 @@ def test_revoke_consent_success():
         return pb2.RevokeConsentResponse()
 
     client.stub.RevokeConsent = mocked_revoke_consent
-    response = client.grant_consent(user, consent_id)
+    response = client.revoke_consent(user, consent_id)
     assert response is not None
 
 
@@ -175,7 +175,7 @@ def test_data_access_external_id_success():
     consent_id = data.get_consent_config_node_id()
     nodes = client.data_access(consent_id, application_id, user)
     assert isinstance(nodes, DataAccessResponse)
-    
+
 
 def test_data_access_no_user(capsys):
     client = DataAccessClient()
