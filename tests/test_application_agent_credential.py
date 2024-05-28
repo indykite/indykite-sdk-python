@@ -52,7 +52,6 @@ def test_register_application_agent_credential_jwk_success(capsys):
     assert client is not None
 
     application_agent_id = data.get_application_agent_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = str(int(time.time()))
     jwk = None
     t = datetime.now().timestamp()
@@ -61,7 +60,7 @@ def test_register_application_agent_credential_jwk_success(capsys):
     application_agent_credential = client.register_application_agent_credential_jwk(application_agent_id,
                                                                                     "automation-"+right_now, jwk,
                                                                                     expire_time_in_seconds,
-                                                                                    default_tenant_id, [])
+                                                                                   [])
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
@@ -78,7 +77,6 @@ def test_register_application_agent_credential_jwk_empty():
     assert client is not None
 
     application_agent_id = data.get_application_agent_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = str(int(time.time()))
     jwk = None
     t = datetime.now().timestamp()
@@ -91,7 +89,7 @@ def test_register_application_agent_credential_jwk_empty():
     application_agent_credential = client.register_application_agent_credential_jwk(application_agent_id,
                                                                                     "automation-"+right_now, jwk,
                                                                                     expire_time_in_seconds,
-                                                                                    default_tenant_id, [])
+                                                                                    [])
 
     assert application_agent_credential is None
 
@@ -101,7 +99,6 @@ def test_register_application_agent_credential_jwk_exception(capsys):
     assert client is not None
 
     application_agent_id = data.get_application_agent_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = str(int(time.time()))
     jwk = None
     t = datetime.now().timestamp()
@@ -110,7 +107,7 @@ def test_register_application_agent_credential_jwk_exception(capsys):
     application_agent_credential = client.register_application_agent_credential_jwk(application_agent_id,
                                                                                     "automation-"+right_now, "automation",
                                                                                     expire_time_in_seconds,
-                                                                                    default_tenant_id, [])
+                                                                                   [])
 
     captured = capsys.readouterr()
     assert "expected bytes, str found" in captured.err
@@ -121,7 +118,6 @@ def test_register_application_agent_credential_pem_success(capsys):
     assert client is not None
 
     application_agent_id = data.get_application_agent_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = str(int(time.time()))
     pem = None
     t = datetime.now().timestamp()
@@ -130,7 +126,7 @@ def test_register_application_agent_credential_pem_success(capsys):
     application_agent_credential = client.register_application_agent_credential_pem(application_agent_id,
                                                                                     "automation-"+right_now, pem,
                                                                                     expire_time_in_seconds,
-                                                                                    default_tenant_id, [])
+                                                                                   [])
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
@@ -147,7 +143,6 @@ def test_register_application_agent_credential_pem_empty():
     assert client is not None
 
     application_agent_id = data.get_application_agent_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = str(int(time.time()))
     pem = None
     t = datetime.now().timestamp()
@@ -160,7 +155,7 @@ def test_register_application_agent_credential_pem_empty():
     application_agent_credential = client.register_application_agent_credential_pem(application_agent_id,
                                                                                     "automation-"+right_now, pem,
                                                                                     expire_time_in_seconds,
-                                                                                    default_tenant_id, [])
+                                                                                   [])
 
     assert application_agent_credential is None
 
@@ -170,7 +165,6 @@ def test_register_application_agent_credential_pem_exception(capsys):
     assert client is not None
 
     application_agent_id = data.get_application_agent_id()
-    default_tenant_id = data.get_tenant_id()
     right_now = str(int(time.time()))
     pem = "automation"
     t = datetime.now().timestamp()
@@ -179,7 +173,7 @@ def test_register_application_agent_credential_pem_exception(capsys):
     application_agent_credential = client.register_application_agent_credential_pem(application_agent_id,
                                                                                     "automation-"+right_now, pem,
                                                                                     expire_time_in_seconds,
-                                                                                    default_tenant_id, [])
+                                                                                   [])
 
     captured = capsys.readouterr()
     assert "expected bytes, str found" in captured.err

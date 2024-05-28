@@ -6,13 +6,13 @@ from indykite_sdk.utils.message_to_value import arg_to_value
 import indykite_sdk.utils.logger as logger
 
 
-def grant_consent(self, user, consent_id, revoke_after_use=False):
+def grant_consent(self, user, consent_id, validity_period):
     """
     create consent
     :param self:
     :param user: dictionary
     :param consent_id: string GID id of consent config node
-    :param revoke_after_use: boolean
+    :param validity_period: int seconds between 1 day and 2 years
     :return: GrantConsentResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -22,7 +22,7 @@ def grant_consent(self, user, consent_id, revoke_after_use=False):
             pb2.GrantConsentRequest(
                 user=user_obj,
                 consent_id=consent_id,
-                revoke_after_use=revoke_after_use
+                validity_period=int(validity_period)
             )
         )
         if not response:

@@ -57,6 +57,106 @@ class IngestRecordResponse:
         self.info = None
 
 
+class BatchUpsertNodesResponse:
+    @classmethod
+    def deserialize(cls, message):
+        if message is None:
+            return None
+        fields = [desc.name for desc, val in message.ListFields()]
+        if "results" in fields:
+            batch_response = BatchUpsertNodesResponse([])
+            results = Results.deserialize(message.results)
+            batch_response.results = results
+            return batch_response
+        return None
+
+    def __init__(self, results=[]):
+        self.results = None
+
+
+class BatchDeleteNodesResponse:
+    @classmethod
+    def deserialize(cls, message):
+        if message is None:
+            return None
+        fields = [desc.name for desc, val in message.ListFields()]
+        if "results" in fields:
+            batch_response = BatchDeleteNodesResponse([])
+            results = Results.deserialize(message.results)
+            batch_response.results = results
+            return batch_response
+        return None
+
+    def __init__(self, results=[]):
+        self.results = None
+
+
+class BatchDeleteNodePropertiesResponse:
+    @classmethod
+    def deserialize(cls, message):
+        if message is None:
+            return None
+        fields = [desc.name for desc, val in message.ListFields()]
+        batch_response = BatchDeleteNodePropertiesResponse([])
+        if "results" in fields:
+            results = Results.deserialize(message.results)
+            batch_response.results = results
+        return batch_response
+
+    def __init__(self, results=[]):
+        self.results = None
+
+
+class BatchUpsertRelationshipsResponse:
+    @classmethod
+    def deserialize(cls, message):
+        if message is None:
+            return None
+        fields = [desc.name for desc, val in message.ListFields()]
+        batch_response = BatchUpsertRelationshipsResponse([])
+        if "results" in fields:
+            results = Results.deserialize(message.results)
+            batch_response.results = results
+        return batch_response
+
+    def __init__(self, results=[]):
+        self.results = None
+
+
+class BatchDeleteRelationshipsResponse:
+    @classmethod
+    def deserialize(cls, message):
+        if message is None:
+            return None
+        fields = [desc.name for desc, val in message.ListFields()]
+        if "results" in fields:
+            batch_response = BatchDeleteRelationshipsResponse([])
+            results = Results.deserialize(message.results)
+            batch_response.results = results
+            return batch_response
+        return None
+
+    def __init__(self, results=[]):
+        self.results = None
+
+
+class BatchDeleteRelationshipPropertiesResponse:
+    @classmethod
+    def deserialize(cls, message):
+        if message is None:
+            return None
+        fields = [desc.name for desc, val in message.ListFields()]
+        if "results" in fields:
+            batch_response = BatchDeleteRelationshipPropertiesResponse([])
+            results = Results.deserialize(message.results)
+            batch_response.results = results
+            return batch_response
+        return None
+
+    def __init__(self, results=[]):
+        self.results = None
+
+
 class Change:
     @classmethod
     def deserialize(cls, message):
@@ -87,3 +187,19 @@ class Info:
 
     def __init__(self, changes=[]):
         self.changes = changes
+
+
+class Results:
+    def __init__(self, results=[]):
+        self.results = results
+
+    @classmethod
+    def deserialize(cls, results):
+        res = []
+        for r in results:
+            info = Info.deserialize(r)
+            changes = []
+            if info.changes:
+                changes = list(map(Change.deserialize, info.changes))
+            res.append(changes)
+        return res

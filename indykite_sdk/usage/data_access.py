@@ -79,10 +79,10 @@ def main():
         client_tda = DataAccessClient()
         user_id = args.user_id
         consent_id = args.consent_id
-        revoke_after_use = False
+        validity_period = 86400
         user = {"user_id": user_id}
         print(user)
-        response = client_tda.grant_consent(user, consent_id, revoke_after_use)
+        response = client_tda.grant_consent(user, consent_id, validity_period)
         print(response)
         client_tda.channel.close()
 
@@ -97,10 +97,10 @@ def main():
         external_id = args.external_id
         type = args.type
         consent_id = args.consent_id
-        revoke_after_use = False
+        validity_period = 86400
         user = {"external_id": {"external_id": external_id, "type": type}}
         print(user)
-        response = client_tda.grant_consent(user, consent_id, revoke_after_use)
+        response = client_tda.grant_consent(user, consent_id, validity_period)
         print(response)
         client_tda.channel.close()
 
@@ -115,10 +115,10 @@ def main():
         type = args.type
         value = args.value
         consent_id = args.consent_id
-        revoke_after_use = False
+        validity_period = 86400
         user = {"property": {"type": type, "value": value}}
         print(user)
-        response = client_tda.grant_consent(user, consent_id, revoke_after_use)
+        response = client_tda.grant_consent(user, consent_id, validity_period)
         print(response)
         client_tda.channel.close()
 

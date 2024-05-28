@@ -818,8 +818,10 @@ def main():
         # replace the json file by your own
         consent_config = ConfigClient().consent_config(
             purpose="Taking control",
-            data_points={"lastname", "firstname", "email"},
-            application_id=application_id
+            data_points={"last_name", "first_name", "email"},
+            application_id=application_id,
+            validity_period=86400,
+            revoke_after_use=False
         )
         create_consent_config_node_response = client_config.create_consent_config_node(
             location,
@@ -849,7 +851,9 @@ def main():
         consent_config = ConfigClient().consent_config(
             purpose="Taking control",
             data_points={"lastname", "firstname", "email"},
-            application_id=application_id
+            application_id=application_id,
+            validity_period=86400,
+            revoke_after_use=False
         )
 
         update_consent_config_node_response = client_config.update_consent_config_node(

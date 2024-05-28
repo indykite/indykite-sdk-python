@@ -386,6 +386,8 @@ def get_consent_config():
     consent_config = ConfigClient().consent_config(
         purpose = "Taking control",
         data_points = {"lastname", "firstname", "email"},
-        application_id = get_application_id()
+        application_id = get_application_id(),
+        validity_period = 86400,
+        revoke_after_use = False
     )
     return consent_config

@@ -16,16 +16,17 @@ class ConsentConfiguration:
         consent_config = ConsentConfiguration(
             purpose=str(message_config.purpose),
             data_points=data_points,
-            application_id=str(message_config.application_id)
+            application_id=str(message_config.application_id),
+            validity_period=int(message_config.validity_period),
+            revoke_after_use=message_config.revoke_after_use
         )
 
         return consent_config
 
-    def __init__(self, purpose, data_points, application_id):
+    def __init__(self, purpose, data_points, application_id, validity_period, revoke_after_use=False):
 
         self.purpose = purpose
         self.data_points = data_points
         self.application_id = application_id
-
-
-
+        self.validity_period = validity_period
+        self.revoke_after_use = revoke_after_use

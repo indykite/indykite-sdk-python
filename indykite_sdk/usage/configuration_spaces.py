@@ -223,7 +223,6 @@ def main():
     register_application_agent_credential_jwk_parser.add_argument("application_agent_id",
                                                                   help="Application agent credential id")
     register_application_agent_credential_jwk_parser.add_argument("display_name", help="Display name")
-    register_application_agent_credential_jwk_parser.add_argument("default_tenant_id", help="Default tenant id")
 
     # register_application_agent_credential_pem
     register_application_agent_credential_pem_parser = subparsers.add_parser(
@@ -231,7 +230,6 @@ def main():
     register_application_agent_credential_pem_parser.add_argument("application_agent_id",
                                                                   help="Application agent credential id")
     register_application_agent_credential_pem_parser.add_argument("display_name", help="Display name")
-    register_application_agent_credential_pem_parser.add_argument("default_tenant_id", help="Default tenant id")
 
     # delete_application_agent_credential
     delete_application_agent_credential_parser = subparsers.add_parser("delete_application_agent_credential")
@@ -884,17 +882,15 @@ def main():
         client_config = ConfigClient()
         application_agent_id = args.application_agent_id
         display_name = args.display_name
-        default_tenant_id = args.default_tenant_id
         jwk = None  # or replace by your JWK public key
         t = datetime.now().timestamp()
-        expire_time_in_seconds = int(t) + 2678400  # now + one month example
+        expire_time_in_seconds = int(t) + 31536000  # now + one year example
         bookmark = []  # or value returned by last write operation
         application_agent_credential_response = client_config.register_application_agent_credential_jwk(
             application_agent_id,
             display_name,
             jwk,
             expire_time_in_seconds,
-            default_tenant_id,
             bookmark
         )
         if application_agent_credential_response:
@@ -909,7 +905,6 @@ def main():
         client_config = ConfigClient()
         application_agent_id = args.application_agent_id
         display_name = args.display_name
-        default_tenant_id = args.default_tenant_id
         pem = None  # or replace by your pem public certificate
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400  # now + one month example
@@ -919,7 +914,6 @@ def main():
             display_name,
             pem,
             expire_time_in_seconds,
-            default_tenant_id,
             bookmark
         )
         if application_agent_credential_response:
