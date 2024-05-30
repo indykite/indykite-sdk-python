@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.43.0](https://github.com/indykite/indykite-sdk-python/compare/v1.42.0...v1.43.0) (2024-05-30)
+
+
+### Features
+
+* add batch ingest endpoints ([37d8264](https://github.com/indykite/indykite-sdk-python/commit/37d8264d3e5345e512c12a6f8122b14ec86e498d))
+
 ## [1.42.0](https://github.com/indykite/indykite-sdk-python/compare/v1.41.2...v1.42.0) (2024-05-21)
 
 
