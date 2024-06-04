@@ -19,7 +19,6 @@ def create_app_with_agent_credentials(body: ApplicationWithAgentCredentialsCreat
     client_config = ConfigClient()
     app_with_agent_credentials = client_config.create_application_with_agent_credentials(
         body.app_space_id,
-        body.tenant_id,
         body.application_name,
         body.application_agent_name,
         body.application_agent_credentials_name,
@@ -49,15 +48,12 @@ def new_app_with_agent_credentials():
 @api.post("/new")
 def new_app_with_agent_credentials_post():
     app_space_id = request.form['app_space_id']
-    tenant_id = request.form['tenant_id']
     application_name = request.form['application_name']
     application_agent_name = request.form['application_agent_name']
     application_agent_credentials_name = request.form['application_agent_credentials_name']
 
     if not app_space_id:
         flash('AppSpace id is required!')
-    elif not tenant_id:
-        flash('Tenant id is required!')
     elif not application_name:
         flash('Application name is required!')
     elif not application_agent_name:
@@ -68,7 +64,6 @@ def new_app_with_agent_credentials_post():
         client_config = ConfigClient()
         app_with_agent_credentials = client_config.create_application_with_agent_credentials(
             app_space_id,
-            tenant_id,
             application_name,
             application_agent_name,
             application_agent_credentials_name,

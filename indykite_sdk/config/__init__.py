@@ -16,15 +16,11 @@ class ConfigClient(object):
             return logger_error(exception)
 
     # Imported methods
-    from .customer import read_customer_by_id, read_customer_by_name, read_customer_config, update_customer_config, \
-        create_customer_config
+    from .customer import read_customer_by_id, read_customer_by_name
     from .service_account import read_service_account, read_service_account_by_name, create_service_account, \
         update_service_account, delete_service_account
     from .app_space import read_app_space_by_id, read_app_space_by_name, create_app_space, update_app_space, \
-        list_app_spaces, delete_app_space, read_app_space_config, update_app_space_config, create_app_space_config, \
-        unique_property_constraints
-    from .tenant import read_tenant_by_id, read_tenant_by_name, create_tenant, update_tenant, list_tenants, \
-        delete_tenant, create_tenant_config, update_tenant_config, read_tenant_config
+        list_app_spaces, delete_app_space
     from .application import read_application_by_id, read_application_by_name, create_application, update_application, \
         list_applications, delete_application
     from .application_agent import read_application_agent_by_id, read_application_agent_by_name, \
@@ -45,9 +41,5 @@ class ConfigClient(object):
         validate_user_verification, validate_conveyance, authorization_policy_config, webauthn_provider_config, \
         auth_flow_config, list_config_node_versions, \
         consent_config, create_consent_config_node, update_consent_config_node, validate_data_points
-    from .oauth2_provider import create_oauth2_provider, read_oauth2_provider, update_oauth2_provider, \
-        delete_oauth2_provider
-    from .oauth2_application import create_oauth2_application, read_oauth2_application, update_oauth2_application, \
-        delete_oauth2_application
     from .create_application_with_agent_credentials import create_application_with_agent_credentials
     from .username_policy import username_policy

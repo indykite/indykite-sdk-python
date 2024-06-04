@@ -21,11 +21,9 @@ With the information given in the following credential files and eventually a us
 The following scripts from the usage folder give an example for each function.
 - Configuration service spaces [configuration_spaces.py](usage/configuration_spaces.py)
 - Configuration service config nodes [configuration_config_nodes.py](usage/configuration_config_nodes.py)
-- Identity service [identity.py](usage/identity.py)
 - Ingest service [ingest.py](usage/ingest.py)
 - Knowledge service [knowledge.py](usage/knowledge.py)
 - Authorization service [authorization.py](usage/authorization.py)
-- HTTP service [http.py](usage/httpo.py)
 
 ## Running the sdk with the scripts in the "usage" folder: examples for each function
 
@@ -79,58 +77,6 @@ To call one command in the **usage** directory, check the **command** and the co
 ```shell
 python3 configuration_spaces.py COMMAND arg1 arg2 ...
 ```    
-
-
-### Connect to the Identity service
-To be able to connect to the identity service, you need to have AppAgent credentials generated from the Config service with the service account credentials or in the Hub (https://console.indykite.id/)
-
-Once you have obtained your credentials, you have two choices to set up the necessary credentials. You either pass the json with the credentials to the `INDYKITE_APPLICATION_CREDENTIALS`
-environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environment variable to the configuration file's path.
-
-The Identity service provides functions to introspect tokens, manage consent and invitations.
-
-Each time you want to use an identity method, you need to set up an identity client.
-
-**Example:**
-
-Here is a very simple example to open and close a connection to the Identity service with an arguments' parser used in the identity.py script.
-
-```python
-from indykite_sdk.identity import IdentityClient
-import argparse
-
-    # Create parent parser
-    parser = argparse.ArgumentParser(description="Identity client API.")
-    subparsers = parser.add_subparsers(dest="command", help="sub-command help")
-
-    # Create child parsers
-    # INTROSPECT
-    introspect_parser = subparsers.add_parser("introspect")
-    introspect_parser.add_argument("user_token", help="JWT bearer token")
-  
-    # call arguments
-    args = parser.parse_args()
-    command = args.command
-    
-    # call method
-    if command == "introspect":
-        # token_introspect method: to get info on a user token
-        client = IdentityClient()
-        user_token = args.user_token
-        token_info = client.token_introspect(user_token)
-        if token_info is not None:
-            api_helper.print_response(token_info)
-        else:
-            print("Invalid token")
-        client.channel.close()
-        
-
-```
-To call one command in the **usage** directory, check the **command** and the corresponding **arguments** in the list then execute in command line:
-```shell
-python3 identity.py COMMAND arg1 arg2 ...
-```    
-
 
 
 ### Connect to the Authorization service

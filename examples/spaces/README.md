@@ -1,5 +1,5 @@
 # IndyKite Python SDK spaces example
-Create an AppSpace, a tenant, an application, an application agent and get application agent credentials
+Create an AppSpace, an application, an application agent and get application agent credentials
 
 ## Requirements
 

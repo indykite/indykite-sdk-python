@@ -75,7 +75,7 @@ def test_is_authorized_identity_node_wrong_identity_node(capsys):
     client = AuthorizationClient()
     assert client is not None
 
-    identity_node_id = data.get_tenant_email()
+    identity_node_id = data.get_email_token()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                  IsAuthorizedResource("resource2ID", "TypeName", actions)]
@@ -104,7 +104,6 @@ def test_is_authorized_identity_node_empty():
     assert client is not None
 
     identity_node_id = data.get_identity_node()
-    tenant_id = data.get_tenant()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions), IsAuthorizedResource("resource2ID", "TypeName", actions)]
     input_params = {}

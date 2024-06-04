@@ -5,13 +5,6 @@ from uuid import UUID
 from google.protobuf.json_format import MessageToJson
 
 
-def print_verify_info(digital_twin_info):  # pragma: no cover
-    print("Digital twin info")
-    print("=================")
-    print("Tenant: " + str(UUID(bytes=digital_twin_info.digital_twin.tenant_id)))
-    print("Digital twin: " + str(UUID(bytes=digital_twin_info.digital_twin.id)))
-
-
 def print_credential(credential):  # pragma: no cover
     print("Credential")
     print("==========")
@@ -24,17 +17,6 @@ def print_credential(credential):  # pragma: no cover
     print("Bookmark: " + str(credential.bookmark))
     print("Create time: " + str(credential.create_time))
     print("Expire time: " + str(credential.expire_time))
-
-
-def print_token_info(token_info):  # pragma: no cover
-    print("Token info")
-    print("==========")
-    print("Tenant: " + str(UUID(bytes=token_info.tenant_id)))
-    print("Customer: " + str(UUID(bytes=token_info.customer_id)))
-    print("App space: " + str(UUID(bytes=token_info.app_space_id)))
-    print("Application: " + str(UUID(bytes=token_info.application_id)))
-    print("Subject: " + str(UUID(bytes=token_info.subject_id)))
-    print("Expire time: " + str(datetime.fromtimestamp(token_info.expire_time.seconds)))
 
 
 def print_response(resp):  # pragma: no cover

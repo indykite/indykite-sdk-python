@@ -22,10 +22,8 @@ def init_exception(app: OpenAPI):
 
 def register_apis(app: OpenAPI):
     from app.api.app_space import api as app_space_api
-    from app.api.tenant import api as tenant_api
     from app.api.app_with_agent_credentials import api as app_with_agent_credentials_api
     app.register_api(app_space_api)
-    app.register_api(tenant_api)
     app.register_api(app_with_agent_credentials_api)
 
 

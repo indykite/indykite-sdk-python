@@ -1,18 +1,17 @@
 {
-  "meta": {
-    "policyVersion": "1.0-indykite"
-  },
-  "subject": {
-    "type": "Person"
-  },
-  "actions": [
-    "CAN_DRIVE"
-  ],
-  "resource": {
-    "type": "Car"
-  },
-  "condition": {
-    "cypher": "MATCH (subject:Person)-[:OWNS]->(resource:Car{color:$color})",
-    "inputParams": ["color"]
-  }
+    "meta": {
+        "policyVersion": "1.0-indykite"
+    },
+    "subject": {
+        "type": "Person"
+    },
+    "actions": [
+        "SUBSCRIBES_TO"
+    ],
+    "resource": {
+        "type": "Asset"
+    },
+    "condition": {
+        "cypher": "MATCH (subject:Person)-[:BELONGS_TO]->(:Organization)-[:IS_ON]->(s:Subscription) MATCH (s)-[:OFFERS]->(:Service) MATCH (s)-[:COVERS]->(resource:Asset) WITH subject, resource"
+    }
 }
