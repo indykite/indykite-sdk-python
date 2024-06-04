@@ -7,7 +7,6 @@ import time
 from datetime import datetime
 import logging
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.model.tenant import Tenant
 from indykite_sdk import api_helper
 
 
@@ -88,60 +87,6 @@ def main():
     delete_app_space_parser = subparsers.add_parser("delete_app_space")
     delete_app_space_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     delete_app_space_parser.add_argument("etag", nargs='?', help="Optional Etag")
-
-    # read_app_space_config
-    read_app_space_config_parser = subparsers.add_parser("read_app_space_config")
-    read_app_space_config_parser.add_argument("app_space_id", help="AppSpace gid id")
-
-    # update_app_space_config
-    update_app_space_config_parser = subparsers.add_parser("update_app_space_config")
-    update_app_space_config_parser.add_argument("app_space_id", help="AppSpace gid id")
-    update_app_space_config_parser.add_argument("etag", help="Etag")
-    update_app_space_config_parser.add_argument("tenant_id", help="Tenant default gid id")
-    update_app_space_config_parser.add_argument("default_auth_flow_id", help="Default auth flow gid id")
-
-    # tenant_id
-    tenant_id_parser = subparsers.add_parser("tenant_id")
-    tenant_id_parser.add_argument("tenant_id", help="Tenant id (gid)")
-
-    # tenant_name
-    tenant_name_parser = subparsers.add_parser("tenant_name")
-    tenant_name_parser.add_argument("tenant_name", help="Tenant name (not display name)")
-    tenant_name_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
-
-    # create_tenant
-    create_tenant_parser = subparsers.add_parser("create_tenant")
-    create_tenant_parser.add_argument("issuer_id", help="Issuer Id (gid)")
-    create_tenant_parser.add_argument("tenant_name", help="Tenant name (not display name)")
-    create_tenant_parser.add_argument("display_name", help="Display Name")
-
-    # update_tenant
-    update_tenant_parser = subparsers.add_parser("update_tenant")
-    update_tenant_parser.add_argument("tenant_id", help="Tenant Id")
-    update_tenant_parser.add_argument("etag", help="Etag")
-    update_tenant_parser.add_argument("display_name", help="Display Name")
-
-    # list_tenants
-    list_tenants_parser = subparsers.add_parser("list_tenants")
-    list_tenants_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
-    list_tenants_parser.add_argument("match_list", help="Matching names separated by ,",
-                                     type=lambda s: [str(item) for item in s.split(',')])
-    list_tenants_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
-
-    # delete_tenant
-    delete_tenant_parser = subparsers.add_parser("delete_tenant")
-    delete_tenant_parser.add_argument("tenant_id", help="Tenant Id")
-    delete_tenant_parser.add_argument("etag", nargs='?', help="Optional Etag")
-
-    # read_tenant_config
-    read_tenant_config_parser = subparsers.add_parser("read_tenant_config")
-    read_tenant_config_parser.add_argument("tenant_id", help="Tenant gid id")
-
-    # update_tenant_config
-    update_tenant_config_parser = subparsers.add_parser("update_tenant_config")
-    update_tenant_config_parser.add_argument("tenant_id", help="Tenant gid id")
-    update_tenant_config_parser.add_argument("etag", help="Etag")
-    update_tenant_config_parser.add_argument("default_auth_flow_id", help="Default auth flow gid id")
 
     # application_id
     application_id_parser = subparsers.add_parser("application_id")
@@ -241,7 +186,6 @@ def main():
     create_application_with_agent_credentials_parser = subparsers.add_parser(
         "create_application_with_agent_credentials")
     create_application_with_agent_credentials_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
-    create_application_with_agent_credentials_parser.add_argument("tenant_id", help="Tenant Id (gid)")
     create_application_with_agent_credentials_parser.add_argument("application_name", help="Application name")
     create_application_with_agent_credentials_parser.add_argument("application_agent_name",
                                                                   help="Application Agent Name")
@@ -502,170 +446,6 @@ def main():
             print("Invalid delete_app_space_response response")
         client_config.channel.close()
         return delete_app_space_response
-
-    elif command == "read_app_space_config":
-        # read_app_space_config method: to get appSpace config  info from appSpace gid id
-        client_config = ConfigClient()
-        bookmark = []  # or value returned by last write operation
-        app_space_config = client_config.read_app_space_config(args.app_space_id, bookmark)
-        if app_space_config:
-            api_helper.print_response(app_space_config)
-        else:
-            print("None")
-        client_config.channel.close()
-
-    elif command == "update_app_space_config":
-        # update_app_space_config method: to update appSpace config info with new info
-        client_config = ConfigClient()
-        app_space_id = args.app_space_id
-        etag = args.etag
-        tenant_id = args.tenant_id
-        default_auth_flow_id = args.default_auth_flow_id
-        bookmark = []  # or value returned by last write operation
-        app_space_config = client_config.create_app_space_config(
-            default_tenant_id=tenant_id,
-            default_auth_flow_id=default_auth_flow_id,
-            default_email_service_id=None,
-            unique_property_constraints={"constraint": client_config.unique_property_constraints(
-                tenant_unique=True,
-                canonicalization=["unicode", "case-insensitive"])},
-            username_policy=client_config.username_policy(
-                allowed_username_formats=["email", "mobile", "username"],
-                valid_email=False,
-                verify_email=False
-            )
-        )
-        app_space_config_response = client_config.update_app_space_config(app_space_id, etag, app_space_config,
-                                                                          bookmark)
-        if app_space_config_response:
-            api_helper.print_response(app_space_config_response)
-        else:
-            print("None")
-        client_config.channel.close()
-        return app_space_config_response
-
-    elif command == "tenant_id":
-        # tenant_id method: to get tenant info from tenant gid id
-        client_config = ConfigClient()
-        tenant_id = args.tenant_id
-        tenant = client_config.read_tenant_by_id(tenant_id)
-        logger = logging.getLogger()
-        if tenant and isinstance(tenant, Tenant):
-            api_helper.print_response(tenant)
-        else:
-            print("Invalid tenant id")
-        client_config.channel.close()
-
-    elif command == "tenant_name":
-        # tenant_name method: to get tenant info from tenant name and appSpace gid id
-        client_config = ConfigClient()
-        tenant_name = args.tenant_name
-        app_space_id = args.app_space_id
-        tenant = client_config.read_tenant_by_name(app_space_id, tenant_name)
-        if tenant:
-            api_helper.print_response(tenant)
-        else:
-            print("Invalid tenant name")
-        client_config.channel.close()
-
-    elif command == "create_tenant":
-        # create_tenant method: to create tenant from tenant info
-        client_config = ConfigClient()
-        tenant_name = args.tenant_name
-        issuer_id = args.issuer_id
-        display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
-        tenant_response = client_config.create_tenant(issuer_id, tenant_name, display_name, "description", bookmark)
-        if tenant_response:
-            api_helper.print_response(tenant_response)
-        else:
-            print("Invalid tenant response")
-        client_config.channel.close()
-        return tenant_response
-
-    elif command == "update_tenant":
-        # update_tenant method: to update tenant info
-        client_config = ConfigClient()
-        tenant_id = args.tenant_id
-        etag = args.etag
-        display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
-        tenant_response = client_config.update_tenant(tenant_id, etag, display_name, "description update", bookmark)
-        if tenant_response:
-            api_helper.print_response(tenant_response)
-        else:
-            print("Invalid tenant response")
-        client_config.channel.close()
-        return tenant_response
-
-    elif command == "list_tenants":
-        # list_tenants method: to get list of all tenants
-        client_config = ConfigClient()
-        app_space_id = args.app_space_id
-        match_list = args.match_list
-        if args.bookmark:
-            bookmark = args.bookmark
-        else:
-            bookmark = []
-        list_tenants_response = client_config.list_tenants(app_space_id, match_list, bookmark)
-        if list_tenants_response:
-            for tenant in list_tenants_response:
-                api_helper.print_response(tenant)
-        else:
-            print("Invalid list_tenants response")
-        client_config.channel.close()
-        return list_tenants_response
-
-    elif command == "delete_tenant":
-        # delete_tenant method: to delete tenant info and info below it
-        client_config = ConfigClient()
-        tenant_id = args.tenant_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
-        bookmark = []  # or value returned by last write operation
-        delete_tenant_response = client_config.delete_tenant(tenant_id, etag, bookmark)
-        if delete_tenant_response:
-            print(delete_tenant_response)
-        else:
-            print("Invalid delete_tenant_response response")
-        client_config.channel.close()
-        return delete_tenant_response
-
-    elif command == "read_tenant_config":
-        # read_tenant_config method: to get tenant config  info from tenant gid id
-        client_config = ConfigClient()
-        bookmark = []  # or value returned by last write operation
-        tenant_config = client_config.read_tenant_config(args.tenant_id, bookmark)
-        if tenant_config:
-            api_helper.print_response(tenant_config)
-        else:
-            print("None")
-
-    elif command == "update_tenant_config":
-        # update_tenant_config method: to update tenant config info
-        client_config = ConfigClient()
-        tenant_id = args.tenant_id
-        etag = args.etag
-        default_auth_flow_id = args.default_auth_flow_id
-        bookmark = []  # or value returned by last write operation
-        tenant_config = client_config.create_tenant_config(
-            default_auth_flow_id=default_auth_flow_id,
-            default_email_service_id=None,
-            username_policy=client_config.username_policy(
-                allowed_username_formats=["email", "mobile", "username"],
-                valid_email=False,
-                verify_email=False
-            )
-        )
-        tenant_config_response = client_config.update_tenant_config(tenant_id, etag, tenant_config, bookmark)
-        if tenant_config_response:
-            api_helper.print_response(tenant_config_response)
-        else:
-            print("None")
-        client_config.channel.close()
-        return tenant_config_response
 
     elif command == "application_id":
         # application_id method: to get application info from application gid id
@@ -957,7 +737,6 @@ def main():
         public_key_encoded = json.dumps(public_key, indent=2).encode('utf-8')
         create_application_with_agent_credentials_response = client_config.create_application_with_agent_credentials(
             args.app_space_id,
-            args.tenant_id,
             args.application_name,
             args.application_agent_name,
             args.application_agent_credentials_name,

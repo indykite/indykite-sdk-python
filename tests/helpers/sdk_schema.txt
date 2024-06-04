@@ -1,7 +1,6 @@
 type Vehicle implements DigitalTwin {
       externalId: String!
       digitalTwinId: String!
-      tenantId: String!
       kind: DigitalTwinKind!
       tags: [String!]!
       fuelType: String!
@@ -24,7 +23,6 @@ type ServiceLog implements Resource {
 type Person implements DigitalTwin {
     externalId: String!
     digitalTwinId: String!
-    tenantId: String!
     kind: DigitalTwinKind!
     tags: [String!]!
     email: IdentityProperty @identityProperty

@@ -22,7 +22,7 @@
     <div class="container">
       <div class="row vertical-align">
         <div class="col-12">
-            Create an AppSpace, a tenant, an application, an application agent and get application agent credentials
+            Create an AppSpace, an application, an application agent and get application agent credentials
         </div>
       </div>
       <div class="row wow slideInUp">
@@ -53,18 +53,6 @@
                   {% if session['app_space_by_id'] %}
                   <div>AppSpace object:</div>
                   {{ session['app_space_by_id'] }}
-                  <br>
-                  {% endif %}
-                {% endif %}
-              </li>
-               <li><a href="/api/v1/tenant/new">Create a Tenant</a>
-                {% if session['tenant'] %}
-                <div>Result Tenant creation:</div>
-                {{ session['tenant'] }}
-                 <br>
-                  {% if session['tenant_by_id'] %}
-                  <div>Tenant object:</div>
-                  {{ session['tenant_by_id'] }}
                   <br>
                   {% endif %}
                 {% endif %}

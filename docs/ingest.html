@@ -10,7 +10,7 @@
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
+
         <script src="_static/jquery.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -19,17 +19,17 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="authorization package" href="authorization.html" /> 
+    <link rel="prev" title="authorization package" href="authorization.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
 
-          
-          
+
+
           <a href="index.html" class="icon icon-home">
             docs
           </a>
@@ -43,7 +43,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="identity.html">identity package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authorization.html">authorization package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ingest package</a><ul>
@@ -121,7 +120,7 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <section id="ingest-package">
 <h1>ingest package<a class="headerlink" href="#ingest-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
@@ -279,13 +278,12 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ingest.ingest_record.upsert_data_node_digital_twin">
-<span class="sig-prename descclassname"><span class="pre">ingest.ingest_record.</span></span><span class="sig-name descname"><span class="pre">upsert_data_node_digital_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identity_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ingest/ingest_record.html#upsert_data_node_digital_twin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ingest.ingest_record.upsert_data_node_digital_twin" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">ingest.ingest_record.</span></span><span class="sig-name descname"><span class="pre">upsert_data_node_digital_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identity_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ingest/ingest_record.html#upsert_data_node_digital_twin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ingest.ingest_record.upsert_data_node_digital_twin" title="Permalink to this definition"></a></dt>
 <dd><p>upsertData with digital twin
 :param self:
 :param external_id: id for client ref
 :param type:
 :param tags:
-:param tenant_id: tenant id of the DT
 :param identity_properties: List of IdentityProperty objects max 10
 :param properties: List of Property objects max 10
 :return: UpsertData object</p>
@@ -460,13 +458,12 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ingest.IngestClient.upsert_data_node_digital_twin">
-<span class="sig-name descname"><span class="pre">upsert_data_node_digital_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">external_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identity_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ingest.IngestClient.upsert_data_node_digital_twin" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">upsert_data_node_digital_twin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">external_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identity_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ingest.IngestClient.upsert_data_node_digital_twin" title="Permalink to this definition"></a></dt>
 <dd><p>upsertData with digital twin
 :param self:
 :param external_id: id for client ref
 :param type:
 :param tags:
-:param tenant_id: tenant id of the DT
 :param identity_properties: List of IdentityProperty objects max 10
 :param properties: List of Property objects max 10
 :return: UpsertData object</p>
@@ -515,7 +512,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -526,7 +523,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>
