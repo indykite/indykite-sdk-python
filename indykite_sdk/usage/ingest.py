@@ -61,11 +61,11 @@ def main():
         # type of node
         type = "Person"
         # properties
-        ingest_property1 = client_ingest.ingest_property("first_name", "blicken")
+        ingest_property1 = client_ingest.ingest_property("first_name", "barry")
         ingest_property2 = client_ingest.ingest_property("last_name", "grumpy")
         ingest_property3 = client_ingest.ingest_property("birthdate", "20 Sep, 1977")
         ingest_property4 = client_ingest.ingest_property("role", "Employee")
-        ingest_property5 = client_ingest.ingest_property("email", "blicken@yahoo.uk")
+        ingest_property5 = client_ingest.ingest_property("email", "barry@yahoo.uk")
         properties = [ingest_property1, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
         upsert = client_ingest.upsert_data_node(

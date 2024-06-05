@@ -31,15 +31,11 @@ class ConfigClient(object):
         delete_application_agent_credential
     from .service_account_credential import read_service_account_credential, register_service_account_credential_jwk, \
         register_service_account_credential_pem, delete_service_account_credential
-    from .config_node import create_email_service_config_node, read_config_node, \
-        update_email_service_config_node, delete_config_node, create_auth_flow_config_node, \
-        update_auth_flow_config_node, \
-        create_oauth2_client_config_node, update_oauth2_client_config_node, \
-        create_webauthn_provider_config_node, update_webauthn_provider_config_node, \
-        create_authorization_policy_config_node, update_authorization_policy_config_node, \
-        validate_authenticator_attachment, validate_authorization_policy_status, \
-        validate_user_verification, validate_conveyance, authorization_policy_config, webauthn_provider_config, \
-        auth_flow_config, list_config_node_versions, \
-        consent_config, create_consent_config_node, update_consent_config_node, validate_data_points
+    from .config_node import (read_config_node, delete_config_node,
+                              create_authorization_policy_config_node, update_authorization_policy_config_node,
+                              validate_authorization_policy_status, validate_conveyance,
+                              authorization_policy_config, list_config_node_versions,
+                              consent_config, create_consent_config_node,
+                              update_consent_config_node, validate_data_points)
     from .create_application_with_agent_credentials import create_application_with_agent_credentials
     from .username_policy import username_policy
