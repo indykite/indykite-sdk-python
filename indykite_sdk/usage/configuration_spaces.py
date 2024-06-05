@@ -42,16 +42,6 @@ def main():
     customer_name_token_parser = subparsers.add_parser("customer_name_token")
     customer_name_token_parser.add_argument("customer_name", help="Customer name (not display name)")
 
-    # read_customer_config
-    read_customer_config_parser = subparsers.add_parser("read_customer_config")
-    read_customer_config_parser.add_argument("customer_id", help="Customer gid id")
-
-    # update_customer_config
-    update_customer_config_parser = subparsers.add_parser("update_customer_config")
-    update_customer_config_parser.add_argument("customer_id", help="Customer gid id")
-    update_customer_config_parser.add_argument("etag", help="Etag")
-    update_customer_config_parser.add_argument("default_auth_flow_id", help="Default auth flow gid id")
-
     # service_account
     service_account_parser = subparsers.add_parser("service_account")
 
@@ -307,34 +297,6 @@ def main():
         else:
             print("Invalid customer id")
         client_config.channel.close()
-
-    elif command == "read_customer_config":
-        # read_customer_config method: to get customer config  info from customer gid id
-        client_config = ConfigClient()
-        bookmark = []  # or value returned by last write operation
-        customer_config = client_config.read_customer_config(args.customer_id, bookmark)
-        if customer_config:
-            api_helper.print_response(customer_config)
-        else:
-            print("None")
-        client_config.channel.close()
-
-    elif command == "update_customer_config":
-        # update_customer_config method: to update customer config  info from customer gid id
-        client_config = ConfigClient()
-        customer_id = args.customer_id
-        etag = args.etag
-        default_auth_flow_id = args.default_auth_flow_id
-        bookmark = []  # or value returned by last write operation
-        customer_config = client_config.create_customer_config(default_auth_flow_id=default_auth_flow_id,
-                                                               default_email_service_id=None)
-        customer_config_response = client_config.update_customer_config(customer_id, etag, customer_config, bookmark)
-        if customer_config_response:
-            api_helper.print_response(customer_config_response)
-        else:
-            print("None")
-        client_config.channel.close()
-        return customer_config_response
 
     elif command == "service_account":
         # service_account method: to get service account info from service account gid id
