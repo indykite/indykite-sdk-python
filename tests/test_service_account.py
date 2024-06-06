@@ -349,10 +349,24 @@ def test_del_service_account_success(capsys):
 
     assert service_account is not None
 
-    #response = client.delete_service_account(service_account.id, service_account.etag, [] )
-    response = client.delete_service_account("gid:AAAAEiuyZi3zVE9hvsu0gSqgi-g", "HdQo8h8csJ6", [])
+    def mocked_create_service_account(request: pb2.CreateServiceAccountRequest):
+        return service_account
+
+    client.stub.CreateServiceAccount = mocked_create_service_account
     captured = capsys.readouterr()
-    assert "server was unable to complete the request" in captured.err
+
+    assert service_account is not None
+    assert isinstance(service_account, CreateServiceAccount)
+
+    delete = client.delete_service_account(service_account.id, service_account.etag, [])
+
+    def mocked_delete_service_account(request: pb2.DeleteServiceAccountRequest):
+        return delete
+
+    client.stub.DeleteServiceAccount = mocked_delete_service_account
+
+    assert delete is not None
+    assert isinstance(delete, pb2.DeleteServiceAccountResponse)
 
 
 def test_del_service_account_wrong_service_account_id(capsys):
