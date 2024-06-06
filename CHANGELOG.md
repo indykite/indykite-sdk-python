@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.44.0](https://github.com/indykite/indykite-sdk-python/compare/v1.43.0...v1.44.0) (2024-06-06)
+
+
+### Features
+
+* remove outdated authn methods ([ca6ade9](https://github.com/indykite/indykite-sdk-python/commit/ca6ade93509f42d7dba365ac2bd2b94c233a34d6))
+* remove outdated authn methods ([ee71ffa](https://github.com/indykite/indykite-sdk-python/commit/ee71ffa75a44b1ea5b74b312d334860e5d5942c2))
+* remove outdated authn methods ([49d5523](https://github.com/indykite/indykite-sdk-python/commit/49d5523cb0823854e3177c0c84c9a8172f10ffaf))
+
 ## [1.43.0](https://github.com/indykite/indykite-sdk-python/compare/v1.42.0...v1.43.0) (2024-05-30)
 
 
