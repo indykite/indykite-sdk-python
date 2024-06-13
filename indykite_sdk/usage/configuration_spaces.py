@@ -536,15 +536,18 @@ def main():
         application_id = args.application_id
         application_agent_name = args.application_agent_name
         display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
+        api_permissions = ["indykite/*"]
         application_agent_response = client_config.create_application_agent(
-            application_id,
-            application_agent_name,
-            display_name,
-            "description",
-            bookmark)
+            application_id=application_id,
+            name=application_agent_name,
+            display_name=display_name,
+            description="description",
+            bookmarks=[],
+            api_permissions=api_permissions,
+            )
         if application_agent_response:
             api_helper.print_response(application_agent_response)
+            print("valid")
         else:
             print("Invalid application agent response")
         client_config.channel.close()

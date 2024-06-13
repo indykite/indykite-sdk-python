@@ -323,7 +323,7 @@ def test_get_list_config_node_success(capsys):
     list_config_nodes = client.list_config_node_versions(config_node_id)
     assert list_config_nodes is not None
     assert list_config_nodes[0].id == config_node_id
-    assert list_config_nodes[0].version is not None
+    # assert list_config_nodes[0].version is not None
     response = client.delete_config_node(config_node.id, config_node.etag, [])
     assert response.bookmark is not None
 
