@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.45.0](https://github.com/indykite/indykite-sdk-python/compare/v1.44.0...v1.45.0) (2024-06-14)
+
+
+### Features
+
+* update app agent and fix token ([df20294](https://github.com/indykite/indykite-sdk-python/commit/df20294b0ac6eb875972fec84aedd9cf8cdc3425))
+
 ## [1.44.0](https://github.com/indykite/indykite-sdk-python/compare/v1.43.0...v1.44.0) (2024-06-06)
 
 
