@@ -25,7 +25,7 @@ def main():
     read_config_node_parser = subparsers.add_parser("read_config_node")
     read_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
 
-    # delete_email_service_config_node
+    # delete_config_node
     delete_config_node_parser = subparsers.add_parser("delete_config_node")
     delete_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
     delete_config_node_parser.add_argument("etag", help="Etag")

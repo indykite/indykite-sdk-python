@@ -1,6 +1,4 @@
 '''Converts gRPC object to a value'''
-from indykite_sdk.indykite.identity.v1beta2.model_pb2 import PostalAddress as PostalAddressPb
-from indykite_sdk.model.postal_address import PostalAddress
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as struct
 from indykite_sdk.indykite.objects.v1beta2 import value_pb2 as value
 
@@ -39,8 +37,6 @@ def object_to_value(grpc_object):
         return grpc_object.geo_point_value
 
     if grpc_object.HasField('any_value'):
-        if grpc_object.any_value.Is(PostalAddressPb.DESCRIPTOR):
-            return PostalAddress.deserialize(grpc_object.any_value)
         return grpc_object.any_value
 
     if grpc_object.HasField('array_value'):

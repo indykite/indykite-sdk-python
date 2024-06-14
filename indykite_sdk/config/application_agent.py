@@ -60,7 +60,14 @@ def read_application_agent_by_name(self, app_space_id, application_agent_name, b
     return ApplicationAgent.deserialize(response.application_agent)
 
 
-def create_application_agent(self, application_id, name, display_name, description="", bookmarks=[]):
+def create_application_agent(self,
+                             application_id,
+                             name,
+                             display_name,
+                             description="",
+                             bookmarks=[],
+                             api_permissions=[],
+                             ):
     """
     create an AppAgent
     :param self:
@@ -69,6 +76,7 @@ def create_application_agent(self, application_id, name, display_name, descripti
     :param display_name: string
     :param description: string
     :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :param api_permissions: list of strings 1 - 64
     :return: deserialized CreateApplicationAgentResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -79,7 +87,8 @@ def create_application_agent(self, application_id, name, display_name, descripti
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                bookmarks=bookmarks
+                bookmarks=bookmarks,
+                api_permissions=api_permissions
             )
         )
     except Exception as exception:

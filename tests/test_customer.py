@@ -1,3 +1,4 @@
+
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.customer import Customer
@@ -90,7 +91,7 @@ def test_read_customer_by_name_wrong_name(capsys):
 
     response = client.read_customer_by_name(customer_name)
     captured = capsys.readouterr()
-    assert("StatusCode.PERMISSION_DENIED" in captured.err)
+    assert("StatusCode.NOT_FOUND" in captured.err)
 
 
 def test_read_customer_name_success(capsys):

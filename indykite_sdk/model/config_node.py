@@ -68,5 +68,3 @@ class ConfigNode:
         self.created_by = None
         self.updated_by = None
         self.version = None
-
-
