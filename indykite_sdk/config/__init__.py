@@ -38,4 +38,3 @@ class ConfigClient(object):
                               consent_config, create_consent_config_node,
                               update_consent_config_node, validate_data_points)
     from .create_application_with_agent_credentials import create_application_with_agent_credentials
-    from .username_policy import username_policy

@@ -1,3 +1,4 @@
+
 from indykite_sdk.utils import timestamp_to_date
 
 
@@ -38,6 +39,9 @@ class ApplicationAgent:
         if "updated_by" in fields:
             application_agent.updated_by = str(message.updated_by)
 
+        if "api_access_restriction" in fields:
+            application_agent.api_access_restriction = str(message.api_access_restriction)
+
         return application_agent
 
     def __init__(self, id, name, display_name, etag, customer_id, app_space_id, application_id):
@@ -55,3 +59,4 @@ class ApplicationAgent:
         self.description = None
         self.created_by = None
         self.updated_by = None
+        self.api_access_restriction = None

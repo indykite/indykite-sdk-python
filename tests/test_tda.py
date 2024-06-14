@@ -1,4 +1,3 @@
-import json
 from indykite_sdk.indykite.tda.v1beta1 import trusted_data_access_api_pb2 as pb2
 from indykite_sdk.model.data_access import DataAccessResponse, ListConsentsResponse
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2 as objects
@@ -236,7 +235,6 @@ def test_data_access_other_wrong_user(capsys):
     nodes = client.data_access(consent_id, application_id, user)
     captured = capsys.readouterr()
     assert "Key should be" in captured.err
-
 
 
 def test_data_access_empty():

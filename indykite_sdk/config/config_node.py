@@ -37,6 +37,7 @@ def read_config_node(self, config_node_id, bookmarks=[], version=0):
         return None
     return ConfigNode.deserialize(response.config_node)
 
+
 def delete_config_node(self, config_node_id, etag, bookmarks=[]):
     """
     delete a specific config node
@@ -281,6 +282,38 @@ def validate_conveyance(self, conveyance):
         conveyances = [c.value for c in ConveyancePreference]
         if conveyance not in conveyances:
             raise TypeError("conveyance must be a member of ConveyancePreference")
+        return True
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_user_verification(self, user_verification_requirement):
+    """
+    validate user verification requirement
+    :param self:
+    :param user_verification_requirement: string
+    :return: True if valid or raises error
+    """
+    try:
+        user_verification_requirements = [u.value for u in UserVerificationRequirement]
+        if user_verification_requirement not in user_verification_requirements:
+            raise TypeError("user_verification_requirements must be a member of UserVerificationRequirement")
+        return True
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_authenticator_attachment(self, authenticator_attachment):
+    """
+    validate authenticator attachment
+    :param self:
+    :param authenticator_attachment: string
+    :return: True if valid or raises error
+    """
+    try:
+        authenticator_attachments = [a.value for a in AuthenticatorAttachment]
+        if authenticator_attachment not in authenticator_attachments:
+            raise TypeError("authenticator_attachment must be a member of AuthenticatorAttachment")
         return True
     except Exception as exception:
         return logger.logger_error(exception)

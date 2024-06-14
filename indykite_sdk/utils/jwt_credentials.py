@@ -8,7 +8,6 @@ import os
 from authlib.jose import JsonWebKey, jwt
 from datetime import datetime, timedelta
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2_grpc as config_pb2_grpc
-from indykite_sdk.indykite.identity.v1beta2 import identity_management_api_pb2_grpc as pb2_grpc
 from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2_grpc as ingest_pb2_grpc
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2_grpc as authz_pb2
 from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2_grpc as knowledge_pb2_grpc
@@ -116,7 +115,7 @@ def get_credentials(client="identity", token_source=None):
         elif client == "tda":
             stub = tda_pb2_grpc.TrustedDataAccessAPIStub(channel=channel)
         else:
-            stub = pb2_grpc.IdentityManagementAPIStub(channel=channel)
+            stub = ingest_pb2_grpc.IngestAPIStub(channel=channel)
         return channel, stub, credentials, token_source
 
     except Exception as exception:
