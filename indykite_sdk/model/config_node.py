@@ -1,6 +1,7 @@
 from indykite_sdk.utils import timestamp_to_date
 from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
 from indykite_sdk.model.consent_configuration import ConsentConfiguration
+from indykite_sdk.model.token_introspect_config import TokenIntrospectConfig
 
 
 class ConfigNode:
@@ -40,6 +41,10 @@ class ConfigNode:
         if "consent_config" in fields:
             config_node.consent_config = ConsentConfiguration.deserialize(
                 message.consent_config)
+
+        if "token_introspect_config" in fields:
+            config_node.token_introspect_config = TokenIntrospectConfig.deserialize(
+                message.token_introspect_config)
 
         if "created_by" in fields:
             config_node.created_by = str(message.created_by)

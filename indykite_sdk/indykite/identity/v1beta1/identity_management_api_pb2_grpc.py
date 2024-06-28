@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2
-from indykite_sdk.indykite.identity.v1beta1 import import_pb2 as indykite_dot_identity_dot_v1beta1_dot_import__pb2
+from indykite_sdk.indykite_sdk.indykite.identity.v1beta1 import identity_management_api_pb2 as indykite_dot_identity_dot_v1beta1_dot_identity__management__api__pb2
+from indykite_sdk.indykite_sdk.indykite.identity.v1beta1 import import_pb2 as indykite_dot_identity_dot_v1beta1_dot_import__pb2
 
 
 class IdentityManagementAPIStub(object):

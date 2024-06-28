@@ -33,8 +33,11 @@ class ConfigClient(object):
         register_service_account_credential_pem, delete_service_account_credential
     from .config_node import (read_config_node, delete_config_node,
                               create_authorization_policy_config_node, update_authorization_policy_config_node,
-                              validate_authorization_policy_status, validate_conveyance,
+                              validate_authorization_policy_status,
                               authorization_policy_config, list_config_node_versions,
                               consent_config, create_consent_config_node,
-                              update_consent_config_node, validate_data_points)
+                              update_consent_config_node, validate_data_points,
+                              create_token_introspect_config_node, update_token_introspect_config_node,
+                              token_introspect_config
+                              )
     from .create_application_with_agent_credentials import create_application_with_agent_credentials

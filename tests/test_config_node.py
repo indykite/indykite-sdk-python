@@ -229,7 +229,7 @@ def test_create_consent_config_node_success(capsys):
     client = ConfigClient()
     assert client is not None
 
-    right_now = str(int(time.time()))
+    right_now = str(int(time.time())+1)
     app_space_id = data.get_app_space_id()
     consent_config = data.get_consent_config()
 
@@ -283,6 +283,150 @@ def test_create_consent_config_node_exception(capsys):
 
     captured = capsys.readouterr()
     assert "Message must be initialized with a dict" in captured.err
+
+
+def test_create_token_introspect_config_node_success(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time())+2)
+    app_space_id = data.get_app_space_id()
+    token_introspect_config = data.get_token_introspect_config()
+
+    config_node = client.create_token_introspect_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                            "description",
+                                                             token_introspect_config,
+                                                            [])
+    captured = capsys.readouterr()
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    assert response.bookmark is not None
+
+
+def test_create_token_introspect_config_node_empty(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time())+4)
+    app_space_id = data.get_app_space_id()
+    token_introspect_config = data.get_token_introspect_config()
+
+    def mocked_create_config_node(request: pb2.CreateConfigNodeRequest):
+        return None
+
+    client.stub.CreateConfigNode = mocked_create_config_node
+    config_node = client.create_token_introspect_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                             "description",
+                                                             token_introspect_config,
+                                                             [])
+    assert config_node is None
+
+
+def test_create_token_introspect_config_node_exception(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time())+6)
+    app_space_id = data.get_app_space_id()
+    config_node = client.create_token_introspect_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                             "description",
+                                                             "description",
+                                                             [])
+
+    captured = capsys.readouterr()
+    assert "Message must be initialized with a dict" in captured.err
+
+
+def test_create_token_introspect_config_node_wrong_app_space(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time())+2)
+    app_space_id = data.get_identity_node()
+    token_introspect_config = data.get_token_introspect_config()
+
+    config_node = client.create_token_introspect_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                             "description",
+                                                             token_introspect_config,
+                                                             [])
+    captured = capsys.readouterr()
+    assert "StatusCode.NOT_FOUND" in captured.err
+
+
+def test_create_token_introspect_config_node_app_space_other_customer(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time())+2)
+    app_space_id = "gid:AAAAAoQaR-cpn0jcmWkW_HV1c6g"
+    token_introspect_config = data.get_token_introspect_config()
+
+    config_node = client.create_token_introspect_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                             "description",
+                                                             token_introspect_config,
+                                                             [])
+    captured = capsys.readouterr()
+    assert "StatusCode.PERMISSION_DENIED" in captured.err
+
+
+def test_update_token_introspect_config_node_success():
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    app_space_id = data.get_app_space_id()
+    token_introspect_config = data.get_token_introspect_config()
+
+    config_node = client.create_token_introspect_config_node(app_space_id,
+                                                             "automation-" + right_now,
+                                                             "Automation " + right_now,
+                                                             "description",
+                                                             token_introspect_config,
+                                                             [])
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+
+    right_now = str(int(time.time()))
+    token_introspect_config = data.get_token_introspect_config()
+    config_node_response = client.update_token_introspect_config_node(config_node.id,
+                                                                      config_node.etag,
+                                                                      "Automation "+right_now,
+                                                                      "description "+right_now,
+                                                                      token_introspect_config,
+                                                                      [])
+    assert config_node_response is not None
+    assert isinstance(config_node_response, UpdateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag, [])
+
+
+def test_update_token_introspect_config_node_wrong_id(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    right_now = str(int(time.time()))
+    token_introspect_config = data.get_token_introspect_config()
+
+    right_now = str(int(time.time()))
+    token_introspect_config = data.get_token_introspect_config()
+    config_node_response = client.update_token_introspect_config_node("gid:AAAAAuCBOLvwzUuWvKB1jWznHSM",
+                                                                      "eyouyu",
+                                                                      "Automation "+right_now,
+                                                                      "description "+right_now,
+                                                                      token_introspect_config,
+                                                                      [])
+    captured = capsys.readouterr()
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
 
 def test_validate_authorization_policy_status(capsys):
