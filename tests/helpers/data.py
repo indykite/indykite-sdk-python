@@ -1,7 +1,11 @@
 from datetime import datetime
 import json
 import os
+import random
+import string
+
 from indykite_sdk.config import ConfigClient
+from indykite_sdk.indykite.config.v1beta1 import model_pb2
 
 
 INDYKITE_SDK_URL = os.getenv('INDYKITE_SDK_URL')
@@ -206,11 +210,38 @@ def get_authz_policy():
 
 
 def get_consent_config():
+    text = ''.join(random.choices(string.ascii_letters, k=15))
     consent_config = ConfigClient().consent_config(
-        purpose = "Taking control",
-        data_points = {"lastname", "firstname", "email"},
+        purpose = text,
+        data_points=["{ \"query\": \"\", \"returns\": [ { \"variable\": \"\"," +
+                     "\"properties\": [\"name\", \"email\", \"location\"] } ] }"],
         application_id = get_application_id(),
         validity_period = 86400,
         revoke_after_use = False
     )
     return consent_config
+
+
+def get_token_introspect_config():
+    text = ''.join(random.choices(string.ascii_letters, k=15))
+    text2 = ''.join(random.choices(string.ascii_letters, k=15))
+    jwt = model_pb2.TokenIntrospectConfig.JWT(
+        issuer="https://example.com",
+        audience="audience-id"+text
+    )
+    offline = model_pb2.TokenIntrospectConfig.Offline(
+        public_jwks=[
+            json.dumps({"kid": "abc", "use": "sig", "alg": "RS256", "n": "--nothing-real-just-random-"+text+"--",
+                        "kty": "RSA"}).encode('utf-8'),
+            json.dumps({"kid": "jkl", "use": "sig", "alg": "RS256", "n": "--nothing-real-just-random-"+text2+"--",
+                        "kty": "RSA"}).encode('utf-8')
+        ]
+    )
+    token_introspect_config = ConfigClient().token_introspect_config(
+        token_matcher={'jwt': jwt},
+        validation={'offline': offline},
+        claims_mapping={"email": "mail", "name": "full_name"},
+        ikg_node_type="Person",
+        perform_upsert=True
+    )
+    return token_introspect_config

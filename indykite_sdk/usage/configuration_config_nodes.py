@@ -5,6 +5,7 @@ import argparse
 import json
 from indykite_sdk.config import ConfigClient
 from indykite_sdk import api_helper
+from indykite_sdk.indykite.config.v1beta1 import model_pb2
 
 
 class ParseKwargs(argparse.Action):
@@ -64,6 +65,20 @@ def main():
     update_consent_config_node_parser.add_argument("description", help="Description")
     update_consent_config_node_parser.add_argument("application_id", help="Application (gid)")
 
+    # create_token_introspect_config_node
+    create_token_introspect_config_node_parser = subparsers.add_parser("create_token_introspect_config_node")
+    create_token_introspect_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_token_introspect_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_token_introspect_config_node_parser.add_argument("display_name", help="Display name")
+    create_token_introspect_config_node_parser.add_argument("description", help="Description")
+
+    # update_token_introspect_config_node
+    update_token_introspect_config_node_parser = subparsers.add_parser("update_token_introspect_config_node")
+    update_token_introspect_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_token_introspect_config_node_parser.add_argument("etag", help="Etag")
+    update_token_introspect_config_node_parser.add_argument("display_name", help="Display name")
+    update_token_introspect_config_node_parser.add_argument("description", help="Description")
+
     args = parser.parse_args()
     command = args.command
 
@@ -75,6 +90,8 @@ def main():
         version = 0
         config_node = client_config.read_config_node(config_node_id, bookmark, version)
         if config_node:
+            # print(config_node.token_introspect_config.jwt)
+            # print(config_node.token_introspect_config.offline)
             api_helper.print_response(config_node)
         else:
             print("Invalid config node id")
@@ -190,7 +207,7 @@ def main():
         # replace the json file by your own
         consent_config = ConfigClient().consent_config(
             purpose="Taking control",
-            data_points={"last_name", "first_name", "email"},
+            data_points={ "query": "", "returns": [{ "variable": "", "properties": ["first_name", "last_name", "email"] }] },
             application_id=application_id,
             validity_period=86400,
             revoke_after_use=False
@@ -222,7 +239,8 @@ def main():
         bookmark = []  # or value returned by last write operation
         consent_config = ConfigClient().consent_config(
             purpose="Taking control",
-            data_points={"lastname", "firstname", "email"},
+            data_points=["{ \"query\": \"\", \"returns\": [ { \"variable\": \"\"," +
+                         "\"properties\": [\"first_name\", \"last_name\", \"email\"] } ] }"],
             application_id=application_id,
             validity_period=86400,
             revoke_after_use=False
@@ -242,6 +260,109 @@ def main():
             print("Invalid update consent config node response")
         client_config.channel.close()
         return update_consent_config_node_response
+
+    elif command == "create_token_introspect_config_node":
+        # to create a token introspect config node
+        """shell
+           python3 configuration_config_nodes.py create_token_introspect_config_node
+           APP_SPACE_ID TOKEN_NAME TOKEN_DISPLAY_NAME TOKEN_DESCRIPTION
+        """
+        client_config = ConfigClient()
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+        bookmark = []  # or value returned by last write operation
+        # replace the json file by your own
+        # token_matcher = oneof TokenIntrospectConfig.JWT, TokenIntrospectConfig.Opaque
+        jwt = model_pb2.TokenIntrospectConfig.JWT(
+            issuer="https://example.com",
+            audience="audience-id"
+        )
+        # opaque = model_pb2.TokenIntrospectConfig.Opaque()
+        # validation = oneof TokenIntrospectConfig.Offline, TokenIntrospectConfig.Online
+        # offline only with jwt
+        offline = model_pb2.TokenIntrospectConfig.Offline(
+            public_jwks=[
+                json.dumps({"kid": "abc", "use": "sig", "alg": "RS256", "n": "--nothing-real-just-random-xyqwerasf--",
+                            "kty": "RSA"}).encode('utf-8'),
+                json.dumps({"kid": "jkl", "use": "sig", "alg": "RS256", "n": "--nothing-real-just-random-435asdf43--",
+                            "kty": "RSA"}).encode('utf-8')
+            ]
+        )
+        # online = model_pb2.TokenIntrospectConfig.Online(user_info_endpoint="https://data.example.com/userinfo",
+        # cache_ttl=3600)
+        token_introspect_config = ConfigClient().token_introspect_config(
+            token_matcher={'jwt': jwt},
+            validation={'offline': offline},
+            claims_mapping={"email": "mail", "name":"full_name"},
+            ikg_node_type="Person",
+            perform_upsert=True
+        )
+        create_token_introspect_config_node_response = client_config.create_token_introspect_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            token_introspect_config,
+            bookmark
+        )
+
+        if create_token_introspect_config_node_response:
+            api_helper.print_response(create_token_introspect_config_node_response)
+        else:
+            print("Invalid create token introspect config node response")
+        client_config.channel.close()
+        return create_token_introspect_config_node_response
+
+    elif command == "update_token_introspect_config_node":
+        # to update a token introspect config node to query against in trusted data access
+        client_config = ConfigClient()
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+        bookmark = []  # or value returned by last write operation
+        # token_matcher = oneof TokenIntrospectConfig.JWT, TokenIntrospectConfig.Opaque
+        jwt = model_pb2.TokenIntrospectConfig.JWT(
+            issuer="https://example.com",
+            audience="audience-id"
+        )
+        # opaque = model_pb2.TokenIntrospectConfig.Opaque()
+        # validation = oneof TokenIntrospectConfig.Offline, TokenIntrospectConfig.Online
+        # offline only with jwt
+        offline = model_pb2.TokenIntrospectConfig.Offline(
+            public_jwks=[
+                json.dumps({"kid": "abc", "use": "sig", "alg": "RS256", "n": "--nothing-real-just-random-xyqwerasf--",
+                            "kty": "RSA"}).encode('utf-8'),
+                json.dumps({"kid": "jkl", "use": "sig", "alg": "RS256", "n": "--nothing-real-just-random-435asdf43--",
+                            "kty": "RSA"}).encode('utf-8')
+            ]
+        )
+        # online = model_pb2.TokenIntrospectConfig.Online(user_info_endpoint="https://data.example.com/userinfo",
+        # cache_ttl=3600)
+        token_introspect_config = ConfigClient().token_introspect_config(
+            token_matcher={'jwt': jwt},
+            validation={'offline': offline},
+            claims_mapping={"email": "mail", "name": "full_name"},
+            ikg_node_type="Person",
+            perform_upsert=True
+        )
+
+        update_token_introspect_config_node_response = client_config.update_token_introspect_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            token_introspect_config,
+            bookmark
+        )
+        if update_token_introspect_config_node_response:
+            api_helper.print_response(update_token_introspect_config_node_response)
+        else:
+            print("Invalid update token introspect config node response")
+        client_config.channel.close()
+        return update_token_introspect_config_node_response
 
 
 if __name__ == '__main__':  # pragma: no cover

@@ -145,31 +145,6 @@ class ConfigManagementAPIStub(object):
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteServiceAccountCredentialRequest.SerializeToString,
                 response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteServiceAccountCredentialResponse.FromString,
                 )
-        self.CreateTenant = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/CreateTenant',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateTenantRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateTenantResponse.FromString,
-                )
-        self.ReadTenant = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/ReadTenant',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantResponse.FromString,
-                )
-        self.ListTenants = channel.unary_stream(
-                '/indykite.config.v1beta1.ConfigManagementAPI/ListTenants',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListTenantsRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListTenantsResponse.FromString,
-                )
-        self.UpdateTenant = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/UpdateTenant',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantResponse.FromString,
-                )
-        self.DeleteTenant = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/DeleteTenant',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantResponse.FromString,
-                )
         self.CreateConfigNode = channel.unary_unary(
                 '/indykite.config.v1beta1.ConfigManagementAPI/CreateConfigNode',
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateConfigNodeRequest.SerializeToString,
@@ -194,46 +169,6 @@ class ConfigManagementAPIStub(object):
                 '/indykite.config.v1beta1.ConfigManagementAPI/ListConfigNodeVersions',
                 request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsRequest.SerializeToString,
                 response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsResponse.FromString,
-                )
-        self.CreateOAuth2Provider = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/CreateOAuth2Provider',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ProviderRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ProviderResponse.FromString,
-                )
-        self.ReadOAuth2Provider = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/ReadOAuth2Provider',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ProviderRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ProviderResponse.FromString,
-                )
-        self.UpdateOAuth2Provider = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/UpdateOAuth2Provider',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ProviderRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ProviderResponse.FromString,
-                )
-        self.DeleteOAuth2Provider = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/DeleteOAuth2Provider',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ProviderRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ProviderResponse.FromString,
-                )
-        self.CreateOAuth2Application = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/CreateOAuth2Application',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ApplicationRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ApplicationResponse.FromString,
-                )
-        self.ReadOAuth2Application = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/ReadOAuth2Application',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ApplicationRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ApplicationResponse.FromString,
-                )
-        self.UpdateOAuth2Application = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/UpdateOAuth2Application',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ApplicationRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ApplicationResponse.FromString,
-                )
-        self.DeleteOAuth2Application = channel.unary_unary(
-                '/indykite.config.v1beta1.ConfigManagementAPI/DeleteOAuth2Application',
-                request_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ApplicationRequest.SerializeToString,
-                response_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ApplicationResponse.FromString,
                 )
         self.AssignPermissions = channel.unary_unary(
                 '/indykite.config.v1beta1.ConfigManagementAPI/AssignPermissions',
@@ -265,8 +200,6 @@ class ConfigManagementAPIServicer(object):
 
     def CreateApplicationSpace(self, request, context):
         """CreateApplicationSpace for a customer.
-        For now, we do not support creating custom Issuers, so implicit Issuer is created automatically with this call.
-        To get IssuerID, which is required to create Tenant later, use ReadApplicationSpace.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -447,44 +380,8 @@ class ConfigManagementAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def CreateTenant(self, request, context):
-        """CreateTenant for given Issuer. See CreateApplicationSpace method description to get more knowledge
-        about Application Space and Issuer relation.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ReadTenant(self, request, context):
-        """ReadTenant by ID or name and returns all attributes.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ListTenants(self, request, context):
-        """ListTenants in a given Application Space with list of names.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UpdateTenant(self, request, context):
-        """UpdateTenant by ID with optional etag, to prevent overwriting changes made by others in the same time.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def DeleteTenant(self, request, context):
-        """DeleteTenant by ID with optional etag, to prevent deleting Tenant currently changed by others.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def CreateConfigNode(self, request, context):
-        """CreateConfigNode on Customer, Application Space or Tenant level.
+        """CreateConfigNode on Customer or Application Space.
         All generic configuration nodes are created by this endpoint.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -514,62 +411,6 @@ class ConfigManagementAPIServicer(object):
 
     def ListConfigNodeVersions(self, request, context):
         """ListConfigNodeVersions list previous versions of a given ConfigNode.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def CreateOAuth2Provider(self, request, context):
-        """CreateOAuth2Provider under given Application Space.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ReadOAuth2Provider(self, request, context):
-        """ReadOAuth2Provider by ID and returns all attributes and configuration.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UpdateOAuth2Provider(self, request, context):
-        """UpdateOAuth2Provider by ID with optional etag, to prevent overwriting changes made by others in the same time.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def DeleteOAuth2Provider(self, request, context):
-        """DeleteOAuth2Provider by ID with optional etag, to prevent deleting Provider currently changed by others.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def CreateOAuth2Application(self, request, context):
-        """CreateOAuth2Application under given OAuth2 Provider.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ReadOAuth2Application(self, request, context):
-        """ReadOAuth2Application by ID and returns all attributes and configuration.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UpdateOAuth2Application(self, request, context):
-        """UpdateOAuth2Application by ID with optional etag, to prevent overwriting changes made by others in the same time.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def DeleteOAuth2Application(self, request, context):
-        """DeleteOAuth2Application by ID with optional etag, to prevent deleting OAuth2 Application currently changed by others.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -729,31 +570,6 @@ def add_ConfigManagementAPIServicer_to_server(servicer, server):
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteServiceAccountCredentialRequest.FromString,
                     response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteServiceAccountCredentialResponse.SerializeToString,
             ),
-            'CreateTenant': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateTenant,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateTenantRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateTenantResponse.SerializeToString,
-            ),
-            'ReadTenant': grpc.unary_unary_rpc_method_handler(
-                    servicer.ReadTenant,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantResponse.SerializeToString,
-            ),
-            'ListTenants': grpc.unary_stream_rpc_method_handler(
-                    servicer.ListTenants,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListTenantsRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListTenantsResponse.SerializeToString,
-            ),
-            'UpdateTenant': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateTenant,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantResponse.SerializeToString,
-            ),
-            'DeleteTenant': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteTenant,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantResponse.SerializeToString,
-            ),
             'CreateConfigNode': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateConfigNode,
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateConfigNodeRequest.FromString,
@@ -778,46 +594,6 @@ def add_ConfigManagementAPIServicer_to_server(servicer, server):
                     servicer.ListConfigNodeVersions,
                     request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsRequest.FromString,
                     response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsResponse.SerializeToString,
-            ),
-            'CreateOAuth2Provider': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateOAuth2Provider,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ProviderRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ProviderResponse.SerializeToString,
-            ),
-            'ReadOAuth2Provider': grpc.unary_unary_rpc_method_handler(
-                    servicer.ReadOAuth2Provider,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ProviderRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ProviderResponse.SerializeToString,
-            ),
-            'UpdateOAuth2Provider': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateOAuth2Provider,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ProviderRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ProviderResponse.SerializeToString,
-            ),
-            'DeleteOAuth2Provider': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteOAuth2Provider,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ProviderRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ProviderResponse.SerializeToString,
-            ),
-            'CreateOAuth2Application': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateOAuth2Application,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ApplicationRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ApplicationResponse.SerializeToString,
-            ),
-            'ReadOAuth2Application': grpc.unary_unary_rpc_method_handler(
-                    servicer.ReadOAuth2Application,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ApplicationRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ApplicationResponse.SerializeToString,
-            ),
-            'UpdateOAuth2Application': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateOAuth2Application,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ApplicationRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ApplicationResponse.SerializeToString,
-            ),
-            'DeleteOAuth2Application': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteOAuth2Application,
-                    request_deserializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ApplicationRequest.FromString,
-                    response_serializer=indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ApplicationResponse.SerializeToString,
             ),
             'AssignPermissions': grpc.unary_unary_rpc_method_handler(
                     servicer.AssignPermissions,
@@ -1288,91 +1064,6 @@ class ConfigManagementAPI(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def CreateTenant(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/CreateTenant',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateTenantRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateTenantResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def ReadTenant(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ReadTenant',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadTenantResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def ListTenants(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ListTenants',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListTenantsRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListTenantsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UpdateTenant(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/UpdateTenant',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateTenantResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def DeleteTenant(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/DeleteTenant',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteTenantResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
     def CreateConfigNode(request,
             target,
             options=(),
@@ -1454,142 +1145,6 @@ class ConfigManagementAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ListConfigNodeVersions',
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsRequest.SerializeToString,
             indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ListConfigNodeVersionsResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def CreateOAuth2Provider(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/CreateOAuth2Provider',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ProviderRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ProviderResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def ReadOAuth2Provider(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ReadOAuth2Provider',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ProviderRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ProviderResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UpdateOAuth2Provider(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/UpdateOAuth2Provider',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ProviderRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ProviderResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def DeleteOAuth2Provider(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/DeleteOAuth2Provider',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ProviderRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ProviderResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def CreateOAuth2Application(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/CreateOAuth2Application',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ApplicationRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.CreateOAuth2ApplicationResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def ReadOAuth2Application(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/ReadOAuth2Application',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ApplicationRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.ReadOAuth2ApplicationResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UpdateOAuth2Application(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/UpdateOAuth2Application',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ApplicationRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.UpdateOAuth2ApplicationResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def DeleteOAuth2Application(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.config.v1beta1.ConfigManagementAPI/DeleteOAuth2Application',
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ApplicationRequest.SerializeToString,
-            indykite_dot_config_dot_v1beta1_dot_config__management__api__pb2.DeleteOAuth2ApplicationResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

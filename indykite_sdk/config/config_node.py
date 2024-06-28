@@ -3,9 +3,6 @@ from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_d
 from indykite_sdk.model.create_config_node import CreateConfigNode
 from indykite_sdk.model.update_config_node import UpdateConfigNode
 from indykite_sdk.model.config_node import ConfigNode
-from indykite_sdk.model.conveyance_preference import ConveyancePreference
-from indykite_sdk.model.user_verification_requirement import UserVerificationRequirement
-from indykite_sdk.model.authenticator_attachment import AuthenticatorAttachment
 from indykite_sdk.model.authorization_policy_config_status import Status
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
 import sys
@@ -271,50 +268,144 @@ def consent_config(self, purpose, data_points, application_id, validity_period, 
         return logger.logger_error(exception)
 
 
-def validate_conveyance(self, conveyance):
+def create_token_introspect_config_node(self,
+                                        location,
+                                        name,
+                                        display_name,
+                                        description,
+                                        token_introspect_config,
+                                        bookmarks=[]):
     """
-    validate conveyance
+    create token introspect config
     :param self:
-    :param conveyance: string
-    :return: True if valid or raises error
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param token_introspect_config: TokenIntrospectConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
     """
+    sys.excepthook = logger.handle_excepthook
     try:
-        conveyances = [c.value for c in ConveyancePreference]
-        if conveyance not in conveyances:
-            raise TypeError("conveyance must be a member of ConveyancePreference")
-        return True
+        response = self.stub.CreateConfigNode(
+            pb2.CreateConfigNodeRequest(
+                location=location,
+                name=name,
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                token_introspect_config=token_introspect_config,
+                bookmarks=bookmarks
+            )
+        )
     except Exception as exception:
         return logger.logger_error(exception)
 
+    if not response:
+        return None
+    return CreateConfigNode.deserialize(response)
 
-def validate_user_verification(self, user_verification_requirement):
+
+def update_token_introspect_config_node(self,
+                                        config_node_id,
+                                        etag,
+                                        display_name,
+                                        description,
+                                        token_introspect_config,
+                                        bookmarks=[]):
     """
-    validate user verification requirement
+    update token introspect config
     :param self:
-    :param user_verification_requirement: string
-    :return: True if valid or raises error
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param token_introspect_config: TokenIntrospectConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
     """
+    sys.excepthook = logger.handle_excepthook
     try:
-        user_verification_requirements = [u.value for u in UserVerificationRequirement]
-        if user_verification_requirement not in user_verification_requirements:
-            raise TypeError("user_verification_requirements must be a member of UserVerificationRequirement")
-        return True
+        response = self.stub.UpdateConfigNode(
+            pb2.UpdateConfigNodeRequest(
+                id=config_node_id,
+                etag=wrappers.StringValue(value=etag),
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                token_introspect_config= token_introspect_config,
+                bookmarks=bookmarks
+            )
+        )
     except Exception as exception:
         return logger.logger_error(exception)
 
+    if not response:
+        return None
+    return UpdateConfigNode.deserialize(response)
 
-def validate_authenticator_attachment(self, authenticator_attachment):
+
+def token_introspect_config(self, token_matcher, validation, claims_mapping, ikg_node_type, perform_upsert=False):
     """
-    validate authenticator attachment
+    create TokenIntrospectConfig
     :param self:
-    :param authenticator_attachment: string
-    :return: True if valid or raises error
+    :param token_matcher: string max_len: 1024
+    :param validation: list
+    :param claims_mapping: gid min_len:22, max_len: 254, pattern:"^[A-Za-z0-9-_:]{22,254}$"
+    :param ikg_node_type: int minimum value is 1 day and the maximum value is 2 years
+    :param perform_upsert: bool
+    :return: TokenIntrospectConfig object
     """
+    sys.excepthook = logger.handle_excepthook
     try:
-        authenticator_attachments = [a.value for a in AuthenticatorAttachment]
-        if authenticator_attachment not in authenticator_attachments:
-            raise TypeError("authenticator_attachment must be a member of AuthenticatorAttachment")
-        return True
+        claims_mapping_tmp = {}
+        if claims_mapping:
+            for k, v in claims_mapping.items():
+                claims_mapping_tmp[k] = model_pb2.TokenIntrospectConfig.Claim(selector=v)
+        if token_matcher:
+            if token_matcher["jwt"]:
+                jwt = model_pb2.TokenIntrospectConfig.JWT(
+                    issuer=token_matcher["jwt"].issuer,
+                    audience=token_matcher["jwt"].audience
+                )
+            elif token_matcher["opaque"]:
+                opaque = model_pb2.TokenIntrospectConfig.Opaque()
+            else:
+                raise TypeError("token_matcher must be JWT or Opaque")
+        if validation:
+            if validation["offline"] and token_matcher["jwt"]:
+                offline = model_pb2.TokenIntrospectConfig.Offline(
+                    public_jwks=[pj for pj in validation["offline"].public_jwks]
+                )
+                return model_pb2.TokenIntrospectConfig(
+                    claims_mapping=claims_mapping_tmp,
+                    ikg_node_type=str(ikg_node_type),
+                    perform_upsert=perform_upsert,
+                    jwt=jwt,
+                    offline=offline
+                )
+            elif validation["online"]:
+                online = model_pb2.TokenIntrospectConfig.Online(
+                    userinfo_endpoint=validation["online"].userinfo_endpoint,
+                    cache_ttl=validation["online"].cache_ttl
+                )
+                if opaque:
+                    return model_pb2.TokenIntrospectConfig(
+                        claims_mapping=claims_mapping_tmp,
+                        ikg_node_type=str(ikg_node_type),
+                        perform_upsert=perform_upsert,
+                        opaque=opaque,
+                        online=online
+                    )
+                else:
+                    return model_pb2.TokenIntrospectConfig(
+                        claims_mapping=claims_mapping_tmp,
+                        ikg_node_type=str(ikg_node_type),
+                        perform_upsert=perform_upsert,
+                        jwt=jwt,
+                        online=online
+                    )
+            else:
+                raise TypeError("validation must be Offline + JWT or Online")
     except Exception as exception:
         return logger.logger_error(exception)
 

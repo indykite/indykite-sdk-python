@@ -1,6 +1,3 @@
-import json
-
-
 class ConsentConfiguration:
     @classmethod
     def deserialize(cls, message_config):
