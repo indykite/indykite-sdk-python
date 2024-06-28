@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.46.0](https://github.com/indykite/indykite-sdk-python/compare/v1.45.0...v1.46.0) (2024-06-28)
+
+
+### Features
+
+* add token introspect config ([60fe53f](https://github.com/indykite/indykite-sdk-python/commit/60fe53f1f5651925d020909f339998a4676cb96f))
+
 ## [1.45.0](https://github.com/indykite/indykite-sdk-python/compare/v1.44.0...v1.45.0) (2024-06-14)
 
 
