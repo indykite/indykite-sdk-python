@@ -13,8 +13,7 @@ class ApplicationSpace:
             str(message.name),
             str(message.display_name),
             str(message.etag),
-            str(message.customer_id),
-            str(message.issuer_id)
+            str(message.customer_id)
         )
 
         if "create_time" in fields:
@@ -46,13 +45,12 @@ class ApplicationSpace:
 
         return application_space
 
-    def __init__(self, id, name, display_name, etag, customer_id,issuer_id):
+    def __init__(self, id, name, display_name, etag, customer_id):
         self.id = id
         self.name = name
         self.display_name = display_name
         self.etag = etag
         self.customer_id = customer_id
-        self.issuer_id = issuer_id
         self.create_time = None
         self.update_time = None
         self.destroy_time = None

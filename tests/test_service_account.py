@@ -212,14 +212,14 @@ def test_create_service_account_empty():
     client = ConfigClient()
     assert client is not None
 
-    issuer_id = data.get_issuer_id()
+    customer_id = data.get_customer_id()
     right_now = str(int(time.time()))
 
     def mocked_create_service_account(request: pb2.CreateServiceAccountRequest):
         return None
 
     client.stub.CreateServiceAccount = mocked_create_service_account
-    service_account = client.create_service_account(issuer_id, "automation-"+right_now, "Automation "+right_now,
+    service_account = client.create_service_account(customer_id, "automation-"+right_now, "Automation "+right_now,
                                                     "description", "all_viewer", [])
 
     assert service_account is None

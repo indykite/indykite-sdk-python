@@ -426,7 +426,7 @@ def test_del_application_agent_empty():
     assert response is None
 
     etag = "npsOGI4UW"
-    response = client.delete_application_agent_credential(application_agent_credential_id, [], etag)
+    response = client.delete_application_agent_credential(id, [], etag)
     captured = capsys.readouterr()
     assert ("invalid id value was provided for id" in captured.err)
 

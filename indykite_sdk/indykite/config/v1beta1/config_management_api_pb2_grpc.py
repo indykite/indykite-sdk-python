@@ -206,7 +206,7 @@ class ConfigManagementAPIServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def ReadApplicationSpace(self, request, context):
-        """ReadApplicationSpace by ID or name and returns all attributes including Issuer ID.
+        """ReadApplicationSpace by ID or name and returns all attributes.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
