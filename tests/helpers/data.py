@@ -29,7 +29,6 @@ APP_SPACE_NAME = os.getenv('APP_SPACE_NAME')
 CUSTOMER_ID = os.getenv('CUSTOMER_ID')
 CUSTOMER_ID2 = os.getenv('CUSTOMER_ID2')
 APP_SPACE_ID = os.getenv('APP_SPACE_ID')
-ISSUER_ID = os.getenv('ISSUER_ID')
 APPLICATION_ID = os.getenv('APPLICATION_ID')
 APPLICATION_NAME = os.getenv('APPLICATION_NAME')
 APPLICATION_AGENT_ID = os.getenv('APPLICATION_AGENT_ID')
@@ -150,10 +149,6 @@ def get_app_space_name():
 
 def get_app_space_id():
     return APP_SPACE_ID
-
-
-def get_issuer_id():
-    return ISSUER_ID
 
 
 def get_application_id():
