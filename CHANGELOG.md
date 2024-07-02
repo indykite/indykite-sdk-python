@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.47.0](https://github.com/indykite/indykite-sdk-python/compare/v1.46.0...v1.47.0) (2024-07-02)
+
+
+### Features
+
+* remove issuer and update proto files ([2c186e8](https://github.com/indykite/indykite-sdk-python/commit/2c186e8961c3982555f544c24dfc8376f204b555))
+
 ## [1.46.0](https://github.com/indykite/indykite-sdk-python/compare/v1.45.0...v1.46.0) (2024-06-28)
 
 
