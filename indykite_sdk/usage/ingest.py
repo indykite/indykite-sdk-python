@@ -61,11 +61,11 @@ def main():
         # type of node
         type = "Person"
         # properties
-        ingest_property1 = client_ingest.ingest_property("first_name", "barry")
-        ingest_property2 = client_ingest.ingest_property("last_name", "grumpy")
+        ingest_property1 = client_ingest.ingest_property("first_name", "mushu")
+        ingest_property2 = client_ingest.ingest_property("last_name", "neo")
         ingest_property3 = client_ingest.ingest_property("birthdate", "20 Sep, 1977")
         ingest_property4 = client_ingest.ingest_property("role", "Employee")
-        ingest_property5 = client_ingest.ingest_property("email", "barry@yahoo.uk")
+        ingest_property5 = client_ingest.ingest_property("email", "neo@yahoo.uk")
         properties = [ingest_property1, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
         upsert = client_ingest.upsert_data_node(
@@ -100,12 +100,12 @@ def main():
         external_id = ''.join(random.choices(string.ascii_letters, k=15))
         print(external_id)
         # type of node
-        type = "Asset"
+        type = "Car"
         # properties
         t = datetime.now()
-        ingest_metadata = client_ingest.ingest_metadata(1, t, "BRUCE", {"customVin": "customVinValue"})
-        ingest_property = client_ingest.ingest_property("maker", "FORD")
-        ingest_property2 = client_ingest.ingest_property("vin", "PjOkiLpNjm", ingest_metadata)
+        ingest_metadata = client_ingest.ingest_metadata(1, t, "COOL", {"customVin": "customVinValue"})
+        ingest_property = client_ingest.ingest_property("maker", "TESLA")
+        ingest_property2 = client_ingest.ingest_property("vin", "8742365kl", ingest_metadata)
         ingest_property3 = client_ingest.ingest_property("colour", "blue")
         ingest_property4 = client_ingest.ingest_property("asset", "T")
         ingest_property5 = client_ingest.ingest_property("status", "Active")
@@ -137,10 +137,10 @@ def main():
         # unique value which can be random
         record_id = str(uuid.uuid4())
         # type of relationship
-        type = "BELONGS_TO"
+        type = "OWNS"
         # id in external source / type of node : pair must be unique
-        source_match = client_ingest.node_match("HLEgiljrtoNEiyX", "Individual")
-        target_match = client_ingest.node_match("tSMiFkHozbhtfQZ", "Organization")
+        source_match = client_ingest.node_match("KGFVupZYCGYTvYV", "Person")
+        target_match = client_ingest.node_match("esnxDjeOuvbfpwk", "Car")
         # create upsert object with all elements
         upsert = client_ingest.upsert_data_relationship(
             source_match, target_match, type,

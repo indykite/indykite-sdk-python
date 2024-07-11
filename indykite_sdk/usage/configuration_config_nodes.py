@@ -206,8 +206,9 @@ def main():
         bookmark = []  # or value returned by last write operation
         # replace the json file by your own
         consent_config = ConfigClient().consent_config(
-            purpose="Taking control",
-            data_points={ "query": "", "returns": [{ "variable": "", "properties": ["first_name", "last_name", "email"] }] },
+            purpose="Taking control2",
+            data_points=["{\"query\": \"-[:OWNS]-(car:Car)\", "
+                         "\"returns\": [{\"variable\": \"car\", \"properties\": [\"vin\"]}]}"],
             application_id=application_id,
             validity_period=86400,
             revoke_after_use=False

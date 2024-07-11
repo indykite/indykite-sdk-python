@@ -17,7 +17,7 @@ from indykite_sdk.indykite.tda.v1beta1 import model_pb2 as indykite_dot_tda_dot_
 from indykite_sdk.validate import validate_pb2 as validate_dot_validate__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2indykite/tda/v1beta1/trusted_data_access_api.proto\x12\x14indykite.tda.v1beta1\x1a,indykite/knowledge/objects/v1beta1/ikg.proto\x1a indykite/tda/v1beta1/model.proto\x1a\x17validate/validate.proto\"\xad\x01\n\x13ListConsentsRequest\x12\x46\n\x04user\x18\x01 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.UserB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x04user\x12N\n\x0e\x61pplication_id\x18\x02 \x01(\tB\'\xfa\x42$r\"\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$\xd0\x01\x01R\rapplicationId\"Q\n\x14ListConsentsResponse\x12\x39\n\x08\x63onsents\x18\x01 \x03(\x0b\x32\x1d.indykite.tda.v1beta1.ConsentR\x08\x63onsents\"\xf0\x01\n\x11\x44\x61taAccessRequest\x12\x43\n\nconsent_id\x18\x01 \x01(\tB$\xfa\x42!r\x1f\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$R\tconsentId\x12N\n\x0e\x61pplication_id\x18\x02 \x01(\tB\'\xfa\x42$r\"\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$\xd0\x01\x01R\rapplicationId\x12\x46\n\x04user\x18\x03 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.UserB\x08\xfa\x42\x05\x8a\x01\x02\x10\x00R\x04user\"\x80\x02\n\x12\x44\x61taAccessResponse\x12\x42\n\x07persons\x18\x01 \x03(\x0b\x32(.indykite.knowledge.objects.v1beta1.NodeR\x07persons\x12\x43\n\x05nodes\x18\x02 \x03(\x0b\x32-.indykite.tda.v1beta1.DataAccessResponse.NodeR\x05nodes\x1a\x61\n\x04Node\x12\x1b\n\tperson_id\x18\x01 \x01(\tR\x08personId\x12<\n\x04node\x18\x02 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.NodeR\x04node\"\xcb\x01\n\x13GrantConsentRequest\x12\x46\n\x04user\x18\x01 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.UserB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x04user\x12\x43\n\nconsent_id\x18\x02 \x01(\tB$\xfa\x42!r\x1f\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$R\tconsentId\x12\'\n\x0fvalidity_period\x18\x04 \x01(\x04R\x0evalidityPeriod\"P\n\x14GrantConsentResponse\x12\x38\n\x18properties_granted_count\x18\x01 \x01(\x04R\x16propertiesGrantedCount\"\xa3\x01\n\x14RevokeConsentRequest\x12\x46\n\x04user\x18\x01 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.UserB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x04user\x12\x43\n\nconsent_id\x18\x02 \x01(\tB$\xfa\x42!r\x1f\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$R\tconsentId\"\x17\n\x15RevokeConsentResponse2\xaf\x03\n\x14TrustedDataAccessAPI\x12_\n\nDataAccess\x12\'.indykite.tda.v1beta1.DataAccessRequest\x1a(.indykite.tda.v1beta1.DataAccessResponse\x12\x65\n\x0cGrantConsent\x12).indykite.tda.v1beta1.GrantConsentRequest\x1a*.indykite.tda.v1beta1.GrantConsentResponse\x12h\n\rRevokeConsent\x12*.indykite.tda.v1beta1.RevokeConsentRequest\x1a+.indykite.tda.v1beta1.RevokeConsentResponse\x12\x65\n\x0cListConsents\x12).indykite.tda.v1beta1.ListConsentsRequest\x1a*.indykite.tda.v1beta1.ListConsentsResponseB\xa7\x01\n\x18\x63om.indykite.tda.v1beta1B\x19TrustedDataAccessApiProtoP\x01\xa2\x02\x03ITX\xaa\x02\x14Indykite.Tda.V1beta1\xca\x02\x14Indykite\\Tda\\V1beta1\xe2\x02 Indykite\\Tda\\V1beta1\\GPBMetadata\xea\x02\x16Indykite::Tda::V1beta1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2indykite/tda/v1beta1/trusted_data_access_api.proto\x12\x14indykite.tda.v1beta1\x1a,indykite/knowledge/objects/v1beta1/ikg.proto\x1a indykite/tda/v1beta1/model.proto\x1a\x17validate/validate.proto\"\xad\x01\n\x13ListConsentsRequest\x12\x46\n\x04user\x18\x01 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.UserB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x04user\x12N\n\x0e\x61pplication_id\x18\x02 \x01(\tB\'\xfa\x42$r\"\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$\xd0\x01\x01R\rapplicationId\"Q\n\x14ListConsentsResponse\x12\x39\n\x08\x63onsents\x18\x01 \x03(\x0b\x32\x1d.indykite.tda.v1beta1.ConsentR\x08\x63onsents\"\xf0\x01\n\x11\x44\x61taAccessRequest\x12\x43\n\nconsent_id\x18\x01 \x01(\tB$\xfa\x42!r\x1f\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$R\tconsentId\x12N\n\x0e\x61pplication_id\x18\x02 \x01(\tB\'\xfa\x42$r\"\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$\xd0\x01\x01R\rapplicationId\x12\x46\n\x04user\x18\x03 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.UserB\x08\xfa\x42\x05\x8a\x01\x02\x10\x00R\x04user\"Q\n\x12\x44\x61taAccessResponse\x12;\n\x05nodes\x18\x01 \x03(\x0b\x32%.indykite.tda.v1beta1.TrustedDataNodeR\x05nodes\"\xcb\x01\n\x13GrantConsentRequest\x12\x46\n\x04user\x18\x01 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.UserB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x04user\x12\x43\n\nconsent_id\x18\x02 \x01(\tB$\xfa\x42!r\x1f\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$R\tconsentId\x12\'\n\x0fvalidity_period\x18\x04 \x01(\x04R\x0evalidityPeriod\"P\n\x14GrantConsentResponse\x12\x38\n\x18properties_granted_count\x18\x01 \x01(\x04R\x16propertiesGrantedCount\"\xa3\x01\n\x14RevokeConsentRequest\x12\x46\n\x04user\x18\x01 \x01(\x0b\x32(.indykite.knowledge.objects.v1beta1.UserB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01R\x04user\x12\x43\n\nconsent_id\x18\x02 \x01(\tB$\xfa\x42!r\x1f\x10\x16\x18\xfe\x01\x32\x18^[A-Za-z0-9-_:]{22,254}$R\tconsentId\"\x17\n\x15RevokeConsentResponse2\xaf\x03\n\x14TrustedDataAccessAPI\x12_\n\nDataAccess\x12\'.indykite.tda.v1beta1.DataAccessRequest\x1a(.indykite.tda.v1beta1.DataAccessResponse\x12\x65\n\x0cGrantConsent\x12).indykite.tda.v1beta1.GrantConsentRequest\x1a*.indykite.tda.v1beta1.GrantConsentResponse\x12h\n\rRevokeConsent\x12*.indykite.tda.v1beta1.RevokeConsentRequest\x1a+.indykite.tda.v1beta1.RevokeConsentResponse\x12\x65\n\x0cListConsents\x12).indykite.tda.v1beta1.ListConsentsRequest\x1a*.indykite.tda.v1beta1.ListConsentsResponseB\xa7\x01\n\x18\x63om.indykite.tda.v1beta1B\x19TrustedDataAccessApiProtoP\x01\xa2\x02\x03ITX\xaa\x02\x14Indykite.Tda.V1beta1\xca\x02\x14Indykite\\Tda\\V1beta1\xe2\x02 Indykite\\Tda\\V1beta1\\GPBMetadata\xea\x02\x16Indykite::Tda::V1beta1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -49,18 +49,16 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_LISTCONSENTSRESPONSE']._serialized_end=438
   _globals['_DATAACCESSREQUEST']._serialized_start=441
   _globals['_DATAACCESSREQUEST']._serialized_end=681
-  _globals['_DATAACCESSRESPONSE']._serialized_start=684
-  _globals['_DATAACCESSRESPONSE']._serialized_end=940
-  _globals['_DATAACCESSRESPONSE_NODE']._serialized_start=843
-  _globals['_DATAACCESSRESPONSE_NODE']._serialized_end=940
-  _globals['_GRANTCONSENTREQUEST']._serialized_start=943
-  _globals['_GRANTCONSENTREQUEST']._serialized_end=1146
-  _globals['_GRANTCONSENTRESPONSE']._serialized_start=1148
-  _globals['_GRANTCONSENTRESPONSE']._serialized_end=1228
-  _globals['_REVOKECONSENTREQUEST']._serialized_start=1231
-  _globals['_REVOKECONSENTREQUEST']._serialized_end=1394
-  _globals['_REVOKECONSENTRESPONSE']._serialized_start=1396
-  _globals['_REVOKECONSENTRESPONSE']._serialized_end=1419
-  _globals['_TRUSTEDDATAACCESSAPI']._serialized_start=1422
-  _globals['_TRUSTEDDATAACCESSAPI']._serialized_end=1853
+  _globals['_DATAACCESSRESPONSE']._serialized_start=683
+  _globals['_DATAACCESSRESPONSE']._serialized_end=764
+  _globals['_GRANTCONSENTREQUEST']._serialized_start=767
+  _globals['_GRANTCONSENTREQUEST']._serialized_end=970
+  _globals['_GRANTCONSENTRESPONSE']._serialized_start=972
+  _globals['_GRANTCONSENTRESPONSE']._serialized_end=1052
+  _globals['_REVOKECONSENTREQUEST']._serialized_start=1055
+  _globals['_REVOKECONSENTREQUEST']._serialized_end=1218
+  _globals['_REVOKECONSENTRESPONSE']._serialized_start=1220
+  _globals['_REVOKECONSENTRESPONSE']._serialized_end=1243
+  _globals['_TRUSTEDDATAACCESSAPI']._serialized_start=1246
+  _globals['_TRUSTEDDATAACCESSAPI']._serialized_end=1677
 # @@protoc_insertion_point(module_scope)
