@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.48.0](https://github.com/indykite/indykite-sdk-python/compare/v1.47.0...v1.48.0) (2024-07-11)
+
+
+### Features
+
+* update dependencies and tda data access ([a9413ba](https://github.com/indykite/indykite-sdk-python/commit/a9413ba5e7535fe0f62a1adf33c9c4d90397e1e2))
+
 ## [1.47.0](https://github.com/indykite/indykite-sdk-python/compare/v1.46.0...v1.47.0) (2024-07-02)
 
 
