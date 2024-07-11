@@ -63,13 +63,15 @@ def main():
         # replace with your own values
         client_knowledge = KnowledgeClient()
         # parameters used in the cypher query
-        input_params = {"external_id": "CJnoXYgnPNDAiMg", "type": "Organization"}
+        input_params = {"external_id": "lFtAeWXGjfDEhEz", "type": "Person"}
         # cypher query
-        query = "MATCH (n:Resource) WHERE n.external_id = $external_id and n.type=$type"
+        # query = "MATCH (n:Resource) WHERE n.external_id = $external_id and n.type=$type"
+        query = "MATCH (c:Car)<-[r:OWNS]-(n:Resource) WHERE n.external_id = $external_id and n.type=$type"
         # elements you want returned:
         # variable: cypher table
         # properties: empty = all info elements or array = all properties you want returned
-        returns = [ReturnKnowledge(variable="n")]
+        returns = [ReturnKnowledge(variable="r"), ReturnKnowledge(variable="n")]
+        # [{variable: 'o', properties: []}, {variable: 'r', properties: []}]
         responses = client_knowledge.identity_knowledge_read(query, input_params, returns)
         api_helper.print_response(responses)
         client_knowledge.channel.close()

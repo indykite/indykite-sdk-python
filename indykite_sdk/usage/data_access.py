@@ -150,7 +150,7 @@ def main():
         user = {"user_id": user_id}
         application_id = args.application_id
         responses = client_tda.data_access(consent_id, application_id, user)
-        api_helper.print_response(responses.nodes)
+        api_helper.print_response(responses)
         client_tda.channel.close()
 
     elif command == "list_consents":

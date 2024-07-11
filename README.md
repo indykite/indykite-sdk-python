@@ -2,7 +2,7 @@
 
 This project serves as a Software Development Kit for developers of Indykite applications.
 The Python SDK enables you to easily integrate the IndyKite platform gRPC APIs into your Python application. 
-https://console.indykite.id/
+https://console2.indykite.id/
 https://www.indykite.com/
 
 [![codecov](https://codecov.io/gh/indykite/indykite-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/indykite/indykite-sdk-python)
@@ -14,13 +14,13 @@ https://www.indykite.com/
 ## Installation
 
     add to pipfile [packages]:
-    indykite-sdk-python = {ref = "v1.39.0", git = "https://github.com/indykite/indykite-sdk-python"}
+    indykite-sdk-python = {ref = "v1.47.0", git = "https://github.com/indykite/indykite-sdk-python"}
 
 
 ## Used terminology
 To do anything at all in the IndyKite platform, you must first create an 
-Organization (Customer) in the Hub (https://console.indykite.id/) — the Web interface used to interact with and do tasks in the IndyKite platform 
-and get your credentials (https://docs.indykite.com/docs/get-started/initial-setup).
+Organization (Customer) in the Hub (https://console2.indykite.id/) — the Web interface used to interact with and do tasks in the IndyKite platform 
+and get your credentials (https://docs.indykite.com/docs/get-started).
 
 Once you have created a Customer, a service account, and you have your service account credentials, 
 you can set up the SDK.
@@ -42,7 +42,7 @@ you can set up the SDK.
 :one: **Service account credentials**
 
 You need to have a Service Account credentials json file to be able to use the IndyKite Python SDK. You can get it from the 
-   IndyKite hub: https://console.indykite.id/.
+   IndyKite hub: https://console2.indykite.id/.
 
 #### Config
 To manage its spaces, among other things, the **owner** of the relevant customer creates a **service account**.
@@ -114,7 +114,7 @@ You should use an absolute path for the file.
 :two: **AppAgent Credentials**
 
 You will also need to have an Application Agent credentials json file to be able to use the other services like IKG (ingestion) and KBAC (authorization). 
-You can get it from the IndyKite hub (https://console.indykite.id/) or using the SDK.
+You can get it from the IndyKite hub (https://console2.indykite.id/) or using the SDK.
 
     Example configuration file:
 

@@ -57,7 +57,7 @@ def test_stream_records_success():
     head, tail = responses[0], responses[1:]
 
     assert head.record_id == "145899"
-    assert len(head.record_error.error) is 0
+    assert len(head.record_error.error) == 0
     assert tail == []
 
 

@@ -2,7 +2,7 @@ import sys
 import uuid
 from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 as pb2
 from indykite_sdk.indykite.knowledge.v1beta2 import model_pb2
-from indykite_sdk.indykite.ingest.v1beta2 import model_pb2 as ingest_model_pb2
+from indykite_sdk.indykite.ingest.v1beta3 import model_pb2 as ingest_model_pb2
 from indykite_sdk.model.identity_knowledge import IdentityKnowledgeReadResponse
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.ingest import IngestClient
