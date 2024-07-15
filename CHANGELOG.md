@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.48.1](https://github.com/indykite/indykite-sdk-python/compare/v1.48.0...v1.48.1) (2024-07-15)
+
+
+### Miscellaneous Chores
+
+* update with the latest proto ([e1e28bb](https://github.com/indykite/indykite-sdk-python/commit/e1e28bb3c616e0022461b960d31a3c561a318bd7))
+
 ## [1.48.0](https://github.com/indykite/indykite-sdk-python/compare/v1.47.0...v1.48.0) (2024-07-11)
 
 
