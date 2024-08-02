@@ -431,7 +431,7 @@ class ConfigManagementAPIServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def ListPermissions(self, request, context):
-        """ListPermissions of Digital twins and Invitations related to a customer.
+        """ListPermissions of Digital twins and service accounts related to a customer.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
