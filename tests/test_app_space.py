@@ -191,6 +191,23 @@ def test_create_app_space_name_fail_type_parameter(capsys):
     assert "bad argument type for built-in operation" in captured.err
 
 
+def test_create_app_space_wrong_region(capsys):
+    client = ConfigClient()
+    assert client is not None
+
+    customer_id = data.get_customer_id()
+    right_now = str(int(time.time()))
+
+    app_space = client.create_app_space(customer_id,
+                                        "automation-"+right_now,
+                                        "Automation "+right_now,
+                                        "description",
+                                        [],
+                                        "wrong-region")
+    captured = capsys.readouterr()
+    assert "value must be in list [europe-west1 us-east1]" in captured.err
+
+
 def test_update_app_space_success(capsys):
     client = ConfigClient()
     assert client is not None
@@ -277,8 +294,7 @@ def test_read_app_space_list_success(capsys):
 
     customer_id = data.get_customer_id()
     app_space_name = data.get_app_space_name()
-    match = []
-    match.append(app_space_name)
+    match = [app_space_name]
 
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
@@ -293,8 +309,7 @@ def test_get_app_space_list_wrong_customer(capsys):
 
     customer_id = "gid:AAAAAjUIwqhDT00ikJnfNwyeXF0"
     app_space_name = data.get_app_space_name()
-    match = []
-    match.append(app_space_name)
+    match = [app_space_name]
 
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
@@ -320,8 +335,7 @@ def test_get_app_space_list_wrong_bookmark(capsys):
 
     customer_id = data.get_customer_id()
     app_space_name = data.get_app_space_name()
-    match = []
-    match.append(app_space_name)
+    match = [app_space_name]
 
     app_space = client.list_app_spaces(customer_id, match,
                                        ["RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"])
@@ -410,5 +424,4 @@ def test_del_app_space_empty():
 
     client.stub.DeleteApplicationSpace = mocked_delete_app_space
     response = client.delete_app_space(id, etag, [])
-
     assert response is None

@@ -1,3 +1,5 @@
+import sys
+
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.model.create_config_node import CreateConfigNode
@@ -5,7 +7,7 @@ from indykite_sdk.model.update_config_node import UpdateConfigNode
 from indykite_sdk.model.config_node import ConfigNode
 from indykite_sdk.model.authorization_policy_config_status import Status
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
-import sys
+from indykite_sdk.model.token_status import ExternalTokenStatus
 import indykite_sdk.utils.logger as logger
 
 
@@ -242,7 +244,13 @@ def update_consent_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def consent_config(self, purpose, data_points, application_id, validity_period, revoke_after_use=False):
+def consent_config(self,
+                   purpose,
+                   data_points,
+                   application_id,
+                   validity_period,
+                   revoke_after_use=False,
+                   token_status=3):
     """
     create ConsentConfiguration
     :param self:
@@ -251,18 +259,21 @@ def consent_config(self, purpose, data_points, application_id, validity_period, 
     :param application_id: gid min_len:22, max_len: 254, pattern:"^[A-Za-z0-9-_:]{22,254}$"
     :param validity_period: int minimum value is 1 day and the maximum value is 2 years
     :param revoke_after_use: bool
+    :param token_status Enum ExternalTokenStatus
     :return: ConsentConfiguration object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         if data_points:
             data_points = self.validate_data_points(data_points)
+        token_status = self.validate_token_status(token_status)
         return model_pb2.ConsentConfiguration(
             purpose=purpose,
             data_points=data_points,
             application_id=application_id,
             validity_period=validity_period,
-            revoke_after_use=revoke_after_use
+            revoke_after_use=revoke_after_use,
+            token_status=token_status
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -421,6 +432,25 @@ def validate_data_points(self, data_points):
         return list(dict.fromkeys(data_points))
     except Exception as exception:
         return logger.logger_error(exception)
+
+
+def validate_token_status(self, token_status):
+    """
+    validate token_status requirement
+    :param self:
+    :param token_status: number
+    :return: token_status or error
+    """
+    try:
+        statuses = [s.value for s in ExternalTokenStatus]
+        if token_status and token_status not in statuses:
+            raise TypeError("token_status must be a member of ExternalTokenStatus")
+        return token_status
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+
 
 
 def validate_authorization_policy_status(self, status):

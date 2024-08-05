@@ -207,11 +207,12 @@ def main():
         # replace the json file by your own
         consent_config = ConfigClient().consent_config(
             purpose="Taking control2",
-            data_points=["{\"query\": \"-[:OWNS]-(car:Car)\", "
+            data_points=["{\"query\": \"-[:OWNS]->(car:Car)\", "
                          "\"returns\": [{\"variable\": \"car\", \"properties\": [\"vin\"]}]}"],
             application_id=application_id,
             validity_period=86400,
-            revoke_after_use=False
+            revoke_after_use=False,
+            token_status=3
         )
         create_consent_config_node_response = client_config.create_consent_config_node(
             location,
@@ -240,11 +241,12 @@ def main():
         bookmark = []  # or value returned by last write operation
         consent_config = ConfigClient().consent_config(
             purpose="Taking control",
-            data_points=["{ \"query\": \"\", \"returns\": [ { \"variable\": \"\"," +
-                         "\"properties\": [\"first_name\", \"last_name\", \"email\"] } ] }"],
+            data_points=["{ \"query\": \"-[:OWNS]-(car:Car)\", \"returns\": [ { \"variable\": \"car\"," +
+                         "\"properties\": [\"plateNumber\"] } ] }"],
             application_id=application_id,
             validity_period=86400,
-            revoke_after_use=False
+            revoke_after_use=False,
+            token_status=2
         )
 
         update_consent_config_node_response = client_config.update_consent_config_node(
@@ -277,8 +279,8 @@ def main():
         # replace the json file by your own
         # token_matcher = oneof TokenIntrospectConfig.JWT, TokenIntrospectConfig.Opaque
         jwt = model_pb2.TokenIntrospectConfig.JWT(
-            issuer="https://example.com",
-            audience="audience-id"
+            issuer="https://myself.com",
+            audience="id-of-the-audience"
         )
         # opaque = model_pb2.TokenIntrospectConfig.Opaque()
         # validation = oneof TokenIntrospectConfig.Offline, TokenIntrospectConfig.Online

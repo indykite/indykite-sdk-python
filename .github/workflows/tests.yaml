@@ -76,7 +76,9 @@ jobs:
           python-version: "3.11"
           cache: "pipenv"
       - name: Install project
-        run: pipenv install
+        run:
+          pipenv install
+          pipenv shell
       - name: Run tests
         run: pipenv run pytest
       - name: Run script

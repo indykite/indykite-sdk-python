@@ -38,6 +38,6 @@ class ConfigClient(object):
                               consent_config, create_consent_config_node,
                               update_consent_config_node, validate_data_points,
                               create_token_introspect_config_node, update_token_introspect_config_node,
-                              token_introspect_config
+                              token_introspect_config, validate_token_status
                               )
     from .create_application_with_agent_credentials import create_application_with_agent_credentials

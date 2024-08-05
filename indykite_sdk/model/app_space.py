@@ -43,6 +43,12 @@ class ApplicationSpace:
                 raise TypeError("status must be a member of AppSpace.AppSpaceIKGStatus")
             application_space.ikg_status = message.ikg_status
 
+        if "region" in fields:
+            values = ["europe-west1", "us-east1"]
+            if message.region and message.region not in values:
+                raise TypeError("region must be europe-west1 or us-east1")
+            application_space.region = message.region
+
         return application_space
 
     def __init__(self, id, name, display_name, etag, customer_id):
@@ -59,3 +65,4 @@ class ApplicationSpace:
         self.created_by = None
         self.updated_by = None
         self.ikg_status = None
+        self.region = None
