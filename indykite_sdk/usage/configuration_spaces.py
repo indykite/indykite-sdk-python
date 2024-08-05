@@ -345,8 +345,9 @@ def main():
         customer_id = args.customer_id
         display_name = args.display_name
         bookmark = []  # or value returned by last write operation
+        region= "europe-west1"
         app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name, "description",
-                                                            bookmark)
+                                                            bookmark, region)
         if app_space_response:
             api_helper.print_response(app_space_response)
         else:

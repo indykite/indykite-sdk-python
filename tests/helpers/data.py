@@ -212,7 +212,8 @@ def get_consent_config():
                      "\"properties\": [\"name\", \"email\", \"location\"] } ] }"],
         application_id = get_application_id(),
         validity_period = 86400,
-        revoke_after_use = False
+        revoke_after_use = False,
+        token_status=3
     )
     return consent_config
 
