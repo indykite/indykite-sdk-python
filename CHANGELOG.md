@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.49.0](https://github.com/indykite/indykite-sdk-python/compare/v1.48.1...v1.49.0) (2024-08-05)
+
+
+### Features
+
+* add field in app space and consent ([1bd9501](https://github.com/indykite/indykite-sdk-python/commit/1bd95011b7d6b62edd39c2abbfcdace69cc73656))
+* add field in app space and consent ([84ffc81](https://github.com/indykite/indykite-sdk-python/commit/84ffc816f55f71ed36be4f6b9a809deb917cfd9e))
+
 ## [1.48.1](https://github.com/indykite/indykite-sdk-python/compare/v1.48.0...v1.48.1) (2024-07-15)
 
 
