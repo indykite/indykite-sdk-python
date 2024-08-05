@@ -555,7 +555,8 @@
         },
         "indykite-sdk-python": {
             "markers": "python_version ~= '3.11'",
-            "version": "==1.47.0"
+            "editable": true,
+            "path": "."
         },
         "iniconfig": {
             "hashes": [
