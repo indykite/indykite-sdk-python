@@ -1,3 +1,4 @@
+from indykite_sdk.model.external_data_resolver_config import ExternalDataResolverConfig
 from indykite_sdk.utils import timestamp_to_date
 from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
 from indykite_sdk.model.consent_configuration import ConsentConfiguration
@@ -46,6 +47,10 @@ class ConfigNode:
             config_node.token_introspect_config = TokenIntrospectConfig.deserialize(
                 message.token_introspect_config)
 
+        if "external_data_resolver_config" in fields:
+            config_node.external_data_resolver_config = ExternalDataResolverConfig.deserialize(
+                message.external_data_resolver_config)
+
         if "created_by" in fields:
             config_node.created_by = str(message.created_by)
 
@@ -69,6 +74,8 @@ class ConfigNode:
         self.delete_time = None
         self.description = None
         self.authorization_policy_config = None
+        self.token_introspect_config = None
+        self.external_data_resolver_config = None
         self.consent_config = None
         self.created_by = None
         self.updated_by = None

@@ -410,13 +410,15 @@ def main():
         type = "Car"
         # properties
         t = datetime.now()
-        ingest_metadata = client_ingest.ingest_metadata(1, t, "BRUCE", {"customVin": "customVinValue"})
+        ingest_metadata = client_ingest.ingest_metadata(1, t, "CRAIG", {"customVin": "customVinValue"})
+        ingest_external_value = client_ingest.ingest_external_value(None, "resolver1")
         ingest_property = client_ingest.ingest_property("maker", "FORD")
-        ingest_property2 = client_ingest.ingest_property("vin", "PjOkiLpNjm", ingest_metadata)
-        ingest_property3 = client_ingest.ingest_property("colour", "blue")
+        ingest_property2 = client_ingest.ingest_property("vin", "THyjuU", ingest_metadata)
+        ingest_property3 = client_ingest.ingest_property("colour", "pink")
         ingest_property4 = client_ingest.ingest_property("asset", "T")
         ingest_property5 = client_ingest.ingest_property("status", "Active")
-        properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
+        ingest_property6 = client_ingest.ingest_property("resolver", None, None, ingest_external_value)
+        properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5, ingest_property6]
         ingest_property22 = client_ingest.ingest_property("vin", "ioiroeiorieo")
         ingest_property32 = client_ingest.ingest_property("colour", "pink")
         properties2 = [ingest_property, ingest_property22, ingest_property32, ingest_property4, ingest_property5]

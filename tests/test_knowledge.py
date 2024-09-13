@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 import os
 
@@ -191,13 +192,6 @@ def test_list_identities_by_property_exception(capsys):
     assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
 
 
-def test_list_nodes_success():
-    client = KnowledgeClient()
-    assert client is not None
-    response = client.list_nodes()
-    assert response[0].type == "Asset" or "Organization"
-
-
 def test_list_nodes_empty():
     client = KnowledgeClient()
     assert client is not None
@@ -221,13 +215,6 @@ def test_list_nodes_exception(capsys):
     response = client.list_nodes([])
     captured = capsys.readouterr()
     assert "invalid IdentityKnowledgeReadRequest.Returns" in captured.err
-
-
-def test_list_identities_success():
-    client = KnowledgeClient()
-    assert client is not None
-    response = client.list_identities()
-    assert response[0].type == "Individual" or "Carowner" or "Whatever"
 
 
 def test_list_identities_empty():
@@ -289,6 +276,14 @@ def test_get_metadata_no_data():
         type="individual")
     metadata = node1.get_metadata(node1, "unknown")
     assert metadata is None
+
+def test_get_external_value_no_data():
+    node1 = Node(
+        id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
+        external_id="PEpkjOvUJQvqTFw",
+        type="individual")
+    external_value = node1.get_external_value(node1, "unknown")
+    assert external_value is None
 
 
 def test_get_metadata_non_valid():

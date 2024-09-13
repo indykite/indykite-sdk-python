@@ -179,7 +179,7 @@ def main():
         # replace with your own values
         client_knowledge = KnowledgeClient()
         # replace by own values
-        property = {"color": "white"}
+        property = {"last_name": "mushu"}
         responses = client_knowledge.list_nodes_by_property(property)
         if responses:
             for response in responses:

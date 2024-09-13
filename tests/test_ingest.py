@@ -177,7 +177,7 @@ def test_ingest_property_no_value(capsys):
     assert client is not None
     ing_property = client.ingest_property("role","")
     captured = capsys.readouterr()
-    assert "value is missing" in captured.err
+    assert "you need oneof value / external_value" in captured.err
 
 
 def test_upsert_node_error(capsys):

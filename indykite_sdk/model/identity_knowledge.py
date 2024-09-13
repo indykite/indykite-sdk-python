@@ -85,6 +85,22 @@ class Node:
             return res[0].get('metadata', None)
         return None
 
+    @classmethod
+    def get_external_value(cls, node, property):
+        """
+        get the property external_value from the node's list of properties
+        :param cls:
+        :param node: node object
+        :param property: string
+        :return: value if found, None if not found
+        """
+        if not node.properties:
+            return None
+        res = [p for p in node.properties if p['key'] == property]
+        if len(res) > 0:
+            return res[0].get('external_value', None)
+        return None
+
     def __init__(self, id=None, external_id=None, type=None,
                  tags=None, create_time=None, update_time=None,
                  properties=None, is_identity=None):
@@ -140,12 +156,14 @@ class Property:
             property.type if property.type else None,
             grpc_to_value(property.value) if property.value else None,
             Metadata.deserialize(property.metadata) if property.metadata else None,
+            ExternalValue.deserialize(property.external_value) if property.external_value and (property.external_value.id or property.external_value.name) else None,
         )
 
-    def __init__(self, type=None, value=None, metadata=None):
+    def __init__(self, type=None, value=None, metadata=None, external_value=None):
         self.type = type
         self.value = value
         self.metadata = metadata
+        self.external_value = external_value
 
 
 class Metadata:
@@ -176,6 +194,19 @@ class Metadata:
         self.verification_time = verification_time
         self.source = source
         self.custom_metadata = custom_metadata
+
+
+class ExternalValue:
+    @classmethod
+    def deserialize(cls, external_value):
+        if external_value is None:
+            return None
+        return ExternalValue(
+            external_value.id if hasattr(external_value, 'id') else external_value.name if hasattr(external_value, 'name') else None
+        )
+
+    def __init__(self, resolver=None):
+        self.resolver = resolver
 
 
 class Return:
