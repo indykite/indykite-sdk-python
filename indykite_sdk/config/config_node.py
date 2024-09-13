@@ -8,6 +8,7 @@ from indykite_sdk.model.config_node import ConfigNode
 from indykite_sdk.model.authorization_policy_config_status import Status
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
 from indykite_sdk.model.token_status import ExternalTokenStatus
+from indykite_sdk.model.external_data_resolver_config_content_type import ContentType
 import indykite_sdk.utils.logger as logger
 
 
@@ -355,7 +356,12 @@ def update_token_introspect_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def token_introspect_config(self, token_matcher, validation, claims_mapping, ikg_node_type, perform_upsert=False):
+def token_introspect_config(self,
+                            token_matcher,
+                            validation,
+                            claims_mapping,
+                            ikg_node_type,
+                            perform_upsert=False):
     """
     create TokenIntrospectConfig
     :param self:
@@ -421,6 +427,143 @@ def token_introspect_config(self, token_matcher, validation, claims_mapping, ikg
         return logger.logger_error(exception)
 
 
+def create_external_data_resolver_config_node(self,
+                                              location,
+                                              name,
+                                              display_name,
+                                              description,
+                                              external_data_resolver_config,
+                                              bookmarks=[]):
+    """
+    create external data resolver config node
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param external_data_resolver_config: ExternalDataResolverConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        valid = True
+        if external_data_resolver_config and isinstance(external_data_resolver_config, model_pb2.ExternalDataResolverConfig):
+            if external_data_resolver_config.method:
+                valid = self.validate_external_data_resolver_method(external_data_resolver_config.method)
+            if valid and external_data_resolver_config.request_type:
+                valid = self.validate_external_data_resolver_content_type(external_data_resolver_config.request_type)
+            if valid and external_data_resolver_config.response_type:
+                valid = self.validate_external_data_resolver_content_type(external_data_resolver_config.response_type)
+        else:
+            raise TypeError("ExternalDataResolverConfig must be an object")
+            valid = False
+
+        if valid:
+            response = self.stub.CreateConfigNode(
+                pb2.CreateConfigNodeRequest(
+                    location=location,
+                    name=name,
+                    display_name=wrappers.StringValue(value=display_name),
+                    description=wrappers.StringValue(value=description),
+                    external_data_resolver_config=external_data_resolver_config,
+                    bookmarks=bookmarks
+                )
+            )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return CreateConfigNode.deserialize(response)
+
+
+def update_external_data_resolver_config_node(self,
+                                              config_node_id,
+                                              etag,
+                                              display_name,
+                                              description,
+                                              external_data_resolver_config,
+                                              bookmarks=[]):
+    """
+    update external data resolver
+    :param self:
+    :param config_node_id: string gid id
+    :param display_name: string
+    :param description: string
+    :param external_data_resolver_config: ExternalDataResolverConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        valid = True
+        if external_data_resolver_config and isinstance(external_data_resolver_config, model_pb2.ExternalDataResolverConfig):
+            if external_data_resolver_config.method:
+                valid = self.validate_external_data_resolver_method(external_data_resolver_config.method)
+            if valid and external_data_resolver_config.request_type:
+                valid = self.validate_external_data_resolver_content_type(external_data_resolver_config.request_type)
+            if valid and external_data_resolver_config.response_type:
+                valid = self.validate_external_data_resolver_content_type(external_data_resolver_config.response_type)
+        else:
+            raise TypeError("ExternalDataResolverConfig must be an object")
+            valid = False
+
+        if valid:
+            response = self.stub.UpdateConfigNode(
+                pb2.UpdateConfigNodeRequest(
+                    id=config_node_id,
+                    etag=wrappers.StringValue(value=etag),
+                    display_name=wrappers.StringValue(value=display_name),
+                    description=wrappers.StringValue(value=description),
+                    external_data_resolver_config=external_data_resolver_config,
+                    bookmarks=bookmarks
+                )
+            )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return UpdateConfigNode.deserialize(response)
+
+
+def external_data_resolver_config(self,
+                                  url,
+                                  method,
+                                  headers=None,
+                                  request_type=None,
+                                  request_payload=None,
+                                  response_type=None,
+                                  response_selector=None):
+    """
+    create ExternalDataResolverConfig
+    :param self:
+    :param url: Full URL to endpoint that will be called
+    :param method: [GET, POST, PUT, PATCH]
+    :param headers: map<string, ExternalDataResolverConfig.Header>
+    :param request_type: ExternalDataResolverConfig.ContentType
+    :param request_payload: to be sent to the endpoint, in proper format based on request type
+    :param response_type: ExternalDataResolverConfig.ContentType
+    :param response_selector: Selector to extract data from response
+    :return: ExternalDataResolverConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        external_config = model_pb2.ExternalDataResolverConfig(
+            url=str(url),
+            method=method,
+            headers=headers,
+            request_type=request_type,
+            request_payload=request_payload,
+            response_type=response_type,
+            response_selector=response_selector
+            )
+        return external_config
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
 def validate_data_points(self, data_points):
     """
     validate data_points requirement
@@ -450,9 +593,6 @@ def validate_token_status(self, token_status):
         return logger.logger_error(exception)
 
 
-
-
-
 def validate_authorization_policy_status(self, status):
     """
     validate status
@@ -464,6 +604,38 @@ def validate_authorization_policy_status(self, status):
         statuses = [s.value for s in Status]
         if status not in statuses:
             raise TypeError("status must be a member of AuthorizationPolicyConfig.Status")
+        return True
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_external_data_resolver_method(self, method):
+    """
+    validate method
+    :param self:
+    :param method: string
+    :return: True if valid or raises error
+    """
+    try:
+        methods = ["GET", "POST", "PUT", "PATCH"]
+        if method not in methods:
+            raise TypeError("method must be in [GET, POST, PUT, PATCH]")
+        return True
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_external_data_resolver_content_type(self, content_type):
+    """
+    validate content_type
+    :param selfcontent_type:
+    :param content_type: string
+    :return: True if valid or raises error
+    """
+    try:
+        content_types = [c.value for c in ContentType]
+        if content_type not in content_types:
+            raise TypeError("content_type must be a member of ExternalDataResolverConfig.ContentType")
         return True
     except Exception as exception:
         return logger.logger_error(exception)

@@ -18,11 +18,12 @@ class Property:
           value
         )
 
-    def __init__(self, prop_id, prop, meta, value):
+    def __init__(self, prop_id, prop, meta, value=None, external_value=None):
         self.id = prop_id
         self.property = prop
         self.meta = meta
         self.value = value
+        self.external_value = external_value
 
     def __str__(self):
         return (

@@ -1,8 +1,10 @@
+import sys
+
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
 from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as pb2_model
 from indykite_sdk.model.what_authorized import WhatAuthorizedResponse
-import sys
+from indykite_sdk.utils.message_to_value import param_to_inputparam
 import indykite_sdk.utils.logger as logger
 
 
@@ -34,7 +36,7 @@ def what_authorized_token(self, access_token, resource_types=[], input_params={}
         response = self.stub.WhatAuthorized(
             pb2.WhatAuthorizedRequest(
                 subject=pb2_model.Subject(
-                    indykite_access_token=str(access_token)
+                    access_token=str(access_token)
                 ),
                 resource_types=request_resource_type(resource_types),
                 input_params=request_input_params(input_params),
@@ -103,7 +105,7 @@ def request_resource_type(resource_types):
 
 def request_input_params(input_params):
     input_params_dict = {
-        k: pb2_model.InputParam(string_value=str(v))
+        k: param_to_inputparam(v)
         for k, v in input_params.items()
     }
     return input_params_dict

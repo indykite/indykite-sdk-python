@@ -35,7 +35,7 @@ def test_is_authorized_token_empty():
     for r in resources:
         res.append(pb2.IsAuthorizedRequest.Resource(external_id=r.external_id, type=r.type, actions=r.actions))
     subject = pb2_model.Subject(
-        indykite_access_token=str(access_token)
+        access_token=str(access_token)
     )
 
     def mocked_is_authorized(request: pb2.IsAuthorizedRequest):
@@ -54,13 +54,13 @@ def test_is_authorized_token_success():
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                  IsAuthorizedResource("resource2ID", "TypeName", actions)]
-    input_params = {}
+    input_params = {"age": 21}
     policy_tags = []
     res = []
     for r in resources:
         res.append(pb2.IsAuthorizedRequest.Resource(external_id=r.external_id, type=r.type, actions=r.actions))
     subject = pb2_model.Subject(
-        indykite_access_token=str(token)
+        access_token=str(token)
     )
 
     def mocked_is_authorized(request: pb2.IsAuthorizedRequest):
@@ -147,7 +147,7 @@ def test_is_authorized_property_success():
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
                  IsAuthorizedResource("resource2ID", "TypeName", actions)]
-    input_params = {}
+    input_params = {"age": 21}
     response = client.is_authorized_property_filter(type_filter, email_value, resources, input_params, [])
     assert response is not None
     assert isinstance(response, IsAuthorizedResponse)

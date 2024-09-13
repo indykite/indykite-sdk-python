@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'indykite/auditsink/v1beta1/ingest.proto\x12\x1aindykite.auditsink.v1beta1\"\x9c\x01\n\nUpsertData\x12\x36\n\x04node\x18\x01 \x01(\x0b\x32 .indykite.auditsink.v1beta1.NodeH\x00R\x04node\x12N\n\x0crelationship\x18\x02 \x01(\x0b\x32(.indykite.auditsink.v1beta1.RelationshipH\x00R\x0crelationshipB\x06\n\x04\x64\x61ta\"\xc7\x05\n\nDeleteData\x12;\n\x04node\x18\x01 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchH\x00R\x04node\x12N\n\x0crelationship\x18\x02 \x01(\x0b\x32(.indykite.auditsink.v1beta1.RelationshipH\x00R\x0crelationship\x12_\n\rnode_property\x18\x03 \x01(\x0b\x32\x38.indykite.auditsink.v1beta1.DeleteData.NodePropertyMatchH\x00R\x0cnodeProperty\x12w\n\x15relationship_property\x18\x04 \x01(\x0b\x32@.indykite.auditsink.v1beta1.DeleteData.RelationshipPropertyMatchH\x00R\x14relationshipProperty\x1au\n\x11NodePropertyMatch\x12;\n\x05match\x18\x01 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x05match\x12#\n\rproperty_type\x18\x02 \x01(\tR\x0cpropertyType\x1a\xd2\x01\n\x19RelationshipPropertyMatch\x12\x12\n\x04type\x18\x01 \x01(\tR\x04type\x12=\n\x06source\x18\x02 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x06source\x12=\n\x06target\x18\x03 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x06target\x12#\n\rproperty_type\x18\x04 \x01(\tR\x0cpropertyTypeB\x06\n\x04\x64\x61ta\"_\n\x0b\x44igitalTwin\x12\x1f\n\x0b\x65xternal_id\x18\x01 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x02 \x01(\tR\x04type\x12\x1b\n\ttenant_id\x18\x03 \x01(\tR\x08tenantId\"?\n\x08Resource\x12\x1f\n\x0b\x65xternal_id\x18\x01 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x02 \x01(\tR\x04type\"l\n\x04Node\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n\x0b\x65xternal_id\x18\x02 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x03 \x01(\tR\x04type\x12\x1f\n\x0bis_identity\x18\x04 \x01(\x08R\nisIdentity\"\xa0\x01\n\x0cRelationship\x12\x12\n\x04type\x18\x01 \x01(\tR\x04type\x12=\n\x06source\x18\x02 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x06source\x12=\n\x06target\x18\x03 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x06target\"@\n\tNodeMatch\x12\x1f\n\x0b\x65xternal_id\x18\x01 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x02 \x01(\tR\x04typeB\xb7\x01\n\x1e\x63om.indykite.auditsink.v1beta1B\x0bIngestProtoP\x01\xa2\x02\x03IAX\xaa\x02\x1aIndykite.Auditsink.V1beta1\xca\x02\x1aIndykite\\Auditsink\\V1beta1\xe2\x02&Indykite\\Auditsink\\V1beta1\\GPBMetadata\xea\x02\x1cIndykite::Auditsink::V1beta1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'indykite/auditsink/v1beta1/ingest.proto\x12\x1aindykite.auditsink.v1beta1\"J\n\x10\x42\x61tchUpsertNodes\x12\x36\n\x05nodes\x18\x01 \x03(\x0b\x32 .indykite.auditsink.v1beta1.NodeR\x05nodes\"j\n\x18\x42\x61tchUpsertRelationships\x12N\n\rrelationships\x18\x01 \x03(\x0b\x32(.indykite.auditsink.v1beta1.RelationshipR\rrelationships\"O\n\x10\x42\x61tchDeleteNodes\x12;\n\x05nodes\x18\x01 \x03(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x05nodes\"j\n\x18\x42\x61tchDeleteRelationships\x12N\n\rrelationships\x18\x01 \x03(\x0b\x32(.indykite.auditsink.v1beta1.RelationshipR\rrelationships\"~\n\x19\x42\x61tchDeleteNodeProperties\x12\x61\n\x0fnode_properties\x18\x01 \x03(\x0b\x32\x38.indykite.auditsink.v1beta1.DeleteData.NodePropertyMatchR\x0enodeProperties\"\x9e\x01\n!BatchDeleteRelationshipProperties\x12y\n\x17relationship_properties\x18\x01 \x03(\x0b\x32@.indykite.auditsink.v1beta1.DeleteData.RelationshipPropertyMatchR\x16relationshipProperties\"\x9c\x01\n\nUpsertData\x12\x36\n\x04node\x18\x01 \x01(\x0b\x32 .indykite.auditsink.v1beta1.NodeH\x00R\x04node\x12N\n\x0crelationship\x18\x02 \x01(\x0b\x32(.indykite.auditsink.v1beta1.RelationshipH\x00R\x0crelationshipB\x06\n\x04\x64\x61ta\"\xc7\x05\n\nDeleteData\x12;\n\x04node\x18\x01 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchH\x00R\x04node\x12N\n\x0crelationship\x18\x02 \x01(\x0b\x32(.indykite.auditsink.v1beta1.RelationshipH\x00R\x0crelationship\x12_\n\rnode_property\x18\x03 \x01(\x0b\x32\x38.indykite.auditsink.v1beta1.DeleteData.NodePropertyMatchH\x00R\x0cnodeProperty\x12w\n\x15relationship_property\x18\x04 \x01(\x0b\x32@.indykite.auditsink.v1beta1.DeleteData.RelationshipPropertyMatchH\x00R\x14relationshipProperty\x1au\n\x11NodePropertyMatch\x12;\n\x05match\x18\x01 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x05match\x12#\n\rproperty_type\x18\x02 \x01(\tR\x0cpropertyType\x1a\xd2\x01\n\x19RelationshipPropertyMatch\x12\x12\n\x04type\x18\x01 \x01(\tR\x04type\x12=\n\x06source\x18\x02 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x06source\x12=\n\x06target\x18\x03 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x06target\x12#\n\rproperty_type\x18\x04 \x01(\tR\x0cpropertyTypeB\x06\n\x04\x64\x61ta\"_\n\x0b\x44igitalTwin\x12\x1f\n\x0b\x65xternal_id\x18\x01 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x02 \x01(\tR\x04type\x12\x1b\n\ttenant_id\x18\x03 \x01(\tR\x08tenantId\"?\n\x08Resource\x12\x1f\n\x0b\x65xternal_id\x18\x01 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x02 \x01(\tR\x04type\"l\n\x04Node\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x1f\n\x0b\x65xternal_id\x18\x02 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x03 \x01(\tR\x04type\x12\x1f\n\x0bis_identity\x18\x04 \x01(\x08R\nisIdentity\"\xa0\x01\n\x0cRelationship\x12\x12\n\x04type\x18\x01 \x01(\tR\x04type\x12=\n\x06source\x18\x02 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x06source\x12=\n\x06target\x18\x03 \x01(\x0b\x32%.indykite.auditsink.v1beta1.NodeMatchR\x06target\"@\n\tNodeMatch\x12\x1f\n\x0b\x65xternal_id\x18\x01 \x01(\tR\nexternalId\x12\x12\n\x04type\x18\x02 \x01(\tR\x04typeB\xb7\x01\n\x1e\x63om.indykite.auditsink.v1beta1B\x0bIngestProtoP\x01\xa2\x02\x03IAX\xaa\x02\x1aIndykite.Auditsink.V1beta1\xca\x02\x1aIndykite\\Auditsink\\V1beta1\xe2\x02&Indykite\\Auditsink\\V1beta1\\GPBMetadata\xea\x02\x1cIndykite::Auditsink::V1beta1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -22,22 +22,34 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'indykite.auditsink.v1beta1.
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\036com.indykite.auditsink.v1beta1B\013IngestProtoP\001\242\002\003IAX\252\002\032Indykite.Auditsink.V1beta1\312\002\032Indykite\\Auditsink\\V1beta1\342\002&Indykite\\Auditsink\\V1beta1\\GPBMetadata\352\002\034Indykite::Auditsink::V1beta1'
-  _globals['_UPSERTDATA']._serialized_start=72
-  _globals['_UPSERTDATA']._serialized_end=228
-  _globals['_DELETEDATA']._serialized_start=231
-  _globals['_DELETEDATA']._serialized_end=942
-  _globals['_DELETEDATA_NODEPROPERTYMATCH']._serialized_start=604
-  _globals['_DELETEDATA_NODEPROPERTYMATCH']._serialized_end=721
-  _globals['_DELETEDATA_RELATIONSHIPPROPERTYMATCH']._serialized_start=724
-  _globals['_DELETEDATA_RELATIONSHIPPROPERTYMATCH']._serialized_end=934
-  _globals['_DIGITALTWIN']._serialized_start=944
-  _globals['_DIGITALTWIN']._serialized_end=1039
-  _globals['_RESOURCE']._serialized_start=1041
-  _globals['_RESOURCE']._serialized_end=1104
-  _globals['_NODE']._serialized_start=1106
-  _globals['_NODE']._serialized_end=1214
-  _globals['_RELATIONSHIP']._serialized_start=1217
-  _globals['_RELATIONSHIP']._serialized_end=1377
-  _globals['_NODEMATCH']._serialized_start=1379
-  _globals['_NODEMATCH']._serialized_end=1443
+  _globals['_BATCHUPSERTNODES']._serialized_start=71
+  _globals['_BATCHUPSERTNODES']._serialized_end=145
+  _globals['_BATCHUPSERTRELATIONSHIPS']._serialized_start=147
+  _globals['_BATCHUPSERTRELATIONSHIPS']._serialized_end=253
+  _globals['_BATCHDELETENODES']._serialized_start=255
+  _globals['_BATCHDELETENODES']._serialized_end=334
+  _globals['_BATCHDELETERELATIONSHIPS']._serialized_start=336
+  _globals['_BATCHDELETERELATIONSHIPS']._serialized_end=442
+  _globals['_BATCHDELETENODEPROPERTIES']._serialized_start=444
+  _globals['_BATCHDELETENODEPROPERTIES']._serialized_end=570
+  _globals['_BATCHDELETERELATIONSHIPPROPERTIES']._serialized_start=573
+  _globals['_BATCHDELETERELATIONSHIPPROPERTIES']._serialized_end=731
+  _globals['_UPSERTDATA']._serialized_start=734
+  _globals['_UPSERTDATA']._serialized_end=890
+  _globals['_DELETEDATA']._serialized_start=893
+  _globals['_DELETEDATA']._serialized_end=1604
+  _globals['_DELETEDATA_NODEPROPERTYMATCH']._serialized_start=1266
+  _globals['_DELETEDATA_NODEPROPERTYMATCH']._serialized_end=1383
+  _globals['_DELETEDATA_RELATIONSHIPPROPERTYMATCH']._serialized_start=1386
+  _globals['_DELETEDATA_RELATIONSHIPPROPERTYMATCH']._serialized_end=1596
+  _globals['_DIGITALTWIN']._serialized_start=1606
+  _globals['_DIGITALTWIN']._serialized_end=1701
+  _globals['_RESOURCE']._serialized_start=1703
+  _globals['_RESOURCE']._serialized_end=1766
+  _globals['_NODE']._serialized_start=1768
+  _globals['_NODE']._serialized_end=1876
+  _globals['_RELATIONSHIP']._serialized_start=1879
+  _globals['_RELATIONSHIP']._serialized_end=2039
+  _globals['_NODEMATCH']._serialized_start=2041
+  _globals['_NODEMATCH']._serialized_end=2105
 # @@protoc_insertion_point(module_scope)

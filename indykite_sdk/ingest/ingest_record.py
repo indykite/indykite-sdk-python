@@ -6,7 +6,7 @@ from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
 from indykite_sdk.model.ingest_record import IngestRecordResponse
 import indykite_sdk.utils.logger as logger
 from indykite_sdk.utils.message_to_value import param_to_value
-from indykite_sdk.utils import date_to_timestamp, timestamp_to_date
+from indykite_sdk.utils import date_to_timestamp
 
 
 def ingest_record(self, record):
@@ -73,25 +73,27 @@ def record_delete(self, id, delete):
         return logger.logger_error(exception)
 
 
-def ingest_property(self, type, value, metadata=None):
+def ingest_property(self, type, value=None, metadata=None, external_value=None):
     """
     create Property object
     :param self:
     :param type:
     :param value:
     :param metadata:MetadataObject
+    :param external_data:ExternalData object
     :return: Property object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         if not type:
             raise Exception('type is missing')
-        if not value:
-            raise Exception('value is missing')
+        if not (value or external_value):
+            raise Exception('you need oneof value / external_value')
         ip = ikg_pb2.Property(
             type=str(type),
             value=param_to_value(value),
-            metadata=metadata
+            metadata=metadata,
+            external_value=external_value
             )
         return ip
     except Exception as exception:
@@ -126,6 +128,27 @@ def ingest_metadata(self,
             source=source,
             custom_metadata=custom_metadata_dict
             )
+        return ip
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def ingest_external_value(self,id=None, name=None):
+    """
+    create ExternalValue object
+    :param self:
+    :param id: resolver config node gid
+    :param name: resolver config node name
+    :return: ExternalValue object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        if id:
+            ip = ikg_pb2.ExternalValue(id = id)
+        elif name:
+            ip = ikg_pb2.ExternalValue(name=name)
+        else:
+            return None
         return ip
     except Exception as exception:
         return logger.logger_error(exception)

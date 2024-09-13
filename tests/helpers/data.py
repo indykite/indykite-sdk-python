@@ -3,6 +3,7 @@ import json
 import os
 import random
 import string
+import time
 
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
@@ -241,3 +242,21 @@ def get_token_introspect_config():
         perform_upsert=True
     )
     return token_introspect_config
+
+
+def get_external_data_resolver_config(right_now):
+    header1 = model_pb2.ExternalDataResolverConfig.Header()
+    header1.values.extend(["Authorization", "Bearer token_value"])
+    header2 = model_pb2.ExternalDataResolverConfig.Header()
+    header2.values.extend(["Content-Type", "application/json"])
+    headers = {"AuthHeader": header1, "ContentHeader": header2}
+    external_data_resolver_config = ConfigClient().external_data_resolver_config(
+        url="https://example.com/source"+right_now,
+        method="GET",
+        headers=headers,
+        request_type=1,
+        request_payload=b'{"url": "source"+right_now, "method": "GET"}',
+        response_type=1,
+        response_selector="."
+    )
+    return external_data_resolver_config

@@ -35,7 +35,7 @@ def test_what_authorized_token_empty():
         for r in resource_types
     ]
     subject = pb2_model.Subject(
-            indykite_access_token=str(access_token)
+            access_token=str(access_token)
     )
 
     def mocked_what_authorized(request: pb2.WhatAuthorizedRequest):
@@ -60,7 +60,7 @@ def test_what_authorized_token_success():
         for r in resource_types
     ]
     subject = pb2_model.Subject(
-        indykite_access_token=str(token)
+        access_token=str(token)
     )
 
     def mocked_what_authorized(request: pb2.WhatAuthorizedRequest):
