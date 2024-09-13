@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.50.0](https://github.com/indykite/indykite-sdk-python/compare/v1.49.0...v1.50.0) (2024-09-13)
+
+
+### Features
+
+* add data-refs ([c578512](https://github.com/indykite/indykite-sdk-python/commit/c57851263394ee1130e1318d164d8be33ed5e1b6))
+
 ## [1.49.0](https://github.com/indykite/indykite-sdk-python/compare/v1.48.1...v1.49.0) (2024-08-05)
 
 
