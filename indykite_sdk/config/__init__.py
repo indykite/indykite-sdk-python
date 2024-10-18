@@ -43,6 +43,10 @@ class ConfigClient(object):
                               validate_external_data_resolver_content_type,
                               create_external_data_resolver_config_node,
                               update_external_data_resolver_config_node,
-                              external_data_resolver_config
+                              external_data_resolver_config,
+                              create_entity_matching_pipeline_config_node,
+                              update_entity_matching_pipeline_config_node,
+                              entity_matching_pipeline_config,
+                              validate_entity_matching_status
                               )
     from .create_application_with_agent_credentials import create_application_with_agent_credentials

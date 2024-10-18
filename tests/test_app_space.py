@@ -1,3 +1,4 @@
+import pytest
 import time
 
 from indykite_sdk.config import ConfigClient
@@ -8,22 +9,30 @@ from indykite_sdk.model.update_app_space import UpdateApplicationSpace
 from helpers import data
 
 
-def test_read_app_space_by_id_wrong_id(capsys):
-    app_space_id = "aaaaaaaaaaaaaaa"
+@pytest.fixture
+def client():
+    return ConfigClient()
 
-    client = ConfigClient()
-    assert client is not None
+
+@pytest.fixture
+def app_space_id():
+    return data.get_app_space_id()
+
+
+@pytest.fixture
+def customer_id():
+    return data.get_customer_id()
+
+
+def test_read_app_space_by_id_wrong_id(client, capsys):
+    app_space_id = "aaaaaaaaaaaaaaa"
 
     response = client.read_app_space_by_id(app_space_id)
     captured = capsys.readouterr()
     assert("invalid ReadApplicationSpaceRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
 
 
-def test_read_app_space_id_success(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    app_space_id = data.get_app_space_id()
+def test_read_app_space_id_success(client, app_space_id, capsys):
     app_space = client.read_app_space_by_id(app_space_id)
     captured = capsys.readouterr()
 
@@ -31,11 +40,7 @@ def test_read_app_space_id_success(capsys):
     assert "invalid or expired access_token" not in captured.out
 
 
-def test_read_app_space_by_id_empty():
-    client = ConfigClient()
-    assert client is not None
-
-    app_space_id = data.get_app_space_id()
+def test_read_app_space_by_id_empty(client, app_space_id):
 
     def mocked_read_app_space_by_id(request: pb2.ReadApplicationSpaceRequest):
         return None
@@ -46,24 +51,16 @@ def test_read_app_space_by_id_empty():
     assert app_space is None
 
 
-def test_read_app_space_by_name_wrong_name(capsys):
+def test_read_app_space_by_name_wrong_name(client, customer_id, capsys):
     app_space_name = "aaaaaaaaaaaaaaa"
-
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
 
     response = client.read_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
     assert ("NOT_FOUND" in captured.err)
 
 
-def test_read_app_space_by_name_wrong_customer_id(capsys):
+def test_read_app_space_by_name_wrong_customer_id(client, capsys):
     app_space_name = "do-not-delete"
-
-    client = ConfigClient()
-    assert client is not None
 
     customer_id = "gid:AAAAAmluZHlraURlgAABDwAAAAA"
     response = client.read_app_space_by_name(customer_id, app_space_name)
@@ -71,25 +68,16 @@ def test_read_app_space_by_name_wrong_customer_id(capsys):
     assert ("invalid id value was provided for name.location" in captured.err)
 
 
-def test_read_app_space_by_name_wrong_customer_size(capsys):
+def test_read_app_space_by_name_wrong_customer_size(client, capsys):
     app_space_name = data.get_app_space_name()
-
-    client = ConfigClient()
-    assert client is not None
-
     customer_id = "12546"
     response = client.read_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
     assert ("invalid ReadApplicationSpaceRequest.Name" in captured.err)
 
 
-def test_read_app_space_name_success(capsys):
-    client = ConfigClient()
-    assert client is not None
-
+def test_read_app_space_name_success(client, customer_id, capsys):
     app_space_name = data.get_app_space_name()
-    customer_id = data.get_customer_id()
-
     app_space = client.read_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
 
@@ -98,12 +86,8 @@ def test_read_app_space_name_success(capsys):
     assert isinstance(app_space, ApplicationSpace)
 
 
-def test_read_app_space_by_name_empty():
-    client = ConfigClient()
-    assert client is not None
-
+def test_read_app_space_by_name_empty(client, customer_id):
     app_space_name = data.get_app_space_name()
-    customer_id = data.get_customer_id()
 
     def mocked_read_app_space_by_name(request: pb2.ReadApplicationSpaceRequest):
         return None
@@ -114,11 +98,7 @@ def test_read_app_space_by_name_empty():
     assert app_space is None
 
 
-def test_create_app_space_success(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_create_app_space_success(client, customer_id, capsys):
     right_now = str(int(time.time()))
 
     app_space = client.create_app_space(customer_id, "automation-"+right_now,"Automation "+right_now, "description", [])
@@ -131,11 +111,7 @@ def test_create_app_space_success(capsys):
     assert response is not None
 
 
-def test_create_app_space_empty():
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_create_app_space_empty(client, customer_id):
     right_now = str(int(time.time()))
 
     def mocked_create_app_space(request: pb2.CreateApplicationSpaceRequest):
@@ -147,57 +123,34 @@ def test_create_app_space_empty():
     assert app_space is None
 
 
-def test_create_app_space_already_exists(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
-
+def test_create_app_space_already_exists(client, customer_id, capsys):
     app_space = client.create_app_space(customer_id, "appspacetest", "app space test sdk ", "description", [])
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
 
 
-def test_create_app_space_fail_invalid_customer(capsys):
-    client = ConfigClient()
-    assert client is not None
-
+def test_create_app_space_fail_invalid_customer(client, capsys):
     customer_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
-
     app_space = client.create_app_space(customer_id, "appspacetestsdk5", "app space test sdk 5", "description", [])
     captured = capsys.readouterr()
     assert "invalid id value was provided for customer_id" in captured.err
 
 
-def test_create_app_space_fail_not_allowed_customer(capsys):
-    client = ConfigClient()
-    assert client is not None
-
+def test_create_app_space_fail_not_allowed_customer(client, capsys):
     customer_id = "gid:AAAAAcsuX7kYWE3ioXQHUBbAIu8"
-
     app_space = client.create_app_space(customer_id, "test-create", "test create", "description", [])
     captured = capsys.readouterr()
     assert "insufficient permission to perform requested action" in captured.err
 
 
-def test_create_app_space_name_fail_type_parameter(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
-
+def test_create_app_space_name_fail_type_parameter(client, customer_id, capsys):
     app_space = client.create_app_space(customer_id, ["test"], "test create", "description", [])
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
 
-def test_create_app_space_wrong_region(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_create_app_space_wrong_region(client, customer_id, capsys):
     right_now = str(int(time.time()))
-
     app_space = client.create_app_space(customer_id,
                                         "automation-"+right_now,
                                         "Automation "+right_now,
@@ -208,12 +161,8 @@ def test_create_app_space_wrong_region(capsys):
     assert "value must be in list [europe-west1 us-east1]" in captured.err
 
 
-def test_update_app_space_success(capsys):
-    client = ConfigClient()
-    assert client is not None
-
+def test_update_app_space_success(client, customer_id, capsys):
     app_space_name = "appspacetest"
-    customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
 
@@ -225,12 +174,8 @@ def test_update_app_space_success(capsys):
     assert isinstance(app_space, UpdateApplicationSpace)
 
 
-def test_update_app_space_empty():
-    client = ConfigClient()
-    assert client is not None
-
+def test_update_app_space_empty(client, customer_id):
     app_space_name = "appspacetest"
-    customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
 
@@ -243,12 +188,8 @@ def test_update_app_space_empty():
     assert app_space is None
 
 
-def test_update_app_space_fail_invalid_app_space(capsys):
-    client = ConfigClient()
-    assert client is not None
-
+def test_update_app_space_fail_invalid_app_space(client, customer_id, capsys):
     app_space_name = "appspacetest"
-    customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
     app_space_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
@@ -258,13 +199,8 @@ def test_update_app_space_fail_invalid_app_space(capsys):
     assert "invalid id value was provided for id" in captured.err
 
 
-def test_update_app_space_fail_not_allowed_app_space_id(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    app_space_id = data.get_app_space_id()
+def test_update_app_space_fail_not_allowed_app_space_id(client, customer_id, capsys):
     app_space_name = "appspacetest"
-    customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
     app_space_id = "gid:AAAAAlrNh6beFUSNk6tTtka8dwg"
@@ -274,12 +210,8 @@ def test_update_app_space_fail_not_allowed_app_space_id(capsys):
     assert "NOT_FOUND" in captured.err
 
 
-def test_update_app_space_name_fail_type_parameter(capsys):
-    client = ConfigClient()
-    assert client is not None
-
+def test_update_app_space_name_fail_type_parameter(client, customer_id, capsys):
     app_space_name = "appspacetest"
-    customer_id = data.get_customer_id()
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
 
@@ -288,11 +220,7 @@ def test_update_app_space_name_fail_type_parameter(capsys):
     assert "bad argument type for built-in operation" in captured.err
 
 
-def test_read_app_space_list_success(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_read_app_space_list_success(client, customer_id, capsys):
     app_space_name = data.get_app_space_name()
     match = [app_space_name]
 
@@ -303,24 +231,16 @@ def test_read_app_space_list_success(capsys):
     assert "invalid or expired access_token" not in captured.out
 
 
-def test_get_app_space_list_wrong_customer(capsys):
-    client = ConfigClient()
-    assert client is not None
-
+def test_get_app_space_list_wrong_customer(client, capsys):
     customer_id = "gid:AAAAAjUIwqhDT00ikJnfNwyeXF0"
     app_space_name = data.get_app_space_name()
     match = [app_space_name]
-
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
     assert "invalid id value was provided for customer_id" in captured.err
 
 
-def test_get_app_space_list_wrong_type(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_get_app_space_list_wrong_type(client, customer_id, capsys):
     app_space_name = data.get_app_space_name()
     match = app_space_name
 
@@ -329,50 +249,30 @@ def test_get_app_space_list_wrong_type(capsys):
     assert "value length must be between 2 and 254 runes" in captured.err
 
 
-def test_get_app_space_list_wrong_bookmark(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_get_app_space_list_wrong_bookmark(client, customer_id, capsys):
     app_space_name = data.get_app_space_name()
     match = [app_space_name]
-
     app_space = client.list_app_spaces(customer_id, match,
                                        ["RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"])
     captured = capsys.readouterr()
     assert "invalid bookmark value" in captured.err
 
 
-def test_get_app_space_list_empty_match(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_get_app_space_list_empty_match(client, customer_id, capsys):
     match = []
-
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
 
 
-def test_get_app_space_list_raise_exception(capsys):
-
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_get_app_space_list_raise_exception(client, customer_id, capsys):
     match = ""
-
     app_space = client.list_app_spaces(customer_id, match, [])
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
 
 
-def test_get_app_space_list_empty():
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_get_app_space_list_empty(client, customer_id):
     app_space_name = data.get_app_space_name()
     match = []
     match.append(app_space_name)
@@ -386,36 +286,23 @@ def test_get_app_space_list_empty():
     assert app_space is None
 
 
-def test_del_app_space_success(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_del_app_space_success(client, customer_id, capsys):
     right_now = str(int(time.time()))
     app_space = client.create_app_space(customer_id, "automation-"+right_now,
                                          "Automation "+right_now, "description", [])
-
     assert app_space is not None
-
     response = client.delete_app_space(app_space.id, app_space.etag, [] )
     captured = capsys.readouterr()
     assert response is not None
 
 
-def test_del_app_space_wrong_space_id(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    customer_id = data.get_customer_id()
+def test_del_app_space_wrong_space_id(client, customer_id, capsys):
     response = client.delete_app_space(customer_id, "oeprbUOYHUIYI75U", [] )
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
 
-def test_del_app_space_empty():
-    client = ConfigClient()
-    assert client is not None
-
+def test_del_app_space_empty(client):
     id = "gid:AAAAAXX66V2_Jk3kjCCPThMQGaw"
     etag = "oeprbUOYHUIYI75U"
 

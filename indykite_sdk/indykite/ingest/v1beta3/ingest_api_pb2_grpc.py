@@ -55,6 +55,11 @@ class IngestAPIStub(object):
                 request_serializer=indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteRelationshipPropertiesRequest.SerializeToString,
                 response_deserializer=indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteRelationshipPropertiesResponse.FromString,
                 )
+        self.BatchDeleteNodeTags = channel.unary_unary(
+                '/indykite.ingest.v1beta3.IngestAPI/BatchDeleteNodeTags',
+                request_serializer=indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteNodeTagsRequest.SerializeToString,
+                response_deserializer=indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteNodeTagsResponse.FromString,
+                )
 
 
 class IngestAPIServicer(object):
@@ -109,6 +114,12 @@ class IngestAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def BatchDeleteNodeTags(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_IngestAPIServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -151,6 +162,11 @@ def add_IngestAPIServicer_to_server(servicer, server):
                     servicer.BatchDeleteRelationshipProperties,
                     request_deserializer=indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteRelationshipPropertiesRequest.FromString,
                     response_serializer=indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteRelationshipPropertiesResponse.SerializeToString,
+            ),
+            'BatchDeleteNodeTags': grpc.unary_unary_rpc_method_handler(
+                    servicer.BatchDeleteNodeTags,
+                    request_deserializer=indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteNodeTagsRequest.FromString,
+                    response_serializer=indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteNodeTagsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -296,5 +312,22 @@ class IngestAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.ingest.v1beta3.IngestAPI/BatchDeleteRelationshipProperties',
             indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteRelationshipPropertiesRequest.SerializeToString,
             indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteRelationshipPropertiesResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def BatchDeleteNodeTags(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/indykite.ingest.v1beta3.IngestAPI/BatchDeleteNodeTags',
+            indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteNodeTagsRequest.SerializeToString,
+            indykite_dot_ingest_dot_v1beta3_dot_ingest__api__pb2.BatchDeleteNodeTagsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

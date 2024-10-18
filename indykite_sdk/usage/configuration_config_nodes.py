@@ -2,7 +2,10 @@
 Commandline interface for making an API request with the SDK.
 """
 import argparse
+from datetime import datetime
 import json
+import numpy as np
+
 from indykite_sdk.config import ConfigClient
 from indykite_sdk import api_helper
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
@@ -92,6 +95,20 @@ def main():
     update_external_data_resolver_config_node_parser.add_argument("etag", help="Etag")
     update_external_data_resolver_config_node_parser.add_argument("display_name", help="Display name")
     update_external_data_resolver_config_node_parser.add_argument("description", help="Description")
+
+    # create_entity_matching_pipeline_config_node
+    create_entity_matching_pipeline_config_node_parser = subparsers.add_parser("create_entity_matching_pipeline_config_node")
+    create_entity_matching_pipeline_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_entity_matching_pipeline_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_entity_matching_pipeline_config_node_parser.add_argument("display_name", help="Display name")
+    create_entity_matching_pipeline_config_node_parser.add_argument("description", help="Description")
+
+    # update_entity_matching_pipeline_config_node
+    update_entity_matching_pipeline_config_node_parser = subparsers.add_parser("update_entity_matching_pipeline_config_node")
+    update_entity_matching_pipeline_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_entity_matching_pipeline_config_node_parser.add_argument("etag", help="Etag")
+    update_entity_matching_pipeline_config_node_parser.add_argument("display_name", help="Display name")
+    update_entity_matching_pipeline_config_node_parser.add_argument("description", help="Description")
 
     args = parser.parse_args()
     command = args.command
@@ -187,7 +204,7 @@ def main():
         policy_config = client_config.authorization_policy_config(
             policy=str(policy_dict),
             status="STATUS_ACTIVE",
-            tags=["Tag1"]
+            tags=["TagOne"]
         )
 
         update_authorization_policy_config_node_response = client_config.update_authorization_policy_config_node(
@@ -471,6 +488,78 @@ def main():
         client_config.channel.close()
         return update_external_data_resolver_config_node_response
 
+    elif command == "create_entity_matching_pipeline_config_node":
+        # to create an entity matching pipeline config node
+        """shell
+           python3 configuration_config_nodes.py create_entity_matching_pipeline_config_node
+           APP_SPACE_ID EM_NAME EM_DISPLAY_NAME EM_DESCRIPTION
+        """
+        client_config = ConfigClient()
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+        bookmark = []  # or value returned by last write operation
+        t = datetime.now()
+        node_filter = model_pb2.EntityMatchingPipelineConfig.NodeFilter()
+        node_filter.source_node_types.extend(["Person"])
+        node_filter.target_node_types.extend(["Person"])
+        entity_matching_pipeline_config = ConfigClient().entity_matching_pipeline_config(
+            node_filter=node_filter,
+            similarity_score_cutoff=np.float32(0.9),
+            property_mapping_status=1,
+            entity_matching_status=1,
+            property_mappings=[],
+            rerun_interval="1 day",
+            last_run_time=t,
+            report_url="gs://some-path",
+            report_type="csv"
+        )
+
+        create_entity_matching_pipeline_config_node_response = client_config.create_entity_matching_pipeline_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            entity_matching_pipeline_config,
+            bookmark
+        )
+
+        if create_entity_matching_pipeline_config_node_response:
+            api_helper.print_response(create_entity_matching_pipeline_config_node_response)
+        else:
+            print("Invalid create entity matching pipeline config node response")
+        client_config.channel.close()
+        return create_entity_matching_pipeline_config_node_response
+
+    elif command == "update_entity_matching_pipeline_config_node":
+        # to update an entity matching pipeline config node
+        client_config = ConfigClient()
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+        bookmark = []  # or value returned by last write operation
+        node_filter = model_pb2.EntityMatchingPipelineConfig.NodeFilter()
+        node_filter.source_node_types.extend(["employee", "technician"])
+        node_filter.target_node_types.extend(["user", "customer"])
+        entity_matching_pipeline_config = ConfigClient().entity_matching_pipeline_config(
+            node_filter=node_filter
+        )
+        update_entity_matching_pipeline_config_node_response = client_config.update_entity_matching_pipeline_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            entity_matching_pipeline_config,
+            bookmark
+        )
+        if update_entity_matching_pipeline_config_node_response:
+            api_helper.print_response(update_entity_matching_pipeline_config_node_response)
+        else:
+            print("Invalid update entity matching pipeline config node response")
+        client_config.channel.close()
+        return update_entity_matching_pipeline_config_node_response
 
 
 if __name__ == '__main__':  # pragma: no cover

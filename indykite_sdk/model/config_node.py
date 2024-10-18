@@ -3,6 +3,7 @@ from indykite_sdk.utils import timestamp_to_date
 from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
 from indykite_sdk.model.consent_configuration import ConsentConfiguration
 from indykite_sdk.model.token_introspect_config import TokenIntrospectConfig
+from indykite_sdk.model.entity_matching_pipeline_config import EntityMatchingPipelineConfig
 
 
 class ConfigNode:
@@ -51,6 +52,10 @@ class ConfigNode:
             config_node.external_data_resolver_config = ExternalDataResolverConfig.deserialize(
                 message.external_data_resolver_config)
 
+        if "entity_matching_pipeline_config" in fields:
+            config_node.entity_matching_pipeline_config = EntityMatchingPipelineConfig.deserialize(
+                message.entity_matching_pipeline_config)
+
         if "created_by" in fields:
             config_node.created_by = str(message.created_by)
 
@@ -76,6 +81,7 @@ class ConfigNode:
         self.authorization_policy_config = None
         self.token_introspect_config = None
         self.external_data_resolver_config = None
+        self.entity_matching_pipeline_config = None
         self.consent_config = None
         self.created_by = None
         self.updated_by = None

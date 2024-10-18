@@ -42,6 +42,7 @@ def main():
     ingest_batch_relationship_parser = subparsers.add_parser("ingest_batch_relationship")
     delete_batch_relationship_parser = subparsers.add_parser("delete_batch_relationship")
     delete_batch_relationship_properties_parser = subparsers.add_parser("delete_batch_relationship_properties")
+    delete_batch_node_tags_parser = subparsers.add_parser("delete_batch_node_tags")
 
     args = parser.parse_args()
     command = args.command
@@ -100,21 +101,21 @@ def main():
         external_id = ''.join(random.choices(string.ascii_letters, k=15))
         print(external_id)
         # type of node
-        type = "Car"
+        type = "Asset"
         # properties
         t = datetime.now()
         ingest_metadata = client_ingest.ingest_metadata(1, t, "COOL", {"customVin": "customVinValue"})
-        ingest_property = client_ingest.ingest_property("maker", "TESLA")
-        ingest_property2 = client_ingest.ingest_property("vin", "8742365kl", ingest_metadata)
-        ingest_property3 = client_ingest.ingest_property("colour", "blue")
+        ingest_property = client_ingest.ingest_property("maker", "FORD")
+        ingest_property2 = client_ingest.ingest_property("vin", "POLJU", ingest_metadata)
+        ingest_property3 = client_ingest.ingest_property("colour", "pink")
         ingest_property4 = client_ingest.ingest_property("asset", "T")
         ingest_property5 = client_ingest.ingest_property("status", "Active")
         properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
         upsert = client_ingest.upsert_data_node(
-            external_id,
+            "pFlpMtkWqCPXVue",
             type,
-            ["Asset"],
+            ["TagOne", "TagTwo"],
             properties)
         # create record with record_id and upsert
         record = client_ingest.record_upsert(record_id, upsert)
@@ -361,27 +362,27 @@ def main():
         # type of node
         type = "Person"
         # properties
-        ingest_property1 = client_ingest.ingest_property("firstname", "kelso")
+        ingest_property1 = client_ingest.ingest_property("firstname", "kerry")
         ingest_property2 = client_ingest.ingest_property("lastname", "grumpy")
         ingest_property3 = client_ingest.ingest_property("birthdate", "20 Sep, 1977")
         ingest_property4 = client_ingest.ingest_property("role", "Employee")
-        ingest_property5 = client_ingest.ingest_property("email", "kelso@yahoo.uk")
+        ingest_property5 = client_ingest.ingest_property("email", "kerry@yahoo.uk")
         properties = [ingest_property1, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
-        ingest_property21 = client_ingest.ingest_property("firstname", "elias")
-        ingest_property25 = client_ingest.ingest_property("email", "eliaslso@yahoo.uk")
+        ingest_property21 = client_ingest.ingest_property("firstname", "kell")
+        ingest_property25 = client_ingest.ingest_property("email", "kell@yahoo.uk")
         properties2 = [ingest_property21, ingest_property2, ingest_property3, ingest_property4, ingest_property25]
         # create upsert object with all elements
         node1 = client_ingest.data_node(
             external_id,
             type,
-            ["Person"],
+            ["Customer","User","Client","Site","Employee"],
             properties,
             "",
             True)
         node2 = client_ingest.data_node(
             external_id2,
             type,
-            ["Person"],
+            ["Customer","User","Client","Site","Employee"],
             properties2,
             "",
             True)
@@ -424,7 +425,7 @@ def main():
         properties2 = [ingest_property, ingest_property22, ingest_property32, ingest_property4, ingest_property5]
         # create upsert object with all elements
         node1 = client_ingest.data_node(
-            external_id,
+            "external_id",
             type,
             ["Car"],
             properties,
@@ -576,6 +577,29 @@ def main():
             print("Invalid delete")
         client_ingest.channel.close()
         return delete_batch_relationship_properties
+
+    elif command == "delete_batch_node_tags":
+        """shell
+            python3 ingest.py delete_batch_node_tags
+        """
+        # delete node tags from the IKG service
+        # replace with your own values
+        client_ingest = IngestClient()
+        # id in external source / type of node : pair must be unique
+        match = client_ingest.node_match("TnLbqMOHcTbtWms", "Person")
+        tags = ["Customer"]
+        node_tag = client_ingest.node_tag_match(match, tags)
+        match2 = client_ingest.node_match("envpkMzMaHqevuG", "Person")
+        tags2 = ["User"]
+        node_tag2 = client_ingest.node_tag_match(match2, tags2)
+        # send the deletion request and get the response
+        delete_batch_node_tags = client_ingest.batch_delete_node_tags([node_tag, node_tag2])
+        if delete_batch_node_tags:
+            api_helper.print_response(delete_batch_node_tags)
+        else:
+            print("Invalid delete")
+        client_ingest.channel.close()
+        return delete_batch_node_tags
 
 
 if __name__ == '__main__':  # pragma: no cover

@@ -8,7 +8,8 @@ from indykite_sdk.model.ingest_record import (BatchUpsertNodesResponse,
                                               BatchDeleteNodePropertiesResponse,
                                               BatchUpsertRelationshipsResponse,
                                               BatchDeleteRelationshipsResponse,
-                                              BatchDeleteRelationshipPropertiesResponse)
+                                              BatchDeleteRelationshipPropertiesResponse,
+                                              BatchDeleteNodeTagsResponse)
 import indykite_sdk.utils.logger as logger
 
 
@@ -136,6 +137,28 @@ def batch_delete_relationship_properties(self, relationship_properties):
         return BatchDeleteRelationshipPropertiesResponse.deserialize(response)
     except Exception as exception:
         return logger.logger_error(exception)
+
+
+def batch_delete_node_tags(self, node_tags):
+    """
+    delete node properties up to 250
+    :param self:
+    :param node_tags: DeleteData.NodeTagMatch array
+    :return: array of info objects
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.BatchDeleteNodeTags(
+            pb2.BatchDeleteNodeTagsRequest(
+                node_tags=node_tags
+            )
+        )
+        if not response:
+            return None
+        return BatchDeleteNodeTagsResponse.deserialize(response)
+    except Exception as exception:
+        return logger.logger_error(exception)
+
 
 
 def data_node(self,

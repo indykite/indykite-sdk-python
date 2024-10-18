@@ -8,6 +8,7 @@ from indykite_sdk.model.config_node import ConfigNode
 from indykite_sdk.model.authorization_policy_config_status import Status
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
 from indykite_sdk.model.token_status import ExternalTokenStatus
+from indykite_sdk.model.entity_matching_status import Status as EntityMatchingStatus
 from indykite_sdk.model.external_data_resolver_config_content_type import ContentType
 import indykite_sdk.utils.logger as logger
 
@@ -564,6 +565,141 @@ def external_data_resolver_config(self,
         return logger.logger_error(exception)
 
 
+def create_entity_matching_pipeline_config_node(self,
+                                              location,
+                                              name,
+                                              display_name,
+                                              description,
+                                              entity_matching_pipeline_config,
+                                              bookmarks=[]):
+    """
+    create entity matching pipeline config node
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param entity_matching_pipeline_config: EntityMatchingPipelineConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized CreateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        if entity_matching_pipeline_config and not isinstance(
+            entity_matching_pipeline_config,
+            model_pb2.EntityMatchingPipelineConfig):
+            raise TypeError("EntityMatchingPipelineConfig must be an object")
+
+        response = self.stub.CreateConfigNode(
+            pb2.CreateConfigNodeRequest(
+                location=location,
+                name=name,
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                entity_matching_pipeline_config=entity_matching_pipeline_config,
+                bookmarks=bookmarks
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return CreateConfigNode.deserialize(response)
+
+
+def update_entity_matching_pipeline_config_node(self,
+                                              config_node_id,
+                                              etag,
+                                              display_name,
+                                              description,
+                                              entity_matching_pipeline_config,
+                                              bookmarks=[]):
+    """
+    update entity matching pipeline
+    :param self:
+    :param config_node_id: string gid id
+    :param display_name: string
+    :param description: string
+    :param entity_matching_pipeline_config: EntityMatchingPipelineConfig object
+    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
+    :return: deserialized UpdateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        if entity_matching_pipeline_config and not isinstance(
+            entity_matching_pipeline_config,
+            model_pb2.EntityMatchingPipelineConfig):
+            raise TypeError("EntityMatchingPipelineConfig must be an object")
+        response = self.stub.UpdateConfigNode(
+            pb2.UpdateConfigNodeRequest(
+                id=config_node_id,
+                etag=wrappers.StringValue(value=etag),
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                entity_matching_pipeline_config=entity_matching_pipeline_config,
+                bookmarks=bookmarks
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return UpdateConfigNode.deserialize(response)
+
+
+def entity_matching_pipeline_config(self,
+                                  node_filter,
+                                  similarity_score_cutoff=None,
+                                  property_mapping_status=None,
+                                  property_mapping_message=None,
+                                  entity_matching_status=None,
+                                  entity_matching_message=None,
+                                  property_mappings=None,
+                                  rerun_interval=None,
+                                  last_run_time=None,
+                                  report_url=None,
+                                  report_type=None):
+
+    """
+    create EntityMatchingPipelineConfig
+    :param self:
+    :param node_filter: EntityMatchingPipelineConfig.NodeFilter object
+    :param similarity_score_cutoff: float
+    :param property_mapping_status: EntityMatchingPipelineConfig.Status object
+    :param property_mapping_message: google.protobuf.StringValue
+    :param entity_matching_status: EntityMatchingPipelineConfig.Status
+    :param entity_matching_message: google.protobuf.StringValue
+    :param property_mappings: array of EntityMatchingPipelineConfig.PropertyMapping
+    :param rerun_interval: string
+    :param last_run_time: google.protobuf.Timestamp
+    :param report_url: google.protobuf.StringValue
+    :param report_type: google.protobuf.StringValue
+    :return: EntityMatchingPipelineConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        property_mapping_status = self.validate_entity_matching_status(property_mapping_status)
+        entity_matching_status = self.validate_entity_matching_status(entity_matching_status)
+        external_config = model_pb2.EntityMatchingPipelineConfig(
+            node_filter=node_filter,
+            similarity_score_cutoff=similarity_score_cutoff,
+            property_mapping_status=property_mapping_status,
+            property_mapping_message=wrappers.StringValue(value=property_mapping_message),
+            entity_matching_status=entity_matching_status,
+            entity_matching_message=wrappers.StringValue(value=entity_matching_message),
+            property_mappings=property_mappings,
+            rerun_interval=rerun_interval,
+            last_run_time=last_run_time,
+            report_url=wrappers.StringValue(value=report_url),
+            report_type=wrappers.StringValue(value=report_type)
+            )
+        return external_config
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
 def validate_data_points(self, data_points):
     """
     validate data_points requirement
@@ -637,6 +773,24 @@ def validate_external_data_resolver_content_type(self, content_type):
         if content_type not in content_types:
             raise TypeError("content_type must be a member of ExternalDataResolverConfig.ContentType")
         return True
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_entity_matching_status(self, status):
+    """
+    validate entity matching status requirement
+    :param self:
+    :param status: number
+    :return: status, none  or error
+    """
+    try:
+        if not status:
+            return None
+        statuses = [s.value for s in EntityMatchingStatus]
+        if status and status not in statuses:
+            raise TypeError("status must be a member of EntityMatchingPipelineConfig.Status")
+        return status
     except Exception as exception:
         return logger.logger_error(exception)
 

@@ -1,3 +1,5 @@
+import pytest
+
 from indykite_sdk.indykite.tda.v1beta1 import trusted_data_access_api_pb2 as pb2
 from indykite_sdk.model.data_access import DataAccessResponse, ListConsentsResponse
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2 as objects
@@ -5,10 +7,12 @@ from indykite_sdk.tda import DataAccessClient
 from helpers import data, api_requests
 
 
-def test_grant_consent_success():
-    client = DataAccessClient()
-    assert client is not None
+@pytest.fixture
+def client():
+    return DataAccessClient()
 
+
+def test_grant_consent_success(client):
     user_id = data.get_identity_node_consent()
     consent_id = data.get_consent_config_node_id()
     validity_period = 86400
@@ -25,10 +29,7 @@ def test_grant_consent_success():
     assert response is not None
 
 
-def test_grant_consent_empty():
-    client = DataAccessClient()
-    assert client is not None
-
+def test_grant_consent_empty(client):
     user_id = data.get_identity_node_consent()
     consent_id = data.get_consent_config_node_id()
     validity_period = 86400
@@ -42,10 +43,7 @@ def test_grant_consent_empty():
     assert response is None
 
 
-def test_grant_consent_fail_invalid_user_id(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_grant_consent_fail_invalid_user_id(client, capsys):
     user_id = "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
     consent_id = data.get_consent_config_node_id()
     validity_period = 86400
@@ -56,10 +54,7 @@ def test_grant_consent_fail_invalid_user_id(capsys):
     assert "INVALID_ARGUMENT" in captured.err
 
 
-def test_list_consents_success():
-    client = DataAccessClient()
-    assert client is not None
-
+def test_list_consents_success(client):
     user_id = data.get_identity_node_consent()
     user = {"user_id": user_id}
     application_id = data.get_application_id()
@@ -67,20 +62,14 @@ def test_list_consents_success():
     assert isinstance(consents, ListConsentsResponse)
 
 
-def test_list_consents_no_user(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_list_consents_no_user(client, capsys):
     application_id = data.get_application_id()
     consents = client.list_consents(["bbbb"], application_id)
     captured = capsys.readouterr()
     assert "invalid ListConsentsRequest.User: value is required" in captured.err
 
 
-def test_list_consents_wrong_user(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_list_consents_wrong_user(client, capsys):
     user_id = "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
     user = {"user_id": user_id}
     application_id = data.get_application_id()
@@ -90,10 +79,7 @@ def test_list_consents_wrong_user(capsys):
     assert "INVALID_ARGUMENT" in captured.err
 
 
-def test_list_consents_empty():
-    client = DataAccessClient()
-    assert client is not None
-
+def test_list_consents_empty(client):
     user_id = data.get_identity_node_consent()
     user = {"user_id": user_id}
     application_id = data.get_application_id()
@@ -106,10 +92,7 @@ def test_list_consents_empty():
     assert consent is None
 
 
-def test_revoke_consent_success():
-    client = DataAccessClient()
-    assert client is not None
-
+def test_revoke_consent_success(client):
     user_id = data.get_identity_node_consent()
     consent_id = data.get_consent_config_node_id()
     user = {"user_id": user_id}
@@ -124,10 +107,7 @@ def test_revoke_consent_success():
     assert response is not None
 
 
-def test_revoke_consent_empty():
-    client = DataAccessClient()
-    assert client is not None
-
+def test_revoke_consent_empty(client):
     user_id = data.get_identity_node_consent()
     consent_id = data.get_consent_config_node_id()
     user = {"user_id": user_id}
@@ -140,10 +120,7 @@ def test_revoke_consent_empty():
     assert response is None
 
 
-def test_revoke_consent_fail_invalid_user_id(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_revoke_consent_fail_invalid_user_id(client, capsys):
     user_id = "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
     consent_id = data.get_consent_config_node_id()
     user = {"user_id": user_id}
@@ -153,10 +130,7 @@ def test_revoke_consent_fail_invalid_user_id(capsys):
     assert "INVALID_ARGUMENT" in captured.err
 
 
-def test_data_access_success():
-    client = DataAccessClient()
-    assert client is not None
-
+def test_data_access_success(client):
     user_id = data.get_identity_node_consent()
     user = {"user_id": user_id}
     application_id = data.get_application_id()
@@ -165,10 +139,7 @@ def test_data_access_success():
     assert isinstance(nodes, DataAccessResponse)
 
 
-def test_data_access_external_id_success():
-    client = DataAccessClient()
-    assert client is not None
-
+def test_data_access_external_id_success(client):
     user = {"external_id": {"external_id": data.get_identity_node_external_id(), "type": "Person"}}
     application_id = data.get_application_id()
     consent_id = data.get_consent_config_node_id()
@@ -176,10 +147,7 @@ def test_data_access_external_id_success():
     assert isinstance(nodes, DataAccessResponse)
 
 
-def test_data_access_no_user(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_data_access_no_user(client, capsys):
     user = {}
     application_id = data.get_application_id()
     consent_id = data.get_consent_config_node_id()
@@ -188,10 +156,7 @@ def test_data_access_no_user(capsys):
     assert "ERROR" in captured.err
 
 
-def test_data_access_wrong_user(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_data_access_wrong_user(client, capsys):
     user_id = "gid:AAAAFJ6iGHyG8Ee8tIvW7DQ1hkE"
     user = {"user_id": user_id}
     application_id = data.get_application_id()
@@ -201,10 +166,7 @@ def test_data_access_wrong_user(capsys):
     assert "INVALID_ARGUMENT" in captured.err
 
 
-def test_data_access_external_id_wrong_user(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_data_access_external_id_wrong_user(client, capsys):
     user = {"external_id": data.get_identity_node_external_id()}
     application_id = data.get_application_id()
     consent_id = data.get_consent_config_node_id()
@@ -213,10 +175,7 @@ def test_data_access_external_id_wrong_user(capsys):
     assert "should be a dictionary" in captured.err
 
 
-def test_data_access_property_wrong_user(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_data_access_property_wrong_user(client, capsys):
     user = {"property": "last_name"}
     application_id = data.get_application_id()
     consent_id = data.get_consent_config_node_id()
@@ -225,10 +184,7 @@ def test_data_access_property_wrong_user(capsys):
     assert "should be a dictionary" in captured.err
 
 
-def test_data_access_other_wrong_user(capsys):
-    client = DataAccessClient()
-    assert client is not None
-
+def test_data_access_other_wrong_user(client, capsys):
     user = {"other": "last_name"}
     application_id = data.get_application_id()
     consent_id = data.get_consent_config_node_id()
@@ -237,10 +193,7 @@ def test_data_access_other_wrong_user(capsys):
     assert "Key should be" in captured.err
 
 
-def test_data_access_empty():
-    client = DataAccessClient()
-    assert client is not None
-
+def test_data_access_empty(client):
     user_id = data.get_identity_node_consent()
     user = {"user_id": user_id}
     application_id = data.get_application_id()
