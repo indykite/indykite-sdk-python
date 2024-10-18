@@ -1,9 +1,9 @@
 from datetime import datetime
 import json
+import numpy as np
 import os
 import random
 import string
-import time
 
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
@@ -260,3 +260,31 @@ def get_external_data_resolver_config(right_now):
         response_selector="."
     )
     return external_data_resolver_config
+
+
+def get_entity_matching_pipeline_config(right_now):
+    node_filter = model_pb2.EntityMatchingPipelineConfig.NodeFilter()
+    node_filter.source_node_types.extend(["Person"])
+    node_filter.target_node_types.extend(["Car"])
+    entity_matching_pipeline_config = ConfigClient().entity_matching_pipeline_config(
+        node_filter=node_filter
+    )
+    return entity_matching_pipeline_config
+
+
+def get_entity_matching_pipeline_config_with_url(right_now):
+    node_filter = model_pb2.EntityMatchingPipelineConfig.NodeFilter()
+    node_filter.source_node_types.extend(["Person"])
+    node_filter.target_node_types.extend(["Person"])
+    entity_matching_pipeline_config = ConfigClient().entity_matching_pipeline_config(
+        node_filter=node_filter,
+        similarity_score_cutoff=np.float32(0.9),
+        property_mapping_status="STATUS_PENDING",
+        entity_matching_status="STATUS_PENDING",
+        property_mappings=[],
+        rerun_interval="1 day",
+        last_run_time=right_now,
+        report_url="gs://some-path",
+        report_type="csv"
+    )
+    return entity_matching_pipeline_config

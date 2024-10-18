@@ -157,6 +157,22 @@ class BatchDeleteRelationshipPropertiesResponse:
         self.results = None
 
 
+class BatchDeleteNodeTagsResponse:
+    @classmethod
+    def deserialize(cls, message):
+        if message is None:
+            return None
+        fields = [desc.name for desc, val in message.ListFields()]
+        batch_response = BatchDeleteNodeTagsResponse([])
+        if "results" in fields:
+            results = Results.deserialize(message.results)
+            batch_response.results = results
+        return batch_response
+
+    def __init__(self, results=[]):
+        self.results = None
+
+
 class Change:
     @classmethod
     def deserialize(cls, message):

@@ -1,10 +1,12 @@
 import sys
+import warnings
 
 from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2 as pb2
 from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
 from indykite_sdk.model.ingest_record import IngestRecordResponse
 import indykite_sdk.utils.logger as logger
+
 from indykite_sdk.utils.message_to_value import param_to_value
 from indykite_sdk.utils import date_to_timestamp
 
@@ -18,6 +20,11 @@ def ingest_record(self, record):
     """
     sys.excepthook = logger.handle_excepthook
     try:
+        warnings.warn(
+            f"IngestRecord is deprecated and will be removed in a future version.",
+            DeprecationWarning,
+            stacklevel=2
+        )
         response = self.stub.IngestRecord(
             pb2.IngestRecordRequest(
                 record=record
@@ -248,6 +255,25 @@ def node_property_match(self, match, property_type=""):
             property_type=str(property_type)
             )
         return npm
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def node_tag_match(self, match, tags=[]):
+    """
+    create DeleteData.NodeTagMatch object
+    :param self:
+    :param match: NodeMatch object
+    :param tags: array of strings
+    :return: DeleteData.NodeTagMatch
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        ntm = model_pb2.DeleteData.NodeTagMatch(
+            match=match,
+            tags=tags
+            )
+        return ntm
     except Exception as exception:
         return logger.logger_error(exception)
 

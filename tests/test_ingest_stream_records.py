@@ -1,10 +1,15 @@
+import pytest
+
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.indykite.ingest.v1beta3 import model_pb2, ingest_api_pb2 as pb2
 
 
-def test_stream_records_exception(capsys):
-    client = IngestClient()
-    assert client is not None
+@pytest.fixture
+def client():
+    return IngestClient()
+
+
+def test_stream_records_exception(client, capsys):
     record_id = "145899"
     external_id = "lot-1"
     type = "ParkingLot"
@@ -33,9 +38,7 @@ def test_stream_records_exception(capsys):
     assert "ERROR" in captured.err
 
 
-def test_stream_records_success():
-    client = IngestClient()
-    assert client is not None
+def test_stream_records_success(client):
     record_id = "145899"
     external_id = "lot-1"
     type = "ParkingLot"
@@ -61,9 +64,7 @@ def test_stream_records_success():
     assert tail == []
 
 
-def test_stream_records_fail(capsys):
-    client = IngestClient()
-    assert client is not None
+def test_stream_records_fail(client, capsys):
     record_id = "999658"
     record = client.record_upsert(record_id, "")
 
