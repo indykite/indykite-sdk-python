@@ -28,7 +28,7 @@ jobs:
           cache: "pipenv"
 
       - name: Install
-        run: pipenv install
+        run: pipenv install --ignore-pipfile
 
       - name: Build
         run: |

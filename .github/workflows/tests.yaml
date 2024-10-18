@@ -79,7 +79,7 @@ jobs:
           cache: "pipenv"
       - name: Install project
         run:
-          pipenv install
+          pipenv install --ignore-pipfile
           pipenv shell
       - name: Run tests
         run: pipenv run pytest
