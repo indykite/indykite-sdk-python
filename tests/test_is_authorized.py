@@ -1,3 +1,4 @@
+import pytest
 
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
@@ -7,10 +8,13 @@ from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as pb2_model
 from helpers import data
 
 
-def test_is_authorized_token_wrong_token(capsys):
-    client = AuthorizationClient()
-    assert client is not None
+@pytest.fixture
+def client():
+    return AuthorizationClient()
 
+
+def test_is_authorized_token_wrong_token(client, capsys):
+    assert client is not None
     access_token = data.get_expired_token()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
@@ -22,10 +26,8 @@ def test_is_authorized_token_wrong_token(capsys):
     assert "" in captured.err
 
 
-def test_is_authorized_token_empty():
-    client = AuthorizationClient()
+def test_is_authorized_token_empty(client):
     assert client is not None
-
     access_token = data.get_verification_bearer()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
@@ -46,10 +48,8 @@ def test_is_authorized_token_empty():
     assert response is None
 
 
-def test_is_authorized_token_success():
-    client = AuthorizationClient()
+def test_is_authorized_token_success(client):
     assert client is not None
-
     token = "mocked-token"
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
@@ -72,10 +72,8 @@ def test_is_authorized_token_success():
     assert response is not None
 
 
-def test_is_authorized_identity_node_wrong_identity_node(capsys):
-    client = AuthorizationClient()
+def test_is_authorized_identity_node_wrong_identity_node(client, capsys):
     assert client is not None
-
     identity_node_id = data.get_email_token()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
@@ -86,10 +84,8 @@ def test_is_authorized_identity_node_wrong_identity_node(capsys):
     assert "" in captured.err
 
 
-def test_is_authorized_identity_node_success():
-    client = AuthorizationClient()
+def test_is_authorized_identity_node_success(client):
     assert client is not None
-
     identity_node_id = data.get_identity_node()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions), IsAuthorizedResource("resource2ID", "TypeName", actions)]
@@ -100,10 +96,8 @@ def test_is_authorized_identity_node_success():
     assert isinstance(response, IsAuthorizedResponse)
 
 
-def test_is_authorized_identity_node_empty():
-    client = AuthorizationClient()
+def test_is_authorized_identity_node_empty(client):
     assert client is not None
-
     identity_node_id = data.get_identity_node()
     actions = ["ACTION1", "ACTION2"]
     resources = [IsAuthorizedResource("resourceID", "TypeName", actions), IsAuthorizedResource("resource2ID", "TypeName", actions)]
@@ -123,10 +117,8 @@ def test_is_authorized_identity_node_empty():
     assert response is None
 
 
-def test_is_authorized_property_wrong_property(capsys):
-    client = AuthorizationClient()
+def test_is_authorized_property_wrong_property(client, capsys):
     assert client is not None
-
     type_filter = "phone"
     email_value = "sdk@indykite.com"
     actions = ["ACTION1", "ACTION2"]
@@ -138,10 +130,8 @@ def test_is_authorized_property_wrong_property(capsys):
     assert "" in captured.err
 
 
-def test_is_authorized_property_success():
-    client = AuthorizationClient()
+def test_is_authorized_property_success(client):
     assert client is not None
-
     type_filter = "email"
     email_value = "test2000@example.com"
     actions = ["ACTION1", "ACTION2"]
@@ -153,10 +143,8 @@ def test_is_authorized_property_success():
     assert isinstance(response, IsAuthorizedResponse)
 
 
-def test_is_authorized_property_empty():
-    client = AuthorizationClient()
+def test_is_authorized_property_empty(client):
     assert client is not None
-
     type_filter = "email"
     email_value = "sdk@indykite.com"
     actions = ["ACTION1", "ACTION2"]
@@ -179,10 +167,8 @@ def test_is_authorized_property_empty():
     assert response is None
 
 
-def test_is_authorized_external_id_wrong_type(capsys):
-    client = AuthorizationClient()
+def test_is_authorized_external_id_wrong_type(client, capsys):
     assert client is not None
-
     node_type = "Nobody"
     external_id = "DfyUjOlkMnHyFd"
     actions = ["SUBSCRIBES_TO"]
@@ -194,10 +180,8 @@ def test_is_authorized_external_id_wrong_type(capsys):
     assert "" in captured.err
 
 
-def test_is_authorized_external_id_success():
-    client = AuthorizationClient()
+def test_is_authorized_external_id_success(client):
     assert client is not None
-
     node_type = "Individual"
     external_id = "DfyUjOlkMnHyFd"
     actions = ["SUBSCRIBES_TO"]
@@ -209,10 +193,8 @@ def test_is_authorized_external_id_success():
     assert isinstance(response, IsAuthorizedResponse)
 
 
-def test_is_authorized_external_id_empty():
-    client = AuthorizationClient()
+def test_is_authorized_external_id_empty(client):
     assert client is not None
-
     node_type = "Individual"
     external_id = "DfyUjOlkMnHyFd"
     actions = ["ACTION1", "ACTION2"]
