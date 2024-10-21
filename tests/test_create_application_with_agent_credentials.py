@@ -1,3 +1,4 @@
+import pytest
 import time
 
 from indykite_sdk.config import ConfigClient
@@ -7,17 +8,27 @@ from indykite_sdk.model.register_application_agent_credential import RegisterApp
 from helpers import data
 
 
-def test_create_application_with_agent_cred_success(capsys):
-    client = ConfigClient()
-    assert client is not None
+@pytest.fixture
+def client():
+    return ConfigClient()
 
-    app_space_id = data.get_app_space_id()
-    right_now = int(time.time())
+
+@pytest.fixture
+def right_now():
+    return str(int(time.time()) + 2)
+
+
+@pytest.fixture
+def app_space_id():
+    return data.get_app_space_id()
+
+
+def test_create_application_with_agent_cred_success(client, app_space_id, right_now, capsys):
     application_name = "automation-application-"+str(right_now)
     application_agent_name = "automation-agent-"+str(right_now)
     application_agent_credentials_name = "automation-agent-cred-"+str(right_now)
     public_key_type = "jwk"
-    expire_time = right_now + 120
+    expire_time = int(right_now) + 120
 
     response = client.create_application_with_agent_credentials(
             app_space_id,
@@ -35,20 +46,12 @@ def test_create_application_with_agent_cred_success(capsys):
     assert isinstance(response["response_application_agent_credentials"], RegisterApplicationAgentCredential)
 
 
-def test_create_application_with_agent_cred_exists(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    client = ConfigClient()
-    assert client is not None
-
-    app_space_id = data.get_app_space_id()
-    right_now = int(time.time())
+def test_create_application_with_agent_cred_exists(client, app_space_id, right_now, capsys):
     application_name = "automation-application-" + str(right_now)
     application_agent_name = "automation-agent-" + str(right_now)
     application_agent_credentials_name = "automation-agent-cred-" + str(right_now)
     public_key_type = "jwk"
-    expire_time = right_now + 120
+    expire_time = int(right_now) + 120
 
     response = client.create_application_with_agent_credentials(
         app_space_id,
@@ -71,12 +74,7 @@ def test_create_application_with_agent_cred_exists(capsys):
     assert "config entity with given name already exist" in captured.err
 
 
-def test_create_application_with_agent_cred_no_expire_time(capsys):
-    client = ConfigClient()
-    assert client is not None
-
-    app_space_id = data.get_app_space_id()
-    right_now = int(time.time() + 12365)
+def test_create_application_with_agent_cred_no_expire_time(client, app_space_id, right_now, capsys):
     application_name = "automation-application-"+str(right_now)
     application_agent_name = "automation-agent-"+str(right_now)
     application_agent_credentials_name = "automation-agent-cred-"+str(right_now)
