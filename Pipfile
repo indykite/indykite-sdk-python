@@ -15,7 +15,7 @@ markupsafe = "*"
 mock = "*"
 grpcio = "*"
 protobuf = "*"
-indykite-sdk = {editable = true, path = "."}
+indykite-sdk-python = {editable = true, path = "."}
 requests = "*"
 pytest = "8.0.2"
 pytest-cov = "4.1.0"
