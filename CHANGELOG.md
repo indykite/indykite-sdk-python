@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.51.0](https://github.com/indykite/indykite-sdk-python/compare/v1.50.0...v1.51.0) (2024-10-21)
+
+
+### Features
+
+* add entitymatching and delete tags ([bc625d2](https://github.com/indykite/indykite-sdk-python/commit/bc625d23ff9a84a4415ccb5092aaf41cc1c6b2cc))
+* add entitymatching and delete tags ([0aaa9bd](https://github.com/indykite/indykite-sdk-python/commit/0aaa9bd971548612fdc5403fa38d26107feac97c))
+* add entitymatching and delete tags ([c8f21e7](https://github.com/indykite/indykite-sdk-python/commit/c8f21e755690334f0424dad1e95f2a79ec53ce9f))
+
 ## [1.50.0](https://github.com/indykite/indykite-sdk-python/compare/v1.49.0...v1.50.0) (2024-09-13)
 
 
