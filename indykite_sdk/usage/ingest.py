@@ -72,7 +72,7 @@ def main():
         upsert = client_ingest.upsert_data_node(
             external_id,
             type,
-            ["Person"],
+            ["Client"],
             properties,
             "",
             True)
@@ -362,14 +362,14 @@ def main():
         # type of node
         type = "Person"
         # properties
-        ingest_property1 = client_ingest.ingest_property("firstname", "kerry")
+        ingest_property1 = client_ingest.ingest_property("firstname", "karla")
         ingest_property2 = client_ingest.ingest_property("lastname", "grumpy")
         ingest_property3 = client_ingest.ingest_property("birthdate", "20 Sep, 1977")
         ingest_property4 = client_ingest.ingest_property("role", "Employee")
-        ingest_property5 = client_ingest.ingest_property("email", "kerry@yahoo.uk")
+        ingest_property5 = client_ingest.ingest_property("email", "karla@yahoo.uk")
         properties = [ingest_property1, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
-        ingest_property21 = client_ingest.ingest_property("firstname", "kell")
-        ingest_property25 = client_ingest.ingest_property("email", "kell@yahoo.uk")
+        ingest_property21 = client_ingest.ingest_property("firstname", "jonas")
+        ingest_property25 = client_ingest.ingest_property("email", "jonas@yahoo.uk")
         properties2 = [ingest_property21, ingest_property2, ingest_property3, ingest_property4, ingest_property25]
         # create upsert object with all elements
         node1 = client_ingest.data_node(
@@ -427,14 +427,14 @@ def main():
         node1 = client_ingest.data_node(
             "external_id",
             type,
-            ["Car"],
+            ["Cara"],
             properties,
             "",
             False)
         node2 = client_ingest.data_node(
             external_id2,
             type,
-            ["Cr"],
+            ["Cara"],
             properties2,
             "",
             False)
@@ -507,10 +507,10 @@ def main():
         # type of relationship
         type = "BELONGS_TO"
         # id in external source / type of node : pair must be unique
-        source_match = client_ingest.node_match("sXNBVfuDBlCufim", "Car")
-        target_match = client_ingest.node_match("GwzaIdAKwRoHsed", "Person")
-        source_match2 = client_ingest.node_match("AAhcJsczfCYloyg", "Car")
-        target_match2 = client_ingest.node_match("OAnsyxYKXfffDyd", "Person")
+        source_match = client_ingest.node_match("gqONMTRFWRWoNfT", "Car")
+        target_match = client_ingest.node_match("qIQxYJlprMATReO", "Person")
+        source_match2 = client_ingest.node_match("DeBJwAnYFXQCFuY", "Car")
+        target_match2 = client_ingest.node_match("CudRzLIHweWJjYB", "Person")
         # create upsert object with all elements
         relationship1 = client_ingest.data_relationship(source_match, target_match, type,[])
         relationship2 = client_ingest.data_relationship(source_match2, target_match2, type, [])

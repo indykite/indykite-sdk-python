@@ -650,7 +650,7 @@ def update_entity_matching_pipeline_config_node(self,
 
 
 def entity_matching_pipeline_config(self,
-                                  node_filter,
+                                  node_filter=None,
                                   similarity_score_cutoff=None,
                                   property_mapping_status=None,
                                   property_mapping_message=None,
@@ -683,7 +683,7 @@ def entity_matching_pipeline_config(self,
         property_mapping_status = self.validate_entity_matching_status(property_mapping_status)
         entity_matching_status = self.validate_entity_matching_status(entity_matching_status)
         external_config = model_pb2.EntityMatchingPipelineConfig(
-            node_filter=node_filter,
+            node_filter = node_filter,
             similarity_score_cutoff=similarity_score_cutoff,
             property_mapping_status=property_mapping_status,
             property_mapping_message=wrappers.StringValue(value=property_mapping_message),
@@ -694,6 +694,40 @@ def entity_matching_pipeline_config(self,
             last_run_time=last_run_time,
             report_url=wrappers.StringValue(value=report_url),
             report_type=wrappers.StringValue(value=report_type)
+            )
+        return external_config
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def entity_matching_pipeline_config_create(self,node_filter):
+    """
+    create EntityMatchingPipelineConfig
+    :param self:
+    :param node_filter: EntityMatchingPipelineConfig.NodeFilter object
+    :return: EntityMatchingPipelineConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        external_config = model_pb2.EntityMatchingPipelineConfig(
+            node_filter = node_filter,
+            )
+        return external_config
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def entity_matching_pipeline_config_update(self, similarity_score_cutoff):
+    """
+    create EntityMatchingPipelineConfig
+    :param self:
+    :param similarity_score_cutoff: float
+    :return: EntityMatchingPipelineConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        external_config = model_pb2.EntityMatchingPipelineConfig(
+            similarity_score_cutoff = similarity_score_cutoff,
             )
         return external_config
     except Exception as exception:

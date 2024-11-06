@@ -24,11 +24,6 @@ class EntityMatchingAPIStub(object):
                 request_serializer=indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadSuggestedPropertyMappingRequest.SerializeToString,
                 response_deserializer=indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadSuggestedPropertyMappingResponse.FromString,
                 )
-        self.ReadEntityMatchingReport = channel.unary_unary(
-                '/indykite.entitymatching.v1beta1.EntityMatchingAPI/ReadEntityMatchingReport',
-                request_serializer=indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadEntityMatchingReportRequest.SerializeToString,
-                response_deserializer=indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadEntityMatchingReportResponse.FromString,
-                )
 
 
 class EntityMatchingAPIServicer(object):
@@ -48,13 +43,6 @@ class EntityMatchingAPIServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def ReadEntityMatchingReport(self, request, context):
-        """ReadEntityMatchingReport by Pipeline ID for a successful Pipeline.
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
 
 def add_EntityMatchingAPIServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -67,11 +55,6 @@ def add_EntityMatchingAPIServicer_to_server(servicer, server):
                     servicer.ReadSuggestedPropertyMapping,
                     request_deserializer=indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadSuggestedPropertyMappingRequest.FromString,
                     response_serializer=indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadSuggestedPropertyMappingResponse.SerializeToString,
-            ),
-            'ReadEntityMatchingReport': grpc.unary_unary_rpc_method_handler(
-                    servicer.ReadEntityMatchingReport,
-                    request_deserializer=indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadEntityMatchingReportRequest.FromString,
-                    response_serializer=indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadEntityMatchingReportResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -114,22 +97,5 @@ class EntityMatchingAPI(object):
         return grpc.experimental.unary_unary(request, target, '/indykite.entitymatching.v1beta1.EntityMatchingAPI/ReadSuggestedPropertyMapping',
             indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadSuggestedPropertyMappingRequest.SerializeToString,
             indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadSuggestedPropertyMappingResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def ReadEntityMatchingReport(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/indykite.entitymatching.v1beta1.EntityMatchingAPI/ReadEntityMatchingReport',
-            indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadEntityMatchingReportRequest.SerializeToString,
-            indykite_dot_entitymatching_dot_v1beta1_dot_entity__matching__api__pb2.ReadEntityMatchingReportResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

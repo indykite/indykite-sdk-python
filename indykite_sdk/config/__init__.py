@@ -47,6 +47,8 @@ class ConfigClient(object):
                               create_entity_matching_pipeline_config_node,
                               update_entity_matching_pipeline_config_node,
                               entity_matching_pipeline_config,
+                              entity_matching_pipeline_config_create,
+                              entity_matching_pipeline_config_update,
                               validate_entity_matching_status
                               )
     from .create_application_with_agent_credentials import create_application_with_agent_credentials

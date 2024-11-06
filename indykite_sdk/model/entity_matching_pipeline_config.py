@@ -11,7 +11,7 @@ from indykite_sdk.utils import timestamp_to_date
 class EntityMatchingPipelineConfig:
     @classmethod
     def deserialize(cls, message_config):
-        node_filter: NodeFilter
+        node_filter: Optional[NodeFilter] = None
         similarity_score_cutoff: Optional[float] = None
         property_mapping_status: Optional[str] = None
         property_mapping_message: Optional[str] = None
@@ -26,11 +26,10 @@ class EntityMatchingPipelineConfig:
         if message_config is None:
             return None
         fields = [desc.name for desc, val in message_config.ListFields()]
-        # Required field
-        node_filter = NodeFilter.deserialize(message_config.node_filter)
 
         # Define processors for optional fields
         optional_fields = {
+            'node_filter': NodeFilter.deserialize(message_config.node_filter),
             'similarity_score_cutoff': float,
             'property_mapping_status': cls._validate_status,
             'property_mapping_message': str,
@@ -52,7 +51,7 @@ class EntityMatchingPipelineConfig:
                 except Exception as e:
                     raise ValueError(f"Error processing field '{field_name}': {e}")
 
-        return cls(node_filter=node_filter, **kwargs)
+        return cls(**kwargs)
 
     @staticmethod
     def _validate_status(value):
