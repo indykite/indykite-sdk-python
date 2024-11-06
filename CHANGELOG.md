@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.52.0](https://github.com/indykite/indykite-sdk-python/compare/v1.51.0...v1.52.0) (2024-11-06)
+
+
+### Features
+
+* update EM and fix package ([f186eda](https://github.com/indykite/indykite-sdk-python/commit/f186eda90a48a3b9a5879ff53b30340457515aa4))
+
 ## [1.51.0](https://github.com/indykite/indykite-sdk-python/compare/v1.50.0...v1.51.0) (2024-10-21)
 
 
