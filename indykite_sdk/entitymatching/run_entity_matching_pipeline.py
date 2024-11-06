@@ -10,7 +10,7 @@ def run_entity_matching_pipeline(self, id, similarity_score_cutoff, custom_prope
     run entitymatching pipeline
     :param self:
     :param id: confg node GID id
-    :param custom_property_mappings array of PropertyMapping
+    :param custom_property_mappings array of CustomPropertyMappings
     :param similarity_score_cutoff float required threshold (in range [0,1])
     :return: deserialized RunEntityMatchingPipelineResponse
     """

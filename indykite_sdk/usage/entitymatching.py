@@ -57,18 +57,15 @@ def main():
         client_entitymatching = EntityMatchingClient()
         id = args.id
         similarity_score_cutoff=np.float32(0.95)
-        custom_property_mappings = model_pb2.PropertyMapping(
-            source_node_type="Person",
+        custom_property_mappings = model_pb2.CustomPropertyMappings(
             source_node_property="email",
-            target_node_type="Person",
-            target_node_property="email",
-            similarity_score_cutoff=np.float32(0.95)
+            target_node_property="email"
         )
         # run the pipeline and get the response
         run_entity_matching_pipeline = client_entitymatching.run_entity_matching_pipeline(
             id=id,
-            similarity_score_cutoff=similarity_score_cutoff
-            # custom_property_mappings=custom_property_mappings,
+            similarity_score_cutoff=similarity_score_cutoff,
+            custom_property_mappings=custom_property_mappings
         )
         if run_entity_matching_pipeline:
             api_helper.print_response(run_entity_matching_pipeline)

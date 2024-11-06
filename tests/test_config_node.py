@@ -1,8 +1,10 @@
+import numpy as np
 import pytest
 import time
 
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.indykite.config.v1beta1 import model_pb2
 from indykite_sdk.model.create_config_node import CreateConfigNode
 from indykite_sdk.model.update_config_node import UpdateConfigNode
 from helpers import data
@@ -539,12 +541,13 @@ def test_update_entity_matching_pipeline_config_node_success(client, right_now, 
     assert isinstance(config_node, CreateConfigNode)
 
     right_now = str(int(time.time()))
-    entity_matching_pipeline_config = data.get_entity_matching_pipeline_config(right_now)
     config_node_response = client.update_entity_matching_pipeline_config_node(config_node.id,
                                                                       config_node.etag,
                                                                       "Automation "+right_now,
                                                                       "description "+right_now,
-                                                                      entity_matching_pipeline_config,
+                                                                      model_pb2.EntityMatchingPipelineConfig(
+                                                                          similarity_score_cutoff=np.float32(0.9)
+                                                                      ),
                                                                       [])
     assert config_node_response is not None
     assert isinstance(config_node_response, UpdateConfigNode)
@@ -552,12 +555,14 @@ def test_update_entity_matching_pipeline_config_node_success(client, right_now, 
 
 
 def test_update_entity_matching_pipeline_config_node_wrong_id(client, right_now, capsys):
-    entity_matching_pipeline_config = data.get_entity_matching_pipeline_config(right_now)
     config_node_response = client.update_entity_matching_pipeline_config_node("gid:AAAAAuCBOLvwzUuWvKB1jWznHSM",
                                                                       "eyouyuuinjk",
                                                                       "Automation "+right_now,
                                                                       "description "+right_now,
-                                                                      entity_matching_pipeline_config,
+                                                                      model_pb2.EntityMatchingPipelineConfig(
+                                                                          similarity_score_cutoff=np.float32(
+                                                                              0.9)
+                                                                      ),
                                                                       [])
     captured = capsys.readouterr()
     assert "invalid eTag value" in captured.err
