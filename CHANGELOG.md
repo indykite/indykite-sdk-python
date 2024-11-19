@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.53.0](https://github.com/indykite/indykite-sdk-python/compare/v1.52.0...v1.53.0) (2024-11-19)
+
+
+### Features
+
+* deprecate stream records ([821430a](https://github.com/indykite/indykite-sdk-python/commit/821430a29b234067a8c3809ecdb68d7dca94fb8b))
+
 ## [1.52.0](https://github.com/indykite/indykite-sdk-python/compare/v1.51.0...v1.52.0) (2024-11-06)
 
 
