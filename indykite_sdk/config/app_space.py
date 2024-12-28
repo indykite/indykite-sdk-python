@@ -8,20 +8,18 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def read_app_space_by_id(self, app_space_id, bookmarks=[]):
+def read_app_space_by_id(self, app_space_id):
     """
     get AppSpace object from id
     :param self:
     :param app_space_id: string gid id
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: AppSpace object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadApplicationSpace(
             pb2.ReadApplicationSpaceRequest(
-                id=str(app_space_id),
-                bookmarks=bookmarks
+                id=str(app_space_id)
             )
         )
     except Exception as exception:
@@ -33,13 +31,12 @@ def read_app_space_by_id(self, app_space_id, bookmarks=[]):
     return ApplicationSpace.deserialize(response.app_space)
 
 
-def read_app_space_by_name(self, customer_id, app_space_name, bookmarks=[]):
+def read_app_space_by_name(self, customer_id, app_space_name):
     """
     get AppSpace object from name
     :param self:
     :param customer_id: string gid id
     :param app_space_name: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: AppSpace object
     """
     sys.excepthook = logger.handle_excepthook
@@ -49,8 +46,7 @@ def read_app_space_by_name(self, customer_id, app_space_name, bookmarks=[]):
                 name=UniqueNameIdentifier(
                     location=customer_id,
                     name=app_space_name
-                ),
-                bookmarks=bookmarks
+                )
             )
         )
     except Exception as exception:
@@ -62,7 +58,7 @@ def read_app_space_by_name(self, customer_id, app_space_name, bookmarks=[]):
     return ApplicationSpace.deserialize(response.app_space)
 
 
-def create_app_space(self, customer_id, name, display_name, description="", bookmarks=[], region="europe-west1"):
+def create_app_space(self, customer_id, name, display_name, description="", region="europe-west1"):
     """
     create new AppSpace
     :param self:
@@ -70,7 +66,6 @@ def create_app_space(self, customer_id, name, display_name, description="", book
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
     :param display_name: string
     :param description: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :param region: in [europe-west1, us-east1]
     :return: deserialized CreateApplicationSpaceResponse
     """
@@ -82,7 +77,6 @@ def create_app_space(self, customer_id, name, display_name, description="", book
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                bookmarks=bookmarks,
                 region=region
             )
         )
@@ -95,7 +89,7 @@ def create_app_space(self, customer_id, name, display_name, description="", book
     return CreateApplicationSpace.deserialize(response)
 
 
-def update_app_space(self, app_space_id, etag, display_name, description="", bookmarks=[]):
+def update_app_space(self, app_space_id, etag, display_name, description=""):
     """
     update existing AppSpace
     :param self:
@@ -103,7 +97,6 @@ def update_app_space(self, app_space_id, etag, display_name, description="", boo
     :param etag: string
     :param display_name: string
     :param description: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized UpdateApplicationSpaceResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -113,8 +106,7 @@ def update_app_space(self, app_space_id, etag, display_name, description="", boo
                 id=app_space_id,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description),
-                bookmarks=bookmarks
+                description=wrappers.StringValue(value=description)
             )
         )
     except Exception as exception:
@@ -126,13 +118,12 @@ def update_app_space(self, app_space_id, etag, display_name, description="", boo
     return UpdateApplicationSpace.deserialize(response)
 
 
-def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
+def list_app_spaces(self, customer_id, match=[]):
     """
     list AppSpaces which match exact name in match param
     :param self:
     :param customer_id: string gid id
     :param match: list of strings
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: ListApplicationSpacesResponse object
     """
     sys.excepthook = logger.handle_excepthook
@@ -140,8 +131,7 @@ def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
         streams = self.stub.ListApplicationSpaces(
             pb2.ListApplicationSpacesRequest(
                 customer_id=customer_id,
-                match=match,
-                bookmarks=bookmarks
+                match=match
             )
         )
     except Exception as exception:
@@ -157,13 +147,12 @@ def list_app_spaces(self, customer_id, match=[], bookmarks=[]):
         return logger.logger_error(exception)
 
 
-def delete_app_space(self, app_space_id, etag, bookmarks):
+def delete_app_space(self, app_space_id, etag):
     """
     delete an AppSpace
     :param self:
     :param app_space_id: string gid id
     :param etag: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: DeleteApplicationSpaceResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -171,8 +160,7 @@ def delete_app_space(self, app_space_id, etag, bookmarks):
         response = self.stub.DeleteApplicationSpace(
             pb2.DeleteApplicationSpaceRequest(
                 id=app_space_id,
-                etag=wrappers.StringValue(value=etag),
-                bookmarks=bookmarks
+                etag=wrappers.StringValue(value=etag)
             )
         )
     except Exception as exception:

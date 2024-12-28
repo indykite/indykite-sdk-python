@@ -117,9 +117,8 @@ def main():
         # to get info for any given config node (AuthorizationPolicyConfig, ConsentConfiguration)
         client_config = ConfigClient()
         config_node_id = args.config_node_id
-        bookmark = []  # or value returned by last write operation
         version = 0
-        config_node = client_config.read_config_node(config_node_id, bookmark, version)
+        config_node = client_config.read_config_node(config_node_id, version)
         if config_node:
             # print(config_node.token_introspect_config.jwt)
             # print(config_node.token_introspect_config.offline)
@@ -162,7 +161,6 @@ def main():
         name = args.name
         display_name = args.display_name
         description = args.description
-        bookmark = []  # or value returned by last write operation
         # replace the json file by your own
         with open("../utils/sdk_policy_config.json") as f:
             file_data = f.read()
@@ -178,8 +176,7 @@ def main():
             name,
             display_name,
             description,
-            policy_config,
-            bookmark
+            policy_config
         )
 
         if create_authorization_policy_config_node_response:
@@ -196,7 +193,6 @@ def main():
         etag = args.etag
         display_name = args.display_name
         description = args.description
-        bookmark = []  # or value returned by last write operation
         with open("../utils/sdk_policy_config.json") as f:
             file_data = f.read()
         policy_dict = json.loads(file_data)
@@ -212,8 +208,7 @@ def main():
             etag,
             display_name,
             description,
-            policy_config,
-            bookmark
+            policy_config
         )
         if update_authorization_policy_config_node_response:
             api_helper.print_response(update_authorization_policy_config_node_response)
@@ -234,7 +229,6 @@ def main():
         display_name = args.display_name
         description = args.description
         application_id = args.application_id
-        bookmark = []  # or value returned by last write operation
         # replace the json file by your own
         consent_config = ConfigClient().consent_config(
             purpose="Taking control2",
@@ -250,8 +244,7 @@ def main():
             name,
             display_name,
             description,
-            consent_config,
-            bookmark
+            consent_config
         )
 
         if create_consent_config_node_response:
@@ -269,7 +262,6 @@ def main():
         display_name = args.display_name
         description = args.description
         application_id = args.application_id
-        bookmark = []  # or value returned by last write operation
         consent_config = ConfigClient().consent_config(
             purpose="Taking control",
             data_points=["{ \"query\": \"-[:OWNS]-(car:Car)\", \"returns\": [ { \"variable\": \"car\"," +
@@ -285,8 +277,7 @@ def main():
             etag,
             display_name,
             description,
-            consent_config,
-            bookmark
+            consent_config
         )
         if update_consent_config_node_response:
             api_helper.print_response(update_consent_config_node_response)
@@ -306,7 +297,6 @@ def main():
         name = args.name
         display_name = args.display_name
         description = args.description
-        bookmark = []  # or value returned by last write operation
         # replace the json file by your own
         # token_matcher = oneof TokenIntrospectConfig.JWT, TokenIntrospectConfig.Opaque
         jwt = model_pb2.TokenIntrospectConfig.JWT(
@@ -338,8 +328,7 @@ def main():
             name,
             display_name,
             description,
-            token_introspect_config,
-            bookmark
+            token_introspect_config
         )
 
         if create_token_introspect_config_node_response:
@@ -356,7 +345,6 @@ def main():
         etag = args.etag
         display_name = args.display_name
         description = args.description
-        bookmark = []  # or value returned by last write operation
         # token_matcher = oneof TokenIntrospectConfig.JWT, TokenIntrospectConfig.Opaque
         jwt = model_pb2.TokenIntrospectConfig.JWT(
             issuer="https://example.com",
@@ -388,8 +376,7 @@ def main():
             etag,
             display_name,
             description,
-            token_introspect_config,
-            bookmark
+            token_introspect_config
         )
         if update_token_introspect_config_node_response:
             api_helper.print_response(update_token_introspect_config_node_response)
@@ -409,7 +396,6 @@ def main():
         name = args.name
         display_name = args.display_name
         description = args.description
-        bookmark = []  # or value returned by last write operation
         # Create headers (which is a map<string, ExternalDataResolverConfig.Header>)
         header1 = model_pb2.ExternalDataResolverConfig.Header()
         header1.values.extend(["Authorization", "Bearer token_value"])
@@ -434,8 +420,7 @@ def main():
             name,
             display_name,
             description,
-            external_data_resolver_config,
-            bookmark
+            external_data_resolver_config
         )
 
         if create_external_data_resolver_config_node_response:
@@ -452,7 +437,6 @@ def main():
         etag = args.etag
         display_name = args.display_name
         description = args.description
-        bookmark = []  # or value returned by last write operation
         external_data_resolver_config = ConfigClient().external_data_resolver_config(
             url="https://example.com/source2",
             method="GET",
@@ -478,8 +462,7 @@ def main():
             etag,
             display_name,
             description,
-            external_data_resolver_config,
-            bookmark
+            external_data_resolver_config
         )
         if update_external_data_resolver_config_node_response:
             api_helper.print_response(update_external_data_resolver_config_node_response)
@@ -499,7 +482,6 @@ def main():
         name = args.name
         display_name = args.display_name
         description = args.description
-        bookmark = []  # or value returned by last write operation
         t = datetime.now()
         node_filter = model_pb2.EntityMatchingPipelineConfig.NodeFilter()
         node_filter.source_node_types.extend(["Person"])
@@ -521,8 +503,7 @@ def main():
             name,
             display_name,
             description,
-            entity_matching_pipeline_config,
-            bookmark
+            entity_matching_pipeline_config
         )
 
         if create_entity_matching_pipeline_config_node_response:
@@ -539,7 +520,6 @@ def main():
         etag = args.etag
         display_name = args.display_name
         description = args.description
-        bookmark = []  # or value returned by last write operation
         node_filter = model_pb2.EntityMatchingPipelineConfig.NodeFilter()
         node_filter.source_node_types.extend(["employee", "technician"])
         node_filter.target_node_types.extend(["user", "customer"])
@@ -551,8 +531,7 @@ def main():
             etag,
             display_name,
             description,
-            entity_matching_pipeline_config,
-            bookmark
+            entity_matching_pipeline_config
         )
         if update_entity_matching_pipeline_config_node_response:
             api_helper.print_response(update_entity_matching_pipeline_config_node_response)

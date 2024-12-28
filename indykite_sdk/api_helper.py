@@ -14,7 +14,6 @@ def print_credential(credential):  # pragma: no cover
         print("Agent config: " + str(credential.agent_config))
     elif hasattr(credential, 'service_account_config'):
         print("Service account config: " + str(credential.service_account_config))
-    print("Bookmark: " + str(credential.bookmark))
     print("Create time: " + str(credential.create_time))
     print("Expire time: " + str(credential.expire_time))
 

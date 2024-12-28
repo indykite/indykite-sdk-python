@@ -38,8 +38,7 @@ def test_entity_matching_success(client, client_config, right_now, app_space_id)
                                                                      "automation-" + right_now,
                                                                      "Automation " + right_now,
                                                                      "description",
-                                                                     entity_matching_pipeline_config,
-                                                                     [])
+                                                                     entity_matching_pipeline_config)
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
     # send the read entity matching report request and get the response
@@ -55,7 +54,7 @@ def test_entity_matching_success(client, client_config, right_now, app_space_id)
     assert run_entity_matching_pipeline is not None
     assert run_entity_matching_pipeline.id == config_node.id
 
-    response = client_config.delete_config_node(config_node.id, config_node.etag, [])
+    response = client_config.delete_config_node(config_node.id, config_node.etag)
     assert response is not None
 
 
@@ -72,8 +71,7 @@ def test_entity_matching_error(client, client_config, right_now, app_space_id):
                                                                      "automation-" + right_now,
                                                                      "Automation " + right_now,
                                                                      "description",
-                                                                     entity_matching_pipeline_config,
-                                                                     [])
+                                                                     entity_matching_pipeline_config)
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
     # send the read entity matching report request and get the response
@@ -86,7 +84,7 @@ def test_entity_matching_error(client, client_config, right_now, app_space_id):
     )
     assert "invalid entity matching pipeline id" in log_stream.getvalue()
 
-    response = client_config.delete_config_node(config_node.id, config_node.etag, [])
+    response = client_config.delete_config_node(config_node.id, config_node.etag)
     assert response is not None
     # Clean up
     logger.removeHandler(handler)
@@ -98,8 +96,7 @@ def test_entity_matching_empty(client, client_config, right_now, app_space_id):
                                                                      "automation-" + right_now,
                                                                      "Automation " + right_now,
                                                                      "description",
-                                                                     entity_matching_pipeline_config,
-                                                                     [])
+                                                                     entity_matching_pipeline_config)
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
     time.sleep(5)
@@ -122,5 +119,5 @@ def test_entity_matching_empty(client, client_config, right_now, app_space_id):
     )
     assert run_entity_matching_pipeline is None
 
-    response = client_config.delete_config_node(config_node.id, config_node.etag, [])
+    response = client_config.delete_config_node(config_node.id, config_node.etag)
     assert response is not None

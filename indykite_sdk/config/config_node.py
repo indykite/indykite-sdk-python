@@ -13,12 +13,11 @@ from indykite_sdk.model.external_data_resolver_config_content_type import Conten
 import indykite_sdk.utils.logger as logger
 
 
-def read_config_node(self, config_node_id, bookmarks=[], version=0):
+def read_config_node(self, config_node_id, version=0):
     """
     read a specific config node
     :param self:
     :param config_node_id: string gid id
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :param version: int
     :return: deserialized ConfigNode instance
     """
@@ -27,7 +26,6 @@ def read_config_node(self, config_node_id, bookmarks=[], version=0):
         response = self.stub.ReadConfigNode(
             pb2.ReadConfigNodeRequest(
                 id=str(config_node_id),
-                bookmarks=bookmarks,
                 version=version
             )
         )
@@ -39,13 +37,12 @@ def read_config_node(self, config_node_id, bookmarks=[], version=0):
     return ConfigNode.deserialize(response.config_node)
 
 
-def delete_config_node(self, config_node_id, etag, bookmarks=[]):
+def delete_config_node(self, config_node_id, etag):
     """
     delete a specific config node
     :param self:
     :param config_node_id: string gid id
     :param etag: etag
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: DeleteConfigNodeResponse object
     """
     sys.excepthook = logger.handle_excepthook
@@ -53,8 +50,7 @@ def delete_config_node(self, config_node_id, etag, bookmarks=[]):
         response = self.stub.DeleteConfigNode(
             pb2.DeleteConfigNodeRequest(
                 id=str(config_node_id),
-                etag=wrappers.StringValue(value=etag),
-                bookmarks=bookmarks
+                etag=wrappers.StringValue(value=etag)
             )
         )
     except Exception as exception:
@@ -70,8 +66,7 @@ def create_authorization_policy_config_node(self,
                                             name,
                                             display_name,
                                             description,
-                                            authorization_policy_config,
-                                            bookmarks=[]):
+                                            authorization_policy_config):
     """
     create authorization policy
     :param self:
@@ -80,7 +75,6 @@ def create_authorization_policy_config_node(self,
     :param display_name: string
     :param description: string
     :param authorization_policy_config: AuthorizationPolicyConfig object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized CreateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -95,8 +89,7 @@ def create_authorization_policy_config_node(self,
                     name=name,
                     display_name=wrappers.StringValue(value=display_name),
                     description=wrappers.StringValue(value=description),
-                    authorization_policy_config=authorization_policy_config,
-                    bookmarks=bookmarks
+                    authorization_policy_config=authorization_policy_config
                 )
             )
     except Exception as exception:
@@ -112,8 +105,7 @@ def update_authorization_policy_config_node(self,
                                             etag,
                                             display_name,
                                             description,
-                                            authorization_policy_config,
-                                            bookmarks=[]):
+                                            authorization_policy_config):
     """
     update authorization policy
     :param self:
@@ -122,7 +114,6 @@ def update_authorization_policy_config_node(self,
     :param display_name: string
     :param description: string
     :param authorization_policy_config: AuthorizationPolicyConfig object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized UpdateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -137,8 +128,7 @@ def update_authorization_policy_config_node(self,
                     etag=wrappers.StringValue(value=etag),
                     display_name=wrappers.StringValue(value=display_name),
                     description=wrappers.StringValue(value=description),
-                    authorization_policy_config= authorization_policy_config,
-                    bookmarks=bookmarks
+                    authorization_policy_config= authorization_policy_config
                 )
             )
     except Exception as exception:
@@ -175,8 +165,7 @@ def create_consent_config_node(self,
                                name,
                                display_name,
                                description,
-                               consent_config,
-                               bookmarks=[]):
+                               consent_config):
     """
     create consent configuration
     :param self:
@@ -185,7 +174,6 @@ def create_consent_config_node(self,
     :param display_name: string
     :param description: string
     :param consent_config: ConsentConfiguration object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized CreateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -196,8 +184,7 @@ def create_consent_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                consent_config=consent_config,
-                bookmarks=bookmarks
+                consent_config=consent_config
             )
         )
     except Exception as exception:
@@ -213,8 +200,7 @@ def update_consent_config_node(self,
                                etag,
                                display_name,
                                description,
-                               consent_config,
-                               bookmarks=[]):
+                               consent_config):
     """
     update consent configuration
     :param self:
@@ -223,7 +209,6 @@ def update_consent_config_node(self,
     :param display_name: string
     :param description: string
     :param consent_config: ConsentConfiguration object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized UpdateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -234,8 +219,7 @@ def update_consent_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                consent_config= consent_config,
-                bookmarks=bookmarks
+                consent_config= consent_config
             )
         )
     except Exception as exception:
@@ -286,8 +270,7 @@ def create_token_introspect_config_node(self,
                                         name,
                                         display_name,
                                         description,
-                                        token_introspect_config,
-                                        bookmarks=[]):
+                                        token_introspect_config):
     """
     create token introspect config
     :param self:
@@ -296,7 +279,6 @@ def create_token_introspect_config_node(self,
     :param display_name: string
     :param description: string
     :param token_introspect_config: TokenIntrospectConfig object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized CreateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -307,8 +289,7 @@ def create_token_introspect_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                token_introspect_config=token_introspect_config,
-                bookmarks=bookmarks
+                token_introspect_config=token_introspect_config
             )
         )
     except Exception as exception:
@@ -324,8 +305,7 @@ def update_token_introspect_config_node(self,
                                         etag,
                                         display_name,
                                         description,
-                                        token_introspect_config,
-                                        bookmarks=[]):
+                                        token_introspect_config):
     """
     update token introspect config
     :param self:
@@ -334,7 +314,6 @@ def update_token_introspect_config_node(self,
     :param display_name: string
     :param description: string
     :param token_introspect_config: TokenIntrospectConfig object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized UpdateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -345,8 +324,7 @@ def update_token_introspect_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                token_introspect_config= token_introspect_config,
-                bookmarks=bookmarks
+                token_introspect_config= token_introspect_config
             )
         )
     except Exception as exception:
@@ -433,8 +411,7 @@ def create_external_data_resolver_config_node(self,
                                               name,
                                               display_name,
                                               description,
-                                              external_data_resolver_config,
-                                              bookmarks=[]):
+                                              external_data_resolver_config):
     """
     create external data resolver config node
     :param self:
@@ -443,7 +420,6 @@ def create_external_data_resolver_config_node(self,
     :param display_name: string
     :param description: string
     :param external_data_resolver_config: ExternalDataResolverConfig object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized CreateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -467,8 +443,7 @@ def create_external_data_resolver_config_node(self,
                     name=name,
                     display_name=wrappers.StringValue(value=display_name),
                     description=wrappers.StringValue(value=description),
-                    external_data_resolver_config=external_data_resolver_config,
-                    bookmarks=bookmarks
+                    external_data_resolver_config=external_data_resolver_config
                 )
             )
     except Exception as exception:
@@ -484,8 +459,7 @@ def update_external_data_resolver_config_node(self,
                                               etag,
                                               display_name,
                                               description,
-                                              external_data_resolver_config,
-                                              bookmarks=[]):
+                                              external_data_resolver_config):
     """
     update external data resolver
     :param self:
@@ -493,7 +467,6 @@ def update_external_data_resolver_config_node(self,
     :param display_name: string
     :param description: string
     :param external_data_resolver_config: ExternalDataResolverConfig object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized UpdateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -517,8 +490,7 @@ def update_external_data_resolver_config_node(self,
                     etag=wrappers.StringValue(value=etag),
                     display_name=wrappers.StringValue(value=display_name),
                     description=wrappers.StringValue(value=description),
-                    external_data_resolver_config=external_data_resolver_config,
-                    bookmarks=bookmarks
+                    external_data_resolver_config=external_data_resolver_config
                 )
             )
     except Exception as exception:
@@ -570,8 +542,7 @@ def create_entity_matching_pipeline_config_node(self,
                                               name,
                                               display_name,
                                               description,
-                                              entity_matching_pipeline_config,
-                                              bookmarks=[]):
+                                              entity_matching_pipeline_config):
     """
     create entity matching pipeline config node
     :param self:
@@ -580,7 +551,6 @@ def create_entity_matching_pipeline_config_node(self,
     :param display_name: string
     :param description: string
     :param entity_matching_pipeline_config: EntityMatchingPipelineConfig object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized CreateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -596,8 +566,7 @@ def create_entity_matching_pipeline_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                entity_matching_pipeline_config=entity_matching_pipeline_config,
-                bookmarks=bookmarks
+                entity_matching_pipeline_config=entity_matching_pipeline_config
             )
         )
     except Exception as exception:
@@ -613,8 +582,7 @@ def update_entity_matching_pipeline_config_node(self,
                                               etag,
                                               display_name,
                                               description,
-                                              entity_matching_pipeline_config,
-                                              bookmarks=[]):
+                                              entity_matching_pipeline_config):
     """
     update entity matching pipeline
     :param self:
@@ -622,7 +590,6 @@ def update_entity_matching_pipeline_config_node(self,
     :param display_name: string
     :param description: string
     :param entity_matching_pipeline_config: EntityMatchingPipelineConfig object
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized UpdateConfigNode instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -637,8 +604,7 @@ def update_entity_matching_pipeline_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                entity_matching_pipeline_config=entity_matching_pipeline_config,
-                bookmarks=bookmarks
+                entity_matching_pipeline_config=entity_matching_pipeline_config
             )
         )
     except Exception as exception:

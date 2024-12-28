@@ -213,70 +213,64 @@
 <span id="config-app-space-module"></span><h2>config.app_space module<a class="headerlink" href="#module-config.app_space" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="config.app_space.create_app_space">
-<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">create_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#create_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.create_app_space" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">create_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#create_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.create_app_space" title="Permalink to this definition"></a></dt>
 <dd><p>create new AppSpace
 :param self:
 :param customer_id: string gid id
 :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id1"><span class="problematic" id="id2">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateApplicationSpaceResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.app_space.delete_app_space">
-<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">delete_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#delete_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.delete_app_space" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">delete_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#delete_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.delete_app_space" title="Permalink to this definition"></a></dt>
 <dd><p>delete an AppSpace
 :param self:
 :param app_space_id: string gid id
 :param etag: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id3"><span class="problematic" id="id4">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteApplicationSpaceResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.app_space.read_app_space_by_id">
-<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">read_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#read_app_space_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.read_app_space_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">read_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#read_app_space_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.read_app_space_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get AppSpace object from id
 :param self:
 :param app_space_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id5"><span class="problematic" id="id6">a-zA-Z0-9_</span></a>-]{40,}$
 :return: AppSpace object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.app_space.read_app_space_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">read_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#read_app_space_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.read_app_space_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">read_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#read_app_space_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.read_app_space_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get AppSpace object from name
 :param self:
 :param customer_id: string gid id
 :param app_space_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id7"><span class="problematic" id="id8">a-zA-Z0-9_</span></a>-]{40,}$
 :return: AppSpace object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.app_space.list_app_spaces">
-<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">list_app_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#list_app_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.list_app_spaces" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">list_app_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#list_app_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.list_app_spaces" title="Permalink to this definition"></a></dt>
 <dd><p>list AppSpaces which match exact name in match param
 :param self:
 :param customer_id: string gid id
 :param match: list of strings
-:param bookmarks: list of strings with pattern: ^[<a href="#id9"><span class="problematic" id="id10">a-zA-Z0-9_</span></a>-]{40,}$
 :return: ListApplicationSpacesResponse object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.app_space.update_app_space">
-<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">update_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#update_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.update_app_space" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.app_space.</span></span><span class="sig-name descname"><span class="pre">update_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/app_space.html#update_app_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.app_space.update_app_space" title="Permalink to this definition"></a></dt>
 <dd><p>update existing AppSpace
 :param self:
 :param app_space_id: string gid id
 :param etag: string
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id11"><span class="problematic" id="id12">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateApplicationSpaceResponse</p>
 </dd></dl>
 
@@ -285,70 +279,64 @@
 <span id="config-application-module"></span><h2>config.application module<a class="headerlink" href="#module-config.application" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application.create_application">
-<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">create_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#create_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.create_application" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">create_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#create_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.create_application" title="Permalink to this definition"></a></dt>
 <dd><p>create an Application
 :param self:
 :param app_space_id: string gid id
 :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id13"><span class="problematic" id="id14">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateApplicationResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application.delete_application">
-<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">delete_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#delete_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.delete_application" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">delete_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#delete_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.delete_application" title="Permalink to this definition"></a></dt>
 <dd><p>delete an application
 :param self:
 :param application_id: string gid id
 :param etag: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id15"><span class="problematic" id="id16">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteApplicationResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application.read_application_by_id">
-<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">read_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#read_application_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.read_application_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">read_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#read_application_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.read_application_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get an Application object with an id
 :param self:
 :param application_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id17"><span class="problematic" id="id18">a-zA-Z0-9_</span></a>-]{40,}$
 :return: Application object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application.read_application_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">read_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#read_application_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.read_application_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">read_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#read_application_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.read_application_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get an Application object with a name
 :param self:
 :param app_space_id: string gid id
 :param application_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id19"><span class="problematic" id="id20">a-zA-Z0-9_</span></a>-]{40,}$
 :return: Application object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application.list_applications">
-<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">list_applications</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#list_applications"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.list_applications" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">list_applications</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#list_applications"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.list_applications" title="Permalink to this definition"></a></dt>
 <dd><p>list App which match exact name in match param
 :param self:
 :param app_space_id: string gid id
 :param match: list of strings
-:param bookmarks: list of strings with pattern: ^[<a href="#id21"><span class="problematic" id="id22">a-zA-Z0-9_</span></a>-]{40,}$
 :return: ListApplicationResponse object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application.update_application">
-<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">update_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#update_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.update_application" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application.</span></span><span class="sig-name descname"><span class="pre">update_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application.html#update_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application.update_application" title="Permalink to this definition"></a></dt>
 <dd><p>update existing Application
 :param self:
 :param application_id: string gid id
 :param etag: string
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id23"><span class="problematic" id="id24">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateApplicationResponse</p>
 </dd></dl>
 
@@ -357,70 +345,64 @@
 <span id="config-application-agent-module"></span><h2>config.application_agent module<a class="headerlink" href="#module-config.application_agent" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent.create_application_agent">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">create_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#create_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.create_application_agent" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">create_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#create_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.create_application_agent" title="Permalink to this definition"></a></dt>
 <dd><p>create an AppAgent
 :param self:
 :param application_id: string gid id
 :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id25"><span class="problematic" id="id26">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateApplicationAgentResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent.delete_application_agent">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">delete_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#delete_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.delete_application_agent" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">delete_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#delete_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.delete_application_agent" title="Permalink to this definition"></a></dt>
 <dd><p>delete an AppAgent
 :param self:
 :param application_agent_id: string gid id
 :param etag: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id27"><span class="problematic" id="id28">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteApplicationResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent.read_application_agent_by_id">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#read_application_agent_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.read_application_agent_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#read_application_agent_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.read_application_agent_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get an ApplAgent object with an id
 :param self:
 :param application_agent_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id29"><span class="problematic" id="id30">a-zA-Z0-9_</span></a>-]{40,}$
 :return: ApplicationAgent object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent.read_application_agent_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#read_application_agent_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.read_application_agent_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#read_application_agent_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.read_application_agent_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get an ApplAgent object with a name
 :param self:
 :param app_space_id: string gid id
 :param application_agent_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id31"><span class="problematic" id="id32">a-zA-Z0-9_</span></a>-]{40,}$
 :return: AppAgent object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent.list_application_agents">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">list_application_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#list_application_agents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.list_application_agents" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">list_application_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#list_application_agents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.list_application_agents" title="Permalink to this definition"></a></dt>
 <dd><p>list App which match exact name in match param
 :param self:
 :param app_space_id: string gid id
 :param match: list of strings
-:param bookmarks: list of strings with pattern: ^[<a href="#id33"><span class="problematic" id="id34">a-zA-Z0-9_</span></a>-]{40,}$
 :return: ListApplicationAgentResponse object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent.update_application_agent">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">update_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#update_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.update_application_agent" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent.</span></span><span class="sig-name descname"><span class="pre">update_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent.html#update_application_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent.update_application_agent" title="Permalink to this definition"></a></dt>
 <dd><p>update existing AppAgent
 :param self:
 :param application_agent_id: string gid id
 :param etag: string
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id35"><span class="problematic" id="id36">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateApplicationAgentResponse</p>
 </dd></dl>
 
@@ -429,24 +411,22 @@
 <span id="config-application-agent-credential-module"></span><h2>config.application_agent_credential module<a class="headerlink" href="#module-config.application_agent_credential" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent_credential.delete_application_agent_credential">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">delete_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#delete_application_agent_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.delete_application_agent_credential" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">delete_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#delete_application_agent_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.delete_application_agent_credential" title="Permalink to this definition"></a></dt>
 <dd><p>delete AppAgent credentials
 :param self:
 :param application_agent_credential_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id37"><span class="problematic" id="id38">a-zA-Z0-9_</span></a>-]{40,}$
 :param etag: string
 :return: DeleteApplicationAgentCredentialResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent_credential.read_application_agent_credential">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#read_application_agent_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.read_application_agent_credential" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">read_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#read_application_agent_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.read_application_agent_credential" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>self</strong> – </p></li>
 <li><p><strong>application_agent_credential_id</strong> – string gid id</p></li>
-<li><p><strong>bookmarks</strong> – list of strings with pattern: ^[<a href="#id39"><span class="problematic" id="id40">a-zA-Z0-9_</span></a>-]{40,}$</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -457,27 +437,25 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent_credential.register_application_agent_credential_jwk">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">register_application_agent_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#register_application_agent_credential_jwk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.register_application_agent_credential_jwk" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">register_application_agent_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#register_application_agent_credential_jwk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.register_application_agent_credential_jwk" title="Permalink to this definition"></a></dt>
 <dd><p>register jwk credentials for your AppAgent
 :param self:
 :param application_agent_id: string gid id
 :param display_name: string
 :param jwk_in_bytes: bytes
 :param expire_time_in_seconds: int
-:param bookmarks: list of strings with pattern: ^[<a href="#id41"><span class="problematic" id="id42">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized RegisterApplicationAgentCredential</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.application_agent_credential.register_application_agent_credential_pem">
-<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">register_application_agent_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#register_application_agent_credential_pem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.register_application_agent_credential_pem" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.application_agent_credential.</span></span><span class="sig-name descname"><span class="pre">register_application_agent_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/application_agent_credential.html#register_application_agent_credential_pem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.application_agent_credential.register_application_agent_credential_pem" title="Permalink to this definition"></a></dt>
 <dd><p>register pem credentials for your AppAgent
 :param self:
 :param application_agent_id: string gid id
 :param display_name: string
 :param pem_in_bytes: bytes
 :param expire_time_in_seconds: int
-:param bookmarks: list of strings with pattern: ^[<a href="#id43"><span class="problematic" id="id44">a-zA-Z0-9_</span></a>-]{40,}$
 :return:</p>
 </dd></dl>
 
@@ -498,7 +476,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.config_node.create_authorization_policy_config_node">
-<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">create_authorization_policy_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization_policy_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#create_authorization_policy_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.create_authorization_policy_config_node" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">create_authorization_policy_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization_policy_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#create_authorization_policy_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.create_authorization_policy_config_node" title="Permalink to this definition"></a></dt>
 <dd><p>create authorization policy
 :param self:
 :param location: string gid id
@@ -506,34 +484,31 @@
 :param display_name: string
 :param description: string
 :param authorization_policy_config: AuthorizationPolicyConfig object
-:param bookmarks: list of strings with pattern: ^[<a href="#id47"><span class="problematic" id="id48">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateConfigNode instance</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.config_node.delete_config_node">
-<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">delete_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#delete_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.delete_config_node" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">delete_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#delete_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.delete_config_node" title="Permalink to this definition"></a></dt>
 <dd><p>delete a specific config node
 :param self:
 :param config_node_id: string gid id
 :param etag: etag
-:param bookmarks: list of strings with pattern: ^[<a href="#id55"><span class="problematic" id="id56">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteConfigNodeResponse object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.config_node.read_config_node">
-<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">read_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#read_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.read_config_node" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">read_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#read_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.read_config_node" title="Permalink to this definition"></a></dt>
 <dd><p>read a specific config node
 :param self:
 :param config_node_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id57"><span class="problematic" id="id58">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized ConfigNode instance</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.config_node.update_authorization_policy_config_node">
-<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">update_authorization_policy_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization_policy_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#update_authorization_policy_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.update_authorization_policy_config_node" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.config_node.</span></span><span class="sig-name descname"><span class="pre">update_authorization_policy_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization_policy_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/config_node.html#update_authorization_policy_config_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.config_node.update_authorization_policy_config_node" title="Permalink to this definition"></a></dt>
 <dd><p>update authorization policy
 :param self:
 :param config_node_id: string gid id
@@ -541,7 +516,6 @@
 :param display_name: string
 :param description: string
 :param authorization_policy_config: AuthorizationPolicyConfig object
-:param bookmarks: list of strings with pattern: ^[<a href="#id61"><span class="problematic" id="id62">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateConfigNode instance</p>
 </dd></dl>
 
@@ -595,21 +569,19 @@
 <span id="config-customer-module"></span><h2>config.customer module<a class="headerlink" href="#module-config.customer" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="config.customer.read_customer_by_id">
-<span class="sig-prename descclassname"><span class="pre">config.customer.</span></span><span class="sig-name descname"><span class="pre">read_customer_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/customer.html#read_customer_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.customer.read_customer_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.customer.</span></span><span class="sig-name descname"><span class="pre">read_customer_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/customer.html#read_customer_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.customer.read_customer_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get Customer object from customer id
 :param self:
 :param customer_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id69"><span class="problematic" id="id70">a-zA-Z0-9_</span></a>-]{40,}$
 :return: Customer object</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.customer.read_customer_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.customer.</span></span><span class="sig-name descname"><span class="pre">read_customer_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/customer.html#read_customer_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.customer.read_customer_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.customer.</span></span><span class="sig-name descname"><span class="pre">read_customer_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/customer.html#read_customer_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.customer.read_customer_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get Customer object from customer name
 :param self:
 :param customer_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id71"><span class="problematic" id="id72">a-zA-Z0-9_</span></a>-]{40,}$
 :return: Customer object</p>
 </dd></dl>
 
@@ -668,7 +640,7 @@
 <span id="config-service-account-module"></span><h2>config.service_account module<a class="headerlink" href="#module-config.service_account" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account.create_service_account">
-<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">create_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#create_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.create_service_account" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">create_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#create_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.create_service_account" title="Permalink to this definition"></a></dt>
 <dd><p>create a service account
 :param self:
 :param customer_id: string gid id
@@ -676,52 +648,47 @@
 :param display_name: string
 :param description: string
 :param role: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id89"><span class="problematic" id="id90">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateServiceAccount instance</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account.delete_service_account">
-<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">delete_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#delete_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.delete_service_account" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">delete_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#delete_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.delete_service_account" title="Permalink to this definition"></a></dt>
 <dd><p>delete a service account
 :param self:
 :param service_account_id: string gid id
 :param etag: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id91"><span class="problematic" id="id92">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteServiceAccountResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account.read_service_account">
-<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">read_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#read_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.read_service_account" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">read_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#read_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.read_service_account" title="Permalink to this definition"></a></dt>
 <dd><p>get info on existing service account from its id or from credentials
 :param self:
 :param service_account: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id93"><span class="problematic" id="id94">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized ServiceAccount instance</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account.read_service_account_by_name">
-<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">read_service_account_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#read_service_account_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.read_service_account_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">read_service_account_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#read_service_account_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.read_service_account_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get service account info from its name
 :param self:
 :param customer_id: string gid id
 :param service_account_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id95"><span class="problematic" id="id96">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized ServiceAccount instance</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account.update_service_account">
-<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">update_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#update_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.update_service_account" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account.</span></span><span class="sig-name descname"><span class="pre">update_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account.html#update_service_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account.update_service_account" title="Permalink to this definition"></a></dt>
 <dd><p>update a service account
 :param self:
 :param service_account_id: string gid id
 :param etag: string
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id97"><span class="problematic" id="id98">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateServiceAccount instance</p>
 </dd></dl>
 
@@ -730,48 +697,44 @@
 <span id="config-service-account-credential-module"></span><h2>config.service_account_credential module<a class="headerlink" href="#module-config.service_account_credential" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account_credential.delete_service_account_credential">
-<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">delete_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#delete_service_account_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.delete_service_account_credential" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">delete_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#delete_service_account_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.delete_service_account_credential" title="Permalink to this definition"></a></dt>
 <dd><p>delete service account credentials
 :param self:
 :param service_account_credential_id: string gid id
 :param etag: string
-:param bookmarks: bookmarks: list of strings with pattern: ^[<a href="#id99"><span class="problematic" id="id100">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteServiceAccountCredentialResponse</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account_credential.read_service_account_credential">
-<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">read_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#read_service_account_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.read_service_account_credential" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">read_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#read_service_account_credential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.read_service_account_credential" title="Permalink to this definition"></a></dt>
 <dd><p>read info about service account
 :param self:
 :param service_account_credential_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id101"><span class="problematic" id="id102">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized ServiceAccountCredential instance</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account_credential.register_service_account_credential_jwk">
-<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">register_service_account_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#register_service_account_credential_jwk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.register_service_account_credential_jwk" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">register_service_account_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#register_service_account_credential_jwk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.register_service_account_credential_jwk" title="Permalink to this definition"></a></dt>
 <dd><p>register jwk credentials for your service account
 :param self:
 :param service_account_id: string gid id
 :param display_name: string
 :param jwk_in_bytes: bytes
 :param expire_time_in_seconds: int
-:param bookmarks: list of strings with pattern: ^[<a href="#id103"><span class="problematic" id="id104">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized RegisterServiceAccountCredential instance</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="config.service_account_credential.register_service_account_credential_pem">
-<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">register_service_account_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#register_service_account_credential_pem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.register_service_account_credential_pem" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">config.service_account_credential.</span></span><span class="sig-name descname"><span class="pre">register_service_account_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config/service_account_credential.html#register_service_account_credential_pem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#config.service_account_credential.register_service_account_credential_pem" title="Permalink to this definition"></a></dt>
 <dd><p>register pem credentials for your service account
 :param self:
 :param service_account_id: string gid id
 :param display_name: string
 :param pem_in_bytes: bytes
 :param expire_time_in_seconds: int
-:param bookmarks: list of strings with pattern: ^[<a href="#id105"><span class="problematic" id="id106">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized RegisterServiceAccountCredential instance</p>
 </dd></dl>
 
@@ -796,40 +759,37 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.create_app_space">
-<span class="sig-name descname"><span class="pre">create_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_app_space" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_app_space" title="Permalink to this definition"></a></dt>
 <dd><p>create new AppSpace
 :param self:
 :param customer_id: string gid id
 :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id119"><span class="problematic" id="id120">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateApplicationSpaceResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.create_application">
-<span class="sig-name descname"><span class="pre">create_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_application" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_application" title="Permalink to this definition"></a></dt>
 <dd><p>create an Application
 :param self:
 :param app_space_id: string gid id
 :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id121"><span class="problematic" id="id122">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateApplicationResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.create_application_agent">
-<span class="sig-name descname"><span class="pre">create_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_application_agent" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_application_agent" title="Permalink to this definition"></a></dt>
 <dd><p>create an AppAgent
 :param self:
 :param application_id: string gid id
 :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id123"><span class="problematic" id="id124">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateApplicationAgentResponse</p>
 </dd></dl>
 
@@ -850,7 +810,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.create_authorization_policy_config_node">
-<span class="sig-name descname"><span class="pre">create_authorization_policy_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization_policy_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_authorization_policy_config_node" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_authorization_policy_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization_policy_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_authorization_policy_config_node" title="Permalink to this definition"></a></dt>
 <dd><p>create authorization policy
 :param self:
 :param location: string gid id
@@ -858,13 +818,12 @@
 :param display_name: string
 :param description: string
 :param authorization_policy_config: AuthorizationPolicyConfig object
-:param bookmarks: list of strings with pattern: ^[<a href="#id127"><span class="problematic" id="id128">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateConfigNode instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.create_service_account">
-<span class="sig-name descname"><span class="pre">create_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_service_account" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.create_service_account" title="Permalink to this definition"></a></dt>
 <dd><p>create a service account
 :param self:
 :param customer_id: string gid id
@@ -872,138 +831,125 @@
 :param display_name: string
 :param description: string
 :param role: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id137"><span class="problematic" id="id138">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized CreateServiceAccount instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.delete_app_space">
-<span class="sig-name descname"><span class="pre">delete_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_app_space" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_app_space" title="Permalink to this definition"></a></dt>
 <dd><p>delete an AppSpace
 :param self:
 :param app_space_id: string gid id
 :param etag: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id143"><span class="problematic" id="id144">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteApplicationSpaceResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.delete_application">
-<span class="sig-name descname"><span class="pre">delete_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application" title="Permalink to this definition"></a></dt>
 <dd><p>delete an application
 :param self:
 :param application_id: string gid id
 :param etag: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id145"><span class="problematic" id="id146">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteApplicationResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.delete_application_agent">
-<span class="sig-name descname"><span class="pre">delete_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application_agent" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application_agent" title="Permalink to this definition"></a></dt>
 <dd><p>delete an AppAgent
 :param self:
 :param application_agent_id: string gid id
 :param etag: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id147"><span class="problematic" id="id148">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteApplicationResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.delete_application_agent_credential">
-<span class="sig-name descname"><span class="pre">delete_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application_agent_credential" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_application_agent_credential" title="Permalink to this definition"></a></dt>
 <dd><p>delete AppAgent credentials
 :param self:
 :param application_agent_credential_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id149"><span class="problematic" id="id150">a-zA-Z0-9_</span></a>-]{40,}$
 :param etag: string
 :return: DeleteApplicationAgentCredentialResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.delete_config_node">
-<span class="sig-name descname"><span class="pre">delete_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_config_node" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_config_node" title="Permalink to this definition"></a></dt>
 <dd><p>delete a specific config node
 :param self:
 :param config_node_id: string gid id
 :param etag: etag
-:param bookmarks: list of strings with pattern: ^[<a href="#id151"><span class="problematic" id="id152">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteConfigNodeResponse object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.delete_service_account">
-<span class="sig-name descname"><span class="pre">delete_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_service_account" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_service_account" title="Permalink to this definition"></a></dt>
 <dd><p>delete a service account
 :param self:
 :param service_account_id: string gid id
 :param etag: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id157"><span class="problematic" id="id158">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteServiceAccountResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.delete_service_account_credential">
-<span class="sig-name descname"><span class="pre">delete_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_service_account_credential" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">delete_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.delete_service_account_credential" title="Permalink to this definition"></a></dt>
 <dd><p>delete service account credentials
 :param self:
 :param service_account_credential_id: string gid id
 :param etag: string
-:param bookmarks: bookmarks: list of strings with pattern: ^[<a href="#id159"><span class="problematic" id="id160">a-zA-Z0-9_</span></a>-]{40,}$
 :return: DeleteServiceAccountCredentialResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_app_space_by_id">
-<span class="sig-name descname"><span class="pre">read_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_app_space_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_app_space_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_app_space_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get AppSpace object from id
 :param self:
 :param app_space_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id163"><span class="problematic" id="id164">a-zA-Z0-9_</span></a>-]{40,}$
 :return: AppSpace object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_app_space_by_name">
-<span class="sig-name descname"><span class="pre">read_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_app_space_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_app_space_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_space_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_app_space_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get AppSpace object from name
 :param self:
 :param customer_id: string gid id
 :param app_space_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id165"><span class="problematic" id="id166">a-zA-Z0-9_</span></a>-]{40,}$
 :return: AppSpace object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_application_agent_by_id">
-<span class="sig-name descname"><span class="pre">read_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_application_agent_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get an ApplAgent object with an id
 :param self:
 :param application_agent_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id167"><span class="problematic" id="id168">a-zA-Z0-9_</span></a>-]{40,}$
 :return: ApplicationAgent object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_application_agent_by_name">
-<span class="sig-name descname"><span class="pre">read_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_application_agent_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_agent_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get an ApplAgent object with a name
 :param self:
 :param app_space_id: string gid id
 :param application_agent_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id169"><span class="problematic" id="id170">a-zA-Z0-9_</span></a>-]{40,}$
 :return: AppAgent object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_application_agent_credential">
-<span class="sig-name descname"><span class="pre">read_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_credential" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_application_agent_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_credential_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_agent_credential" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>self</strong> – </p></li>
 <li><p><strong>application_agent_credential_id</strong> – string gid id</p></li>
-<li><p><strong>bookmarks</strong> – list of strings with pattern: ^[<a href="#id171"><span class="problematic" id="id172">a-zA-Z0-9_</span></a>-]{40,}$</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1014,213 +960,195 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_application_by_id">
-<span class="sig-name descname"><span class="pre">read_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_application_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get an Application object with an id
 :param self:
 :param application_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id173"><span class="problematic" id="id174">a-zA-Z0-9_</span></a>-]{40,}$
 :return: Application object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_application_by_name">
-<span class="sig-name descname"><span class="pre">read_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_application_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_application_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get an Application object with a name
 :param self:
 :param app_space_id: string gid id
 :param application_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id175"><span class="problematic" id="id176">a-zA-Z0-9_</span></a>-]{40,}$
 :return: Application object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.list_app_spaces">
-<span class="sig-name descname"><span class="pre">list_app_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_app_spaces" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_app_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_app_spaces" title="Permalink to this definition"></a></dt>
 <dd><p>list AppSpaces which match exact name in match param
 :param self:
 :param customer_id: string gid id
 :param match: list of strings
-:param bookmarks: list of strings with pattern: ^[<a href="#id181"><span class="problematic" id="id182">a-zA-Z0-9_</span></a>-]{40,}$
 :return: ListApplicationSpacesResponse object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.list_application_agents">
-<span class="sig-name descname"><span class="pre">list_application_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_application_agents" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_application_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_application_agents" title="Permalink to this definition"></a></dt>
 <dd><p>list App which match exact name in match param
 :param self:
 :param app_space_id: string gid id
 :param match: list of strings
-:param bookmarks: list of strings with pattern: ^[<a href="#id183"><span class="problematic" id="id184">a-zA-Z0-9_</span></a>-]{40,}$
 :return: ListApplicationAgentResponse object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.list_applications">
-<span class="sig-name descname"><span class="pre">list_applications</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_applications" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">list_applications</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.list_applications" title="Permalink to this definition"></a></dt>
 <dd><p>list App which match exact name in match param
 :param self:
 :param app_space_id: string gid id
 :param match: list of strings
-:param bookmarks: list of strings with pattern: ^[<a href="#id185"><span class="problematic" id="id186">a-zA-Z0-9_</span></a>-]{40,}$
 :return: ListApplicationResponse object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_config_node">
-<span class="sig-name descname"><span class="pre">read_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_config_node" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_config_node" title="Permalink to this definition"></a></dt>
 <dd><p>read a specific config node
 :param self:
 :param config_node_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id189"><span class="problematic" id="id190">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized ConfigNode instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_customer_by_id">
-<span class="sig-name descname"><span class="pre">read_customer_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_customer_by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_customer_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_customer_by_id" title="Permalink to this definition"></a></dt>
 <dd><p>get Customer object from customer id
 :param self:
 :param customer_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id191"><span class="problematic" id="id192">a-zA-Z0-9_</span></a>-]{40,}$
 :return: Customer object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_customer_by_name">
-<span class="sig-name descname"><span class="pre">read_customer_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_customer_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_customer_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_customer_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get Customer object from customer name
 :param self:
 :param customer_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id193"><span class="problematic" id="id194">a-zA-Z0-9_</span></a>-]{40,}$
 :return: Customer object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_service_account">
-<span class="sig-name descname"><span class="pre">read_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_service_account" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_service_account" title="Permalink to this definition"></a></dt>
 <dd><p>get info on existing service account from its id or from credentials
 :param self:
 :param service_account: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id199"><span class="problematic" id="id200">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized ServiceAccount instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_service_account_by_name">
-<span class="sig-name descname"><span class="pre">read_service_account_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_service_account_by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_service_account_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">customer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_account_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_service_account_by_name" title="Permalink to this definition"></a></dt>
 <dd><p>get service account info from its name
 :param self:
 :param customer_id: string gid id
 :param service_account_name: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id201"><span class="problematic" id="id202">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized ServiceAccount instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.read_service_account_credential">
-<span class="sig-name descname"><span class="pre">read_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_service_account_credential" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_service_account_credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_credential_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.read_service_account_credential" title="Permalink to this definition"></a></dt>
 <dd><p>read info about service account
 :param self:
 :param service_account_credential_id: string gid id
-:param bookmarks: list of strings with pattern: ^[<a href="#id203"><span class="problematic" id="id204">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized ServiceAccountCredential instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.register_application_agent_credential_jwk">
-<span class="sig-name descname"><span class="pre">register_application_agent_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_application_agent_credential_jwk" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">register_application_agent_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_application_agent_credential_jwk" title="Permalink to this definition"></a></dt>
 <dd><p>register jwk credentials for your AppAgent
 :param self:
 :param application_agent_id: string gid id
 :param display_name: string
 :param jwk_in_bytes: bytes
 :param expire_time_in_seconds: int
-:param bookmarks: list of strings with pattern: ^[<a href="#id205"><span class="problematic" id="id206">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized RegisterApplicationAgentCredential</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.register_application_agent_credential_pem">
-<span class="sig-name descname"><span class="pre">register_application_agent_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_application_agent_credential_pem" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">register_application_agent_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_application_agent_credential_pem" title="Permalink to this definition"></a></dt>
 <dd><p>register pem credentials for your AppAgent
 :param self:
 :param application_agent_id: string gid id
 :param display_name: string
 :param pem_in_bytes: bytes
 :param expire_time_in_seconds: int
-:param bookmarks: list of strings with pattern: ^[<a href="#id207"><span class="problematic" id="id208">a-zA-Z0-9_</span></a>-]{40,}$
 :return:</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.register_service_account_credential_jwk">
-<span class="sig-name descname"><span class="pre">register_service_account_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_service_account_credential_jwk" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">register_service_account_credential_jwk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jwk_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_service_account_credential_jwk" title="Permalink to this definition"></a></dt>
 <dd><p>register jwk credentials for your service account
 :param self:
 :param service_account_id: string gid id
 :param display_name: string
 :param jwk_in_bytes: bytes
 :param expire_time_in_seconds: int
-:param bookmarks: list of strings with pattern: ^[<a href="#id209"><span class="problematic" id="id210">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized RegisterServiceAccountCredential instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.register_service_account_credential_pem">
-<span class="sig-name descname"><span class="pre">register_service_account_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_service_account_credential_pem" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">register_service_account_credential_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pem_in_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_time_in_seconds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.register_service_account_credential_pem" title="Permalink to this definition"></a></dt>
 <dd><p>register pem credentials for your service account
 :param self:
 :param service_account_id: string gid id
 :param display_name: string
 :param pem_in_bytes: bytes
 :param expire_time_in_seconds: int
-:param bookmarks: list of strings with pattern: ^[<a href="#id211"><span class="problematic" id="id212">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized RegisterServiceAccountCredential instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.update_app_space">
-<span class="sig-name descname"><span class="pre">update_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_app_space" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_app_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_space_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_app_space" title="Permalink to this definition"></a></dt>
 <dd><p>update existing AppSpace
 :param self:
 :param app_space_id: string gid id
 :param etag: string
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id213"><span class="problematic" id="id214">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateApplicationSpaceResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.update_application">
-<span class="sig-name descname"><span class="pre">update_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_application" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_application" title="Permalink to this definition"></a></dt>
 <dd><p>update existing Application
 :param self:
 :param application_id: string gid id
 :param etag: string
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id215"><span class="problematic" id="id216">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateApplicationResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.update_application_agent">
-<span class="sig-name descname"><span class="pre">update_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_application_agent" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_application_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application_agent_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_application_agent" title="Permalink to this definition"></a></dt>
 <dd><p>update existing AppAgent
 :param self:
 :param application_agent_id: string gid id
 :param etag: string
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id217"><span class="problematic" id="id218">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateApplicationAgentResponse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.update_authorization_policy_config_node">
-<span class="sig-name descname"><span class="pre">update_authorization_policy_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization_policy_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_authorization_policy_config_node" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_authorization_policy_config_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_node_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorization_policy_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_authorization_policy_config_node" title="Permalink to this definition"></a></dt>
 <dd><p>update authorization policy
 :param self:
 :param config_node_id: string gid id
@@ -1228,20 +1156,18 @@
 :param display_name: string
 :param description: string
 :param authorization_policy_config: AuthorizationPolicyConfig object
-:param bookmarks: list of strings with pattern: ^[<a href="#id221"><span class="problematic" id="id222">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateConfigNode instance</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="config.ConfigClient.update_service_account">
-<span class="sig-name descname"><span class="pre">update_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmarks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_service_account" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_service_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_account_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#config.ConfigClient.update_service_account" title="Permalink to this definition"></a></dt>
 <dd><p>update a service account
 :param self:
 :param service_account_id: string gid id
 :param etag: string
 :param display_name: string
 :param description: string
-:param bookmarks: list of strings with pattern: ^[<a href="#id231"><span class="problematic" id="id232">a-zA-Z0-9_</span></a>-]{40,}$
 :return: deserialized UpdateServiceAccount instance</p>
 </dd></dl>
 

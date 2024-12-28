@@ -63,8 +63,7 @@ def test_register_service_account_credential_jwk_success(client, service_account
 
     service_account_credential = client.register_service_account_credential_jwk(service_account_id,
                                                                                     "automation-"+right_now, jwk,
-                                                                                    expire_time_in_seconds,
-                                                                                     [])
+                                                                                    expire_time_in_seconds)
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert service_account_credential is not None
@@ -83,7 +82,7 @@ def test_register_service_account_credential_jwk_empty(client, service_account_i
     client.stub.RegisterServiceAccountCredential = mocked_register_service_account_credential
     service_account_credential = client.register_service_account_credential_jwk(service_account_id,
                                                                                     "automation-"+right_now, jwk,
-                                                                                    expire_time_in_seconds,[])
+                                                                                    expire_time_in_seconds)
     assert service_account_credential is None
 
 
@@ -95,7 +94,7 @@ def test_register_service_account_credential_jwk_exception(client, service_accou
 
     service_account_credential = client.register_service_account_credential_jwk(service_account_id,
                                                                                     "automation-"+right_now, "automation",
-                                                                                    expire_time_in_seconds,[])
+                                                                                    expire_time_in_seconds)
 
     captured = capsys.readouterr()
     assert "expected bytes, str found" in captured.err
@@ -109,7 +108,7 @@ def test_register_service_account_credential_pem_success(client, service_account
 
     service_account_credential = client.register_service_account_credential_pem(service_account_id,
                                                                                     "automation-"+right_now, pem,
-                                                                                    expire_time_in_seconds,[])
+                                                                                    expire_time_in_seconds)
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
@@ -129,7 +128,7 @@ def test_register_service_account_credential_pem_empty(client, service_account_i
     client.stub.RegisterServiceAccountCredential = mocked_register_service_account_credential
     service_account_credential = client.register_service_account_credential_pem(service_account_id,
                                                                                     "automation-"+right_now, pem,
-                                                                                    expire_time_in_seconds,[])
+                                                                                    expire_time_in_seconds)
 
     assert service_account_credential is None
 
@@ -142,7 +141,7 @@ def test_register_service_account_credential_pem_exception(client, service_accou
 
     service_account_credential = client.register_service_account_credential_pem(service_account_id,
                                                                                     "automation-"+right_now, pem,
-                                                                                    expire_time_in_seconds,[])
+                                                                                    expire_time_in_seconds)
 
     captured = capsys.readouterr()
     assert "expected bytes, str found" in captured.err
@@ -151,22 +150,21 @@ def test_register_service_account_credential_pem_exception(client, service_accou
 def test_del_service_account_credential_success(client, service_account_credential_id, capsys):
     assert client is not None
     etag = "HcQ77D8CUWV"
-    bookmark = "RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"
 
     def mocked_delete_service_account_credential(request: pb2.DeleteServiceAccountCredentialRequest):
-        return bookmark
+        return ""
 
     client.stub.DeleteServiceAccountCredential = mocked_delete_service_account_credential
-    response = client.delete_service_account_credential(service_account_credential_id, etag, [])
+    response = client.delete_service_account_credential(service_account_credential_id, etag)
     captured = capsys.readouterr()
-    assert response is not None
+    assert response is None
 
 
 def test_del_service_account_wrong_service_account_id(client, capsys):
     assert client is not None
     service_account_credential_id = data.get_service_account_id()
     etag = "HcQ77D8CUWV"
-    response = client.delete_service_account_credential(service_account_credential_id, etag, [] )
+    response = client.delete_service_account_credential(service_account_credential_id, etag )
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -180,5 +178,5 @@ def test_del_service_account_empty(client):
         return None
 
     client.stub.DeleteServiceAccountCredential = mocked_delete_service_account_credential
-    response = client.delete_service_account_credential(id, etag, [])
+    response = client.delete_service_account_credential(id, etag)
     assert response is None

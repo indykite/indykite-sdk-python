@@ -7,20 +7,18 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def read_application_agent_credential(self, application_agent_credential_id, bookmarks=[]):
+def read_application_agent_credential(self, application_agent_credential_id):
     """
 
     :param self:
     :param application_agent_credential_id: string gid id
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: Application AgentCredential object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadApplicationAgentCredential(
             pb2.ReadApplicationAgentCredentialRequest(
-                id=str(application_agent_credential_id),
-                bookmarks=bookmarks
+                id=str(application_agent_credential_id)
             )
         )
     except Exception as exception:
@@ -36,8 +34,7 @@ def register_application_agent_credential_jwk(self,
                                               application_agent_id,
                                               display_name,
                                               jwk_in_bytes,
-                                              expire_time_in_seconds,
-                                              bookmarks=[]):
+                                              expire_time_in_seconds):
     """
     register jwk credentials for your AppAgent
     :param self:
@@ -45,7 +42,6 @@ def register_application_agent_credential_jwk(self,
     :param display_name: string
     :param jwk_in_bytes: bytes
     :param expire_time_in_seconds: int
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized RegisterApplicationAgentCredential
     """
     sys.excepthook = logger.handle_excepthook
@@ -55,8 +51,7 @@ def register_application_agent_credential_jwk(self,
                 application_agent_id=application_agent_id,
                 display_name=display_name,
                 jwk=jwk_in_bytes,
-                expire_time=Timestamp(seconds=expire_time_in_seconds),
-                bookmarks=bookmarks
+                expire_time=Timestamp(seconds=expire_time_in_seconds)
             )
         )
     except Exception as exception:
@@ -72,8 +67,7 @@ def register_application_agent_credential_pem(self,
                                               application_agent_id,
                                               display_name,
                                               pem_in_bytes,
-                                              expire_time_in_seconds,
-                                              bookmarks=[]):
+                                              expire_time_in_seconds):
     """
     register pem credentials for your AppAgent
     :param self:
@@ -81,7 +75,6 @@ def register_application_agent_credential_pem(self,
     :param display_name: string
     :param pem_in_bytes: bytes
     :param expire_time_in_seconds: int
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return:
     """
     sys.excepthook = logger.handle_excepthook
@@ -91,8 +84,7 @@ def register_application_agent_credential_pem(self,
                 application_agent_id=application_agent_id,
                 display_name=display_name,
                 pem=pem_in_bytes,
-                expire_time=Timestamp(seconds=expire_time_in_seconds),
-                bookmarks=bookmarks
+                expire_time=Timestamp(seconds=expire_time_in_seconds)
             )
         )
     except Exception as exception:
@@ -104,12 +96,11 @@ def register_application_agent_credential_pem(self,
     return RegisterApplicationAgentCredential.deserialize(response)
 
 
-def delete_application_agent_credential(self, application_agent_credential_id, bookmarks, etag):
+def delete_application_agent_credential(self, application_agent_credential_id, etag):
     """
     delete AppAgent credentials
     :param self:
     :param application_agent_credential_id: string gid id
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :param etag: string
     :return: DeleteApplicationAgentCredentialResponse
     """
@@ -118,7 +109,6 @@ def delete_application_agent_credential(self, application_agent_credential_id, b
         response = self.stub.DeleteApplicationAgentCredential(
             pb2.DeleteApplicationAgentCredentialRequest(
                 id=application_agent_credential_id,
-                bookmarks=bookmarks,
                 etag=wrappers.StringValue(value=etag)
             )
         )

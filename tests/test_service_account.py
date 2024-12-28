@@ -165,7 +165,7 @@ def test_create_service_account_success(client, customer_id, capsys):
     assert client is not None
     right_now = str(int(time.time()))
     create_service_account = CreateServiceAccount("gid:AAAAEiuyZi3zVE9hvsu0gSqgi-g", time.time(),
-                                                  time.time(), "HdQo8h8csJ6", [])
+                                                  time.time(), "HdQo8h8csJ6")
 
     def mocked_create_service_account(request: pb2.CreateServiceAccountRequest):
         return create_service_account
@@ -186,7 +186,7 @@ def test_create_service_account_empty(client, customer_id):
 
     client.stub.CreateServiceAccount = mocked_create_service_account
     service_account = client.create_service_account(customer_id, "automation-"+right_now, "Automation "+right_now,
-                                                    "description", "all_viewer", [])
+                                                    "description", "all_viewer")
 
     assert service_account is None
 
@@ -194,7 +194,7 @@ def test_create_service_account_empty(client, customer_id):
 def test_create_service_account_already_exists(client, customer_id, capsys):
     assert client is not None
     service_account = client.create_service_account(customer_id, "sa-to-expire", "ServiceAccount test sdk",
-                                                    "description", "all_viewer", [])
+                                                    "description", "all_viewer")
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
 
@@ -203,7 +203,7 @@ def test_create_service_account_fail_invalid_customer_id(client, capsys):
     assert client is not None
     customer_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
     service_account = client.create_service_account(customer_id, "service-account-test", "ServiceAccount test",
-                                                    "description", "all_viewer", [])
+                                                    "description", "all_viewer")
     captured = capsys.readouterr()
     assert "invalid id value was provided for location" in captured.err
 
@@ -211,14 +211,14 @@ def test_create_service_account_fail_invalid_customer_id(client, capsys):
 def test_create_service_account_fail_invalid_role(client, customer_id, capsys):
     assert client is not None
     service_account = client.create_service_account(customer_id, "service-account-test", "ServiceAccount test",
-                                                    "description", "viewer", [])
+                                                    "description", "viewer")
     captured = capsys.readouterr()
     assert "value must be in list" in captured.err
 
 
 def test_create_service_account_name_fail_type_parameter(client, customer_id, capsys):
     assert client is not None
-    service_account = client.create_service_account(customer_id, ["test"], "test create", "description", "all_viewer", [])
+    service_account = client.create_service_account(customer_id, ["test"], "test create", "description", "all_viewer")
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
@@ -228,7 +228,7 @@ def test_update_service_account_success(client, customer_id, service_account_nam
     response = client.read_service_account_by_name(customer_id, service_account_name)
     assert response is not None
 
-    service_account = client.update_service_account(response.id, response.etag, response.display_name, "description", [])
+    service_account = client.update_service_account(response.id, response.etag, response.display_name, "description")
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
@@ -245,7 +245,7 @@ def test_update_service_account_empty(client, customer_id, service_account_name)
         return None
 
     client.stub.UpdateServiceAccount = mocked_update_service_account
-    service_account = client.update_service_account(response.id, response.etag, response.display_name, "description", [])
+    service_account = client.update_service_account(response.id, response.etag, response.display_name, "description")
 
     assert service_account is None
 
@@ -256,7 +256,7 @@ def test_update_service_account_fail_invalid_service_account(client, customer_id
     assert response is not None
     service_account_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
 
-    service_account = client.update_service_account(service_account_id, response.etag, response.display_name,"description update", [])
+    service_account = client.update_service_account(service_account_id, response.etag, response.display_name,"description update")
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -267,7 +267,7 @@ def test_update_service_account_name_fail_type_parameter(client, customer_id, se
     response = client.read_service_account_by_name(customer_id, service_account_name)
     assert response is not None
 
-    service_account = client.update_service_account(service_account_id, [response.etag], response.display_name, "description", [])
+    service_account = client.update_service_account(service_account_id, [response.etag], response.display_name, "description")
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
@@ -276,7 +276,7 @@ def test_del_service_account_success(client, customer_id, capsys):
     assert client is not None
     right_now = str(int(time.time()))
     service_account = client.create_service_account(customer_id, "automation-" + right_now,
-                                                    "Automation " + right_now, "description", "all_viewer",  [])
+                                                    "Automation " + right_now, "description", "all_viewer")
     assert service_account is not None
 
     def mocked_create_service_account(request: pb2.CreateServiceAccountRequest):
@@ -287,7 +287,7 @@ def test_del_service_account_success(client, customer_id, capsys):
     assert service_account is not None
     assert isinstance(service_account, CreateServiceAccount)
 
-    delete = client.delete_service_account(service_account.id, service_account.etag, [])
+    delete = client.delete_service_account(service_account.id, service_account.etag)
 
     def mocked_delete_service_account(request: pb2.DeleteServiceAccountRequest):
         return delete
@@ -300,7 +300,7 @@ def test_del_service_account_success(client, customer_id, capsys):
 def test_del_service_account_wrong_service_account_id(client, capsys):
     assert client is not None
     service_account_id= data.get_app_space_id()
-    response = client.delete_service_account(service_account_id, "oeprbUOYHUIYI75U", [] )
+    response = client.delete_service_account(service_account_id, "oeprbUOYHUIYI75U")
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -314,6 +314,6 @@ def test_del_service_account_empty(client, capsys):
         return None
 
     client.stub.DeleteServiceAccount = mocked_delete_service_account
-    response = client.delete_service_account(id, etag, [])
+    response = client.delete_service_account(id, etag)
     captured = capsys.readouterr()
     assert response is None

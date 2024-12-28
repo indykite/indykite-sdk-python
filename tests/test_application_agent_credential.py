@@ -61,15 +61,14 @@ def test_register_application_agent_credential_jwk_success(client, application_a
     expire_time_in_seconds = int(t) + 2678400
     application_agent_credential = client.register_application_agent_credential_jwk(application_agent_id,
                                                                                     "automation-"+right_now, jwk,
-                                                                                    expire_time_in_seconds,
-                                                                                   [])
+                                                                                    expire_time_in_seconds)
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert application_agent_credential is not None
     assert isinstance(application_agent_credential, RegisterApplicationAgentCredential)
     application_agent = client.read_application_agent_by_id(application_agent_credential.application_agent_id)
     # assert isinstance(application_agent, ApplicationAgent)
-    response = client.delete_application_agent_credential(application_agent_credential.id, [], application_agent.etag)
+    response = client.delete_application_agent_credential(application_agent_credential.id, application_agent.etag)
     assert response is not None
 
 
@@ -85,8 +84,7 @@ def test_register_application_agent_credential_jwk_empty(client, application_age
     client.stub.RegisterApplicationAgentCredential = mocked_register_application_agent_credential
     application_agent_credential = client.register_application_agent_credential_jwk(application_agent_id,
                                                                                     "automation-"+right_now, jwk,
-                                                                                    expire_time_in_seconds,
-                                                                                    [])
+                                                                                    expire_time_in_seconds)
 
     assert application_agent_credential is None
 
@@ -98,8 +96,7 @@ def test_register_application_agent_credential_jwk_exception(client, application
     expire_time_in_seconds = int(t) + 2678400
     application_agent_credential = client.register_application_agent_credential_jwk(application_agent_id,
                                                                                     "automation-"+right_now, "automation",
-                                                                                    expire_time_in_seconds,
-                                                                                   [])
+                                                                                    expire_time_in_seconds)
 
     captured = capsys.readouterr()
     assert "expected bytes, str found" in captured.err
@@ -112,8 +109,7 @@ def test_register_application_agent_credential_pem_success(client, application_a
     expire_time_in_seconds = int(t) + 2678400
     application_agent_credential = client.register_application_agent_credential_pem(application_agent_id,
                                                                                     "automation-"+right_now, pem,
-                                                                                    expire_time_in_seconds,
-                                                                                   [])
+                                                                                    expire_time_in_seconds)
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
@@ -121,7 +117,7 @@ def test_register_application_agent_credential_pem_success(client, application_a
     assert isinstance(application_agent_credential, RegisterApplicationAgentCredential)
     application_agent = client.read_application_agent_by_id(application_agent_credential.application_agent_id)
     # assert isinstance(application_agent, ApplicationAgent)
-    response = client.delete_application_agent_credential(application_agent_credential.id, [], application_agent.etag)
+    response = client.delete_application_agent_credential(application_agent_credential.id, application_agent.etag)
     assert response is not None
 
 
@@ -137,8 +133,7 @@ def test_register_application_agent_credential_pem_empty(client, application_age
     client.stub.RegisterApplicationAgentCredential = mocked_register_application_agent_credential
     application_agent_credential = client.register_application_agent_credential_pem(application_agent_id,
                                                                                     "automation-"+right_now, pem,
-                                                                                    expire_time_in_seconds,
-                                                                                   [])
+                                                                                    expire_time_in_seconds)
 
     assert application_agent_credential is None
 
@@ -151,28 +146,26 @@ def test_register_application_agent_credential_pem_exception(client, application
 
     application_agent_credential = client.register_application_agent_credential_pem(application_agent_id,
                                                                                     "automation-"+right_now, pem,
-                                                                                    expire_time_in_seconds,
-                                                                                   [])
+                                                                                    expire_time_in_seconds)
 
     captured = capsys.readouterr()
     assert "expected bytes, str found" in captured.err
 
 
 def test_del_application_agent_credential_success(client, application_agent_credential_id, capsys):
-    bookmark = "RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"
     etag = "npsOGI4UW"
 
     def mocked_delete_application_agent_credential(request: pb2.DeleteApplicationAgentCredentialRequest):
-        return bookmark
+        return ""
 
     client.stub.DeleteApplicationAgentCredential = mocked_delete_application_agent_credential
-    response = client.delete_application_agent_credential(application_agent_credential_id, [], etag)
-    assert response is not None
+    response = client.delete_application_agent_credential(application_agent_credential_id, etag)
+    assert response is None
 
 
 def test_del_application_agent_wrong_application_agent_id(client, application_agent_credential_id, capsys):
     etag = "npsOGI4UW"
-    response = client.delete_application_agent_credential(application_agent_credential_id, [], etag)
+    response = client.delete_application_agent_credential(application_agent_credential_id, etag)
     captured = capsys.readouterr()
     assert ("invalid eTag value" in captured.err)
 
@@ -185,10 +178,10 @@ def test_del_application_agent_empty(client):
         return None
 
     client.stub.DeleteApplicationAgentCredential = mocked_delete_application_agent_credential
-    response = client.delete_application_agent_credential(id, [], etag)
+    response = client.delete_application_agent_credential(id, etag)
     assert response is None
     etag = "npsOGI4UW"
-    response = client.delete_application_agent_credential(id, [], etag)
+    response = client.delete_application_agent_credential(id, etag)
     captured = capsys.readouterr()
     assert ("invalid id value was provided for id" in captured.err)
 
@@ -201,5 +194,5 @@ def test_del_application_agent_empty(client):
         return None
 
     client.stub.DeleteApplicationAgentCredential = mocked_delete_application_agent_credential
-    response = client.delete_application_agent_credential(id, [], etag)
+    response = client.delete_application_agent_credential(id, etag)
     assert response is None
