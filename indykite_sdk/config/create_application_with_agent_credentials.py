@@ -34,15 +34,13 @@ def create_application_with_agent_credentials(self,
         response_application = self.create_application(app_space_id,
                                                        application_name_id,
                                                        str(application_name),
-                                                       str(application_name),
-                                                       [])
+                                                       str(application_name))
         if isinstance(response_application, CreateApplication):
             application_agent_name_id = helper.change_display_to_name(str(application_agent_name))
             response_application_agent = self.create_application_agent(response_application.id,
                                                                        application_agent_name_id,
                                                                        str(application_agent_name),
-                                                                       str(application_agent_name),
-                                                                       [])
+                                                                       str(application_agent_name))
             if isinstance(response_application_agent, CreateApplicationAgent):
                 key_types = [k.value for k in KeyType]
                 if public_key_type not in key_types:
@@ -59,15 +57,13 @@ def create_application_with_agent_credentials(self,
                         response_application_agent.id,
                         application_agent_credentials_name,
                         public_key,
-                        expire_time,
-                        [])
+                        expire_time)
                 elif public_key_type == 'pem':
                     response_application_agent_credentials = self.register_application_agent_credential_pem(
                         response_application_agent.id,
                         application_agent_credentials_name,
                         public_key,
-                        expire_time,
-                        [])
+                        expire_time)
                 if isinstance(response_application_agent_credentials, RegisterApplicationAgentCredential):
                     response = {"response_application": response_application,
                                 "response_application_agent": response_application_agent,

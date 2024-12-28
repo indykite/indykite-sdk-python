@@ -100,13 +100,12 @@ def test_read_application_agent_by_name_empty(client, app_space_id):
 def test_create_application_agent_success(client, application_id, capsys):
     right_now = str(int(time.time()))
     application_agent = client.create_application_agent(application_id, "automation-"+right_now,
-                                         "Automation "+right_now, "description", [], [])
+                                         "Automation "+right_now, "description", [])
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert application_agent is not None
     assert isinstance(application_agent, CreateApplicationAgent)
-    response = client.delete_application_agent(application_agent.id, application_agent.etag, [] )
-    assert response.bookmark is not None
+    response = client.delete_application_agent(application_agent.id, application_agent.etag)
 
 
 def test_create_application_agent_empty(client, application_id):
@@ -116,25 +115,25 @@ def test_create_application_agent_empty(client, application_id):
         return None
 
     client.stub.CreateApplicationAgent = mocked_create_application_agent
-    application_agent = client.create_application_agent(application_id, "automation-"+right_now, "Automation "+right_now, "description", [])
+    application_agent = client.create_application_agent(application_id, "automation-"+right_now, "Automation "+right_now, "description")
     assert application_agent is None
 
 
 def test_create_application_agent_already_exists(client, application_id, capsys):
-    application_agent = client.create_application_agent(application_id, "appagentpython", "ApplicationAgent test sdk", "description", [], )
+    application_agent = client.create_application_agent(application_id, "appagentpython", "ApplicationAgent test sdk", "description")
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
 
 
 def test_create_application_agent_fail_invalid_application_id(client, capsys):
     application_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
-    application_agent = client.create_application_agent(application_id, "agent-sdk", "ApplicationAgent test", "description", [])
+    application_agent = client.create_application_agent(application_id, "agent-sdk", "ApplicationAgent test", "description")
     captured = capsys.readouterr()
     assert "invalid id value was provided for application_id" in captured.err
 
 
 def test_create_application_agent_name_fail_type_parameter(client, application_id, capsys):
-    application_agent = client.create_application_agent(application_id, ["test"], "test create", "description", [], )
+    application_agent = client.create_application_agent(application_id, ["test"], "test create", "description")
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
@@ -143,7 +142,7 @@ def test_update_application_agent_success(client, app_space_id, capsys):
     application_agent_name = data.get_application_agent_name()
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
-    application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description", [])
+    application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description")
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert application_agent is not None
@@ -159,7 +158,7 @@ def test_update_application_agent_empty(client, app_space_id):
         return None
 
     client.stub.UpdateApplicationAgent = mocked_update_application_agent
-    application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description", [])
+    application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description")
     assert application_agent is None
 
 
@@ -168,7 +167,7 @@ def test_update_application_agent_fail_invalid_application_agent(client, app_spa
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
     application_agent_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
-    application_agent = client.update_application_agent(application_agent_id, response.etag, response.display_name,"description update", [])
+    application_agent = client.update_application_agent(application_agent_id, response.etag, response.display_name,"description update")
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -177,7 +176,7 @@ def test_update_application_agent_name_fail_type_parameter(client, application_a
     application_agent_name = data.get_application_agent_name()
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
-    application_agent = client.update_application_agent(application_agent_id, [response.etag], response.display_name, "description", [])
+    application_agent = client.update_application_agent(application_agent_id, [response.etag], response.display_name, "description")
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
@@ -186,7 +185,7 @@ def test_get_application_agent_list_success(client, app_space_id, capsys):
     application_agent_name = data.get_application_agent_name()
     match = []
     match.append(application_agent_name)
-    application_agent = client.list_application_agents(app_space_id, match, [])
+    application_agent = client.list_application_agents(app_space_id, match)
     captured = capsys.readouterr()
     assert application_agent is not None
     assert "invalid or expired access_token" not in captured.out
@@ -197,31 +196,21 @@ def test_get_application_agent_list_wrong_app_space(client, capsys):
     application_agent_name = data.get_application_agent_name()
     match = []
     match.append(application_agent_name)
-    application_agent = client.list_application_agents(app_space_id, match, [])
+    application_agent = client.list_application_agents(app_space_id, match)
     captured = capsys.readouterr()
     assert "invalid id value was provided for app_space_id" in captured.err
 
 
 def test_get_application_agent_list_wrong_type(client, app_space_id, capsys):
     match = "test-create"
-    application_agent = client.list_application_agents(app_space_id, match, [])
+    application_agent = client.list_application_agents(app_space_id, match)
     captured = capsys.readouterr()
     assert "value length must be between 2 and 254 runes" in captured.err
 
 
-def test_get_application_agent_list_wrong_bookmark(client, app_space_id, capsys):
-    application_agent_name = data.get_application_agent_name()
-    match = []
-    match.append(application_agent_name)
-    application_agent = client.list_application_agents(app_space_id, match,
-                                       ["RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"])
-    captured = capsys.readouterr()
-    assert "invalid bookmark value" in captured.err
-
-
 def test_get_application_agent_list_empty_match(client, app_space_id, capsys):
     match = []
-    application_agent = client.list_application_agents(app_space_id, match, [])
+    application_agent = client.list_application_agents(app_space_id, match)
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
 
@@ -230,7 +219,7 @@ def test_get_application_agent_list_no_answer_match(client, app_space_id, capsys
     application_agent_name = "test-creation"
     match = []
     match.append(application_agent_name)
-    application_agent = client.list_application_agents(app_space_id, match, [])
+    application_agent = client.list_application_agents(app_space_id, match)
     captured = capsys.readouterr()
     assert application_agent is not None
     assert application_agent == []
@@ -238,7 +227,7 @@ def test_get_application_agent_list_no_answer_match(client, app_space_id, capsys
 
 def test_get_application_agent_list_raise_exception(client, app_space_id, capsys):
     match = ""
-    application_agent = client.list_application_agents(app_space_id, match, [])
+    application_agent = client.list_application_agents(app_space_id, match)
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
 
@@ -252,28 +241,25 @@ def test_get_application_agent_list_empty(client, app_space_id):
         return None
 
     client.stub.ListApplicationAgents = mocked_get_application_agent_list
-    application_agent = client.list_application_agents(app_space_id, match, [])
+    application_agent = client.list_application_agents(app_space_id, match)
     assert application_agent is None
 
 
-def test_del_application_agent_success(client, application_id, capsys):
+def test_del_application_agent_success(client, application_id):
     right_now = str(int(time.time()))
     application_agent = client.create_application_agent(application_id, "automation-" + right_now,
-                                  "Automation " + right_now, "description", [])
+                                  "Automation " + right_now, "description")
     assert application_agent is not None
-    bookmark = "RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"
 
     def mocked_delete_application_agent(request: pb2.DeleteApplicationAgentRequest):
-        return bookmark
+        return ""
 
     client.stub.DeleteApplicationAgent = mocked_delete_application_agent
-    response = client.delete_application_agent(application_agent.id, application_agent.etag, [] )
-    captured = capsys.readouterr()
-    assert response is not None
+    response = client.delete_application_agent(application_agent.id, application_agent.etag )
 
 
 def test_del_application_agent_wrong_application_agent_id(client, application_agent_id, capsys):
-    response = client.delete_application_agent(application_agent_id, "oeprbUOYHUIYI75U", [] )
+    response = client.delete_application_agent(application_agent_id, "oeprbUOYHUIYI75U" )
     captured = capsys.readouterr()
     assert("invalid eTag value" in captured.err)
 
@@ -286,5 +272,5 @@ def test_del_application_agent_empty(client):
         return None
 
     client.stub.DeleteApplicationAgent = mocked_delete_application_agent
-    response = client.delete_application_agent(id, etag, [])
+    response = client.delete_application_agent(id, etag)
     assert response is None

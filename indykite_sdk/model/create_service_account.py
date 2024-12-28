@@ -11,8 +11,7 @@ class CreateServiceAccount:
             str(message.id),
             timestamp_to_date(message.create_time),
             timestamp_to_date(message.update_time),
-            str(message.etag),
-            str(message.bookmark)
+            str(message.etag)
         )
         if "created_by" in fields:
             create_service_account.created_by = str(message.created_by)
@@ -22,11 +21,10 @@ class CreateServiceAccount:
 
         return create_service_account
 
-    def __init__(self, id, create_time, update_time, etag, bookmark):
+    def __init__(self, id, create_time, update_time, etag):
         self.id = id
         self.create_time = create_time
         self.update_time = update_time
         self.etag = etag
-        self.bookmark = bookmark
         self.created_by = None
         self.updated_by = None

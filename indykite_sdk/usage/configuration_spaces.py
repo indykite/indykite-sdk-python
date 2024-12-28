@@ -71,7 +71,6 @@ def main():
     list_app_spaces_parser.add_argument("customer_id", help="Customer Id (gid)")
     list_app_spaces_parser.add_argument("match_list", help="Matching names separated by ,",
                                         type=lambda s: [str(item) for item in s.split(',')])
-    list_app_spaces_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
 
     # delete_app_space
     delete_app_space_parser = subparsers.add_parser("delete_app_space")
@@ -104,7 +103,6 @@ def main():
     list_applications_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     list_applications_parser.add_argument("match_list", help="Matching names separated by ,",
                                           type=lambda s: [str(item) for item in s.split(',')])
-    list_applications_parser.add_argument("bookmark", nargs='*', help="Optional list of bookmarks separated by space")
 
     # delete_application
     delete_application_parser = subparsers.add_parser("delete_application")
@@ -139,8 +137,6 @@ def main():
     list_application_agents_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     list_application_agents_parser.add_argument("match_list", help="Matching names separated by ,",
                                                 type=lambda s: [str(item) for item in s.split(',')])
-    list_application_agents_parser.add_argument("bookmark", nargs='*',
-                                                help="Optional list of bookmarks separated by space")
 
     # delete_application_agent
     delete_application_agent_parser = subparsers.add_parser("delete_application_agent")
@@ -344,10 +340,9 @@ def main():
         app_space_name = args.app_space_name
         customer_id = args.customer_id
         display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
         region= "europe-west1"
         app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name, "description",
-                                                            bookmark, region)
+                                                            region)
         if app_space_response:
             api_helper.print_response(app_space_response)
         else:
@@ -364,9 +359,7 @@ def main():
         app_space_id = args.app_space_id
         etag = args.etag
         display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
-        app_space_response = client_config.update_app_space(app_space_id, etag, display_name, "description update",
-                                                            bookmark)
+        app_space_response = client_config.update_app_space(app_space_id, etag, display_name, "description update")
         if app_space_response:
             api_helper.print_response(app_space_response)
         else:
@@ -379,11 +372,7 @@ def main():
         client_config = ConfigClient()
         customer_id = args.customer_id
         match_list = args.match_list
-        if args.bookmark:
-            bookmark = args.bookmark
-        else:
-            bookmark = []
-        list_app_spaces_response = client_config.list_app_spaces(customer_id, match_list, bookmark)
+        list_app_spaces_response = client_config.list_app_spaces(customer_id, match_list)
         if list_app_spaces_response:
             for app_space in list_app_spaces_response:
                 api_helper.print_response(app_space)
@@ -401,8 +390,7 @@ def main():
             etag = args.etag
         else:
             etag = None
-        bookmark = []  # or value returned by last write operation
-        delete_app_space_response = client_config.delete_app_space(app_space_id, etag, bookmark)
+        delete_app_space_response = client_config.delete_app_space(app_space_id, etag)
         if delete_app_space_response:
             print(delete_app_space_response)
         else:
@@ -439,13 +427,11 @@ def main():
         app_space_id = args.app_space_id
         application_name = args.application_name
         display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
         application_response = client_config.create_application(
             app_space_id,
             application_name,
             display_name,
-            "description",
-            bookmark)
+            "description")
         if application_response:
             api_helper.print_response(application_response)
         else:
@@ -459,13 +445,11 @@ def main():
         application_id = args.application_id
         etag = args.etag
         display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
         application_response = client_config.update_application(
             application_id,
             etag,
             display_name,
-            "description update",
-            bookmark)
+            "description update")
         if application_response:
             api_helper.print_response(application_response)
         else:
@@ -478,11 +462,7 @@ def main():
         client_config = ConfigClient()
         app_space_id = args.app_space_id
         match_list = args.match_list
-        if args.bookmark:
-            bookmark = args.bookmark
-        else:
-            bookmark = []
-        list_applications_response = client_config.list_applications(app_space_id, match_list, bookmark)
+        list_applications_response = client_config.list_applications(app_space_id, match_list)
         if list_applications_response:
             print(list_applications_response)
         else:
@@ -498,8 +478,7 @@ def main():
             etag = args.etag
         else:
             etag = None
-        bookmark = []  # or value returned by last write operation
-        delete_application_response = client_config.delete_application(application_id, etag, bookmark)
+        delete_application_response = client_config.delete_application(application_id, etag)
         if delete_application_response:
             print(delete_application_response)
         else:
@@ -543,7 +522,6 @@ def main():
             name=application_agent_name,
             display_name=display_name,
             description="description",
-            bookmarks=[],
             api_permissions=api_permissions,
             )
         if application_agent_response:
@@ -559,13 +537,11 @@ def main():
         application_agent_id = args.application_agent_id
         etag = args.etag
         display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
         application_agent_response = client_config.update_application_agent(
             application_agent_id,
             etag,
             display_name,
-            "description update",
-            bookmark)
+            "description update")
         if application_agent_response:
             api_helper.print_response(application_agent_response)
         else:
@@ -578,11 +554,7 @@ def main():
         client_config = ConfigClient()
         app_space_id = args.app_space_id
         match_list = args.match_list
-        if args.bookmark:
-            bookmark = args.bookmark
-        else:
-            bookmark = []
-        list_application_agents_response = client_config.list_application_agents(app_space_id, match_list, bookmark)
+        list_application_agents_response = client_config.list_application_agents(app_space_id, match_list)
         if list_application_agents_response:
             print(list_application_agents_response)
         else:
@@ -598,11 +570,9 @@ def main():
             etag = args.etag
         else:
             etag = None
-        bookmark = []  # or value returned by last write operation
         delete_application_agent_response = client_config.delete_application_agent(
             application_agent_id,
-            etag,
-            bookmark)
+            etag)
         if delete_application_agent_response:
             print(delete_application_agent_response)
         else:
@@ -630,13 +600,11 @@ def main():
         jwk = None  # or replace by your JWK public key
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 31536000  # now + one year example
-        bookmark = []  # or value returned by last write operation
         application_agent_credential_response = client_config.register_application_agent_credential_jwk(
             application_agent_id,
             display_name,
             jwk,
-            expire_time_in_seconds,
-            bookmark
+            expire_time_in_seconds
         )
         if application_agent_credential_response:
             api_helper.print_credential(application_agent_credential_response)
@@ -653,13 +621,11 @@ def main():
         pem = None  # or replace by your pem public certificate
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400  # now + one month example
-        bookmark = []  # or value returned by last write operation
         application_agent_credential_response = client_config.register_application_agent_credential_pem(
             application_agent_id,
             display_name,
             pem,
-            expire_time_in_seconds,
-            bookmark
+            expire_time_in_seconds
         )
         if application_agent_credential_response:
             api_helper.print_credential(application_agent_credential_response)
@@ -673,10 +639,8 @@ def main():
         client_config = ConfigClient()
         application_agent_credential_id = args.application_agent_credential_id
         etag = args.etag
-        bookmark = []  # or value returned by last write operation
         delete_application_agent_credential_response = client_config.delete_application_agent_credential(
             application_agent_credential_id,
-            bookmark,
             etag
         )
         if delete_application_agent_credential_response:
@@ -722,8 +686,7 @@ def main():
         # service_account_id method: read service account info from gid id
         client_config = ConfigClient()
         service_account_id = args.service_account_id
-        bookmark = []  # or value returned by last write operation
-        service_account = client_config.read_service_account(service_account_id, bookmark)
+        service_account = client_config.read_service_account(service_account_id)
         if service_account:
             api_helper.print_response(service_account)
         else:
@@ -735,8 +698,7 @@ def main():
         client_config = ConfigClient()
         customer_id = args.customer_id
         service_account_name = args.service_account_name
-        bookmark = []  # or value returned by last write operation
-        service_account = client_config.read_service_account_by_name(customer_id, service_account_name, bookmark)
+        service_account = client_config.read_service_account_by_name(customer_id, service_account_name)
         if service_account:
             api_helper.print_response(service_account)
         else:
@@ -750,14 +712,12 @@ def main():
         service_account_name = args.service_account_name
         display_name = args.display_name
         role = args.role
-        bookmark = []  # or value returned by last write operation
         service_account_response = client_config.create_service_account(
             customer_id,
             service_account_name,
             display_name,
             "description",
-            role,
-            bookmark
+            role
         )
         if service_account_response:
             api_helper.print_response(service_account_response)
@@ -772,13 +732,11 @@ def main():
         service_account_id = args.service_account_id
         etag = args.etag
         display_name = args.display_name
-        bookmark = []  # or value returned by last write operation
         service_account_response = client_config.update_service_account(
             service_account_id,
             etag,
             display_name,
-            "description",
-            bookmark
+            "description"
         )
         if service_account_response:
             api_helper.print_response(service_account_response)
@@ -795,8 +753,7 @@ def main():
             etag = args.etag
         else:
             etag = None
-        bookmark = []  # or value returned by last write operation
-        delete_service_account_response = client_config.delete_service_account(service_account_id, etag, bookmark)
+        delete_service_account_response = client_config.delete_service_account(service_account_id, etag)
         if delete_service_account_response:
             print(delete_service_account_response)
         else:
@@ -821,13 +778,11 @@ def main():
         jwk = None  # or replace by your JWK public key
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400  # now + one month example
-        bookmark = []  # or value returned by last write operation
         service_account_credential_response = client_config.register_service_account_credential_jwk(
             service_account_id,
             display_name,
             jwk,
-            expire_time_in_seconds,
-            bookmark
+            expire_time_in_seconds
         )
         if service_account_credential_response:
             api_helper.print_credential(service_account_credential_response)
@@ -843,13 +798,11 @@ def main():
         pem = None  # or replace by your pem public certificate
         t = datetime.now().timestamp()
         expire_time_in_seconds = int(t) + 2678400  # now + one month example
-        bookmark = []  # or value returned by last write operation
         service_account_credential_response = client_config.register_service_account_credential_pem(
             service_account_id,
             display_name,
             pem,
-            expire_time_in_seconds,
-            bookmark
+            expire_time_in_seconds
         )
         if service_account_credential_response:
             api_helper.print_credential(service_account_credential_response)
@@ -865,11 +818,9 @@ def main():
             etag = args.etag
         else:
             etag = None
-        bookmark = []  # or value returned by last write operation
         delete_service_account_credential_response = client_config.delete_service_account_credential(
             service_account_credential_id,
-            etag,
-            bookmark
+            etag
         )
         if delete_service_account_credential_response:
             print(delete_service_account_credential_response)

@@ -28,6 +28,7 @@ def main():
     # ingest
     ingest_record_identity_parser = subparsers.add_parser("ingest_record_identity")
     ingest_record_resource_parser = subparsers.add_parser("ingest_record_resource")
+    ingest_record_resource2_parser = subparsers.add_parser("ingest_record_resource2")
     ingest_record_relation_parser = subparsers.add_parser("ingest_record_relation")
     delete_record_relation_property_parser = subparsers.add_parser("delete_record_relation_property")
     delete_record_node_property_parser = subparsers.add_parser("delete_record_node_property")
@@ -113,7 +114,7 @@ def main():
         properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
         upsert = client_ingest.upsert_data_node(
-            "pFlpMtkWqCPXVue",
+            external_id,
             type,
             ["TagOne", "TagTwo"],
             properties)
@@ -127,6 +128,41 @@ def main():
             print("Invalid upsert")
         client_ingest.channel.close()
         return ingest_record_resource
+
+
+    elif command == "ingest_record_resource2":
+        """shell
+            python3 ingest.py ingest_record_resource2
+        """
+        # ingest a resource node record in the IKG service
+        # replace with your own values
+        client_ingest = IngestClient()
+        # unique value which can be random
+        record_id = str(uuid.uuid4())
+        # unique id in external source
+        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        print(external_id)
+        # type of node
+        type = "Organization"
+        # properties
+        properties = []
+        # create upsert object with all elements
+        upsert = client_ingest.upsert_data_node(
+            external_id,
+            type,
+            ["TagOne", "TagTwo"],
+            properties)
+        # create record with record_id and upsert
+        record = client_ingest.record_upsert(record_id, upsert)
+        # send the ingestion request and get the response
+        ingest_record_resource = client_ingest.ingest_record(record)
+        if ingest_record_resource:
+            api_helper.print_response(ingest_record_resource)
+        else:
+            print("Invalid upsert")
+        client_ingest.channel.close()
+        return ingest_record_resource
+
 
     elif command == "ingest_record_relation":
         """shell
@@ -414,27 +450,27 @@ def main():
         ingest_metadata = client_ingest.ingest_metadata(1, t, "CRAIG", {"customVin": "customVinValue"})
         ingest_external_value = client_ingest.ingest_external_value(None, "resolver1")
         ingest_property = client_ingest.ingest_property("maker", "FORD")
-        ingest_property2 = client_ingest.ingest_property("vin", "THyjuU", ingest_metadata)
-        ingest_property3 = client_ingest.ingest_property("colour", "pink")
+        ingest_property2 = client_ingest.ingest_property("vin", "uuguug", ingest_metadata)
+        ingest_property3 = client_ingest.ingest_property("colour", "grey")
         ingest_property4 = client_ingest.ingest_property("asset", "T")
         ingest_property5 = client_ingest.ingest_property("status", "Active")
         ingest_property6 = client_ingest.ingest_property("resolver", None, None, ingest_external_value)
         properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5, ingest_property6]
-        ingest_property22 = client_ingest.ingest_property("vin", "ioiroeiorieo")
-        ingest_property32 = client_ingest.ingest_property("colour", "pink")
+        ingest_property22 = client_ingest.ingest_property("vin", "cfcfcf")
+        ingest_property32 = client_ingest.ingest_property("colour", "blue")
         properties2 = [ingest_property, ingest_property22, ingest_property32, ingest_property4, ingest_property5]
         # create upsert object with all elements
         node1 = client_ingest.data_node(
-            "external_id",
+            external_id,
             type,
-            ["Cara"],
+            ["Truck"],
             properties,
             "",
             False)
         node2 = client_ingest.data_node(
             external_id2,
             type,
-            ["Cara"],
+            ["Truck"],
             properties2,
             "",
             False)

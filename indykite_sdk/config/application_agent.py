@@ -8,20 +8,18 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def read_application_agent_by_id(self, application_agent_id, bookmarks=[]):
+def read_application_agent_by_id(self, application_agent_id):
     """
     get an ApplAgent object with an id
     :param self:
     :param application_agent_id: string gid id
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: ApplicationAgent object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadApplicationAgent(
             pb2.ReadApplicationAgentRequest(
-                id=str(application_agent_id),
-                bookmarks=bookmarks
+                id=str(application_agent_id)
             )
         )
     except Exception as exception:
@@ -32,13 +30,12 @@ def read_application_agent_by_id(self, application_agent_id, bookmarks=[]):
     return ApplicationAgent.deserialize(response.application_agent)
 
 
-def read_application_agent_by_name(self, app_space_id, application_agent_name, bookmarks=[]):
+def read_application_agent_by_name(self, app_space_id, application_agent_name):
     """
     get an ApplAgent object with a name
     :param self:
     :param app_space_id: string gid id
     :param application_agent_name: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: AppAgent object
     """
     sys.excepthook = logger.handle_excepthook
@@ -48,8 +45,7 @@ def read_application_agent_by_name(self, app_space_id, application_agent_name, b
                 name=UniqueNameIdentifier(
                     location=app_space_id,
                     name=application_agent_name
-                ),
-                bookmarks=bookmarks
+                )
             )
         )
     except Exception as exception:
@@ -65,7 +61,6 @@ def create_application_agent(self,
                              name,
                              display_name,
                              description="",
-                             bookmarks=[],
                              api_permissions=[],
                              ):
     """
@@ -75,7 +70,6 @@ def create_application_agent(self,
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
     :param display_name: string
     :param description: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :param api_permissions: list of strings 1 - 64
     :return: deserialized CreateApplicationAgentResponse
     """
@@ -87,7 +81,6 @@ def create_application_agent(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                bookmarks=bookmarks,
                 api_permissions=api_permissions
             )
         )
@@ -99,7 +92,7 @@ def create_application_agent(self,
     return CreateApplicationAgent.deserialize(response, application_id, name)
 
 
-def update_application_agent(self, application_agent_id, etag, display_name, description="", bookmarks=[]):
+def update_application_agent(self, application_agent_id, etag, display_name, description=""):
     """
     update existing AppAgent
     :param self:
@@ -107,7 +100,6 @@ def update_application_agent(self, application_agent_id, etag, display_name, des
     :param etag: string
     :param display_name: string
     :param description: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized UpdateApplicationAgentResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -117,8 +109,7 @@ def update_application_agent(self, application_agent_id, etag, display_name, des
                 id=application_agent_id,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description),
-                bookmarks=bookmarks
+                description=wrappers.StringValue(value=description)
             )
         )
     except Exception as exception:
@@ -129,13 +120,12 @@ def update_application_agent(self, application_agent_id, etag, display_name, des
     return UpdateApplicationAgent.deserialize(response)
 
 
-def list_application_agents(self, app_space_id, match=[], bookmarks=[]):
+def list_application_agents(self, app_space_id, match=[]):
     """
     list App which match exact name in match param
     :param self:
     :param app_space_id: string gid id
     :param match: list of strings
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: ListApplicationAgentResponse object
     """
     sys.excepthook = logger.handle_excepthook
@@ -143,8 +133,7 @@ def list_application_agents(self, app_space_id, match=[], bookmarks=[]):
         streams = self.stub.ListApplicationAgents(
             pb2.ListApplicationAgentsRequest(
                 app_space_id=app_space_id,
-                match=match,
-                bookmarks=bookmarks
+                match=match
             )
         )
     except Exception as exception:
@@ -161,13 +150,12 @@ def list_application_agents(self, app_space_id, match=[], bookmarks=[]):
     return responses
 
 
-def delete_application_agent(self, application_agent_id, etag, bookmarks):
+def delete_application_agent(self, application_agent_id, etag):
     """
     delete an AppAgent
     :param self:
     :param application_agent_id: string gid id
     :param etag: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: DeleteApplicationResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -175,8 +163,7 @@ def delete_application_agent(self, application_agent_id, etag, bookmarks):
         response = self.stub.DeleteApplicationAgent(
             pb2.DeleteApplicationAgentRequest(
                 id=application_agent_id,
-                etag=wrappers.StringValue(value=etag),
-                bookmarks=bookmarks
+                etag=wrappers.StringValue(value=etag)
             )
         )
     except Exception as exception:

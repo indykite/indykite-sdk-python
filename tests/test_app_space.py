@@ -101,13 +101,13 @@ def test_read_app_space_by_name_empty(client, customer_id):
 def test_create_app_space_success(client, customer_id, capsys):
     right_now = str(int(time.time()))
 
-    app_space = client.create_app_space(customer_id, "automation-"+right_now,"Automation "+right_now, "description", [])
+    app_space = client.create_app_space(customer_id, "automation-"+right_now,"Automation "+right_now, "description")
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
     assert app_space is not None
     assert isinstance(app_space, CreateApplicationSpace)
-    response = client.delete_app_space(app_space.id, app_space.etag, [] )
+    response = client.delete_app_space(app_space.id, app_space.etag)
     assert response is not None
 
 
@@ -118,33 +118,33 @@ def test_create_app_space_empty(client, customer_id):
         return None
 
     client.stub.CreateApplicationSpace = mocked_create_app_space
-    app_space = client.create_app_space(customer_id, "automation-"+right_now, "Automation "+right_now, "description", [])
+    app_space = client.create_app_space(customer_id, "automation-"+right_now, "Automation "+right_now, "description")
 
     assert app_space is None
 
 
 def test_create_app_space_already_exists(client, customer_id, capsys):
-    app_space = client.create_app_space(customer_id, "appspacetest", "app space test sdk ", "description", [])
+    app_space = client.create_app_space(customer_id, "appspacetest", "app space test sdk ", "description")
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
 
 
 def test_create_app_space_fail_invalid_customer(client, capsys):
     customer_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
-    app_space = client.create_app_space(customer_id, "appspacetestsdk5", "app space test sdk 5", "description", [])
+    app_space = client.create_app_space(customer_id, "appspacetestsdk5", "app space test sdk 5", "description")
     captured = capsys.readouterr()
     assert "invalid id value was provided for customer_id" in captured.err
 
 
 def test_create_app_space_fail_not_allowed_customer(client, capsys):
     customer_id = "gid:AAAAAcsuX7kYWE3ioXQHUBbAIu8"
-    app_space = client.create_app_space(customer_id, "test-create", "test create", "description", [])
+    app_space = client.create_app_space(customer_id, "test-create", "test create", "description")
     captured = capsys.readouterr()
     assert "insufficient permission to perform requested action" in captured.err
 
 
 def test_create_app_space_name_fail_type_parameter(client, customer_id, capsys):
-    app_space = client.create_app_space(customer_id, ["test"], "test create", "description", [])
+    app_space = client.create_app_space(customer_id, ["test"], "test create", "description")
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
@@ -155,7 +155,6 @@ def test_create_app_space_wrong_region(client, customer_id, capsys):
                                         "automation-"+right_now,
                                         "Automation "+right_now,
                                         "description",
-                                        [],
                                         "wrong-region")
     captured = capsys.readouterr()
     assert "value must be in list [europe-west1 us-east1]" in captured.err
@@ -166,7 +165,7 @@ def test_update_app_space_success(client, customer_id, capsys):
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
 
-    app_space = client.update_app_space(response.id, response.etag, response.display_name,"description", [])
+    app_space = client.update_app_space(response.id, response.etag, response.display_name,"description")
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
@@ -183,7 +182,7 @@ def test_update_app_space_empty(client, customer_id):
         return None
 
     client.stub.UpdateApplicationSpace = mocked_update_app_space
-    app_space = client.update_app_space(response.id, response.etag, response.display_name, "description", [])
+    app_space = client.update_app_space(response.id, response.etag, response.display_name, "description")
 
     assert app_space is None
 
@@ -194,7 +193,7 @@ def test_update_app_space_fail_invalid_app_space(client, customer_id, capsys):
     assert response is not None
     app_space_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
 
-    app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update", [])
+    app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update")
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -205,7 +204,7 @@ def test_update_app_space_fail_not_allowed_app_space_id(client, customer_id, cap
     assert response is not None
     app_space_id = "gid:AAAAAlrNh6beFUSNk6tTtka8dwg"
 
-    app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update", [])
+    app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update")
     captured = capsys.readouterr()
     assert "NOT_FOUND" in captured.err
 
@@ -215,7 +214,7 @@ def test_update_app_space_name_fail_type_parameter(client, customer_id, capsys):
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
 
-    app_space = client.update_app_space(response.id, [response.etag], response.display_name,"description update", [])
+    app_space = client.update_app_space(response.id, [response.etag], response.display_name,"description update")
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
@@ -224,7 +223,7 @@ def test_read_app_space_list_success(client, customer_id, capsys):
     app_space_name = data.get_app_space_name()
     match = [app_space_name]
 
-    app_space = client.list_app_spaces(customer_id, match, [])
+    app_space = client.list_app_spaces(customer_id, match)
     captured = capsys.readouterr()
 
     assert app_space is not None
@@ -235,7 +234,7 @@ def test_get_app_space_list_wrong_customer(client, capsys):
     customer_id = "gid:AAAAAjUIwqhDT00ikJnfNwyeXF0"
     app_space_name = data.get_app_space_name()
     match = [app_space_name]
-    app_space = client.list_app_spaces(customer_id, match, [])
+    app_space = client.list_app_spaces(customer_id, match)
     captured = capsys.readouterr()
     assert "invalid id value was provided for customer_id" in captured.err
 
@@ -244,30 +243,21 @@ def test_get_app_space_list_wrong_type(client, customer_id, capsys):
     app_space_name = data.get_app_space_name()
     match = app_space_name
 
-    app_space = client.list_app_spaces(customer_id, match, [])
+    app_space = client.list_app_spaces(customer_id, match)
     captured = capsys.readouterr()
     assert "value length must be between 2 and 254 runes" in captured.err
 
 
-def test_get_app_space_list_wrong_bookmark(client, customer_id, capsys):
-    app_space_name = data.get_app_space_name()
-    match = [app_space_name]
-    app_space = client.list_app_spaces(customer_id, match,
-                                       ["RkI6a2N3US9RdnpsOGI4UWlPZU5OIGTHNTUQxcGNvU3NuZmZrQT09-r9S5McchAnB0Gz8oMjg_pWxPPdAZTJpaoNKq6HAAng"])
-    captured = capsys.readouterr()
-    assert "invalid bookmark value" in captured.err
-
-
 def test_get_app_space_list_empty_match(client, customer_id, capsys):
     match = []
-    app_space = client.list_app_spaces(customer_id, match, [])
+    app_space = client.list_app_spaces(customer_id, match)
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
 
 
 def test_get_app_space_list_raise_exception(client, customer_id, capsys):
     match = ""
-    app_space = client.list_app_spaces(customer_id, match, [])
+    app_space = client.list_app_spaces(customer_id, match)
     captured = capsys.readouterr()
     assert "value must contain at least 1 item" in captured.err
 
@@ -281,7 +271,7 @@ def test_get_app_space_list_empty(client, customer_id):
         return None
 
     client.stub.ListApplicationSpaces = mocked_get_app_space_list
-    app_space = client.list_app_spaces(customer_id, match, [])
+    app_space = client.list_app_spaces(customer_id, match)
 
     assert app_space is None
 
@@ -289,15 +279,15 @@ def test_get_app_space_list_empty(client, customer_id):
 def test_del_app_space_success(client, customer_id, capsys):
     right_now = str(int(time.time()))
     app_space = client.create_app_space(customer_id, "automation-"+right_now,
-                                         "Automation "+right_now, "description", [])
+                                         "Automation "+right_now, "description")
     assert app_space is not None
-    response = client.delete_app_space(app_space.id, app_space.etag, [] )
+    response = client.delete_app_space(app_space.id, app_space.etag)
     captured = capsys.readouterr()
     assert response is not None
 
 
 def test_del_app_space_wrong_space_id(client, customer_id, capsys):
-    response = client.delete_app_space(customer_id, "oeprbUOYHUIYI75U", [] )
+    response = client.delete_app_space(customer_id, "oeprbUOYHUIYI75U")
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -310,5 +300,5 @@ def test_del_app_space_empty(client):
         return None
 
     client.stub.DeleteApplicationSpace = mocked_delete_app_space
-    response = client.delete_app_space(id, etag, [])
+    response = client.delete_app_space(id, etag)
     assert response is None

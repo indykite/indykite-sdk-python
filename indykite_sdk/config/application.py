@@ -8,20 +8,18 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def read_application_by_id(self, application_id, bookmarks=[]):
+def read_application_by_id(self, application_id):
     """
     get an Application object with an id
     :param self:
     :param application_id: string gid id
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: Application object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadApplication(
             pb2.ReadApplicationRequest(
-                id=str(application_id),
-                bookmarks=bookmarks
+                id=str(application_id)
             )
         )
     except Exception as exception:
@@ -33,13 +31,12 @@ def read_application_by_id(self, application_id, bookmarks=[]):
     return Application.deserialize(response.application)
 
 
-def read_application_by_name(self, app_space_id, application_name, bookmarks=[]):
+def read_application_by_name(self, app_space_id, application_name):
     """
     get an Application object with a name
     :param self:
     :param app_space_id: string gid id
     :param application_name: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: Application object
     """
     sys.excepthook = logger.handle_excepthook
@@ -49,8 +46,7 @@ def read_application_by_name(self, app_space_id, application_name, bookmarks=[])
                 name=UniqueNameIdentifier(
                     location=app_space_id,
                     name=application_name
-                ),
-                bookmarks=bookmarks
+                )
             )
         )
     except Exception as exception:
@@ -62,7 +58,7 @@ def read_application_by_name(self, app_space_id, application_name, bookmarks=[])
     return Application.deserialize(response.application)
 
 
-def create_application(self, app_space_id, name, display_name, description="", bookmarks=[]):
+def create_application(self, app_space_id, name, display_name, description=""):
     """
     create an Application
     :param self:
@@ -70,7 +66,6 @@ def create_application(self, app_space_id, name, display_name, description="", b
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
     :param display_name: string
     :param description: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized CreateApplicationResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -80,8 +75,7 @@ def create_application(self, app_space_id, name, display_name, description="", b
                 app_space_id=app_space_id,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description),
-                bookmarks=bookmarks
+                description=wrappers.StringValue(value=description)
             )
         )
     except Exception as exception:
@@ -93,7 +87,7 @@ def create_application(self, app_space_id, name, display_name, description="", b
     return CreateApplication.deserialize(response, app_space_id, name)
 
 
-def update_application(self, application_id, etag, display_name, description="", bookmarks=[]):
+def update_application(self, application_id, etag, display_name, description=""):
     """
     update existing Application
     :param self:
@@ -101,7 +95,6 @@ def update_application(self, application_id, etag, display_name, description="",
     :param etag: string
     :param display_name: string
     :param description: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized UpdateApplicationResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -111,8 +104,7 @@ def update_application(self, application_id, etag, display_name, description="",
                 id=application_id,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description),
-                bookmarks=bookmarks
+                description=wrappers.StringValue(value=description)
             )
         )
     except Exception as exception:
@@ -124,13 +116,12 @@ def update_application(self, application_id, etag, display_name, description="",
     return UpdateApplication.deserialize(response)
 
 
-def list_applications(self, app_space_id, match=[], bookmarks=[]):
+def list_applications(self, app_space_id, match=[]):
     """
     list App which match exact name in match param
     :param self:
     :param app_space_id: string gid id
     :param match: list of strings
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: ListApplicationResponse object
     """
     sys.excepthook = logger.handle_excepthook
@@ -138,8 +129,7 @@ def list_applications(self, app_space_id, match=[], bookmarks=[]):
         streams = self.stub.ListApplications(
             pb2.ListApplicationsRequest(
                 app_space_id=app_space_id,
-                match=match,
-                bookmarks=bookmarks
+                match=match
             )
         )
     except Exception as exception:
@@ -158,13 +148,12 @@ def list_applications(self, app_space_id, match=[], bookmarks=[]):
     return responses
 
 
-def delete_application(self, application_id, etag, bookmarks):
+def delete_application(self, application_id, etag):
     """
     delete an application
     :param self:
     :param application_id: string gid id
     :param etag: string
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: DeleteApplicationResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -172,8 +161,7 @@ def delete_application(self, application_id, etag, bookmarks):
         response = self.stub.DeleteApplication(
             pb2.DeleteApplicationRequest(
                 id=application_id,
-                etag=wrappers.StringValue(value=etag),
-                bookmarks=bookmarks
+                etag=wrappers.StringValue(value=etag)
             )
         )
     except Exception as exception:

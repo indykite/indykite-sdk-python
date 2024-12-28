@@ -7,20 +7,18 @@ import sys
 import indykite_sdk.utils.logger as logger
 
 
-def read_service_account_credential(self, service_account_credential_id, bookmarks=[]):
+def read_service_account_credential(self, service_account_credential_id):
     """
     read info about service account
     :param self:
     :param service_account_credential_id: string gid id
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized ServiceAccountCredential instance
     """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadServiceAccountCredential(
             pb2.ReadServiceAccountCredentialRequest(
-                id=str(service_account_credential_id),
-                bookmarks=bookmarks
+                id=str(service_account_credential_id)
             )
         )
     except Exception as exception:
@@ -35,8 +33,7 @@ def register_service_account_credential_jwk(self,
                                             service_account_id,
                                             display_name,
                                             jwk_in_bytes,
-                                            expire_time_in_seconds,
-                                            bookmarks=[]):
+                                            expire_time_in_seconds):
     """
     register jwk credentials for your service account
     :param self:
@@ -44,7 +41,6 @@ def register_service_account_credential_jwk(self,
     :param display_name: string
     :param jwk_in_bytes: bytes
     :param expire_time_in_seconds: int
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized RegisterServiceAccountCredential instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -54,8 +50,7 @@ def register_service_account_credential_jwk(self,
                 service_account_id=service_account_id,
                 display_name=display_name,
                 jwk=jwk_in_bytes,
-                expire_time=Timestamp(seconds=expire_time_in_seconds),
-                bookmarks=bookmarks
+                expire_time=Timestamp(seconds=expire_time_in_seconds)
             )
         )
     except Exception as exception:
@@ -70,8 +65,7 @@ def register_service_account_credential_pem(self,
                                             service_account_id,
                                             display_name,
                                             pem_in_bytes,
-                                            expire_time_in_seconds,
-                                            bookmarks=[]):
+                                            expire_time_in_seconds):
     """
     register pem credentials for your service account
     :param self:
@@ -79,7 +73,6 @@ def register_service_account_credential_pem(self,
     :param display_name: string
     :param pem_in_bytes: bytes
     :param expire_time_in_seconds: int
-    :param bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: deserialized RegisterServiceAccountCredential instance
     """
     sys.excepthook = logger.handle_excepthook
@@ -89,8 +82,7 @@ def register_service_account_credential_pem(self,
                 service_account_id=service_account_id,
                 display_name=display_name,
                 pem=pem_in_bytes,
-                expire_time=Timestamp(seconds=expire_time_in_seconds),
-                bookmarks=bookmarks
+                expire_time=Timestamp(seconds=expire_time_in_seconds)
             )
         )
     except Exception as exception:
@@ -103,14 +95,12 @@ def register_service_account_credential_pem(self,
 
 def delete_service_account_credential(self,
                                       service_account_credential_id,
-                                      etag,
-                                      bookmarks):
+                                      etag):
     """
     delete service account credentials
     :param self:
     :param service_account_credential_id: string gid id
     :param etag: string
-    :param bookmarks: bookmarks: list of strings with pattern: ^[a-zA-Z0-9_-]{40,}$
     :return: DeleteServiceAccountCredentialResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -118,8 +108,7 @@ def delete_service_account_credential(self,
         response = self.stub.DeleteServiceAccountCredential(
             pb2.DeleteServiceAccountCredentialRequest(
                 id=service_account_credential_id,
-                etag=wrappers.StringValue(value=etag),
-                bookmarks=bookmarks
+                etag=wrappers.StringValue(value=etag)
             )
         )
     except Exception as exception:

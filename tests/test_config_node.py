@@ -53,7 +53,7 @@ def test_read_config_node_wrong_id(client, capsys):
 
 def test_read_config_node_version_not_authz(client, capsys):
     config_node_id = data.get_authz_policy()
-    config_node = client.read_config_node(config_node_id, [], 0)
+    config_node = client.read_config_node(config_node_id, 0)
     captured = capsys.readouterr()
     assert config_node is not None
     assert "invalid or expired access_token" not in captured.out
@@ -65,11 +65,10 @@ def test_del_config_node_success(client, right_now, app_space_id, capsys):
                                                                  "automation-" + right_now,
                                                                  "Automation " + right_now,
                                                                  "description",
-                                                                 authorization_policy_config,
-                                                                 [])
+                                                                 authorization_policy_config)
 
     assert config_node is not None
-    response = client.delete_config_node(config_node.id, config_node.etag, [] )
+    response = client.delete_config_node(config_node.id, config_node.etag)
     captured = capsys.readouterr()
     assert response is not None
 
@@ -82,7 +81,7 @@ def test_del_config_node_empty(client, capsys):
         return None
 
     client.stub.DeleteConfigNode = mocked_delete_config_node
-    response = client.delete_config_node(id, etag, [])
+    response = client.delete_config_node(id, etag)
     assert response is None
 
 
@@ -92,14 +91,12 @@ def test_create_authorization_policy_config_node_success(client, right_now, app_
                                                                  "automation-"+right_now,
                                                                  "Automation "+right_now,
                                                                  "description",
-                                                                 authorization_policy_config,
-                                                                 [])
+                                                                 authorization_policy_config)
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
-    assert response.bookmark is not None
+    response = client.delete_config_node(config_node.id, config_node.etag)
 
 
 def test_create_authorization_policy_config_node_empty(client, right_now, app_space_id, capsys):
@@ -113,8 +110,7 @@ def test_create_authorization_policy_config_node_empty(client, right_now, app_sp
                                                                  "automation-"+right_now,
                                                                  "Automation "+right_now,
                                                                  "description",
-                                                                 authorization_policy_config,
-                                                                 [])
+                                                                 authorization_policy_config)
 
     assert config_node is None
 
@@ -124,8 +120,7 @@ def test_create_authorization_policy_config_node_exception(client, right_now, ap
                                                                  "automation-"+right_now,
                                                                  "Automation "+right_now,
                                                                  "description",
-                                                                 "description",
-                                                                 [])
+                                                                 "description")
 
     captured = capsys.readouterr()
     assert "'str' object has no attribute 'status'" in captured.err
@@ -140,8 +135,7 @@ def test_update_authorization_policy_config_node_success(client, right_now, caps
                                                                           response.etag,
                                                                           "Automation "+right_now,
                                                                           "description "+right_now,
-                                                                          authorization_policy_config,
-                                                                          [])
+                                                                          authorization_policy_config)
 
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
@@ -163,8 +157,7 @@ def test_update_authorization_policy_config_node_empty(client, right_now, capsys
                                                                           response.etag,
                                                                           "Automation " + right_now,
                                                                           "description " + right_now,
-                                                                          authorization_policy_config,
-                                                                          [])
+                                                                          authorization_policy_config)
 
     assert config_node_response is None
 
@@ -177,8 +170,7 @@ def test_update_authorization_policy_config_node_exception(client, right_now, ca
                                                                           response.etag,
                                                                           "Automation "+right_now,
                                                                           "description "+right_now,
-                                                                          "description",
-                                                                          [])
+                                                                          "description")
 
     captured = capsys.readouterr()
     assert "'str' object has no attribute 'status'" in captured.err
@@ -190,12 +182,11 @@ def test_create_consent_config_node_success(client, right_now, app_space_id, cap
                                                     "automation-"+right_now,
                                                     "Automation "+right_now,
                                                     "description",
-                                                    consent_config,
-                                                    [])
+                                                    consent_config)
     captured = capsys.readouterr()
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    response = client.delete_config_node(config_node.id, config_node.etag)
     assert response is not None
 
 
@@ -210,8 +201,7 @@ def test_create_consent_config_node_empty(client, right_now, app_space_id, capsy
                                                     "automation-"+right_now,
                                                     "Automation "+right_now,
                                                     "description",
-                                                    consent_config,
-                                                    [])
+                                                    consent_config)
 
     assert config_node is None
 
@@ -221,8 +211,7 @@ def test_create_consent_config_node_exception(client, right_now, app_space_id, c
                                                     "automation-"+right_now,
                                                     "Automation "+right_now,
                                                     "description",
-                                                    "description",
-                                                    [])
+                                                    "description")
 
     captured = capsys.readouterr()
     assert "Message must be initialized with a dict" in captured.err
@@ -236,12 +225,11 @@ def test_create_token_introspect_config_node_success(client, app_space_id, capsy
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                             "description",
-                                                             token_introspect_config,
-                                                            [])
+                                                             token_introspect_config)
     captured = capsys.readouterr()
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    response = client.delete_config_node(config_node.id, config_node.etag)
     assert response is not None
 
 
@@ -257,8 +245,7 @@ def test_create_token_introspect_config_node_empty(client, app_space_id, capsys)
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             token_introspect_config,
-                                                             [])
+                                                             token_introspect_config)
     assert config_node is None
 
 
@@ -268,8 +255,7 @@ def test_create_token_introspect_config_node_exception(client, app_space_id, cap
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             "description",
-                                                             [])
+                                                             "description")
 
     captured = capsys.readouterr()
     assert "Message must be initialized with a dict" in captured.err
@@ -284,8 +270,7 @@ def test_create_token_introspect_config_node_wrong_app_space(client, capsys):
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             token_introspect_config,
-                                                             [])
+                                                             token_introspect_config)
     captured = capsys.readouterr()
     assert "StatusCode.NOT_FOUND" in captured.err
 
@@ -299,8 +284,7 @@ def test_create_token_introspect_config_node_app_space_other_customer(client, ca
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             token_introspect_config,
-                                                             [])
+                                                             token_introspect_config)
     captured = capsys.readouterr()
     assert "StatusCode.PERMISSION_DENIED" in captured.err
 
@@ -311,8 +295,7 @@ def test_update_token_introspect_config_node_success(client, right_now, app_spac
                                                              "automation-" + right_now,
                                                              "Automation " + right_now,
                                                              "description",
-                                                             token_introspect_config,
-                                                             [])
+                                                             token_introspect_config)
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
     right_now = str(int(time.time()))
@@ -321,11 +304,10 @@ def test_update_token_introspect_config_node_success(client, right_now, app_spac
                                                                       config_node.etag,
                                                                       "Automation "+right_now,
                                                                       "description "+right_now,
-                                                                      token_introspect_config,
-                                                                      [])
+                                                                      token_introspect_config)
     assert config_node_response is not None
     assert isinstance(config_node_response, UpdateConfigNode)
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    response = client.delete_config_node(config_node.id, config_node.etag)
 
 
 def test_update_token_introspect_config_node_wrong_etag(client, right_now, capsys):
@@ -334,8 +316,7 @@ def test_update_token_introspect_config_node_wrong_etag(client, right_now, capsy
                                                                       "JD5ikook6kjiof",
                                                                       "Automation "+right_now,
                                                                       "description "+right_now,
-                                                                      token_introspect_config,
-                                                                      [])
+                                                                      token_introspect_config)
     captured = capsys.readouterr()
     assert "invalid eTag value" in captured.err
 
@@ -348,12 +329,11 @@ def test_create_external_data_resolver_config_node_success(client, app_space_id,
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                             "description",
-                                                             external_data_resolver_config,
-                                                            [])
+                                                             external_data_resolver_config)
     captured = capsys.readouterr()
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    response = client.delete_config_node(config_node.id, config_node.etag)
     assert response is not None
 
 
@@ -369,8 +349,7 @@ def test_create_external_data_resolver_config_node_empty(client, app_space_id, c
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             external_data_resolver_config,
-                                                             [])
+                                                             external_data_resolver_config)
     assert config_node is None
 
 
@@ -380,8 +359,7 @@ def test_create_external_data_resolver_config_node_exception(client, app_space_i
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             "description",
-                                                             [])
+                                                             "description")
 
     captured = capsys.readouterr()
     assert "ExternalDataResolverConfig must be an object" in captured.err
@@ -396,8 +374,7 @@ def test_create_external_data_resolver_config_node_wrong_app_space(client, capsy
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             external_data_resolver_config,
-                                                             [])
+                                                             external_data_resolver_config)
     captured = capsys.readouterr()
     assert "StatusCode.NOT_FOUND" in captured.err
 
@@ -411,8 +388,7 @@ def test_create_external_data_resolver_config_node_app_space_other_customer(clie
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             external_data_resolver_config,
-                                                             [])
+                                                             external_data_resolver_config)
     captured = capsys.readouterr()
     assert "StatusCode.PERMISSION_DENIED" in captured.err
 
@@ -423,8 +399,7 @@ def test_update_external_data_resolver_config_node_success(client, right_now, ap
                                                              "automation-" + right_now,
                                                              "Automation " + right_now,
                                                              "description",
-                                                             external_data_resolver_config,
-                                                             [])
+                                                             external_data_resolver_config)
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
 
@@ -434,11 +409,10 @@ def test_update_external_data_resolver_config_node_success(client, right_now, ap
                                                                       config_node.etag,
                                                                       "Automation "+right_now,
                                                                       "description "+right_now,
-                                                                      external_data_resolver_config,
-                                                                      [])
+                                                                      external_data_resolver_config)
     assert config_node_response is not None
     assert isinstance(config_node_response, UpdateConfigNode)
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    response = client.delete_config_node(config_node.id, config_node.etag)
 
 
 def test_update_external_data_resolver_config_node_wrong_id(client, right_now, capsys):
@@ -447,8 +421,7 @@ def test_update_external_data_resolver_config_node_wrong_id(client, right_now, c
                                                                       "eyouyuuinjk",
                                                                       "Automation "+right_now,
                                                                       "description "+right_now,
-                                                                      external_data_resolver_config,
-                                                                      [])
+                                                                      external_data_resolver_config)
     captured = capsys.readouterr()
     assert "invalid eTag value" in captured.err
 
@@ -461,12 +434,11 @@ def test_create_entity_matching_pipeline_config_node_success(client, app_space_i
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                             "description",
-                                                             entity_matching_pipeline_config,
-                                                            [])
+                                                             entity_matching_pipeline_config)
     captured = capsys.readouterr()
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    response = client.delete_config_node(config_node.id, config_node.etag)
     assert response is not None
 
 
@@ -482,8 +454,7 @@ def test_create_entity_matching_pipeline_config_node_empty(client, app_space_id,
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             entity_matching_pipeline_config,
-                                                             [])
+                                                             entity_matching_pipeline_config)
     assert config_node is None
 
 
@@ -493,8 +464,7 @@ def test_create_entity_matching_pipeline_config_node_exception(client, app_space
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             "description",
-                                                             [])
+                                                             "description")
 
     captured = capsys.readouterr()
     assert "EntityMatchingPipelineConfig must be an object" in captured.err
@@ -508,8 +478,7 @@ def test_create_entity_matching_pipeline_config_node_wrong_app_space(client, cap
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             entity_matching_pipeline_config,
-                                                             [])
+                                                             entity_matching_pipeline_config)
     captured = capsys.readouterr()
     assert "StatusCode.NOT_FOUND" in captured.err
 
@@ -523,8 +492,7 @@ def test_create_entity_matching_pipeline_config_node_app_space_other_customer(cl
                                                              "automation-"+right_now,
                                                              "Automation "+right_now,
                                                              "description",
-                                                             entity_matching_pipeline_config,
-                                                             [])
+                                                             entity_matching_pipeline_config)
     captured = capsys.readouterr()
     assert "StatusCode.PERMISSION_DENIED" in captured.err
 
@@ -535,8 +503,7 @@ def test_update_entity_matching_pipeline_config_node_success(client, right_now, 
                                                              "automation-" + right_now,
                                                              "Automation " + right_now,
                                                              "description",
-                                                             entity_matching_pipeline_config,
-                                                             [])
+                                                             entity_matching_pipeline_config)
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
 
@@ -547,11 +514,10 @@ def test_update_entity_matching_pipeline_config_node_success(client, right_now, 
                                                                       "description "+right_now,
                                                                       model_pb2.EntityMatchingPipelineConfig(
                                                                           similarity_score_cutoff=np.float32(0.9)
-                                                                      ),
-                                                                      [])
+                                                                      ))
     assert config_node_response is not None
     assert isinstance(config_node_response, UpdateConfigNode)
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
+    response = client.delete_config_node(config_node.id, config_node.etag)
 
 
 def test_update_entity_matching_pipeline_config_node_wrong_id(client, right_now, capsys):
@@ -562,8 +528,7 @@ def test_update_entity_matching_pipeline_config_node_wrong_id(client, right_now,
                                                                       model_pb2.EntityMatchingPipelineConfig(
                                                                           similarity_score_cutoff=np.float32(
                                                                               0.9)
-                                                                      ),
-                                                                      [])
+                                                                      ))
     captured = capsys.readouterr()
     assert "invalid eTag value" in captured.err
 
@@ -593,8 +558,7 @@ def test_get_list_config_node_success(client, right_now, app_space_id, capsys):
                                                                  "automation-" + right_now,
                                                                  "Automation " + right_now,
                                                                  "description",
-                                                                 authorization_policy_config,
-                                                                 [])
+                                                                 authorization_policy_config)
     captured = capsys.readouterr()
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
@@ -603,8 +567,7 @@ def test_get_list_config_node_success(client, right_now, app_space_id, capsys):
     assert list_config_nodes is not None
     assert list_config_nodes[0].id == config_node_id
     # assert list_config_nodes[0].version is not None
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
-    assert response.bookmark is not None
+    response = client.delete_config_node(config_node.id, config_node.etag)
 
 
 def test_get_list_config_node_empty(client, app_space_id, capsys):
@@ -614,16 +577,14 @@ def test_get_list_config_node_empty(client, app_space_id, capsys):
                                                                  "automation-" + right_now,
                                                                  "Automation " + right_now,
                                                                  "description",
-                                                                 authorization_policy_config,
-                                                                 [])
+                                                                 authorization_policy_config)
     captured = capsys.readouterr()
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
     config_node_id = config_node.id
     list_config_nodes = client.list_config_node_versions(config_node_id)
     assert list_config_nodes is not None
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
-    assert response.bookmark is not None
+    response = client.delete_config_node(config_node.id, config_node.etag)
 
 
 def test_get_list_config_node_exception(client, app_space_id, capsys):
@@ -633,13 +594,11 @@ def test_get_list_config_node_exception(client, app_space_id, capsys):
                                                                  "automation-" + right_now,
                                                                  "Automation " + right_now,
                                                                  "description",
-                                                                 authorization_policy_config,
-                                                                 [])
+                                                                 authorization_policy_config)
     captured = capsys.readouterr()
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
     config_node_id = config_node.id
     list_config_nodes = client.list_config_node_versions(app_space_id)
     assert "" in captured.err
-    response = client.delete_config_node(config_node.id, config_node.etag, [])
-    assert response.bookmark is not None
+    response = client.delete_config_node(config_node.id, config_node.etag)
