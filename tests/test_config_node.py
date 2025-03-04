@@ -533,6 +533,121 @@ def test_update_entity_matching_pipeline_config_node_wrong_id(client, right_now,
     assert "invalid eTag value" in captured.err
 
 
+def test_create_trust_score_profile_config_node_success(client, app_space_id, capsys):
+    right_now = str(int(time.time())+2)
+    trust_score_profile_config = data.get_trust_score_profile_config(right_now)
+
+    config_node = client.create_trust_score_profile_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                            "description",
+                                                             trust_score_profile_config)
+    captured = capsys.readouterr()
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag)
+    assert response is not None
+
+
+def test_create_trust_score_profile_config_node_empty(client, app_space_id, capsys):
+    right_now = str(int(time.time())+4)
+    trust_score_profile_config = data.get_entity_matching_pipeline_config(right_now)
+
+    def mocked_create_config_node(request: pb2.CreateConfigNodeRequest):
+        return None
+
+    client.stub.CreateConfigNode = mocked_create_config_node
+    config_node = client.create_entity_matching_pipeline_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                             "description",
+                                                             trust_score_profile_config)
+    assert config_node is None
+
+
+def test_create_trust_score_profile_config_node_exception(client, app_space_id, capsys):
+    right_now = str(int(time.time())+6)
+    config_node = client.create_trust_score_profile_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                             "description",
+                                                             "description")
+
+    captured = capsys.readouterr()
+    assert "TrustScoreProfileConfig must be an object" in captured.err
+
+
+def test_create_trust_score_profile_config_node_wrong_app_space(client, capsys):
+    right_now = str(int(time.time())+2)
+    app_space_id = data.get_identity_node()
+    trust_score_profile_config = data.get_trust_score_profile_config(right_now)
+    config_node = client.create_trust_score_profile_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                             "description",
+                                                             trust_score_profile_config)
+    captured = capsys.readouterr()
+    assert "StatusCode.NOT_FOUND" in captured.err
+
+
+def test_create_trust_score_profile_config_node_app_space_other_customer(client, capsys):
+    right_now = str(int(time.time())+2)
+    app_space_id = "gid:AAAAAoQaR-cpn0jcmWkW_HV1c6g"
+    trust_score_profile_config = data.get_trust_score_profile_config(right_now)
+
+    config_node = client.create_trust_score_profile_config_node(app_space_id,
+                                                             "automation-"+right_now,
+                                                             "Automation "+right_now,
+                                                             "description",
+                                                             trust_score_profile_config)
+    captured = capsys.readouterr()
+    assert "StatusCode.PERMISSION_DENIED" in captured.err
+
+
+def test_update_trust_score_profile_config_node_success(client, right_now, app_space_id, capsys):
+    trust_score_profile_config = data.get_trust_score_profile_config(right_now)
+    config_node = client.create_trust_score_profile_config_node(app_space_id,
+                                                             "automation-" + right_now,
+                                                             "Automation " + right_now,
+                                                             "description",
+                                                             trust_score_profile_config)
+    assert config_node is not None
+    assert isinstance(config_node, CreateConfigNode)
+
+    right_now = str(int(time.time()))
+    config_node_response = client.update_trust_score_profile_config_node(
+        config_node.id,
+        config_node.etag,
+        "Automation "+right_now,
+        "description "+right_now,
+           model_pb2.TrustScoreProfileConfig(
+               dimensions=[model_pb2.TrustScoreDimension(
+                   name=5,
+                   weight=0.9
+               )],
+               schedule=4
+           ))
+    assert config_node_response is not None
+    assert isinstance(config_node_response, UpdateConfigNode)
+    response = client.delete_config_node(config_node.id, config_node.etag)
+
+
+def test_update_trust_score_profile_config_node_wrong_id(client, right_now, capsys):
+    config_node_response = client.update_trust_score_profile_config_node(
+        "gid:AAAAAuCBOLvwzUuWvKB1jWznHSM",
+        "eyouyuuinjk",
+        "Automation "+right_now,
+        "description "+right_now,
+        model_pb2.TrustScoreProfileConfig(
+            dimensions=[model_pb2.TrustScoreDimension(
+                name=5,
+                weight=0.9
+            )],
+            schedule=4
+        ))
+    captured = capsys.readouterr()
+    assert "invalid eTag value" in captured.err
+
 
 def test_validate_authorization_policy_status(client, capsys):
     response = client.validate_authorization_policy_status("wrong")
@@ -550,6 +665,18 @@ def test_validate_entity_matching_status(client, capsys):
     response = client.validate_entity_matching_status("wrong")
     captured = capsys.readouterr()
     assert "status must be a member of EntityMatchingPipelineConfig.Status" in captured.err
+
+
+def test_validate_trust_score_profile_dimension(client, capsys):
+    response = client.validate_trust_score_profile_dimension("wrong")
+    captured = capsys.readouterr()
+    assert "dimension must be a member of TrustScoreDimension.Name" in captured.err
+
+
+def test_validate_trust_score_profile_update_frequency(client, capsys):
+    response = client.validate_trust_score_profile_update_frequency("wrong")
+    captured = capsys.readouterr()
+    assert "update_frequency must be a member of TrustScoreProfileConfig.UpdateFrequency" in captured.err
 
 
 def test_get_list_config_node_success(client, right_now, app_space_id, capsys):
@@ -602,3 +729,5 @@ def test_get_list_config_node_exception(client, app_space_id, capsys):
     list_config_nodes = client.list_config_node_versions(app_space_id)
     assert "" in captured.err
     response = client.delete_config_node(config_node.id, config_node.etag)
+
+

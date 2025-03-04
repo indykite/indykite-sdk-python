@@ -9,6 +9,8 @@ from indykite_sdk.model.authorization_policy_config_status import Status
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
 from indykite_sdk.model.token_status import ExternalTokenStatus
 from indykite_sdk.model.entity_matching_status import Status as EntityMatchingStatus
+from indykite_sdk.model.trust_score_profile_dimension_name import Name as TrustScoreDimensionName
+from indykite_sdk.model.trust_score_profile_config import UpdateFrequency
 from indykite_sdk.model.external_data_resolver_config_content_type import ContentType
 import indykite_sdk.utils.logger as logger
 
@@ -700,6 +702,150 @@ def entity_matching_pipeline_config_update(self, similarity_score_cutoff):
         return logger.logger_error(exception)
 
 
+def trust_score_profile_config_create(self,node_classification, dimensions, schedule):
+    """
+    create TrustScoreProfileConfig
+    :param self:
+    :param node_classification: string
+    :param dimensions: array of TrustScoreDimension object
+    :param schedule: TrustScoreProfileConfig.UpdateFrequency enum value
+    :return: TrustScoreProfileConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        schedule = self.validate_trust_score_profile_update_frequency(schedule)
+        external_config = model_pb2.TrustScoreProfileConfig(
+            node_classification=node_classification,
+            dimensions=dimensions,
+            schedule=schedule
+            )
+        return external_config
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def trust_score_profile_config_update(self, dimensions, schedule):
+    """
+    create TrustScoreProfileConfig
+    :param self:
+    :param dimensions: array of TrustScoreDimension object
+    :param schedule: TrustScoreProfileConfig.UpdateFrequency enum value
+    :return: TrustScoreProfileConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        schedule = self.validate_trust_score_profile_update_frequency(schedule)
+        external_config = model_pb2.TrustScoreProfileConfig(
+            dimensions=dimensions,
+            schedule=schedule
+            )
+        return external_config
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def create_trust_score_profile_config_node(self,
+                                              location,
+                                              name,
+                                              display_name,
+                                              description,
+                                              trust_score_profile_config):
+    """
+    create trust score profile config node
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param trust_score_profile_config: TrustScoreProfileConfig object
+    :return: deserialized CreateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        if trust_score_profile_config and not isinstance(
+            trust_score_profile_config,
+            model_pb2.TrustScoreProfileConfig):
+            raise TypeError("TrustScoreProfileConfig must be an object")
+
+        response = self.stub.CreateConfigNode(
+            pb2.CreateConfigNodeRequest(
+                location=location,
+                name=name,
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                trust_score_profile_config=trust_score_profile_config
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return CreateConfigNode.deserialize(response)
+
+
+def update_trust_score_profile_config_node(self,
+                                              config_node_id,
+                                              etag,
+                                              display_name,
+                                              description,
+                                              trust_score_profile_config):
+    """
+    update trust score profile
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param trust_score_profile_config: TrustScoreProfileConfig object
+    :return: deserialized UpdateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        if trust_score_profile_config and not isinstance(
+            trust_score_profile_config,
+            model_pb2.TrustScoreProfileConfig):
+            raise TypeError("TrustScoreProfileConfig must be an object")
+        response = self.stub.UpdateConfigNode(
+            pb2.UpdateConfigNodeRequest(
+                id=config_node_id,
+                etag=wrappers.StringValue(value=etag),
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                trust_score_profile_config=trust_score_profile_config
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return UpdateConfigNode.deserialize(response)
+
+
+def trust_score_profile_config(self, node_classification, dimensions, schedule):
+
+    """
+    create TrustScoreProfileConfig
+    :param self:
+    :param node_classification: string
+    :param dimensions: array of TrustScoreDimension object
+    :param schedule: TrustScoreProfileConfig.UpdateFrequency enum value
+    :return: TrustScoreProfileConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        schedule = self.validate_trust_score_profile_update_frequency(schedule)
+        external_config = model_pb2.TrustScoreProfileConfig(
+            node_classification=node_classification,
+            dimensions=dimensions,
+            schedule=schedule
+        )
+        return external_config
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
 def validate_data_points(self, data_points):
     """
     validate data_points requirement
@@ -791,6 +937,42 @@ def validate_entity_matching_status(self, status):
         if status and status not in statuses:
             raise TypeError("status must be a member of EntityMatchingPipelineConfig.Status")
         return status
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_trust_score_profile_dimension(self, dimension):
+    """
+    validate trust score profile dimension requirement
+    :param self:
+    :param dimension: number
+    :return: dimension, none  or error
+    """
+    try:
+        if not dimension:
+            return None
+        dimensions = [d.value for d in TrustScoreDimensionName]
+        if dimension and dimension not in dimensions:
+            raise TypeError("dimension must be a member of TrustScoreDimension.Name")
+        return dimension
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_trust_score_profile_update_frequency(self, update_frequency):
+    """
+    validate trust score profile update_frequency requirement
+    :param self:
+    :param update_frequency: number
+    :return: update_frequency, none  or error
+    """
+    try:
+        if not update_frequency:
+            return None
+        update_frequencies = [d.value for d in UpdateFrequency]
+        if update_frequency and update_frequency not in update_frequencies:
+            raise TypeError("update_frequency must be a member of TrustScoreProfileConfig.UpdateFrequency")
+        return update_frequency
     except Exception as exception:
         return logger.logger_error(exception)
 

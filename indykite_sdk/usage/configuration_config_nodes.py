@@ -110,6 +110,22 @@ def main():
     update_entity_matching_pipeline_config_node_parser.add_argument("display_name", help="Display name")
     update_entity_matching_pipeline_config_node_parser.add_argument("description", help="Description")
 
+    # create_trust_score_profile_config_node
+    create_trust_score_profile_config_node_parser = subparsers.add_parser(
+        "create_trust_score_profile_config_node")
+    create_trust_score_profile_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_trust_score_profile_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_trust_score_profile_config_node_parser.add_argument("display_name", help="Display name")
+    create_trust_score_profile_config_node_parser.add_argument("description", help="Description")
+
+    # update_trust_score_profile_config_node
+    update_trust_score_profile_config_node_parser = subparsers.add_parser(
+        "update_trust_score_profile_config_node")
+    update_trust_score_profile_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_trust_score_profile_config_node_parser.add_argument("etag", help="Etag")
+    update_trust_score_profile_config_node_parser.add_argument("display_name", help="Display name")
+    update_trust_score_profile_config_node_parser.add_argument("description", help="Description")
+
     args = parser.parse_args()
     command = args.command
 
@@ -132,7 +148,7 @@ def main():
         client_config = ConfigClient()
         config_node_id = args.config_node_id
         etag = args.etag
-        config_node = client_config.delete_config_node(config_node_id, etag, [])
+        config_node = client_config.delete_config_node(config_node_id, etag)
         if config_node:
             api_helper.print_response(config_node)
         else:
@@ -539,6 +555,70 @@ def main():
             print("Invalid update entity matching pipeline config node response")
         client_config.channel.close()
         return update_entity_matching_pipeline_config_node_response
+
+    elif command == "create_trust_score_profile_config_node":
+        # to create a trust score profile config node
+        """shell
+           python3 configuration_config_nodes.py create_trust_score_profile_config_node
+           APP_SPACE_ID TSP_NAME TSP_DISPLAY_NAME TSP_DESCRIPTION
+        """
+        client_config = ConfigClient()
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+        dimension = model_pb2.TrustScoreDimension(
+            name=5,
+            weight=0.9
+        )
+        trust_score_profile_config = ConfigClient().trust_score_profile_config_create(
+            node_classification="Employee",
+            dimensions=[dimension],
+            schedule=1
+        )
+        create_trust_score_profile_config_node_response = client_config.create_trust_score_profile_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            trust_score_profile_config
+        )
+
+        if create_trust_score_profile_config_node_response:
+            api_helper.print_response(create_trust_score_profile_config_node_response)
+        else:
+            print("Invalid create trust score profile config node response")
+        client_config.channel.close()
+        return create_trust_score_profile_config_node_response
+
+    elif command == "update_trust_score_profile_config_node":
+        # to update an trust score profile config node
+        client_config = ConfigClient()
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+        dimension = model_pb2.TrustScoreDimension(
+            name=4,
+            weight=0.9
+        )
+        trust_score_profile_config = ConfigClient().trust_score_profile_config_update(
+            dimensions=[dimension],
+            schedule=4
+        )
+        update_trust_score_profile_config_node_response = client_config.update_trust_score_profile_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            trust_score_profile_config
+        )
+        if update_trust_score_profile_config_node_response:
+            api_helper.print_response(update_trust_score_profile_config_node_response)
+        else:
+            print("Invalid update trust score profile config node response")
+        client_config.channel.close()
+        return update_trust_score_profile_config_node_response
 
 
 if __name__ == '__main__':  # pragma: no cover

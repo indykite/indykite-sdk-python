@@ -49,6 +49,13 @@ class ConfigClient(object):
                               entity_matching_pipeline_config,
                               entity_matching_pipeline_config_create,
                               entity_matching_pipeline_config_update,
-                              validate_entity_matching_status
+                              validate_entity_matching_status,
+                              validate_trust_score_profile_dimension,
+                              validate_trust_score_profile_update_frequency,
+                              trust_score_profile_config,
+                              create_trust_score_profile_config_node,
+                              update_trust_score_profile_config_node,
+                              trust_score_profile_config_create,
+                              trust_score_profile_config_update
                               )
     from .create_application_with_agent_credentials import create_application_with_agent_credentials

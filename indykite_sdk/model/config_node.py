@@ -4,6 +4,7 @@ from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyCo
 from indykite_sdk.model.consent_configuration import ConsentConfiguration
 from indykite_sdk.model.token_introspect_config import TokenIntrospectConfig
 from indykite_sdk.model.entity_matching_pipeline_config import EntityMatchingPipelineConfig
+from indykite_sdk.model.trust_score_profile_config import TrustScoreProfileConfig
 
 
 class ConfigNode:
@@ -56,6 +57,10 @@ class ConfigNode:
             config_node.entity_matching_pipeline_config = EntityMatchingPipelineConfig.deserialize(
                 message.entity_matching_pipeline_config)
 
+        if "trust_score_profile_config" in fields:
+            config_node.trust_score_profile_config = TrustScoreProfileConfig.deserialize(
+                message.trust_score_profile_config)
+
         if "created_by" in fields:
             config_node.created_by = str(message.created_by)
 
@@ -82,6 +87,7 @@ class ConfigNode:
         self.token_introspect_config = None
         self.external_data_resolver_config = None
         self.entity_matching_pipeline_config = None
+        self.trust_score_profile_config = None
         self.consent_config = None
         self.created_by = None
         self.updated_by = None

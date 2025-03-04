@@ -255,7 +255,7 @@ def get_external_data_resolver_config(right_now):
         method="GET",
         headers=headers,
         request_type=1,
-        request_payload=b'{"url": "source"+right_now, "method": "GET"}',
+        request_payload=b'{"url": "source", "method": "GET"}',
         response_type=1,
         response_selector="."
     )
@@ -288,3 +288,16 @@ def get_entity_matching_pipeline_config_with_url(right_now):
         report_type="csv"
     )
     return entity_matching_pipeline_config
+
+
+def get_trust_score_profile_config(right_now):
+    dimension = model_pb2.TrustScoreDimension(
+        name=4,
+        weight=0.9
+    )
+    trust_score_profile_config = ConfigClient().trust_score_profile_config(
+        node_classification="Employee",
+        dimensions=[dimension],
+        schedule=4
+    )
+    return trust_score_profile_config
