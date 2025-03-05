@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.54.0](https://github.com/indykite/indykite-sdk-python/compare/v1.53.0...v1.54.0) (2025-03-05)
+
+
+### Features
+
+* add  trust score ([14939d8](https://github.com/indykite/indykite-sdk-python/commit/14939d8fb1d0ff254190d487c5c26e91c9606a9d))
+* update inputParams pattern + delete config ([2c36048](https://github.com/indykite/indykite-sdk-python/commit/2c360483aff430b988cfb8d3141039899da5a3a1))
+
 ## [1.53.0](https://github.com/indykite/indykite-sdk-python/compare/v1.52.0...v1.53.0) (2025-01-02)
 
 
