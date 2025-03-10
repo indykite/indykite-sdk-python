@@ -12,6 +12,7 @@ from indykite_sdk.model.entity_matching_status import Status as EntityMatchingSt
 from indykite_sdk.model.trust_score_profile_dimension_name import Name as TrustScoreDimensionName
 from indykite_sdk.model.trust_score_profile_config import UpdateFrequency
 from indykite_sdk.model.external_data_resolver_config_content_type import ContentType
+from indykite_sdk.model.knowledge_query_status import KnowledgeQueryStatus
 import indykite_sdk.utils.logger as logger
 
 
@@ -846,6 +847,100 @@ def trust_score_profile_config(self, node_classification, dimensions, schedule):
         return logger.logger_error(exception)
 
 
+def create_knowledge_query_config_node(self,
+                                       location,
+                                       name,
+                                       display_name,
+                                       description,
+                                       knowledge_query_config):
+    """
+    create knowledge query configuration
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param knowledge_query_config: KnowledgeQueryConfig object
+    :return: deserialized CreateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.CreateConfigNode(
+            pb2.CreateConfigNodeRequest(
+                location=location,
+                name=name,
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                knowledge_query_config=knowledge_query_config
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return CreateConfigNode.deserialize(response)
+
+
+def update_knowledge_query_config_node(self,
+                                       config_node_id,
+                                       etag,
+                                       display_name,
+                                       description,
+                                       knowledge_query_config):
+    """
+    update consent configuration
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param knowledge_query_config: KnowledgeQueryConfig object
+    :return: deserialized UpdateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.UpdateConfigNode(
+            pb2.UpdateConfigNodeRequest(
+                id=config_node_id,
+                etag=wrappers.StringValue(value=etag),
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                knowledge_query_config= knowledge_query_config
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return UpdateConfigNode.deserialize(response)
+
+
+def knowledge_query_config(self,
+                           query,
+                           status,
+                           policy_id):
+    """
+    create KnowledgeQueryConfig
+    :param self:
+    :param query: string max_bytes: 512000
+    :param status Enum KnowledgeQueryStatus
+    :param policy_id: gid min_len:22, max_len: 254, pattern:"^[A-Za-z0-9-_:]{22,254}$"
+    :return: KnowledgeQueryConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        status = self.validate_knowledge_query_status(status)
+        return model_pb2.KnowledgeQueryConfig(
+            query=query,
+            status=status,
+            policy_id=policy_id
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
 def validate_data_points(self, data_points):
     """
     validate data_points requirement
@@ -973,6 +1068,22 @@ def validate_trust_score_profile_update_frequency(self, update_frequency):
         if update_frequency and update_frequency not in update_frequencies:
             raise TypeError("update_frequency must be a member of TrustScoreProfileConfig.UpdateFrequency")
         return update_frequency
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def validate_knowledge_query_status(self, status):
+    """
+    validate status requirement
+    :param self:
+    :param status: number
+    :return: status or error
+    """
+    try:
+        statuses = [s.value for s in KnowledgeQueryStatus]
+        if status and status not in statuses:
+            raise TypeError("status must be a member of KnowledgeQueryStatus")
+        return status
     except Exception as exception:
         return logger.logger_error(exception)
 

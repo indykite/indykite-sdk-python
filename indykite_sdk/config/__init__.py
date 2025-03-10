@@ -56,6 +56,10 @@ class ConfigClient(object):
                               create_trust_score_profile_config_node,
                               update_trust_score_profile_config_node,
                               trust_score_profile_config_create,
-                              trust_score_profile_config_update
+                              trust_score_profile_config_update,
+                              create_knowledge_query_config_node,
+                              update_knowledge_query_config_node,
+                              knowledge_query_config,
+                              validate_knowledge_query_status
                               )
     from .create_application_with_agent_credentials import create_application_with_agent_credentials
