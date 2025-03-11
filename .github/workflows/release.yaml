@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.PYPI_API_TOKEN }}
       - uses: actions/setup-node@v4
         with:
-          node-version: "12.x"
+          node-version: "22.x"
           registry-url: "https://registry.npmjs.org"
 
       - name: Get Version
