@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.55.0](https://github.com/indykite/indykite-sdk-python/compare/v1.54.0...v1.55.0) (2025-03-11)
+
+
+### Features
+
+* add knowledge query config node ([#301](https://github.com/indykite/indykite-sdk-python/issues/301)) ([4bbc6a0](https://github.com/indykite/indykite-sdk-python/commit/4bbc6a0582a3d3fb8249fe03506a187249a48889))
+
 ## [1.54.0](https://github.com/indykite/indykite-sdk-python/compare/v1.53.0...v1.54.0) (2025-03-05)
 
 
