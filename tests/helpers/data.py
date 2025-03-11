@@ -301,3 +301,21 @@ def get_trust_score_profile_config(right_now):
         schedule=4
     )
     return trust_score_profile_config
+
+
+def get_knowledge_query_config(right_now):
+    knowledge_query_config = ConfigClient().knowledge_query_config(
+        query="{\"something\": [\"like\", \"json\", \"query\"]}",
+        status=1,
+        policy_id=get_authz_policy_config_node_id()
+    )
+    return knowledge_query_config
+
+
+def get_knowledge_query_config_upd(right_now):
+    knowledge_query_config = ConfigClient().knowledge_query_config(
+        query="{\"something\": [\"like\", \"json\", \"query\"]}",
+        status=2,
+        policy_id=get_authz_policy_config_node_id()
+    )
+    return knowledge_query_config

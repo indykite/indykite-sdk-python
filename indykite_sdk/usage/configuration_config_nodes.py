@@ -126,6 +126,22 @@ def main():
     update_trust_score_profile_config_node_parser.add_argument("display_name", help="Display name")
     update_trust_score_profile_config_node_parser.add_argument("description", help="Description")
 
+    # create_knowledge_query_config_node
+    create_knowledge_query_config_node_parser = subparsers.add_parser(
+        "create_knowledge_query_config_node")
+    create_knowledge_query_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_knowledge_query_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_knowledge_query_config_node_parser.add_argument("display_name", help="Display name")
+    create_knowledge_query_config_node_parser.add_argument("description", help="Description")
+
+    # update_knowledge_query_config_node
+    update_knowledge_query_config_node_parser = subparsers.add_parser(
+        "update_knowledge_query_config_node")
+    update_knowledge_query_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_knowledge_query_config_node_parser.add_argument("etag", help="Etag")
+    update_knowledge_query_config_node_parser.add_argument("display_name", help="Display name")
+    update_knowledge_query_config_node_parser.add_argument("description", help="Description")
+
     args = parser.parse_args()
     command = args.command
 
@@ -619,6 +635,63 @@ def main():
             print("Invalid update trust score profile config node response")
         client_config.channel.close()
         return update_trust_score_profile_config_node_response
+
+    elif command == "create_knowledge_query_config_node":
+        # to create a knowledge query config node
+        """shell
+           python3 configuration_config_nodes.py create_knowledge_query_config_node
+           APP_SPACE_ID TSP_NAME TSP_DISPLAY_NAME TSP_DESCRIPTION
+        """
+        client_config = ConfigClient()
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+        knowledge_query_config = ConfigClient().knowledge_query_config(
+            query="{\"something\": [\"like\", \"json\", \"query\"]}",
+            status=1,
+            policy_id="gid:AAAAFtCidRDrdkaVpLS4RhquHrU"
+        )
+        create_knowledge_query_config_node_response = client_config.create_knowledge_query_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            knowledge_query_config
+        )
+
+        if create_knowledge_query_config_node_response:
+            api_helper.print_response(create_knowledge_query_config_node_response)
+        else:
+            print("Invalid create knowledge query config node response")
+        client_config.channel.close()
+        return create_knowledge_query_config_node_response
+
+    elif command == "update_knowledge_query_config_node":
+        # to update a knowledge query config node
+        client_config = ConfigClient()
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+        knowledge_query_config = ConfigClient().knowledge_query_config(
+            query="{\"something\": [\"like\", \"json\", \"query\"]}",
+            status=2,
+            policy_id="gid:AAAAFtCidRDrdkaVpLS4RhquHrU"
+        )
+        update_knowledge_query_config_node_response = client_config.update_knowledge_query_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            knowledge_query_config
+        )
+        if update_knowledge_query_config_node_response:
+            api_helper.print_response(update_knowledge_query_config_node_response)
+        else:
+            print("Invalid update knowledge query config node response")
+        client_config.channel.close()
+        return update_knowledge_query_config_node_response
 
 
 if __name__ == '__main__':  # pragma: no cover
