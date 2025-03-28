@@ -889,7 +889,7 @@ def update_knowledge_query_config_node(self,
                                        description,
                                        knowledge_query_config):
     """
-    update consent configuration
+    update knowledge query configuration
     :param self:
     :param config_node_id: string gid id
     :param etag: string
@@ -936,6 +936,96 @@ def knowledge_query_config(self,
             query=query,
             status=status,
             policy_id=policy_id
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+
+def create_event_sink_config_node(self,
+                                  location,
+                                  name,
+                                  display_name,
+                                  description,
+                                  event_sink_config):
+    """
+    create event sink configuration
+    :param self:
+    :param location: string gid id
+    :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
+    :param display_name: string
+    :param description: string
+    :param event_sink_config: EventSinkConfig object
+    :return: deserialized CreateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.CreateConfigNode(
+            pb2.CreateConfigNodeRequest(
+                location=location,
+                name=name,
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                event_sink_config=event_sink_config
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return CreateConfigNode.deserialize(response)
+
+
+def update_event_sink_config_node(self,
+                                  config_node_id,
+                                  etag,
+                                  display_name,
+                                  description,
+                                  event_sink_config):
+    """
+    update event sink configuration
+    :param self:
+    :param config_node_id: string gid id
+    :param etag: string
+    :param display_name: string
+    :param description: string
+    :param event_sink_config: EventSinkConfig object
+    :return: deserialized UpdateConfigNode instance
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        response = self.stub.UpdateConfigNode(
+            pb2.UpdateConfigNodeRequest(
+                id=config_node_id,
+                etag=wrappers.StringValue(value=etag),
+                display_name=wrappers.StringValue(value=display_name),
+                description=wrappers.StringValue(value=description),
+                event_sink_config= event_sink_config
+            )
+        )
+    except Exception as exception:
+        return logger.logger_error(exception)
+
+    if not response:
+        return None
+    return UpdateConfigNode.deserialize(response)
+
+
+def event_sink_config(self,
+                      providers,
+                      routes):
+    """
+    create EventSinkConfig
+    :param self:
+    :param providers:  map<string,  EventSinkConfig.Provider>
+    :param routes: array of EventSinkConfig.Route
+    :return: EventSinkConfig object
+    """
+    sys.excepthook = logger.handle_excepthook
+    try:
+        return model_pb2.EventSinkConfig(
+            providers=providers,
+            routes=routes
         )
     except Exception as exception:
         return logger.logger_error(exception)

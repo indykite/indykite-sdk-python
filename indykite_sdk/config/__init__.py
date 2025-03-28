@@ -60,6 +60,9 @@ class ConfigClient(object):
                               create_knowledge_query_config_node,
                               update_knowledge_query_config_node,
                               knowledge_query_config,
-                              validate_knowledge_query_status
+                              validate_knowledge_query_status,
+                              create_event_sink_config_node,
+                              update_event_sink_config_node,
+                              event_sink_config,
                               )
     from .create_application_with_agent_credentials import create_application_with_agent_credentials

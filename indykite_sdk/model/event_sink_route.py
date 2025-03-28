@@ -1,15 +1,25 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from indykite_sdk.model.trust_score_profile_dimension import TrustScoreDimension
-from indykite_sdk.model.trust_score_profile_update_frequency import UpdateFrequency
-
+@dataclass
+class ContextKeyValue:
+    key: str
+    value: str
 
 @dataclass
-class TrustScoreProfileConfig:
-    node_classification: Optional[str] = None
-    dimensions: List[TrustScoreDimension] = field(default_factory=list)
-    schedule: Optional[float] = None
+class Filter:
+    event_type: Optional[str] = None
+    context_key_value: Optional[ContextKeyValue] = None
+
+    def __post_init__(self):
+        if (self.event_type is None) == (self.context_key_value is None):
+            raise ValueError("Exactly one of 'event_type' or 'context_key_value' must be provided.")
+
+@dataclass
+class EventSinkRoute:
+    provider_id: Optional[str] = None
+    stop_processing: Optional[bool] = None
+    filter: Optional[Filter] = None
 
     @classmethod
     def deserialize(cls, message_config):
@@ -20,9 +30,9 @@ class TrustScoreProfileConfig:
 
         # Define processors for all fields
         all_fields = {
-            'node_classification': str,
-            'dimensions': lambda val: [TrustScoreDimension.deserialize(d) for d in val],
-            'schedule': cls._validate_frequency
+            'provider_id': str,
+            'stop_processing': bool,
+            'filter': Filter,
         }
 
         # Process optional fields
@@ -35,10 +45,3 @@ class TrustScoreProfileConfig:
                     raise ValueError(f"Error processing field '{field_name}': {e}")
 
         return cls(**kwargs)
-
-    @staticmethod
-    def _validate_frequency(value):
-        try:
-            return UpdateFrequency(value).name
-        except ValueError:
-            raise TypeError(f"'{value}' is not a valid UpdateFrequency name")

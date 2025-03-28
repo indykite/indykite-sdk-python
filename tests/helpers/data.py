@@ -4,6 +4,7 @@ import numpy as np
 import os
 import random
 import string
+import time
 
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
@@ -319,3 +320,44 @@ def get_knowledge_query_config_upd(right_now):
         policy_id=get_authz_policy_config_node_id()
     )
     return knowledge_query_config
+
+
+def get_event_sink_config(right_now):
+    right_now = str(int(time.time()) + 2)
+    provider1 = model_pb2.EventSinkConfig.Provider(
+        kafka=model_pb2.KafkaSinkConfig(
+            brokers=["kafka-01:9092", "kafka-02:9092"],
+            topic="events",
+            username="my-username",
+            password="some-super-secret-password"
+        )
+    )
+    provider2 = model_pb2.EventSinkConfig.Provider(
+        kafka=model_pb2.KafkaSinkConfig(
+            brokers=["kafka-01:9092", "kafka-02:9092"],
+            topic="events",
+            username="my-username",
+            password="some-super-secret-password"
+        )
+    )
+    providers = {"kafka-01": provider1, "kafka-02": provider2}
+    routes = [
+        model_pb2.EventSinkConfig.Route(
+            provider_id="kafka-provider-01",
+            stop_processing=False,
+            event_type="indykite.eventsink.config.create"
+        ),
+        model_pb2.EventSinkConfig.Route(
+            provider_id="kafka-provider-02",
+            stop_processing=False,
+            context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
+                key="relationship-created",
+                value="access-granted"
+            )
+        )
+    ]
+    event_sink_config = ConfigClient().event_sink_config(
+        providers=providers,
+        routes=routes
+    )
+    return event_sink_config

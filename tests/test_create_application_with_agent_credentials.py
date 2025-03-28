@@ -28,7 +28,7 @@ def test_create_application_with_agent_cred_success(client, app_space_id, right_
     application_agent_name = "automation-agent-"+str(right_now)
     application_agent_credentials_name = "automation-agent-cred-"+str(right_now)
     public_key_type = "jwk"
-    expire_time = int(right_now) + 120
+    expire_time = int(right_now) + 25000
 
     response = client.create_application_with_agent_credentials(
             app_space_id,
@@ -51,7 +51,7 @@ def test_create_application_with_agent_cred_exists(client, app_space_id, right_n
     application_agent_name = "automation-agent-" + str(right_now)
     application_agent_credentials_name = "automation-agent-cred-" + str(right_now)
     public_key_type = "jwk"
-    expire_time = int(right_now) + 120
+    expire_time = int(right_now) + 12000
 
     response = client.create_application_with_agent_credentials(
         app_space_id,
