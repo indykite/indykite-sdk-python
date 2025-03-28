@@ -1,15 +1,16 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from indykite_sdk.model.trust_score_profile_dimension import TrustScoreDimension
-from indykite_sdk.model.trust_score_profile_update_frequency import UpdateFrequency
-
 
 @dataclass
-class TrustScoreProfileConfig:
-    node_classification: Optional[str] = None
-    dimensions: List[TrustScoreDimension] = field(default_factory=list)
-    schedule: Optional[float] = None
+class KafkaSinkConfig:
+    brokers: List[str] = field(default_factory=list)
+    topic: Optional[str] = None
+    disable_tls: Optional[bool] = None
+    tls_skip_verify: Optional[bool] = None
+    username: Optional[str] = None
+    password: Optional[str] = None
+
 
     @classmethod
     def deserialize(cls, message_config):
@@ -20,9 +21,12 @@ class TrustScoreProfileConfig:
 
         # Define processors for all fields
         all_fields = {
-            'node_classification': str,
-            'dimensions': lambda val: [TrustScoreDimension.deserialize(d) for d in val],
-            'schedule': cls._validate_frequency
+            'brokers': lambda val: [b for b in val],
+            'topic': str,
+            'disable_tls': bool,
+            'tls_skip_verify': bool,
+            'username': str,
+            'password': str
         }
 
         # Process optional fields
@@ -35,10 +39,3 @@ class TrustScoreProfileConfig:
                     raise ValueError(f"Error processing field '{field_name}': {e}")
 
         return cls(**kwargs)
-
-    @staticmethod
-    def _validate_frequency(value):
-        try:
-            return UpdateFrequency(value).name
-        except ValueError:
-            raise TypeError(f"'{value}' is not a valid UpdateFrequency name")

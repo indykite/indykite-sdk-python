@@ -6,6 +6,7 @@ from indykite_sdk.model.token_introspect_config import TokenIntrospectConfig
 from indykite_sdk.model.entity_matching_pipeline_config import EntityMatchingPipelineConfig
 from indykite_sdk.model.trust_score_profile_config import TrustScoreProfileConfig
 from indykite_sdk.model.knowledge_query_config import KnowledgeQueryConfig
+from indykite_sdk.model.event_sink_config import EventSinkConfig
 
 
 class ConfigNode:
@@ -66,6 +67,10 @@ class ConfigNode:
             config_node.knowledge_query_config = KnowledgeQueryConfig.deserialize(
                 message.knowledge_query_config)
 
+        if "event_sink_config" in fields:
+            config_node.event_sink_config = EventSinkConfig.deserialize(
+                message.event_sink_config)
+
         if "created_by" in fields:
             config_node.created_by = str(message.created_by)
 
@@ -94,6 +99,7 @@ class ConfigNode:
         self.entity_matching_pipeline_config = None
         self.trust_score_profile_config = None
         self.knowledge_query_config = None
+        self.event_sink_config = None
         self.consent_config = None
         self.created_by = None
         self.updated_by = None

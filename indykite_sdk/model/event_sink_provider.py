@@ -1,14 +1,11 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import List, Optional
 
-from indykite_sdk.model.knowledge_query_status import KnowledgeQueryStatus
-
+from indykite_sdk.model.kafka_sink_config import KafkaSinkConfig
 
 @dataclass
-class KnowledgeQueryConfig:
-    query: Optional[str] = None
-    status: Optional[float] = None
-    policy_id: Optional[str] = None
+class EventSinkProvider:
+    kafka: KafkaSinkConfig
 
     @classmethod
     def deserialize(cls, message_config):
@@ -19,9 +16,7 @@ class KnowledgeQueryConfig:
 
         # Define processors for all fields
         all_fields = {
-            'query': str,
-            'status': cls._validate_status,
-            'policy_id': str,
+            'kafka': KafkaSinkConfig,
         }
 
         # Process optional fields
@@ -35,9 +30,4 @@ class KnowledgeQueryConfig:
 
         return cls(**kwargs)
 
-    @staticmethod
-    def _validate_status(value):
-        try:
-            return KnowledgeQueryStatus(value).name
-        except ValueError:
-            raise TypeError(f"'{value}' is not a valid KnowledgeQueryStatus name")
+

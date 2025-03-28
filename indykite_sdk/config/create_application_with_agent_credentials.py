@@ -48,10 +48,7 @@ def create_application_with_agent_credentials(self,
 
                 response_application_agent_credentials = None
                 t = datetime.now().timestamp()
-                if expire_time:
-                    expire_time = int(t) + int(expire_time)
-                else:
-                    expire_time = int(t) + 3600
+                expire_time = int(t) + 3600
                 if public_key_type == 'jwk':
                     response_application_agent_credentials = self.register_application_agent_credential_jwk(
                         response_application_agent.id,

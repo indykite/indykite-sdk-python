@@ -142,6 +142,22 @@ def main():
     update_knowledge_query_config_node_parser.add_argument("display_name", help="Display name")
     update_knowledge_query_config_node_parser.add_argument("description", help="Description")
 
+    # create_event_sink_config_node
+    create_event_sink_config_node_parser = subparsers.add_parser(
+        "create_event_sink_config_node")
+    create_event_sink_config_node_parser.add_argument("app_space_id", help="AppSpace (gid)")
+    create_event_sink_config_node_parser.add_argument("name", help="Name (not display name)")
+    create_event_sink_config_node_parser.add_argument("display_name", help="Display name")
+    create_event_sink_config_node_parser.add_argument("description", help="Description")
+
+    # update_event_sink_config_node
+    update_event_sink_config_node_parser = subparsers.add_parser(
+        "update_event_sink_config_node")
+    update_event_sink_config_node_parser.add_argument("config_node_id", help="Config node id (gid)")
+    update_event_sink_config_node_parser.add_argument("etag", help="Etag")
+    update_event_sink_config_node_parser.add_argument("display_name", help="Display name")
+    update_event_sink_config_node_parser.add_argument("description", help="Description")
+
     args = parser.parse_args()
     command = args.command
 
@@ -692,6 +708,130 @@ def main():
             print("Invalid update knowledge query config node response")
         client_config.channel.close()
         return update_knowledge_query_config_node_response
+
+    elif command == "create_event_sink_config_node":
+        # to create an external data resolver config node
+        """shell
+           python3 configuration_config_nodes.py create_event_sink_config_node
+           APP_SPACE_ID EVENT_NAME EVENT_DISPLAY_NAME EVENT_DESCRIPTION
+        """
+        client_config = ConfigClient()
+        location = args.app_space_id
+        name = args.name
+        display_name = args.display_name
+        description = args.description
+
+        # Populate the providers map
+        provider1 = model_pb2.EventSinkConfig.Provider(
+            kafka=model_pb2.KafkaSinkConfig(
+                brokers=["kafka-01:9092", "kafka-02:9092"],
+                topic = "events",
+                username = "my-username",
+                password = "some-super-secret-password"
+            )
+        )
+        provider2 =  model_pb2.EventSinkConfig.Provider(
+            kafka=model_pb2.KafkaSinkConfig(
+            brokers=["kafka-01:9092", "kafka-02:9092"],
+            topic="events",
+            username="my-username",
+            password="some-super-secret-password"
+            )
+        )
+        providers = {"kafka-01": provider1, "kafka-02": provider2}
+        routes = [
+            model_pb2.EventSinkConfig.Route(
+                provider_id = "kafka-provider-01",
+                stop_processing = False,
+                event_type = "indykite.eventsink.config.create"
+            ),
+            model_pb2.EventSinkConfig.Route(
+                provider_id="kafka-provider-02",
+                stop_processing=False,
+                context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
+                    key="relationship-created",
+                    value="access-granted"
+                )
+            )
+        ]
+        event_sink_config = ConfigClient().event_sink_config(
+            providers=providers,
+            routes=routes
+        )
+
+        create_event_sink_config_node_response = client_config.create_event_sink_config_node(
+            location,
+            name,
+            display_name,
+            description,
+            event_sink_config
+        )
+
+        if create_event_sink_config_node_response:
+            api_helper.print_response(create_event_sink_config_node_response)
+        else:
+            print("Invalid create event sink config node response")
+        client_config.channel.close()
+        return create_event_sink_config_node_response
+
+    elif command == "update_event_sink_config_node":
+        # to update an event sink config node
+        client_config = ConfigClient()
+        config_node_id = args.config_node_id
+        etag = args.etag
+        display_name = args.display_name
+        description = args.description
+        # Populate the providers map
+        provider1 = model_pb2.EventSinkConfig.Provider(
+            kafka=model_pb2.KafkaSinkConfig(
+            brokers=["kafka-01:9092", "kafka-02:9092"],
+            topic="events-update",
+            username="my-username",
+            password="other-secret-password"
+            )
+        )
+        provider2 = model_pb2.EventSinkConfig.Provider(
+            kafka=model_pb2.KafkaSinkConfig(
+            brokers=["kafka-02-01:9092", "kafka-02-02:9092"],
+            topic="events-update",
+            username="my-username",
+            password="other-secret-password"
+            )
+        )
+        providers = {"kafka-01": provider1, "kafka-02": provider2}
+        routes = [
+            model_pb2.EventSinkConfig.Route(
+                provider_id="kafka-provider-01",
+                stop_processing=False,
+                event_type="indykite.eventsink.config.update"
+            ),
+            model_pb2.EventSinkConfig.Route(
+                provider_id="kafka-provider-02",
+                stop_processing=False,
+                context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
+                    key="relationship-updated",
+                    value="access-granted"
+                )
+            )
+        ]
+        event_sink_config = ConfigClient().event_sink_config(
+            providers=providers,
+            routes=routes
+        )
+
+        update_event_sink_config_node_response = client_config.update_event_sink_config_node(
+            config_node_id,
+            etag,
+            display_name,
+            description,
+            event_sink_config
+        )
+        if update_event_sink_config_node_response:
+            api_helper.print_response(update_event_sink_config_node_response)
+        else:
+            print("Invalid update event sink config node response")
+        client_config.channel.close()
+        return update_event_sink_config_node_response
 
 
 if __name__ == '__main__':  # pragma: no cover

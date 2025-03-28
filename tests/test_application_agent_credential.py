@@ -58,7 +58,7 @@ def test_register_application_agent_credential_jwk_success(client, application_a
     right_now = str(int(time.time()))
     jwk = None
     t = datetime.now().timestamp()
-    expire_time_in_seconds = int(t) + 2678400
+    expire_time_in_seconds = int(t) + 26784
     application_agent_credential = client.register_application_agent_credential_jwk(application_agent_id,
                                                                                     "automation-"+right_now, jwk,
                                                                                     expire_time_in_seconds)
