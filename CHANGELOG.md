@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.56.0](https://github.com/indykite/indykite-sdk-python/compare/v1.55.0...v1.56.0) (2025-04-03)
+
+
+### Features
+
+* add event sink ([6773000](https://github.com/indykite/indykite-sdk-python/commit/67730006ac7fe88158c4e1944ea0c340fbc74898))
+
+
+### Bug Fixes
+
+* fix data ([57f0e1f](https://github.com/indykite/indykite-sdk-python/commit/57f0e1f11e6e47a5e42817489c62b5cdb7fc4721))
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency node to v22 ([d4ad11d](https://github.com/indykite/indykite-sdk-python/commit/d4ad11d539545cbf1ea79713e4c7a5ce0f1d3a5f))
+
 ## [1.55.0](https://github.com/indykite/indykite-sdk-python/compare/v1.54.0...v1.55.0) (2025-03-11)
 
 
