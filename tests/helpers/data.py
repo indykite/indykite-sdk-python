@@ -38,6 +38,7 @@ APPLICATION_AGENT_NAME = os.getenv('APPLICATION_AGENT_NAME')
 APPLICATION_AGENT_CREDENTIAL_ID = os.getenv('APPLICATION_AGENT_CREDENTIAL_ID')
 SERVICE_ACCOUNT_CREDENTIAL_ID = os.getenv('SERVICE_ACCOUNT_CREDENTIAL_ID')
 AUTHZ_POLICY_CONFIG_NODE = os.getenv('AUTHZ_POLICY_CONFIG_NODE')
+AUTHZ_POLICY_CONFIG_NODE_KQ = os.getenv('AUTHZ_POLICY_CONFIG_NODE_KQ')
 CONSENT_CONFIG_NODE = os.getenv('CONSENT_CONFIG_NODE')
 CONSENT_ID = os.getenv('CONSENT_ID')
 PASSWORD = os.getenv('PASSWORD')
@@ -189,6 +190,10 @@ def get_authz_policy_config_node_id():
     return AUTHZ_POLICY_CONFIG_NODE
 
 
+def get_authz_policy_config_kq_node_id():
+    return AUTHZ_POLICY_CONFIG_NODE_KQ
+
+
 def get_consent_config_node_id():
     return CONSENT_CONFIG_NODE
 
@@ -306,18 +311,24 @@ def get_trust_score_profile_config(right_now):
 
 def get_knowledge_query_config(right_now):
     knowledge_query_config = ConfigClient().knowledge_query_config(
-        query="{\"something\": [\"like\", \"json\", \"query\"]}",
+        query="{\"nodes\": [\"resource.property.value\"],"
+              " \"relationships\": [],"
+              "\"filter\": {\"attribute\": \"resource.property.value\", \"operator\": \"=\", \"value\": \"$resourceValue\"}"
+              "}",
         status=1,
-        policy_id=get_authz_policy_config_node_id()
+        policy_id=get_authz_policy_config_kq_node_id()
     )
     return knowledge_query_config
 
 
 def get_knowledge_query_config_upd(right_now):
     knowledge_query_config = ConfigClient().knowledge_query_config(
-        query="{\"something\": [\"like\", \"json\", \"query\"]}",
+        query="{\"nodes\": [\"resource.property.value\"],"
+              " \"relationships\": [],"
+              "\"filter\": {\"attribute\": \"resource.property.value\", \"operator\": \"=\", \"value\": \"$resourceValue\"}"
+              "}",
         status=2,
-        policy_id=get_authz_policy_config_node_id()
+        policy_id=get_authz_policy_config_kq_node_id()
     )
     return knowledge_query_config
 
@@ -351,7 +362,7 @@ def get_event_sink_config(right_now):
             provider_id="kafka-provider-02",
             stop_processing=False,
             context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
-                key="relationship-created",
+                key="relationship",
                 value="access-granted"
             )
         )
