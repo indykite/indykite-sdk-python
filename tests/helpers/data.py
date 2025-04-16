@@ -351,15 +351,40 @@ def get_event_sink_config(right_now):
             password="some-super-secret-password"
         )
     )
-    providers = {"kafka-01": provider1, "kafka-02": provider2}
+    provider3 = model_pb2.EventSinkConfig.Provider(
+        azure_event_grid=model_pb2.AzureEventGridSinkConfig(
+            topic_endpoint="https://ik-test.eventgrid.azure.net/api/events",
+            access_key="secret-access-key"
+        )
+    )
+    provider4 = model_pb2.EventSinkConfig.Provider(
+        azure_service_bus=model_pb2.AzureServiceBusSinkConfig(
+            connection_string="personal-connection-info",
+            queue_or_topic_name="your-queue"
+        )
+    )
+    providers = {"kafka-01": provider1, "kafka-02": provider2, "azure-grid": provider3, "azure-bus": provider4}
     routes = [
         model_pb2.EventSinkConfig.Route(
             provider_id="kafka-provider-01",
             stop_processing=False,
-            event_type="indykite.eventsink.config.create"
+            event_type="create"
         ),
         model_pb2.EventSinkConfig.Route(
             provider_id="kafka-provider-02",
+            stop_processing=False,
+            context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
+                key="relationship",
+                value="access-granted"
+            )
+        ),
+        model_pb2.EventSinkConfig.Route(
+            provider_id="azure-grid",
+            stop_processing=False,
+            event_type="create"
+        ),
+        model_pb2.EventSinkConfig.Route(
+            provider_id="azure-bus",
             stop_processing=False,
             context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
                 key="relationship",
