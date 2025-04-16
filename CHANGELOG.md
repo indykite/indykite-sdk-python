@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.57.0](https://github.com/indykite/indykite-sdk-python/compare/v1.56.0...v1.57.0) (2025-04-16)
+
+
+### Features
+
+* add azure providers to eventsink config ([df26e89](https://github.com/indykite/indykite-sdk-python/commit/df26e89ee8e5be7d82d6b944ba8b9fedb4def15d))
+
 ## [1.56.0](https://github.com/indykite/indykite-sdk-python/compare/v1.55.0...v1.56.0) (2025-04-03)
 
 
