@@ -859,7 +859,7 @@ def test_update_event_sink_config_node_wrong_id(client, right_now, capsys):
         data.get_event_sink_config(right_now)
     )
     captured = capsys.readouterr()
-    assert "invalid eTag value" in captured.err
+    assert "StatusCode.INVALID_ARGUMENT" in captured.err
 
 
 def test_validate_authorization_policy_status(client, capsys):

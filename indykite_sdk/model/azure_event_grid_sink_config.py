@@ -1,16 +1,12 @@
 from dataclasses import dataclass
-from typing import List, Optional
-
-from indykite_sdk.model.kafka_sink_config import KafkaSinkConfig
-from indykite_sdk.model.azure_event_grid_sink_config import AzureEventGridSinkConfig
-from indykite_sdk.model.azure_service_bus_sink_config import AzureServiceBusSinkConfig
+from typing import Optional
 
 
 @dataclass
-class EventSinkProvider:
-    kafka: KafkaSinkConfig
-    azure_event_grid: AzureEventGridSinkConfig
-    azure_service_bus: AzureServiceBusSinkConfig
+class AzureEventGridSinkConfig:
+    topic_endpoint: Optional[str] = None
+    access_key: Optional[str] = None
+
 
     @classmethod
     def deserialize(cls, message_config):
@@ -21,9 +17,8 @@ class EventSinkProvider:
 
         # Define processors for all fields
         all_fields = {
-            'kafka': KafkaSinkConfig,
-            'azure_event_grid': AzureEventGridSinkConfig,
-            'azure_service_bus': AzureServiceBusSinkConfig,
+            'topic_endpoint': str,
+            'access_key': str
         }
 
         # Process optional fields
@@ -36,5 +31,3 @@ class EventSinkProvider:
                     raise ValueError(f"Error processing field '{field_name}': {e}")
 
         return cls(**kwargs)
-
-
