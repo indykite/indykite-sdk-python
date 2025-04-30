@@ -5,7 +5,7 @@ The Python SDK enables you to easily integrate the IndyKite platform gRPC APIs i
 
 ## Requirements
 
-* Python >=3.11
+* Python >=3.13
 * Organization (customer)created in the hub (see [README](https://github.com/indykite/indykite-sdk-python/blob/master/README.md))
 * Service account credentials created in the hub (see [README](https://github.com/indykite/indykite-sdk-python/blob/master/README.md))
 * INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE or INDYKITE_SERVICE_ACCOUNT_CREDENTIALS as env variable (see [README](https://github.com/indykite/indykite-sdk-python/blob/master/README.md))

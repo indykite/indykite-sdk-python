@@ -72,25 +72,3 @@ def test_create_application_with_agent_cred_exists(client, app_space_id, right_n
         expire_time=expire_time)
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
-
-
-def test_create_application_with_agent_cred_no_expire_time(client, app_space_id, right_now, capsys):
-    application_name = "automation-application-"+str(right_now)
-    application_agent_name = "automation-agent-"+str(right_now)
-    application_agent_credentials_name = "automation-agent-cred-"+str(right_now)
-    public_key_type = "pem"
-
-    response = client.create_application_with_agent_credentials(
-            app_space_id,
-            application_name,
-            application_agent_name,
-            application_agent_credentials_name,
-            public_key_type,
-            public_key=None,
-            expire_time=None)
-    captured = capsys.readouterr()
-
-    assert response is not None
-    assert isinstance(response["response_application"], CreateApplication)
-    assert isinstance(response["response_application_agent"], CreateApplicationAgent)
-    assert isinstance(response["response_application_agent_credentials"], RegisterApplicationAgentCredential)

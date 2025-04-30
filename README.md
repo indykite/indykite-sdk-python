@@ -9,12 +9,12 @@ https://www.indykite.com/
 
 ## Requirements
 
-* Python >=3.11
+* Python >=3.13
 
 ## Installation
 
     add to pipfile [packages]:
-    indykite-sdk-python = {ref = "v1.49.0", git = "https://github.com/indykite/indykite-sdk-python"}
+    indykite-sdk-python = {ref = "v1.57.0", git = "https://github.com/indykite/indykite-sdk-python"}
 
 
 ## Used terminology
@@ -138,20 +138,6 @@ You can get it from the IndyKite hub (https://console2.indykite.id/) or using th
     },
     "privateKeyPKCS8Base64": "",
     "privateKeyPKCS8": ""
-}
-```
-A token lifetime is 1h by default. You can change this time (from 2 minutes to 24h) by adding a tokenLifetime parameter.
-
-It will have to be human-readable and Golang-like see -> https://pkg.go.dev/time#ParseDuration
-
-Examples: 30m, 1.5h, 2h45m
-
-Example at the end of the json file:
-```
-{
-  ...
-  "privateKeyPKCS8": "-----BEGIN PRIVATE KEY-----\nM\n-----END PRIVATE KEY-----",
-  "tokenLifetime": "30m"
 }
 ```
 
