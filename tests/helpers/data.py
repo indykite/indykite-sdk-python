@@ -8,6 +8,7 @@ import time
 
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 
 INDYKITE_SDK_URL = os.getenv('INDYKITE_SDK_URL')
@@ -340,7 +341,8 @@ def get_event_sink_config(right_now):
             brokers=["kafka-01:9092", "kafka-02:9092"],
             topic="events",
             username="my-username",
-            password="some-super-secret-password"
+            password="some-super-secret-password",
+            display_name=wrappers.StringValue(value="display_name1")
         )
     )
     provider2 = model_pb2.EventSinkConfig.Provider(
@@ -348,19 +350,22 @@ def get_event_sink_config(right_now):
             brokers=["kafka-01:9092", "kafka-02:9092"],
             topic="events",
             username="my-username",
-            password="some-super-secret-password"
+            password="some-super-secret-password",
+            display_name=wrappers.StringValue(value="display_name2")
         )
     )
     provider3 = model_pb2.EventSinkConfig.Provider(
         azure_event_grid=model_pb2.AzureEventGridSinkConfig(
             topic_endpoint="https://ik-test.eventgrid.azure.net/api/events",
-            access_key="secret-access-key"
+            access_key="secret-access-key",
+            display_name=wrappers.StringValue(value="display_name3")
         )
     )
     provider4 = model_pb2.EventSinkConfig.Provider(
         azure_service_bus=model_pb2.AzureServiceBusSinkConfig(
             connection_string="personal-connection-info",
-            queue_or_topic_name="your-queue"
+            queue_or_topic_name="your-queue",
+            display_name=wrappers.StringValue(value="display_name4")
         )
     )
     providers = {"kafka-01": provider1, "kafka-02": provider2, "azure-grid": provider3, "azure-bus": provider4}
@@ -368,15 +373,20 @@ def get_event_sink_config(right_now):
         model_pb2.EventSinkConfig.Route(
             provider_id="kafka-provider-01",
             stop_processing=False,
-            event_type="create"
+            event_type="create",
+            display_name=wrappers.StringValue(value="kafka-provider-01"),
+            id=wrappers.StringValue(value="gid:kafka-provider-01")
         ),
         model_pb2.EventSinkConfig.Route(
             provider_id="kafka-provider-02",
             stop_processing=False,
             context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
                 key="relationship",
-                value="access-granted"
-            )
+                value="access-granted",
+                event_type="access"
+            ),
+            display_name=wrappers.StringValue(value="kafka-provider-02"),
+            id=wrappers.StringValue(value="gid:kafka-provider-02")
         ),
         model_pb2.EventSinkConfig.Route(
             provider_id="azure-grid",
@@ -388,7 +398,8 @@ def get_event_sink_config(right_now):
             stop_processing=False,
             context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
                 key="relationship",
-                value="access-granted"
+                value="access-granted",
+                event_type="access"
             )
         )
     ]

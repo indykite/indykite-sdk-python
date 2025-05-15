@@ -73,7 +73,7 @@ def test_get_node_by_id_empty(client):
 
 
 def test_get_identity_by_identifier_success(client):
-    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Individual")
+    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Person")
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
     assert response[0].type == "Person" or "Whatever"
 
@@ -112,7 +112,7 @@ def test_get_node_by_identifier_empty(client):
 
 def test_list_nodes_by_property_success(client):
     response = client.list_nodes_by_property({"colour": "blue"})
-    assert response[0].external_id == os.getenv('ASSET_EXTERNAL_ID')
+    assert response[0].external_id == "sXNBVfuDBlCufim"
     assert response[0].type == "Car"
 
 
@@ -134,9 +134,9 @@ def test_list_nodes_by_property_exception(client, capsys):
 
 
 def test_list_identities_by_property_success(client):
-    response = client.list_identities_by_property({"firstname": "glen"})
+    response = client.list_identities_by_property({"first_name": "ettore"})
     assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
-    assert response[0].type == "Individual"
+    assert response[0].type == "Person"
 
 
 def test_list_identities_by_property_empty(client):

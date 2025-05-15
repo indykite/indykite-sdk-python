@@ -6,6 +6,7 @@ from typing import Optional
 class AzureServiceBusSinkConfig:
     connection_string: Optional[str] = None
     queue_or_topic_name: Optional[str] = None
+    display_name: Optional[str] = None
 
 
     @classmethod
@@ -18,7 +19,8 @@ class AzureServiceBusSinkConfig:
         # Define processors for all fields
         all_fields = {
             'connection_string': str,
-            'queue_or_topic_name': str
+            'queue_or_topic_name': str,
+            'display_name': str
         }
 
         # Process optional fields

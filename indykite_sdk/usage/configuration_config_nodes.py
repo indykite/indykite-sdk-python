@@ -248,7 +248,7 @@ def main():
         policy_config = client_config.authorization_policy_config(
             policy=str(policy_dict),
             status="STATUS_ACTIVE",
-            tags=["TagOne"]
+            tags=[]
         )
 
         update_authorization_policy_config_node_response = client_config.update_authorization_policy_config_node(
@@ -283,9 +283,9 @@ def main():
             data_points=["{\"query\": \"-[:OWNS]->(car:Car)\", "
                          "\"returns\": [{\"variable\": \"car\", \"properties\": [\"vin\"]}]}"],
             application_id=application_id,
-            validity_period=86400,
+            validity_period=60000000,
             revoke_after_use=False,
-            token_status=3
+            token_status=2
         )
         create_consent_config_node_response = client_config.create_consent_config_node(
             location,
@@ -313,9 +313,9 @@ def main():
         consent_config = ConfigClient().consent_config(
             purpose="Taking control",
             data_points=["{ \"query\": \"-[:OWNS]-(car:Car)\", \"returns\": [ { \"variable\": \"car\"," +
-                         "\"properties\": [\"plateNumber\"] } ] }"],
+                         "\"properties\": [\"vin\"] } ] }"],
             application_id=application_id,
-            validity_period=86400,
+            validity_period=60000000,
             revoke_after_use=False,
             token_status=2
         )
@@ -663,10 +663,13 @@ def main():
         name = args.name
         display_name = args.display_name
         description = args.description
+        query = "{\"nodes\": [\"resource.property.value\"], \"filter\": {\"attribute\" : \"resource.property.value\",\"operator\": \"=\",\"value\": \"$resourceValue\"}}"
         knowledge_query_config = ConfigClient().knowledge_query_config(
-            query="{\"something\": [\"like\", \"json\", \"query\"]}",
+            query=query,
             status=1,
-            policy_id="gid:AAAAFtCidRDrdkaVpLS4RhquHrU"
+            policy_id="gid:AAAAFs0JFtAB80iIvjKp6H1ugEo"
+
+
         )
         create_knowledge_query_config_node_response = client_config.create_knowledge_query_config_node(
             location,

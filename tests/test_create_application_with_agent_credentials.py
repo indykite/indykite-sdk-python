@@ -75,9 +75,9 @@ def test_create_application_with_agent_cred_exists(client, app_space_id, right_n
 
 
 def test_create_application_with_agent_cred_no_expire_time(client, app_space_id, right_now, capsys):
-    application_name = "automation-application-"+str(right_now)
-    application_agent_name = "automation-agent-"+str(right_now)
-    application_agent_credentials_name = "automation-agent-cred-"+str(right_now)
+    application_name = "automation-application-b-"+str(right_now)
+    application_agent_name = "automation-agent-b-"+str(right_now)
+    application_agent_credentials_name = "automation-agent-cred-b-"+str(right_now)
     public_key_type = "pem"
 
     response = client.create_application_with_agent_credentials(

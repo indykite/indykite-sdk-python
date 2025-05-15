@@ -6,6 +6,7 @@ from typing import Optional
 class AzureEventGridSinkConfig:
     topic_endpoint: Optional[str] = None
     access_key: Optional[str] = None
+    display_name: Optional[str] = None
 
 
     @classmethod
@@ -18,7 +19,8 @@ class AzureEventGridSinkConfig:
         # Define processors for all fields
         all_fields = {
             'topic_endpoint': str,
-            'access_key': str
+            'access_key': str,
+            'display_name': str
         }
 
         # Process optional fields

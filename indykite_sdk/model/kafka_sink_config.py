@@ -10,6 +10,7 @@ class KafkaSinkConfig:
     tls_skip_verify: Optional[bool] = None
     username: Optional[str] = None
     password: Optional[str] = None
+    display_name: Optional[str] = None
 
 
     @classmethod
@@ -26,7 +27,8 @@ class KafkaSinkConfig:
             'disable_tls': bool,
             'tls_skip_verify': bool,
             'username': str,
-            'password': str
+            'password': str,
+            'display_name': str
         }
 
         # Process optional fields
