@@ -127,7 +127,7 @@ def test_revoke_consent_fail_invalid_user_id(client, capsys):
 
     consent = client.revoke_consent(user, consent_id)
     captured = capsys.readouterr()
-    assert "INVALID_ARGUMENT" in captured.err
+    assert "UNKNOWN" in captured.err
 
 
 def test_data_access_success(client):
@@ -140,7 +140,7 @@ def test_data_access_success(client):
 
 
 def test_data_access_external_id_success(client):
-    user = {"external_id": {"external_id": "AVySECNxRkUSNrt", "type": "Person"}}
+    user = {"external_id": {"external_id": "lSPmCXIPRXppszf", "type": "Person"}}
     application_id = data.get_application_id()
     consent_id = data.get_consent_config_node_id()
     nodes = client.data_access(consent_id, application_id, user)

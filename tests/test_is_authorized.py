@@ -87,10 +87,10 @@ def test_is_authorized_identity_node_wrong_identity_node(client, capsys):
 def test_is_authorized_identity_node_success(client):
     assert client is not None
     identity_node_id = data.get_identity_node()
-    actions = ["ACTION1", "ACTION2"]
-    resources = [IsAuthorizedResource("resourceID", "TypeName", actions), IsAuthorizedResource("resource2ID", "TypeName", actions)]
-    input_params = {"age": "21"}
-    policy_tags = ["Car", "Rental", "Sharing"]
+    actions = ["SUBSCRIBES_TO"]
+    resources = [IsAuthorizedResource("HQKzkgPnGJDiaGo", "TypeName", actions), IsAuthorizedResource("pFlpMtkWqCPXVue", "TypeName", actions)]
+    input_params = {}
+    policy_tags = []
     response = client.is_authorized_digital_twin(identity_node_id, resources, input_params, policy_tags)
     assert response is not None
     assert isinstance(response, IsAuthorizedResponse)

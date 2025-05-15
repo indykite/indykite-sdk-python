@@ -20,6 +20,8 @@ class EventSinkRoute:
     provider_id: Optional[str] = None
     stop_processing: Optional[bool] = None
     filter: Optional[Filter] = None
+    display_name: Optional[str] = None
+    id: Optional[str] = None
 
     @classmethod
     def deserialize(cls, message_config):
@@ -33,6 +35,8 @@ class EventSinkRoute:
             'provider_id': str,
             'stop_processing': bool,
             'filter': Filter,
+            'display_name': str,
+            'id': str
         }
 
         # Process optional fields
