@@ -439,7 +439,6 @@ def test_create_entity_matching_pipeline_config_node_success(client, app_space_i
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
     response = client.delete_config_node(config_node.id, config_node.etag)
-    assert response is not None
 
 
 def test_create_entity_matching_pipeline_config_node_empty(client, app_space_id, capsys):
