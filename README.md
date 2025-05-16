@@ -14,7 +14,7 @@ https://www.indykite.com/
 ## Installation
 
     add to pipfile [packages]:
-    indykite-sdk-python = {ref = "v1.49.0", git = "https://github.com/indykite/indykite-sdk-python"}
+    indykite-sdk-python = {ref = "v1.57.0", git = "https://github.com/indykite/indykite-sdk-python"}
 
 
 ## Used terminology
