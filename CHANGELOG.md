@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.58.0](https://github.com/indykite/indykite-sdk-python/compare/v1.57.0...v1.58.0) (2025-05-16)
+
+
+### Features
+
+* update eventsink config node ([72bc8cf](https://github.com/indykite/indykite-sdk-python/commit/72bc8cfec37973d2d27567af79c646b66a1173dd))
+
 ## [1.57.0](https://github.com/indykite/indykite-sdk-python/compare/v1.56.0...v1.57.0) (2025-04-16)
 
 
