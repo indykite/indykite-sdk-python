@@ -7,7 +7,7 @@ on:
             - published
 
 env:
-    BIGQUERY_TABLE: jarvis-dev-268314.deployment_analytics.deployment_events
+    BIGQUERY_TABLE: ${{ secrets.GCP_PROJECT_ID_MGMT }}.deployment_analytics.deployment_events
 
 permissions:
     contents: "read"
@@ -54,5 +54,5 @@ jobs:
         uses: google-github-actions/auth@v2
         if: ${{ always() }}
         with:
-          workload_identity_provider: "projects/699926043561/locations/global/workloadIdentityPools/github-dev/providers/github-dev-provider"
-          service_account: "jarvis-sdk-python@jarvis-dev-268314.iam.gserviceaccount.com"
+          workload_identity_provider: projects/581343830490/locations/global/workloadIdentityPools/github-mgmt/providers/github-mgmt-provider
+          service_account: github@${{ secrets.GCP_PROJECT_ID_MGMT }}.iam.gserviceaccount.com
