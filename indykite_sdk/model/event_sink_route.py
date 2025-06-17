@@ -1,18 +1,23 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+
 @dataclass
-class ContextKeyValue:
+class KeyValuePair:
     key: str
     value: str
 
 @dataclass
+class KeysValues:
+    key_value_pairs: Optional[KeyValuePair]
+    event_type: str
+
+@dataclass
 class Filter:
-    event_type: Optional[str] = None
-    context_key_value: Optional[ContextKeyValue] = None
+    keys_values: Optional[KeysValues] = None
 
     def __post_init__(self):
-        if (self.event_type is None) == (self.context_key_value is None):
+        if self.keys_values is None:
             raise ValueError("Exactly one of 'event_type' or 'context_key_value' must be provided.")
 
 @dataclass

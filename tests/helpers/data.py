@@ -369,38 +369,33 @@ def get_event_sink_config(right_now):
         )
     )
     providers = {"kafka-01": provider1, "kafka-02": provider2, "azure-grid": provider3, "azure-bus": provider4}
+    keys_values_filter = {"event_type": "indykite.audit.config.create"}
+    pairs = model_pb2.EventSinkConfig.Route.KeyValuePair(key="relationshipcreated", value="access-granted")
+    keys_values_filter2 = {"key_value_pairs": [pairs], "event_type": "indykite.audit.capture.*"}
     routes = [
         model_pb2.EventSinkConfig.Route(
             provider_id="kafka-provider-01",
             stop_processing=False,
-            event_type="create",
+            keys_values=model_pb2.EventSinkConfig.Route.EventTypeKeysValues(**keys_values_filter),
             display_name=wrappers.StringValue(value="kafka-provider-01"),
             id=wrappers.StringValue(value="gid:kafka-provider-01")
         ),
         model_pb2.EventSinkConfig.Route(
             provider_id="kafka-provider-02",
             stop_processing=False,
-            context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
-                key="relationship",
-                value="access-granted",
-                event_type="access"
-            ),
+            keys_values=model_pb2.EventSinkConfig.Route.EventTypeKeysValues(**keys_values_filter2),
             display_name=wrappers.StringValue(value="kafka-provider-02"),
             id=wrappers.StringValue(value="gid:kafka-provider-02")
         ),
         model_pb2.EventSinkConfig.Route(
             provider_id="azure-grid",
             stop_processing=False,
-            event_type="create"
+            keys_values=model_pb2.EventSinkConfig.Route.EventTypeKeysValues(**keys_values_filter)
         ),
         model_pb2.EventSinkConfig.Route(
             provider_id="azure-bus",
             stop_processing=False,
-            context_key_value=model_pb2.EventSinkConfig.Route.KeyValue(
-                key="relationship",
-                value="access-granted",
-                event_type="access"
-            )
+            keys_values=model_pb2.EventSinkConfig.Route.EventTypeKeysValues(**keys_values_filter2)
         )
     ]
     event_sink_config = ConfigClient().event_sink_config(
