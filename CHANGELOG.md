@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.59.0](https://github.com/indykite/indykite-sdk-python/compare/v1.58.0...v1.59.0) (2025-06-18)
+
+
+### Features
+
+* update filte in events ([07bc0ce](https://github.com/indykite/indykite-sdk-python/commit/07bc0cee9ec4b9569d75cdd3131cf11c953dce4c))
+
 ## [1.58.0](https://github.com/indykite/indykite-sdk-python/compare/v1.57.0...v1.58.0) (2025-05-19)
 
 
