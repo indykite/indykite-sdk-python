@@ -40,7 +40,8 @@ def create_application_with_agent_credentials(self,
             response_application_agent = self.create_application_agent(response_application.id,
                                                                        application_agent_name_id,
                                                                        str(application_agent_name),
-                                                                       str(application_agent_name))
+                                                                       str(application_agent_name),
+                                                                       ["Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "TrustedDataAccess"])
             if isinstance(response_application_agent, CreateApplicationAgent):
                 key_types = [k.value for k in KeyType]
                 if public_key_type not in key_types:

@@ -24,7 +24,7 @@ class ConfigClient(object):
     from .application import read_application_by_id, read_application_by_name, create_application, update_application, \
         list_applications, delete_application
     from .application_agent import read_application_agent_by_id, read_application_agent_by_name, \
-        create_application_agent, update_application_agent, \
+        create_application_agent, update_application_agent, validate_permissions, \
         list_application_agents, delete_application_agent
     from .application_agent_credential import read_application_agent_credential, \
         register_application_agent_credential_jwk, register_application_agent_credential_pem, \

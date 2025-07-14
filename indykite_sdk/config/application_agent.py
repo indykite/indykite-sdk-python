@@ -70,29 +70,29 @@ def create_application_agent(self,
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
     :param display_name: string
     :param description: string
-    :param api_permissions: list of strings 1 - 64
+    :param api_permissions: list with values "Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "TrustedDataAccess"
     :return: deserialized CreateApplicationAgentResponse
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        response = self.stub.CreateApplicationAgent(
-            pb2.CreateApplicationAgentRequest(
-                application_id=application_id,
-                name=name,
-                display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description),
-                api_permissions=api_permissions
+        if self.validate_permissions(api_permissions):
+            response = self.stub.CreateApplicationAgent(
+                pb2.CreateApplicationAgentRequest(
+                    application_id=application_id,
+                    name=name,
+                    display_name=wrappers.StringValue(value=display_name),
+                    description=wrappers.StringValue(value=description),
+                    api_permissions=api_permissions
+                )
             )
-        )
+            return CreateApplicationAgent.deserialize(response, application_id, name)
+        return None
     except Exception as exception:
         return logger.logger_error(exception)
 
-    if not response:
-        return None
-    return CreateApplicationAgent.deserialize(response, application_id, name)
 
 
-def update_application_agent(self, application_agent_id, etag, display_name, description=""):
+def update_application_agent(self, application_agent_id, etag, display_name, description="", api_permissions=[]):
     """
     update existing AppAgent
     :param self:
@@ -100,24 +100,26 @@ def update_application_agent(self, application_agent_id, etag, display_name, des
     :param etag: string
     :param display_name: string
     :param description: string
+    :param api_permissions: list with values "Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "TrustedDataAccess"
     :return: deserialized UpdateApplicationAgentResponse
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        response = self.stub.UpdateApplicationAgent(
+        if self.validate_permissions(api_permissions):
+            response = self.stub.UpdateApplicationAgent(
             pb2.UpdateApplicationAgentRequest(
                 id=application_agent_id,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description)
+                description=wrappers.StringValue(value=description),
+                api_permissions=api_permissions
+
+                )
             )
-        )
+            return UpdateApplicationAgent.deserialize(response)
+        return None
     except Exception as exception:
         return logger.logger_error(exception)
-
-    if not response:
-        return None
-    return UpdateApplicationAgent.deserialize(response)
 
 
 def list_application_agents(self, app_space_id, match=[]):
@@ -172,3 +174,19 @@ def delete_application_agent(self, application_agent_id, etag):
     if not response:
         return None
     return response
+
+
+def validate_permissions(self, api_permissions):
+    """
+    validate api_permissions
+    :param self:
+    :param api_permissions: list of string
+    :return: True if valid or raises error
+    """
+    try:
+        if not api_permissions:
+            return False
+        permissions = "Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "TrustedDataAccess"
+        return all(perm in permissions for perm in api_permissions)
+    except Exception as exception:
+        return logger.logger_error(exception)

@@ -100,7 +100,7 @@ def test_read_application_agent_by_name_empty(client, app_space_id):
 def test_create_application_agent_success(client, application_id, capsys):
     right_now = str(int(time.time()))
     application_agent = client.create_application_agent(application_id, "automation-"+right_now,
-                                         "Automation "+right_now, "description", [])
+                                         "Automation "+right_now, "description", ["Authorization", "Capture"])
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert application_agent is not None
@@ -115,34 +115,40 @@ def test_create_application_agent_empty(client, application_id):
         return None
 
     client.stub.CreateApplicationAgent = mocked_create_application_agent
-    application_agent = client.create_application_agent(application_id, "automation-"+right_now, "Automation "+right_now, "description")
+    application_agent = client.create_application_agent(application_id, "automation-"+right_now, "Automation "+right_now, "description", ["Authorization", "Capture"])
     assert application_agent is None
 
 
 def test_create_application_agent_already_exists(client, application_id, capsys):
-    application_agent = client.create_application_agent(application_id, "appagentpython", "ApplicationAgent test sdk", "description")
+    application_agent = client.create_application_agent(application_id, "appagentpython", "ApplicationAgent test sdk", "description", ["Authorization", "Capture"])
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
 
 
 def test_create_application_agent_fail_invalid_application_id(client, capsys):
     application_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
-    application_agent = client.create_application_agent(application_id, "agent-sdk", "ApplicationAgent test", "description")
+    application_agent = client.create_application_agent(application_id, "agent-sdk", "ApplicationAgent test", "description", ["Authorization", "Capture"])
     captured = capsys.readouterr()
     assert "invalid id value was provided for application_id" in captured.err
 
 
 def test_create_application_agent_name_fail_type_parameter(client, application_id, capsys):
-    application_agent = client.create_application_agent(application_id, ["test"], "test create", "description")
+    application_agent = client.create_application_agent(application_id, ["test"], "test create", "description", ["Authorization", "Capture"])
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
+
+
+def test_create_application_agent_no_permissions(client, application_id):
+    right_now = str(int(time.time()))
+    application_agent = client.create_application_agent(application_id, "automation-"+right_now, "Automation "+right_now, "description", [])
+    assert application_agent is None
 
 
 def test_update_application_agent_success(client, app_space_id, capsys):
     application_agent_name = data.get_application_agent_name()
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
-    application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description")
+    application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description", ["Authorization", "Capture"])
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert application_agent is not None
@@ -158,7 +164,7 @@ def test_update_application_agent_empty(client, app_space_id):
         return None
 
     client.stub.UpdateApplicationAgent = mocked_update_application_agent
-    application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description")
+    application_agent = client.update_application_agent(response.id, response.etag, response.display_name, "description", ["Authorization", "Capture"])
     assert application_agent is None
 
 
@@ -167,7 +173,7 @@ def test_update_application_agent_fail_invalid_application_agent(client, app_spa
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
     application_agent_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
-    application_agent = client.update_application_agent(application_agent_id, response.etag, response.display_name,"description update")
+    application_agent = client.update_application_agent(application_agent_id, response.etag, response.display_name,"description update", ["Authorization", "Capture"])
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -176,9 +182,17 @@ def test_update_application_agent_name_fail_type_parameter(client, application_a
     application_agent_name = data.get_application_agent_name()
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
-    application_agent = client.update_application_agent(application_agent_id, [response.etag], response.display_name, "description")
+    application_agent = client.update_application_agent(application_agent_id, [response.etag], response.display_name, "description", ["Authorization", "Capture"])
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
+
+
+def test_update_application_agent_no_permissions(client, app_space_id):
+    application_agent_name = data.get_application_agent_name()
+    response = client.read_application_agent_by_name(app_space_id, application_agent_name)
+    assert response is not None
+    application_agent = client.update_application_agent(response.id, response.etag, response.display_name,  "description", [])
+    assert application_agent is None
 
 
 def test_get_application_agent_list_success(client, app_space_id, capsys):
@@ -248,7 +262,7 @@ def test_get_application_agent_list_empty(client, app_space_id):
 def test_del_application_agent_success(client, application_id):
     right_now = str(int(time.time()))
     application_agent = client.create_application_agent(application_id, "automation-" + right_now,
-                                  "Automation " + right_now, "description")
+                                  "Automation " + right_now, "description", ["Authorization", "Capture"])
     assert application_agent is not None
 
     def mocked_delete_application_agent(request: pb2.DeleteApplicationAgentRequest):
