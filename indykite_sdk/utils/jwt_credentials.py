@@ -4,7 +4,6 @@ import re
 import grpc
 import certifi
 import sys
-import os
 from authlib.jose import JsonWebKey, jwt
 from datetime import datetime, timedelta
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2_grpc as config_pb2_grpc
@@ -12,7 +11,6 @@ from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2_grpc as ingest_p
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2_grpc as authz_pb2
 from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2_grpc as knowledge_pb2_grpc
 from indykite_sdk.indykite.tda.v1beta1 import trusted_data_access_api_pb2_grpc as tda_pb2_grpc
-from indykite_sdk.indykite.entitymatching.v1beta1 import entity_matching_api_pb2_grpc as entitymatching_pb2_grpc
 from indykite_sdk.utils import credentials_config
 from indykite_sdk.model.token import TokenSource, Token
 
@@ -115,8 +113,6 @@ def get_credentials(client="identity", token_source=None):
             stub = knowledge_pb2_grpc.IdentityKnowledgeAPIStub(channel=channel)
         elif client == "tda":
             stub = tda_pb2_grpc.TrustedDataAccessAPIStub(channel=channel)
-        elif client == "entitymatching":
-            stub = entitymatching_pb2_grpc.EntityMatchingAPIStub(channel=channel)
         else:
             stub = ingest_pb2_grpc.IngestAPIStub(channel=channel)
         return channel, stub, credentials, token_source
