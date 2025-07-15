@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.60.0](https://github.com/indykite/indykite-sdk-python/compare/v1.59.0...v1.60.0) (2025-07-15)
+
+
+### Features
+
+* make api_permissions mandatory ([17de728](https://github.com/indykite/indykite-sdk-python/commit/17de72867c90687ee0289736ed699235e05c8810))
+* remove entity matching api ([c3e606e](https://github.com/indykite/indykite-sdk-python/commit/c3e606e068d6264a910146373cbf5ddf75a977c2))
+* remove entity matching api ([9a674f5](https://github.com/indykite/indykite-sdk-python/commit/9a674f5163b6017eadd2bebcb02db670798878ab))
+
 ## [1.59.0](https://github.com/indykite/indykite-sdk-python/compare/v1.58.0...v1.59.0) (2025-06-18)
 
 
