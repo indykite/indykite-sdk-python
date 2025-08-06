@@ -28,6 +28,9 @@ class ServiceAccountCredential:
         if "created_by" in fields:
             service_account_credential.created_by = str(message.created_by)
 
+        if "expire_time" in fields:
+            service_account_credential.expire_time = timestamp_to_date(message.expire_time)
+
         return service_account_credential
 
     def __init__(self, id, kid, display_name, customer_id, service_account_id, app_space_id=None):
@@ -41,3 +44,4 @@ class ServiceAccountCredential:
         self.destroy_time = None
         self.delete_time = None
         self.created_by = None
+        self.expire_time = None

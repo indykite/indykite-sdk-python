@@ -30,6 +30,9 @@ class ApplicationAgentCredential:
         if "created_by" in fields:
             application_agent_credential.created_by = str(message.created_by)
 
+        if "expire_time" in fields:
+            application_agent_credential.expire_time = timestamp_to_date(message.expire_time)
+
         return application_agent_credential
 
     def __init__(self, id, kid, display_name, customer_id, app_space_id, application_id, application_agent_id):
@@ -44,5 +47,6 @@ class ApplicationAgentCredential:
         self.destroy_time = None
         self.delete_time = None
         self.created_by = None
+        self.expire_time = None
 
 

@@ -1,10 +1,15 @@
 import json
 import os
+from pathlib import Path
 import sys
 
 
 def load_credentials(path):
-    with open(path, 'r') as file:
+    path = Path(path).resolve(strict=True)  # ensures the path exists and resolves symlinks
+    if not path.is_file():
+        raise FileNotFoundError(f"{path} is not a valid file.")
+
+    with path.open('r', encoding='utf-8') as file:
         raw_content = file.read()
     return json.loads(raw_content)
 

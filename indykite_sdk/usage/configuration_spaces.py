@@ -340,9 +340,11 @@ def main():
         app_space_name = args.app_space_name
         customer_id = args.customer_id
         display_name = args.display_name
-        region= "europe-west1"
+        region= "us-east1"
+        ikg_size = "2GB"
+        replica_region = "us-west1"
         app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name, "description",
-                                                            region)
+                                                            region, ikg_size, replica_region)
         if app_space_response:
             api_helper.print_response(app_space_response)
         else:
