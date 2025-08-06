@@ -103,7 +103,6 @@ def test_create_app_space_success(client, customer_id, capsys):
 
     app_space = client.create_app_space(customer_id, "automation-"+right_now,"Automation "+right_now, "description")
     captured = capsys.readouterr()
-
     assert "invalid or expired access_token" not in captured.out
     assert app_space is not None
     assert isinstance(app_space, CreateApplicationSpace)

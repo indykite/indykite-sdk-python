@@ -1,6 +1,17 @@
 import setuptools
-with open("version.py", encoding="utf8") as fp:
-    exec(fp.read())
+import ast
+
+def get_version(file_path):
+    with open(file_path, encoding="utf8") as fp:
+        tree = ast.parse(fp.read(), filename=file_path)
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, ast.Name) and target.id == "__version__":
+                        return ast.literal_eval(node.value)
+    raise ValueError("No __version__ found in version.py")
+
+__version__ = get_version("version.py")
 
 long_description = (
     open('README.md', encoding="utf8").read()

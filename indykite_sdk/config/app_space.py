@@ -58,7 +58,14 @@ def read_app_space_by_name(self, customer_id, app_space_name):
     return ApplicationSpace.deserialize(response.app_space)
 
 
-def create_app_space(self, customer_id, name, display_name, description="", region="europe-west1"):
+def create_app_space(self,
+                     customer_id,
+                     name,
+                     display_name,
+                     description="",
+                     region="europe-west1",
+                     ikg_size="2GB",
+                     replica_region=""):
     """
     create new AppSpace
     :param self:
@@ -67,6 +74,8 @@ def create_app_space(self, customer_id, name, display_name, description="", regi
     :param display_name: string
     :param description: string
     :param region: in [europe-west1, us-east1]
+    :param ikg_size: in ["2GB", "4GB", "8GB", "16GB", "32GB", "64GB", "128GB", "192GB", "256GB", "384GB", "512GB"]
+    :param replica_region: in ["europe-west1", "us-east1", "us-west1"]
     :return: deserialized CreateApplicationSpaceResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -77,7 +86,9 @@ def create_app_space(self, customer_id, name, display_name, description="", regi
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                region=region
+                region=region,
+                ikg_size=ikg_size,
+                replica_region=replica_region
             )
         )
     except Exception as exception:

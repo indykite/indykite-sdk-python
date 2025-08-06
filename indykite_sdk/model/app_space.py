@@ -49,6 +49,18 @@ class ApplicationSpace:
                 raise TypeError("region must be europe-west1 or us-east1")
             application_space.region = message.region
 
+        if "ikg_size" in fields:
+            values = ["2GB", "4GB", "8GB", "16GB", "32GB", "64GB", "128GB", "192GB", "256GB", "384GB", "512GB"]
+            if message.ikg_size and message.ikg_size not in values:
+                raise TypeError("ikg_size must be in the list")
+            application_space.ikg_size = message.ikg_size
+
+        if "replica_region" in fields:
+            values = ["europe-west1", "us-east1", "us-west1"]
+            if message.replica_region and message.replica_region not in values:
+                raise TypeError("replica_region must be europe-west1, us-west1 or us-east1")
+            application_space.replica_region = message.replica_region
+
         return application_space
 
     def __init__(self, id, name, display_name, etag, customer_id):
@@ -66,3 +78,5 @@ class ApplicationSpace:
         self.updated_by = None
         self.ikg_status = None
         self.region = None
+        self.replica_region = None
+        self.ikg_size = None
