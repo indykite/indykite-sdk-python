@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.61.0](https://github.com/indykite/indykite-sdk-python/compare/v1.60.0...v1.61.0) (2025-08-11)
+
+
+### Features
+
+* add ikg size and replica to app_space ([c6432a2](https://github.com/indykite/indykite-sdk-python/commit/c6432a2de366d341447d3f09870a56f3b515e948))
+
 ## [1.60.0](https://github.com/indykite/indykite-sdk-python/compare/v1.59.0...v1.60.0) (2025-07-15)
 
 
