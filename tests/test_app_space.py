@@ -1,12 +1,14 @@
-import pytest
 import time
 
+import pytest
+from helpers import data
+
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.indykite.config.v1beta1 import \
+    config_management_api_pb2 as pb2
 from indykite_sdk.model.app_space import ApplicationSpace
 from indykite_sdk.model.create_app_space import CreateApplicationSpace
 from indykite_sdk.model.update_app_space import UpdateApplicationSpace
-from helpers import data
 
 
 @pytest.fixture
@@ -29,7 +31,10 @@ def test_read_app_space_by_id_wrong_id(client, capsys):
 
     response = client.read_app_space_by_id(app_space_id)
     captured = capsys.readouterr()
-    assert("invalid ReadApplicationSpaceRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
+    assert (
+        "invalid ReadApplicationSpaceRequest.Id: value length must be between 22 and 254 runes, inclusive"
+        in captured.err
+    )
 
 
 def test_read_app_space_id_success(client, app_space_id, capsys):
@@ -41,7 +46,6 @@ def test_read_app_space_id_success(client, app_space_id, capsys):
 
 
 def test_read_app_space_by_id_empty(client, app_space_id):
-
     def mocked_read_app_space_by_id(request: pb2.ReadApplicationSpaceRequest):
         return None
 
@@ -56,7 +60,7 @@ def test_read_app_space_by_name_wrong_name(client, customer_id, capsys):
 
     response = client.read_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
-    assert ("NOT_FOUND" in captured.err)
+    assert "NOT_FOUND" in captured.err
 
 
 def test_read_app_space_by_name_wrong_customer_id(client, capsys):
@@ -65,7 +69,7 @@ def test_read_app_space_by_name_wrong_customer_id(client, capsys):
     customer_id = "gid:AAAAAmluZHlraURlgAABDwAAAAA"
     response = client.read_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
-    assert ("invalid id value was provided for name.location" in captured.err)
+    assert "invalid id value was provided for name.location" in captured.err
 
 
 def test_read_app_space_by_name_wrong_customer_size(client, capsys):
@@ -73,7 +77,7 @@ def test_read_app_space_by_name_wrong_customer_size(client, capsys):
     customer_id = "12546"
     response = client.read_app_space_by_name(customer_id, app_space_name)
     captured = capsys.readouterr()
-    assert ("invalid ReadApplicationSpaceRequest.Name" in captured.err)
+    assert "invalid ReadApplicationSpaceRequest.Name" in captured.err
 
 
 def test_read_app_space_name_success(client, customer_id, capsys):
@@ -101,7 +105,9 @@ def test_read_app_space_by_name_empty(client, customer_id):
 def test_create_app_space_success(client, customer_id, capsys):
     right_now = str(int(time.time()))
 
-    app_space = client.create_app_space(customer_id, "automation-"+right_now,"Automation "+right_now, "description")
+    app_space = client.create_app_space(
+        customer_id, "automation-" + right_now, "Automation " + right_now, "description",
+    )
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert app_space is not None
@@ -117,7 +123,9 @@ def test_create_app_space_empty(client, customer_id):
         return None
 
     client.stub.CreateApplicationSpace = mocked_create_app_space
-    app_space = client.create_app_space(customer_id, "automation-"+right_now, "Automation "+right_now, "description")
+    app_space = client.create_app_space(
+        customer_id, "automation-" + right_now, "Automation " + right_now, "description",
+    )
 
     assert app_space is None
 
@@ -150,11 +158,9 @@ def test_create_app_space_name_fail_type_parameter(client, customer_id, capsys):
 
 def test_create_app_space_wrong_region(client, customer_id, capsys):
     right_now = str(int(time.time()))
-    app_space = client.create_app_space(customer_id,
-                                        "automation-"+right_now,
-                                        "Automation "+right_now,
-                                        "description",
-                                        "wrong-region")
+    app_space = client.create_app_space(
+        customer_id, "automation-" + right_now, "Automation " + right_now, "description", "wrong-region",
+    )
     captured = capsys.readouterr()
     assert "value must be in list [europe-west1 us-east1]" in captured.err
 
@@ -164,7 +170,7 @@ def test_update_app_space_success(client, customer_id, capsys):
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
 
-    app_space = client.update_app_space(response.id, response.etag, response.display_name,"description")
+    app_space = client.update_app_space(response.id, response.etag, response.display_name, "description")
     captured = capsys.readouterr()
 
     assert "invalid or expired access_token" not in captured.out
@@ -192,7 +198,7 @@ def test_update_app_space_fail_invalid_app_space(client, customer_id, capsys):
     assert response is not None
     app_space_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
 
-    app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update")
+    app_space = client.update_app_space(app_space_id, response.etag, response.display_name, "description update")
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -203,7 +209,7 @@ def test_update_app_space_fail_not_allowed_app_space_id(client, customer_id, cap
     assert response is not None
     app_space_id = "gid:AAAAAlrNh6beFUSNk6tTtka8dwg"
 
-    app_space = client.update_app_space(app_space_id, response.etag, response.display_name,"description update")
+    app_space = client.update_app_space(app_space_id, response.etag, response.display_name, "description update")
     captured = capsys.readouterr()
     assert "NOT_FOUND" in captured.err
 
@@ -213,7 +219,7 @@ def test_update_app_space_name_fail_type_parameter(client, customer_id, capsys):
     response = client.read_app_space_by_name(customer_id, app_space_name)
     assert response is not None
 
-    app_space = client.update_app_space(response.id, [response.etag], response.display_name,"description update")
+    app_space = client.update_app_space(response.id, [response.etag], response.display_name, "description update")
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
 
@@ -277,8 +283,9 @@ def test_get_app_space_list_empty(client, customer_id):
 
 def test_del_app_space_success(client, customer_id, capsys):
     right_now = str(int(time.time()))
-    app_space = client.create_app_space(customer_id, "automation-"+right_now,
-                                         "Automation "+right_now, "description")
+    app_space = client.create_app_space(
+        customer_id, "automation-" + right_now, "Automation " + right_now, "description",
+    )
     assert app_space is not None
     response = client.delete_app_space(app_space.id, app_space.etag)
     captured = capsys.readouterr()

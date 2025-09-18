@@ -1,7 +1,8 @@
 import base64
-from datetime import datetime
 import json
+from datetime import datetime
 from uuid import UUID
+
 from google.protobuf.json_format import MessageToJson
 
 
@@ -10,9 +11,9 @@ def print_credential(credential):  # pragma: no cover
     print("==========")
     print("Credential id: " + str(credential.id))
     print("Kid: " + str(credential.kid))
-    if hasattr(credential, 'agent_config'):
+    if hasattr(credential, "agent_config"):
         print("Agent config: " + str(credential.agent_config))
-    elif hasattr(credential, 'service_account_config'):
+    elif hasattr(credential, "service_account_config"):
         print("Service account config: " + str(credential.service_account_config))
     print("Create time: " + str(credential.create_time))
     print("Expire time: " + str(credential.expire_time))
@@ -22,8 +23,7 @@ def print_response(resp):  # pragma: no cover
     def get_default(x):
         if type(x) is datetime:
             return str(x)
-        else:
-            return x.__dict__
+        return x.__dict__
 
     if hasattr(resp, "DESCRIPTOR"):
         js = MessageToJson(resp)
@@ -31,7 +31,7 @@ def print_response(resp):  # pragma: no cover
         prettify(js_dict)
     else:
         js_dict = resp
-    pretty_response = json.dumps(js_dict, indent=4, separators=(',', ': '), default=get_default)
+    pretty_response = json.dumps(js_dict, indent=4, separators=(",", ": "), default=get_default)
     print(pretty_response)
 
 
@@ -41,17 +41,14 @@ def prettify(js):  # pragma: no cover
             prettify(v)
         elif isinstance(v, type(list())):
             for val in v:
-                if isinstance(val, type(str())):
+                if isinstance(val, str):
                     val = format_convert(k, val)
-                    pass
-                elif isinstance(val, type(list())) | isinstance(val, type(float())) | isinstance(val, type(
-                    bool())) | isinstance(val, type(None)):
+                elif isinstance(val, type(list())) | isinstance(val, float) | isinstance(val, bool) | (val is None):
                     pass
                 else:
                     prettify(val)
-        else:
-            if isinstance(v, str):
-                js[k] = format_convert(k, v)
+        elif isinstance(v, str):
+            js[k] = format_convert(k, v)
 
 
 def format_convert(k, v):  # pragma: no cover
@@ -66,7 +63,7 @@ def format_convert(k, v):  # pragma: no cover
 
 def base64_to_uuid(b):  # pragma: no cover
     try:
-        s = b.encode('ascii')
+        s = b.encode("ascii")
         uid = UUID(bytes=base64.b64decode(s))
     except ValueError:
         return b

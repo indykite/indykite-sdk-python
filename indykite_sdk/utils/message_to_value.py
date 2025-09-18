@@ -1,51 +1,52 @@
-'''Converts gRPC object to a value'''
+"""Converts gRPC object to a value"""
+
+from google.protobuf.duration_pb2 import Duration
+from google.protobuf.timestamp_pb2 import Timestamp
+
+from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as pb2_model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as struct
 from indykite_sdk.indykite.objects.v1beta2 import value_pb2 as value
-from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as pb2_model
-from google.protobuf.timestamp_pb2 import Timestamp
-from google.protobuf.duration_pb2 import Duration
 
 
 def object_to_value(grpc_object):
-    '''Converts gRPC object to a struct value'''
-
-    if grpc_object.HasField('null_value'):
+    """Converts gRPC object to a struct value"""
+    if grpc_object.HasField("null_value"):
         return grpc_object.null_value
 
-    if grpc_object.HasField('bool_value'):
+    if grpc_object.HasField("bool_value"):
         return grpc_object.bool_value
 
-    if grpc_object.HasField('integer_value'):
+    if grpc_object.HasField("integer_value"):
         return grpc_object.integer_value
 
-    if grpc_object.HasField('unsigned_integer_value'):
+    if grpc_object.HasField("unsigned_integer_value"):
         return grpc_object.unsigned_integer_value
 
-    if grpc_object.HasField('double_value'):
+    if grpc_object.HasField("double_value"):
         return grpc_object.double_value
 
-    if grpc_object.HasField('value_time'):
+    if grpc_object.HasField("value_time"):
         return grpc_object.value_time
 
-    if grpc_object.HasField('duration_value'):
+    if grpc_object.HasField("duration_value"):
         return grpc_object.duration_value
 
-    if grpc_object.HasField('string_value'):
+    if grpc_object.HasField("string_value"):
         return grpc_object.string_value
 
-    if grpc_object.HasField('bytes_value'):
+    if grpc_object.HasField("bytes_value"):
         return grpc_object.bytes_value
 
-    if grpc_object.HasField('geo_point_value'):
+    if grpc_object.HasField("geo_point_value"):
         return grpc_object.geo_point_value
 
-    if grpc_object.HasField('any_value'):
+    if grpc_object.HasField("any_value"):
         return grpc_object.any_value
 
-    if grpc_object.HasField('array_value'):
+    if grpc_object.HasField("array_value"):
         return list(map(object_to_value, grpc_object.array_value.values))
 
-    if grpc_object.HasField('map_value'):
+    if grpc_object.HasField("map_value"):
         fields = grpc_object.map_value.fields
         keys = fields.keys()
         mapped = {}
@@ -57,30 +58,29 @@ def object_to_value(grpc_object):
 
 
 def grpc_to_value(grpc_object):
-    '''Converts gRPC object to a value v2'''
-
-    if grpc_object.HasField('bool_value'):
+    """Converts gRPC object to a value v2"""
+    if grpc_object.HasField("bool_value"):
         return grpc_object.bool_value
 
-    if grpc_object.HasField('integer_value'):
+    if grpc_object.HasField("integer_value"):
         return grpc_object.integer_value
 
-    if grpc_object.HasField('double_value'):
+    if grpc_object.HasField("double_value"):
         return grpc_object.double_value
 
-    if grpc_object.HasField('time_value'):
+    if grpc_object.HasField("time_value"):
         return grpc_object.time_value
 
-    if grpc_object.HasField('duration_value'):
+    if grpc_object.HasField("duration_value"):
         return grpc_object.duration_value
 
-    if grpc_object.HasField('string_value'):
+    if grpc_object.HasField("string_value"):
         return grpc_object.string_value
 
-    if grpc_object.HasField('array_value'):
+    if grpc_object.HasField("array_value"):
         return list(map(object_to_value, grpc_object.array_value.values))
 
-    if grpc_object.HasField('map_value'):
+    if grpc_object.HasField("map_value"):
         fields = grpc_object.map_value.fields
         keys = fields.keys()
         mapped = {}

@@ -1,4 +1,3 @@
-
 from indykite_sdk.utils import timestamp_to_date
 
 
@@ -15,7 +14,7 @@ class ApplicationAgent:
             str(message.etag),
             str(message.customer_id),
             str(message.app_space_id),
-            str(message.application_id)
+            str(message.application_id),
         )
 
         if "create_time" in fields:

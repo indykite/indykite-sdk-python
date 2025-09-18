@@ -2,6 +2,7 @@ import base64
 import json
 from datetime import datetime
 from uuid import UUID
+
 from google.protobuf.json_format import MessageToJson
 
 
@@ -14,8 +15,7 @@ def get_response(resp):
     def get_default(x):
         if type(x) is datetime:
             return str(x)
-        else:
-            return x.__dict__
+        return x.__dict__
 
     if hasattr(resp, "DESCRIPTOR"):
         js = MessageToJson(resp)
@@ -23,7 +23,7 @@ def get_response(resp):
         prettify(js_dict)
     else:
         js_dict = resp
-    pretty_response = json.dumps(js_dict, indent=4, separators=(',', ': '), default=get_default)
+    pretty_response = json.dumps(js_dict, indent=4, separators=(",", ": "), default=get_default)
     return pretty_response
 
 
@@ -33,17 +33,14 @@ def prettify(js):
             prettify(v)
         elif isinstance(v, type(list())):
             for val in v:
-                if isinstance(val, type(str())):
+                if isinstance(val, str):
                     val = format_convert(k, val)
-                    pass
-                elif isinstance(val, type(list())) | isinstance(val, type(float())) | isinstance(val, type(
-                    bool())) | isinstance(val, type(None)):
+                elif isinstance(val, type(list())) | isinstance(val, float) | isinstance(val, bool) | (val is None):
                     pass
                 else:
                     prettify(val)
-        else:
-            if isinstance(v, str):
-                js[k] = format_convert(k, v)
+        elif isinstance(v, str):
+            js[k] = format_convert(k, v)
 
 
 def format_convert(k, v):
@@ -58,7 +55,7 @@ def format_convert(k, v):
 
 def base64_to_uuid(b):
     try:
-        s = b.encode('ascii')
+        s = b.encode("ascii")
         uid = UUID(bytes=base64.b64decode(s))
     except ValueError:
         return b

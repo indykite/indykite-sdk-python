@@ -1,5 +1,6 @@
-from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 from google.protobuf.json_format import MessageToDict
+
+from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 
 
 class StreamRecordsResponse:
@@ -8,10 +9,7 @@ class StreamRecordsResponse:
         if message is None:
             return None
         fields = [desc.name for desc, val in message.ListFields()]
-        stream_records = StreamRecordsResponse(
-            str(message.record_id),
-            int(message.record_index)
-        )
+        stream_records = StreamRecordsResponse(str(message.record_id), int(message.record_index))
         if "record_error" in fields:
             stream_records.record_error = message.record_error
 
@@ -39,9 +37,7 @@ class IngestRecordResponse:
         if message is None:
             return None
         fields = [desc.name for desc, val in message.ListFields()]
-        ingest_records = IngestRecordResponse(
-            str(message.record_id)
-        )
+        ingest_records = IngestRecordResponse(str(message.record_id))
 
         if "info" in fields:
             info = Info.deserialize(message.info)
@@ -182,8 +178,8 @@ class Change:
         dict_message = MessageToDict(message)
         if dict_message:
             if "id" in fields:
-                return Change(dict_message['id'], dict_message['dataType'])
-            return Change(None, dict_message['dataType'])
+                return Change(dict_message["id"], dict_message["dataType"])
+            return Change(None, dict_message["dataType"])
         return None
 
     def __init__(self, id=None, data_type=None):
@@ -196,9 +192,7 @@ class Info:
     def deserialize(cls, message):
         if message is None:
             return None
-        info = model_pb2.Info(
-            changes=message.changes
-        )
+        info = model_pb2.Info(changes=message.changes)
         return info
 
     def __init__(self, changes=[]):

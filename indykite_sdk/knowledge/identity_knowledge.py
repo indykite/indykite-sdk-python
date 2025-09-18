@@ -1,17 +1,17 @@
 import sys
 import uuid
+
+from indykite_sdk.indykite.ingest.v1beta3 import model_pb2 as ingest_model_pb2
 from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 as pb2
 from indykite_sdk.indykite.knowledge.v1beta2 import model_pb2
-from indykite_sdk.indykite.ingest.v1beta3 import model_pb2 as ingest_model_pb2
-from indykite_sdk.model.identity_knowledge import IdentityKnowledgeReadResponse
-import indykite_sdk.utils.logger as logger
 from indykite_sdk.ingest import IngestClient
+from indykite_sdk.model.identity_knowledge import IdentityKnowledgeReadResponse
+from indykite_sdk.utils import logger
 from indykite_sdk.utils.message_to_value import param_to_value
 
 
 def identity_knowledge_read(self, query, input_params={}, returns=[]):
-    """
-    read ingested data
+    """Read ingested data
     :param self:
     :param query: string
     :param input_params: map{string, indykite.objects.v1beta2.Value}
@@ -24,8 +24,8 @@ def identity_knowledge_read(self, query, input_params={}, returns=[]):
             pb2.IdentityKnowledgeReadRequest(
                 query=query,
                 input_params=request_input_params(input_params),
-                returns=returns
-            )
+                returns=returns,
+            ),
         )
         if not identity_knowledge_response:
             return None
@@ -35,9 +35,8 @@ def identity_knowledge_read(self, query, input_params={}, returns=[]):
         return logger.logger_error(exception)
 
 
-def get_node_by_id(self, id , is_identity=False):
-    """
-    read node by gid id
+def get_node_by_id(self, id, is_identity=False):
+    """Read node by gid id
     :param self:
     :param id: string
     :param is_identity: boolean
@@ -46,34 +45,28 @@ def get_node_by_id(self, id , is_identity=False):
     sys.excepthook = logger.handle_excepthook
     try:
         if not id:
-            raise Exception('id is missing')
+            raise Exception("id is missing")
         label = "Resource"
         if is_identity:
             label = "DigitalTwin"
-        query: str = "MATCH (n:{flabel}) WHERE n.id=$id".format(flabel=label)
+        query: str = f"MATCH (n:{label}) WHERE n.id=$id"
         params = {"id": id}
         returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
-            pb2.IdentityKnowledgeReadRequest(
-                    query=query,
-                    input_params=request_input_params(params),
-                    returns=returns
-            )
+            pb2.IdentityKnowledgeReadRequest(query=query, input_params=request_input_params(params), returns=returns),
         )
         if not identity_knowledge_response or len(identity_knowledge_response.nodes) == 0:
             return None
         if len(identity_knowledge_response.nodes) == 1:
             return identity_knowledge_response.nodes[0]
-        else:
-            raise Exception("Internal error: unable to complete request")
+        raise Exception("Internal error: unable to complete request")
         return identity_knowledge_response
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def get_node_by_identifier(self, external_id, type, is_identity=False):
-    """
-    read node by identifier type + external_id
+    """Read node by identifier type + external_id
     :param self:
     :param external_id: string
     :param type: string
@@ -85,19 +78,11 @@ def get_node_by_identifier(self, external_id, type, is_identity=False):
         label = "Resource"
         if is_identity:
             label = "DigitalTwin"
-        query: str = "MATCH (n:{0}) WHERE n.external_id = '{1}' and n.type = '{2}'".format(
-            label, str(external_id), str(type))
-        params = {
-            "external_id": str(external_id),
-            "type": str(type)
-            }
+        query: str = f"MATCH (n:{label}) WHERE n.external_id = '{external_id!s}' and n.type = '{type!s}'"
+        params = {"external_id": str(external_id), "type": str(type)}
         returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
-            pb2.IdentityKnowledgeReadRequest(
-                query=query,
-                input_params=request_input_params(params),
-                returns=returns
-            )
+            pb2.IdentityKnowledgeReadRequest(query=query, input_params=request_input_params(params), returns=returns),
         )
         if not identity_knowledge_response:
             return None
@@ -107,8 +92,7 @@ def get_node_by_identifier(self, external_id, type, is_identity=False):
 
 
 def get_identity_by_id(self, id):
-    """
-    get DT by id
+    """Get DT by id
     :param self:
     :param id: string
     :return: Node
@@ -120,8 +104,7 @@ def get_identity_by_id(self, id):
 
 
 def get_identity_by_identifier(self, external_id, type):
-    """
-    get DT by identifier
+    """Get DT by identifier
     :param self:
     :param external_id: string
     :param type: string
@@ -139,8 +122,7 @@ def get_identity_by_identifier(self, external_id, type):
 
 
 def list_nodes(self, node_type="Resource"):
-    """
-    list all nodes, DTs like resources
+    """List all nodes, DTs like resources
     :param self:
     :param node_type: string
     :return: list of Node objects
@@ -148,14 +130,10 @@ def list_nodes(self, node_type="Resource"):
     sys.excepthook = logger.handle_excepthook
     try:
         label = node_type
-        query: str = "MATCH (n:{0})".format(label)
+        query: str = f"MATCH (n:{label})"
         returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
-            pb2.IdentityKnowledgeReadRequest(
-                query=query,
-                input_params={},
-                returns=returns
-            )
+            pb2.IdentityKnowledgeReadRequest(query=query, input_params={}, returns=returns),
         )
         if not identity_knowledge_response:
             return None
@@ -165,8 +143,7 @@ def list_nodes(self, node_type="Resource"):
 
 
 def list_nodes_by_property(self, property, is_identity=False):
-    """
-    list all nodes, DTs like resources
+    """List all nodes, DTs like resources
     :param self:
     :param property: dict key/value
     :param is_identity: boolean
@@ -174,20 +151,15 @@ def list_nodes_by_property(self, property, is_identity=False):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        (k, v), = property.items()
+        ((k, v),) = property.items()
         label = "Resource"
         if is_identity:
             label = "DigitalTwin"
-        query: str = ("MATCH (n:{0}) -[:HAS]->(p:Property) "
-                      "WHERE p.type = '{1}' and p.value = '{2}'").format(label, str(k), v)
+        query: str = f"MATCH (n:{label}) -[:HAS]->(p:Property) WHERE p.type = '{k!s}' and p.value = '{v}'"
         params = {k: v}
         returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
-            pb2.IdentityKnowledgeReadRequest(
-                query=query,
-                input_params=request_input_params(params),
-                returns=returns
-            )
+            pb2.IdentityKnowledgeReadRequest(query=query, input_params=request_input_params(params), returns=returns),
         )
         if not identity_knowledge_response:
             return None
@@ -197,8 +169,7 @@ def list_nodes_by_property(self, property, is_identity=False):
 
 
 def list_identities(self):
-    """
-    list all DTs
+    """List all DTs
     :param self:
     :return: list of Node objects
     """
@@ -209,8 +180,7 @@ def list_identities(self):
 
 
 def list_identities_by_property(self, property):
-    """
-    list all identities
+    """List all identities
     :param property: dict
     :return: list of Node objects
     """
@@ -221,51 +191,34 @@ def list_identities_by_property(self, property):
 
 
 def request_input_params(input_params):
-    """
-    transform into dict of format map<string InputParms>
+    """Transform into dict of format map<string InputParms>
     :param input_params: dict
     :return: dict input_params_dict
     """
-    input_params_dict = {
-        k: param_to_value(v)
-        for k, v in input_params.items()
-    }
+    input_params_dict = {k: param_to_value(v) for k, v in input_params.items()}
     return input_params_dict
 
 
 def delete_all_with_node_type(self, node_type):
-    """
-    delete all nodes of defined type
+    """Delete all nodes of defined type
     :param self:
     :param node_type: string in PascalCase
     :return: list of deleted responses
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        query: str = "MATCH (n:{0})".format(node_type)
+        query: str = f"MATCH (n:{node_type})"
         returns = [model_pb2.Return(variable="n")]
         identity_knowledge_response = self.stub.IdentityKnowledgeRead(
-            pb2.IdentityKnowledgeReadRequest(
-                query=query,
-                input_params={},
-                returns=returns
-            )
+            pb2.IdentityKnowledgeReadRequest(query=query, input_params={}, returns=returns),
         )
         if not identity_knowledge_response:
             return None
         records = []
         for node in identity_knowledge_response.nodes:
-            node = ingest_model_pb2.NodeMatch(
-                external_id=str(node.external_id),
-                type=str(node.type)
-            )
-            delete = ingest_model_pb2.DeleteData(
-                node=node
-            )
-            record = ingest_model_pb2.Record(
-                id=str(uuid.uuid4()),
-                delete=delete
-            )
+            node = ingest_model_pb2.NodeMatch(external_id=str(node.external_id), type=str(node.type))
+            delete = ingest_model_pb2.DeleteData(node=node)
+            record = ingest_model_pb2.Record(id=str(uuid.uuid4()), delete=delete)
             records.append(record)
         client_ingest = IngestClient()
         if records:

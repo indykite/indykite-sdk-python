@@ -11,7 +11,4 @@ class UniqueNameIdentifier:
         self.name = name
 
     def __str__(self):
-        return (
-            "Location: " + self.location + "\n"
-            "Name: " + self.name
-        )
+        return "Location: " + self.location + "\nName: " + self.name

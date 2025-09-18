@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-from typing import List, Optional
 
-from indykite_sdk.model.kafka_sink_config import KafkaSinkConfig
 from indykite_sdk.model.azure_event_grid_sink_config import AzureEventGridSinkConfig
 from indykite_sdk.model.azure_service_bus_sink_config import AzureServiceBusSinkConfig
+from indykite_sdk.model.kafka_sink_config import KafkaSinkConfig
 
 
 @dataclass
@@ -21,9 +20,9 @@ class EventSinkProvider:
 
         # Define processors for all fields
         all_fields = {
-            'kafka': KafkaSinkConfig,
-            'azure_event_grid': AzureEventGridSinkConfig,
-            'azure_service_bus': AzureServiceBusSinkConfig,
+            "kafka": KafkaSinkConfig,
+            "azure_event_grid": AzureEventGridSinkConfig,
+            "azure_service_bus": AzureServiceBusSinkConfig,
         }
 
         # Process optional fields
@@ -36,5 +35,3 @@ class EventSinkProvider:
                     raise ValueError(f"Error processing field '{field_name}': {e}")
 
         return cls(**kwargs)
-
-

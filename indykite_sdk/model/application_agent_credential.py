@@ -15,7 +15,7 @@ class ApplicationAgentCredential:
             str(message.customer_id),
             str(message.app_space_id),
             str(message.application_id),
-            str(message.application_agent_id)
+            str(message.application_agent_id),
         )
 
         if "create_time" in fields:
@@ -48,5 +48,3 @@ class ApplicationAgentCredential:
         self.delete_time = None
         self.created_by = None
         self.expire_time = None
-
-

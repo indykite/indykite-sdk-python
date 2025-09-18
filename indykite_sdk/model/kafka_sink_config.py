@@ -1,17 +1,15 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
 
 
 @dataclass
 class KafkaSinkConfig:
-    brokers: List[str] = field(default_factory=list)
-    topic: Optional[str] = None
-    disable_tls: Optional[bool] = None
-    tls_skip_verify: Optional[bool] = None
-    username: Optional[str] = None
-    password: Optional[str] = None
-    display_name: Optional[str] = None
-
+    brokers: list[str] = field(default_factory=list)
+    topic: str | None = None
+    disable_tls: bool | None = None
+    tls_skip_verify: bool | None = None
+    username: str | None = None
+    password: str | None = None
+    display_name: str | None = None
 
     @classmethod
     def deserialize(cls, message_config):
@@ -22,13 +20,13 @@ class KafkaSinkConfig:
 
         # Define processors for all fields
         all_fields = {
-            'brokers': lambda val: [b for b in val],
-            'topic': str,
-            'disable_tls': bool,
-            'tls_skip_verify': bool,
-            'username': str,
-            'password': str,
-            'display_name': str
+            "brokers": lambda val: [b for b in val],
+            "topic": str,
+            "disable_tls": bool,
+            "tls_skip_verify": bool,
+            "username": str,
+            "password": str,
+            "display_name": str,
         }
 
         # Process optional fields

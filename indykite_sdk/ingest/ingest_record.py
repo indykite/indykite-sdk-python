@@ -5,15 +5,12 @@ from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2 as pb2
 from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
 from indykite_sdk.model.ingest_record import IngestRecordResponse
-import indykite_sdk.utils.logger as logger
-
+from indykite_sdk.utils import date_to_timestamp, logger
 from indykite_sdk.utils.message_to_value import param_to_value
-from indykite_sdk.utils import date_to_timestamp
 
 
 def ingest_record(self, record):
-    """
-    data ingestion
+    """Data ingestion
     :param self:
     :param record: Record object
     :return: record_error
@@ -21,15 +18,11 @@ def ingest_record(self, record):
     sys.excepthook = logger.handle_excepthook
     try:
         warnings.warn(
-            f"IngestRecord is deprecated and will be removed in a future version.",
+            "IngestRecord is deprecated and will be removed in a future version.",
             DeprecationWarning,
-            stacklevel=2
+            stacklevel=2,
         )
-        response = self.stub.IngestRecord(
-            pb2.IngestRecordRequest(
-                record=record
-            )
-        )
+        response = self.stub.IngestRecord(pb2.IngestRecordRequest(record=record))
         if not response:
             return None
         return IngestRecordResponse.deserialize(response)
@@ -39,8 +32,7 @@ def ingest_record(self, record):
 
 
 def record_upsert(self, id, upsert):
-    """
-    create record
+    """Create record
     :param self:
     :param id: id record for client ref
     :param upsert: UpsertData object
@@ -48,10 +40,7 @@ def record_upsert(self, id, upsert):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        record = model_pb2.Record(
-            id=str(id),
-            upsert=upsert
-        )
+        record = model_pb2.Record(id=str(id), upsert=upsert)
         if not record:
             return None
         return record
@@ -60,8 +49,7 @@ def record_upsert(self, id, upsert):
 
 
 def record_delete(self, id, delete):
-    """
-    create record
+    """Create record
     :param self:
     :param id: id record for client ref
     :param delete: DeleteData object
@@ -69,10 +57,7 @@ def record_delete(self, id, delete):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        record = model_pb2.Record(
-            id=str(id),
-            delete=delete
-        )
+        record = model_pb2.Record(id=str(id), delete=delete)
         if not record:
             return None
         return record
@@ -81,8 +66,7 @@ def record_delete(self, id, delete):
 
 
 def ingest_property(self, type, value=None, metadata=None, external_value=None):
-    """
-    create Property object
+    """Create Property object
     :param self:
     :param type:
     :param value:
@@ -93,27 +77,22 @@ def ingest_property(self, type, value=None, metadata=None, external_value=None):
     sys.excepthook = logger.handle_excepthook
     try:
         if not type:
-            raise Exception('type is missing')
+            raise Exception("type is missing")
         if not (value or external_value):
-            raise Exception('you need oneof value / external_value')
+            raise Exception("you need oneof value / external_value")
         ip = ikg_pb2.Property(
             type=str(type),
             value=param_to_value(value),
             metadata=metadata,
-            external_value=external_value
-            )
+            external_value=external_value,
+        )
         return ip
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def ingest_metadata(self,
-                    assurance_level=None,
-                    verification_time=None,
-                    source=None,
-                    custom_metadata={}):
-    """
-    create Metadata object
+def ingest_metadata(self, assurance_level=None, verification_time=None, source=None, custom_metadata={}):
+    """Create Metadata object
     :param self:
     :param assurance_level: 1,2,3
     :param verification_time: datetime
@@ -125,24 +104,20 @@ def ingest_metadata(self,
     try:
         custom_metadata_dict = {}
         if custom_metadata:
-            custom_metadata_dict = {
-                k: param_to_value(v)
-                for k, v in custom_metadata.items()
-             }
+            custom_metadata_dict = {k: param_to_value(v) for k, v in custom_metadata.items()}
         ip = ikg_pb2.Metadata(
             assurance_level=assurance_level,
             verification_time=date_to_timestamp(verification_time),
             source=source,
-            custom_metadata=custom_metadata_dict
-            )
+            custom_metadata=custom_metadata_dict,
+        )
         return ip
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def ingest_external_value(self,id=None, name=None):
-    """
-    create ExternalValue object
+def ingest_external_value(self, id=None, name=None):
+    """Create ExternalValue object
     :param self:
     :param id: resolver config node gid
     :param name: resolver config node name
@@ -151,7 +126,7 @@ def ingest_external_value(self,id=None, name=None):
     sys.excepthook = logger.handle_excepthook
     try:
         if id:
-            ip = ikg_pb2.ExternalValue(id = id)
+            ip = ikg_pb2.ExternalValue(id=id)
         elif name:
             ip = ikg_pb2.ExternalValue(name=name)
         else:
@@ -161,15 +136,8 @@ def ingest_external_value(self,id=None, name=None):
         return logger.logger_error(exception)
 
 
-def upsert_data_node(self,
-                     external_id,
-                     type,
-                     tags=[],
-                     properties=[],
-                     id="",
-                     is_identity=False):
-    """
-    upsertData with node
+def upsert_data_node(self, external_id, type, tags=[], properties=[], id="", is_identity=False):
+    """UpsertData with node
     :param self:
     :param external_id: id for client reference
     :param type: string
@@ -188,21 +156,16 @@ def upsert_data_node(self,
                 type=str(type),
                 tags=tags,
                 properties=properties,
-                is_identity=is_identity
-            )
+                is_identity=is_identity,
+            ),
         )
         return upsert
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def upsert_data_relationship(self,
-                             source_match,
-                             target_match,
-                             type="",
-                             properties=[]):
-    """
-    create upsertData with relation
+def upsert_data_relationship(self, source_match, target_match, type="", properties=[]):
+    """Create upsertData with relation
     :param self:
     :param source_match: NodeMatch
     :param target_match: NodeMatch
@@ -217,8 +180,8 @@ def upsert_data_relationship(self,
                 source=source_match,
                 target=target_match,
                 type=str(type),
-                properties=properties
-            )
+                properties=properties,
+            ),
         )
         return upsert
     except Exception as exception:
@@ -226,23 +189,18 @@ def upsert_data_relationship(self,
 
 
 def node_match(self, external_id, type=""):
-    """
-    create NodeMatch object
+    """Create NodeMatch object
     :param self:
     :param external_id: str
     :param type: str
     :return: NodeMatch
     """
-    nm = model_pb2.NodeMatch(
-        external_id=str(external_id),
-        type=str(type)
-        )
+    nm = model_pb2.NodeMatch(external_id=str(external_id), type=str(type))
     return nm
 
 
 def node_property_match(self, match, property_type=""):
-    """
-    create DeleteData.NodePropertyMatch object
+    """Create DeleteData.NodePropertyMatch object
     :param self:
     :param match: NodeMatch object
     :param property_type: str
@@ -250,18 +208,14 @@ def node_property_match(self, match, property_type=""):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        npm = model_pb2.DeleteData.NodePropertyMatch(
-            match=match,
-            property_type=str(property_type)
-            )
+        npm = model_pb2.DeleteData.NodePropertyMatch(match=match, property_type=str(property_type))
         return npm
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def node_tag_match(self, match, tags=[]):
-    """
-    create DeleteData.NodeTagMatch object
+    """Create DeleteData.NodeTagMatch object
     :param self:
     :param match: NodeMatch object
     :param tags: array of strings
@@ -269,18 +223,14 @@ def node_tag_match(self, match, tags=[]):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        ntm = model_pb2.DeleteData.NodeTagMatch(
-            match=match,
-            tags=tags
-            )
+        ntm = model_pb2.DeleteData.NodeTagMatch(match=match, tags=tags)
         return ntm
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def relationship_property_match(self, source, target, type, property_type=""):
-    """
-    create DeleteData.RelationshipPropertyMatch object
+    """Create DeleteData.RelationshipPropertyMatch object
     :param self:
     :param source: NodeMatch object
     :param target: NodeMatch object
@@ -294,76 +244,64 @@ def relationship_property_match(self, source, target, type, property_type=""):
             source=source,
             target=target,
             type=type,
-            property_type=str(property_type)
-            )
+            property_type=str(property_type),
+        )
         return npm
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def delete_data_node(self, node):
-    """
-    create deleteData with node
+    """Create deleteData with node
     :param self:
     :param node NodeMatch object
     :return: deleteData object
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        delete = model_pb2.DeleteData(
-            node=node
-        )
+        delete = model_pb2.DeleteData(node=node)
         return delete
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def delete_data_relationship(self, relationship):
-    """
-    create deleteData with relation
+    """Create deleteData with relation
     :param self:
     :param relationship is a Relationship object
     :return: deleteData object
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        delete = model_pb2.DeleteData(
-            relationship=relationship
-        )
+        delete = model_pb2.DeleteData(relationship=relationship)
         return delete
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def delete_data_node_property(self, node_property):
-    """
-    create deleteData with node_property
+    """Create deleteData with node_property
     :param self:
     :param node_property DeleteData.NodePropertyMatch object
     :return: deleteData object
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        delete = model_pb2.DeleteData(
-            node_property=node_property
-        )
+        delete = model_pb2.DeleteData(node_property=node_property)
         return delete
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def delete_data_relationship_property(self, relationship_property):
-    """
-    create deleteData with node
+    """Create deleteData with node
     :param self:
     :param relationship_property RelationshipPropertyMatch object
     :return: deleteData object
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        delete = model_pb2.DeleteData(
-            relationship_property=relationship_property
-        )
+        delete = model_pb2.DeleteData(relationship_property=relationship_property)
         return delete
     except Exception as exception:
         return logger.logger_error(exception)

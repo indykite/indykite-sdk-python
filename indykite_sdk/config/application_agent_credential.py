@@ -1,25 +1,23 @@
+import sys
+
+from google.protobuf.timestamp_pb2 import Timestamp
+
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.model.application_agent_credential import ApplicationAgentCredential
 from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
-from google.protobuf.timestamp_pb2 import Timestamp
-import sys
-import indykite_sdk.utils.logger as logger
+from indykite_sdk.utils import logger
 
 
 def read_application_agent_credential(self, application_agent_credential_id):
-    """
-
-    :param self:
+    """:param self:
     :param application_agent_credential_id: string gid id
     :return: Application AgentCredential object
     """
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadApplicationAgentCredential(
-            pb2.ReadApplicationAgentCredentialRequest(
-                id=str(application_agent_credential_id)
-            )
+            pb2.ReadApplicationAgentCredentialRequest(id=str(application_agent_credential_id)),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -30,13 +28,14 @@ def read_application_agent_credential(self, application_agent_credential_id):
     return ApplicationAgentCredential.deserialize(response.application_agent_credential)
 
 
-def register_application_agent_credential_jwk(self,
-                                              application_agent_id,
-                                              display_name,
-                                              jwk_in_bytes,
-                                              expire_time_in_seconds):
-    """
-    register jwk credentials for your AppAgent
+def register_application_agent_credential_jwk(
+    self,
+    application_agent_id,
+    display_name,
+    jwk_in_bytes,
+    expire_time_in_seconds,
+):
+    """Register jwk credentials for your AppAgent
     :param self:
     :param application_agent_id: string gid id
     :param display_name: string
@@ -51,8 +50,8 @@ def register_application_agent_credential_jwk(self,
                 application_agent_id=application_agent_id,
                 display_name=display_name,
                 jwk=jwk_in_bytes,
-                expire_time=Timestamp(seconds=expire_time_in_seconds)
-            )
+                expire_time=Timestamp(seconds=expire_time_in_seconds),
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -63,13 +62,14 @@ def register_application_agent_credential_jwk(self,
     return RegisterApplicationAgentCredential.deserialize(response)
 
 
-def register_application_agent_credential_pem(self,
-                                              application_agent_id,
-                                              display_name,
-                                              pem_in_bytes,
-                                              expire_time_in_seconds):
-    """
-    register pem credentials for your AppAgent
+def register_application_agent_credential_pem(
+    self,
+    application_agent_id,
+    display_name,
+    pem_in_bytes,
+    expire_time_in_seconds,
+):
+    """Register pem credentials for your AppAgent
     :param self:
     :param application_agent_id: string gid id
     :param display_name: string
@@ -84,8 +84,8 @@ def register_application_agent_credential_pem(self,
                 application_agent_id=application_agent_id,
                 display_name=display_name,
                 pem=pem_in_bytes,
-                expire_time=Timestamp(seconds=expire_time_in_seconds)
-            )
+                expire_time=Timestamp(seconds=expire_time_in_seconds),
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -97,8 +97,7 @@ def register_application_agent_credential_pem(self,
 
 
 def delete_application_agent_credential(self, application_agent_credential_id, etag):
-    """
-    delete AppAgent credentials
+    """Delete AppAgent credentials
     :param self:
     :param application_agent_credential_id: string gid id
     :param etag: string
@@ -109,8 +108,8 @@ def delete_application_agent_credential(self, application_agent_credential_id, e
         response = self.stub.DeleteApplicationAgentCredential(
             pb2.DeleteApplicationAgentCredentialRequest(
                 id=application_agent_credential_id,
-                etag=wrappers.StringValue(value=etag)
-            )
+                etag=wrappers.StringValue(value=etag),
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)

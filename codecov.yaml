@@ -1,3 +1,4 @@
+---
 coverage:
   status:
     project:
@@ -5,10 +6,9 @@ coverage:
         target: 75%
         threshold: 3%
     patch:
-        default:
-            target: 75%
-            threshold: 10%
-
+      default:
+        target: 75%
+        threshold: 10%
 
 ignore:
   - "setup.py"
@@ -19,7 +19,7 @@ ignore:
   - "indykite_sdk/indykite"
   - "indykite_sdk/validate"
   - "indykite_sdk/buf"
-    "indykite_sdk/gnostic"
+  - "indykite_sdk/gnostic"
   - "indykite_sdk/identity/helper.py"
   - "indykite_sdk/model/unique_name_identifier.py"
   - "indykite_sdk/model/data_access.py"

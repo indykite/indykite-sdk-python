@@ -1,9 +1,8 @@
 import sys
-sys.path.append('./indykite_sdk')
 
-import pytest
+sys.path.append("./indykite_sdk")
+
 import fixtures
-
 from helpers.walk_packages import get_package_paths_in_module
 
 pytest_plugins = [

@@ -1,27 +1,23 @@
+import sys
+
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from indykite_sdk.model.application import Application
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
+from indykite_sdk.model.application import Application
 from indykite_sdk.model.create_application import CreateApplication
 from indykite_sdk.model.update_application import UpdateApplication
-import sys
-import indykite_sdk.utils.logger as logger
+from indykite_sdk.utils import logger
 
 
 def read_application_by_id(self, application_id):
-    """
-    get an Application object with an id
+    """Get an Application object with an id
     :param self:
     :param application_id: string gid id
     :return: Application object
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        response = self.stub.ReadApplication(
-            pb2.ReadApplicationRequest(
-                id=str(application_id)
-            )
-        )
+        response = self.stub.ReadApplication(pb2.ReadApplicationRequest(id=str(application_id)))
     except Exception as exception:
         return logger.logger_error(exception)
 
@@ -32,8 +28,7 @@ def read_application_by_id(self, application_id):
 
 
 def read_application_by_name(self, app_space_id, application_name):
-    """
-    get an Application object with a name
+    """Get an Application object with a name
     :param self:
     :param app_space_id: string gid id
     :param application_name: string
@@ -42,12 +37,7 @@ def read_application_by_name(self, app_space_id, application_name):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadApplication(
-            pb2.ReadApplicationRequest(
-                name=UniqueNameIdentifier(
-                    location=app_space_id,
-                    name=application_name
-                )
-            )
+            pb2.ReadApplicationRequest(name=UniqueNameIdentifier(location=app_space_id, name=application_name)),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -59,8 +49,7 @@ def read_application_by_name(self, app_space_id, application_name):
 
 
 def create_application(self, app_space_id, name, display_name, description=""):
-    """
-    create an Application
+    """Create an Application
     :param self:
     :param app_space_id: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -75,8 +64,8 @@ def create_application(self, app_space_id, name, display_name, description=""):
                 app_space_id=app_space_id,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description)
-            )
+                description=wrappers.StringValue(value=description),
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -88,8 +77,7 @@ def create_application(self, app_space_id, name, display_name, description=""):
 
 
 def update_application(self, application_id, etag, display_name, description=""):
-    """
-    update existing Application
+    """Update existing Application
     :param self:
     :param application_id: string gid id
     :param etag: string
@@ -104,8 +92,8 @@ def update_application(self, application_id, etag, display_name, description="")
                 id=application_id,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description)
-            )
+                description=wrappers.StringValue(value=description),
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -117,8 +105,7 @@ def update_application(self, application_id, etag, display_name, description="")
 
 
 def list_applications(self, app_space_id, match=[]):
-    """
-    list App which match exact name in match param
+    """List App which match exact name in match param
     :param self:
     :param app_space_id: string gid id
     :param match: list of strings
@@ -126,12 +113,7 @@ def list_applications(self, app_space_id, match=[]):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        streams = self.stub.ListApplications(
-            pb2.ListApplicationsRequest(
-                app_space_id=app_space_id,
-                match=match
-            )
-        )
+        streams = self.stub.ListApplications(pb2.ListApplicationsRequest(app_space_id=app_space_id, match=match))
     except Exception as exception:
         return logger.logger_error(exception)
 
@@ -149,8 +131,7 @@ def list_applications(self, app_space_id, match=[]):
 
 
 def delete_application(self, application_id, etag):
-    """
-    delete an application
+    """Delete an application
     :param self:
     :param application_id: string gid id
     :param etag: string
@@ -159,10 +140,7 @@ def delete_application(self, application_id, etag):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.DeleteApplication(
-            pb2.DeleteApplicationRequest(
-                id=application_id,
-                etag=wrappers.StringValue(value=etag)
-            )
+            pb2.DeleteApplicationRequest(id=application_id, etag=wrappers.StringValue(value=etag)),
         )
     except Exception as exception:
         return logger.logger_error(exception)

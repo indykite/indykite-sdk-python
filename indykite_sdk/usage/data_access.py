@@ -1,16 +1,16 @@
-"""
-Commandline interface for making an API request with the SDK.
-"""
+"""Commandline interface for making an API request with the SDK."""
+
 import argparse
-from indykite_sdk.tda import DataAccessClient
+
 from indykite_sdk import api_helper
+from indykite_sdk.tda import DataAccessClient
 
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
         setattr(namespace, self.dest, dict())
         for value in values:
-            key, value = value.split('=')
+            key, value = value.split("=")
             getattr(namespace, self.dest)[key] = value
 
 
@@ -22,49 +22,43 @@ def main():
     # Create child parsers
     # tda
     grant_consent_by_id_parser = subparsers.add_parser("grant_consent_by_id")
-    grant_consent_by_id_parser.add_argument("user_id",
-                                            help="Identity node gid (node with is_identity equal True)")
-    grant_consent_by_id_parser.add_argument("consent_id",
-                                            help="Consent config node gid")
+    grant_consent_by_id_parser.add_argument("user_id", help="Identity node gid (node with is_identity equal True)")
+    grant_consent_by_id_parser.add_argument("consent_id", help="Consent config node gid")
 
     grant_consent_by_external_id_parser = subparsers.add_parser("grant_consent_by_external_id")
     grant_consent_by_external_id_parser.add_argument(
         "external_id",
-        help="Identity node external_id (node with is_identity equal True)")
-    grant_consent_by_external_id_parser.add_argument("type",
-                                                     help="Identity node type (node with is_identity equal True)")
-    grant_consent_by_external_id_parser.add_argument("consent_id",
-                                                     help="Consent config node gid")
+        help="Identity node external_id (node with is_identity equal True)",
+    )
+    grant_consent_by_external_id_parser.add_argument(
+        "type",
+        help="Identity node type (node with is_identity equal True)",
+    )
+    grant_consent_by_external_id_parser.add_argument("consent_id", help="Consent config node gid")
 
     grant_consent_by_property_parser = subparsers.add_parser("grant_consent_by_property")
     grant_consent_by_property_parser.add_argument(
         "type",
-        help="Identity node property type (node with is_identity equal True)")
+        help="Identity node property type (node with is_identity equal True)",
+    )
     grant_consent_by_property_parser.add_argument(
         "value",
-        help="Identity node property value (node with is_identity equal True)")
-    grant_consent_by_property_parser.add_argument("consent_id",
-                                                  help="Consent config node gid")
+        help="Identity node property value (node with is_identity equal True)",
+    )
+    grant_consent_by_property_parser.add_argument("consent_id", help="Consent config node gid")
 
     revoke_consent_by_id_parser = subparsers.add_parser("revoke_consent_by_id")
-    revoke_consent_by_id_parser.add_argument("user_id",
-                                             help="Identity node gid (node with is_identity equal True)")
-    revoke_consent_by_id_parser.add_argument("consent_id",
-                                             help="Consent config node gid")
+    revoke_consent_by_id_parser.add_argument("user_id", help="Identity node gid (node with is_identity equal True)")
+    revoke_consent_by_id_parser.add_argument("consent_id", help="Consent config node gid")
 
     data_access_parser = subparsers.add_parser("data_access")
-    data_access_parser.add_argument("consent_id",
-                                            help="Consent config node gid")
-    data_access_parser.add_argument("application_id",
-                                            help="Application gid")
-    data_access_parser.add_argument("user_id",
-                                            help="Identity node gid (node with is_identity equal True)")
+    data_access_parser.add_argument("consent_id", help="Consent config node gid")
+    data_access_parser.add_argument("application_id", help="Application gid")
+    data_access_parser.add_argument("user_id", help="Identity node gid (node with is_identity equal True)")
 
     list_consents_parser = subparsers.add_parser("list_consents")
-    list_consents_parser.add_argument("user_id",
-                                      help="Identity node gid (node with is_identity equal True)")
-    list_consents_parser.add_argument("application_id",
-                                            help="Application gid")
+    list_consents_parser.add_argument("user_id", help="Identity node gid (node with is_identity equal True)")
+    list_consents_parser.add_argument("application_id", help="Application gid")
 
     args = parser.parse_args()
     command = args.command
@@ -169,5 +163,5 @@ def main():
         client_tda.channel.close()
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     main()

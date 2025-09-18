@@ -1,14 +1,13 @@
 from dataclasses import dataclass
-from typing import Optional
 
 from indykite_sdk.model.knowledge_query_status import KnowledgeQueryStatus
 
 
 @dataclass
 class KnowledgeQueryConfig:
-    query: Optional[str] = None
-    status: Optional[float] = None
-    policy_id: Optional[str] = None
+    query: str | None = None
+    status: float | None = None
+    policy_id: str | None = None
 
     @classmethod
     def deserialize(cls, message_config):
@@ -19,9 +18,9 @@ class KnowledgeQueryConfig:
 
         # Define processors for all fields
         all_fields = {
-            'query': str,
-            'status': cls._validate_status,
-            'policy_id': str,
+            "query": str,
+            "status": cls._validate_status,
+            "policy_id": str,
         }
 
         # Process optional fields

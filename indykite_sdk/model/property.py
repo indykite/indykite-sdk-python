@@ -1,4 +1,5 @@
 from google.protobuf.json_format import MessageToDict
+
 from indykite_sdk.utils.message_to_value import object_to_value
 
 
@@ -7,16 +8,11 @@ class Property:
     def deserialize(cls, message):
         dict_message = MessageToDict(message)
         value = None
-        if 'referenceValue' in dict_message:
-            value = dict_message['referenceValue']
-        elif 'objectValue' in dict_message:
+        if "referenceValue" in dict_message:
+            value = dict_message["referenceValue"]
+        elif "objectValue" in dict_message:
             value = object_to_value(message.object_value)
-        return Property(
-          dict_message['id'],
-          dict_message['definition']['property'],
-          dict_message['meta'],
-          value
-        )
+        return Property(dict_message["id"], dict_message["definition"]["property"], dict_message["meta"], value)
 
     def __init__(self, prop_id, prop, meta, value=None, external_value=None):
         self.id = prop_id
@@ -26,8 +22,4 @@ class Property:
         self.external_value = external_value
 
     def __str__(self):
-        return (
-            "Property: " + self.property + "\n"
-            "ID: " + self.id + "\n"
-            "Value: " + str(self.value) + "\n"
-        )
+        return "Property: " + self.property + "\nID: " + self.id + "\nValue: " + str(self.value) + "\n"

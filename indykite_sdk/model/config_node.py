@@ -1,12 +1,12 @@
-from indykite_sdk.model.external_data_resolver_config import ExternalDataResolverConfig
-from indykite_sdk.utils import timestamp_to_date
 from indykite_sdk.model.authorization_policy_config import AuthorizationPolicyConfig
 from indykite_sdk.model.consent_configuration import ConsentConfiguration
-from indykite_sdk.model.token_introspect_config import TokenIntrospectConfig
 from indykite_sdk.model.entity_matching_pipeline_config import EntityMatchingPipelineConfig
-from indykite_sdk.model.trust_score_profile_config import TrustScoreProfileConfig
-from indykite_sdk.model.knowledge_query_config import KnowledgeQueryConfig
 from indykite_sdk.model.event_sink_config import EventSinkConfig
+from indykite_sdk.model.external_data_resolver_config import ExternalDataResolverConfig
+from indykite_sdk.model.knowledge_query_config import KnowledgeQueryConfig
+from indykite_sdk.model.token_introspect_config import TokenIntrospectConfig
+from indykite_sdk.model.trust_score_profile_config import TrustScoreProfileConfig
+from indykite_sdk.utils import timestamp_to_date
 
 
 class ConfigNode:
@@ -21,7 +21,7 @@ class ConfigNode:
             str(message.display_name),
             str(message.etag),
             str(message.customer_id),
-            str(message.app_space_id)
+            str(message.app_space_id),
         )
 
         if "create_time" in fields:
@@ -41,35 +41,35 @@ class ConfigNode:
 
         if "authorization_policy_config" in fields:
             config_node.authorization_policy_config = AuthorizationPolicyConfig.deserialize(
-                message.authorization_policy_config)
+                message.authorization_policy_config,
+            )
 
         if "consent_config" in fields:
-            config_node.consent_config = ConsentConfiguration.deserialize(
-                message.consent_config)
+            config_node.consent_config = ConsentConfiguration.deserialize(message.consent_config)
 
         if "token_introspect_config" in fields:
-            config_node.token_introspect_config = TokenIntrospectConfig.deserialize(
-                message.token_introspect_config)
+            config_node.token_introspect_config = TokenIntrospectConfig.deserialize(message.token_introspect_config)
 
         if "external_data_resolver_config" in fields:
             config_node.external_data_resolver_config = ExternalDataResolverConfig.deserialize(
-                message.external_data_resolver_config)
+                message.external_data_resolver_config,
+            )
 
         if "entity_matching_pipeline_config" in fields:
             config_node.entity_matching_pipeline_config = EntityMatchingPipelineConfig.deserialize(
-                message.entity_matching_pipeline_config)
+                message.entity_matching_pipeline_config,
+            )
 
         if "trust_score_profile_config" in fields:
             config_node.trust_score_profile_config = TrustScoreProfileConfig.deserialize(
-                message.trust_score_profile_config)
+                message.trust_score_profile_config,
+            )
 
         if "knowledge_query_config" in fields:
-            config_node.knowledge_query_config = KnowledgeQueryConfig.deserialize(
-                message.knowledge_query_config)
+            config_node.knowledge_query_config = KnowledgeQueryConfig.deserialize(message.knowledge_query_config)
 
         if "event_sink_config" in fields:
-            config_node.event_sink_config = EventSinkConfig.deserialize(
-                message.event_sink_config)
+            config_node.event_sink_config = EventSinkConfig.deserialize(message.event_sink_config)
 
         if "created_by" in fields:
             config_node.created_by = str(message.created_by)

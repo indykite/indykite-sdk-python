@@ -1,7 +1,7 @@
-from indykite_sdk.ingest import IngestClient
 from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
-from indykite_sdk.model.ingest_record import IngestRecordResponse
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
+from indykite_sdk.ingest import IngestClient
+from indykite_sdk.model.ingest_record import IngestRecordResponse
 
 
 def test_ingest_record_identity_node_success():
@@ -13,13 +13,7 @@ def test_ingest_record_identity_node_success():
     ingest_property = client.ingest_property("customProp2", "742")
     assert isinstance(ingest_property, ikg_pb2.Property)
     properties = [ingest_property]
-    upsert = client.upsert_data_node(
-        external_id,
-        type,
-        [],
-        properties,
-        "",
-        True)
+    upsert = client.upsert_data_node(external_id, type, [], properties, "", True)
     assert isinstance(upsert, model_pb2.UpsertData)
     record = client.record_upsert(record_id, upsert)
     assert isinstance(record, model_pb2.Record)
@@ -36,13 +30,7 @@ def test_ingest_record_resource_success():
     ingest_property = client.ingest_property("customProp", "9654")
     assert isinstance(ingest_property, ikg_pb2.Property)
     properties = [ingest_property]
-    upsert = client.upsert_data_node(
-                                external_id,
-                                type,
-                                [],
-                                properties,
-                                "",
-                                False)
+    upsert = client.upsert_data_node(external_id, type, [], properties, "", False)
     assert isinstance(upsert, model_pb2.UpsertData)
     record = client.record_upsert(record_id, upsert)
     assert isinstance(record, model_pb2.Record)
@@ -95,11 +83,7 @@ def test_ingest_record_relationship_delete():
     assert isinstance(record, model_pb2.Record)
     response = client.ingest_record(record)
     assert isinstance(response, IngestRecordResponse)
-    relationship = model_pb2.Relationship(
-        source=source_match,
-        target=target_match,
-        type=type,
-        properties=properties)
+    relationship = model_pb2.Relationship(source=source_match, target=target_match, type=type, properties=properties)
     assert isinstance(relationship, model_pb2.Relationship)
     delete = client.delete_data_relationship(relationship)
     assert isinstance(delete, model_pb2.DeleteData)
@@ -167,7 +151,7 @@ def test_delete_record_relationship_property():
 def test_ingest_property_no_type(capsys):
     client = IngestClient()
     assert client is not None
-    ing_property = client.ingest_property("","")
+    ing_property = client.ingest_property("", "")
     captured = capsys.readouterr()
     assert "type is missing" in captured.err
 
@@ -175,7 +159,7 @@ def test_ingest_property_no_type(capsys):
 def test_ingest_property_no_value(capsys):
     client = IngestClient()
     assert client is not None
-    ing_property = client.ingest_property("role","")
+    ing_property = client.ingest_property("role", "")
     captured = capsys.readouterr()
     assert "you need oneof value / external_value" in captured.err
 

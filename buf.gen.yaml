@@ -1,3 +1,4 @@
+---
 version: v1
 managed:
   enabled: true
@@ -6,5 +7,5 @@ plugins:
     out: indykite_sdk
   - plugin: buf.build/grpc/python:v1.56.2
     out: indykite_sdk
-# https://buf.build/protocolbuffers/plugins/python
-# https://buf.build/grpc/plugins/python
+    # https://buf.build/protocolbuffers/plugins/python
+    # https://buf.build/grpc/plugins/python

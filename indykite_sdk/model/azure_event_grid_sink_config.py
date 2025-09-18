@@ -1,13 +1,11 @@
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
 class AzureEventGridSinkConfig:
-    topic_endpoint: Optional[str] = None
-    access_key: Optional[str] = None
-    display_name: Optional[str] = None
-
+    topic_endpoint: str | None = None
+    access_key: str | None = None
+    display_name: str | None = None
 
     @classmethod
     def deserialize(cls, message_config):
@@ -17,11 +15,7 @@ class AzureEventGridSinkConfig:
         fields = [desc.name for desc, val in message_config.ListFields()]
 
         # Define processors for all fields
-        all_fields = {
-            'topic_endpoint': str,
-            'access_key': str,
-            'display_name': str
-        }
+        all_fields = {"topic_endpoint": str, "access_key": str, "display_name": str}
 
         # Process optional fields
         kwargs = {}

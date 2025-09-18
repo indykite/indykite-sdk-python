@@ -1,6 +1,8 @@
-from indykite_sdk.utils import timestamp_to_date, date_to_timestamp
-from google.protobuf.timestamp_pb2 import Timestamp
 from datetime import datetime
+
+from google.protobuf.timestamp_pb2 import Timestamp
+
+from indykite_sdk.utils import date_to_timestamp, timestamp_to_date
 
 
 def test_timestamp_to_date():

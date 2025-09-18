@@ -1,23 +1,24 @@
-from indykite_sdk.model.create_application import CreateApplication
-from indykite_sdk.model.create_application_agent import CreateApplicationAgent
-from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
-from indykite_sdk.model.key_type import KeyType
 import sys
-import indykite_sdk.utils.logger as logger
-from indykite_sdk.utils import helper
 from datetime import datetime
 
+from indykite_sdk.model.create_application import CreateApplication
+from indykite_sdk.model.create_application_agent import CreateApplicationAgent
+from indykite_sdk.model.key_type import KeyType
+from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
+from indykite_sdk.utils import helper, logger
 
-def create_application_with_agent_credentials(self,
-                                              app_space_id,
-                                              application_name,
-                                              application_agent_name,
-                                              application_agent_credentials_name,
-                                              public_key_type,
-                                              public_key=None,
-                                              expire_time=None):
-    """
-    create application, application agent and application credentials in an appSpace
+
+def create_application_with_agent_credentials(
+    self,
+    app_space_id,
+    application_name,
+    application_agent_name,
+    application_agent_credentials_name,
+    public_key_type,
+    public_key=None,
+    expire_time=None,
+):
+    """Create application, application agent and application credentials in an appSpace
     :param self:
     :param app_space_id: string
     :param application_name: string
@@ -31,17 +32,21 @@ def create_application_with_agent_credentials(self,
     sys.excepthook = logger.handle_excepthook
     try:
         application_name_id = helper.change_display_to_name(str(application_name))
-        response_application = self.create_application(app_space_id,
-                                                       application_name_id,
-                                                       str(application_name),
-                                                       str(application_name))
+        response_application = self.create_application(
+            app_space_id,
+            application_name_id,
+            str(application_name),
+            str(application_name),
+        )
         if isinstance(response_application, CreateApplication):
             application_agent_name_id = helper.change_display_to_name(str(application_agent_name))
-            response_application_agent = self.create_application_agent(response_application.id,
-                                                                       application_agent_name_id,
-                                                                       str(application_agent_name),
-                                                                       str(application_agent_name),
-                                                                       ["Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "TrustedDataAccess"])
+            response_application_agent = self.create_application_agent(
+                response_application.id,
+                application_agent_name_id,
+                str(application_agent_name),
+                str(application_agent_name),
+                ["Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "TrustedDataAccess"],
+            )
             if isinstance(response_application_agent, CreateApplicationAgent):
                 key_types = [k.value for k in KeyType]
                 if public_key_type not in key_types:
@@ -50,22 +55,26 @@ def create_application_with_agent_credentials(self,
                 response_application_agent_credentials = None
                 t = datetime.now().timestamp()
                 expire_time = int(t) + 3600
-                if public_key_type == 'jwk':
+                if public_key_type == "jwk":
                     response_application_agent_credentials = self.register_application_agent_credential_jwk(
                         response_application_agent.id,
                         application_agent_credentials_name,
                         public_key,
-                        expire_time)
-                elif public_key_type == 'pem':
+                        expire_time,
+                    )
+                elif public_key_type == "pem":
                     response_application_agent_credentials = self.register_application_agent_credential_pem(
                         response_application_agent.id,
                         application_agent_credentials_name,
                         public_key,
-                        expire_time)
+                        expire_time,
+                    )
                 if isinstance(response_application_agent_credentials, RegisterApplicationAgentCredential):
-                    response = {"response_application": response_application,
-                                "response_application_agent": response_application_agent,
-                                "response_application_agent_credentials": response_application_agent_credentials}
+                    response = {
+                        "response_application": response_application,
+                        "response_application_agent": response_application_agent,
+                        "response_application_agent_credentials": response_application_agent_credentials,
+                    }
                     return response
         return None
 

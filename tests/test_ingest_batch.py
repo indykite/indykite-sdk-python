@@ -1,25 +1,26 @@
-import pytest
 import random
 import string
 
-from indykite_sdk.ingest import IngestClient
+import pytest
+
 from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
-from indykite_sdk.model.ingest_record import (BatchUpsertNodesResponse,
-                                              BatchDeleteNodesResponse,
-                                              BatchDeleteNodePropertiesResponse,
-                                              BatchUpsertRelationshipsResponse,
-                                              BatchDeleteRelationshipsResponse,
-                                              BatchDeleteRelationshipPropertiesResponse,
-                                              BatchDeleteNodeTagsResponse)
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
+from indykite_sdk.ingest import IngestClient
+from indykite_sdk.model.ingest_record import (
+    BatchDeleteNodePropertiesResponse, BatchDeleteNodesResponse,
+    BatchDeleteNodeTagsResponse, BatchDeleteRelationshipPropertiesResponse,
+    BatchDeleteRelationshipsResponse, BatchUpsertNodesResponse,
+    BatchUpsertRelationshipsResponse)
+
 
 @pytest.fixture
 def client():
     return IngestClient()
 
+
 @pytest.fixture
 def external_ids():
-    return ''.join(random.choices(string.ascii_letters, k=15)), ''.join(random.choices(string.ascii_letters, k=15))
+    return "".join(random.choices(string.ascii_letters, k=15)), "".join(random.choices(string.ascii_letters, k=15))
 
 
 def test_ingest_batch_identity_success(client, external_ids):
@@ -32,20 +33,8 @@ def test_ingest_batch_identity_success(client, external_ids):
     properties2 = [ingest_property2]
     type = "Person"
     # create upsert object with all elements
-    node1 = client.data_node(
-        external_id,
-        type,
-        ["User"],
-        properties,
-        "",
-        True)
-    node2 = client.data_node(
-        external_id2,
-        type,
-        ["Employee"],
-        properties2,
-        "",
-        True)
+    node1 = client.data_node(external_id, type, ["User"], properties, "", True)
+    node2 = client.data_node(external_id2, type, ["Employee"], properties2, "", True)
     # send the ingestion request and get the response
     response = client.batch_upsert_nodes([node1, node2])
     assert isinstance(response, BatchUpsertNodesResponse)
@@ -88,20 +77,8 @@ def test_delete_batch_node_properties(client, external_ids):
     properties2 = [ingest_property2]
     type = "Person"
     # create upsert object with all elements
-    node1 = client.data_node(
-        external_id,
-        type,
-        ["User"],
-        properties,
-        "",
-        True)
-    node2 = client.data_node(
-        external_id2,
-        type,
-        ["Employee"],
-        properties2,
-        "",
-        True)
+    node1 = client.data_node(external_id, type, ["User"], properties, "", True)
+    node2 = client.data_node(external_id2, type, ["Employee"], properties2, "", True)
     # send the ingestion request and get the response
     response = client.batch_upsert_nodes([node1, node2])
     assert isinstance(response, BatchUpsertNodesResponse)
@@ -167,20 +144,8 @@ def test_delete_batch_node_tags(client, external_ids):
     properties2 = [ingest_property2]
     type = "Person"
     # create upsert object with all elements
-    node1 = client.data_node(
-        external_id,
-        type,
-        ["User"],
-        properties,
-        "",
-        True)
-    node2 = client.data_node(
-        external_id2,
-        type,
-        ["Employee"],
-        properties2,
-        "",
-        True)
+    node1 = client.data_node(external_id, type, ["User"], properties, "", True)
+    node2 = client.data_node(external_id2, type, ["Employee"], properties2, "", True)
     # send the ingestion request and get the response
     response = client.batch_upsert_nodes([node1, node2])
     assert isinstance(response, BatchUpsertNodesResponse)
@@ -204,20 +169,8 @@ def test_delete_batch_node_tags_error(client, external_ids, capsys):
     properties2 = [ingest_property2]
     type = "Person"
     # create upsert object with all elements
-    node1 = client.data_node(
-        external_id,
-        type,
-        ["Person"],
-        properties,
-        "",
-        True)
-    node2 = client.data_node(
-        external_id2,
-        type,
-        ["Person"],
-        properties2,
-        "",
-        True)
+    node1 = client.data_node(external_id, type, ["Person"], properties, "", True)
+    node2 = client.data_node(external_id2, type, ["Person"], properties2, "", True)
     # send the ingestion request and get the response
     response = client.batch_upsert_nodes([node1, node2])
     captured = capsys.readouterr()
@@ -234,20 +187,8 @@ def test_delete_batch_node_tags_wrong_tags(client, external_ids, capsys):
     properties2 = [ingest_property2]
     type = "Person"
     # create upsert object with all elements
-    node1 = client.data_node(
-        external_id,
-        type,
-        ["User"],
-        properties,
-        "",
-        True)
-    node2 = client.data_node(
-        external_id2,
-        type,
-        ["Employee"],
-        properties2,
-        "",
-        True)
+    node1 = client.data_node(external_id, type, ["User"], properties, "", True)
+    node2 = client.data_node(external_id2, type, ["Employee"], properties2, "", True)
     # send the ingestion request and get the response
     response = client.batch_upsert_nodes([node1, node2])
     assert isinstance(response, BatchUpsertNodesResponse)
