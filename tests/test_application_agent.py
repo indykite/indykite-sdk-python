@@ -4,8 +4,7 @@ import pytest
 from helpers import data
 
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.indykite.config.v1beta1 import \
-    config_management_api_pb2 as pb2
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.application_agent import ApplicationAgent
 from indykite_sdk.model.create_application_agent import CreateApplicationAgent
 from indykite_sdk.model.update_application_agent import UpdateApplicationAgent
@@ -136,7 +135,11 @@ def test_create_application_agent_empty(client, application_id):
 
 def test_create_application_agent_already_exists(client, application_id, capsys):
     application_agent = client.create_application_agent(
-        application_id, "appagentpython", "ApplicationAgent test sdk", "description", ["Authorization", "Capture"],
+        application_id,
+        "appagentpython",
+        "ApplicationAgent test sdk",
+        "description",
+        ["Authorization", "Capture"],
     )
     captured = capsys.readouterr()
     assert "config entity with given name already exist" in captured.err
@@ -145,7 +148,11 @@ def test_create_application_agent_already_exists(client, application_id, capsys)
 def test_create_application_agent_fail_invalid_application_id(client, capsys):
     application_id = "gid:AAAAAdM5d45g4j5lIW1Ma1nFAA"
     application_agent = client.create_application_agent(
-        application_id, "agent-sdk", "ApplicationAgent test", "description", ["Authorization", "Capture"],
+        application_id,
+        "agent-sdk",
+        "ApplicationAgent test",
+        "description",
+        ["Authorization", "Capture"],
     )
     captured = capsys.readouterr()
     assert "invalid id value was provided for application_id" in captured.err
@@ -153,7 +160,11 @@ def test_create_application_agent_fail_invalid_application_id(client, capsys):
 
 def test_create_application_agent_name_fail_type_parameter(client, application_id, capsys):
     application_agent = client.create_application_agent(
-        application_id, ["test"], "test create", "description", ["Authorization", "Capture"],
+        application_id,
+        ["test"],
+        "test create",
+        "description",
+        ["Authorization", "Capture"],
     )
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
@@ -162,7 +173,11 @@ def test_create_application_agent_name_fail_type_parameter(client, application_i
 def test_create_application_agent_no_permissions(client, application_id):
     right_now = str(int(time.time()))
     application_agent = client.create_application_agent(
-        application_id, "automation-" + right_now, "Automation " + right_now, "description", [],
+        application_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        [],
     )
     assert application_agent is None
 
@@ -172,7 +187,11 @@ def test_update_application_agent_success(client, app_space_id, capsys):
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
     application_agent = client.update_application_agent(
-        response.id, response.etag, response.display_name, "description", ["Authorization", "Capture"],
+        response.id,
+        response.etag,
+        response.display_name,
+        "description",
+        ["Authorization", "Capture"],
     )
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
@@ -190,7 +209,11 @@ def test_update_application_agent_empty(client, app_space_id):
 
     client.stub.UpdateApplicationAgent = mocked_update_application_agent
     application_agent = client.update_application_agent(
-        response.id, response.etag, response.display_name, "description", ["Authorization", "Capture"],
+        response.id,
+        response.etag,
+        response.display_name,
+        "description",
+        ["Authorization", "Capture"],
     )
     assert application_agent is None
 
@@ -201,7 +224,11 @@ def test_update_application_agent_fail_invalid_application_agent(client, app_spa
     assert response is not None
     application_agent_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
     application_agent = client.update_application_agent(
-        application_agent_id, response.etag, response.display_name, "description update", ["Authorization", "Capture"],
+        application_agent_id,
+        response.etag,
+        response.display_name,
+        "description update",
+        ["Authorization", "Capture"],
     )
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
@@ -212,7 +239,11 @@ def test_update_application_agent_name_fail_type_parameter(client, application_a
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
     application_agent = client.update_application_agent(
-        application_agent_id, [response.etag], response.display_name, "description", ["Authorization", "Capture"],
+        application_agent_id,
+        [response.etag],
+        response.display_name,
+        "description",
+        ["Authorization", "Capture"],
     )
     captured = capsys.readouterr()
     assert "bad argument type for built-in operation" in captured.err
@@ -223,7 +254,11 @@ def test_update_application_agent_no_permissions(client, app_space_id):
     response = client.read_application_agent_by_name(app_space_id, application_agent_name)
     assert response is not None
     application_agent = client.update_application_agent(
-        response.id, response.etag, response.display_name, "description", [],
+        response.id,
+        response.etag,
+        response.display_name,
+        "description",
+        [],
     )
     assert application_agent is None
 

@@ -5,8 +5,7 @@ import pytest
 from helpers import data
 
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.indykite.config.v1beta1 import \
-    config_management_api_pb2 as pb2
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
 from indykite_sdk.model.create_config_node import CreateConfigNode
 from indykite_sdk.model.update_config_node import UpdateConfigNode
@@ -64,7 +63,11 @@ def test_read_config_node_version_not_authz(client, capsys):
 def test_del_config_node_success(client, right_now, app_space_id, capsys):
     authorization_policy_config = data.get_authz_policy()
     config_node = client.create_authorization_policy_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", authorization_policy_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        authorization_policy_config,
     )
 
     assert config_node is not None
@@ -88,7 +91,11 @@ def test_del_config_node_empty(client, capsys):
 def test_create_authorization_policy_config_node_success(client, right_now, app_space_id, capsys):
     authorization_policy_config = data.get_authz_policy()
     config_node = client.create_authorization_policy_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", authorization_policy_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        authorization_policy_config,
     )
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
@@ -105,7 +112,11 @@ def test_create_authorization_policy_config_node_empty(client, right_now, app_sp
 
     client.stub.CreateConfigNode = mocked_create_config_node
     config_node = client.create_authorization_policy_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", authorization_policy_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        authorization_policy_config,
     )
 
     assert config_node is None
@@ -113,7 +124,11 @@ def test_create_authorization_policy_config_node_empty(client, right_now, app_sp
 
 def test_create_authorization_policy_config_node_exception(client, right_now, app_space_id, capsys):
     config_node = client.create_authorization_policy_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -126,7 +141,11 @@ def test_update_authorization_policy_config_node_success(client, right_now, caps
     assert response is not None
     authorization_policy_config = data.get_authz_policy()
     config_node_response = client.update_authorization_policy_config_node(
-        response.id, response.etag, "Automation " + right_now, "description " + right_now, authorization_policy_config,
+        response.id,
+        response.etag,
+        "Automation " + right_now,
+        "description " + right_now,
+        authorization_policy_config,
     )
 
     captured = capsys.readouterr()
@@ -146,7 +165,11 @@ def test_update_authorization_policy_config_node_empty(client, right_now, capsys
 
     client.stub.UpdateConfigNode = mocked_update_config_node
     config_node_response = client.update_authorization_policy_config_node(
-        response.id, response.etag, "Automation " + right_now, "description " + right_now, authorization_policy_config,
+        response.id,
+        response.etag,
+        "Automation " + right_now,
+        "description " + right_now,
+        authorization_policy_config,
     )
 
     assert config_node_response is None
@@ -157,7 +180,11 @@ def test_update_authorization_policy_config_node_exception(client, right_now, ca
     response = client.read_config_node(config_node_id)
     assert response is not None
     config_node_response = client.update_authorization_policy_config_node(
-        response.id, response.etag, "Automation " + right_now, "description " + right_now, "description",
+        response.id,
+        response.etag,
+        "Automation " + right_now,
+        "description " + right_now,
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -167,7 +194,11 @@ def test_update_authorization_policy_config_node_exception(client, right_now, ca
 def test_create_consent_config_node_success(client, right_now, app_space_id, capsys):
     consent_config = data.get_consent_config()
     config_node = client.create_consent_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", consent_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        consent_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None
@@ -184,7 +215,11 @@ def test_create_consent_config_node_empty(client, right_now, app_space_id, capsy
 
     client.stub.CreateConfigNode = mocked_create_config_node
     config_node = client.create_consent_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", consent_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        consent_config,
     )
 
     assert config_node is None
@@ -192,7 +227,11 @@ def test_create_consent_config_node_empty(client, right_now, app_space_id, capsy
 
 def test_create_consent_config_node_exception(client, right_now, app_space_id, capsys):
     config_node = client.create_consent_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -204,7 +243,11 @@ def test_create_token_introspect_config_node_success(client, app_space_id, capsy
     token_introspect_config = data.get_token_introspect_config()
 
     config_node = client.create_token_introspect_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", token_introspect_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        token_introspect_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None
@@ -222,7 +265,11 @@ def test_create_token_introspect_config_node_empty(client, app_space_id, capsys)
 
     client.stub.CreateConfigNode = mocked_create_config_node
     config_node = client.create_token_introspect_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", token_introspect_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        token_introspect_config,
     )
     assert config_node is None
 
@@ -230,7 +277,11 @@ def test_create_token_introspect_config_node_empty(client, app_space_id, capsys)
 def test_create_token_introspect_config_node_exception(client, app_space_id, capsys):
     right_now = str(int(time.time()) + 6)
     config_node = client.create_token_introspect_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -243,7 +294,11 @@ def test_create_token_introspect_config_node_wrong_app_space(client, capsys):
     token_introspect_config = data.get_token_introspect_config()
 
     config_node = client.create_token_introspect_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", token_introspect_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        token_introspect_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.NOT_FOUND" in captured.err
@@ -255,7 +310,11 @@ def test_create_token_introspect_config_node_app_space_other_customer(client, ca
     token_introspect_config = data.get_token_introspect_config()
 
     config_node = client.create_token_introspect_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", token_introspect_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        token_introspect_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.PERMISSION_DENIED" in captured.err
@@ -268,14 +327,22 @@ def test_update_token_introspect_config_node_success(
 ):
     token_introspect_config = data.get_token_introspect_config()
     config_node = client.create_token_introspect_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", token_introspect_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        token_introspect_config,
     )
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
     right_now = str(int(time.time()))
     token_introspect_config = data.get_token_introspect_config()
     config_node_response = client.update_token_introspect_config_node(
-        config_node.id, config_node.etag, "Automation " + right_now, "description " + right_now, token_introspect_config,
+        config_node.id,
+        config_node.etag,
+        "Automation " + right_now,
+        "description " + right_now,
+        token_introspect_config,
     )
     assert config_node_response is not None
     assert isinstance(config_node_response, UpdateConfigNode)
@@ -300,7 +367,11 @@ def test_create_external_data_resolver_config_node_success(client, app_space_id,
     external_data_resolver_config = data.get_external_data_resolver_config(right_now)
 
     config_node = client.create_external_data_resolver_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", external_data_resolver_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        external_data_resolver_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None
@@ -318,7 +389,11 @@ def test_create_external_data_resolver_config_node_empty(client, app_space_id, c
 
     client.stub.CreateConfigNode = mocked_create_config_node
     config_node = client.create_external_data_resolver_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", external_data_resolver_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        external_data_resolver_config,
     )
     assert config_node is None
 
@@ -326,7 +401,11 @@ def test_create_external_data_resolver_config_node_empty(client, app_space_id, c
 def test_create_external_data_resolver_config_node_exception(client, app_space_id, capsys):
     right_now = str(int(time.time()) + 6)
     config_node = client.create_external_data_resolver_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -339,7 +418,11 @@ def test_create_external_data_resolver_config_node_wrong_app_space(client, capsy
     external_data_resolver_config = data.get_external_data_resolver_config(right_now)
 
     config_node = client.create_external_data_resolver_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", external_data_resolver_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        external_data_resolver_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.NOT_FOUND" in captured.err
@@ -351,7 +434,11 @@ def test_create_external_data_resolver_config_node_app_space_other_customer(clie
     external_data_resolver_config = data.get_external_data_resolver_config(right_now)
 
     config_node = client.create_external_data_resolver_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", external_data_resolver_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        external_data_resolver_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.PERMISSION_DENIED" in captured.err
@@ -360,7 +447,11 @@ def test_create_external_data_resolver_config_node_app_space_other_customer(clie
 def test_update_external_data_resolver_config_node_success(client, right_now, app_space_id):
     external_data_resolver_config = data.get_external_data_resolver_config(right_now)
     config_node = client.create_external_data_resolver_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", external_data_resolver_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        external_data_resolver_config,
     )
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
@@ -430,7 +521,11 @@ def test_create_entity_matching_pipeline_config_node_empty(client, app_space_id,
 def test_create_entity_matching_pipeline_config_node_exception(client, app_space_id, capsys):
     right_now = str(int(time.time()) + 6)
     config_node = client.create_entity_matching_pipeline_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -514,7 +609,11 @@ def test_create_trust_score_profile_config_node_success(client, app_space_id, ca
     trust_score_profile_config = data.get_trust_score_profile_config(right_now)
 
     config_node = client.create_trust_score_profile_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", trust_score_profile_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        trust_score_profile_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None
@@ -532,7 +631,11 @@ def test_create_trust_score_profile_config_node_empty(client, app_space_id, caps
 
     client.stub.CreateConfigNode = mocked_create_config_node
     config_node = client.create_trust_score_profile_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", trust_score_profile_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        trust_score_profile_config,
     )
     assert config_node is None
 
@@ -540,7 +643,11 @@ def test_create_trust_score_profile_config_node_empty(client, app_space_id, caps
 def test_create_trust_score_profile_config_node_exception(client, app_space_id, capsys):
     right_now = str(int(time.time()) + 6)
     config_node = client.create_trust_score_profile_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -552,7 +659,11 @@ def test_create_trust_score_profile_config_node_wrong_app_space(client, capsys):
     app_space_id = data.get_identity_node()
     trust_score_profile_config = data.get_trust_score_profile_config(right_now)
     config_node = client.create_trust_score_profile_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", trust_score_profile_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        trust_score_profile_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.NOT_FOUND" in captured.err
@@ -564,7 +675,11 @@ def test_create_trust_score_profile_config_node_app_space_other_customer(client,
     trust_score_profile_config = data.get_trust_score_profile_config(right_now)
 
     config_node = client.create_trust_score_profile_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", trust_score_profile_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        trust_score_profile_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.PERMISSION_DENIED" in captured.err
@@ -573,7 +688,11 @@ def test_create_trust_score_profile_config_node_app_space_other_customer(client,
 def test_update_trust_score_profile_config_node_success(client, right_now, app_space_id, capsys):
     trust_score_profile_config = data.get_trust_score_profile_config(right_now)
     config_node = client.create_trust_score_profile_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", trust_score_profile_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        trust_score_profile_config,
     )
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
@@ -608,7 +727,11 @@ def test_create_knowledge_query_config_node_success(client, app_space_id, capsys
     knowledge_query_config = data.get_knowledge_query_config(right_now)
 
     config_node = client.create_knowledge_query_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", knowledge_query_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        knowledge_query_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None
@@ -626,7 +749,11 @@ def test_create_knowledge_query_config_node_empty(client, app_space_id, capsys):
 
     client.stub.CreateConfigNode = mocked_create_config_node
     config_node = client.create_knowledge_query_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", knowledge_query_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        knowledge_query_config,
     )
     assert config_node is None
 
@@ -634,7 +761,11 @@ def test_create_knowledge_query_config_node_empty(client, app_space_id, capsys):
 def test_create_knowledge_query_config_node_exception(client, app_space_id, capsys):
     right_now = str(int(time.time()) + 6)
     config_node = client.create_knowledge_query_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -646,7 +777,11 @@ def test_create_knowledge_query_config_node_wrong_app_space(client, capsys):
     app_space_id = data.get_identity_node()
     knowledge_query_config = data.get_knowledge_query_config(right_now)
     config_node = client.create_knowledge_query_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", knowledge_query_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        knowledge_query_config,
     )
     captured = capsys.readouterr()
     assert "location must be DOCUMENT_TYPE_APP_SPACE" in captured.err
@@ -658,7 +793,11 @@ def test_knowledge_query_config_node_app_space_other_customer(client, capsys):
     knowledge_query_config = data.get_knowledge_query_config(right_now)
 
     config_node = client.create_knowledge_query_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", knowledge_query_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        knowledge_query_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.INVALID_ARGUMENT" in captured.err
@@ -667,7 +806,11 @@ def test_knowledge_query_config_node_app_space_other_customer(client, capsys):
 def test_update_knowledge_query_config_node_success(client, right_now, app_space_id, capsys):
     knowledge_query_config = data.get_knowledge_query_config(right_now)
     config_node = client.create_knowledge_query_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", knowledge_query_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        knowledge_query_config,
     )
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
@@ -702,7 +845,11 @@ def test_create_event_sink_config_node_success(client, app_space_id, capsys):
     event_sink_config = data.get_event_sink_config(right_now)
 
     config_node = client.create_event_sink_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", event_sink_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        event_sink_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None
@@ -720,7 +867,11 @@ def test_create_event_sink_config_node_empty(client, app_space_id, capsys):
 
     client.stub.CreateConfigNode = mocked_create_config_node
     config_node = client.create_event_sink_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", event_sink_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        event_sink_config,
     )
     assert config_node is None
 
@@ -728,7 +879,11 @@ def test_create_event_sink_config_node_empty(client, app_space_id, capsys):
 def test_create_event_sink_config_node_exception(client, app_space_id, capsys):
     right_now = str(int(time.time()) + 6)
     config_node = client.create_event_sink_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "description",
     )
 
     captured = capsys.readouterr()
@@ -740,7 +895,11 @@ def test_create_event_sink_config_node_wrong_app_space(client, capsys):
     app_space_id = data.get_identity_node()
     event_sink_config = data.get_event_sink_config(right_now)
     config_node = client.create_event_sink_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", event_sink_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        event_sink_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.NOT_FOUND" in captured.err
@@ -752,7 +911,11 @@ def test_event_sink_config_node_app_space_other_customer(client, capsys):
     event_sink_config = data.get_event_sink_config(right_now)
 
     config_node = client.create_event_sink_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", event_sink_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        event_sink_config,
     )
     captured = capsys.readouterr()
     assert "StatusCode.PERMISSION_DENIED" in captured.err
@@ -762,7 +925,11 @@ def test_update_event_sink_config_node_success(client, app_space_id, capsys):
     right_now = str(int(time.time()) + 2)
     event_sink_config = data.get_event_sink_config(right_now)
     config_node = client.create_event_sink_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", event_sink_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        event_sink_config,
     )
     assert config_node is not None
     assert isinstance(config_node, CreateConfigNode)
@@ -831,7 +998,11 @@ def test_validate_knowledge_query_status(client, capsys):
 def test_get_list_config_node_success(client, right_now, app_space_id, capsys):
     authorization_policy_config = data.get_authz_policy()
     config_node = client.create_authorization_policy_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", authorization_policy_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        authorization_policy_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None
@@ -848,7 +1019,11 @@ def test_get_list_config_node_empty(client, app_space_id, capsys):
     right_now = str(int(time.time() + 12))
     authorization_policy_config = data.get_authz_policy()
     config_node = client.create_authorization_policy_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", authorization_policy_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        authorization_policy_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None
@@ -863,7 +1038,11 @@ def test_get_list_config_node_exception(client, app_space_id, capsys):
     right_now = str(int(time.time() + 15))
     authorization_policy_config = data.get_authz_policy()
     config_node = client.create_authorization_policy_config_node(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description", authorization_policy_config,
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        authorization_policy_config,
     )
     captured = capsys.readouterr()
     assert config_node is not None

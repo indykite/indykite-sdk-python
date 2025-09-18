@@ -6,8 +6,7 @@ from helpers import data
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.model.create_application import CreateApplication
 from indykite_sdk.model.create_application_agent import CreateApplicationAgent
-from indykite_sdk.model.register_application_agent_credential import \
-    RegisterApplicationAgentCredential
+from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
 
 
 @pytest.fixture

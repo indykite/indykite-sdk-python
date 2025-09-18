@@ -7,10 +7,14 @@ from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2
 from indykite_sdk.ingest import IngestClient
 from indykite_sdk.model.ingest_record import (
-    BatchDeleteNodePropertiesResponse, BatchDeleteNodesResponse,
-    BatchDeleteNodeTagsResponse, BatchDeleteRelationshipPropertiesResponse,
-    BatchDeleteRelationshipsResponse, BatchUpsertNodesResponse,
-    BatchUpsertRelationshipsResponse)
+    BatchDeleteNodePropertiesResponse,
+    BatchDeleteNodesResponse,
+    BatchDeleteNodeTagsResponse,
+    BatchDeleteRelationshipPropertiesResponse,
+    BatchDeleteRelationshipsResponse,
+    BatchUpsertNodesResponse,
+    BatchUpsertRelationshipsResponse,
+)
 
 
 @pytest.fixture

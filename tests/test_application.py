@@ -4,8 +4,7 @@ import pytest
 from helpers import data
 
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.indykite.config.v1beta1 import \
-    config_management_api_pb2 as pb2
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.application import Application
 from indykite_sdk.model.create_application import CreateApplication
 from indykite_sdk.model.update_application import UpdateApplication
@@ -99,7 +98,10 @@ def test_read_application_by_name_empty(client, app_space_id):
 def test_create_application_success(client, app_space_id, capsys):
     right_now = str(int(time.time()))
     application = client.create_application(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
     )
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
@@ -116,7 +118,10 @@ def test_create_application_empty(client, app_space_id):
 
     client.stub.CreateApplication = mocked_create_application
     application = client.create_application(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
     )
     assert application is None
 
@@ -251,7 +256,10 @@ def test_get_application_list_empty(client, app_space_id):
 def test_del_application_success(client, app_space_id, capsys):
     right_now = str(int(time.time()))
     application = client.create_application(
-        app_space_id, "automation-" + right_now, "Automation " + right_now, "description",
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
     )
     assert application is not None
     response = client.delete_application(application.id, application.etag)
