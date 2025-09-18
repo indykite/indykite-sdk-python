@@ -2,12 +2,10 @@ import pytest
 from helpers import data
 
 from indykite_sdk.authorization import AuthorizationClient
-from indykite_sdk.indykite.authorization.v1beta1 import \
-    authorization_service_pb2 as pb2
+from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
 from indykite_sdk.indykite.authorization.v1beta1 import model_pb2 as pb2_model
 from indykite_sdk.indykite.objects.v1beta1 import struct_pb2 as pb2_struct
-from indykite_sdk.model.is_authorized import (IsAuthorizedResource,
-                                              IsAuthorizedResponse)
+from indykite_sdk.model.is_authorized import IsAuthorizedResource, IsAuthorizedResponse
 
 
 @pytest.fixture
@@ -167,7 +165,8 @@ def test_is_authorized_property_empty(client):
     input_params = {}
     subject = pb2_model.Subject(
         digital_twin_property=pb2_model.Property(
-            type=str(type_filter), value=pb2_struct.Value(string_value=email_value),
+            type=str(type_filter),
+            value=pb2_struct.Value(string_value=email_value),
         ),
     )
 

@@ -4,8 +4,7 @@ import pytest
 from helpers import data
 
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.indykite.config.v1beta1 import \
-    config_management_api_pb2 as pb2
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.app_space import ApplicationSpace
 from indykite_sdk.model.create_app_space import CreateApplicationSpace
 from indykite_sdk.model.update_app_space import UpdateApplicationSpace
@@ -106,7 +105,10 @@ def test_create_app_space_success(client, customer_id, capsys):
     right_now = str(int(time.time()))
 
     app_space = client.create_app_space(
-        customer_id, "automation-" + right_now, "Automation " + right_now, "description",
+        customer_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
     )
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
@@ -124,7 +126,10 @@ def test_create_app_space_empty(client, customer_id):
 
     client.stub.CreateApplicationSpace = mocked_create_app_space
     app_space = client.create_app_space(
-        customer_id, "automation-" + right_now, "Automation " + right_now, "description",
+        customer_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
     )
 
     assert app_space is None
@@ -159,7 +164,11 @@ def test_create_app_space_name_fail_type_parameter(client, customer_id, capsys):
 def test_create_app_space_wrong_region(client, customer_id, capsys):
     right_now = str(int(time.time()))
     app_space = client.create_app_space(
-        customer_id, "automation-" + right_now, "Automation " + right_now, "description", "wrong-region",
+        customer_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+        "wrong-region",
     )
     captured = capsys.readouterr()
     assert "value must be in list [europe-west1 us-east1]" in captured.err
@@ -284,7 +293,10 @@ def test_get_app_space_list_empty(client, customer_id):
 def test_del_app_space_success(client, customer_id, capsys):
     right_now = str(int(time.time()))
     app_space = client.create_app_space(
-        customer_id, "automation-" + right_now, "Automation " + right_now, "description",
+        customer_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
     )
     assert app_space is not None
     response = client.delete_app_space(app_space.id, app_space.etag)

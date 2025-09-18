@@ -1,10 +1,8 @@
 import pytest
 
 from indykite_sdk.authorization import AuthorizationClient
-from indykite_sdk.indykite.authorization.v1beta1 import \
-    authorization_service_pb2 as pb2
-from indykite_sdk.model.who_authorized import (WhoAuthorizedResource,
-                                               WhoAuthorizedResponse)
+from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2 as pb2
+from indykite_sdk.model.who_authorized import WhoAuthorizedResource, WhoAuthorizedResponse
 
 
 @pytest.fixture

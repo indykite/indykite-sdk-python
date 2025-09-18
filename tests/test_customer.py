@@ -2,8 +2,7 @@ import pytest
 from helpers import data
 
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.indykite.config.v1beta1 import \
-    config_management_api_pb2 as pb2
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.customer import Customer
 
 

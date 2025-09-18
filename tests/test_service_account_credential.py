@@ -5,10 +5,8 @@ import pytest
 from helpers import data
 
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.indykite.config.v1beta1 import \
-    config_management_api_pb2 as pb2
-from indykite_sdk.model.register_service_account_credential import \
-    RegisterServiceAccountCredential
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.model.register_service_account_credential import RegisterServiceAccountCredential
 
 
 @pytest.fixture
@@ -69,7 +67,10 @@ def test_register_service_account_credential_jwk_success(client, service_account
     expire_time_in_seconds = int(t) + 2678400
 
     service_account_credential = client.register_service_account_credential_jwk(
-        service_account_id, "automation-" + right_now, jwk, expire_time_in_seconds,
+        service_account_id,
+        "automation-" + right_now,
+        jwk,
+        expire_time_in_seconds,
     )
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
@@ -88,7 +89,10 @@ def test_register_service_account_credential_jwk_empty(client, service_account_i
 
     client.stub.RegisterServiceAccountCredential = mocked_register_service_account_credential
     service_account_credential = client.register_service_account_credential_jwk(
-        service_account_id, "automation-" + right_now, jwk, expire_time_in_seconds,
+        service_account_id,
+        "automation-" + right_now,
+        jwk,
+        expire_time_in_seconds,
     )
     assert service_account_credential is None
 
@@ -100,7 +104,10 @@ def test_register_service_account_credential_jwk_exception(client, service_accou
     expire_time_in_seconds = int(t) + 2678400
 
     service_account_credential = client.register_service_account_credential_jwk(
-        service_account_id, "automation-" + right_now, "automation", expire_time_in_seconds,
+        service_account_id,
+        "automation-" + right_now,
+        "automation",
+        expire_time_in_seconds,
     )
 
     captured = capsys.readouterr()
@@ -114,7 +121,10 @@ def test_register_service_account_credential_pem_success(client, service_account
     expire_time_in_seconds = int(t) + 2678400
 
     service_account_credential = client.register_service_account_credential_pem(
-        service_account_id, "automation-" + right_now, pem, expire_time_in_seconds,
+        service_account_id,
+        "automation-" + right_now,
+        pem,
+        expire_time_in_seconds,
     )
     captured = capsys.readouterr()
 
@@ -134,7 +144,10 @@ def test_register_service_account_credential_pem_empty(client, service_account_i
 
     client.stub.RegisterServiceAccountCredential = mocked_register_service_account_credential
     service_account_credential = client.register_service_account_credential_pem(
-        service_account_id, "automation-" + right_now, pem, expire_time_in_seconds,
+        service_account_id,
+        "automation-" + right_now,
+        pem,
+        expire_time_in_seconds,
     )
 
     assert service_account_credential is None
@@ -147,7 +160,10 @@ def test_register_service_account_credential_pem_exception(client, service_accou
     expire_time_in_seconds = int(t) + 2678400
 
     service_account_credential = client.register_service_account_credential_pem(
-        service_account_id, "automation-" + right_now, pem, expire_time_in_seconds,
+        service_account_id,
+        "automation-" + right_now,
+        pem,
+        expire_time_in_seconds,
     )
 
     captured = capsys.readouterr()

@@ -5,10 +5,8 @@ import pytest
 from helpers import data
 
 from indykite_sdk.config import ConfigClient
-from indykite_sdk.indykite.config.v1beta1 import \
-    config_management_api_pb2 as pb2
-from indykite_sdk.model.register_application_agent_credential import \
-    RegisterApplicationAgentCredential
+from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
+from indykite_sdk.model.register_application_agent_credential import RegisterApplicationAgentCredential
 
 
 @pytest.fixture
@@ -61,7 +59,10 @@ def test_register_application_agent_credential_jwk_success(client, application_a
     t = datetime.now().timestamp()
     expire_time_in_seconds = int(t) + 26784
     application_agent_credential = client.register_application_agent_credential_jwk(
-        application_agent_id, "automation-" + right_now, jwk, expire_time_in_seconds,
+        application_agent_id,
+        "automation-" + right_now,
+        jwk,
+        expire_time_in_seconds,
     )
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
@@ -84,7 +85,10 @@ def test_register_application_agent_credential_jwk_empty(client, application_age
 
     client.stub.RegisterApplicationAgentCredential = mocked_register_application_agent_credential
     application_agent_credential = client.register_application_agent_credential_jwk(
-        application_agent_id, "automation-" + right_now, jwk, expire_time_in_seconds,
+        application_agent_id,
+        "automation-" + right_now,
+        jwk,
+        expire_time_in_seconds,
     )
 
     assert application_agent_credential is None
@@ -96,7 +100,10 @@ def test_register_application_agent_credential_jwk_exception(client, application
     t = datetime.now().timestamp()
     expire_time_in_seconds = int(t) + 2678400
     application_agent_credential = client.register_application_agent_credential_jwk(
-        application_agent_id, "automation-" + right_now, "automation", expire_time_in_seconds,
+        application_agent_id,
+        "automation-" + right_now,
+        "automation",
+        expire_time_in_seconds,
     )
 
     captured = capsys.readouterr()
@@ -109,7 +116,10 @@ def test_register_application_agent_credential_pem_success(client, application_a
     t = datetime.now().timestamp()
     expire_time_in_seconds = int(t) + 2678400
     application_agent_credential = client.register_application_agent_credential_pem(
-        application_agent_id, "automation-" + right_now, pem, expire_time_in_seconds,
+        application_agent_id,
+        "automation-" + right_now,
+        pem,
+        expire_time_in_seconds,
     )
     captured = capsys.readouterr()
 
@@ -133,7 +143,10 @@ def test_register_application_agent_credential_pem_empty(client, application_age
 
     client.stub.RegisterApplicationAgentCredential = mocked_register_application_agent_credential
     application_agent_credential = client.register_application_agent_credential_pem(
-        application_agent_id, "automation-" + right_now, pem, expire_time_in_seconds,
+        application_agent_id,
+        "automation-" + right_now,
+        pem,
+        expire_time_in_seconds,
     )
 
     assert application_agent_credential is None
@@ -146,7 +159,10 @@ def test_register_application_agent_credential_pem_exception(client, application
     expire_time_in_seconds = int(t) + 2678400
 
     application_agent_credential = client.register_application_agent_credential_pem(
-        application_agent_id, "automation-" + right_now, pem, expire_time_in_seconds,
+        application_agent_id,
+        "automation-" + right_now,
+        pem,
+        expire_time_in_seconds,
     )
 
     captured = capsys.readouterr()

@@ -9,8 +9,7 @@ import numpy as np
 
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import \
-    google_dot_protobuf_dot_wrappers__pb2 as wrappers
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 
 INDYKITE_SDK_URL = os.getenv("INDYKITE_SDK_URL")
 EMAIL_URL = os.getenv("EMAIL_URL")
@@ -311,7 +310,9 @@ def get_entity_matching_pipeline_config_with_url(right_now):
 def get_trust_score_profile_config(right_now):
     dimension = model_pb2.TrustScoreDimension(name=4, weight=0.9)
     trust_score_profile_config = ConfigClient().trust_score_profile_config(
-        node_classification="Employee", dimensions=[dimension], schedule=4,
+        node_classification="Employee",
+        dimensions=[dimension],
+        schedule=4,
     )
     return trust_score_profile_config
 

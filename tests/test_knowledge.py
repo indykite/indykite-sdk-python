@@ -3,10 +3,8 @@ from datetime import datetime
 
 import pytest
 
-from indykite_sdk.indykite.knowledge.v1beta2 import \
-    identity_knowledge_api_pb2 as pb2
-from indykite_sdk.indykite.knowledge.v1beta2.model_pb2 import \
-    Return as ReturnKnowledge
+from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 as pb2
+from indykite_sdk.indykite.knowledge.v1beta2.model_pb2 import Return as ReturnKnowledge
 from indykite_sdk.indykite.objects.v1beta2 import value_pb2
 from indykite_sdk.knowledge import KnowledgeClient
 from indykite_sdk.model.identity_knowledge import Metadata, Node
