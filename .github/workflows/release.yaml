@@ -51,7 +51,7 @@ jobs:
 
       - name: Get Version
         run: |
-          VERSION="$(cat .release-please-manifest.json | jq -r '."."')"
+          VERSION="$(jq -r '."."' .release-please-manifest.json)"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: gcloud/auth

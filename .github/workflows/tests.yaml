@@ -89,7 +89,6 @@ jobs:
         run: |
           pipx install pipenv
           pipenv install --dev -e .
-          pipenv shell
 
       - name: Run tests
         run: pipenv run pytest
