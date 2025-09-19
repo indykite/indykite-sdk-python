@@ -17,15 +17,15 @@ enabled = true
 name = "shell"
 
 #
-[[analyzers]]
-name = "python"
-enabled = true
-dependency_file_paths = ["Pipfile"]
+# [[analyzers]]
+# name = "python"
+# enabled = true
+# dependency_file_paths = ["Pipfile"]
 
-  [analyzers.meta]
-  runtime_version = "3.x.x"
-  max_line_length = 120
-  skip_doc_coverage = ["module", "magic", "init", "class", "nonpublic"]
+#   [analyzers.meta]
+#   runtime_version = "3.x.x"
+#   max_line_length = 120
+#   skip_doc_coverage = ["module", "magic", "init", "class", "nonpublic"]
 
 # reference for potential usage, but done via 'pre-commit' & CI verification at the moment
 # [[transformers]]
