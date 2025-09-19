@@ -27,6 +27,7 @@ dependency_file_paths = ["Pipfile"]
   max_line_length = 120
   skip_doc_coverage = ["module", "magic", "init", "class", "nonpublic"]
 
-[[transformers]]
-name = "ruff" # "black"
-enabled = true
+# reference for potential usage, but done via 'pre-commit' & CI verification at the moment
+# [[transformers]]
+# name = "ruff" # "black"
+# enabled = true
