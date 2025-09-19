@@ -45,7 +45,7 @@ def test_bool():
     value = object_to_value(test_object)
 
     # Assert
-    assert value == True
+    assert value
 
 
 def test_integer():
@@ -187,4 +187,4 @@ def test_unknown():
     value = object_to_value(test_object)
 
     # Assert
-    assert value == None
+    assert value is None

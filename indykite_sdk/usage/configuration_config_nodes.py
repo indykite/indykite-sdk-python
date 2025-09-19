@@ -683,7 +683,8 @@ def main():
         name = args.name
         display_name = args.display_name
         description = args.description
-        query = '{"nodes": ["resource.property.value"], "filter": {"attribute" : "resource.property.value","operator": "=","value": "$resourceValue"}}'
+        query = """{"nodes": ["resource.property.value"],
+        "filter": {"attribute" : "resource.property.value","operator": "=","value": "$resourceValue"}}"""
         knowledge_query_config = ConfigClient().knowledge_query_config(
             query=query,
             status=1,

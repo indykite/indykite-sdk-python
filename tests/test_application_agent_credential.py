@@ -197,19 +197,3 @@ def test_del_application_agent_empty(client):
     client.stub.DeleteApplicationAgentCredential = mocked_delete_application_agent_credential
     response = client.delete_application_agent_credential(id, etag)
     assert response is None
-    etag = "npsOGI4UW"
-    response = client.delete_application_agent_credential(id, etag)
-    captured = capsys.readouterr()
-    assert "invalid id value was provided for id" in captured.err
-
-
-def test_del_application_agent_empty(client):
-    id = "gid:AAAAAjLRnbbaJE53rrjm_NJXyO"
-    etag = "npsOGI4UW"
-
-    def mocked_delete_application_agent_credential(request: pb2.DeleteApplicationAgentRequest):
-        return None
-
-    client.stub.DeleteApplicationAgentCredential = mocked_delete_application_agent_credential
-    response = client.delete_application_agent_credential(id, etag)
-    assert response is None

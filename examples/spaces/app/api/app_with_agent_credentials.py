@@ -1,11 +1,11 @@
 import json
 
-from app.config import API_PREFIX
-from app.form.app_with_agent_credentials import ApplicationWithAgentCredentialsCreate
-from app.utils.response import get_credentials_response, get_response, response_data
 from flask import flash, render_template, request, session
 from flask_openapi3 import APIBlueprint, Tag
 
+from app.config import API_PREFIX
+from app.form.app_with_agent_credentials import ApplicationWithAgentCredentialsCreate
+from app.utils.response import get_credentials_response, get_response, response_data
 from indykite_sdk.config import ConfigClient
 
 __version__ = "/v1"

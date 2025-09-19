@@ -18,8 +18,9 @@ class ParseKwargs(argparse.Action):
 
 
 def main():
-    """To call one command in the usage directory, check the command and the corresponding arguments in the list then execute:
-    python3 configuration_spaces.py COMMAND arg1 arg2 ...
+    """To call one command in the usage directory, check the command and the corresponding arguments in the list,
+    then execute:
+        python3 configuration_spaces.py COMMAND arg1 arg2 ...
     """
     """ list of commands and arguments definitions """
 
@@ -428,10 +429,7 @@ def main():
         # will delete everything below the AppSpace
         client_config = ConfigClient()
         app_space_id = args.app_space_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_app_space_response = client_config.delete_app_space(app_space_id, etag)
         if delete_app_space_response:
             print(delete_app_space_response)
@@ -518,10 +516,7 @@ def main():
         # delete_application method: to delete application from gid id and etag
         client_config = ConfigClient()
         application_id = args.application_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_application_response = client_config.delete_application(application_id, etag)
         if delete_application_response:
             print(delete_application_response)
@@ -611,10 +606,7 @@ def main():
         # delete_application_agent method: to delete application agent from gid id and etag
         client_config = ConfigClient()
         application_agent_id = args.application_agent_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_application_agent_response = client_config.delete_application_agent(application_agent_id, etag)
         if delete_application_agent_response:
             print(delete_application_agent_response)
@@ -794,10 +786,7 @@ def main():
         # delete_service_account method: will also delete the credentials
         client_config = ConfigClient()
         service_account_id = args.service_account_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_service_account_response = client_config.delete_service_account(service_account_id, etag)
         if delete_service_account_response:
             print(delete_service_account_response)
@@ -859,10 +848,7 @@ def main():
     elif command == "delete_service_account_credential":
         client_config = ConfigClient()
         service_account_credential_id = args.service_account_credential_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_service_account_credential_response = client_config.delete_service_account_credential(
             service_account_credential_id,
             etag,

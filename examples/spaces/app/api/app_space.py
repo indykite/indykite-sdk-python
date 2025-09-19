@@ -1,10 +1,10 @@
+from flask import flash, render_template, request, session
+from flask_openapi3 import APIBlueprint, Tag
+
 from app.config import API_PREFIX
 from app.form.app_space import AppSpaceById, AppSpaceCreate
 from app.utils.helper import change_display_to_name
 from app.utils.response import get_response, response_data
-from flask import flash, render_template, request, session
-from flask_openapi3 import APIBlueprint, Tag
-
 from indykite_sdk.config import ConfigClient
 
 __version__ = "/v1"

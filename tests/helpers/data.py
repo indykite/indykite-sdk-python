@@ -348,7 +348,7 @@ def get_event_sink_config(right_now):
             brokers=["kafka-01:9092", "kafka-02:9092"],
             topic="events",
             username="my-username",
-            password="some-super-secret-password", # skipcq: SCT-A000 # deepsource ignore; test data, not actual password
+            password="some-super-secret-password",  # skipcq: SCT-A000 # deepsource ignore; test data
             display_name=wrappers.StringValue(value="display_name1"),
         ),
     )
@@ -357,7 +357,7 @@ def get_event_sink_config(right_now):
             brokers=["kafka-01:9092", "kafka-02:9092"],
             topic="events",
             username="my-username",
-            password="some-super-secret-password", # skipcq: SCT-A000 # deepsource ignore; test data, not actual password
+            password="some-super-secret-password",  # skipcq: SCT-A000 # deepsource ignore; test data
             display_name=wrappers.StringValue(value="display_name2"),
         ),
     )

@@ -1,5 +1,12 @@
 version = 1
 
+exclude_patterns = [
+  "indykite_sdk/indykite/**",
+  "indykite_sdk/buf/**",
+  "indykite_sdk/gnostic/**",
+  "indykite_sdk/validate/**"
+]
+
 #
 [[analyzers]]
 name = "secrets"

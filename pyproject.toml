@@ -4,12 +4,82 @@ omit = [
     "tmp/*",
 ]
 
+#
+# 'ruff' - the primary linter, the rest are left as a reference and potential manual cross-verification
+# https://github.com/astral-sh/ruff
+[tool.ruff]
+target-version = 'py311'
+line-length = 120
+
+extend-exclude = [
+    "indykite_sdk/indykite",
+    "indykite_sdk/buf",
+    "indykite_sdk/gnostic",
+    "indykite_sdk/validate",
+    ]
+
+[tool.ruff.lint]
+# select = ['ALL'] # Enable All rules.
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+# unfixable = []
+ignore = [
+    "D100", # Missing docstring in public module
+    "D101", # Missing docstring in public class
+    "D102", # Missing docstring in public method
+    "D103", # Missing docstring in public function
+    "D104", # Missing docstring in public package
+    "BLE001", # Do not catch blind exception: `Exception`
+    "ANN001", # FIXME: Missing type annotation for function argument
+    "ANN201", # FIXME: Missing return type annotation for public function
+    "ANN202", # FIXME: Missing return type annotation for private function
+    "B006", # TODO: Do not use mutable data structures for argument defaults
+    "B904", # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None`
+    "F811", # TODO: Redefinition of unused ... from above
+    "F841", # TODO: Local variable is assigned to but never used
+    "INP001", # File ... is part of an implicit namespace package. Add an `__init__.py`
+    "S101", # FIXME: Use of `assert` detected - badly named test files?
+    "SIM115", # TODO: Use a context manager for opening files
+    "T201", # TODO: `print` found
+]
+
+# TODO: TBD later
+# [tool.ruff.lint.pydocstyle]
+# convention = 'google'  # Or 'numpy', or 'pep257'
+
+# Override to single quotes
+# must be set in accordance, otherwise will get a warning:
+#   The `flake8-quotes.inline-quotes="double"` option is incompatible with the formatter's `format.quote-style="single"`
+[tool.ruff.format]
+quote-style = 'double'
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = 'double'
+
+#
+# 'bandit' config section
+# https://bandit.readthedocs.io/en/latest/config.html
+#
+[tool.bandit]
+exclude_dirs = ['tests']
+
+#
 # NOTE: flake8 doesn't use this TOML by default, requires 'Flake8-pyproject' for that
 #   https://github.com/PyCQA/flake8/issues/234
 #   https://flake8.pycqa.org/en/latest/user/configuration.html
 #   https://github.com/john-hen/Flake8-pyproject
 [tool.flake8]
-
 max-line-length = 120
 
 extend-ignore = [
@@ -84,44 +154,6 @@ attr-rgx = '^_?[a-zA-Z][_a-z\d]*$'
 method-rgx = '^_{0,2}[a-z][_a-z\d]*$'
 
 
-#
-# 'ruff' config section
-# https://github.com/astral-sh/ruff
-[tool.ruff]
-target-version = 'py311'
-line-length = 120
-
-extend-exclude = ["tests"]
-
-[tool.ruff.lint]
-# Enable All rules.
-select = ['ALL']
-# unfixable = []
-ignore = [
-    "D100", # Missing docstring in public module
-    "D101", # Missing docstring in public class
-    "D103", # Missing docstring in public function
-    "D104", # Missing docstring in public package
-    "ANN001", # FIXME: Missing type annotation for function argument
-    "ANN201", # FIXME: Missing return type annotation for public function
-    "ANN202", # FIXME: Missing return type annotation for private function
-    "BLE001", # Do not catch blind exception: `Exception`
-    "INP001", # File ... is part of an implicit namespace package. Add an `__init__.py`
-    "S101", # FIXME: Use of `assert` detected - badly named test files?
-]
-
-# TODO: TBD later
-# [tool.ruff.lint.pydocstyle]
-# convention = 'google'  # Or 'numpy', or 'pep257'
-
-# Override to single quotes
-# must be set in accordance, otherwise will get a warning:
-#   The `flake8-quotes.inline-quotes="double"` option is incompatible with the formatter's `format.quote-style="single"`
-[tool.ruff.format]
-quote-style = 'double'
-[tool.ruff.lint.flake8-quotes]
-inline-quotes = 'double'
-
 
 #
 # 'black' config section
@@ -132,11 +164,3 @@ line-length = 120
 target-version = ['py311', 'py313']
 diff = 1
 color = 1
-
-
-#
-# 'bandit' config section
-# https://bandit.readthedocs.io/en/latest/config.html
-#
-[tool.bandit]
-exclude_dirs = ['tests']

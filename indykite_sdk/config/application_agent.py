@@ -62,7 +62,8 @@ def create_application_agent(
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
     :param display_name: string
     :param description: string
-    :param api_permissions: list with values "Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "TrustedDataAccess"
+    :param api_permissions: list with values "Authorization", "Capture", "ContXIQ", "EntityMatching",
+        "IKGRead", "TrustedDataAccess"
     :return: deserialized CreateApplicationAgentResponse
     """
     sys.excepthook = logger.handle_excepthook
@@ -90,7 +91,8 @@ def update_application_agent(self, application_agent_id, etag, display_name, des
     :param etag: string
     :param display_name: string
     :param description: string
-    :param api_permissions: list with values "Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "TrustedDataAccess"
+    :param api_permissions: list with values "Authorization", "Capture", "ContXIQ", "EntityMatching",
+        "IKGRead", "TrustedDataAccess"
     :return: deserialized UpdateApplicationAgentResponse
     """
     sys.excepthook = logger.handle_excepthook
