@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pr-${{ github.ref }}
+  group: pr-pytest-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -91,9 +91,6 @@ jobs:
           pipenv install --dev -e .
 
       - name: Run tests
-        run: pipenv run pytest
-
-      - name: Run script
         run: pipenv run pytest --cov . --cov-report xml
 
       - name: codecov/upload-coverage
