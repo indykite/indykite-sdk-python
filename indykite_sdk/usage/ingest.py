@@ -1,21 +1,21 @@
-"""
-Commandline interface for making an API request with the SDK.
-"""
+"""Commandline interface for making an API request with the SDK."""
+
 import argparse
-from datetime import datetime
 import random
 import string
 import uuid
-from indykite_sdk.ingest import IngestClient
+from datetime import datetime
+
 from indykite_sdk import api_helper
 from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
+from indykite_sdk.ingest import IngestClient
 
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
         setattr(namespace, self.dest, dict())
         for value in values:
-            key, value = value.split('=')
+            key, value = value.split("=")
             getattr(namespace, self.dest)[key] = value
 
 
@@ -58,7 +58,7 @@ def main():
         # unique value which can be random
         record_id = str(uuid.uuid4())
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
         # type of node
         type = "Person"
@@ -70,13 +70,7 @@ def main():
         ingest_property5 = client_ingest.ingest_property("email", "neo@yahoo.uk")
         properties = [ingest_property1, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
-        upsert = client_ingest.upsert_data_node(
-            external_id,
-            type,
-            ["Client"],
-            properties,
-            "",
-            True)
+        upsert = client_ingest.upsert_data_node(external_id, type, ["Client"], properties, "", True)
         # create record with record_id and upsert
         record = client_ingest.record_upsert(record_id, upsert)
         print(record)
@@ -89,7 +83,7 @@ def main():
         client_ingest.channel.close()
         return ingest_record_identity_node
 
-    elif command == "ingest_record_resource":
+    if command == "ingest_record_resource":
         """shell
             python3 ingest.py ingest_record_resource
         """
@@ -99,7 +93,7 @@ def main():
         # unique value which can be random
         record_id = str(uuid.uuid4())
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
         # type of node
         type = "Asset"
@@ -113,11 +107,7 @@ def main():
         ingest_property5 = client_ingest.ingest_property("status", "Active")
         properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
-        upsert = client_ingest.upsert_data_node(
-            external_id,
-            type,
-            ["TagOne", "TagTwo"],
-            properties)
+        upsert = client_ingest.upsert_data_node(external_id, type, ["TagOne", "TagTwo"], properties)
         # create record with record_id and upsert
         record = client_ingest.record_upsert(record_id, upsert)
         # send the ingestion request and get the response
@@ -129,8 +119,7 @@ def main():
         client_ingest.channel.close()
         return ingest_record_resource
 
-
-    elif command == "ingest_record_resource2":
+    if command == "ingest_record_resource2":
         """shell
             python3 ingest.py ingest_record_resource2
         """
@@ -140,18 +129,14 @@ def main():
         # unique value which can be random
         record_id = str(uuid.uuid4())
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
         # type of node
         type = "Organization"
         # properties
         properties = []
         # create upsert object with all elements
-        upsert = client_ingest.upsert_data_node(
-            external_id,
-            type,
-            ["TagOne", "TagTwo"],
-            properties)
+        upsert = client_ingest.upsert_data_node(external_id, type, ["TagOne", "TagTwo"], properties)
         # create record with record_id and upsert
         record = client_ingest.record_upsert(record_id, upsert)
         # send the ingestion request and get the response
@@ -163,8 +148,7 @@ def main():
         client_ingest.channel.close()
         return ingest_record_resource
 
-
-    elif command == "ingest_record_relation":
+    if command == "ingest_record_relation":
         """shell
             python3 ingest.py ingest_record_relation
         """
@@ -179,9 +163,7 @@ def main():
         source_match = client_ingest.node_match("KGFVupZYCGYTvYV", "Person")
         target_match = client_ingest.node_match("esnxDjeOuvbfpwk", "Car")
         # create upsert object with all elements
-        upsert = client_ingest.upsert_data_relationship(
-            source_match, target_match, type,
-            [])
+        upsert = client_ingest.upsert_data_relationship(source_match, target_match, type, [])
         # create record with record_id and upsert
         record = client_ingest.record_upsert(record_id, upsert)
         # send the ingestion request and get the response
@@ -193,7 +175,7 @@ def main():
         client_ingest.channel.close()
         return ingest_record_relation
 
-    elif command == "delete_record_node":
+    if command == "delete_record_node":
         """shell
             python3 ingest.py delete_record_node
         """
@@ -217,7 +199,7 @@ def main():
         client_ingest.channel.close()
         return delete_record_node
 
-    elif command == "delete_record_relation":
+    if command == "delete_record_relation":
         """shell
             python3 ingest.py delete_record_relation
         """
@@ -245,7 +227,7 @@ def main():
         client_ingest.channel.close()
         return delete_record_relation
 
-    elif command == "delete_record_node_property":
+    if command == "delete_record_node_property":
         """shell
             python3 ingest.py delete_record_node_property
         """
@@ -270,7 +252,7 @@ def main():
         client_ingest.channel.close()
         return delete_record_node_property
 
-    elif command == "delete_record_relation_property":
+    if command == "delete_record_relation_property":
         """shell
             python3 ingest.py delete_record_relation_property
         """
@@ -299,7 +281,7 @@ def main():
         client_ingest.channel.close()
         return delete_record_relation_property
 
-    elif command == "stream_records":
+    if command == "stream_records":
         """shell
             python3 ingest.py stream_records
         """
@@ -309,7 +291,7 @@ def main():
         # unique value which can be random
         record_id = str(uuid.uuid4())
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
         # type of node
         type = "Asset"
@@ -321,17 +303,13 @@ def main():
         ingest_property5 = client_ingest.ingest_property("status", "Active")
         properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
-        upsert = client_ingest.upsert_data_node(
-            external_id,
-            type,
-            ["Asset"],
-            properties)
+        upsert = client_ingest.upsert_data_node(external_id, type, ["Asset"], properties)
         # create record with record_id and upsert
         record = client_ingest.record_upsert(record_id, upsert)
 
         record_id2 = str(uuid.uuid4())
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
         # type of node
         type = "Asset"
@@ -343,17 +321,13 @@ def main():
         ingest_property5 = client_ingest.ingest_property("status", "Active")
         properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
-        upsert2 = client_ingest.upsert_data_node(
-            external_id,
-            type,
-            ["Asset"],
-            properties)
+        upsert2 = client_ingest.upsert_data_node(external_id, type, ["Asset"], properties)
         # create record with record_id and upsert
         record2 = client_ingest.record_upsert(record_id2, upsert2)
 
         record_id3 = str(uuid.uuid4())
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
         # type of node
         type = "Asset"
@@ -365,16 +339,11 @@ def main():
         ingest_property5 = client_ingest.ingest_property("status", "Active")
         properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5]
         # create upsert object with all elements
-        upsert3 = client_ingest.upsert_data_node(
-            external_id,
-            type,
-            ["Asset"],
-            properties)
+        upsert3 = client_ingest.upsert_data_node(external_id, type, ["Asset"], properties)
         # create record with record_id and upsert
         record3 = client_ingest.record_upsert(record_id3, upsert3)
         # send the ingestion requests in stream and get the responses
-        responses = client_ingest.stream_records(
-            [record, record2, record3])
+        responses = client_ingest.stream_records([record, record2, record3])
         if responses:
             for response in responses:
                 api_helper.print_response(response)
@@ -383,7 +352,7 @@ def main():
         client_ingest.channel.close()
         return response
 
-    elif command == "ingest_batch_identity":
+    if command == "ingest_batch_identity":
         """shell
             python3 ingest.py ingest_batch_identity
         """
@@ -391,9 +360,9 @@ def main():
         # replace with your own values
         client_ingest = IngestClient()
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
-        external_id2 = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id2 = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id2)
         # type of node
         type = "Person"
@@ -411,17 +380,19 @@ def main():
         node1 = client_ingest.data_node(
             external_id,
             type,
-            ["Customer","User","Client","Site","Employee"],
+            ["Customer", "User", "Client", "Site", "Employee"],
             properties,
             "",
-            True)
+            True,
+        )
         node2 = client_ingest.data_node(
             external_id2,
             type,
-            ["Customer","User","Client","Site","Employee"],
+            ["Customer", "User", "Client", "Site", "Employee"],
             properties2,
             "",
-            True)
+            True,
+        )
         # send the ingestion request and get the response
         ingest = client_ingest.batch_upsert_nodes([node1, node2])
         if ingest:
@@ -431,7 +402,7 @@ def main():
         client_ingest.channel.close()
         return ingest
 
-    elif command == "ingest_batch_resource":
+    if command == "ingest_batch_resource":
         """shell
             python3 ingest.py ingest_batch_resource
         """
@@ -439,9 +410,9 @@ def main():
         # replace with your own values
         client_ingest = IngestClient()
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
-        external_id2 = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id2 = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id2)
         # type of node
         type = "Car"
@@ -455,25 +426,20 @@ def main():
         ingest_property4 = client_ingest.ingest_property("asset", "T")
         ingest_property5 = client_ingest.ingest_property("status", "Active")
         ingest_property6 = client_ingest.ingest_property("resolver", None, None, ingest_external_value)
-        properties = [ingest_property, ingest_property2, ingest_property3, ingest_property4, ingest_property5, ingest_property6]
+        properties = [
+            ingest_property,
+            ingest_property2,
+            ingest_property3,
+            ingest_property4,
+            ingest_property5,
+            ingest_property6,
+        ]
         ingest_property22 = client_ingest.ingest_property("vin", "cfcfcf")
         ingest_property32 = client_ingest.ingest_property("colour", "blue")
         properties2 = [ingest_property, ingest_property22, ingest_property32, ingest_property4, ingest_property5]
         # create upsert object with all elements
-        node1 = client_ingest.data_node(
-            external_id,
-            type,
-            ["Truck"],
-            properties,
-            "",
-            False)
-        node2 = client_ingest.data_node(
-            external_id2,
-            type,
-            ["Truck"],
-            properties2,
-            "",
-            False)
+        node1 = client_ingest.data_node(external_id, type, ["Truck"], properties, "", False)
+        node2 = client_ingest.data_node(external_id2, type, ["Truck"], properties2, "", False)
         # send the ingestion request and get the response
         ingest = client_ingest.batch_upsert_nodes([node1, node2])
         if ingest:
@@ -483,7 +449,7 @@ def main():
         client_ingest.channel.close()
         return ingest
 
-    elif command == "delete_batch_identity":
+    if command == "delete_batch_identity":
         """shell
             python3 ingest.py delete_batch_identity
         """
@@ -503,7 +469,7 @@ def main():
         client_ingest.channel.close()
         return delete_batch_node
 
-    elif command == "delete_batch_node_properties":
+    if command == "delete_batch_node_properties":
         """shell
             python3 ingest.py delete_batch_node_properties
         """
@@ -526,7 +492,7 @@ def main():
         client_ingest.channel.close()
         return delete_batch_node_properties
 
-    elif command == "ingest_batch_relationship":
+    if command == "ingest_batch_relationship":
         """shell
             python3 ingest.py ingest_batch_relationship
         """
@@ -536,9 +502,9 @@ def main():
         # unique value which can be random
         record_id = str(uuid.uuid4())
         # unique id in external source
-        external_id = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id)
-        external_id2 = ''.join(random.choices(string.ascii_letters, k=15))
+        external_id2 = "".join(random.choices(string.ascii_letters, k=15))  # nosec B311 # not security/cryptographic purposes
         print(external_id2)
         # type of relationship
         type = "BELONGS_TO"
@@ -548,7 +514,7 @@ def main():
         source_match2 = client_ingest.node_match("DeBJwAnYFXQCFuY", "Car")
         target_match2 = client_ingest.node_match("CudRzLIHweWJjYB", "Person")
         # create upsert object with all elements
-        relationship1 = client_ingest.data_relationship(source_match, target_match, type,[])
+        relationship1 = client_ingest.data_relationship(source_match, target_match, type, [])
         relationship2 = client_ingest.data_relationship(source_match2, target_match2, type, [])
 
         # send the ingestion request and get the response
@@ -560,7 +526,7 @@ def main():
         client_ingest.channel.close()
         return ingest
 
-    elif command == "delete_batch_relationship":
+    if command == "delete_batch_relationship":
         """shell
             python3 ingest.py delete_batch_relationship
         """
@@ -587,7 +553,7 @@ def main():
         client_ingest.channel.close()
         return delete_batch_relationship
 
-    elif command == "delete_batch_relationship_properties":
+    if command == "delete_batch_relationship_properties":
         """shell
             python3 ingest.py delete_batch_relationship_properties
         """
@@ -603,10 +569,16 @@ def main():
         property_type = "relationPropertyName"
         # create relationship property object with all elements
         relation_property = client_ingest.relationship_property_match(source_match, target_match, type, property_type)
-        relation_property2 = client_ingest.relationship_property_match(source_match2, target_match2, type, property_type)
+        relation_property2 = client_ingest.relationship_property_match(
+            source_match2,
+            target_match2,
+            type,
+            property_type,
+        )
         # send the deletion request and get the response
         delete_batch_relationship_properties = client_ingest.batch_delete_relationship_properties(
-            [relation_property, relation_property2])
+            [relation_property, relation_property2],
+        )
         if delete_batch_relationship_properties:
             api_helper.print_response(delete_batch_relationship_properties)
         else:
@@ -614,7 +586,7 @@ def main():
         client_ingest.channel.close()
         return delete_batch_relationship_properties
 
-    elif command == "delete_batch_node_tags":
+    if command == "delete_batch_node_tags":
         """shell
             python3 ingest.py delete_batch_node_tags
         """
@@ -638,5 +610,5 @@ def main():
         return delete_batch_node_tags
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     main()

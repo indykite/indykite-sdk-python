@@ -13,7 +13,7 @@ class Application:
             str(message.display_name),
             str(message.etag),
             str(message.customer_id),
-            str(message.app_space_id)
+            str(message.app_space_id),
         )
 
         if "create_time" in fields:
@@ -53,5 +53,3 @@ class Application:
         self.description = None
         self.created_by = None
         self.updated_by = None
-
-

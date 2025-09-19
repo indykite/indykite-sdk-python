@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field, fields
-from typing import Dict, List, Optional
 
 from google.protobuf.json_format import MessageToDict
 
@@ -9,8 +8,8 @@ from indykite_sdk.model.event_sink_route import EventSinkRoute
 
 @dataclass
 class EventSinkConfig:
-    providers: Dict[str, EventSinkProvider] = field(default_factory=dict)
-    routes: List[EventSinkRoute] = field(default_factory=list)
+    providers: dict[str, EventSinkProvider] = field(default_factory=dict)
+    routes: list[EventSinkRoute] = field(default_factory=list)
 
     @classmethod
     def deserialize(cls, message_config):
@@ -21,8 +20,8 @@ class EventSinkConfig:
         # Define processors for all fields
 
         all_fields = {
-            'providers': lambda x: message_dict["providers"].copy(),
-            'routes': lambda x: [route for route in message_dict["routes"]]
+            "providers": lambda x: message_dict["providers"].copy(),
+            "routes": lambda x: [route for route in message_dict["routes"]],
         }
 
         # Process optional fields

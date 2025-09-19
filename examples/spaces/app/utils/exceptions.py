@@ -1,4 +1,5 @@
 import json
+
 from werkzeug.exceptions import HTTPException
 
 
@@ -19,7 +20,7 @@ class BaseAPIException(HTTPException):
             headers_merged.update(headers)
             self.headers = headers_merged
 
-        super(BaseAPIException, self).__init__(message, None)
+        super().__init__(message, None)
 
     def get_body(self, *args, **kwargs):
         body = {

@@ -13,7 +13,7 @@ class ServiceAccountCredential:
             str(message.display_name),
             str(message.customer_id),
             str(message.service_account_id),
-            str(message.app_space_id)
+            str(message.app_space_id),
         )
 
         if "create_time" in fields:

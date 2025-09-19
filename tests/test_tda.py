@@ -1,10 +1,9 @@
 import pytest
+from helpers import data
 
 from indykite_sdk.indykite.tda.v1beta1 import trusted_data_access_api_pb2 as pb2
 from indykite_sdk.model.data_access import DataAccessResponse, ListConsentsResponse
-from indykite_sdk.indykite.knowledge.objects.v1beta1 import ikg_pb2 as objects
 from indykite_sdk.tda import DataAccessClient
-from helpers import data, api_requests
 
 
 @pytest.fixture

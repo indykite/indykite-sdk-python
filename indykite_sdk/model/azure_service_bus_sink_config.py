@@ -1,13 +1,11 @@
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
 class AzureServiceBusSinkConfig:
-    connection_string: Optional[str] = None
-    queue_or_topic_name: Optional[str] = None
-    display_name: Optional[str] = None
-
+    connection_string: str | None = None
+    queue_or_topic_name: str | None = None
+    display_name: str | None = None
 
     @classmethod
     def deserialize(cls, message_config):
@@ -17,11 +15,7 @@ class AzureServiceBusSinkConfig:
         fields = [desc.name for desc, val in message_config.ListFields()]
 
         # Define processors for all fields
-        all_fields = {
-            'connection_string': str,
-            'queue_or_topic_name': str,
-            'display_name': str
-        }
+        all_fields = {"connection_string": str, "queue_or_topic_name": str, "display_name": str}
 
         # Process optional fields
         kwargs = {}

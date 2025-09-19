@@ -1,29 +1,27 @@
-"""
-Commandline interface for making an API request with the SDK.
-"""
+"""Commandline interface for making an API request with the SDK."""
+
 import argparse
 import json
 import time
 from datetime import datetime
-import logging
-from indykite_sdk.config import ConfigClient
+
 from indykite_sdk import api_helper
+from indykite_sdk.config import ConfigClient
 
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
         setattr(namespace, self.dest, dict())
         for value in values:
-            key, value = value.split('=')
+            key, value = value.split("=")
             getattr(namespace, self.dest)[key] = value
 
 
 def main():
+    """To call one command in the usage directory, check the command and the corresponding arguments in the list,
+    then execute:
+        python3 configuration_spaces.py COMMAND arg1 arg2 ...
     """
-    to call one command in the usage directory, check the command and the corresponding arguments in the list then execute:
-    python3 configuration_spaces.py COMMAND arg1 arg2 ...
-    """
-
     """ list of commands and arguments definitions """
 
     # Create parent parser
@@ -69,13 +67,16 @@ def main():
     # list_app_spaces
     list_app_spaces_parser = subparsers.add_parser("list_app_spaces")
     list_app_spaces_parser.add_argument("customer_id", help="Customer Id (gid)")
-    list_app_spaces_parser.add_argument("match_list", help="Matching names separated by ,",
-                                        type=lambda s: [str(item) for item in s.split(',')])
+    list_app_spaces_parser.add_argument(
+        "match_list",
+        help="Matching names separated by ,",
+        type=lambda s: [str(item) for item in s.split(",")],
+    )
 
     # delete_app_space
     delete_app_space_parser = subparsers.add_parser("delete_app_space")
     delete_app_space_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
-    delete_app_space_parser.add_argument("etag", nargs='?', help="Optional Etag")
+    delete_app_space_parser.add_argument("etag", nargs="?", help="Optional Etag")
 
     # application_id
     application_id_parser = subparsers.add_parser("application_id")
@@ -101,13 +102,16 @@ def main():
     # list_applications
     list_applications_parser = subparsers.add_parser("list_applications")
     list_applications_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
-    list_applications_parser.add_argument("match_list", help="Matching names separated by ,",
-                                          type=lambda s: [str(item) for item in s.split(',')])
+    list_applications_parser.add_argument(
+        "match_list",
+        help="Matching names separated by ,",
+        type=lambda s: [str(item) for item in s.split(",")],
+    )
 
     # delete_application
     delete_application_parser = subparsers.add_parser("delete_application")
     delete_application_parser.add_argument("application_id", help="Application Id")
-    delete_application_parser.add_argument("etag", nargs='?', help="Optional Etag")
+    delete_application_parser.add_argument("etag", nargs="?", help="Optional Etag")
 
     # application_agent_id
     application_agent_id_parser = subparsers.add_parser("application_agent_id")
@@ -115,15 +119,19 @@ def main():
 
     # application_agent_name
     application_agent_name_parser = subparsers.add_parser("application_agent_name")
-    application_agent_name_parser.add_argument("application_agent_name",
-                                               help="Application agent name (not display name)")
+    application_agent_name_parser.add_argument(
+        "application_agent_name",
+        help="Application agent name (not display name)",
+    )
     application_agent_name_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
 
     # create_application_agent
     create_application_agent_parser = subparsers.add_parser("create_application_agent")
     create_application_agent_parser.add_argument("application_id", help="Application Id (gid)")
-    create_application_agent_parser.add_argument("application_agent_name",
-                                                 help="Application agent name (not display name)")
+    create_application_agent_parser.add_argument(
+        "application_agent_name",
+        help="Application agent name (not display name)",
+    )
     create_application_agent_parser.add_argument("display_name", help="Display Name")
 
     # update_application_agent
@@ -135,48 +143,66 @@ def main():
     # list_application_agents
     list_application_agents_parser = subparsers.add_parser("list_application_agents")
     list_application_agents_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
-    list_application_agents_parser.add_argument("match_list", help="Matching names separated by ,",
-                                                type=lambda s: [str(item) for item in s.split(',')])
+    list_application_agents_parser.add_argument(
+        "match_list",
+        help="Matching names separated by ,",
+        type=lambda s: [str(item) for item in s.split(",")],
+    )
 
     # delete_application_agent
     delete_application_agent_parser = subparsers.add_parser("delete_application_agent")
     delete_application_agent_parser.add_argument("application_agent_id", help="Application Agent Id")
-    delete_application_agent_parser.add_argument("etag", nargs='?', help="Optional Etag")
+    delete_application_agent_parser.add_argument("etag", nargs="?", help="Optional Etag")
 
     # application_agent_credential
     application_agent_credential_parser = subparsers.add_parser("application_agent_credential")
-    application_agent_credential_parser.add_argument("application_agent_credential_id",
-                                                     help="Application agent credential id")
+    application_agent_credential_parser.add_argument(
+        "application_agent_credential_id",
+        help="Application agent credential id",
+    )
 
     # register_application_agent_credential_jwk
     register_application_agent_credential_jwk_parser = subparsers.add_parser(
-        "register_application_agent_credential_jwk")
-    register_application_agent_credential_jwk_parser.add_argument("application_agent_id",
-                                                                  help="Application agent credential id")
+        "register_application_agent_credential_jwk",
+    )
+    register_application_agent_credential_jwk_parser.add_argument(
+        "application_agent_id",
+        help="Application agent credential id",
+    )
     register_application_agent_credential_jwk_parser.add_argument("display_name", help="Display name")
 
     # register_application_agent_credential_pem
     register_application_agent_credential_pem_parser = subparsers.add_parser(
-        "register_application_agent_credential_pem")
-    register_application_agent_credential_pem_parser.add_argument("application_agent_id",
-                                                                  help="Application agent credential id")
+        "register_application_agent_credential_pem",
+    )
+    register_application_agent_credential_pem_parser.add_argument(
+        "application_agent_id",
+        help="Application agent credential id",
+    )
     register_application_agent_credential_pem_parser.add_argument("display_name", help="Display name")
 
     # delete_application_agent_credential
     delete_application_agent_credential_parser = subparsers.add_parser("delete_application_agent_credential")
-    delete_application_agent_credential_parser.add_argument("application_agent_credential_id",
-                                                            help="Application agent credential id")
+    delete_application_agent_credential_parser.add_argument(
+        "application_agent_credential_id",
+        help="Application agent credential id",
+    )
     delete_application_agent_credential_parser.add_argument("etag", help="Etag")
 
     # create_application_with_agent_credentials
     create_application_with_agent_credentials_parser = subparsers.add_parser(
-        "create_application_with_agent_credentials")
+        "create_application_with_agent_credentials",
+    )
     create_application_with_agent_credentials_parser.add_argument("app_space_id", help="AppSpace Id (gid)")
     create_application_with_agent_credentials_parser.add_argument("application_name", help="Application name")
-    create_application_with_agent_credentials_parser.add_argument("application_agent_name",
-                                                                  help="Application Agent Name")
-    create_application_with_agent_credentials_parser.add_argument("application_agent_credentials_name",
-                                                                  help="Application Agent Credentials Name")
+    create_application_with_agent_credentials_parser.add_argument(
+        "application_agent_name",
+        help="Application Agent Name",
+    )
+    create_application_with_agent_credentials_parser.add_argument(
+        "application_agent_credentials_name",
+        help="Application Agent Credentials Name",
+    )
     create_application_with_agent_credentials_parser.add_argument("public_key_type", help="Key type: jwk or pem")
 
     # service_account_id
@@ -193,9 +219,11 @@ def main():
     create_service_account_parser.add_argument("customer_id", help="Customer id (gid)")
     create_service_account_parser.add_argument("service_account_name", help="Service account name (not display name)")
     create_service_account_parser.add_argument("display_name", help="Display Name")
-    create_service_account_parser.add_argument("role", choices=["all_editor", "all_viewer", "app_editor", "app_viewer",
-                                                                "authn_viewer", "authn_editor"],
-                                               help="Roles: all_editor all_viewer app_editor app_viewer authn_viewer authn_editor")
+    create_service_account_parser.add_argument(
+        "role",
+        choices=["all_editor", "all_viewer", "app_editor", "app_viewer", "authn_viewer", "authn_editor"],
+        help="Roles: all_editor all_viewer app_editor app_viewer authn_viewer authn_editor",
+    )
 
     # update_service_account
     update_service_account_parser = subparsers.add_parser("update_service_account")
@@ -206,32 +234,38 @@ def main():
     # delete_service_account
     delete_service_account_parser = subparsers.add_parser("delete_service_account")
     delete_service_account_parser.add_argument("service_account_id", help="Service account Id")
-    delete_service_account_parser.add_argument("etag", nargs='?', help="Optional Etag")
+    delete_service_account_parser.add_argument("etag", nargs="?", help="Optional Etag")
 
     # register_service_account_credential_jwk
-    register_service_account_credential_jwk_parser = subparsers.add_parser(
-        "register_service_account_credential_jwk")
-    register_service_account_credential_jwk_parser.add_argument("service_account_id",
-                                                                help="Service account credential id")
+    register_service_account_credential_jwk_parser = subparsers.add_parser("register_service_account_credential_jwk")
+    register_service_account_credential_jwk_parser.add_argument(
+        "service_account_id",
+        help="Service account credential id",
+    )
     register_service_account_credential_jwk_parser.add_argument("display_name", help="Display name")
 
     # register_service_account_credential_pem
-    register_service_account_credential_pem_parser = subparsers.add_parser(
-        "register_service_account_credential_pem")
-    register_service_account_credential_pem_parser.add_argument("service_account_id",
-                                                                help="Service account credential id")
+    register_service_account_credential_pem_parser = subparsers.add_parser("register_service_account_credential_pem")
+    register_service_account_credential_pem_parser.add_argument(
+        "service_account_id",
+        help="Service account credential id",
+    )
     register_service_account_credential_pem_parser.add_argument("display_name", help="Display name")
 
     # read_service_account_credential
     read_service_account_credential_parser = subparsers.add_parser("read_service_account_credential")
-    read_service_account_credential_parser.add_argument("service_account_credential_id",
-                                                        help="Service account credentials id (gid)")
+    read_service_account_credential_parser.add_argument(
+        "service_account_credential_id",
+        help="Service account credentials id (gid)",
+    )
 
     # delete_service_account_credential
     delete_service_account_credential_parser = subparsers.add_parser("delete_service_account_credential")
-    delete_service_account_credential_parser.add_argument("service_account_credential_id",
-                                                          help="Service account credential id")
-    delete_service_account_credential_parser.add_argument("etag", nargs='?', help="Optional Etag")
+    delete_service_account_credential_parser.add_argument(
+        "service_account_credential_id",
+        help="Service account credential id",
+    )
+    delete_service_account_credential_parser.add_argument("etag", nargs="?", help="Optional Etag")
 
     args = parser.parse_args()
     command = args.command
@@ -340,11 +374,18 @@ def main():
         app_space_name = args.app_space_name
         customer_id = args.customer_id
         display_name = args.display_name
-        region= "us-east1"
+        region = "us-east1"
         ikg_size = "2GB"
         replica_region = "us-west1"
-        app_space_response = client_config.create_app_space(customer_id, app_space_name, display_name, "description",
-                                                            region, ikg_size, replica_region)
+        app_space_response = client_config.create_app_space(
+            customer_id,
+            app_space_name,
+            display_name,
+            "description",
+            region,
+            ikg_size,
+            replica_region,
+        )
         if app_space_response:
             api_helper.print_response(app_space_response)
         else:
@@ -388,10 +429,7 @@ def main():
         # will delete everything below the AppSpace
         client_config = ConfigClient()
         app_space_id = args.app_space_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_app_space_response = client_config.delete_app_space(app_space_id, etag)
         if delete_app_space_response:
             print(delete_app_space_response)
@@ -433,7 +471,8 @@ def main():
             app_space_id,
             application_name,
             display_name,
-            "description")
+            "description",
+        )
         if application_response:
             api_helper.print_response(application_response)
         else:
@@ -451,7 +490,8 @@ def main():
             application_id,
             etag,
             display_name,
-            "description update")
+            "description update",
+        )
         if application_response:
             api_helper.print_response(application_response)
         else:
@@ -476,10 +516,7 @@ def main():
         # delete_application method: to delete application from gid id and etag
         client_config = ConfigClient()
         application_id = args.application_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_application_response = client_config.delete_application(application_id, etag)
         if delete_application_response:
             print(delete_application_response)
@@ -525,7 +562,7 @@ def main():
             display_name=display_name,
             description="description",
             api_permissions=api_permissions,
-            )
+        )
         if application_agent_response:
             api_helper.print_response(application_agent_response)
         else:
@@ -543,7 +580,8 @@ def main():
             application_agent_id,
             etag,
             display_name,
-            "description update")
+            "description update",
+        )
         if application_agent_response:
             api_helper.print_response(application_agent_response)
         else:
@@ -568,13 +606,8 @@ def main():
         # delete_application_agent method: to delete application agent from gid id and etag
         client_config = ConfigClient()
         application_agent_id = args.application_agent_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
-        delete_application_agent_response = client_config.delete_application_agent(
-            application_agent_id,
-            etag)
+        etag = args.etag or None
+        delete_application_agent_response = client_config.delete_application_agent(application_agent_id, etag)
         if delete_application_agent_response:
             print(delete_application_agent_response)
         else:
@@ -606,7 +639,7 @@ def main():
             application_agent_id,
             display_name,
             jwk,
-            expire_time_in_seconds
+            expire_time_in_seconds,
         )
         if application_agent_credential_response:
             api_helper.print_credential(application_agent_credential_response)
@@ -627,7 +660,7 @@ def main():
             application_agent_id,
             display_name,
             pem,
-            expire_time_in_seconds
+            expire_time_in_seconds,
         )
         if application_agent_credential_response:
             api_helper.print_credential(application_agent_credential_response)
@@ -643,7 +676,7 @@ def main():
         etag = args.etag
         delete_application_agent_credential_response = client_config.delete_application_agent_credential(
             application_agent_credential_id,
-            etag
+            etag,
         )
         if delete_application_agent_credential_response:
             print(delete_application_agent_credential_response)
@@ -663,9 +696,9 @@ def main():
             "crv": "P-256",
             "x": "INNm_kk3mHAJE5gs_quJUsE5meEFX7oOsWZQtm0NrYI",
             "y": "yzpgNRuGDAHbnqayGCcA60UxGkuqCYfm2JWglHlGSC4",
-            "alg": "ES256"
+            "alg": "ES256",
         }
-        public_key_encoded = json.dumps(public_key, indent=2).encode('utf-8')
+        public_key_encoded = json.dumps(public_key, indent=2).encode("utf-8")
         create_application_with_agent_credentials_response = client_config.create_application_with_agent_credentials(
             args.app_space_id,
             args.application_name,
@@ -673,12 +706,14 @@ def main():
             args.application_agent_credentials_name,
             args.public_key_type,
             public_key=public_key_encoded,
-            expire_time=None)
+            expire_time=None,
+        )
         if create_application_with_agent_credentials_response:
             api_helper.print_response(create_application_with_agent_credentials_response["response_application"])
             api_helper.print_response(create_application_with_agent_credentials_response["response_application_agent"])
             api_helper.print_credential(
-                create_application_with_agent_credentials_response["response_application_agent_credentials"])
+                create_application_with_agent_credentials_response["response_application_agent_credentials"],
+            )
         else:
             print("Invalid create_application_with_agent_credentials_response")
         client_config.channel.close()
@@ -719,7 +754,7 @@ def main():
             service_account_name,
             display_name,
             "description",
-            role
+            role,
         )
         if service_account_response:
             api_helper.print_response(service_account_response)
@@ -738,7 +773,7 @@ def main():
             service_account_id,
             etag,
             display_name,
-            "description"
+            "description",
         )
         if service_account_response:
             api_helper.print_response(service_account_response)
@@ -751,10 +786,7 @@ def main():
         # delete_service_account method: will also delete the credentials
         client_config = ConfigClient()
         service_account_id = args.service_account_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_service_account_response = client_config.delete_service_account(service_account_id, etag)
         if delete_service_account_response:
             print(delete_service_account_response)
@@ -784,7 +816,7 @@ def main():
             service_account_id,
             display_name,
             jwk,
-            expire_time_in_seconds
+            expire_time_in_seconds,
         )
         if service_account_credential_response:
             api_helper.print_credential(service_account_credential_response)
@@ -804,7 +836,7 @@ def main():
             service_account_id,
             display_name,
             pem,
-            expire_time_in_seconds
+            expire_time_in_seconds,
         )
         if service_account_credential_response:
             api_helper.print_credential(service_account_credential_response)
@@ -816,13 +848,10 @@ def main():
     elif command == "delete_service_account_credential":
         client_config = ConfigClient()
         service_account_credential_id = args.service_account_credential_id
-        if args.etag:
-            etag = args.etag
-        else:
-            etag = None
+        etag = args.etag or None
         delete_service_account_credential_response = client_config.delete_service_account_credential(
             service_account_credential_id,
-            etag
+            etag,
         )
         if delete_service_account_credential_response:
             print(delete_service_account_credential_response)
@@ -832,5 +861,5 @@ def main():
         return delete_service_account_credential_response
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     main()

@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
 
 from indykite_sdk.model.trust_score_profile_dimension import TrustScoreDimension
 from indykite_sdk.model.trust_score_profile_update_frequency import UpdateFrequency
@@ -7,9 +6,9 @@ from indykite_sdk.model.trust_score_profile_update_frequency import UpdateFreque
 
 @dataclass
 class TrustScoreProfileConfig:
-    node_classification: Optional[str] = None
-    dimensions: List[TrustScoreDimension] = field(default_factory=list)
-    schedule: Optional[float] = None
+    node_classification: str | None = None
+    dimensions: list[TrustScoreDimension] = field(default_factory=list)
+    schedule: float | None = None
 
     @classmethod
     def deserialize(cls, message_config):
@@ -20,9 +19,9 @@ class TrustScoreProfileConfig:
 
         # Define processors for all fields
         all_fields = {
-            'node_classification': str,
-            'dimensions': lambda val: [TrustScoreDimension.deserialize(d) for d in val],
-            'schedule': cls._validate_frequency
+            "node_classification": str,
+            "dimensions": lambda val: [TrustScoreDimension.deserialize(d) for d in val],
+            "schedule": cls._validate_frequency,
         }
 
         # Process optional fields

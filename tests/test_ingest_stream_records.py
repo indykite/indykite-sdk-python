@@ -1,7 +1,8 @@
 import pytest
 
+from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2 as pb2
+from indykite_sdk.indykite.ingest.v1beta3 import model_pb2
 from indykite_sdk.ingest import IngestClient
-from indykite_sdk.indykite.ingest.v1beta3 import model_pb2, ingest_api_pb2 as pb2
 
 
 @pytest.fixture
@@ -15,11 +16,7 @@ def test_stream_records_exception(client, capsys):
     type = "ParkingLot"
     ingest_property = client.ingest_property("customProp", "9654")
     properties = [ingest_property]
-    upsert = client.upsert_data_node(
-        external_id,
-        type,
-        [],
-        properties)
+    upsert = client.upsert_data_node(external_id, type, [], properties)
     record = client.record_upsert(record_id, upsert)
 
     def mocked_stream_records(request_iter: pb2.StreamRecordsRequest):
@@ -44,11 +41,7 @@ def test_stream_records_success(client):
     type = "ParkingLot"
     ingest_property = client.ingest_property("customProp", "9654")
     properties = [ingest_property]
-    upsert = client.upsert_data_node(
-        external_id,
-        type,
-        [],
-        properties)
+    upsert = client.upsert_data_node(external_id, type, [], properties)
     record = client.record_upsert(record_id, upsert)
 
     def mocked_stream_records(request_iter: pb2.StreamRecordsRequest):

@@ -1,7 +1,9 @@
 from datetime import datetime
+
+from google.type.latlng_pb2 import LatLng
+
 from indykite_sdk.utils import date_to_timestamp
 from indykite_sdk.utils.message_to_value import object_to_value
-from google.type.latlng_pb2 import LatLng
 
 
 class ObjectTest:
@@ -26,29 +28,29 @@ class FieldsObjectTest:
 
 def test_null():
     # Prepare
-    test_object = ObjectTest('null_value', 'NULL')
+    test_object = ObjectTest("null_value", "NULL")
 
     # Act
     value = object_to_value(test_object)
 
     # Assert
-    assert value == 'NULL'
+    assert value == "NULL"
 
 
 def test_bool():
     # Prepare
-    test_object = ObjectTest('bool_value', True)
+    test_object = ObjectTest("bool_value", True)
 
     # Act
     value = object_to_value(test_object)
 
     # Assert
-    assert value == True
+    assert value
 
 
 def test_integer():
     # Prepare
-    test_object = ObjectTest('integer_value', 42)
+    test_object = ObjectTest("integer_value", 42)
 
     # Act
     value = object_to_value(test_object)
@@ -59,7 +61,7 @@ def test_integer():
 
 def test_unsigned_integer():
     # Prepare
-    test_object = ObjectTest('unsigned_integer_value', 42)
+    test_object = ObjectTest("unsigned_integer_value", 42)
 
     # Act
     value = object_to_value(test_object)
@@ -70,7 +72,7 @@ def test_unsigned_integer():
 
 def test_double():
     # Prepare
-    test_object = ObjectTest('double_value', 16.0)
+    test_object = ObjectTest("double_value", 16.0)
 
     # Act
     value = object_to_value(test_object)
@@ -83,7 +85,7 @@ def test_time():
     # Prepare
     time = datetime.now()
     timestamp = date_to_timestamp(time)
-    test_object = ObjectTest('value_time', timestamp)
+    test_object = ObjectTest("value_time", timestamp)
 
     # Act
     value = object_to_value(test_object)
@@ -94,7 +96,7 @@ def test_time():
 
 def test_duration():
     # Prepare
-    test_object = ObjectTest('duration_value', "4s")
+    test_object = ObjectTest("duration_value", "4s")
 
     # Act
     value = object_to_value(test_object)
@@ -105,7 +107,7 @@ def test_duration():
 
 def test_string():
     # Prepare
-    test_object = ObjectTest('string_value', "abcd")
+    test_object = ObjectTest("string_value", "abcd")
 
     # Act
     value = object_to_value(test_object)
@@ -116,7 +118,7 @@ def test_string():
 
 def test_bytes():
     # Prepare
-    test_object = ObjectTest('bytes_value', bytes([1, 2, 3, 4]))
+    test_object = ObjectTest("bytes_value", bytes([1, 2, 3, 4]))
 
     # Act
     value = object_to_value(test_object)
@@ -127,7 +129,7 @@ def test_bytes():
 
 def test_geo_point():
     # Prepare
-    test_object = ObjectTest('geo_point_value', LatLng(latitude = 18.9219927, longitude = 49.0651119))
+    test_object = ObjectTest("geo_point_value", LatLng(latitude=18.9219927, longitude=49.0651119))
 
     # Act
     value = object_to_value(test_object)
@@ -140,11 +142,13 @@ def test_geo_point():
 def test_array():
     # Prepare
     test_object = ObjectTest(
-    'array_value',
-    ArrayTest([
-      ObjectTest('integer_value', 89),
-      ObjectTest('string_value', "sdfsdf"),
-    ])
+        "array_value",
+        ArrayTest(
+            [
+                ObjectTest("integer_value", 89),
+                ObjectTest("string_value", "sdfsdf"),
+            ],
+        ),
     )
 
     # Act
@@ -158,27 +162,29 @@ def test_array():
 def test_map():
     # Prepare
     test_object = ObjectTest(
-    'map_value',
-    FieldsObjectTest({
-      "first": ObjectTest('duration_value', "1s"),
-      "second": ObjectTest('double_value', 15.7),
-    })
+        "map_value",
+        FieldsObjectTest(
+            {
+                "first": ObjectTest("duration_value", "1s"),
+                "second": ObjectTest("double_value", 15.7),
+            },
+        ),
     )
 
     # Act
     value = object_to_value(test_object)
 
     # Assert
-    assert value['first'] == "1s"
-    assert value['second'] == 15.7
+    assert value["first"] == "1s"
+    assert value["second"] == 15.7
 
 
 def test_unknown():
     # Prepare
-    test_object = ObjectTest('unknown_value', 'UNKNOWN')
+    test_object = ObjectTest("unknown_value", "UNKNOWN")
 
     # Act
     value = object_to_value(test_object)
 
     # Assert
-    assert value == None
+    assert value is None

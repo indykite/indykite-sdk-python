@@ -1,19 +1,19 @@
-"""
-Commandline interface for making an API request with the SDK.
-"""
+"""Commandline interface for making an API request with the SDK."""
+
 import argparse
+
+from indykite_sdk import api_helper
 from indykite_sdk.authorization import AuthorizationClient
 from indykite_sdk.model.is_authorized import IsAuthorizedResource
 from indykite_sdk.model.what_authorized import WhatAuthorizedResourceTypes
 from indykite_sdk.model.who_authorized import WhoAuthorizedResource
-from indykite_sdk import api_helper
 
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
         setattr(namespace, self.dest, dict())
         for value in values:
-            key, value = value.split('=')
+            key, value = value.split("=")
             getattr(namespace, self.dest)[key] = value
 
 
@@ -25,8 +25,10 @@ def main():
     # Create child parsers
     # is_authorized_identity_node
     is_authorized_identity_node_parser = subparsers.add_parser("is_authorized_identity_node")
-    is_authorized_identity_node_parser.add_argument("identity_node_id",
-                                                    help="Identity node gid (node with is_identity equal True)")
+    is_authorized_identity_node_parser.add_argument(
+        "identity_node_id",
+        help="Identity node gid (node with is_identity equal True)",
+    )
 
     # is_authorized_token
     is_authorized_token_parser = subparsers.add_parser("is_authorized_token")
@@ -44,8 +46,7 @@ def main():
 
     # what_authorized_dt
     what_authorized_dt_parser = subparsers.add_parser("what_authorized_dt")
-    what_authorized_dt_parser.add_argument("identity_node",
-                                           help="Identity node gid (node with is_identity equal True)")
+    what_authorized_dt_parser.add_argument("identity_node", help="Identity node gid (node with is_identity equal True)")
 
     # what_authorized_token
     what_authorized_token_parser = subparsers.add_parser("what_authorized_token")
@@ -75,14 +76,13 @@ def main():
         client_authorization = AuthorizationClient()
         identity_node_id = args.identity_node_id
         actions = ["SUBSCRIBES_TO"]
-        resources = [IsAuthorizedResource("pFlpMtkWqCPXVue", "Asset", actions),
-                     IsAuthorizedResource("resource2ID", "TypeName", actions)]
-        input_params = {} #{"age": "21"}
+        resources = [
+            IsAuthorizedResource("pFlpMtkWqCPXVue", "Asset", actions),
+            IsAuthorizedResource("resource2ID", "TypeName", actions),
+        ]
+        input_params = {}  # {"age": "21"}
         # policy_tags = ["Car", "Rental", "Sharing"]
-        is_authorized = client_authorization.is_authorized_digital_twin(
-            identity_node_id,
-            resources,
-            input_params)
+        is_authorized = client_authorization.is_authorized_digital_twin(identity_node_id, resources, input_params)
 
         if is_authorized:
             api_helper.print_response(is_authorized)
@@ -91,7 +91,7 @@ def main():
         client_authorization.channel.close()
         return is_authorized
 
-    elif command == "is_authorized_token":
+    if command == "is_authorized_token":
         """shell
                 python3 authorization.py is_authorized_token IDENTITY_NODE_USER_TOKEN
         """
@@ -100,8 +100,10 @@ def main():
         client_authorization = AuthorizationClient()
         access_token = args.access_token
         actions = ["ACTION1", "ACTION2"]
-        resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
-                     IsAuthorizedResource("resource2ID", "TypeName", actions)]
+        resources = [
+            IsAuthorizedResource("resourceID", "TypeName", actions),
+            IsAuthorizedResource("resource2ID", "TypeName", actions),
+        ]
         input_params = {}
         policy_tags = []
         is_authorized = client_authorization.is_authorized_token(access_token, resources, input_params, policy_tags)
@@ -112,7 +114,7 @@ def main():
         client_authorization.channel.close()
         return is_authorized
 
-    elif command == "is_authorized_property":
+    if command == "is_authorized_property":
         """shell
             python3 authorization.py is_authorized_property PROPERTY_TYPE PROPERTY_VALUE
         """
@@ -122,8 +124,10 @@ def main():
         property_type = args.property_type  # e.g "email"
         property_value = args.property_value  # e.g test@example.com
         actions = ["ACTION1", "ACTION2"]
-        resources = [IsAuthorizedResource("resourceID", "TypeName", actions),
-                     IsAuthorizedResource("resource2ID", "TypeName", actions)]
+        resources = [
+            IsAuthorizedResource("resourceID", "TypeName", actions),
+            IsAuthorizedResource("resource2ID", "TypeName", actions),
+        ]
         input_params = {"age": "21"}
         policy_tags = []
         is_authorized = client_authorization.is_authorized_property_filter(
@@ -131,7 +135,8 @@ def main():
             property_value,
             resources,
             input_params,
-            policy_tags)
+            policy_tags,
+        )
         if is_authorized:
             api_helper.print_response(is_authorized)
         else:
@@ -139,7 +144,7 @@ def main():
         client_authorization.channel.close()
         return is_authorized
 
-    elif command == "is_authorized_external_id":
+    if command == "is_authorized_external_id":
         """shell
                 python3 authorization.py is_authorized_external_id TYPE IDENTITY_NODE_EXTERNAL_ID
         """
@@ -149,8 +154,10 @@ def main():
         node_type = args.type
         external_id = args.external_id
         actions = ["SUBSCRIBES_TO"]
-        resources = [IsAuthorizedResource("pFlpMtkWqCPXVue", "Asset", actions),
-                     IsAuthorizedResource("CCbJwkQtLOmCdLq", "Asset", actions)]
+        resources = [
+            IsAuthorizedResource("pFlpMtkWqCPXVue", "Asset", actions),
+            IsAuthorizedResource("CCbJwkQtLOmCdLq", "Asset", actions),
+        ]
         input_params = {}
         policy_tags = []
         is_authorized = client_authorization.is_authorized_external_id(
@@ -158,7 +165,8 @@ def main():
             external_id,
             resources,
             input_params,
-            policy_tags)
+            policy_tags,
+        )
 
         if is_authorized:
             api_helper.print_response(is_authorized)
@@ -167,7 +175,7 @@ def main():
         client_authorization.channel.close()
         return is_authorized
 
-    elif command == "what_authorized_dt":
+    if command == "what_authorized_dt":
         """shell
             python3 authorization.py what_authorized_dt IDENTITY_NODE_GID
         """
@@ -176,15 +184,18 @@ def main():
         client_authorization = AuthorizationClient()
         identity_node_id = args.identity_node
         actions = ["ACTION1", "ACTION2"]
-        resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
-                          WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
+        resource_types = [
+            WhatAuthorizedResourceTypes("TypeName", actions),
+            WhatAuthorizedResourceTypes("TypeNameSecond", actions),
+        ]
         input_params = {"age": "21"}
         policy_tags = ["Car", "Rental", "Sharing"]
         what_authorized = client_authorization.what_authorized_digital_twin(
             identity_node_id,
             resource_types,
             input_params,
-            policy_tags)
+            policy_tags,
+        )
 
         if what_authorized:
             api_helper.print_response(what_authorized)
@@ -193,7 +204,7 @@ def main():
         client_authorization.channel.close()
         return what_authorized
 
-    elif command == "what_authorized_token":
+    if command == "what_authorized_token":
         """shell
             python3 authorization.py what_authorized_token IDENTITY_NODE_USER_TOKEN
         """
@@ -202,12 +213,18 @@ def main():
         client_authorization = AuthorizationClient()
         access_token = args.access_token
         actions = ["ACTION1", "ACTION2"]
-        resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
-                          WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
+        resource_types = [
+            WhatAuthorizedResourceTypes("TypeName", actions),
+            WhatAuthorizedResourceTypes("TypeNameSecond", actions),
+        ]
         input_params = {}
         policy_tags = []
-        what_authorized = client_authorization.what_authorized_token(access_token, resource_types, input_params,
-                                                                     policy_tags)
+        what_authorized = client_authorization.what_authorized_token(
+            access_token,
+            resource_types,
+            input_params,
+            policy_tags,
+        )
         if what_authorized:
             api_helper.print_response(what_authorized)
         else:
@@ -215,7 +232,7 @@ def main():
         client_authorization.channel.close()
         return what_authorized
 
-    elif command == "what_authorized_property":
+    if command == "what_authorized_property":
         """shell
             python3 authorization.py what_authorized_property PROPERTY_TYPE PROPERTY_VALUE
         """
@@ -225,8 +242,10 @@ def main():
         property_type = args.property_type  # e.g "email"
         property_value = args.property_value  # e.g test@example.com
         actions = ["ACTION1", "ACTION2"]
-        resource_types = [WhatAuthorizedResourceTypes("TypeName", actions),
-                          WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
+        resource_types = [
+            WhatAuthorizedResourceTypes("TypeName", actions),
+            WhatAuthorizedResourceTypes("TypeNameSecond", actions),
+        ]
         input_params = {"age": "21"}
         policy_tags = []
         what_authorized = client_authorization.what_authorized_property_filter(
@@ -234,7 +253,8 @@ def main():
             property_value,
             resource_types,
             input_params,
-            policy_tags)
+            policy_tags,
+        )
         if what_authorized:
             api_helper.print_response(what_authorized)
         else:
@@ -242,7 +262,7 @@ def main():
         client_authorization.channel.close()
         return what_authorized
 
-    elif command == "what_authorized_external_id":
+    if command == "what_authorized_external_id":
         """shell
             python3 authorization.py what_authorized_external_id IDENTITY_NODE_EXTERNAL_ID
         """
@@ -252,8 +272,10 @@ def main():
         node_type = args.node_type  # e.g "Individual"
         external_id = args.external_id
         actions = ["SUBSCRIBES_TO"]
-        resource_types = [WhatAuthorizedResourceTypes("Asset", actions),
-                          WhatAuthorizedResourceTypes("TypeNameSecond", actions)]
+        resource_types = [
+            WhatAuthorizedResourceTypes("Asset", actions),
+            WhatAuthorizedResourceTypes("TypeNameSecond", actions),
+        ]
         input_params = {}
         policy_tags = []
         what_authorized = client_authorization.what_authorized_external_id(
@@ -261,7 +283,8 @@ def main():
             external_id,
             resource_types,
             input_params,
-            policy_tags)
+            policy_tags,
+        )
         if what_authorized:
             api_helper.print_response(what_authorized)
         else:
@@ -269,7 +292,7 @@ def main():
         client_authorization.channel.close()
         return what_authorized
 
-    elif command == "who_authorized":
+    if command == "who_authorized":
         """shell
             python3 authorization.py who_authorized
         """
@@ -280,10 +303,7 @@ def main():
         resources = [WhoAuthorizedResource("parking-lot-id1", "ParkingLot", actions)]
         input_params = {}
         policy_tags = []
-        who_authorized = client_authorization.who_authorized(
-            resources,
-            input_params,
-            policy_tags)
+        who_authorized = client_authorization.who_authorized(resources, input_params, policy_tags)
 
         if who_authorized:
             api_helper.print_response(who_authorized)
@@ -293,5 +313,5 @@ def main():
         return who_authorized
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     main()

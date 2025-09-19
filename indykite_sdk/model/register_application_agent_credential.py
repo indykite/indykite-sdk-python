@@ -14,7 +14,7 @@ class RegisterApplicationAgentCredential:
             bytes(message.agent_config),
             timestamp_to_date(message.create_time),
             timestamp_to_date(message.expire_time),
-            str(message.display_name)
+            str(message.display_name),
         )
         return register_application_agent_credential
 

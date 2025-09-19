@@ -1,8 +1,10 @@
-from datetime import datetime
 import sys
+from datetime import datetime
+
+from authlib.jose import jwt
+
 from indykite_sdk.utils import jwt_credentials
 from indykite_sdk.utils.logger import handle_excepthook, logger_error
-from authlib.jose import JsonWebKey, jwt
 
 
 class Token:
@@ -29,23 +31,21 @@ class TokenSource:
             if self.token is None:
                 if self.reusable:
                     access_token = jwt_credentials.create_agent_jwt(self.credentials)
-                    access_token_decode = jwt.decode(access_token, self.credentials.get('privateKeyJWK'))
+                    access_token_decode = jwt.decode(access_token, self.credentials.get("privateKeyJWK"))
                     self.token = Token(access_token, "Bearer", access_token_decode.exp)
                 else:
                     raise Exception("HTTP Client has no generated token")
             if not self.token.valid and self.reusable:
                 access_token = jwt_credentials.create_agent_jwt(self.credentials)
-                access_token_decode = jwt.decode(access_token, self.credentials.get('privateKeyJWK'))
+                access_token_decode = jwt.decode(access_token, self.credentials.get("privateKeyJWK"))
                 self.token = Token(access_token, "Bearer", access_token_decode.exp)
         except Exception as exception:
             return logger_error(exception)
 
     @staticmethod
-    def reusable_token_source(self, token: Token | None = None,
-                              credentials=None):
+    def reusable_token_source(self, token: Token | None = None, credentials=None):
         return TokenSource(token, True, credentials)
 
     @staticmethod
-    def static_token_source(self, token: Token | None = None,
-                            credentials=None):
+    def static_token_source(self, token: Token | None = None, credentials=None):
         return TokenSource(token, False, credentials)

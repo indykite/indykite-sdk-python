@@ -11,7 +11,7 @@ class CreateServiceAccount:
             str(message.id),
             timestamp_to_date(message.create_time),
             timestamp_to_date(message.update_time),
-            str(message.etag)
+            str(message.etag),
         )
         if "created_by" in fields:
             create_service_account.created_by = str(message.created_by)

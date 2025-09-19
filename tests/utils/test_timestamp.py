@@ -1,6 +1,8 @@
-from indykite_sdk.utils import timestamp_to_date, date_to_timestamp
-from google.protobuf.timestamp_pb2 import Timestamp
 from datetime import datetime
+
+from google.protobuf.timestamp_pb2 import Timestamp
+
+from indykite_sdk.utils import date_to_timestamp, timestamp_to_date
 
 
 def test_timestamp_to_date():
@@ -15,7 +17,7 @@ def test_timestamp_to_date():
 
     # Assert
     assert date == now
-    assert date_none == None
+    assert date_none is None
 
 
 def test_date_to_timestamp():
@@ -29,4 +31,4 @@ def test_date_to_timestamp():
     # Assert
     assert timestamp.seconds == 1651837975
     assert timestamp.nanos == 123456000
-    assert timestamp_none == None
+    assert timestamp_none is None

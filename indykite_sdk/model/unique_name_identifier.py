@@ -1,7 +1,7 @@
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 
 
-class UniqueNameIdentifier:
+class UniqueNameIdentifier:  # noqa F811
     @classmethod
     def deserialize(cls, message):
         return UniqueNameIdentifier(message.location, message.name)
@@ -11,7 +11,4 @@ class UniqueNameIdentifier:
         self.name = name
 
     def __str__(self):
-        return (
-            "Location: " + self.location + "\n"
-            "Name: " + self.name
-        )
+        return "Location: " + self.location + "\nName: " + self.name

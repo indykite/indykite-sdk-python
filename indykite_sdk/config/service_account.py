@@ -1,16 +1,16 @@
+import sys
+
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from indykite_sdk.model.service_account import ServiceAccount
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import UniqueNameIdentifier
 from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
 from indykite_sdk.model.create_service_account import CreateServiceAccount
+from indykite_sdk.model.service_account import ServiceAccount
 from indykite_sdk.model.update_service_account import UpdateServiceAccount
-import sys
-import indykite_sdk.utils.logger as logger
+from indykite_sdk.utils import logger
 
 
-def read_service_account(self,service_account=None):
-    """
-    get info on existing service account from its id or from credentials
+def read_service_account(self, service_account=None):
+    """Get info on existing service account from its id or from credentials
     :param self:
     :param service_account: string gid id
     :return: deserialized ServiceAccount instance
@@ -19,20 +19,15 @@ def read_service_account(self,service_account=None):
     try:
         if service_account:
             service_account_id = str(service_account)
+        elif self.credentials and self.credentials.get("serviceAccountId"):
+            service_account_id = self.credentials.get("serviceAccountId")
         else:
-            if self.credentials and self.credentials.get('serviceAccountId'):
-                service_account_id = self.credentials.get('serviceAccountId')
-            else:
-                raise Exception("Missing service account")
+            raise Exception("Missing service account")
     except Exception as exception:
         return logger.logger_error(exception)
 
     try:
-        response = self.stub.ReadServiceAccount(
-            pb2.ReadServiceAccountRequest(
-                id=str(service_account_id)
-            )
-        )
+        response = self.stub.ReadServiceAccount(pb2.ReadServiceAccountRequest(id=str(service_account_id)))
     except Exception as exception:
         return logger.logger_error(exception)
 
@@ -43,8 +38,7 @@ def read_service_account(self,service_account=None):
 
 
 def read_service_account_by_name(self, customer_id, service_account_name):
-    """
-    get service account info from its name
+    """Get service account info from its name
     :param self:
     :param customer_id: string gid id
     :param service_account_name: string
@@ -53,12 +47,7 @@ def read_service_account_by_name(self, customer_id, service_account_name):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.ReadServiceAccount(
-            pb2.ReadServiceAccountRequest(
-                name=UniqueNameIdentifier(
-                    location=customer_id,
-                    name=service_account_name
-                )
-            )
+            pb2.ReadServiceAccountRequest(name=UniqueNameIdentifier(location=customer_id, name=service_account_name)),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -68,14 +57,8 @@ def read_service_account_by_name(self, customer_id, service_account_name):
     return ServiceAccount.deserialize(response.service_account)
 
 
-def create_service_account(self,
-                           customer_id,
-                           name,
-                           display_name,
-                           description="",
-                           role=""):
-    """
-    create a service account
+def create_service_account(self, customer_id, name, display_name, description="", role=""):
+    """Create a service account
     :param self:
     :param customer_id: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -92,8 +75,8 @@ def create_service_account(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                role=role
-            )
+                role=role,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -103,13 +86,8 @@ def create_service_account(self,
     return CreateServiceAccount.deserialize(response)
 
 
-def update_service_account(self,
-                           service_account_id,
-                           etag,
-                           display_name,
-                           description=""):
-    """
-    update a service account
+def update_service_account(self, service_account_id, etag, display_name, description=""):
+    """Update a service account
     :param self:
     :param service_account_id: string gid id
     :param etag: string
@@ -124,8 +102,8 @@ def update_service_account(self,
                 id=service_account_id,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
-                description=wrappers.StringValue(value=description)
-            )
+                description=wrappers.StringValue(value=description),
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -135,11 +113,8 @@ def update_service_account(self,
     return UpdateServiceAccount.deserialize(response)
 
 
-def delete_service_account(self,
-                           service_account_id,
-                           etag):
-    """
-    delete a service account
+def delete_service_account(self, service_account_id, etag):
+    """Delete a service account
     :param self:
     :param service_account_id: string gid id
     :param etag: string
@@ -148,10 +123,7 @@ def delete_service_account(self,
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.DeleteServiceAccount(
-            pb2.DeleteServiceAccountRequest(
-                id=service_account_id,
-                etag=wrappers.StringValue(value=etag)
-            )
+            pb2.DeleteServiceAccountRequest(id=service_account_id, etag=wrappers.StringValue(value=etag)),
         )
     except Exception as exception:
         return logger.logger_error(exception)

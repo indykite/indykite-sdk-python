@@ -15,7 +15,7 @@ class CreateApplication:
             timestamp_to_date(message.update_time),
             str(message.etag),
             str(message.created_by),
-            str(message.updated_by)
+            str(message.updated_by),
         )
         return create_application
 

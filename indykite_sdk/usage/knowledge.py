@@ -1,20 +1,21 @@
-"""
-Commandline interface for making an API request with the SDK.
-"""
+"""Commandline interface for making an API request with the SDK."""
+
 import argparse
 from datetime import datetime
+
+from indykite_sdk import api_helper
 from indykite_sdk.indykite.knowledge.v1beta2.model_pb2 import Return as ReturnKnowledge
 from indykite_sdk.knowledge import KnowledgeClient
-from indykite_sdk.model.identity_knowledge import Node as NodeModel, Metadata
+from indykite_sdk.model.identity_knowledge import Metadata
+from indykite_sdk.model.identity_knowledge import Node as NodeModel
 from indykite_sdk.utils.message_to_value import param_to_value
-from indykite_sdk import api_helper
 
 
 class ParseKwargs(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):  # pragma: no cover
         setattr(namespace, self.dest, dict())
         for value in values:
-            key, value = value.split('=')
+            key, value = value.split("=")
             getattr(namespace, self.dest)[key] = value
 
 
@@ -28,8 +29,7 @@ def main():
     read_identity_knowledge_parser = subparsers.add_parser("read_identity_knowledge")
 
     get_identity_by_id_parser = subparsers.add_parser("get_identity_by_id")
-    get_identity_by_id_parser.add_argument("id",
-                                           help="Identity node gid (node with is_identity equal True)")
+    get_identity_by_id_parser.add_argument("id", help="Identity node gid (node with is_identity equal True)")
 
     get_identity_by_identifier_parser = subparsers.add_parser("get_identity_by_identifier")
     get_identity_by_identifier_parser.add_argument("external_id", help="Identity node external id")
@@ -183,7 +183,7 @@ def main():
         responses = client_knowledge.list_nodes_by_property(property)
         if responses:
             for response in responses:
-               print(vars(response))
+                print(vars(response))
         else:
             print("No result")
         client_knowledge.channel.close()
@@ -214,14 +214,8 @@ def main():
             external_id="PEpkjOvUJQvqTFw",
             type="individual",
             tags=[],
-            properties=[
-                {
-                    "key": "last_name",
-                    "value": {
-                        "stringValue": "mushu"
-                    }
-                }
-            ])
+            properties=[{"key": "last_name", "value": {"stringValue": "mushu"}}],
+        )
         property1 = node1.get_property(node1, "last_name")
         print(property1)
 
@@ -232,24 +226,15 @@ def main():
             assurance_level=1,
             verification_time=datetime.now().timestamp(),
             source="Myself",
-            custom_metadata={
-                "customData": param_to_value("customValue")
-            }
+            custom_metadata={"customData": param_to_value("customValue")},
         )
         node1 = NodeModel(
             id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
             external_id="PEpkjOvUJQvqTFw",
             type="individual",
             tags=[],
-            properties=[
-                {
-                    "key": "last_name",
-                    "value": {
-                        "stringValue": "mushu"
-                    },
-                    "metadata": metadata1
-                }
-            ])
+            properties=[{"key": "last_name", "value": {"stringValue": "mushu"}, "metadata": metadata1}],
+        )
         metadata1 = node1.get_metadata(node1, "last_name")
         print(print(metadata1.__dir__()))
 
@@ -268,5 +253,5 @@ def main():
         client_knowledge.channel.close()
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     main()

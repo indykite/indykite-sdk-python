@@ -7,12 +7,7 @@ class Customer:
         if message is None:
             return None
         fields = [desc.name for desc, val in message.ListFields()]
-        customer = Customer(
-            str(message.id),
-            str(message.name),
-            str(message.display_name),
-            str(message.etag)
-        )
+        customer = Customer(str(message.id), str(message.name), str(message.display_name), str(message.etag))
 
         if "create_time" in fields:
             customer.create_time = timestamp_to_date(message.create_time)

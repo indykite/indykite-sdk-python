@@ -1,12 +1,13 @@
-import pytest
 import time
+
+import pytest
+from helpers import data
 
 from indykite_sdk.config import ConfigClient
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
 from indykite_sdk.model.application import Application
 from indykite_sdk.model.create_application import CreateApplication
 from indykite_sdk.model.update_application import UpdateApplication
-from helpers import data
 
 
 @pytest.fixture
@@ -28,7 +29,7 @@ def test_read_application_by_id_wrong_id(client, capsys):
     application_id = "aaaaaaaaaaaaaaa"
     response = client.read_application_by_id(application_id)
     captured = capsys.readouterr()
-    assert("invalid ReadApplicationRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err)
+    assert "invalid ReadApplicationRequest.Id: value length must be between 22 and 254 runes, inclusive" in captured.err
 
 
 def test_read_application_id_success(client, application_id, capsys):
@@ -41,7 +42,6 @@ def test_read_application_id_success(client, application_id, capsys):
 
 
 def test_read_application_by_id_empty(client, application_id):
-
     def mocked_read_application_by_id(request: pb2.ReadApplicationRequest):
         return None
 
@@ -54,7 +54,7 @@ def test_read_application_by_name_wrong_name(client, app_space_id, capsys):
     application_name = "aaaaaaaaaaaaaaa"
     response = client.read_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
-    assert ("NOT_FOUND" in captured.err)
+    assert "NOT_FOUND" in captured.err
 
 
 def test_read_application_by_name_wrong_app_space_id(client, capsys):
@@ -62,7 +62,7 @@ def test_read_application_by_name_wrong_app_space_id(client, capsys):
     app_space_id = "gid:AAAAAlrNh6beFUSNk6tTtka8dwg"
     response = client.read_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
-    assert("NOT_FOUND" in captured.err)
+    assert "NOT_FOUND" in captured.err
 
 
 def test_read_application_by_name_wrong_app_space_size(client, capsys):
@@ -70,7 +70,7 @@ def test_read_application_by_name_wrong_app_space_size(client, capsys):
     app_space_id = "12546"
     response = client.read_application_by_name(app_space_id, application_name)
     captured = capsys.readouterr()
-    assert("invalid ReadApplicationRequest.Name" in captured.err)
+    assert "invalid ReadApplicationRequest.Name" in captured.err
 
 
 def test_read_application_name_success(client, app_space_id, capsys):
@@ -97,8 +97,12 @@ def test_read_application_by_name_empty(client, app_space_id):
 
 def test_create_application_success(client, app_space_id, capsys):
     right_now = str(int(time.time()))
-    application = client.create_application(app_space_id, "automation-"+right_now,
-                                         "Automation "+right_now, "description")
+    application = client.create_application(
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+    )
     captured = capsys.readouterr()
     assert "invalid or expired access_token" not in captured.out
     assert application is not None
@@ -113,7 +117,12 @@ def test_create_application_empty(client, app_space_id):
         return None
 
     client.stub.CreateApplication = mocked_create_application
-    application = client.create_application(app_space_id, "automation-"+right_now, "Automation "+right_now, "description")
+    application = client.create_application(
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+    )
     assert application is None
 
 
@@ -165,7 +174,7 @@ def test_update_application_fail_invalid_application(client, app_space_id, capsy
     response = client.read_application_by_name(app_space_id, application_name)
     assert response is not None
     application_id = "gid:AAAAAdM5dfh564j5lIW1Ma1nFAA"
-    application = client.update_application(application_id, response.etag, response.display_name,"description update")
+    application = client.update_application(application_id, response.etag, response.display_name, "description update")
     captured = capsys.readouterr()
     assert "invalid id value was provided for id" in captured.err
 
@@ -246,8 +255,12 @@ def test_get_application_list_empty(client, app_space_id):
 
 def test_del_application_success(client, app_space_id, capsys):
     right_now = str(int(time.time()))
-    application = client.create_application(app_space_id, "automation-" + right_now,
-                                  "Automation " + right_now, "description")
+    application = client.create_application(
+        app_space_id,
+        "automation-" + right_now,
+        "Automation " + right_now,
+        "description",
+    )
     assert application is not None
     response = client.delete_application(application.id, application.etag)
     captured = capsys.readouterr()
@@ -255,9 +268,9 @@ def test_del_application_success(client, app_space_id, capsys):
 
 
 def test_del_application_wrong_application_id(client, application_id, capsys):
-    response = client.delete_application(application_id, "oeprbUOYHUIYI75U" )
+    response = client.delete_application(application_id, "oeprbUOYHUIYI75U")
     captured = capsys.readouterr()
-    assert("invalid eTag value" in captured.err)
+    assert "invalid eTag value" in captured.err
 
 
 def test_del_application_empty(client):

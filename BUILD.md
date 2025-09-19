@@ -8,5 +8,5 @@ or
 
 ```shell
 buf generate buf.build/indykite/indykiteapis
-buf generate buf.build/envoyproxy/protoc-gen-validate 
+buf generate buf.build/envoyproxy/protoc-gen-validate
 ```

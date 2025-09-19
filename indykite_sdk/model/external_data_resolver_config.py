@@ -4,6 +4,7 @@ from google.protobuf.json_format import MessageToDict
 
 from indykite_sdk.model.external_data_resolver_config_content_type import ContentType
 
+
 class ExternalDataResolverConfig:
     @classmethod
     def deserialize(cls, message_config):
@@ -28,7 +29,7 @@ class ExternalDataResolverConfig:
             external_data_resolver_config.request_type = message_config.request_type
 
         if "request_payload" in fields:
-            external_data_resolver_config.request_payload = json.loads(message_config.request_payload.decode('utf-8'))
+            external_data_resolver_config.request_payload = json.loads(message_config.request_payload.decode("utf-8"))
 
         if "response_type" in fields:
             content_types = [c.value for c in ContentType]
@@ -40,15 +41,16 @@ class ExternalDataResolverConfig:
             external_data_resolver_config.response_selector = message_config.response_selector
         return external_data_resolver_config
 
-    def __init__(self,
-                 url,
-                 method,
-                 headers=None,
-                 request_type=None,
-                 request_payload=None,
-                 response_type=None,
-                 response_selector= None):
-
+    def __init__(
+        self,
+        url,
+        method,
+        headers=None,
+        request_type=None,
+        request_payload=None,
+        response_type=None,
+        response_selector=None,
+    ):
         self.url = url
         self.method = method
         self.headers = headers

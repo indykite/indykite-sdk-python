@@ -13,8 +13,10 @@ def client():
 def test_who_authorized_wrong(client, capsys):
     assert client is not None
     actions = [12, 13]
-    resources = [WhoAuthorizedResource("resourceID", "TypeName", actions),
-                 WhoAuthorizedResource("resource2ID", "TypeName", actions)]
+    resources = [
+        WhoAuthorizedResource("resourceID", "TypeName", actions),
+        WhoAuthorizedResource("resource2ID", "TypeName", actions),
+    ]
     input_params = {}
     response = client.who_authorized(resources, input_params, [])
     captured = capsys.readouterr()
@@ -24,8 +26,10 @@ def test_who_authorized_wrong(client, capsys):
 def test_who_authorized_success(client):
     assert client is not None
     actions = ["ACTION1", "ACTION2"]
-    resources = [WhoAuthorizedResource("resourceID", "TypeName", actions),
-                 WhoAuthorizedResource("resource2ID", "TypeName", actions)]
+    resources = [
+        WhoAuthorizedResource("resourceID", "TypeName", actions),
+        WhoAuthorizedResource("resource2ID", "TypeName", actions),
+    ]
     input_params = {"age": "21"}
     policy_tags = ["Car", "Rental", "Sharing"]
     response = client.who_authorized(resources, input_params, policy_tags)
@@ -36,7 +40,10 @@ def test_who_authorized_success(client):
 def test_who_authorized_empty(client):
     assert client is not None
     actions = ["ACTION1", "ACTION2"]
-    resources = [WhoAuthorizedResource("resourceID", "TypeName", actions), WhoAuthorizedResource("resource2ID", "TypeName", actions)]
+    resources = [
+        WhoAuthorizedResource("resourceID", "TypeName", actions),
+        WhoAuthorizedResource("resource2ID", "TypeName", actions),
+    ]
     input_params = {}
 
     def mocked_who_authorized(request: pb2.WhoAuthorizedRequest):

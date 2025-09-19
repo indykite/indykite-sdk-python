@@ -1,7 +1,7 @@
 import json
 import os
-from pathlib import Path
 import sys
+from pathlib import Path
 
 
 def load_credentials(path):
@@ -9,7 +9,7 @@ def load_credentials(path):
     if not path.is_file():
         raise FileNotFoundError(f"{path} is not a valid file.")
 
-    with path.open('r', encoding='utf-8') as file:
+    with path.open("r", encoding="utf-8") as file:
         raw_content = file.read()
     return json.loads(raw_content)
 
@@ -19,8 +19,7 @@ def load_json(content):
 
 
 def lookup_env_credentials_variables(client="identity"):
-    """
-    get credentials from env variables
+    """Get credentials from env variables
     :param client: string ["config", "authz", "ingest", "identity"]
     :return: credentials as dict
     """
@@ -36,8 +35,7 @@ def lookup_env_credentials_variables(client="identity"):
         if not cred:
             cred = os.getenv(config_file)
             if not cred:
-                raise Exception("Missing " + config + " or " +
-                                config_file + " environment variable")
+                raise Exception("Missing " + config + " or " + config_file + " environment variable")
 
             credentials = os.path.join(os.path.dirname(cred), os.path.basename(cred))
             credentials = load_credentials(credentials)

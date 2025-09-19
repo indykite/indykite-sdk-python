@@ -1,5 +1,5 @@
-from indykite_sdk.utils import timestamp_to_date
 from indykite_sdk.model.ikg_status import AppSpaceIKGStatus
+from indykite_sdk.utils import timestamp_to_date
 
 
 class ApplicationSpace:
@@ -13,7 +13,7 @@ class ApplicationSpace:
             str(message.name),
             str(message.display_name),
             str(message.etag),
-            str(message.customer_id)
+            str(message.customer_id),
         )
 
         if "create_time" in fields:

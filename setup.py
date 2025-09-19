@@ -1,5 +1,7 @@
-import setuptools
 import ast
+
+import setuptools
+
 
 def get_version(file_path):
     with open(file_path, encoding="utf8") as fp:
@@ -11,22 +13,21 @@ def get_version(file_path):
                         return ast.literal_eval(node.value)
     raise ValueError("No __version__ found in version.py")
 
+
 __version__ = get_version("version.py")
 
 long_description = (
-    open('README.md', encoding="utf8").read()
-    + '\n\n' +
-    open('CHANGELOG.md', encoding="utf8").read()
-    + '\n')
+    open("README.md", encoding="utf8").read() + "\n\n" + open("CHANGELOG.md", encoding="utf8").read() + "\n"
+)
 
 
 setuptools.setup(
-    name='indykite-sdk-python',
-    url='https://github.com/indykite/indykite-sdk-python',
+    name="indykite-sdk-python",
+    url="https://github.com/indykite/indykite-sdk-python",
     version=__version__,
     author="Indykite",
     author_email="test@indykite.com",
-    description='A python SDK package for Indykite\'s system (with protobuf)',
+    description="A python SDK package for Indykite's system (with protobuf)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -35,14 +36,14 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    license='Apache-2.0',
+    license="Apache-2.0",
     install_requires=[
-        'authlib',
-        'certifi',
-        'grpcio',
-        'google-api-python-client',
-        'google-cloud-storage',
-        'protobuf',
+        "authlib",
+        "certifi",
+        "grpcio",
+        "google-api-python-client",
+        "google-cloud-storage",
+        "protobuf",
     ],
-    python_requires='~=3.11',
+    python_requires="~=3.11",
 )

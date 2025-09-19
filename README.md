@@ -1,9 +1,9 @@
 # IndyKite Python SDK 🐍
 
 This project serves as a Software Development Kit for developers of Indykite applications.
-The Python SDK enables you to easily integrate the IndyKite platform gRPC APIs into your Python application. 
-https://console2.indykite.id/
-https://www.indykite.com/
+The Python SDK enables you to easily integrate the IndyKite platform gRPC APIs into your Python application.
+<https://console2.indykite.id/>
+<https://www.indykite.com/>
 
 [![codecov](https://codecov.io/gh/indykite/indykite-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/indykite/indykite-sdk-python)
 
@@ -13,22 +13,25 @@ https://www.indykite.com/
 
 ## Installation
 
-    add to pipfile [packages]:
-    indykite-sdk-python = {ref = "v1.57.0", git = "https://github.com/indykite/indykite-sdk-python"}
+add to pipfile [packages]:
 
+```ini
+indykite-sdk-python = {ref = "v1.57.0", git = "https://github.com/indykite/indykite-sdk-python"}
+```
 
 ## Used terminology
-To do anything at all in the IndyKite platform, you must first create an 
-Organization (Customer) in the Hub (https://console2.indykite.id/) — the Web interface used to interact with and do tasks in the IndyKite platform 
-and get your credentials (https://docs.indykite.com/docs/get-started).
 
-Once you have created a Customer, a service account, and you have your service account credentials, 
+To do anything at all in the IndyKite platform, you must first create an
+Organization (Customer) in the Hub (<https://console2.indykite.id/>) — the Web interface used to interact with and do tasks in the IndyKite platform
+and get your credentials (<https://docs.indykite.com/docs/get-started>).
+
+Once you have created a Customer, a service account, and you have your service account credentials,
 you can set up the SDK.
 
 | Definition               | Description                                                                                                                                          |
 |--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Identity Knowledge Graph | The Identity Knowledge Graph is a contextualized data model that constructed entities and their relationships (data entities) using a graph database. | 
-| Nodes                    | Data points stored as nodes (identity nodes and resources) and edges (relationships)                                                                 | 
+| Identity Knowledge Graph | The Identity Knowledge Graph is a contextualized data model that constructed entities and their relationships (data entities) using a graph database. |
+| Nodes                    | Data points stored as nodes (identity nodes and resources) and edges (relationships)                                                                 |
 | Identity node            | An identity node (node with is_identity=True) is the digital identity of a physical entity on/in a software/identity system                          |
 | Application Space ID     | ID of the application space the nodes belong to                                                                                                      |
 | Application Agent ID     | ID of the agent which makes the application available for the different calls                                                                        |
@@ -36,18 +39,18 @@ you can set up the SDK.
 | JWT                      | JSON Web Tokens                                                                                                                                      |
 | Introspect               | A process used to validate the token and to retrieve properties assigned to the token                                                                |
 
-
 ## Initial settings
 
 :one: **Service account credentials**
 
-You need to have a Service Account credentials json file to be able to use the IndyKite Python SDK. You can get it from the 
-   IndyKite hub: https://console2.indykite.id/.
+You need to have a Service Account credentials json file to be able to use the IndyKite Python SDK. You can get it from the
+   IndyKite hub: <https://console2.indykite.id/>.
 
-#### Config
+### Config
+
 To manage its spaces, among other things, the **owner** of the relevant customer creates a **service account**.
 
-A service account is a non-person entity which belongs to the **owner** who created it. 
+A service account is a non-person entity which belongs to the **owner** who created it.
 It is a **node** with its own credential which acts only through its owner.
 
 A service account is always created under a customer.
@@ -61,66 +64,135 @@ environment variable or set the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE` envi
 
 You should use an absolute path for the file.
 
-   - **on Linux and OSX**
-       ```
-        export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
-         "serviceAccountId":"",
-         "endpoint":"",
-         "privateKeyJWK":{
-           "alg":"ES256",
-           "crv":"P-256",
-           "d":"",
-           "kid":"",
-           "kty":"EC",
-           "use":"sig",
-           "x":"",
-           "y":""
-           },
-         "privateKeyPKCS8Base64":"",
-         "privateKeyPKCS8":"-----BEGIN PRIVATE KEY----------END PRIVATE KEY-----\n"
-         }'
-        ```
+* **on Linux and OSX**
 
-     or
+```sh
+export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
+ "serviceAccountId":"",
+ "endpoint":"",
+ "privateKeyJWK":{
+   "alg":"ES256",
+   "crv":"P-256",
+   "d":"",
+   "kid":"",
+   "kty":"EC",
+   "use":"sig",
+   "x":"",
+   "y":""
+   },
+ "privateKeyPKCS8Base64":"",
+ "privateKeyPKCS8":"..."
+ }'
+# or
+export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE=/Users/xx/configuration.json
+```
 
-      `export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE=/Users/xx/configuration.json`
+* **on Windows command line**
 
-
-   - **on Windows command line**
-       ```
-        setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
-         "serviceAccountId":"",
-         "endpoint":"",
-         "privateKeyJWK":{
-           "alg":"ES256",
-           "crv":"P-256",
-           "d":"",
-           "kid":"",
-           "kty":"EC",
-           "use":"sig",
-           "x":"",
-           "y":""
-           },
-         "privateKeyPKCS8Base64":"",
-         "privateKeyPKCS8":"-----BEGIN PRIVATE KEY----------END PRIVATE KEY-----\n"
-         }'
-        ```
-
-     or
-
-      `setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
-
+```sh
+setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
+ "serviceAccountId":"",
+ "endpoint":"",
+ "privateKeyJWK":{
+   "alg":"ES256",
+   "crv":"P-256",
+   "d":"",
+   "kid":"",
+   "kty":"EC",
+   "use":"sig",
+   "x":"",
+   "y":""
+   },
+ "privateKeyPKCS8Base64":"",
+ "privateKeyPKCS8":"..."
+ }'
+# or
+setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"
+```
 
 :two: **AppAgent Credentials**
 
-You will also need to have an Application Agent credentials json file to be able to use the other services like IKG (ingestion) and KBAC (authorization). 
-You can get it from the IndyKite hub (https://console2.indykite.id/) or using the SDK.
+You will also need to have an Application Agent credentials json file to be able to use the other services like IKG (ingestion) and KBAC (authorization).
+You can get it from the IndyKite hub (<https://console2.indykite.id/>) or using the SDK.
 
-    Example configuration file:
+Example configuration file:
 
 ```json
 {
-    "baseUrl": "",
+  "baseUrl": "",
+  "applicationId": "",
+  "appSpaceId": "",
+  "appAgentId": "",
+  "endpoint": "",
+  "privateKeyJWK":
+  {
+      "alg": "ES256",
+      "crv": "P-256",
+      "d": "",
+      "kid": "",
+      "kty": "EC",
+      "use": "sig",
+      "x": "",
+      "y": ""
+  },
+  "privateKeyPKCS8Base64": "",
+  "privateKeyPKCS8": ""
+}
+```
+
+A token lifetime is 1h by default. You can change this time (from 2 minutes to 24h) by adding a tokenLifetime parameter.
+
+It will have to be human-readable and Golang-like see -> <https://pkg.go.dev/time#ParseDuration>
+
+Examples: 30m, 1.5h, 2h45m
+
+Example at the end of the JSON file:
+
+```json
+{
+  ...
+  "privateKeyPKCS8": "-----BEGIN PRIVATE KEY-----\nM\n-----END PRIVATE KEY-----",
+  "tokenLifetime": "30m"
+}
+```
+
+### Identity
+
+You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_APPLICATION_CREDENTIALS`
+environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environment variable to the configuration file's path.
+
+* on Linux and OSX
+
+```sh
+export INDYKITE_APPLICATION_CREDENTIALS='{
+  "baseUrl": "",
+  "applicationId": "",
+  "appSpaceId": "",
+  "appAgentId": "",
+  "endpoint": "",
+  "privateKeyJWK":
+  {
+      "alg": "ES256",
+      "crv": "P-256",
+      "d": "",
+      "kid": "",
+      "kty": "EC",
+      "use": "sig",
+      "x": "",
+      "y": ""
+  },
+  "privateKeyPKCS8Base64":"",
+  "privateKeyPKCS8": ""
+}'
+# or
+export INDYKITE_APPLICATION_CREDENTIALS_FILE=/Users/xx/configuration.json
+```
+
+* on Windows command line
+
+```sh
+setex INDYKITE_APPLICATION_CREDENTIALS='{
+    "baseUrl": ""
     "applicationId": "",
     "appSpaceId": "",
     "appAgentId": "",
@@ -136,91 +208,14 @@ You can get it from the IndyKite hub (https://console2.indykite.id/) or using th
         "x": "",
         "y": ""
     },
-    "privateKeyPKCS8Base64": "",
+    "privateKeyPKCS8Base64":"",
     "privateKeyPKCS8": ""
-}
-```
-A token lifetime is 1h by default. You can change this time (from 2 minutes to 24h) by adding a tokenLifetime parameter.
-
-It will have to be human-readable and Golang-like see -> https://pkg.go.dev/time#ParseDuration
-
-Examples: 30m, 1.5h, 2h45m
-
-Example at the end of the json file:
-```
-{
-  ...
-  "privateKeyPKCS8": "-----BEGIN PRIVATE KEY-----\nM\n-----END PRIVATE KEY-----",
-  "tokenLifetime": "30m"
-}
+}'
+# or
+setex INDYKITE_APPLICATION_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"
 ```
 
-**Identity**
-
-    You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_APPLICATION_CREDENTIALS`
-    environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environment variable to the configuration file's path.
-
-   - on Linux and OSX
-
-       ```
-        export INDYKITE_APPLICATION_CREDENTIALS='{
-          "baseUrl": "",
-          "applicationId": "",
-          "appSpaceId": "",
-          "appAgentId": "",
-          "endpoint": "",
-          "privateKeyJWK":
-          {
-              "alg": "ES256",
-              "crv": "P-256",
-              "d": "",
-              "kid": "",
-              "kty": "EC",
-              "use": "sig",
-              "x": "",
-              "y": ""
-          },
-          "privateKeyPKCS8Base64":"",
-          "privateKeyPKCS8": ""
-      }'
-        ```
-
-     or
-
-      `export INDYKITE_APPLICATION_CREDENTIALS_FILE=/Users/xx/configuration.json`
-
-
-   - on Windows command line
-
-
-       ```
-        setex INDYKITE_APPLICATION_CREDENTIALS='{
-            "baseUrl": ""
-            "applicationId": "",
-            "appSpaceId": "",
-            "appAgentId": "",
-            "endpoint": "",
-            "privateKeyJWK":
-            {
-                "alg": "ES256",
-                "crv": "P-256",
-                "d": "",
-                "kid": "",
-                "kty": "EC",
-                "use": "sig",
-                "x": "",
-                "y": ""
-            },
-            "privateKeyPKCS8Base64":"",
-            "privateKeyPKCS8": ""
-        }'
-        ```
-
-     or
-
-      `setex INDYKITE_APPLICATION_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"`
-
-:three: **Initialize a client to establish the connection.** 
+:three: **Initialize a client to establish the connection.**
 
 This client instance's `self.stub` will be used by the other functions.
 
@@ -231,19 +226,20 @@ after use, it can cause surprises like `_InactiveRpcErrors`.
 from indykite_sdk.identity import IdentityClient
 import argparse
 
-    # Create parent parser
-    parser = argparse.ArgumentParser(description="Identity client API.")
-    parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
-    subparsers = parser.add_subparsers(dest="command", help="sub-command help")
-    
-    # Create 
-    args = parser.parse_args()
-    local = args.local
-    client = IdentityClient(local)
+# Create parent parser
+parser = argparse.ArgumentParser(description="Identity client API.")
+parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
+subparsers = parser.add_subparsers(dest="command", help="sub-command help")
+
+# Create
+args = parser.parse_args()
+local = args.local
+client = IdentityClient(local)
 ```
 
 :four: Close a GRPC channel
 You simply call the `close()` function on the channel (The `IdentityClient()` function below represents the def in the previous step)
+
 ```python
 from indykite_sdk.identity import IdentityClient
 
@@ -256,21 +252,23 @@ def open_and_close_channel():
 
 To run unit tests, simply execute
 
-    pytest
+```sh
+pytest
+```
 
 To display code coverage, enter
 
-    pytest --cov .
+```sh
+pytest --cov .
+```
 
 ### Functions details
 
-https://indykite.github.io/indykite-sdk-python/
-
+<https://indykite.github.io/indykite-sdk-python/>
 
 ## Examples
 
-https://github.com/indykite/indykite-sdk-python/tree/master/indykite_sdk
-
+<https://github.com/indykite/indykite-sdk-python/tree/master/indykite_sdk>
 
 ## SDK Development
 
@@ -305,7 +303,8 @@ Coming Soon!
 
 ## What is IndyKite
 
-IndyKite is a cloud identity platform built to secure and manage human & non-person (IoT) identities and their data. Based on open source standards, the cloud platform gives developers the ability to secure data and embed identity controls into their Web 3.0 applications. Empowering the world’s 23 million developers without the need to involve security and identity specialists.
+IndyKite is a cloud identity platform built to secure and manage human & non-person (IoT) identities and their data. Based on open source standards, the cloud platform gives developers the ability to secure data and embed identity controls into their Web 3.0 applications.
+Empowering the world’s 23 million developers without the need to involve security and identity specialists.
 
 ## License
 

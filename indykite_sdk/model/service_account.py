@@ -12,7 +12,7 @@ class ServiceAccount:
             str(message.name),
             str(message.display_name),
             str(message.etag),
-            str(message.customer_id)
+            str(message.customer_id),
         )
 
         if "app_space_id" in fields:
@@ -55,5 +55,3 @@ class ServiceAccount:
         self.created_by = None
         self.updated_by = None
         self.description = None
-
-

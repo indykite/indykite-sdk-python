@@ -44,11 +44,8 @@ class Consent:
     @classmethod
     def deserialize(cls, consent):
         if consent is None:
-            return None
-        return_consent = Consent(
-            consent.id if consent.id else None,
-            consent.properties if consent.properties else []
-        )
+            return
+        return_consent = Consent(consent.id if consent.id else None, consent.properties if consent.properties else [])
 
     def __init__(self, id=None, properties=None):
         self.id = id
@@ -60,12 +57,9 @@ class TrustedDataNode:
     def deserialize(cls, node):
         if node is None:
             return None
-        ik_node = TrustedDataNode(
-            id=node.id,
-            external_id=node.external_id
-        )
+        ik_node = TrustedDataNode(id=node.id, external_id=node.external_id)
         if node.type:
-            ik_node.type=node.type
+            ik_node.type = node.type
         if node.tags:
             ik_node.tags = [tag for tag in node.tags]
         if node.properties:
@@ -75,17 +69,26 @@ class TrustedDataNode:
             ik_node.create_time = timestamp_to_date(node.create_time)
         if node.update_time:
             ik_node.update_time = timestamp_to_date(node.update_time)
-        ik_node.is_identity=False
+        ik_node.is_identity = False
         if node.is_identity:
-            ik_node.is_identity=node.is_identity
+            ik_node.is_identity = node.is_identity
         if node.nodes:
             nodes = [TrustedDataNode.deserialize(n) for n in node.nodes]
             ik_node.nodes = nodes
         return ik_node
 
-    def __init__(self, id=None, external_id=None, type=None,
-                 tags=None, create_time=None, update_time=None,
-                 properties=None, is_identity=None, nodes=None):
+    def __init__(
+        self,
+        id=None,
+        external_id=None,
+        type=None,
+        tags=None,
+        create_time=None,
+        update_time=None,
+        properties=None,
+        is_identity=None,
+        nodes=None,
+    ):
         self.id = id
         self.external_id = external_id
         self.type = type

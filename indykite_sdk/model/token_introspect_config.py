@@ -11,7 +11,7 @@ class TokenIntrospectConfig:
         token_introspect_config = TokenIntrospectConfig(
             claims_mapping=claims_mapping,
             ikg_node_type=str(message_config.ikg_node_type),
-            perform_upsert=message_config.perform_upsert
+            perform_upsert=message_config.perform_upsert,
         )
         if "jwt" in fields:
             token_introspect_config.jwt = message_config.jwt
@@ -24,15 +24,16 @@ class TokenIntrospectConfig:
             token_introspect_config.online = message_config.online
         return token_introspect_config
 
-    def __init__(self,
-                 claims_mapping,
-                 ikg_node_type,
-                 perform_upsert=False,
-                 jwt=None,
-                 opaque=None,
-                 offline=None,
-                 online= None):
-
+    def __init__(
+        self,
+        claims_mapping,
+        ikg_node_type,
+        perform_upsert=False,
+        jwt=None,
+        opaque=None,
+        offline=None,
+        online=None,
+    ):
         self.jwt = jwt
         self.opaque = opaque
         self.offline = offline

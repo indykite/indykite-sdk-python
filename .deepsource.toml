@@ -1,10 +1,33 @@
 version = 1
 
+exclude_patterns = [
+  "indykite_sdk/indykite/**",
+  "indykite_sdk/buf/**",
+  "indykite_sdk/gnostic/**",
+  "indykite_sdk/validate/**"
+]
+
+#
+[[analyzers]]
+name = "secrets"
+enabled = true
+
+#
 [[analyzers]]
 name = "shell"
 
-[[analyzers]]
-name = "python"
+#
+# [[analyzers]]
+# name = "python"
+# enabled = true
+# dependency_file_paths = ["Pipfile"]
 
-  [analyzers.meta]
-  runtime_version = "3.x.x"
+#   [analyzers.meta]
+#   runtime_version = "3.x.x"
+#   max_line_length = 120
+#   skip_doc_coverage = ["module", "magic", "init", "class", "nonpublic"]
+
+# reference for potential usage, but done via 'pre-commit' & CI verification at the moment
+# [[transformers]]
+# name = "ruff" # "black"
+# enabled = true

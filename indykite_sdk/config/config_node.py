@@ -1,24 +1,23 @@
 import sys
 
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2 as pb2
-from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
-from indykite_sdk.model.create_config_node import CreateConfigNode
-from indykite_sdk.model.update_config_node import UpdateConfigNode
-from indykite_sdk.model.config_node import ConfigNode
-from indykite_sdk.model.authorization_policy_config_status import Status
 from indykite_sdk.indykite.config.v1beta1 import model_pb2
-from indykite_sdk.model.token_status import ExternalTokenStatus
+from indykite_sdk.indykite.config.v1beta1.model_pb2 import google_dot_protobuf_dot_wrappers__pb2 as wrappers
+from indykite_sdk.model.authorization_policy_config_status import Status
+from indykite_sdk.model.config_node import ConfigNode
+from indykite_sdk.model.create_config_node import CreateConfigNode
 from indykite_sdk.model.entity_matching_status import Status as EntityMatchingStatus
-from indykite_sdk.model.trust_score_profile_dimension_name import Name as TrustScoreDimensionName
-from indykite_sdk.model.trust_score_profile_config import UpdateFrequency
 from indykite_sdk.model.external_data_resolver_config_content_type import ContentType
 from indykite_sdk.model.knowledge_query_status import KnowledgeQueryStatus
-import indykite_sdk.utils.logger as logger
+from indykite_sdk.model.token_status import ExternalTokenStatus
+from indykite_sdk.model.trust_score_profile_config import UpdateFrequency
+from indykite_sdk.model.trust_score_profile_dimension_name import Name as TrustScoreDimensionName
+from indykite_sdk.model.update_config_node import UpdateConfigNode
+from indykite_sdk.utils import logger
 
 
 def read_config_node(self, config_node_id, version=0):
-    """
-    read a specific config node
+    """Read a specific config node
     :param self:
     :param config_node_id: string gid id
     :param version: int
@@ -26,12 +25,7 @@ def read_config_node(self, config_node_id, version=0):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        response = self.stub.ReadConfigNode(
-            pb2.ReadConfigNodeRequest(
-                id=str(config_node_id),
-                version=version
-            )
-        )
+        response = self.stub.ReadConfigNode(pb2.ReadConfigNodeRequest(id=str(config_node_id), version=version))
     except Exception as exception:
         return logger.logger_error(exception)
 
@@ -41,8 +35,7 @@ def read_config_node(self, config_node_id, version=0):
 
 
 def delete_config_node(self, config_node_id, etag):
-    """
-    delete a specific config node
+    """Delete a specific config node
     :param self:
     :param config_node_id: string gid id
     :param etag: etag
@@ -51,10 +44,7 @@ def delete_config_node(self, config_node_id, etag):
     sys.excepthook = logger.handle_excepthook
     try:
         response = self.stub.DeleteConfigNode(
-            pb2.DeleteConfigNodeRequest(
-                id=str(config_node_id),
-                etag=wrappers.StringValue(value=etag)
-            )
+            pb2.DeleteConfigNodeRequest(id=str(config_node_id), etag=wrappers.StringValue(value=etag)),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -64,14 +54,15 @@ def delete_config_node(self, config_node_id, etag):
     return response
 
 
-def create_authorization_policy_config_node(self,
-                                            location,
-                                            name,
-                                            display_name,
-                                            description,
-                                            authorization_policy_config):
-    """
-    create authorization policy
+def create_authorization_policy_config_node(
+    self,
+    location,
+    name,
+    display_name,
+    description,
+    authorization_policy_config,
+):
+    """Create authorization policy
     :param self:
     :param location: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -92,8 +83,8 @@ def create_authorization_policy_config_node(self,
                     name=name,
                     display_name=wrappers.StringValue(value=display_name),
                     description=wrappers.StringValue(value=description),
-                    authorization_policy_config=authorization_policy_config
-                )
+                    authorization_policy_config=authorization_policy_config,
+                ),
             )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -103,14 +94,15 @@ def create_authorization_policy_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def update_authorization_policy_config_node(self,
-                                            config_node_id,
-                                            etag,
-                                            display_name,
-                                            description,
-                                            authorization_policy_config):
-    """
-    update authorization policy
+def update_authorization_policy_config_node(
+    self,
+    config_node_id,
+    etag,
+    display_name,
+    description,
+    authorization_policy_config,
+):
+    """Update authorization policy
     :param self:
     :param config_node_id: string gid id
     :param etag: string
@@ -131,8 +123,8 @@ def update_authorization_policy_config_node(self,
                     etag=wrappers.StringValue(value=etag),
                     display_name=wrappers.StringValue(value=display_name),
                     description=wrappers.StringValue(value=description),
-                    authorization_policy_config= authorization_policy_config
-                )
+                    authorization_policy_config=authorization_policy_config,
+                ),
             )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -143,8 +135,7 @@ def update_authorization_policy_config_node(self,
 
 
 def authorization_policy_config(self, policy, status, tags=[]):
-    """
-    create AuthorizationPolicyConfig
+    """Create AuthorizationPolicyConfig
     :param self:
     :param policy: JSON string format
     :param status: AuthorizationPolicyConfig.Status
@@ -153,24 +144,14 @@ def authorization_policy_config(self, policy, status, tags=[]):
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        policy_config = model_pb2.AuthorizationPolicyConfig(
-            policy=str(policy),
-            status=status,
-            tags=tags
-            )
+        policy_config = model_pb2.AuthorizationPolicyConfig(policy=str(policy), status=status, tags=tags)
         return policy_config
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def create_consent_config_node(self,
-                               location,
-                               name,
-                               display_name,
-                               description,
-                               consent_config):
-    """
-    create consent configuration
+def create_consent_config_node(self, location, name, display_name, description, consent_config):
+    """Create consent configuration
     :param self:
     :param location: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -187,8 +168,8 @@ def create_consent_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                consent_config=consent_config
-            )
+                consent_config=consent_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -198,14 +179,8 @@ def create_consent_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def update_consent_config_node(self,
-                               config_node_id,
-                               etag,
-                               display_name,
-                               description,
-                               consent_config):
-    """
-    update consent configuration
+def update_consent_config_node(self, config_node_id, etag, display_name, description, consent_config):
+    """Update consent configuration
     :param self:
     :param config_node_id: string gid id
     :param etag: string
@@ -222,8 +197,8 @@ def update_consent_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                consent_config= consent_config
-            )
+                consent_config=consent_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -233,15 +208,8 @@ def update_consent_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def consent_config(self,
-                   purpose,
-                   data_points,
-                   application_id,
-                   validity_period,
-                   revoke_after_use=False,
-                   token_status=3):
-    """
-    create ConsentConfiguration
+def consent_config(self, purpose, data_points, application_id, validity_period, revoke_after_use=False, token_status=3):
+    """Create ConsentConfiguration
     :param self:
     :param purpose: string max_len: 1024
     :param data_points: list
@@ -262,20 +230,14 @@ def consent_config(self,
             application_id=application_id,
             validity_period=validity_period,
             revoke_after_use=revoke_after_use,
-            token_status=token_status
+            token_status=token_status,
         )
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def create_token_introspect_config_node(self,
-                                        location,
-                                        name,
-                                        display_name,
-                                        description,
-                                        token_introspect_config):
-    """
-    create token introspect config
+def create_token_introspect_config_node(self, location, name, display_name, description, token_introspect_config):
+    """Create token introspect config
     :param self:
     :param location: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -292,8 +254,8 @@ def create_token_introspect_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                token_introspect_config=token_introspect_config
-            )
+                token_introspect_config=token_introspect_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -303,14 +265,8 @@ def create_token_introspect_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def update_token_introspect_config_node(self,
-                                        config_node_id,
-                                        etag,
-                                        display_name,
-                                        description,
-                                        token_introspect_config):
-    """
-    update token introspect config
+def update_token_introspect_config_node(self, config_node_id, etag, display_name, description, token_introspect_config):
+    """Update token introspect config
     :param self:
     :param config_node_id: string gid id
     :param etag: string
@@ -327,8 +283,8 @@ def update_token_introspect_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                token_introspect_config= token_introspect_config
-            )
+                token_introspect_config=token_introspect_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -338,14 +294,8 @@ def update_token_introspect_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def token_introspect_config(self,
-                            token_matcher,
-                            validation,
-                            claims_mapping,
-                            ikg_node_type,
-                            perform_upsert=False):
-    """
-    create TokenIntrospectConfig
+def token_introspect_config(self, token_matcher, validation, claims_mapping, ikg_node_type, perform_upsert=False):
+    """Create TokenIntrospectConfig
     :param self:
     :param token_matcher: string max_len: 1024
     :param validation: list
@@ -364,7 +314,7 @@ def token_introspect_config(self,
             if token_matcher["jwt"]:
                 jwt = model_pb2.TokenIntrospectConfig.JWT(
                     issuer=token_matcher["jwt"].issuer,
-                    audience=token_matcher["jwt"].audience
+                    audience=token_matcher["jwt"].audience,
                 )
             elif token_matcher["opaque"]:
                 opaque = model_pb2.TokenIntrospectConfig.Opaque()
@@ -373,19 +323,19 @@ def token_introspect_config(self,
         if validation:
             if validation["offline"] and token_matcher["jwt"]:
                 offline = model_pb2.TokenIntrospectConfig.Offline(
-                    public_jwks=[pj for pj in validation["offline"].public_jwks]
+                    public_jwks=[pj for pj in validation["offline"].public_jwks],
                 )
                 return model_pb2.TokenIntrospectConfig(
                     claims_mapping=claims_mapping_tmp,
                     ikg_node_type=str(ikg_node_type),
                     perform_upsert=perform_upsert,
                     jwt=jwt,
-                    offline=offline
+                    offline=offline,
                 )
-            elif validation["online"]:
+            if validation["online"]:
                 online = model_pb2.TokenIntrospectConfig.Online(
                     userinfo_endpoint=validation["online"].userinfo_endpoint,
-                    cache_ttl=validation["online"].cache_ttl
+                    cache_ttl=validation["online"].cache_ttl,
                 )
                 if opaque:
                     return model_pb2.TokenIntrospectConfig(
@@ -393,30 +343,29 @@ def token_introspect_config(self,
                         ikg_node_type=str(ikg_node_type),
                         perform_upsert=perform_upsert,
                         opaque=opaque,
-                        online=online
+                        online=online,
                     )
-                else:
-                    return model_pb2.TokenIntrospectConfig(
-                        claims_mapping=claims_mapping_tmp,
-                        ikg_node_type=str(ikg_node_type),
-                        perform_upsert=perform_upsert,
-                        jwt=jwt,
-                        online=online
-                    )
-            else:
-                raise TypeError("validation must be Offline + JWT or Online")
+                return model_pb2.TokenIntrospectConfig(
+                    claims_mapping=claims_mapping_tmp,
+                    ikg_node_type=str(ikg_node_type),
+                    perform_upsert=perform_upsert,
+                    jwt=jwt,
+                    online=online,
+                )
+            raise TypeError("validation must be Offline + JWT or Online")
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def create_external_data_resolver_config_node(self,
-                                              location,
-                                              name,
-                                              display_name,
-                                              description,
-                                              external_data_resolver_config):
-    """
-    create external data resolver config node
+def create_external_data_resolver_config_node(
+    self,
+    location,
+    name,
+    display_name,
+    description,
+    external_data_resolver_config,
+):
+    """Create external data resolver config node
     :param self:
     :param location: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -428,7 +377,10 @@ def create_external_data_resolver_config_node(self,
     sys.excepthook = logger.handle_excepthook
     try:
         valid = True
-        if external_data_resolver_config and isinstance(external_data_resolver_config, model_pb2.ExternalDataResolverConfig):
+        if external_data_resolver_config and isinstance(
+            external_data_resolver_config,
+            model_pb2.ExternalDataResolverConfig,
+        ):
             if external_data_resolver_config.method:
                 valid = self.validate_external_data_resolver_method(external_data_resolver_config.method)
             if valid and external_data_resolver_config.request_type:
@@ -446,8 +398,8 @@ def create_external_data_resolver_config_node(self,
                     name=name,
                     display_name=wrappers.StringValue(value=display_name),
                     description=wrappers.StringValue(value=description),
-                    external_data_resolver_config=external_data_resolver_config
-                )
+                    external_data_resolver_config=external_data_resolver_config,
+                ),
             )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -457,14 +409,15 @@ def create_external_data_resolver_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def update_external_data_resolver_config_node(self,
-                                              config_node_id,
-                                              etag,
-                                              display_name,
-                                              description,
-                                              external_data_resolver_config):
-    """
-    update external data resolver
+def update_external_data_resolver_config_node(
+    self,
+    config_node_id,
+    etag,
+    display_name,
+    description,
+    external_data_resolver_config,
+):
+    """Update external data resolver
     :param self:
     :param config_node_id: string gid id
     :param display_name: string
@@ -475,7 +428,10 @@ def update_external_data_resolver_config_node(self,
     sys.excepthook = logger.handle_excepthook
     try:
         valid = True
-        if external_data_resolver_config and isinstance(external_data_resolver_config, model_pb2.ExternalDataResolverConfig):
+        if external_data_resolver_config and isinstance(
+            external_data_resolver_config,
+            model_pb2.ExternalDataResolverConfig,
+        ):
             if external_data_resolver_config.method:
                 valid = self.validate_external_data_resolver_method(external_data_resolver_config.method)
             if valid and external_data_resolver_config.request_type:
@@ -493,8 +449,8 @@ def update_external_data_resolver_config_node(self,
                     etag=wrappers.StringValue(value=etag),
                     display_name=wrappers.StringValue(value=display_name),
                     description=wrappers.StringValue(value=description),
-                    external_data_resolver_config=external_data_resolver_config
-                )
+                    external_data_resolver_config=external_data_resolver_config,
+                ),
             )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -504,16 +460,17 @@ def update_external_data_resolver_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def external_data_resolver_config(self,
-                                  url,
-                                  method,
-                                  headers=None,
-                                  request_type=None,
-                                  request_payload=None,
-                                  response_type=None,
-                                  response_selector=None):
-    """
-    create ExternalDataResolverConfig
+def external_data_resolver_config(
+    self,
+    url,
+    method,
+    headers=None,
+    request_type=None,
+    request_payload=None,
+    response_type=None,
+    response_selector=None,
+):
+    """Create ExternalDataResolverConfig
     :param self:
     :param url: Full URL to endpoint that will be called
     :param method: [GET, POST, PUT, PATCH]
@@ -533,21 +490,22 @@ def external_data_resolver_config(self,
             request_type=request_type,
             request_payload=request_payload,
             response_type=response_type,
-            response_selector=response_selector
-            )
+            response_selector=response_selector,
+        )
         return external_config
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def create_entity_matching_pipeline_config_node(self,
-                                              location,
-                                              name,
-                                              display_name,
-                                              description,
-                                              entity_matching_pipeline_config):
-    """
-    create entity matching pipeline config node
+def create_entity_matching_pipeline_config_node(
+    self,
+    location,
+    name,
+    display_name,
+    description,
+    entity_matching_pipeline_config,
+):
+    """Create entity matching pipeline config node
     :param self:
     :param location: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -560,7 +518,8 @@ def create_entity_matching_pipeline_config_node(self,
     try:
         if entity_matching_pipeline_config and not isinstance(
             entity_matching_pipeline_config,
-            model_pb2.EntityMatchingPipelineConfig):
+            model_pb2.EntityMatchingPipelineConfig,
+        ):
             raise TypeError("EntityMatchingPipelineConfig must be an object")
 
         response = self.stub.CreateConfigNode(
@@ -569,8 +528,8 @@ def create_entity_matching_pipeline_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                entity_matching_pipeline_config=entity_matching_pipeline_config
-            )
+                entity_matching_pipeline_config=entity_matching_pipeline_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -580,14 +539,15 @@ def create_entity_matching_pipeline_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def update_entity_matching_pipeline_config_node(self,
-                                              config_node_id,
-                                              etag,
-                                              display_name,
-                                              description,
-                                              entity_matching_pipeline_config):
-    """
-    update entity matching pipeline
+def update_entity_matching_pipeline_config_node(
+    self,
+    config_node_id,
+    etag,
+    display_name,
+    description,
+    entity_matching_pipeline_config,
+):
+    """Update entity matching pipeline
     :param self:
     :param config_node_id: string gid id
     :param display_name: string
@@ -599,7 +559,8 @@ def update_entity_matching_pipeline_config_node(self,
     try:
         if entity_matching_pipeline_config and not isinstance(
             entity_matching_pipeline_config,
-            model_pb2.EntityMatchingPipelineConfig):
+            model_pb2.EntityMatchingPipelineConfig,
+        ):
             raise TypeError("EntityMatchingPipelineConfig must be an object")
         response = self.stub.UpdateConfigNode(
             pb2.UpdateConfigNodeRequest(
@@ -607,8 +568,8 @@ def update_entity_matching_pipeline_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                entity_matching_pipeline_config=entity_matching_pipeline_config
-            )
+                entity_matching_pipeline_config=entity_matching_pipeline_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -618,21 +579,21 @@ def update_entity_matching_pipeline_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def entity_matching_pipeline_config(self,
-                                  node_filter=None,
-                                  similarity_score_cutoff=None,
-                                  property_mapping_status=None,
-                                  property_mapping_message=None,
-                                  entity_matching_status=None,
-                                  entity_matching_message=None,
-                                  property_mappings=None,
-                                  rerun_interval=None,
-                                  last_run_time=None,
-                                  report_url=None,
-                                  report_type=None):
-
-    """
-    create EntityMatchingPipelineConfig
+def entity_matching_pipeline_config(
+    self,
+    node_filter=None,
+    similarity_score_cutoff=None,
+    property_mapping_status=None,
+    property_mapping_message=None,
+    entity_matching_status=None,
+    entity_matching_message=None,
+    property_mappings=None,
+    rerun_interval=None,
+    last_run_time=None,
+    report_url=None,
+    report_type=None,
+):
+    """Create EntityMatchingPipelineConfig
     :param self:
     :param node_filter: EntityMatchingPipelineConfig.NodeFilter object
     :param similarity_score_cutoff: float
@@ -652,7 +613,7 @@ def entity_matching_pipeline_config(self,
         property_mapping_status = self.validate_entity_matching_status(property_mapping_status)
         entity_matching_status = self.validate_entity_matching_status(entity_matching_status)
         external_config = model_pb2.EntityMatchingPipelineConfig(
-            node_filter = node_filter,
+            node_filter=node_filter,
             similarity_score_cutoff=similarity_score_cutoff,
             property_mapping_status=property_mapping_status,
             property_mapping_message=wrappers.StringValue(value=property_mapping_message),
@@ -662,16 +623,15 @@ def entity_matching_pipeline_config(self,
             rerun_interval=rerun_interval,
             last_run_time=last_run_time,
             report_url=wrappers.StringValue(value=report_url),
-            report_type=wrappers.StringValue(value=report_type)
-            )
+            report_type=wrappers.StringValue(value=report_type),
+        )
         return external_config
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def entity_matching_pipeline_config_create(self,node_filter):
-    """
-    create EntityMatchingPipelineConfig
+def entity_matching_pipeline_config_create(self, node_filter):
+    """Create EntityMatchingPipelineConfig
     :param self:
     :param node_filter: EntityMatchingPipelineConfig.NodeFilter object
     :return: EntityMatchingPipelineConfig object
@@ -679,16 +639,15 @@ def entity_matching_pipeline_config_create(self,node_filter):
     sys.excepthook = logger.handle_excepthook
     try:
         external_config = model_pb2.EntityMatchingPipelineConfig(
-            node_filter = node_filter,
-            )
+            node_filter=node_filter,
+        )
         return external_config
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def entity_matching_pipeline_config_update(self, similarity_score_cutoff):
-    """
-    create EntityMatchingPipelineConfig
+    """Create EntityMatchingPipelineConfig
     :param self:
     :param similarity_score_cutoff: float
     :return: EntityMatchingPipelineConfig object
@@ -696,16 +655,15 @@ def entity_matching_pipeline_config_update(self, similarity_score_cutoff):
     sys.excepthook = logger.handle_excepthook
     try:
         external_config = model_pb2.EntityMatchingPipelineConfig(
-            similarity_score_cutoff = similarity_score_cutoff,
-            )
+            similarity_score_cutoff=similarity_score_cutoff,
+        )
         return external_config
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def trust_score_profile_config_create(self,node_classification, dimensions, schedule):
-    """
-    create TrustScoreProfileConfig
+def trust_score_profile_config_create(self, node_classification, dimensions, schedule):
+    """Create TrustScoreProfileConfig
     :param self:
     :param node_classification: string
     :param dimensions: array of TrustScoreDimension object
@@ -718,16 +676,15 @@ def trust_score_profile_config_create(self,node_classification, dimensions, sche
         external_config = model_pb2.TrustScoreProfileConfig(
             node_classification=node_classification,
             dimensions=dimensions,
-            schedule=schedule
-            )
+            schedule=schedule,
+        )
         return external_config
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def trust_score_profile_config_update(self, dimensions, schedule):
-    """
-    create TrustScoreProfileConfig
+    """Create TrustScoreProfileConfig
     :param self:
     :param dimensions: array of TrustScoreDimension object
     :param schedule: TrustScoreProfileConfig.UpdateFrequency enum value
@@ -736,23 +693,14 @@ def trust_score_profile_config_update(self, dimensions, schedule):
     sys.excepthook = logger.handle_excepthook
     try:
         schedule = self.validate_trust_score_profile_update_frequency(schedule)
-        external_config = model_pb2.TrustScoreProfileConfig(
-            dimensions=dimensions,
-            schedule=schedule
-            )
+        external_config = model_pb2.TrustScoreProfileConfig(dimensions=dimensions, schedule=schedule)
         return external_config
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def create_trust_score_profile_config_node(self,
-                                              location,
-                                              name,
-                                              display_name,
-                                              description,
-                                              trust_score_profile_config):
-    """
-    create trust score profile config node
+def create_trust_score_profile_config_node(self, location, name, display_name, description, trust_score_profile_config):
+    """Create trust score profile config node
     :param self:
     :param location: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -763,9 +711,7 @@ def create_trust_score_profile_config_node(self,
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        if trust_score_profile_config and not isinstance(
-            trust_score_profile_config,
-            model_pb2.TrustScoreProfileConfig):
+        if trust_score_profile_config and not isinstance(trust_score_profile_config, model_pb2.TrustScoreProfileConfig):
             raise TypeError("TrustScoreProfileConfig must be an object")
 
         response = self.stub.CreateConfigNode(
@@ -774,8 +720,8 @@ def create_trust_score_profile_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                trust_score_profile_config=trust_score_profile_config
-            )
+                trust_score_profile_config=trust_score_profile_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -785,14 +731,15 @@ def create_trust_score_profile_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def update_trust_score_profile_config_node(self,
-                                              config_node_id,
-                                              etag,
-                                              display_name,
-                                              description,
-                                              trust_score_profile_config):
-    """
-    update trust score profile
+def update_trust_score_profile_config_node(
+    self,
+    config_node_id,
+    etag,
+    display_name,
+    description,
+    trust_score_profile_config,
+):
+    """Update trust score profile
     :param self:
     :param config_node_id: string gid id
     :param etag: string
@@ -803,9 +750,7 @@ def update_trust_score_profile_config_node(self,
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        if trust_score_profile_config and not isinstance(
-            trust_score_profile_config,
-            model_pb2.TrustScoreProfileConfig):
+        if trust_score_profile_config and not isinstance(trust_score_profile_config, model_pb2.TrustScoreProfileConfig):
             raise TypeError("TrustScoreProfileConfig must be an object")
         response = self.stub.UpdateConfigNode(
             pb2.UpdateConfigNodeRequest(
@@ -813,8 +758,8 @@ def update_trust_score_profile_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                trust_score_profile_config=trust_score_profile_config
-            )
+                trust_score_profile_config=trust_score_profile_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -825,9 +770,7 @@ def update_trust_score_profile_config_node(self,
 
 
 def trust_score_profile_config(self, node_classification, dimensions, schedule):
-
-    """
-    create TrustScoreProfileConfig
+    """Create TrustScoreProfileConfig
     :param self:
     :param node_classification: string
     :param dimensions: array of TrustScoreDimension object
@@ -840,21 +783,15 @@ def trust_score_profile_config(self, node_classification, dimensions, schedule):
         external_config = model_pb2.TrustScoreProfileConfig(
             node_classification=node_classification,
             dimensions=dimensions,
-            schedule=schedule
+            schedule=schedule,
         )
         return external_config
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def create_knowledge_query_config_node(self,
-                                       location,
-                                       name,
-                                       display_name,
-                                       description,
-                                       knowledge_query_config):
-    """
-    create knowledge query configuration
+def create_knowledge_query_config_node(self, location, name, display_name, description, knowledge_query_config):
+    """Create knowledge query configuration
     :param self:
     :param location: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -871,8 +808,8 @@ def create_knowledge_query_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                knowledge_query_config=knowledge_query_config
-            )
+                knowledge_query_config=knowledge_query_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -882,14 +819,8 @@ def create_knowledge_query_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def update_knowledge_query_config_node(self,
-                                       config_node_id,
-                                       etag,
-                                       display_name,
-                                       description,
-                                       knowledge_query_config):
-    """
-    update knowledge query configuration
+def update_knowledge_query_config_node(self, config_node_id, etag, display_name, description, knowledge_query_config):
+    """Update knowledge query configuration
     :param self:
     :param config_node_id: string gid id
     :param etag: string
@@ -906,8 +837,8 @@ def update_knowledge_query_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                knowledge_query_config= knowledge_query_config
-            )
+                knowledge_query_config=knowledge_query_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -917,12 +848,8 @@ def update_knowledge_query_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def knowledge_query_config(self,
-                           query,
-                           status,
-                           policy_id):
-    """
-    create KnowledgeQueryConfig
+def knowledge_query_config(self, query, status, policy_id):
+    """Create KnowledgeQueryConfig
     :param self:
     :param query: string max_bytes: 512000
     :param status Enum KnowledgeQueryStatus
@@ -932,23 +859,13 @@ def knowledge_query_config(self,
     sys.excepthook = logger.handle_excepthook
     try:
         status = self.validate_knowledge_query_status(status)
-        return model_pb2.KnowledgeQueryConfig(
-            query=query,
-            status=status,
-            policy_id=policy_id
-        )
+        return model_pb2.KnowledgeQueryConfig(query=query, status=status, policy_id=policy_id)
     except Exception as exception:
         return logger.logger_error(exception)
 
 
-def create_event_sink_config_node(self,
-                                  location,
-                                  name,
-                                  display_name,
-                                  description,
-                                  event_sink_config):
-    """
-    create event sink configuration
+def create_event_sink_config_node(self, location, name, display_name, description, event_sink_config):
+    """Create event sink configuration
     :param self:
     :param location: string gid id
     :param name: string pattern: ^[a-z](?:[-a-z0-9]{0,61}[a-z0-9])$
@@ -965,8 +882,8 @@ def create_event_sink_config_node(self,
                 name=name,
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                event_sink_config=event_sink_config
-            )
+                event_sink_config=event_sink_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -976,14 +893,8 @@ def create_event_sink_config_node(self,
     return CreateConfigNode.deserialize(response)
 
 
-def update_event_sink_config_node(self,
-                                  config_node_id,
-                                  etag,
-                                  display_name,
-                                  description,
-                                  event_sink_config):
-    """
-    update event sink configuration
+def update_event_sink_config_node(self, config_node_id, etag, display_name, description, event_sink_config):
+    """Update event sink configuration
     :param self:
     :param config_node_id: string gid id
     :param etag: string
@@ -1000,8 +911,8 @@ def update_event_sink_config_node(self,
                 etag=wrappers.StringValue(value=etag),
                 display_name=wrappers.StringValue(value=display_name),
                 description=wrappers.StringValue(value=description),
-                event_sink_config= event_sink_config
-            )
+                event_sink_config=event_sink_config,
+            ),
         )
     except Exception as exception:
         return logger.logger_error(exception)
@@ -1011,11 +922,8 @@ def update_event_sink_config_node(self,
     return UpdateConfigNode.deserialize(response)
 
 
-def event_sink_config(self,
-                      providers,
-                      routes):
-    """
-    create EventSinkConfig
+def event_sink_config(self, providers, routes):
+    """Create EventSinkConfig
     :param self:
     :param providers:  map<string,  EventSinkConfig.Provider>
     :param routes: array of EventSinkConfig.Route
@@ -1023,17 +931,13 @@ def event_sink_config(self,
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        return model_pb2.EventSinkConfig(
-            providers=providers,
-            routes=routes
-        )
+        return model_pb2.EventSinkConfig(providers=providers, routes=routes)
     except Exception as exception:
         return logger.logger_error(exception)
 
 
 def validate_data_points(self, data_points):
-    """
-    validate data_points requirement
+    """Validate data_points requirement
     :param self:
     :param data_points: array
     :return: reduces to unique list
@@ -1045,8 +949,7 @@ def validate_data_points(self, data_points):
 
 
 def validate_token_status(self, token_status):
-    """
-    validate token_status requirement
+    """Validate token_status requirement
     :param self:
     :param token_status: number
     :return: token_status or error
@@ -1061,8 +964,7 @@ def validate_token_status(self, token_status):
 
 
 def validate_authorization_policy_status(self, status):
-    """
-    validate status
+    """Validate status
     :param self:
     :param status: string
     :return: True if valid or raises error
@@ -1077,8 +979,7 @@ def validate_authorization_policy_status(self, status):
 
 
 def validate_external_data_resolver_method(self, method):
-    """
-    validate method
+    """Validate method
     :param self:
     :param method: string
     :return: True if valid or raises error
@@ -1093,8 +994,7 @@ def validate_external_data_resolver_method(self, method):
 
 
 def validate_external_data_resolver_content_type(self, content_type):
-    """
-    validate content_type
+    """Validate content_type
     :param selfcontent_type:
     :param content_type: string
     :return: True if valid or raises error
@@ -1109,8 +1009,7 @@ def validate_external_data_resolver_content_type(self, content_type):
 
 
 def validate_entity_matching_status(self, status):
-    """
-    validate entity matching status requirement
+    """Validate entity matching status requirement
     :param self:
     :param status: number
     :return: status, none  or error
@@ -1127,8 +1026,7 @@ def validate_entity_matching_status(self, status):
 
 
 def validate_trust_score_profile_dimension(self, dimension):
-    """
-    validate trust score profile dimension requirement
+    """Validate trust score profile dimension requirement
     :param self:
     :param dimension: number
     :return: dimension, none  or error
@@ -1145,8 +1043,7 @@ def validate_trust_score_profile_dimension(self, dimension):
 
 
 def validate_trust_score_profile_update_frequency(self, update_frequency):
-    """
-    validate trust score profile update_frequency requirement
+    """Validate trust score profile update_frequency requirement
     :param self:
     :param update_frequency: number
     :return: update_frequency, none  or error
@@ -1163,8 +1060,7 @@ def validate_trust_score_profile_update_frequency(self, update_frequency):
 
 
 def validate_knowledge_query_status(self, status):
-    """
-    validate status requirement
+    """Validate status requirement
     :param self:
     :param status: number
     :return: status or error
@@ -1179,19 +1075,14 @@ def validate_knowledge_query_status(self, status):
 
 
 def list_config_node_versions(self, id_config_node):
-    """
-    list config nodes versions of the specified config node
+    """List config nodes versions of the specified config node
     :param self:
     :param id_config_node: string gid id
     :return: list of deserialized ConfigNode instances
     """
     sys.excepthook = logger.handle_excepthook
     try:
-        list_config_nodes = self.stub.ListConfigNodeVersions(
-            pb2.ListConfigNodeVersionsRequest(
-                id=id_config_node
-            )
-        )
+        list_config_nodes = self.stub.ListConfigNodeVersions(pb2.ListConfigNodeVersionsRequest(id=id_config_node))
         if not list_config_nodes:
             return None
         res = [ConfigNode.deserialize(config_node) for config_node in list_config_nodes.config_nodes]

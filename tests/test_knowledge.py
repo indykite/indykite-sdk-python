@@ -1,13 +1,14 @@
-from datetime import datetime
 import os
+from datetime import datetime
+
 import pytest
 
 from indykite_sdk.indykite.knowledge.v1beta2 import identity_knowledge_api_pb2 as pb2
-from indykite_sdk.model.identity_knowledge import Metadata, Node
-import indykite_sdk.utils.logger as logger
-from indykite_sdk.knowledge import KnowledgeClient
 from indykite_sdk.indykite.knowledge.v1beta2.model_pb2 import Return as ReturnKnowledge
 from indykite_sdk.indykite.objects.v1beta2 import value_pb2
+from indykite_sdk.knowledge import KnowledgeClient
+from indykite_sdk.model.identity_knowledge import Metadata, Node
+from indykite_sdk.utils import logger
 
 
 @pytest.fixture
@@ -16,7 +17,7 @@ def client():
 
 
 def test_read_identity_knowledge_success(client):
-    input_params = {"external_id": os.getenv('ORGANIZATION_EXTERNAL_ID')}
+    input_params = {"external_id": os.getenv("ORGANIZATION_EXTERNAL_ID")}
     query = "MATCH (n:Individual)-[:BELONGS_TO]->(n:Organization) WHERE n.external_id = $external_id"
     returns = [ReturnKnowledge(variable="n")]
     response = client.identity_knowledge_read(query, input_params, returns)
@@ -41,8 +42,8 @@ def test_read_identity_knowledge_exception(client, capsys):
 
 
 def test_get_identity_by_id_success(client):
-    response = client.get_identity_by_id(os.getenv('INDIVIDUAL_ID'))
-    assert response.id == os.getenv('INDIVIDUAL_ID')
+    response = client.get_identity_by_id(os.getenv("INDIVIDUAL_ID"))
+    assert response.id == os.getenv("INDIVIDUAL_ID")
 
 
 def test_get_identity_by_id_empty(client):
@@ -63,8 +64,8 @@ def test_get_node_by_id_exception(client, capsys):
 
 
 def test_get_node_by_id_success(client):
-    response = client.get_node_by_id(os.getenv('ORGANIZATION_ID'))
-    assert response.id == os.getenv('ORGANIZATION_ID')
+    response = client.get_node_by_id(os.getenv("ORGANIZATION_ID"))
+    assert response.id == os.getenv("ORGANIZATION_ID")
 
 
 def test_get_node_by_id_empty(client):
@@ -73,35 +74,34 @@ def test_get_node_by_id_empty(client):
 
 
 def test_get_identity_by_identifier_success(client):
-    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Person")
-    assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
+    response = client.get_identity_by_identifier(os.getenv("INDIVIDUAL_EXTERNAL_ID"), "Person")
+    assert response[0].external_id == os.getenv("INDIVIDUAL_EXTERNAL_ID")
     assert response[0].type == "Person" or "Whatever"
 
 
 def test_get_identity_by_identifier_empty(client):
-    response = client.get_identity_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Person")
+    response = client.get_identity_by_identifier(os.getenv("ORGANIZATION_EXTERNAL_ID"), "Person")
     assert response is None
 
 
 def test_get_node_by_identifier_empty(client):
-    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Person", True)
+    response = client.get_node_by_identifier(os.getenv("ORGANIZATION_EXTERNAL_ID"), "Person", True)
     assert not response
 
 
 def test_get_identity_by_identifier_exception(client, capsys):
-
     def mocked_get_identity_by_identifier(request: pb2.IdentityKnowledgeReadRequest):
         return logger.logger_error("missing 1 required positional argument: 'returns'")
 
     client.stub.IdentityKnowledgeRead = mocked_get_identity_by_identifier
-    response = client.get_identity_by_identifier(os.getenv('INDIVIDUAL_EXTERNAL_ID'), "Individual")
+    response = client.get_identity_by_identifier(os.getenv("INDIVIDUAL_EXTERNAL_ID"), "Individual")
     captured = capsys.readouterr()
     assert "missing 1 required positional argument: 'returns'" in captured.err
 
 
 def test_get_node_by_identifier_success(client):
-    response = client.get_node_by_identifier(os.getenv('ORGANIZATION_EXTERNAL_ID'), "Organization")
-    assert response[0].external_id == os.getenv('ORGANIZATION_EXTERNAL_ID')
+    response = client.get_node_by_identifier(os.getenv("ORGANIZATION_EXTERNAL_ID"), "Organization")
+    assert response[0].external_id == os.getenv("ORGANIZATION_EXTERNAL_ID")
     assert response[0].type == "Organization"
 
 
@@ -123,7 +123,6 @@ def test_list_nodes_by_property_empty(client):
 
 
 def test_list_nodes_by_property_exception(client, capsys):
-
     def mocked_list_nodes_by_property(request: pb2.IdentityKnowledgeReadRequest):
         return logger.logger_error("Logging error")
 
@@ -135,7 +134,7 @@ def test_list_nodes_by_property_exception(client, capsys):
 
 def test_list_identities_by_property_success(client):
     response = client.list_identities_by_property({"first_name": "ettore"})
-    assert response[0].external_id == os.getenv('INDIVIDUAL_EXTERNAL_ID')
+    assert response[0].external_id == os.getenv("INDIVIDUAL_EXTERNAL_ID")
     assert response[0].type == "Person"
 
 
@@ -145,7 +144,6 @@ def test_list_identities_by_property_empty(client):
 
 
 def test_list_identities_by_property_exception(client, capsys):
-
     def mocked_list_identities_by_property(request: pb2.IdentityKnowledgeReadRequest):
         return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
 
@@ -156,7 +154,6 @@ def test_list_identities_by_property_exception(client, capsys):
 
 
 def test_list_nodes_empty(client):
-
     def mocked_list_resources(request: pb2.IdentityKnowledgeReadRequest):
         return None
 
@@ -166,7 +163,6 @@ def test_list_nodes_empty(client):
 
 
 def test_list_nodes_exception(client, capsys):
-
     def mocked_list_resources(request: pb2.IdentityKnowledgeReadRequest):
         return logger.logger_error("invalid IdentityKnowledgeReadRequest.Returns")
 
@@ -177,7 +173,6 @@ def test_list_nodes_exception(client, capsys):
 
 
 def test_list_identities_empty(client):
-
     def mocked_list_identity_node(request: pb2.IdentityKnowledgeReadRequest):
         return None
 
@@ -187,7 +182,6 @@ def test_list_identities_empty(client):
 
 
 def test_list_identities_exception(client, capsys):
-
     def mocked_list_identity_node(request: pb2.IdentityKnowledgeReadRequest):
         return logger.logger_error("list_identities() takes 1 positional argument but 2 were given")
 
@@ -202,41 +196,27 @@ def test_get_metadata_success():
         assurance_level=1,
         verification_time=datetime.now().timestamp(),
         source="Myself",
-        custom_metadata={
-            "customData": value_pb2.Value(string_value="customValue")
-        }
+        custom_metadata={"customData": value_pb2.Value(string_value="customValue")},
     )
     node1 = Node(
         id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
         external_id="PEpkjOvUJQvqTFw",
         type="individual",
         tags=[],
-        properties=[
-            {
-                "key": "last_name",
-                "value": {
-                    "stringValue": "mushu"
-                },
-                "metadata": metadata1
-            }
-        ])
+        properties=[{"key": "last_name", "value": {"stringValue": "mushu"}, "metadata": metadata1}],
+    )
     metadata = node1.get_metadata(node1, "last_name")
     assert metadata.source == "Myself"
 
 
 def test_get_metadata_no_data():
-    node1 = Node(
-        id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
-        external_id="PEpkjOvUJQvqTFw",
-        type="individual")
+    node1 = Node(id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8", external_id="PEpkjOvUJQvqTFw", type="individual")
     metadata = node1.get_metadata(node1, "unknown")
     assert metadata is None
 
+
 def test_get_external_value_no_data():
-    node1 = Node(
-        id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
-        external_id="PEpkjOvUJQvqTFw",
-        type="individual")
+    node1 = Node(id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8", external_id="PEpkjOvUJQvqTFw", type="individual")
     external_value = node1.get_external_value(node1, "unknown")
     assert external_value is None
 
@@ -246,24 +226,14 @@ def test_get_metadata_non_valid():
         assurance_level=1,
         verification_time=datetime.now().timestamp(),
         source="Myself",
-        custom_metadata={
-            "customData": value_pb2.Value(string_value="customValue")
-        }
+        custom_metadata={"customData": value_pb2.Value(string_value="customValue")},
     )
     node1 = Node(
         id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
         external_id="PEpkjOvUJQvqTFw",
         type="individual",
         tags=[],
-        properties=[
-        {
-            "key": "last_name",
-            "value": {
-                "stringValue": "mushu"
-            },
-            "metadata": metadata1
-        }
-        ]
+        properties=[{"key": "last_name", "value": {"stringValue": "mushu"}, "metadata": metadata1}],
     )
     metadata = node1.get_metadata(node1, "unknown")
     assert metadata is None
@@ -275,25 +245,15 @@ def test_get_property_success():
         external_id="PEpkjOvUJQvqTFw",
         type="individual",
         tags=[],
-        properties=[
-        {
-            "key": "last_name",
-            "value": {
-                "stringValue": "mushu"
-            },
-            "metadata": {}
-        }
-        ])
+        properties=[{"key": "last_name", "value": {"stringValue": "mushu"}, "metadata": {}}],
+    )
     property = node1.get_property(node1, "last_name")
     assert property == "mushu"
 
 
 def test_get_property_no_prop():
-    node1 = Node(
-        id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8",
-        external_id="PEpkjOvUJQvqTFw",
-        type="individual")
-    property = node1.get_property(node1,"unknown")
+    node1 = Node(id="gid:AAAAFVCygmDZtk8KtTtw9CBopC8", external_id="PEpkjOvUJQvqTFw", type="individual")
+    property = node1.get_property(node1, "unknown")
     assert property is None
 
 
@@ -303,14 +263,8 @@ def test_get_property_non_valid():
         external_id="PEpkjOvUJQvqTFw",
         type="individual",
         tags=[],
-        properties=[
-        {
-            "key": "last_name",
-            "value": {
-                "stringValue": "mushu"
-            }
-        }
-        ])
+        properties=[{"key": "last_name", "value": {"stringValue": "mushu"}}],
+    )
     property = node1.get_property(node1, "unknown")
     assert property is None
 

@@ -1,11 +1,12 @@
-from flask_openapi3 import APIBlueprint
-from flask_openapi3 import Tag
-from indykite_sdk.config import ConfigClient
+import json
+
+from flask import flash, render_template, request, session
+from flask_openapi3 import APIBlueprint, Tag
+
 from app.config import API_PREFIX
 from app.form.app_with_agent_credentials import ApplicationWithAgentCredentialsCreate
-from app.utils.response import get_response, get_credentials_response, response_data
-from flask import Flask, render_template, request, url_for, flash, redirect, session
-import json
+from app.utils.response import get_credentials_response, get_response, response_data
+from indykite_sdk.config import ConfigClient
 
 __version__ = "/v1"
 __bp__ = "/app_with_agent_credentials"
@@ -24,9 +25,10 @@ def create_app_with_agent_credentials(body: ApplicationWithAgentCredentialsCreat
         body.application_agent_credentials_name,
         "jwk",
         None,
-        None)
+        None,
+    )
     if app_with_agent_credentials:
-        cred = {'ApplicationWithAgentCredentials': []}
+        cred = {"ApplicationWithAgentCredentials": []}
         for k, v in app_with_agent_credentials.items():
             app = {k: []}
             if k == "response_application_agent_credentials":
@@ -34,32 +36,31 @@ def create_app_with_agent_credentials(body: ApplicationWithAgentCredentialsCreat
             else:
                 app_dict = json.loads(get_response(v))
             app[k].append(app_dict)
-            cred['ApplicationWithAgentCredentials'].append(app)
-        return response_data("ApplicationWithAgentCredentialsCreate",cred)
-    else:
-        return response_data("ApplicationWithAgentCredentialsCreate", "Invalid app_with_agent_credentials creation")
+            cred["ApplicationWithAgentCredentials"].append(app)
+        return response_data("ApplicationWithAgentCredentialsCreate", cred)
+    return response_data("ApplicationWithAgentCredentialsCreate", "Invalid app_with_agent_credentials creation")
 
 
 @api.get("/new")
 def new_app_with_agent_credentials():
-    return render_template('new_app_with_agent_credentials.html')
+    return render_template("new_app_with_agent_credentials.html")
 
 
 @api.post("/new")
 def new_app_with_agent_credentials_post():
-    app_space_id = request.form['app_space_id']
-    application_name = request.form['application_name']
-    application_agent_name = request.form['application_agent_name']
-    application_agent_credentials_name = request.form['application_agent_credentials_name']
+    app_space_id = request.form["app_space_id"]
+    application_name = request.form["application_name"]
+    application_agent_name = request.form["application_agent_name"]
+    application_agent_credentials_name = request.form["application_agent_credentials_name"]
 
     if not app_space_id:
-        flash('AppSpace id is required!')
+        flash("AppSpace id is required!")
     elif not application_name:
-        flash('Application name is required!')
+        flash("Application name is required!")
     elif not application_agent_name:
-        flash('Application agent name is required!')
+        flash("Application agent name is required!")
     elif not application_agent_credentials_name:
-        flash('Application agent credentials name is required!')
+        flash("Application agent credentials name is required!")
     else:
         client_config = ConfigClient()
         app_with_agent_credentials = client_config.create_application_with_agent_credentials(
@@ -69,31 +70,30 @@ def new_app_with_agent_credentials_post():
             application_agent_credentials_name,
             "jwk",
             None,
-            None)
+            None,
+        )
         if app_with_agent_credentials:
-            cred = {'ApplicationWithAgentCredentials': []}
+            cred = {"ApplicationWithAgentCredentials": []}
             for k, v in app_with_agent_credentials.items():
                 app = {k: []}
                 if k == "response_application_agent_credentials":
                     app_dict = get_credentials_response(v)
                     if v.agent_config:
                         ac = v.agent_config
-                        session['id'] = v.id
-                        session['kid'] = v.kid
-                        session['agent_config'] = ac.decode("utf-8")
+                        session["id"] = v.id
+                        session["kid"] = v.kid
+                        session["agent_config"] = ac.decode("utf-8")
                 elif k == "response_application":
-                    session['response_application'] = json.loads(get_response(v))
+                    session["response_application"] = json.loads(get_response(v))
                 elif k == "response_application_agent":
-                    session['response_application_agent'] = json.loads(get_response(v))
+                    session["response_application_agent"] = json.loads(get_response(v))
                 else:
                     app_dict = json.loads(get_response(v))
-                #app[k].append(app_dict)
-                #cred['ApplicationWithAgentCredentials'].append(app)
+                # app[k].append(app_dict)
+                # cred['ApplicationWithAgentCredentials'].append(app)
 
-            #session['app_with_agent_credentials'] = get_response(cred)
-            return render_template('index.html')
-        else:
-            session['app_with_agent_credentials'] = "Invalid app_with_agent_credentials creation"
-        return render_template('index.html')
-    return render_template('new_app_space.html')
-
+            # session['app_with_agent_credentials'] = get_response(cred)
+            return render_template("index.html")
+        session["app_with_agent_credentials"] = "Invalid app_with_agent_credentials creation"
+        return render_template("index.html")
+    return render_template("new_app_space.html")

@@ -3,12 +3,11 @@ import warnings
 
 from indykite_sdk.indykite.ingest.v1beta3 import ingest_api_pb2 as pb2
 from indykite_sdk.model.ingest_record import StreamRecordsResponse
-import indykite_sdk.utils.logger as logger
+from indykite_sdk.utils import logger
 
 
 def generate_records_request(self, records):
-    """
-    Create iterator for record requests
+    """Create iterator for record requests
     :param self:
     :param records: list of records
     :return: yield record_request
@@ -20,8 +19,7 @@ def generate_records_request(self, records):
 
 
 def stream_records(self, records):
-    """
-    send records in stream
+    """Send records in stream
     :param self:
     :param records: list of records
     :return: list of deserialized StreamRecordsResponses
@@ -29,9 +27,9 @@ def stream_records(self, records):
     sys.excepthook = logger.handle_excepthook
     try:
         warnings.warn(
-            f"StreamRecords is deprecated and will be removed in a future version.",
+            "StreamRecords is deprecated and will be removed in a future version.",
             DeprecationWarning,
-            stacklevel=2
+            stacklevel=2,
         )
         record_iterator = self.generate_records_request(records)
         response_iterator = self.stub.StreamRecords(record_iterator)

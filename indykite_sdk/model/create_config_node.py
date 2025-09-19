@@ -13,7 +13,7 @@ class CreateConfigNode:
             timestamp_to_date(message.update_time),
             str(message.etag),
             str(message.created_by),
-            str(message.updated_by)
+            str(message.updated_by),
         )
 
         return create_config_node
@@ -25,6 +25,3 @@ class CreateConfigNode:
         self.etag = etag
         self.created_by = created_by
         self.updated_by = updated_by
-
-
-
