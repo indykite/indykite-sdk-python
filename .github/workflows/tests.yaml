@@ -4,8 +4,18 @@ name: Tests
 on: # yamllint disable-line rule:truthy
   pull_request:
     branches: ["dev", "develop", "main", "master"]
+    paths:
+      - '**.py'
+      - Pipfile*
+      - pyproject.toml
+      - buf*
   push:
     branches: ["dev", "develop", "main", "master"]
+    paths:
+      - '**.py'
+      - Pipfile*
+      - pyproject.toml
+      - buf*
 
 permissions:
   contents: read
