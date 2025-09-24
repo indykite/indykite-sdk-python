@@ -31,7 +31,7 @@ jobs:
       - name: action/DEBUG
         shell: bash
         run: |
-          echo "steps.release.outputs: ${{ join(steps.release.outputs.*, '\n') }}"
+          echo "steps.release.outputs: ${{ toJSON(steps.release.outputs) }}"
 
       - name: actions/slack-notification
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1 - https://github.com/slackapi/slack-github-action/releases
