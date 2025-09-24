@@ -33,13 +33,14 @@ jobs:
         shell: bash
         env:
           JSON_DOC: ${{ toJSON(steps.release.outputs) }}
+          RELEASE_TITLE: ${{ steps.release.outputs.pr.title }}
         run: |
           echo "steps.release.outputs: $JSON_DOC"
 
           RELEASE_VERSION="${{ steps.release.outputs.version }}"
           if [[ -z "${RELEASE_VERSION}" ]]; then
             # RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)" # <- requires code checkout
-            RELEASE_VERSION="$(echo "${{ steps.release.outputs.pr.title }}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" # another option: | awk '{print $NF}'
+            RELEASE_VERSION="$(echo "${RELEASE_TITLE}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" # another option: | awk '{print $NF}'
           fi
           echo "version=${RELEASE_VERSION}" >> "$GITHUB_OUTPUT"
 
