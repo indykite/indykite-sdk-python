@@ -44,7 +44,7 @@ repos:
         name: pre-commit/check-useless-excludes
 
   - repo: ssh://git@github.com/indykite/ops-common
-    rev: "3ae68be56eacb01489f792badab2ab43fd686916" # using a branch name (or HEAD) is not supported
+    rev: "df2a5d2660eb6f24d7d6c5edffab3c7931ae31c3" # using a branch name (or HEAD) is not supported
     hooks:
       # POST-CHECKOUT
       # install explicitly with: pre-commit install -t post-checkout
@@ -67,7 +67,7 @@ repos:
   #
   # Renovate
   - repo: https://github.com/renovatebot/pre-commit-hooks # ci:ignore:OK to validate locally only, otherwise it adds 850MB+ to unpacked cache
-    rev: "41.124.0"
+    rev: "41.128.0"
     hooks:
       - id: renovate-config-validator
         args: [--strict]
@@ -144,7 +144,8 @@ repos:
         name: python-debug-statements
       - id: name-tests-test
         name: python-name-tests-test
-        stages: [manual] # TODO: address & re-enable
+        args: [--pytest-test-first]
+        exclude: ^tests\/(helpers\/.*|fixtures\/setup_tests)\.py$
       - id: requirements-txt-fixer
         name: python-requirements-txt-fixer
 
@@ -156,6 +157,24 @@ repos:
       - id: validate-pyproject
         name: python-validate-pyproject
 
+  - repo: local # ci:ignore:otherwise it'll fail on periodic cache jobs against 'master'
+    hooks:
+      - id: pipenv-lock
+        name: python-pipenv-upgrade
+        language: system
+        entry: pipenv lock
+        # types: [python]
+        pass_filenames: false
+        always_run: true
+  #     #
+  #     - id: py-requirements
+  #       name: python-generate-requirements.txt
+  #       language: system
+  #       entry: pipenv requirements --from-pipfile | sort > requirements.txt
+  #       files: ^Pipfile(\.lock)?$
+  #       pass_filenames: false
+
+  # #
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.13.1
     hooks:
