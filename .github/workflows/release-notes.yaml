@@ -33,21 +33,26 @@ jobs:
         id: version-check
         shell: bash
         run: |
-          RELEASE_VERSION="${{ steps.release.outputs.version }}"
+          # RELEASE_VERSION="${{ steps.release.outputs.version }}"
 
-          # returned as a JSON string of the PullRequest object, so direct 'steps.release.outputs.pr.title' isn't available
-          PR_JSON='${{ steps.release.outputs.pr }}'
-          PR_NUMBER=$(echo "${PR_JSON}" | jq -r '.number')
-          PR_TITLE=$(echo "${PR_JSON}" | jq -r '.title')
+          # # returned as a JSON string of the PullRequest object, so direct 'steps.release.outputs.pr.title' isn't available
+          # PR_JSON='${{ steps.release.outputs.pr }}'
+          # PR_NUMBER=$(echo "${PR_JSON}" | jq -r '.number')
+          # PR_TITLE=$(echo "${PR_JSON}" | jq -r '.title')
 
-          if [[ -z "${RELEASE_VERSION}" ]]; then
-            # RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)" # <- requires code checkout
-            RELEASE_VERSION="$(echo "${PR_TITLE}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" # another option: | awk '{print $NF}'
-          fi
+          # if [[ -z "${RELEASE_VERSION}" ]]; then
+          #   # RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)" # <- requires code checkout
+          #   RELEASE_VERSION="$(echo "${PR_TITLE}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" # another option: | awk '{print $NF}'
+          # fi
+
+          # {
+          #   echo "version=${RELEASE_VERSION}"
+          #   echo "pr_number=${PR_NUMBER}"
+          # } >> "$GITHUB_OUTPUT"
 
           {
-            echo "version=${RELEASE_VERSION}"
-            echo "pr_number=${PR_NUMBER}"
+            echo "version=1.16.1"
+            echo "pr_number=340"
           } >> "$GITHUB_OUTPUT"
 
       - name: actions/slack-notification
