@@ -28,12 +28,19 @@ jobs:
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
 
-      - name: action/DEBUG
+      - name: action/version-check
+        id: version-check
         shell: bash
         env:
           JSON_DOC: ${{ toJSON(steps.release.outputs) }}
         run: |
           echo "steps.release.outputs: $JSON_DOC"
+
+          RELEASE_VERSION="${{ steps.release.outputs.version }}"
+          if [[ -z "${RELEASE_VERSION}" ]]; then
+            RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)"
+          fi
+          echo "version=${RELEASE_VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: actions/slack-notification
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1 - https://github.com/slackapi/slack-github-action/releases
@@ -44,6 +51,6 @@ jobs:
           payload: >-
             {
               "channel": "${{ vars.SLACK_CHANNEL_IK_SDK }}",
-              "text": "`indykite-sdk-python` release ${{ format('v{0}', steps.release.outputs.version) }} is ready:
-                format('<{0}/{1}/pull/{2}|{1]#{2]}}>', github.server_url, github.repository, steps.release.outputs.pr.number)"
+              "text": "`indykite-sdk-python` release ${{ format('v{0}', steps.version-check.outputs.version) }} is ready:
+                ${{ format('<{0}/{1}/pull/{2}|{1]#{2]}}>', github.server_url, github.repository, steps.release.outputs.pr.number) }}"
             }
