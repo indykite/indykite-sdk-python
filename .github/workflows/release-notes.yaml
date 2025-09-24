@@ -55,9 +55,10 @@ jobs:
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           method: chat.postMessage
-          payload: >-
-            {
-              "channel": "${{ vars.SLACK_CHANNEL_IK_SDK }}",
-              "text": "`indykite-sdk-python` release ${{ format('v{0}', steps.version-check.outputs.version) }} is ready:
-                ${{ format('<{0}/{1}/pull/{2}|{1}#{2}>', github.server_url, github.repository, steps.version-check.outputs.pr_number) }}"
-            }
+          # https://docs.slack.dev/reference/methods/chat.postmessage for payload fields
+          # yamllint disable rule:line-length
+          payload: |-
+            channel: ${{ vars.SLACK_CHANNEL_IK_SDK }}
+            username: github-actions[bot]
+            icon_emoji: :package:
+            text: "`indykite-sdk-python` release ${{ format('v{0}', steps.version-check.outputs.version) }} is ready: ${{ format('<{0}/{1}/pull/{2}|{1}#{2}>', github.server_url, github.repository, steps.version-check.outputs.pr_number) }}"
