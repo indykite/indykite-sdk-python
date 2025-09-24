@@ -31,27 +31,22 @@ jobs:
       - name: action/version-check
         id: version-check
         shell: bash
-        env:
-          JSON_DOC: ${{ toJSON(steps.release.outputs) }}
         run: |
-          echo "steps.release.outputs: $JSON_DOC"
-          set -x
-
-          # returned as a JSON string of the PullRequest object
-          pr_json='${{ steps.release.outputs.pr }}'
-
-          pr_number=$(echo "$pr_json" | jq -r '.number')
-          pr_title=$(echo "$pr_json" | jq -r '.title')
-
           RELEASE_VERSION="${{ steps.release.outputs.version }}"
+
+          # returned as a JSON string of the PullRequest object, so direct 'steps.release.outputs.pr.title' isn't available
+          PR_JSON='${{ steps.release.outputs.pr }}'
+          PR_NUMBER=$(echo "${PR_JSON}" | jq -r '.number')
+          PR_TITLE=$(echo "${PR_JSON}" | jq -r '.title')
+
           if [[ -z "${RELEASE_VERSION}" ]]; then
             # RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)" # <- requires code checkout
-            RELEASE_VERSION="$(echo "${pr_title}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" # another option: | awk '{print $NF}'
+            RELEASE_VERSION="$(echo "${PR_TITLE}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" # another option: | awk '{print $NF}'
           fi
 
           {
             echo "version=${RELEASE_VERSION}"
-            echo "pr_number=${pr_number}"
+            echo "pr_number=${PR_NUMBER}"
           } >> "$GITHUB_OUTPUT"
 
       - name: actions/slack-notification
@@ -64,5 +59,5 @@ jobs:
             {
               "channel": "${{ vars.SLACK_CHANNEL_IK_SDK }}",
               "text": "`indykite-sdk-python` release ${{ format('v{0}', steps.version-check.outputs.version) }} is ready:
-                ${{ format('<{0}/{1}/pull/{2}|{1]#{2]}}>', github.server_url, github.repository, steps.version-check.outputs.pr_number) }}"
+                ${{ format('<{0}/{1}/pull/{2}|{1}#{2}>', github.server_url, github.repository, steps.version-check.outputs.pr_number) }}"
             }
