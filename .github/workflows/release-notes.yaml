@@ -24,7 +24,7 @@ jobs:
         uses: googleapis/release-please-action@c2a5a2bd6a758a0937f1ddb1e8950609867ed15c # v4.3.0 - https://github.com/googleapis/release-please-action/releases
         id: release
         with:
-          token: ${{ secrets.INDYKITEONE_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -51,7 +51,7 @@ jobs:
 
       - name: actions/slack-notification
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1 - https://github.com/slackapi/slack-github-action/releases
-        # if: steps.release.outputs.releases_created || steps.release.outputs.prs_created
+        if: steps.release.outputs.releases_created || steps.release.outputs.prs_created
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           method: chat.postMessage
