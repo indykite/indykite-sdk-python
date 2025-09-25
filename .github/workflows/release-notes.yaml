@@ -1,9 +1,6 @@
 ---
 name: Release notes
 on: # yamllint disable-line rule:truthy
-  # FIXME:
-  pull_request:
-    branches: ["dev", "develop", "main", "master"]
   push:
     branches: ["dev", "develop", "main", "master"]
 
