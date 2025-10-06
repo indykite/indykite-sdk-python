@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.61.1](https://github.com/indykite/indykite-sdk-python/compare/v1.61.0...v1.61.1) (2025-10-06)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/setup-python action to v6 ([#330](https://github.com/indykite/indykite-sdk-python/issues/330)) ([000ed47](https://github.com/indykite/indykite-sdk-python/commit/000ed47fef44f333d6e20d1052912b5f7e2bd9b8))
+* **deps:** update all non-major dependencies ([#356](https://github.com/indykite/indykite-sdk-python/issues/356)) ([e3a2b97](https://github.com/indykite/indykite-sdk-python/commit/e3a2b972afa6ab6d5cb8c5857e62c4b9ef87e8a0))
+* **deps:** update all non-major dependencies ([#357](https://github.com/indykite/indykite-sdk-python/issues/357)) ([85bdecc](https://github.com/indykite/indykite-sdk-python/commit/85bdecc57961f1a09a0e658255f1b13031e264dd))
+
 ## [1.61.0](https://github.com/indykite/indykite-sdk-python/compare/v1.60.0...v1.61.0) (2025-08-11)
 
 
