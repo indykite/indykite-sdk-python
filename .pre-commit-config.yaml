@@ -200,7 +200,7 @@ repos:
         stages: [manual] # TODO: fix findings
 
   - repo: https://github.com/PyCQA/isort # ci:ignore:manual stage only
-    rev: 6.1.0
+    rev: 7.0.0
     hooks:
       - id: isort
         name: python-isort
