@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.61.2](https://github.com/indykite/indykite-sdk-python/compare/v1.61.1...v1.61.2) (2025-11-24)
+
+
+### Miscellaneous Chores
+
+* **deps:** bump actions/setup-node from 5.0.0 to 6.0.0 ([#359](https://github.com/indykite/indykite-sdk-python/issues/359)) ([5ac0cce](https://github.com/indykite/indykite-sdk-python/commit/5ac0cce7a0aa5cebd12b5a4b677c414724ba0749))
+* **deps:** update actions/setup-node action to v6 ([#362](https://github.com/indykite/indykite-sdk-python/issues/362)) ([133d65a](https://github.com/indykite/indykite-sdk-python/commit/133d65af15fdb6c35d2a5682afc0cb68f02ab69a))
+* **deps:** update all non-major dependencies ([#358](https://github.com/indykite/indykite-sdk-python/issues/358)) ([2a619b9](https://github.com/indykite/indykite-sdk-python/commit/2a619b9408b4aa81433bcd8c4488ffedb9d11134))
+* **deps:** update all non-major dependencies ([#365](https://github.com/indykite/indykite-sdk-python/issues/365)) ([1e22fc6](https://github.com/indykite/indykite-sdk-python/commit/1e22fc645f9e50ad7b96ad0f5a9823401cb1c5b6))
+* **deps:** update all non-major dependencies ([#366](https://github.com/indykite/indykite-sdk-python/issues/366)) ([790e1c0](https://github.com/indykite/indykite-sdk-python/commit/790e1c0bc35df358ff2d0d7f520d55bcbb55843f))
+* **deps:** update all non-major dependencies ([#367](https://github.com/indykite/indykite-sdk-python/issues/367)) ([bbe6791](https://github.com/indykite/indykite-sdk-python/commit/bbe679131e24de26242202791db50bdacce2fd98))
+* **deps:** update all non-major dependencies ([#368](https://github.com/indykite/indykite-sdk-python/issues/368)) ([0b084eb](https://github.com/indykite/indykite-sdk-python/commit/0b084ebc3a905e6c4f267fa1f0318f779fe7f275))
+* **deps:** update pre-commit hook PyCQA/isort to v7 ([#363](https://github.com/indykite/indykite-sdk-python/issues/363)) ([cc14043](https://github.com/indykite/indykite-sdk-python/commit/cc140438c763b3453f8ccc36637190842d94ae93))
+* **deps:** update pre-commit hook PyCQA/pylint to v4 ([#364](https://github.com/indykite/indykite-sdk-python/issues/364)) ([6696b85](https://github.com/indykite/indykite-sdk-python/commit/6696b855aba53ff83ae936e8cd16239bf36ad81d))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42 ([#369](https://github.com/indykite/indykite-sdk-python/issues/369)) ([14548a9](https://github.com/indykite/indykite-sdk-python/commit/14548a94c7905d7c4c6563363f7d7844067b6f31))
+
 ## [1.61.1](https://github.com/indykite/indykite-sdk-python/compare/v1.61.0...v1.61.1) (2025-10-06)
 
 
