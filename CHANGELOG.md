@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.61.3](https://github.com/indykite/indykite-sdk-python/compare/v1.61.2...v1.61.3) (2026-01-22)
+
+
+### Bug Fixes
+
+* fix security issues ([0816306](https://github.com/indykite/indykite-sdk-python/commit/0816306ae8ed51770c940c90a60d6fb5aff6e20b))
+
 ## [1.61.2](https://github.com/indykite/indykite-sdk-python/compare/v1.61.1...v1.61.2) (2026-01-19)
 
 
