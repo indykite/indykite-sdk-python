@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: actions/checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 - https://github.com/actions/checkout/releases
+        uses: indykite/.github/.github/actions/git-checkout@master # actions/checkout with dynamic fetch-depth resolution
 
       - name: setup/python3
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0 - https://github.com/actions/setup-python/releases
@@ -60,4 +60,4 @@ jobs:
         if: ${{ always() }}
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_MGMT }}
-          service_account: github@${{ secrets.GCP_PROJECT_ID_MGMT }}.iam.gserviceaccount.com
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}

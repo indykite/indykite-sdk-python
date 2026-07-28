@@ -35,6 +35,7 @@ scan:
     - misconfig
   skip-dirs: ["**/.terraform/**", "**/.terragrunt-cache/**", "openapi/**"]
   # skip-files: []
+  show-suppressed: true
 
 vulnerability:
   ignore-unfixed: false
@@ -53,5 +54,3 @@ misconfiguration:
 
   terraform:
     exclude-downloaded-modules: true
-
-# TODO: add licensing restrictions, https://trivy.dev/latest/docs/references/configuration/config-file/#license-options
