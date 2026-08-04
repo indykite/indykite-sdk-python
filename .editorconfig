@@ -8,17 +8,24 @@ charset = utf-8
 trim_trailing_whitespace = true
 end_of_line = lf
 
-# 4 space indentation
-[*.{py,java,r,R}]
+# Python: 4-space indentation, line length matching ruff/pylint
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 120
+
+# TOML: pyproject.toml and the pipenv Pipfile
+[{*.toml,Pipfile}]
 indent_style = space
 indent_size = 4
 
-# 2 space indentation
-[*.{js,json,y{a,}ml,html,cwl}]
+# YAML and JSON: 2-space indentation matching yamlfmt and pretty-format-json
+[*.{json,json5,y{a,}ml}]
 indent_style = space
 indent_size = 2
 
-[*.{md,Rmd,rst}]
+# Markdown: a trailing double-space is a hard line break, so never trim it
+[*.md]
 trim_trailing_whitespace = false
 indent_style = space
 indent_size = 2

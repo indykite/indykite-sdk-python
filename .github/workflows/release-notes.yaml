@@ -21,7 +21,10 @@ jobs:
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0 - https://github.com/googleapis/release-please-action/releases
         id: release
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Must be a PAT, not GITHUB_TOKEN: releases created with the default
+          # token do not fire the 'release: published' event, so release.yaml
+          # would never run and nothing would reach PyPI (broke v1.61.1/v1.61.2).
+          token: ${{ secrets.INDYKITEONE_PAT }}
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
 

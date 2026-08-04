@@ -26,8 +26,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-indykite_sdk/ingest.py
-*.api.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -69,10 +67,6 @@ instance/
 
 # Scrapy stuff:
 .scrapy
-
-# Sphinx documentation
-doc
-docs/.buildinfo
 
 # PyBuilder
 target/
@@ -125,6 +119,9 @@ venv.bak/
 # mkdocs documentation
 /site
 
+# ruff
+.ruff_cache/
+
 # mypy
 .mypy_cache/
 .dmypy.json
@@ -139,8 +136,3 @@ dmypy.json
 
 # Snyk
 .dccache
-
-# Sphinx documentation
-docs/_build/
-prepare_docs
-docstmp
