@@ -2,26 +2,27 @@
 Thank you for your pull request. Please provide a description above and review
 the requirements below.
 
-Bug fixes and new features should include tests and possibly benchmarks.
+Bug fixes and new features should include tests.
 
-Contributors guide: ./CONTRIBUTING.md
+Contributors guide: ../contributing.md
+
+The PR title must follow Conventional Commits (feat:, fix:, chore:, ...);
+it becomes the squash-commit message that drives the release version.
 -->
-
-<!-- _Please make sure to review and check all of these items:_ -->
 
 # Checklist
 
 <!-- Remove items that do not apply. For completed items, change [ ] to [x]. -->
 
-- [ ] `make test` passes
-- [ ] tests and/or benchmarks are included
-- [ ] documentation is changed or added
+- [ ] `pipenv run pytest` passes
+- [ ] tests are included for new or changed behavior
+- [ ] `pre-commit run --all-files` passes
+- [ ] documentation (README, docstrings, examples) is changed or added
 
-<!-- _NOTE: these things are not required to open a PR and can be done afterwards / while the PR is open._ -->
+## Affected client(s)
 
-## Affected core subsystem(s)
-
-<!-- Please provide affected core subsystem(s). -->
+<!-- ConfigClient, CaptureClient, AuthZENClient, CIQClient, DataSchemaClient,
+EntityMatchingClient, core (auth/transport), packaging/CI, ... -->
 
 ## Description of change
 

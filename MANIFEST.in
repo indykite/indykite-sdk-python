@@ -1,4 +1,0 @@
-include CHANGELOG.md
-include version.py
-prune tests/
-prune examples/

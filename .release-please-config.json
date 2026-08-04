@@ -4,7 +4,13 @@
   "packages": {
     ".": {
       "package-name": "indykite-sdk-python",
-      "include-component-in-tag": false
+      "include-component-in-tag": false,
+      "extra-files": [
+        {
+          "type": "generic",
+          "path": "indykite_sdk/version.py"
+        }
+      ]
     }
   },
   "signoff": "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>",

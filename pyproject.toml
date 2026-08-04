@@ -1,6 +1,55 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "indykite-sdk-python"
+description = "IndyKite Python SDK - REST clients for the IndyKite platform APIs"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.14"
+version = "2.0.0"
+authors = [
+    { name = "IndyKite", email = "develop@indykite.com" },
+]
+keywords = ["indykite", "sdk", "knowledge-graph", "authorization", "authzen", "kbac"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "httpx>=0.28",
+    "pydantic>=2.9",
+    # Only needed for legacy JWK-only credential files (self-signed ES256 JWTs).
+    "joserfc>=1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/indykite/indykite-sdk-python"
+Documentation = "https://developer.indykite.com"
+Changelog = "https://github.com/indykite/indykite-sdk-python/blob/master/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+include = ["indykite_sdk*"]
+
+[tool.setuptools.package-data]
+indykite_sdk = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: tests that hit a live IndyKite environment (deselected by default)",
+]
+addopts = "-m 'not integration'"
+asyncio_mode = "auto"
+
 [tool.coverage.run]
+source = ["indykite_sdk"]
 omit = [
-    "test/*",
+    "tests/*",
     "tmp/*",
 ]
 
@@ -8,18 +57,10 @@ omit = [
 # 'ruff' - the primary linter, the rest are left as a reference and potential manual cross-verification
 # https://github.com/astral-sh/ruff
 [tool.ruff]
-target-version = 'py311'
+target-version = 'py314'
 line-length = 120
 
-extend-exclude = [
-    "indykite_sdk/indykite",
-    "indykite_sdk/buf",
-    "indykite_sdk/gnostic",
-    "indykite_sdk/validate",
-    ]
-
 [tool.ruff.lint]
-# select = ['ALL'] # Enable All rules.
 select = [
     # pycodestyle
     "E",
@@ -33,35 +74,17 @@ select = [
     "SIM",
     # isort
     "I",
+    # flake8-annotations
+    "ANN",
 ]
-# unfixable = []
 ignore = [
-    "D100", # Missing docstring in public module
-    "D101", # Missing docstring in public class
-    "D102", # Missing docstring in public method
-    "D103", # Missing docstring in public function
-    "D104", # Missing docstring in public package
-    "BLE001", # Do not catch blind exception: `Exception`
-    "ANN001", # FIXME: Missing type annotation for function argument
-    "ANN201", # FIXME: Missing return type annotation for public function
-    "ANN202", # FIXME: Missing return type annotation for private function
-    "B006", # TODO: Do not use mutable data structures for argument defaults
-    "B904", # TODO: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None`
-    "F811", # TODO: Redefinition of unused ... from above
-    "F841", # TODO: Local variable is assigned to but never used
-    "INP001", # File ... is part of an implicit namespace package. Add an `__init__.py`
-    "S101", # FIXME: Use of `assert` detected - badly named test files?
-    "SIM115", # TODO: Use a context manager for opening files
-    "T201", # TODO: `print` found
+    "ANN401", # Any is deliberate in dict-payload passthroughs and generic plumbing
 ]
 
-# TODO: TBD later
-# [tool.ruff.lint.pydocstyle]
-# convention = 'google'  # Or 'numpy', or 'pep257'
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN"]
+"examples/**" = ["ANN"]
 
-# Override to single quotes
-# must be set in accordance, otherwise will get a warning:
-#   The `flake8-quotes.inline-quotes="double"` option is incompatible with the formatter's `format.quote-style="single"`
 [tool.ruff.format]
 quote-style = 'double'
 [tool.ruff.lint.flake8-quotes]
@@ -76,91 +99,50 @@ exclude_dirs = ['tests']
 
 #
 # NOTE: flake8 doesn't use this TOML by default, requires 'Flake8-pyproject' for that
-#   https://github.com/PyCQA/flake8/issues/234
-#   https://flake8.pycqa.org/en/latest/user/configuration.html
-#   https://github.com/john-hen/Flake8-pyproject
 [tool.flake8]
 max-line-length = 120
-
 extend-ignore = [
     "E203", # whitespace before ':'
-]
-
-exclude = [
-    "manual_testing",
-    "tmp",
 ]
 
 #
 # Pylint config section
 #
 [tool.pylint.main]
-# fail-on=
-# fail-under=10.0
-# FIXME: remove issues in the code# revert fail- settings to the above
 fail-on = "F"
-fail-under = 1.0
+fail-under = 9.0
+jobs = 0
+persistent = "yes"
+py-version = 3.14
+suggestion-mode = "yes"
+unsafe-load-any-extension = "no"
 
-# Use multiple processes to speed up Pylint. Specifying 0 will auto-detect the
-# number of processors available to use.
-jobs=0
+[tool.pylint.format]
+max-line-length = 120
 
-# Pickle collected data for later comparisons.
-persistent="yes"
-
-# Min Python version to use for version depended checks. Will default to the version used to run pylint.
-py-version=3.11
-
-# When enabled, pylint would attempt to guess common misconfiguration and emit
-# user-friendly hints instead of false-positive error messages.
-suggestion-mode="yes"
-
-# Allow loading of arbitrary C extensions. Extensions are imported into the
-# active Python interpreter and may run arbitrary code.
-unsafe-load-any-extension="no"
-
-extension-pkg-allow-list = [
-    "ortools",
-]
-
-init-hook = """
-import os, sys
-from pylint.config import find_default_config_files
-base_dirname = os.path.dirname(next(find_default_config_files()))
-sys.path.append(base_dirname)
-sys.path.append(os.path.join(base_dirname, "integration"))
-"""
+[tool.pylint.design]
+# SDK client methods mirror REST operations: many optional keyword-only
+# parameters and one public method per endpoint are deliberate.
+max-args = 14
+max-positional-arguments = 8
+max-public-methods = 90
+min-public-methods = 1
 
 [tool.pylint."messages control"]
-# List of messages:
-# https://pylint.readthedocs.io/en/stable/user_guide/messages/messages_overview.html
-#disable = [
-    # "missing-module-docstring",
-    # "missing-class-docstring",
-    # "import-outside-toplevel",
-    # "fixme",
-    # "unspecified-encoding",
-    # "too-few-public-methods",
-    # "invalid-sequence-index",
-    # "consider-using-dict-items",
-    # "no-name-in-module",
-    # "unnecessary-lambda-assignment",
-    # "disallowed-name"
-#]
-
+disable = [
+    "duplicate-code", # sync and async clients mirror each other by design
+    "import-outside-toplevel", # lazy signing imports keep joserfc out of non-signing paths
+]
 variable-rgx = '^_?[a-zA-Z][_a-zA-Z\d]*$'
 argument-rgx = '^[a-zA-Z][_a-z\d]*$'
 attr-rgx = '^_?[a-zA-Z][_a-z\d]*$'
 method-rgx = '^_{0,2}[a-z][_a-z\d]*$'
 
-
-
 #
-# 'black' config section
-# https://github.com/psf/black
+# 'black' config section (manual stage only; ruff-format is the primary formatter)
 #
 [tool.black]
 line-length = 120
-target-version = ['py311', 'py313']
+target-version = ['py313']
 diff = 1
 color = 1

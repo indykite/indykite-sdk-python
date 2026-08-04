@@ -8,14 +8,18 @@ on: # yamllint disable-line rule:truthy
       - '**.py'
       - Pipfile*
       - pyproject.toml
-      - buf*
+      - .github/workflows/tests.yaml
   push:
     branches: ["dev", "develop", "main", "master"]
     paths:
       - '**.py'
       - Pipfile*
       - pyproject.toml
-      - buf*
+      - .github/workflows/tests.yaml
+  schedule:
+    # Nightly integration run against the live environment.
+    - cron: "0 4 * * *"
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -24,66 +28,9 @@ concurrency:
   group: pr-pytest-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  INDYKITE_APPLICATION_CREDENTIALS: ${{ secrets.JARVIS_CREDENTIALS }}
-  INDYKITE_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.JARVIS_ACCOUNT_CREDENTIALS }}
-  INDYKITE_SDK_URL: ${{ secrets.INDYKITE_SDK_URL }}
-  EMAIL_URL: ${{ secrets.EMAIL_URL }}
-  INDYKITE_DEFAULT_FROM: ${{ secrets.INDYKITE_DEFAULT_FROM }}
-  SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
-  SENDGRID_IP: ${{ secrets.SENDGRID_IP }}
-  INDYKITE_DEFAULT_TO: ${{ secrets.INDYKITE_DEFAULT_TO }}
-  EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
-  APPLICATION: ${{ secrets.APPLICATION }}
-  TENANT: ${{ secrets.TENANT }}
-  TENANT_EMAIL: ${{ secrets.TENANT_EMAIL }}
-  IDENTITY_NODE: ${{ secrets.IDENTITY_NODE }}
-  IDENTITY_NODE_TEST: ${{ secrets.IDENTITY_NODE_TEST }}
-  IDENTITY_NODE_CONSENT: ${{ secrets.IDENTITY_NODE_CONSENT }}
-  IDENTITY_NODE_PROPERTY: ${{ secrets.IDENTITY_NODE_PROPERTY }}
-  CODE_VERIFIER: ${{ secrets.CODE_VERIFIER }}
-  CODE_CHALLENGE: ${{ secrets.CODE_CHALLENGE }}
-  VERIFICATION_BEARER: ${{ secrets.VERIFICATION_BEARER }}
-  EXPIRED_TOKEN: ${{ secrets.EXPIRED_TOKEN }}
-  CONFIG_ID: ${{ secrets.CONFIG_ID }}
-  ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
-  WRONG_ACCOUNT_ID: ${{ secrets.WRONG_ACCOUNT_ID }}
-  SERVICE_ACCOUNT_NAME: ${{ secrets.SERVICE_ACCOUNT_NAME }}
-  TEST_SERVICE_ACCOUNT: ${{ secrets.TEST_SERVICE_ACCOUNT }}
-  CUSTOMER_NAME: ${{ secrets.CUSTOMER_NAME }}
-  APP_SPACE_NAME: ${{ secrets.APP_SPACE_NAME }}
-  CUSTOMER_ID: ${{ secrets.CUSTOMER_ID }}
-  CUSTOMER_ID2: ${{ secrets.CUSTOMER_ID2 }}
-  APP_SPACE_ID: ${{ secrets.APP_SPACE_ID }}
-  APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
-  APPLICATION_NAME: ${{ secrets.APPLICATION_NAME }}
-  APPLICATION_AGENT_ID: ${{ secrets.APPLICATION_AGENT_ID }}
-  APPLICATION_AGENT_NAME: ${{ secrets.APPLICATION_AGENT_NAME }}
-  APPLICATION_AGENT_CREDENTIAL_ID: ${{ secrets.APPLICATION_AGENT_CREDENTIAL_ID }}
-  SERVICE_ACCOUNT_CREDENTIAL_ID: ${{ secrets.SERVICE_ACCOUNT_CREDENTIAL_ID }}
-  AUTHZ_POLICY_CONFIG_NODE: ${{ secrets.AUTHZ_POLICY_CONFIG_NODE }}
-  AUTHZ_POLICY_CONFIG_NODE_KQ: ${{ secrets.AUTHZ_POLICY_CONFIG_NODE_KQ }}
-  CONSENT_CONFIG_NODE: ${{ secrets.CONSENT_CONFIG_NODE }}
-  PASSWORD: ${{ secrets.PASSWORD }}
-  NEW_PASSWORD: ${{ secrets.NEW_PASSWORD }}
-  BCRYPT: ${{ secrets.BCRYPT }}
-  SUBMITTER_SECRET: ${{ secrets.SUBMITTER_SECRET }}
-  MANAGER_SECRET: ${{ secrets.MANAGER_SECRET }}
-  CLIENT_ID: ${{ secrets.CLIENT_ID }}
-  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-  RELYING_PARTIES: ${{ secrets.RELYING_PARTIES }}
-  ORGANIZATION_ID: ${{ secrets.ORGANIZATION_ID }}
-  ASSET_ID: ${{ secrets.ASSET_ID }}
-  INDIVIDUAL_ID: ${{ secrets.INDIVIDUAL_ID }}
-  ORGANIZATION_EXTERNAL_ID: ${{ secrets.ORGANIZATION_EXTERNAL_ID }}
-  ASSET_EXTERNAL_ID: ${{ secrets.ASSET_EXTERNAL_ID }}
-  INDIVIDUAL_EXTERNAL_ID: ${{ secrets.INDIVIDUAL_EXTERNAL_ID }}
-  RESOLVER_ID: ${{ secrets.RESOLVER_ID }}
-  RESOLVER_NAME: ${{ secrets.RESOLVER_NAME }}
-
 jobs:
-  tests:
-    name: Run tests
+  unit:
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - name: actions/checkout
@@ -98,9 +45,9 @@ jobs:
       - name: setup/pipenv
         run: |
           pipx install pipenv
-          pipenv install --dev -e .
+          pipenv install --dev
 
-      - name: Run tests
+      - name: Run unit tests
         run: pipenv run pytest --cov . --cov-report xml
 
       - name: codecov/upload-coverage
@@ -109,3 +56,35 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: unittests
           files: coverage.xml
+
+  integration:
+    name: Integration tests
+    # Push to protected branches, nightly cron, or manual dispatch - never fork PRs.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      INDYKITE_APPLICATION_CREDENTIALS: ${{ secrets.INDYKITE_APPLICATION_CREDENTIALS }}
+      INDYKITE_SERVICE_ACCOUNT_CREDENTIALS: ${{ secrets.INDYKITE_SERVICE_ACCOUNT_CREDENTIALS }}
+      INDYKITE_BASE_URL: ${{ vars.INDYKITE_BASE_URL }}
+      INDYKITE_TEST_ORGANIZATION_ID: ${{ secrets.INDYKITE_TEST_ORGANIZATION_ID }}
+      INDYKITE_TEST_PROJECT_ID: ${{ secrets.INDYKITE_TEST_PROJECT_ID }}
+      INDYKITE_TEST_KNOWLEDGE_QUERY_ID: ${{ secrets.INDYKITE_TEST_KNOWLEDGE_QUERY_ID }}
+      INDYKITE_TEST_ENTITY_MATCHING_PIPELINE_ID: ${{ secrets.INDYKITE_TEST_ENTITY_MATCHING_PIPELINE_ID }}
+    steps:
+      - name: actions/checkout
+        uses: indykite/.github/.github/actions/git-checkout@master # actions/checkout with dynamic fetch-depth resolution
+
+      - name: setup/python3
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0 - https://github.com/actions/setup-python/releases
+        with:
+          python-version: "3.14"
+          cache: "pipenv"
+
+      - name: setup/pipenv
+        run: |
+          pipx install pipenv
+          pipenv install --dev
+
+      - name: Run integration tests
+        # The integration suite skips itself when credentials are not configured.
+        run: pipenv run pytest -m integration
