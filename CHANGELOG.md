@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.0.0](https://github.com/indykite/indykite-sdk-python/compare/v1.61.2...v2.0.0) (2026-08-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactor to rest
+
+### Features
+
+* refactor to rest ([3cb6906](https://github.com/indykite/indykite-sdk-python/commit/3cb690676a8bd83701787d0c1a8170fb0a22b736))
+
+
+### Bug Fixes
+
+* fix security issues ([0816306](https://github.com/indykite/indykite-sdk-python/commit/0816306ae8ed51770c940c90a60d6fb5aff6e20b))
+
+
+### Miscellaneous Chores
+
+* **deps:** lock file maintenance ([#398](https://github.com/indykite/indykite-sdk-python/issues/398)) ([57dcdb6](https://github.com/indykite/indykite-sdk-python/commit/57dcdb6074d09df2feb5c47d23d30d967dafbd09))
+* **deps:** update ci-configs ([187fe96](https://github.com/indykite/indykite-sdk-python/commit/187fe960e765cceb80ceac8dec67f8f7c0747fa5))
+* **deps:** update ci-configs ([#393](https://github.com/indykite/indykite-sdk-python/issues/393)) ([af7542c](https://github.com/indykite/indykite-sdk-python/commit/af7542c925f4013dbb346cb85004881975315c52))
+* **deps:** update ci-configs ([#394](https://github.com/indykite/indykite-sdk-python/issues/394)) ([96acca2](https://github.com/indykite/indykite-sdk-python/commit/96acca2d4c7f2f5b155448c9d1e13317b447f977))
+* **deps:** update ci-configs ([#396](https://github.com/indykite/indykite-sdk-python/issues/396)) ([cddfa6a](https://github.com/indykite/indykite-sdk-python/commit/cddfa6ac2c307795a7b4f515ef246c21ffeb11a1))
+* **deps:** update ci-configs ([#397](https://github.com/indykite/indykite-sdk-python/issues/397)) ([8bf3556](https://github.com/indykite/indykite-sdk-python/commit/8bf3556c82a91527e7a80fd517298dbf12923e46))
+
 ## [1.61.2](https://github.com/indykite/indykite-sdk-python/compare/v1.61.1...v1.61.2) (2026-01-19)
 
 
