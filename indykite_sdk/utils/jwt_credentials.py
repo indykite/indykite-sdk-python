@@ -1,3 +1,4 @@
+import json
 import re
 import time
 import uuid
@@ -23,8 +24,14 @@ TIMEDELTA_REGEX = (
 TIMEDELTA_PATTERN = re.compile(TIMEDELTA_REGEX, re.IGNORECASE)
 
 
+def normalize_private_key_jwk(private_key_jwk):
+    if isinstance(private_key_jwk, str):
+        return json.loads(private_key_jwk)
+    return private_key_jwk
+
+
 def create_agent_jwt(credentials, client="identity"):
-    private_key_jwk = credentials.get("privateKeyJWK")
+    private_key_jwk = normalize_private_key_jwk(credentials.get("privateKeyJWK"))
     key = jwk.import_key(private_key_jwk)
     message = create_jwt_message(credentials, client)
     jwt_token = jwt.encode({"alg": "ES256", "cty": "JWT", "kid": private_key_jwk["kid"]}, message, key)
@@ -32,6 +39,7 @@ def create_agent_jwt(credentials, client="identity"):
 
 
 def get_exp_from_jwt(token, private_key_jwk):
+    private_key_jwk = normalize_private_key_jwk(private_key_jwk)
     key = jwk.import_key(private_key_jwk)
     decoded_token = jwt.decode(token, key)
     return decoded_token.claims.get("exp")

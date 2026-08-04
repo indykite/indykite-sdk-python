@@ -21,10 +21,11 @@ def handle_excepthook(exc_type, exc_value, exc_traceback):
 
 def logger_error(e):
     logger = logging.getLogger()
-    log_format = logging.Formatter("%(asctime)-15s %(levelname)-2s %(message)s")
-    sh = logging.StreamHandler()
-    sh.setFormatter(log_format)
-    logger.addHandler(sh)
+    if not logger.handlers:
+        log_format = logging.Formatter("%(asctime)-15s %(levelname)-2s %(message)s")
+        sh = logging.StreamHandler()
+        sh.setFormatter(log_format)
+        logger.addHandler(sh)
     logger.setLevel(logging.ERROR)
     logger.error(e, stack_info=True, exc_info=True)
-    return logger
+    return None
