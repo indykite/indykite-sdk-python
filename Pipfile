@@ -22,7 +22,7 @@ pytest-cov = "*"
 grpcio-tools = "*"
 urllib3 = "*"
 numpy = "*"
-joserfc = "*"
+joserfc = "*" # https://jose.authlib.org/en/
 
 [requires]
 python_version = "3.14"
