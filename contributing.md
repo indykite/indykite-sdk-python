@@ -41,18 +41,33 @@ Including the following information will tend to make a better bug report:
 * What you expected would happen
 * What actually happens
 * Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
-* Include version information such as browser, api, JS, etc
+* Version information: SDK version (`python -c "import indykite_sdk; print(indykite_sdk.__version__)"`), Python version, and platform
+* Never include credential tokens or credential files
 
 Please provide as much information as possible in your bug reports.
 
+## Development Setup
+
+```sh
+pipenv install --dev
+pipenv run pytest                  # unit tests (mocked, no credentials needed)
+pipenv run pytest -m integration   # live tests (needs credentials, see tests/integration/conftest.py)
+pre-commit run --all-files         # linting and formatting
+```
+
+Python 3.14+ is required.
+
 ## Use a Consistent Coding Style
 
-For example:
+Formatting and linting are enforced by [pre-commit](https://pre-commit.com/) hooks (ruff is the
+primary formatter and linter; configuration lives in `pyproject.toml`). Install the hooks once with
+`pre-commit install` and they will keep your changes consistent automatically.
 
-* 2 spaces for indentation rather than tabs
-* Default to the utf-8 character set
+## Pull Request Titles
 
-To make it easier to maintain a consistent coding style, we use a few plugins such as prettier, eslint and .editorconfig (which are supported by most of the popular IDEs)
+PR titles must follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`,
+`chore:`, ...). The squash-merged title becomes the commit message that drives automated releases
+(release-please), so a `feat!:` or `BREAKING CHANGE:` marker is what produces a major version bump.
 
 ## License
 

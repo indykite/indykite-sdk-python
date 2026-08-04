@@ -3,26 +3,16 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-[dev-packages]
-pylint = "*"
-autopep8 = "*"
-
 [packages]
-ipaddress = "*"
-validate-email = "*"
-jinja2 = "*"
-markupsafe = "*"
-mock = "*"
-grpcio = "*"
-protobuf = "*"
 indykite-sdk-python = {editable = true, path = "."}
-requests = "*"
+
+[dev-packages]
 pytest = "*"
 pytest-cov = "*"
-authlib = "*"
-grpcio-tools = "*"
-urllib3 = "*"
-numpy = "*"
+pytest-asyncio = "*"
+respx = "*"
+ruff = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.14"

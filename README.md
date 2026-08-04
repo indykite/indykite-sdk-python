@@ -1,311 +1,186 @@
-# IndyKite Python SDK 🐍
+# IndyKite Python SDK
 
-This project serves as a Software Development Kit for developers of Indykite applications.
-The Python SDK enables you to easily integrate the IndyKite platform gRPC APIs into your Python application.
-<https://console2.indykite.id/>
-<https://www.indykite.com/>
-
+[![PyPI](https://img.shields.io/pypi/v/indykite-sdk-python)](https://pypi.org/project/indykite-sdk-python/)
+[![Tests](https://github.com/indykite/indykite-sdk-python/actions/workflows/tests.yaml/badge.svg)](https://github.com/indykite/indykite-sdk-python/actions/workflows/tests.yaml)
 [![codecov](https://codecov.io/gh/indykite/indykite-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/indykite/indykite-sdk-python)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+
+Python clients for the [IndyKite](https://www.indykite.com) platform REST APIs:
+the Identity Knowledge Graph (IKG), KBAC authorization (AuthZEN), ContX IQ
+knowledge queries, data capture, entity matching, and platform configuration.
+
+- OpenAPI reference: <https://openapi.indykite.com>
+- Developer guides: <https://developer.indykite.com>
 
 ## Requirements
 
-* Python >=3.11
+- Python **3.14+**
 
 ## Installation
 
-add to pipfile [packages]:
-
-```ini
-indykite-sdk-python = {ref = "v1.57.0", git = "https://github.com/indykite/indykite-sdk-python"}
+```sh
+pip install indykite-sdk-python
 ```
 
-## Used terminology
+## Credentials
 
-To do anything at all in the IndyKite platform, you must first create an
-Organization (Customer) in the Hub (<https://console2.indykite.id/>) — the Web interface used to interact with and do tasks in the IndyKite platform
-and get your credentials (<https://docs.indykite.com/docs/get-started>).
+The SDK uses the two standard IndyKite credential kinds, obtained from the
+[IndyKite Hub](https://eu.hub.indykite.com) (or created via the Config API):
 
-Once you have created a Customer, a service account, and you have your service account credentials,
-you can set up the SDK.
-
-| Definition               | Description                                                                                                                                          |
-|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Identity Knowledge Graph | The Identity Knowledge Graph is a contextualized data model that constructed entities and their relationships (data entities) using a graph database. |
-| Nodes                    | Data points stored as nodes (identity nodes and resources) and edges (relationships)                                                                 |
-| Identity node            | An identity node (node with is_identity=True) is the digital identity of a physical entity on/in a software/identity system                          |
-| Application Space ID     | ID of the application space the nodes belong to                                                                                                      |
-| Application Agent ID     | ID of the agent which makes the application available for the different calls                                                                        |
-| Private Key and Settings | The secret which required to reach the system.                                                                                                       |
-| JWT                      | JSON Web Tokens                                                                                                                                      |
-| Introspect               | A process used to validate the token and to retrieve properties assigned to the token                                                                |
-
-## Initial settings
-
-:one: **Service account credentials**
-
-You need to have a Service Account credentials json file to be able to use the IndyKite Python SDK. You can get it from the
-   IndyKite hub: <https://console2.indykite.id/>.
-
-### Config
-
-To manage its spaces, among other things, the **owner** of the relevant customer creates a **service account**.
-
-A service account is a non-person entity which belongs to the **owner** who created it.
-It is a **node** with its own credential which acts only through its owner.
-
-A service account is always created under a customer.
-
-The purpose of a service account is for a non-person entity to manage the platform configuration: creating Projects (AppSpaces),  Applications, Agent credentials, other service accounts, configuration nodes or any action through the **Graph DB**.
-
-The service account is also needed if you want to use Terraform for your configuration.
-
-You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS`
-environment variable or set the `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE` environment variable to the configuration file's path.
-
-You should use an absolute path for the file.
-
-* **on Linux and OSX**
+| Credential | Used by | What it is | Environment variables |
+| --- | --- | --- | --- |
+| **Application Agent** | all data-plane clients (capture, authzen, ciq, data schema, entity matching) | the **raw credential token itself** (opaque string, sent as `X-IK-ClientKey`) | `INDYKITE_APPLICATION_CREDENTIALS` (the token) or `INDYKITE_APPLICATION_CREDENTIALS_FILE` (file with the token) |
+| **Service Account** | `ConfigClient` | a **JSON artifact** (`serviceAccountId`, pre-issued `token`, private key), sent as `Authorization: Bearer` | `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS` (inline JSON) or `INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE` (path) |
 
 ```sh
-export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
- "serviceAccountId":"",
- "endpoint":"",
- "privateKeyJWK":{
-   "alg":"ES256",
-   "crv":"P-256",
-   "d":"",
-   "kid":"",
-   "kty":"EC",
-   "use":"sig",
-   "x":"",
-   "y":""
-   },
- "privateKeyPKCS8Base64":"",
- "privateKeyPKCS8":"..."
- }'
-# or
-export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE=/Users/xx/configuration.json
+export INDYKITE_APPLICATION_CREDENTIALS="ik1_..."   # the app agent credential token, as issued
+export INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE=/path/to/service-account-credentials.json
 ```
 
-* **on Windows command line**
-
-```sh
-setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS='{
- "serviceAccountId":"",
- "endpoint":"",
- "privateKeyJWK":{
-   "alg":"ES256",
-   "crv":"P-256",
-   "d":"",
-   "kid":"",
-   "kty":"EC",
-   "use":"sig",
-   "x":"",
-   "y":""
-   },
- "privateKeyPKCS8Base64":"",
- "privateKeyPKCS8":"..."
- }'
-# or
-setex INDYKITE_SERVICE_ACCOUNT_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"
-```
-
-:two: **AppAgent Credentials**
-
-You will also need to have an Application Agent credentials json file to be able to use the other services like IKG (ingestion) and KBAC (authorization).
-You can get it from the IndyKite hub (<https://console2.indykite.id/>) or using the SDK.
-
-Example configuration file:
-
-```json
-{
-  "baseUrl": "",
-  "applicationId": "",
-  "appSpaceId": "",
-  "appAgentId": "",
-  "endpoint": "",
-  "privateKeyJWK":
-  {
-      "alg": "ES256",
-      "crv": "P-256",
-      "d": "",
-      "kid": "",
-      "kty": "EC",
-      "use": "sig",
-      "x": "",
-      "y": ""
-  },
-  "privateKeyPKCS8Base64": "",
-  "privateKeyPKCS8": ""
-}
-```
-
-A token lifetime is 1h by default. You can change this time (from 2 minutes to 24h) by adding a tokenLifetime parameter.
-
-It will have to be human-readable and Golang-like see -> <https://pkg.go.dev/time#ParseDuration>
-
-Examples: 30m, 1.5h, 2h45m
-
-Example at the end of the JSON file:
-
-```json
-{
-  ...
-  "privateKeyPKCS8": "-----BEGIN PRIVATE KEY-----\nM\n-----END PRIVATE KEY-----",
-  "tokenLifetime": "30m"
-}
-```
-
-### Identity
-
-You have two choices to set up the necessary credentials. You either pass the json to the `INDYKITE_APPLICATION_CREDENTIALS`
-environment variable or set the `INDYKITE_APPLICATION_CREDENTIALS_FILE` environment variable to the configuration file's path.
-
-* on Linux and OSX
-
-```sh
-export INDYKITE_APPLICATION_CREDENTIALS='{
-  "baseUrl": "",
-  "applicationId": "",
-  "appSpaceId": "",
-  "appAgentId": "",
-  "endpoint": "",
-  "privateKeyJWK":
-  {
-      "alg": "ES256",
-      "crv": "P-256",
-      "d": "",
-      "kid": "",
-      "kty": "EC",
-      "use": "sig",
-      "x": "",
-      "y": ""
-  },
-  "privateKeyPKCS8Base64":"",
-  "privateKeyPKCS8": ""
-}'
-# or
-export INDYKITE_APPLICATION_CREDENTIALS_FILE=/Users/xx/configuration.json
-```
-
-* on Windows command line
-
-```sh
-setex INDYKITE_APPLICATION_CREDENTIALS='{
-    "baseUrl": ""
-    "applicationId": "",
-    "appSpaceId": "",
-    "appAgentId": "",
-    "endpoint": "",
-    "privateKeyJWK":
-    {
-        "alg": "ES256",
-        "crv": "P-256",
-        "d": "",
-        "kid": "",
-        "kty": "EC",
-        "use": "sig",
-        "x": "",
-        "y": ""
-    },
-    "privateKeyPKCS8Base64":"",
-    "privateKeyPKCS8": ""
-}'
-# or
-setex INDYKITE_APPLICATION_CREDENTIALS_FILE "C:\Users\xx\Documents\configuration.json"
-```
-
-:three: **Initialize a client to establish the connection.**
-
-This client instance's `self.stub` will be used by the other functions.
-
-*Note:* The client is opening a GRPC channel and the client *must* close the channel, too! If the client doesn't close the channel
-after use, it can cause surprises like `_InactiveRpcErrors`.
+Credentials can also be passed explicitly:
 
 ```python
-from indykite_sdk.identity import IdentityClient
-import argparse
+from indykite_sdk import CaptureClient, ConfigClient, Credentials
 
-# Create parent parser
-parser = argparse.ArgumentParser(description="Identity client API.")
-parser.add_argument("-l", "--local", action="store_true", help="make the request to localhost")
-subparsers = parser.add_subparsers(dest="command", help="sub-command help")
-
-# Create
-args = parser.parse_args()
-local = args.local
-client = IdentityClient(local)
+capture = CaptureClient("ik1_...")  # data-plane clients take the raw token
+config = ConfigClient(Credentials.from_file("service-account-credentials.json"))
 ```
 
-:four: Close a GRPC channel
-You simply call the `close()` function on the channel (The `IdentityClient()` function below represents the def in the previous step)
+The service-account JSON's pre-issued `token` is used while valid; when it
+expires the SDK self-signs a fresh JWT from the credential's private key
+(`privateKeyJWK` or PKCS#8). The app-agent token is never a JWT the SDK mints —
+it is sent exactly as issued.
+
+### Regions and environments
+
+Production defaults to `https://eu.api.indykite.com`; pass `region="us"` for
+the US region, or point `base_url=` / `INDYKITE_BASE_URL` at another
+environment (e.g. `https://api.dev.indykite.xyz`).
+
+## Quickstart
+
+### Authorization decisions (AuthZEN)
 
 ```python
-from indykite_sdk.identity import IdentityClient
+from indykite_sdk import AuthZENClient
 
-def open_and_close_channel():
-    client = IdentityClient()
-    client.channel.close()
+with AuthZENClient() as client:
+    result = client.evaluation(("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"))
+    print(result.decision)  # True / False
+
+    # Which cars can ada drive?
+    cars = client.search_resource(("Person", "ada"), "CAN_DRIVE", "Car")
+    print([car.id for car in cars.results])
 ```
 
-### Running tests
+### Capture graph data
 
-To run unit tests, simply execute
+```python
+from indykite_sdk import CaptureClient
 
-```sh
-pytest
+with CaptureClient() as client:
+    client.upsert_nodes([
+        {
+            "external_id": "ada",
+            "type": "Person",
+            "is_identity": True,
+            "properties": [{"type": "email", "value": "ada@example.com"}],
+        },
+        {"external_id": "kitt", "type": "Car"},
+    ])
+    client.upsert_relationships([
+        {
+            "type": "OWNS",
+            "source": {"external_id": "ada", "type": "Person"},
+            "target": {"external_id": "kitt", "type": "Car"},
+        },
+    ])
 ```
 
-To display code coverage, enter
+### Read the graph with a knowledge query (ContX IQ)
 
-```sh
-pytest --cov .
+```python
+from indykite_sdk import CIQClient
+
+with CIQClient() as client:
+    for record in client.execute_iter("gid:my-knowledge-query-id", input_params={"personId": "ada"}):
+        print(record.nodes)
 ```
 
-### Functions details
+### Manage platform configuration
 
-<https://indykite.github.io/indykite-sdk-python/>
+```python
+from indykite_sdk import ConfigClient
+
+with ConfigClient() as config:
+    organization = config.read_current_organization()
+    project = config.create_project("my-project", organization.id, region="europe-west1")
+    app = config.create_application("my-app", project.id)
+    agent = config.create_application_agent("my-agent", app.id, ["Authorization", "Capture", "ContXIQ"])
+    credential = config.create_application_agent_credential(agent.id)
+    agent_credentials = credential.as_credentials()  # shown once - store it securely
+```
+
+Updates and deletes are guarded by etags (`If-Match`): read the resource, then
+pass its `.etag`:
+
+```python
+app = config.read_application(app_id)
+config.update_application(app_id, etag=app.etag, display_name="Renamed")
+```
+
+### Async
+
+Every client has an async twin with identical methods:
+
+```python
+from indykite_sdk import AsyncAuthZENClient
+
+async with AsyncAuthZENClient() as client:
+    result = await client.evaluation(("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"))
+```
+
+## Error handling
+
+The SDK always raises typed exceptions — no method returns `None` on failure:
+
+```python
+from indykite_sdk import AuthZENClient, AuthenticationError, IndyKiteError
+
+try:
+    with AuthZENClient() as client:
+        decision = client.evaluation(("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"))
+except AuthenticationError as error:
+    print(error)  # includes method, URL, status, and an actionable hint
+except IndyKiteError as error:
+    print(f"SDK call failed: {error}")
+```
+
+Exceptions include `BadRequestError` (400), `AuthenticationError` (401),
+`PermissionDeniedError` (403), `NotFoundError` (404), `ETagMismatchError`
+(412), `RateLimitError` (429), `InternalServerError` (5xx),
+`RequestValidationError` (client-side validation), and
+`IndyKiteConnectionError` (network).
+
+Idempotent requests (GET/PUT/DELETE) are retried automatically on 429/502/503/504
+with exponential backoff; tune or disable via `retries=RetryConfig(...)` / `retries=None`.
 
 ## Examples
 
-<https://github.com/indykite/indykite-sdk-python/tree/master/indykite_sdk>
+Runnable scripts for every client live in [`examples/`](examples/).
 
-## SDK Development
+## Development
 
-Commit message follows
-[commit guidelines](./doc/guides/commit-message.md#commit-message-guidelines)
+```sh
+pipenv install --dev
+pipenv run pytest                  # unit tests (mocked, no credentials needed)
+pipenv run pytest -m integration   # live tests (needs credentials, see tests/integration/conftest.py)
+pre-commit run --all-files
+```
 
-## Roadmap
+## Support
 
-Checkout our roadmap on our
-[issues page](https://github.com/indykite/indykite-sdk-python/issues)
+- Issues: <https://github.com/indykite/indykite-sdk-python/issues>
+- Vulnerability reports: see [responsible_disclosure.md](responsible_disclosure.md)
 
-## Contributing
-
-[Contribution guidelines for this project](contributing.md)
-
-## Support, Feedback, Connect with other developers
-
-Feel free to file a bug, submit an issue or give us feedback on our
-[issues page](https://github.com/indykite/indykite-sdk-python/issues)
-
-## Vulnerability Reporting
-
-[Responsible Disclosure](responsible_disclosure.md)
-
-## Changelog
-
-[Changelog](CHANGELOG.md)
-
-## Contributers / Acknowledgements
-
-Coming Soon!
-
-## What is IndyKite
-
-IndyKite is a cloud identity platform built to secure and manage human & non-person (IoT) identities and their data. Based on open source standards, the cloud platform gives developers the ability to secure data and embed identity controls into their Web 3.0 applications.
-Empowering the world’s 23 million developers without the need to involve security and identity specialists.
-
-## License
-
-[This project is licensed under the terms of the Apache 2.0 license.](LICENSE)
+Licensed under the [Apache License 2.0](LICENSE).
