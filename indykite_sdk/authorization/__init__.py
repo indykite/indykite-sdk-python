@@ -13,7 +13,7 @@ class AuthorizationClient:
                 token_source=token_source,
             )
         except Exception as exception:
-            return logger_error(exception)
+            logger_error(exception)
 
     # Imported methods
     from .is_authorized import (

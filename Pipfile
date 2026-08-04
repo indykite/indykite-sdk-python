@@ -19,10 +19,10 @@ indykite-sdk-python = {editable = true, path = "."}
 requests = "*"
 pytest = "*"
 pytest-cov = "*"
-authlib = "*"
 grpcio-tools = "*"
 urllib3 = "*"
 numpy = "*"
+joserfc = "*"
 
 [requires]
 python_version = "3.14"

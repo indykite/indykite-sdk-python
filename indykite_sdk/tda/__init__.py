@@ -13,7 +13,7 @@ class DataAccessClient:
                 token_source=token_source,
             )
         except Exception as exception:
-            return logger_error(exception)
+            logger_error(exception)
 
     # Imported methods
     from .data_access import data_access, grant_consent, list_consents, revoke_consent, user_validation

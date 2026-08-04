@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 from pathlib import Path
 
 
@@ -46,6 +45,5 @@ def lookup_env_credentials_variables(client="identity"):
 
         return credentials
 
-    except Exception as exception:
-        tb = sys.exception().__traceback__
-        raise exception(...).with_traceback(tb)
+    except Exception:
+        raise

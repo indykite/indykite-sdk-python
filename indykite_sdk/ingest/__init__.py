@@ -13,7 +13,7 @@ class IngestClient:
                 token_source=token_source,
             )
         except Exception as exception:
-            return logger_error(exception)
+            logger_error(exception)
 
     # Imported methods
     from .batch_ingest import (

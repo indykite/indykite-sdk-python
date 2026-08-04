@@ -38,11 +38,11 @@ setuptools.setup(
     ],
     license="Apache-2.0",
     install_requires=[
-        "authlib",
         "certifi",
         "grpcio",
         "google-api-python-client",
         "google-cloud-storage",
+        "joserfc",
         "protobuf",
     ],
     python_requires="~=3.11",

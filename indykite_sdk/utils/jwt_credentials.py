@@ -1,12 +1,11 @@
 import re
-import sys
 import time
 import uuid
 from datetime import datetime, timedelta
 
 import certifi
 import grpc
-from authlib.jose import JsonWebKey, jwt
+from joserfc import jwk, jwt
 
 from indykite_sdk.indykite.authorization.v1beta1 import authorization_service_pb2_grpc as authz_pb2
 from indykite_sdk.indykite.config.v1beta1 import config_management_api_pb2_grpc as config_pb2_grpc
@@ -25,11 +24,23 @@ TIMEDELTA_PATTERN = re.compile(TIMEDELTA_REGEX, re.IGNORECASE)
 
 
 def create_agent_jwt(credentials, client="identity"):
-    jwk = credentials.get("privateKeyJWK")
-    key = JsonWebKey.import_key(jwk)
+    private_key_jwk = credentials.get("privateKeyJWK")
+    key = jwk.import_key(private_key_jwk)
     message = create_jwt_message(credentials, client)
-    jwt_token = jwt.encode({"alg": "ES256", "cty": "JWT", "kid": jwk["kid"]}, message, key)
+    jwt_token = jwt.encode({"alg": "ES256", "cty": "JWT", "kid": private_key_jwk["kid"]}, message, key)
     return jwt_token
+
+
+def get_exp_from_jwt(token, private_key_jwk):
+    key = jwk.import_key(private_key_jwk)
+    decoded_token = jwt.decode(token, key)
+    return decoded_token.claims.get("exp")
+
+
+def as_access_token(token):
+    if isinstance(token, bytes):
+        return token.decode("utf-8")
+    return token
 
 
 def create_jwt_message(credentials, client):
@@ -74,8 +85,9 @@ def get_credentials(client="identity", token_source=None):
             agent_token = create_agent_jwt(credentials, client)
             token_source = TokenSource()
             token_source = token_source.reusable_token_source(None, credentials)
-            access_token_decode = jwt.decode(agent_token, credentials.get("privateKeyJWK"))
-            token_source.token = Token(agent_token, "Bearer", access_token_decode.exp)
+            token_source.token = Token(
+                agent_token, "Bearer", get_exp_from_jwt(agent_token, credentials.get("privateKeyJWK"))
+            )
         if token_source.token:
             t = datetime.now().timestamp()
             # add 1 min because token will be issued every 1 minute by default
@@ -83,14 +95,17 @@ def get_credentials(client="identity", token_source=None):
         if token_source.token is None or (token_source.token.expiry < expire_time_in_seconds):
             if token_source.reusable:
                 agent_token = create_agent_jwt(credentials, client)
-                access_token_decode = jwt.decode(agent_token, credentials.get("privateKeyJWK"))
-                token_source.token = Token(agent_token, "Bearer", access_token_decode.exp)
+                token_source.token = Token(
+                    agent_token,
+                    "Bearer",
+                    get_exp_from_jwt(agent_token, credentials.get("privateKeyJWK")),
+                )
             else:
                 raise Exception("TokenSource is not reusable")
         else:
             agent_token = token_source.token.access_token
 
-        call_credentials = grpc.access_token_call_credentials(agent_token.decode("utf-8"))
+        call_credentials = grpc.access_token_call_credentials(as_access_token(agent_token))
         certificate_path = certifi.where()
         endpoint = credentials.get("endpoint")
 
@@ -114,9 +129,8 @@ def get_credentials(client="identity", token_source=None):
             stub = ingest_pb2_grpc.IngestAPIStub(channel=channel)
         return channel, stub, credentials, token_source
 
-    except Exception as exception:
-        tb = sys.exception().__traceback__
-        raise exception(...).with_traceback(tb)
+    except Exception:
+        raise
 
 
 def get_int_from_datetime(dt):
