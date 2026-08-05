@@ -13,6 +13,7 @@ pytest-asyncio = "*"
 respx = "*"
 ruff = "*"
 pylint = "*"
+pdoc = "*"
 
 [requires]
 python_version = "3.14"
