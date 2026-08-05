@@ -9,6 +9,7 @@ Python clients for the [IndyKite](https://www.indykite.com) platform REST APIs:
 the Identity Knowledge Graph (IKG), KBAC authorization (AuthZEN), ContX IQ
 knowledge queries, data capture, entity matching, and platform configuration.
 
+- SDK API reference: <https://indykite.github.io/indykite-sdk-python/>
 - OpenAPI reference: <https://openapi.indykite.com>
 - Developer guides: <https://developer.indykite.com>
 

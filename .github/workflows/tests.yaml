@@ -45,7 +45,7 @@ jobs:
       - name: setup/pipenv
         run: |
           pipx install pipenv
-          pipenv install --dev
+          pipenv sync --dev
 
       - name: Run unit tests
         run: pipenv run pytest --cov . --cov-report xml
@@ -83,7 +83,7 @@ jobs:
       - name: setup/pipenv
         run: |
           pipx install pipenv
-          pipenv install --dev
+          pipenv sync --dev
 
       - name: Run integration tests
         # The integration suite skips itself when credentials are not configured.
