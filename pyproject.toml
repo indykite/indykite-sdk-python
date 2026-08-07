@@ -29,7 +29,8 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/indykite/indykite-sdk-python"
-Documentation = "https://developer.indykite.com"
+Documentation = "https://indykite.github.io/indykite-sdk-python/"
+"Developer Guides" = "https://developer.indykite.com"
 Changelog = "https://github.com/indykite/indykite-sdk-python/blob/master/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
