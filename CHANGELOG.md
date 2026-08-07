@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/indykite/indykite-sdk-python/compare/v2.0.0...v2.1.0) (2026-08-07)
+
+
+### Features
+
+* add documentation ([99078b6](https://github.com/indykite/indykite-sdk-python/commit/99078b637b5502a88324dd1b3c3d548c10fcda45))
+* update documentation link ([f555860](https://github.com/indykite/indykite-sdk-python/commit/f555860052cfe026963a07e805a4e5915e858153))
+
+
+### Bug Fixes
+
+* fix renovate file ([#407](https://github.com/indykite/indykite-sdk-python/issues/407)) ([e0eb5ab](https://github.com/indykite/indykite-sdk-python/commit/e0eb5ab1f38f845d66dad5090a004c622ff0afda))
+
 ## [2.0.0](https://github.com/indykite/indykite-sdk-python/compare/v1.61.2...v2.0.0) (2026-08-04)
 
 
