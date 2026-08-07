@@ -8,7 +8,7 @@ description = "IndyKite Python SDK - REST clients for the IndyKite platform APIs
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.14"
-version = "2.0.0"
+version = "2.1.0"
 authors = [
     { name = "IndyKite", email = "develop@indykite.com" },
 ]
