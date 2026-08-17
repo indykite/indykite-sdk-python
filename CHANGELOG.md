@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.1](https://github.com/indykite/indykite-sdk-python/compare/v2.1.0...v2.1.1) (2026-08-17)
+
+
+### Miscellaneous Chores
+
+* **deps:** lock file maintenance ([1767f15](https://github.com/indykite/indykite-sdk-python/commit/1767f15520b57d6a3b03a36fa04566e7bec32520))
+* **deps:** update ci-configs ([1ea4377](https://github.com/indykite/indykite-sdk-python/commit/1ea43775902b506ef4cda0d8885d1cd52264f921))
+* **deps:** update ci-configs ([d3ecdcd](https://github.com/indykite/indykite-sdk-python/commit/d3ecdcd46041efbaeb87e6f253e3445d93523d95))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v44 ([feef5fc](https://github.com/indykite/indykite-sdk-python/commit/feef5fc435c7d11ea0989d721141af22684d1597))
+
 ## [2.1.0](https://github.com/indykite/indykite-sdk-python/compare/v2.0.0...v2.1.0) (2026-08-07)
 
 
