@@ -17,14 +17,19 @@ jobs:
     name: Prepare Release notes
     runs-on: ubuntu-latest
     steps:
+      - name: Mint ik-code-writer installation token
+        id: code_writer_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.IK_CODE_WRITER_CLIENT_ID }}
+          private-key: ${{ secrets.IK_CODE_WRITER_PEM }}
+          owner: indykite
+          repositories: indykite-sdk-python
       - name: action/release-please
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0 - https://github.com/googleapis/release-please-action/releases
         id: release
         with:
-          # Must be a PAT, not GITHUB_TOKEN: releases created with the default
-          # token do not fire the 'release: published' event, so release.yaml
-          # would never run and nothing would reach PyPI (broke v1.61.1/v1.61.2).
-          token: ${{ secrets.INDYKITEONE_PAT }}
+          token: ${{ steps.code_writer_token.outputs.token }}
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
 
