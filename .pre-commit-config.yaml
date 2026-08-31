@@ -64,7 +64,7 @@ repos:
   #
   # Renovate
   - repo: https://github.com/renovatebot/pre-commit-hooks # ci:ignore:OK to validate locally only, otherwise it adds 850MB+ to unpacked cache
-    rev: "44.7.2" # frozen: 43.285.7
+    rev: "44.52.1" # frozen: 43.285.7
     hooks:
       - id: renovate-config-validator
         args: [--strict]
@@ -148,7 +148,7 @@ repos:
   #
   # more Python
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: 4b2e70d08cb2ccd26d1fba73588de41c7a5d50b7 # frozen: v0.25
+    rev: 17e12779811926f000bdfa1795f9e3735dd71ac3 # frozen: 0.26
     hooks:
       - id: validate-pyproject
         name: python-validate-pyproject
@@ -172,7 +172,7 @@ repos:
 
   # #
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 65dbdb59d2f2d9c3bdc343c566821ad3319ddaa3 # frozen: v0.16.3
+    rev: 1f1e8bf348ff38fc88619a38d3ca4d9c56abea49 # frozen: v0.16.5
     hooks:
       - id: ruff-format
         name: python-ruff-format
@@ -189,14 +189,14 @@ repos:
         additional_dependencies: ["bandit[toml]"]
 
   - repo: https://github.com/PyCQA/pylint
-    rev: c6768d3f1a45fbfad6a4ff9e167ca4f71dd5c991 # frozen: v4.0.7
+    rev: ecb84baf74ae152a511e5fdada5000c85250a48f # frozen: v4.0.8
     hooks:
       - id: pylint
         name: pylint
         stages: [manual] # TODO: fix findings
 
   - repo: https://github.com/PyCQA/isort # ci:ignore:manual stage only
-    rev: 7f321d375f31a2f03833bc9a548e8783f2b5c420 # frozen: 9.0.0b1
+    rev: 131f4adcd5582bfc53928ab0d740eceb8b506b6c # frozen: 9.0.1
     hooks:
       - id: isort
         name: python-isort
