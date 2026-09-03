@@ -18,6 +18,8 @@ __all__ = [
     "ApplicationAgent",
     "ApplicationAgentCredential",
     "ApplicationAgentCredentialCreated",
+    "AuditSigning",
+    "AuditSigningProvider",
     "AuthorizationPolicy",
     "ConfigStatus",
     "KnowledgeQuery",
@@ -37,6 +39,9 @@ ConfigStatus = Literal["ACTIVE", "INACTIVE", "DRAFT"]
 
 #: Role of a service account.
 ServiceAccountRole = Literal["all_editor", "all_viewer"]
+
+#: Who manages the key that signs a project's audit records.
+AuditSigningProvider = Literal["PLATFORM_MANAGED", "CUSTOMER_GCP_KMS", "CUSTOMER_AWS_KMS", "CUSTOMER_AZURE_KEY_VAULT"]
 
 
 class _AuditedResource(_ETagged):
@@ -176,3 +181,22 @@ class KnowledgeQuery(_AuditedResource):
     query: str | None = None
     status: str | None = None
     policy_id: str | None = None
+
+
+class AuditSigning(_AuditedResource):
+    """An audit-signing configuration: which key signs a project's audit records.
+
+    ``auth_params`` is returned with its **keys only** - every value is blanked
+    so the secret material set at create/update time is never read back.
+    """
+
+    organization_id: str | None = None
+    project_id: str | None = None
+    #: One of :data:`AuditSigningProvider`.
+    provider: str | None = None
+    #: Customer-managed key reference (KMS key / Key Vault key URI); empty for ``PLATFORM_MANAGED``.
+    key_resource: str | None = None
+    #: Key ID (``kid``) placed in the signature header; empty for ``PLATFORM_MANAGED``.
+    kid: str | None = None
+    #: Provider credentials, with values masked (``""``) on read.
+    auth_params: dict[str, str] | None = None

@@ -19,6 +19,8 @@ from indykite_sdk.config.models import (
     ApplicationAgent,
     ApplicationAgentCredential,
     ApplicationAgentCredentialCreated,
+    AuditSigning,
+    AuditSigningProvider,
     AuthorizationPolicy,
     ConfigResource,
     ConfigStatus,
@@ -505,6 +507,83 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
     async def delete_knowledge_query(self, query_id: str, *, etag: str, timeout: Timeout = None) -> None:
         """Delete a knowledge query (``If-Match`` guarded)."""
         await self._delete("/knowledge-queries", query_id, etag, timeout)
+
+    # -- audit signings -----------------------------------------------------
+
+    async def list_audit_signings(
+        self,
+        project_id: str,
+        *,
+        full_fetch: bool = False,
+        search: str | None = None,
+        timeout: Timeout = None,
+    ) -> list[AuditSigning]:
+        """List audit-signing configurations in a project."""
+        params = {"project_id": project_id, "full_fetch": full_fetch, "search": search}
+        return await self._list("/audit-signings", AuditSigning, params, timeout)
+
+    async def create_audit_signing(
+        self,
+        name: str,
+        project_id: str,
+        *,
+        provider: AuditSigningProvider | str = "PLATFORM_MANAGED",
+        key_resource: str | None = None,
+        kid: str | None = None,
+        auth_params: dict[str, str] | None = None,
+        display_name: str | None = None,
+        description: str | None = None,
+        timeout: Timeout = None,
+    ) -> CreateResult:
+        """Create an audit-signing configuration for a project."""
+        body = {
+            "name": name,
+            "project_id": project_id,
+            "provider": provider,
+            "key_resource": key_resource,
+            "kid": kid,
+            "auth_params": auth_params,
+            "display_name": display_name,
+            "description": description,
+        }
+        return await self._create("/audit-signings", body, timeout)
+
+    async def read_audit_signing(self, audit_signing_id: str, *, timeout: Timeout = None) -> AuditSigning:
+        """Read an audit-signing configuration by ID (``auth_params`` values come back masked)."""
+        return await self._read("/audit-signings", audit_signing_id, AuditSigning, timeout)
+
+    async def update_audit_signing(
+        self,
+        audit_signing_id: str,
+        *,
+        etag: str,
+        provider: AuditSigningProvider | str,
+        key_resource: str | None = None,
+        kid: str | None = None,
+        auth_params: dict[str, str] | None = None,
+        display_name: str | None = None,
+        description: str | None = None,
+        timeout: Timeout = None,
+    ) -> UpdateResult:
+        """Update an audit-signing configuration (``If-Match`` guarded).
+
+        The signing fields are replaced as a set: ``provider`` is always
+        required, and an unset ``key_resource``/``kid``/``auth_params`` is
+        cleared. See :meth:`indykite_sdk.ConfigClient.update_audit_signing`.
+        """
+        body = {
+            "provider": provider,
+            "key_resource": key_resource,
+            "kid": kid,
+            "auth_params": auth_params,
+            "display_name": display_name,
+            "description": description,
+        }
+        return await self._update("/audit-signings", audit_signing_id, body, etag, timeout)
+
+    async def delete_audit_signing(self, audit_signing_id: str, *, etag: str, timeout: Timeout = None) -> None:
+        """Delete an audit-signing configuration (``If-Match`` guarded)."""
+        await self._delete("/audit-signings", audit_signing_id, etag, timeout)
 
     # -- dict-payload resources ---------------------------------------------
 

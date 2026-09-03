@@ -219,6 +219,94 @@ def test_authorization_policies_create_body(make_client, mock_api) -> None:
     }
 
 
+def test_audit_signing_list_params(make_client, mock_api) -> None:
+    """Audit signing list params."""
+    mock_api.respond({"data": [{"id": "gid:audit-1", "name": "signing", "provider": "PLATFORM_MANAGED"}]})
+    client = make_client(ConfigClient)
+    configs = client.list_audit_signings("gid:project-1", full_fetch=True, search="sign")
+    assert mock_api.last.url.path == "/configs/v1/audit-signings"
+    assert dict(mock_api.last.url.params) == {"project_id": "gid:project-1", "full_fetch": "true", "search": "sign"}
+    assert configs[0].provider == "PLATFORM_MANAGED"
+
+
+def test_audit_signing_create_defaults_to_platform_managed(make_client, mock_api) -> None:
+    """Audit signing create defaults to platform managed."""
+    mock_api.respond(httpx.Response(201, json={"id": "gid:audit-1"}, headers={"ETag": "etag-1"}))
+    client = make_client(ConfigClient)
+    created = client.create_audit_signing("signing", "gid:project-1")
+    assert mock_api.last.method == "POST"
+    assert mock_api.last.url.path == "/configs/v1/audit-signings"
+    assert sent_json(mock_api.last) == {
+        "name": "signing",
+        "project_id": "gid:project-1",
+        "provider": "PLATFORM_MANAGED",
+    }
+    assert created.id == "gid:audit-1"
+    assert created.etag == "etag-1"
+
+
+def test_audit_signing_create_customer_managed_body(make_client, mock_api) -> None:
+    """Audit signing create customer managed body."""
+    client = make_client(ConfigClient)
+    client.create_audit_signing(
+        "signing",
+        "gid:project-1",
+        provider="CUSTOMER_GCP_KMS",
+        key_resource="projects/p/locations/l/keyRings/r/cryptoKeys/k/cryptoKeyVersions/1",
+        kid="gcp-key-1",
+        auth_params={"service_account_json": "{...}"},
+        display_name="GCP signing",
+    )
+    assert sent_json(mock_api.last) == {
+        "name": "signing",
+        "project_id": "gid:project-1",
+        "provider": "CUSTOMER_GCP_KMS",
+        "key_resource": "projects/p/locations/l/keyRings/r/cryptoKeys/k/cryptoKeyVersions/1",
+        "kid": "gcp-key-1",
+        "auth_params": {"service_account_json": "{...}"},
+        "display_name": "GCP signing",
+    }
+
+
+def test_audit_signing_read_masks_auth_params(make_client, mock_api) -> None:
+    """Audit signing read masks auth params."""
+    mock_api.respond(
+        httpx.Response(
+            200,
+            json={
+                "id": "gid:audit-1",
+                "name": "signing",
+                "provider": "CUSTOMER_AWS_KMS",
+                "key_resource": "arn:aws:kms:eu-west-1:123:key/abc",
+                "kid": "aws-key-1",
+                "auth_params": {"access_key_id": "", "secret_access_key": ""},
+            },
+            headers={"ETag": "etag-2"},
+        )
+    )
+    client = make_client(ConfigClient)
+    config = client.read_audit_signing("gid:audit-1")
+    assert mock_api.last.url.path == "/configs/v1/audit-signings/gid:audit-1"
+    assert config.provider == "CUSTOMER_AWS_KMS"
+    assert config.kid == "aws-key-1"
+    assert config.auth_params == {"access_key_id": "", "secret_access_key": ""}
+    assert config.etag == "etag-2"
+
+
+def test_audit_signing_update_and_delete_send_if_match(make_client, mock_api) -> None:
+    """Audit signing update and delete send if match."""
+    mock_api.respond({"id": "gid:audit-1"}, httpx.Response(204))
+    client = make_client(ConfigClient)
+    client.update_audit_signing("gid:audit-1", etag="etag-2", provider="PLATFORM_MANAGED", description="rotated")
+    assert mock_api.last.method == "PUT"
+    assert mock_api.last.headers["If-Match"] == "etag-2"
+    assert sent_json(mock_api.last) == {"provider": "PLATFORM_MANAGED", "description": "rotated"}
+    client.delete_audit_signing("gid:audit-1", etag="etag-2")
+    assert mock_api.last.method == "DELETE"
+    assert mock_api.last.url.path == "/configs/v1/audit-signings/gid:audit-1"
+    assert mock_api.last.headers["If-Match"] == "etag-2"
+
+
 def test_dict_resources_event_sink_body_passthrough(make_client, mock_api) -> None:
     """Dict resources event sink body passthrough."""
     body = {"name": "sink", "project_id": "gid:project-1", "provider": {"kafka": {"brokers": ["b:9092"]}}}
