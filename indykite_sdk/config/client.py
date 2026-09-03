@@ -15,6 +15,8 @@ from indykite_sdk.config.models import (
     ApplicationAgent,
     ApplicationAgentCredential,
     ApplicationAgentCredentialCreated,
+    AuditSigning,
+    AuditSigningProvider,
     AuthorizationPolicy,
     ConfigResource,
     ConfigStatus,
@@ -529,6 +531,99 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
     def delete_knowledge_query(self, query_id: str, *, etag: str, timeout: Timeout = None) -> None:
         """Delete a knowledge query (``If-Match`` guarded)."""
         self._delete("/knowledge-queries", query_id, etag, timeout)
+
+    # -- audit signings -----------------------------------------------------
+
+    def list_audit_signings(
+        self,
+        project_id: str,
+        *,
+        full_fetch: bool = False,
+        search: str | None = None,
+        timeout: Timeout = None,
+    ) -> list[AuditSigning]:
+        """List audit-signing configurations in a project.
+
+        Without ``full_fetch`` only the common metadata is returned and the
+        provider fields are left unset.
+        """
+        params = {"project_id": project_id, "full_fetch": full_fetch, "search": search}
+        return self._list("/audit-signings", AuditSigning, params, timeout)
+
+    def create_audit_signing(
+        self,
+        name: str,
+        project_id: str,
+        *,
+        provider: AuditSigningProvider | str = "PLATFORM_MANAGED",
+        key_resource: str | None = None,
+        kid: str | None = None,
+        auth_params: dict[str, str] | None = None,
+        display_name: str | None = None,
+        description: str | None = None,
+        timeout: Timeout = None,
+    ) -> CreateResult:
+        """Create an audit-signing configuration for a project.
+
+        ``provider`` chooses who holds the signing key: ``PLATFORM_MANAGED``
+        (the default) needs nothing else; the customer-managed providers
+        (``CUSTOMER_GCP_KMS``, ``CUSTOMER_AWS_KMS``, ``CUSTOMER_AZURE_KEY_VAULT``)
+        require ``key_resource`` and ``kid``, plus whatever ``auth_params`` the
+        provider needs to reach the key. ``auth_params`` values are write-only:
+        reads return the keys with blank values.
+        """
+        body = {
+            "name": name,
+            "project_id": project_id,
+            "provider": provider,
+            "key_resource": key_resource,
+            "kid": kid,
+            "auth_params": auth_params,
+            "display_name": display_name,
+            "description": description,
+        }
+        return self._create("/audit-signings", body, timeout)
+
+    def read_audit_signing(self, audit_signing_id: str, *, timeout: Timeout = None) -> AuditSigning:
+        """Read an audit-signing configuration by ID (``auth_params`` values come back masked)."""
+        return self._read("/audit-signings", audit_signing_id, AuditSigning, timeout)
+
+    def update_audit_signing(
+        self,
+        audit_signing_id: str,
+        *,
+        etag: str,
+        provider: AuditSigningProvider | str,
+        key_resource: str | None = None,
+        kid: str | None = None,
+        auth_params: dict[str, str] | None = None,
+        display_name: str | None = None,
+        description: str | None = None,
+        timeout: Timeout = None,
+    ) -> UpdateResult:
+        """Update an audit-signing configuration (``If-Match`` guarded).
+
+        The signing fields are replaced as a set, not patched: ``provider`` is
+        always required, and any of ``key_resource``, ``kid`` and ``auth_params``
+        left unset is **cleared**, so resend all of them to keep a
+        customer-managed key.
+
+        ``display_name`` and ``description`` behave the other way round: left as
+        ``None`` they keep their current value, and ``""`` clears them.
+        """
+        body = {
+            "provider": provider,
+            "key_resource": key_resource,
+            "kid": kid,
+            "auth_params": auth_params,
+            "display_name": display_name,
+            "description": description,
+        }
+        return self._update("/audit-signings", audit_signing_id, body, etag, timeout)
+
+    def delete_audit_signing(self, audit_signing_id: str, *, etag: str, timeout: Timeout = None) -> None:
+        """Delete an audit-signing configuration (``If-Match`` guarded)."""
+        self._delete("/audit-signings", audit_signing_id, etag, timeout)
 
     # -- dict-payload resources ---------------------------------------------
     # These resources have large, evolving schemas; the SDK passes their

@@ -80,22 +80,26 @@ with AuthZENClient() as client:
 from indykite_sdk import CaptureClient
 
 with CaptureClient() as client:
-    client.upsert_nodes([
-        {
-            "external_id": "ada",
-            "type": "Person",
-            "is_identity": True,
-            "properties": [{"type": "email", "value": "ada@example.com"}],
-        },
-        {"external_id": "kitt", "type": "Car"},
-    ])
-    client.upsert_relationships([
-        {
-            "type": "OWNS",
-            "source": {"external_id": "ada", "type": "Person"},
-            "target": {"external_id": "kitt", "type": "Car"},
-        },
-    ])
+    client.upsert_nodes(
+        [
+            {
+                "external_id": "ada",
+                "type": "Person",
+                "is_identity": True,
+                "properties": [{"type": "email", "value": "ada@example.com"}],
+            },
+            {"external_id": "kitt", "type": "Car"},
+        ]
+    )
+    client.upsert_relationships(
+        [
+            {
+                "type": "OWNS",
+                "source": {"external_id": "ada", "type": "Person"},
+                "target": {"external_id": "kitt", "type": "Car"},
+            },
+        ]
+    )
 ```
 
 ### Read the graph with a knowledge query (ContX IQ)
@@ -128,6 +132,21 @@ pass its `.etag`:
 ```python
 app = config.read_application(app_id)
 config.update_application(app_id, etag=app.etag, display_name="Renamed")
+```
+
+Audit signing decides which key signs a project's audit records. The default
+is a platform-managed key; customer-managed providers bring their own key:
+
+```python
+signing = config.create_audit_signing("audit-signing", project.id)  # PLATFORM_MANAGED
+config.create_audit_signing(
+    "audit-signing-kms",
+    project.id,
+    provider="CUSTOMER_GCP_KMS",
+    key_resource="projects/p/locations/l/keyRings/r/cryptoKeys/k/cryptoKeyVersions/1",
+    kid="gcp-key-1",
+    auth_params={"service_account_json": "..."},  # write-only, read back masked
+)
 ```
 
 ### Async

@@ -22,6 +22,7 @@ _ARG_VALUES: dict[str, Any] = {
     "status": "ACTIVE",
     "region": "europe-west1",
     "role": "all_editor",
+    "provider": "PLATFORM_MANAGED",
     "name": "resource-name",
     "etag": "etag-1",
 }
