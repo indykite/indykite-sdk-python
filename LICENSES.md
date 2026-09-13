@@ -2,7 +2,7 @@
 
 IndyKite Platform SDK for Python
 
-Generated at: 2026-09-13T17:06:20Z
+Generated at: 2026-09-13T17:33:22Z
 
 DO NOT EDIT!!
 
@@ -14,20 +14,115 @@ Regenerate with `../ops-common/.github/actions/trivy-license/script.sh`.
 
 | License | Classification | Severity | Count |
 | --- | --- | --- | ---: |
-| Apache-2.0 | notice | LOW | 1 |
+| MIT | notice | LOW | 40 |
+| Apache-2.0 | notice | LOW | 13 |
+| BSD-3-Clause | notice | LOW | 12 |
+| BSD-2-Clause | notice | LOW | 3 |
+| BeOpen | unknown | UNKNOWN | 3 |
+| CNRI-Python-GPL-Compatible | unknown | UNKNOWN | 3 |
+| MPL-2.0 | reciprocal | MEDIUM | 3 |
+| Python-2.0 | notice | LOW | 3 |
+| ISC | notice | LOW | 2 |
+| BSD-0-Clause | unknown | UNKNOWN | 1 |
+| GPL-2.0 | restricted | HIGH | 1 |
+| LGPL-2.1 | restricted | HIGH | 1 |
 
-**Total packages scanned:** 1
+**Total packages scanned:** 85
 
 ## Report Summary (by target)
 
 | Target | Type | Licenses |
 | --- | --- | ---: |
-| Loose File License(s) | - | 1 |
+| Loose File License(s) | - | 85 |
 
 ## Details
 
-### `Loose File License(s)` (-) -- 1 license
+### `Loose File License(s)` (-) -- 85 licenses
 
 | Package | License | Classification | Severity |
 | --- | --- | --- | --- |
+| .venv/lib/python3.14/site-packages/coverage-7.16.0.dist-info/licenses/LICENSE.txt | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/coverage-7.16.0.dist-info/licenses/NOTICE.txt | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/indykite\_sdk\_python-2.1.1.dist-info/licenses/LICENSE | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/cachecontrol/LICENSE.txt | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/distro/LICENSE | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/requests/LICENSE | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/cachecontrol/LICENSE.txt | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/distro/LICENSE | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/distro/distro.py | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/requests/LICENSE | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pygments/lexers/robotframework.py | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pytest\_asyncio-1.4.0.dist-info/licenses/LICENSE | Apache-2.0 | notice | LOW |
 | LICENSE | Apache-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/typing\_extensions-4.16.0.dist-info/licenses/LICENSE | BSD-0-Clause | unknown | UNKNOWN |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/pygments/LICENSE | BSD-2-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/pygments/LICENSE | BSD-2-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/pygments-2.21.0.dist-info/licenses/LICENSE | BSD-2-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/dill-0.4.1.dist-info/LICENSE | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/dill/\_\_info\_\_.py | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/httpcore-1.0.9.dist-info/licenses/LICENSE.md | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/httpx-0.28.1.dist-info/licenses/LICENSE.md | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/idna-3.19.dist-info/licenses/LICENSE.md | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/jinja2-3.1.6.dist-info/licenses/LICENSE.txt | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/joserfc-1.7.5.dist-info/licenses/LICENSE | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/markupsafe-3.0.3.dist-info/licenses/LICENSE.txt | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/idna/LICENSE.md | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/idna/LICENSE.md | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/pycparser-3.0.dist-info/licenses/LICENSE | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/respx-0.23.1.dist-info/LICENSE.md | BSD-3-Clause | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/distlib/LICENSE.txt | BeOpen | unknown | UNKNOWN |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/distlib/LICENSE.txt | BeOpen | unknown | UNKNOWN |
+| .venv/lib/python3.14/site-packages/typing\_extensions-4.16.0.dist-info/licenses/LICENSE | BeOpen | unknown | UNKNOWN |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/distlib/LICENSE.txt | CNRI-Python-GPL-Compatible | unknown | UNKNOWN |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/distlib/LICENSE.txt | CNRI-Python-GPL-Compatible | unknown | UNKNOWN |
+| .venv/lib/python3.14/site-packages/typing\_extensions-4.16.0.dist-info/licenses/LICENSE | CNRI-Python-GPL-Compatible | unknown | UNKNOWN |
+| .venv/lib/python3.14/site-packages/pylint-4.0.8.dist-info/licenses/LICENSE | GPL-2.0 | restricted | HIGH |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/resolvelib/LICENSE | ISC | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/resolvelib/LICENSE | ISC | notice | LOW |
+| .venv/lib/python3.14/site-packages/astroid-4.0.4.dist-info/licenses/LICENSE | LGPL-2.1 | restricted | HIGH |
+| .venv/lib/python3.14/site-packages/annotated\_types-0.8.0.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/anyio-4.15.1.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/cffi/\_cffi\_gen\_src.py | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/h11-0.16.0.dist-info/licenses/LICENSE.txt | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/iniconfig-2.3.0.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/isort-9.0.1.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/isort/\_vendored/tomli/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/markdown2-2.5.5.dist-info/LICENSE.txt | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/mccabe-0.7.0.dist-info/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/mypy\_extensions-1.1.0.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/packaging/licenses/\_\_init\_\_.py | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/LICENSE.txt | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/pkg\_resources/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/platformdirs/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/pyproject\_hooks/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/rich/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/tomli/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/tomli\_w/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/truststore/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/urllib3/LICENSE.txt | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_internal/utils/\_jaraco\_text.py | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/packaging/licenses/\_\_init\_\_.py | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/pkg\_resources/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/platformdirs/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/pyproject\_hooks/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/rich/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/rich/\_spinners.py | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/tomli/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/tomli\_w/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/truststore/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/urllib3/LICENSE.txt | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/platformdirs-4.11.8.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pluggy-1.6.0.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pydantic-2.13.5.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pydantic\_core-2.46.5.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pytest-9.1.1.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/pytest\_cov-7.1.0.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/ruff-0.16.7.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/tomlkit-0.15.1.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/typing\_inspection-0.4.4.dist-info/licenses/LICENSE | MIT | notice | LOW |
+| .venv/lib/python3.14/site-packages/certifi-2026.7.22.dist-info/licenses/LICENSE | MPL-2.0 | reciprocal | MEDIUM |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/certifi/LICENSE | MPL-2.0 | reciprocal | MEDIUM |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/certifi/LICENSE | MPL-2.0 | reciprocal | MEDIUM |
+| .venv/lib/python3.14/site-packages/pip-26.2.1.dist-info/licenses/src/pip/\_vendor/distlib/LICENSE.txt | Python-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/pip/\_vendor/distlib/LICENSE.txt | Python-2.0 | notice | LOW |
+| .venv/lib/python3.14/site-packages/typing\_extensions-4.16.0.dist-info/licenses/LICENSE | Python-2.0 | notice | LOW |
