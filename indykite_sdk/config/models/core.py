@@ -32,7 +32,7 @@ __all__ = [
 ]
 
 #: API permission grantable to an application agent.
-ApiPermission = Literal["Authorization", "Capture", "ContXIQ", "EntityMatching", "IKGRead", "ReadDataSchema"]
+ApiPermission = Literal["Authorization", "Capture", "ContXIQ", "EntityMatching", "ReadAuthZConfigs", "ReadDataSchema"]
 
 #: Lifecycle status of policies and knowledge queries.
 ConfigStatus = Literal["ACTIVE", "INACTIVE", "DRAFT"]

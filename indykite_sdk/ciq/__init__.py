@@ -2,6 +2,6 @@
 
 from indykite_sdk.ciq.aio import AsyncCIQClient
 from indykite_sdk.ciq.client import CIQClient
-from indykite_sdk.ciq.models import ExecuteRecord, ExecuteResponse
+from indykite_sdk.ciq.models import ExecuteRecord, ExecuteResponse, WhoAmIResponse
 
-__all__ = ["AsyncCIQClient", "CIQClient", "ExecuteRecord", "ExecuteResponse"]
+__all__ = ["AsyncCIQClient", "CIQClient", "ExecuteRecord", "ExecuteResponse", "WhoAmIResponse"]

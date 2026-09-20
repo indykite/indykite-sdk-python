@@ -140,6 +140,74 @@ def test_searches_search_subject(make_client, mock_api) -> None:
     assert result.results[0].type == "Person"
 
 
+POLICY = {
+    "meta": {"policyVersion": "1.0-indykite"},
+    "subject": {"type": "Person"},
+    "actions": ["CAN_DRIVE"],
+    "resource": {"type": "Car"},
+}
+
+
+def test_policies_lists_all(make_client, mock_api) -> None:
+    """Policies lists all."""
+    mock_api.respond({"results": [{"policy": POLICY, "tags": ["fleet"]}, {"policy": POLICY, "tags": []}]})
+    client = make_client(AuthZENClient)
+    result = client.policies()
+    assert mock_api.last.method == "GET"
+    assert mock_api.last.url.path == "/access/v1/policies"
+    assert mock_api.last.url.query == b""
+    assert mock_api.last.headers["X-IK-ClientKey"] == "app-agent-token-value"
+    assert "Authorization" not in mock_api.last.headers
+    assert len(result.results) == 2
+    assert result.results[0].policy["actions"] == ["CAN_DRIVE"]
+    assert result.results[0].tags == ["fleet"]
+    assert result.results[0].subject_type == "Person"
+    assert result.results[1].tags == []
+
+
+def test_policies_filtered_by_subject_type(make_client, mock_api) -> None:
+    """Policies filtered by subject type."""
+    mock_api.respond({"results": []})
+    client = make_client(AuthZENClient)
+    result = client.policies(subject_type="Person")
+    assert mock_api.last.url.path == "/access/v1/policies"
+    assert mock_api.last.url.params["subject_type"] == "Person"
+    assert result.results == []
+
+
+def test_policies_blank_subject_type_raises(make_client, mock_api) -> None:
+    """Policies blank subject type raises."""
+    client = make_client(AuthZENClient)
+    with pytest.raises(RequestValidationError, match="subject_type"):
+        client.policies(subject_type="  ")
+    assert mock_api.requests == []
+
+
+def test_policies_strips_subject_type(make_client, mock_api) -> None:
+    """Policies strips subject type."""
+    client = make_client(AuthZENClient)
+    client.policies(subject_type=" Person ")
+    assert mock_api.last.url.params["subject_type"] == "Person"
+
+
+def test_policies_tolerates_missing_fields(make_client, mock_api) -> None:
+    """Policies tolerates missing fields."""
+    mock_api.respond({"results": [{"policy": {"meta": {}}}]})
+    client = make_client(AuthZENClient)
+    policy = client.policies().results[0]
+    assert policy.tags == []
+    assert policy.subject_type is None
+
+
+async def test_async_authzen_policies(make_async_client, mock_api) -> None:
+    """Async authzen policies."""
+    mock_api.respond({"results": [{"policy": POLICY, "tags": ["fleet"]}]})
+    async with make_async_client(AsyncAuthZENClient) as client:
+        result = await client.policies(subject_type="Person")
+    assert mock_api.last.url.params["subject_type"] == "Person"
+    assert result.results[0].subject_type == "Person"
+
+
 async def test_async_authzen_evaluation(make_async_client, mock_api) -> None:
     """Async authzen evaluation."""
     mock_api.respond({"decision": True, "context": {"reason": "policy matched"}})

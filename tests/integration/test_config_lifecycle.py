@@ -54,9 +54,12 @@ def test_agent_and_credential_bootstrap(config_client: ConfigClient, project_id:
     app = config_client.create_application(f"sdk-it-agent-app-{unique_suffix}", project_id)
     try:
         agent = config_client.create_application_agent(
-            f"sdk-it-agent-{unique_suffix}", app.id, api_permissions=["Authorization", "Capture", "ContXIQ"]
+            f"sdk-it-agent-{unique_suffix}",
+            app.id,
+            api_permissions=["Authorization", "Capture", "ContXIQ", "ReadAuthZConfigs"],
         )
         try:
+            assert "ReadAuthZConfigs" in (config_client.read_application_agent(agent.id).api_permissions or [])
             credential = config_client.create_application_agent_credential(agent.id)
             try:
                 bootstrapped = credential.as_credentials()

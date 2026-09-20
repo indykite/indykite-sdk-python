@@ -217,7 +217,8 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         """Create an application agent restricted to the given API permissions.
 
         ``api_permissions`` values: ``Authorization``, ``Capture``, ``ContXIQ``,
-        ``EntityMatching``, ``IKGRead``, ``ReadDataSchema``.
+        ``EntityMatching``, ``ReadAuthZConfigs`` (lets the agent list the
+        project's authorization policies via the AuthZEN API), ``ReadDataSchema``.
         """
         body = {
             "name": name,

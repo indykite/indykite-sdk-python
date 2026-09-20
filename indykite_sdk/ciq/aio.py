@@ -9,8 +9,8 @@ import httpx
 
 from indykite_sdk._core.http import BaseAsyncClient
 from indykite_sdk._core.ops import RequestSpec, user_token_headers
-from indykite_sdk.ciq.client import _execute_body
-from indykite_sdk.ciq.models import ExecuteRecord, ExecuteResponse
+from indykite_sdk.ciq.client import _execute_body, _whoami_spec
+from indykite_sdk.ciq.models import ExecuteRecord, ExecuteResponse, WhoAmIResponse
 
 __all__ = ["AsyncCIQClient"]
 
@@ -76,3 +76,8 @@ class AsyncCIQClient(BaseAsyncClient):
             if len(response.data) < page_size:
                 return
             page_token += 1
+
+    async def whoami(self, user_token: str, *, timeout: httpx.Timeout | float | None = None) -> WhoAmIResponse:
+        """Resolve an end-user token to its IKG subject (``GET /whoami``)."""
+        response = await self._send(_whoami_spec(user_token), timeout=timeout)
+        return WhoAmIResponse.model_validate(response.json())

@@ -11,6 +11,11 @@ These tests hit a live IndyKite environment and are deselected by default
 - ``INDYKITE_TEST_KNOWLEDGE_QUERY_ID`` — an ACTIVE knowledge query (CIQ test)
 - ``INDYKITE_TEST_ENTITY_MATCHING_PIPELINE_ID`` — an entity-matching pipeline
 
+The application agent must belong to ``INDYKITE_TEST_PROJECT_ID`` and hold the
+``Authorization``, ``Capture``, ``ContXIQ`` and ``ReadAuthZConfigs`` API
+permissions: the policy listing and whoami tests create their fixtures in that
+project with the service account and read them back through the agent.
+
 Tests skip themselves when their prerequisites are missing, so a partial
 environment still runs what it can.
 """
@@ -18,8 +23,9 @@ environment still runs what it can.
 from __future__ import annotations
 
 import os
+import time
 import uuid
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 
 import pytest
 
@@ -44,6 +50,37 @@ def require_env(name: str, alternative: str | None = None) -> str:
     if not value:
         pytest.skip(f"{name} is not set")
     return value
+
+
+def poll_until[ResultT](
+    attempt: Callable[[], ResultT | None],
+    *,
+    retry_on: tuple[type[BaseException], ...] = (),
+    timeout: float = 90.0,
+    interval: float = 3.0,
+) -> ResultT:
+    """Call ``attempt`` until it returns a non-``None`` value, retrying on ``retry_on`` errors.
+
+    Configuration written through the Config API takes a moment to reach the
+    data-plane services, so a read-back right after a create may still fail
+    or find nothing yet. ``attempt`` signals "not ready" by returning ``None``;
+    any other value, including a falsy one, is returned as the result. The last
+    error is re-raised once ``timeout`` elapses; a persistently ``None`` result
+    fails with an assertion.
+    """
+    deadline = time.monotonic() + timeout
+    while True:
+        try:
+            result = attempt()
+        except retry_on:
+            if time.monotonic() >= deadline:
+                raise
+        else:
+            if result is not None:
+                return result
+            if time.monotonic() >= deadline:
+                raise AssertionError(f"no result within {timeout:.0f}s")
+        time.sleep(interval)
 
 
 @pytest.fixture(scope="session")

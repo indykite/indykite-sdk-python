@@ -15,6 +15,7 @@ from indykite_sdk.authzen.models import (
     EvaluationResponse,
     EvaluationsResponse,
     NodeType,
+    PoliciesResponse,
     ResourceSearchResponse,
     SubjectSearchResponse,
 )
@@ -134,3 +135,22 @@ class AuthZENClient(BaseSyncClient):
         """
         spec = _ops.search_subject_spec(resource, action, subject_type, context, user_token)
         return SubjectSearchResponse.model_validate(self._send(spec, timeout=timeout).json())
+
+    def policies(
+        self,
+        *,
+        subject_type: str | None = None,
+        timeout: httpx.Timeout | float | None = None,
+    ) -> PoliciesResponse:
+        """List the active authorization policies of the agent's project (``GET /policies``).
+
+        Requires the ``ReadAuthZConfigs`` API permission on the application
+        agent. Each result carries the stored policy definition as a JSON
+        object together with its tags.
+
+        Args:
+            subject_type: Return only the policies written for this subject
+                node type, e.g. ``"Person"``. All policies when omitted.
+        """
+        spec = _ops.policies_spec(subject_type)
+        return PoliciesResponse.model_validate(self._send(spec, timeout=timeout).json())
