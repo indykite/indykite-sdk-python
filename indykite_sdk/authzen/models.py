@@ -21,6 +21,8 @@ __all__ = [
     "EvaluationsResponse",
     "Node",
     "NodeType",
+    "PoliciesResponse",
+    "PolicyDefinition",
     "ResourceSearchResponse",
     "ResponseContext",
     "SubjectSearchResponse",
@@ -143,3 +145,27 @@ class SubjectSearchResponse(IKResponseModel):
     """Subjects (type + id) allowed to perform an action on a resource."""
 
     results: list[Node] = []
+
+
+class PolicyDefinition(IKResponseModel):
+    """One active authorization policy of the project, as stored.
+
+    ``policy`` is the policy definition inlined as a JSON object (``meta``,
+    ``subject``, ``actions``, ``resource``, ...); ``tags`` are the policy tags
+    used to select policies during an evaluation.
+    """
+
+    policy: dict[str, Any] = {}
+    tags: list[str] = []
+
+    @property
+    def subject_type(self) -> str | None:
+        """The subject node type the policy is written for, if present."""
+        subject = self.policy.get("subject")
+        return subject.get("type") if isinstance(subject, dict) else None
+
+
+class PoliciesResponse(IKResponseModel):
+    """The active authorization policies of the calling agent's project."""
+
+    results: list[PolicyDefinition] = []

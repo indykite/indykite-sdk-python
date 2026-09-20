@@ -28,6 +28,11 @@ def main() -> None:
         drivers = client.search_subject(("Car", "kitt"), "CAN_DRIVE", "Person")
         print(f"Who can drive kitt: {[subject.id for subject in drivers.results]}")
 
+        # Needs the ReadAuthZConfigs API permission on the application agent.
+        policies = client.policies(subject_type="Person")
+        for policy in policies.results:
+            print(f"Policy for {policy.subject_type} with tags {policy.tags}: {policy.policy.get('actions')}")
+
 
 if __name__ == "__main__":
     main()

@@ -103,6 +103,17 @@ def search_resource_spec(
     return RequestSpec("POST", "/search/resource", json_body=body, headers=user_token_headers(user_token))
 
 
+def policies_spec(subject_type: str | None) -> RequestSpec:
+    """Build a policies listing request; the subject type filter is optional."""
+    params: dict[str, Any] = {}
+    if subject_type is not None:
+        subject_type = subject_type.strip()
+        if not subject_type:
+            raise RequestValidationError("subject_type must not be blank when provided.")
+        params["subject_type"] = subject_type
+    return RequestSpec("GET", "/policies", params=params)
+
+
 def search_subject_spec(
     resource: NodeInput,
     action: ActionInput,

@@ -72,6 +72,10 @@ with AuthZENClient() as client:
     # Which cars can ada drive?
     cars = client.search_resource(("Person", "ada"), "CAN_DRIVE", "Car")
     print([car.id for car in cars.results])
+
+    # The active policies of the project (agent needs the ReadAuthZConfigs permission)
+    for policy in client.policies(subject_type="Person").results:
+        print(policy.tags, policy.policy["actions"])
 ```
 
 ### Capture graph data
@@ -110,6 +114,11 @@ from indykite_sdk import CIQClient
 with CIQClient() as client:
     for record in client.execute_iter("gid:my-knowledge-query-id", input_params={"personId": "ada"}):
         print(record.nodes)
+
+    # Which graph node does an end-user token resolve to?
+    user_token = "<end-user-access-token>"  # a token your Token Introspect config can validate
+    me = client.whoami(user_token)
+    print(me.type, me.id)  # e.g. Person ada
 ```
 
 ### Manage platform configuration
@@ -121,7 +130,9 @@ with ConfigClient() as config:
     organization = config.read_current_organization()
     project = config.create_project("my-project", organization.id, region="europe-west1")
     app = config.create_application("my-app", project.id)
-    agent = config.create_application_agent("my-agent", app.id, ["Authorization", "Capture", "ContXIQ"])
+    agent = config.create_application_agent(
+        "my-agent", app.id, ["Authorization", "Capture", "ContXIQ", "ReadAuthZConfigs"]
+    )
     credential = config.create_application_agent_credential(agent.id)
     agent_credentials = credential.as_credentials()  # shown once - store it securely
 ```

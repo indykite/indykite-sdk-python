@@ -9,9 +9,17 @@ import httpx
 
 from indykite_sdk._core.http import BaseSyncClient
 from indykite_sdk._core.ops import RequestSpec, user_token_headers
-from indykite_sdk.ciq.models import ExecuteRecord, ExecuteResponse
+from indykite_sdk.ciq.models import ExecuteRecord, ExecuteResponse, WhoAmIResponse
+from indykite_sdk.errors import RequestValidationError
 
 __all__ = ["CIQClient"]
+
+
+def _whoami_spec(user_token: str) -> RequestSpec:
+    user_token = user_token.strip()
+    if not user_token:
+        raise RequestValidationError("user_token is required: whoami resolves the end-user token.")
+    return RequestSpec("GET", "/whoami", headers=user_token_headers(user_token))
 
 
 def _execute_body(
@@ -116,3 +124,14 @@ class CIQClient(BaseSyncClient):
             if len(response.data) < page_size:
                 return
             page_token += 1
+
+    def whoami(self, user_token: str, *, timeout: httpx.Timeout | float | None = None) -> WhoAmIResponse:
+        """Resolve an end-user token to its IKG subject (``GET /whoami``).
+
+        Returns the node ``type`` and ``id`` (external_id) the token subject was
+        matched to by the Token Introspect configuration of the application.
+
+        Args:
+            user_token: The end-user access token, sent as ``Authorization: Bearer``.
+        """
+        return WhoAmIResponse.model_validate(self._send(_whoami_spec(user_token), timeout=timeout).json())
