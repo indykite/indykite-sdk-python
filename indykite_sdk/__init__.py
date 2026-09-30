@@ -13,11 +13,13 @@ Quickstart::
         print(result.decision)
 
 Each platform API has a sync and an async client. Config API clients use
-service-account credentials; all others use application-agent credentials.
+service-account credentials; all others (AuthZEN, Capture, ContX IQ, Data
+Schema, Entity Matching, Audit Log) use application-agent credentials.
 """
 
 from indykite_sdk._core.credentials import Credentials
 from indykite_sdk._core.retry import RetryConfig
+from indykite_sdk.audit import AsyncAuditClient, AuditClient
 from indykite_sdk.authzen import AsyncAuthZENClient, AuthZENClient
 from indykite_sdk.capture import AsyncCaptureClient, CaptureClient
 from indykite_sdk.ciq import AsyncCIQClient, CIQClient
@@ -46,12 +48,14 @@ from indykite_sdk.version import __version__
 __all__ = [
     "APIStatusError",
     "__version__",
+    "AsyncAuditClient",
     "AsyncAuthZENClient",
     "AsyncCIQClient",
     "AsyncCaptureClient",
     "AsyncConfigClient",
     "AsyncDataSchemaClient",
     "AsyncEntityMatchingClient",
+    "AuditClient",
     "AuthZENClient",
     "AuthenticationError",
     "BadRequestError",

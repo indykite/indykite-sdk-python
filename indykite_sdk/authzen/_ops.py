@@ -31,7 +31,12 @@ def _context_body(context: ContextInput) -> dict[str, Any] | None:
 
 
 def evaluation_spec(
-    subject: NodeInput, action: ActionInput, resource: NodeInput, context: ContextInput, user_token: str | None
+    subject: NodeInput,
+    action: ActionInput,
+    resource: NodeInput,
+    context: ContextInput,
+    user_token: str | None,
+    delegated_token: str | None,
 ) -> RequestSpec:
     """Build a single-decision request body."""
     body: dict[str, Any] = {
@@ -41,7 +46,7 @@ def evaluation_spec(
     }
     if (context_body := _context_body(context)) is not None:
         body["context"] = context_body
-    return RequestSpec("POST", "/evaluation", json_body=body, headers=user_token_headers(user_token))
+    return RequestSpec("POST", "/evaluation", json_body=body, headers=user_token_headers(user_token, delegated_token))
 
 
 def evaluations_spec(
@@ -51,6 +56,7 @@ def evaluations_spec(
     resource: NodeInput | None,
     context: ContextInput,
     user_token: str | None,
+    delegated_token: str | None,
 ) -> RequestSpec:
     """Build a batch-decision request body (top-level fields act as defaults)."""
     if not evaluations:
@@ -69,11 +75,11 @@ def evaluations_spec(
         body["resource"] = _coerce(resource, Node, "resource").to_wire()
     if (context_body := _context_body(context)) is not None:
         body["context"] = context_body
-    return RequestSpec("POST", "/evaluations", json_body=body, headers=user_token_headers(user_token))
+    return RequestSpec("POST", "/evaluations", json_body=body, headers=user_token_headers(user_token, delegated_token))
 
 
 def search_action_spec(
-    subject: NodeInput, resource: NodeInput, context: ContextInput, user_token: str | None
+    subject: NodeInput, resource: NodeInput, context: ContextInput, user_token: str | None, delegated_token: str | None
 ) -> RequestSpec:
     """Build a search/action request body."""
     body: dict[str, Any] = {
@@ -82,7 +88,9 @@ def search_action_spec(
     }
     if (context_body := _context_body(context)) is not None:
         body["context"] = context_body
-    return RequestSpec("POST", "/search/action", json_body=body, headers=user_token_headers(user_token))
+    return RequestSpec(
+        "POST", "/search/action", json_body=body, headers=user_token_headers(user_token, delegated_token)
+    )
 
 
 def search_resource_spec(
@@ -91,6 +99,7 @@ def search_resource_spec(
     resource_type: NodeType | dict[str, Any] | str,
     context: ContextInput,
     user_token: str | None,
+    delegated_token: str | None,
 ) -> RequestSpec:
     """Build a search/resource request body."""
     body: dict[str, Any] = {
@@ -100,7 +109,9 @@ def search_resource_spec(
     }
     if (context_body := _context_body(context)) is not None:
         body["context"] = context_body
-    return RequestSpec("POST", "/search/resource", json_body=body, headers=user_token_headers(user_token))
+    return RequestSpec(
+        "POST", "/search/resource", json_body=body, headers=user_token_headers(user_token, delegated_token)
+    )
 
 
 def policies_spec(subject_type: str | None) -> RequestSpec:
@@ -120,6 +131,7 @@ def search_subject_spec(
     subject_type: NodeType | dict[str, Any] | str,
     context: ContextInput,
     user_token: str | None,
+    delegated_token: str | None,
 ) -> RequestSpec:
     """Build a search/subject request body."""
     body: dict[str, Any] = {
@@ -129,4 +141,6 @@ def search_subject_spec(
     }
     if (context_body := _context_body(context)) is not None:
         body["context"] = context_body
-    return RequestSpec("POST", "/search/subject", json_body=body, headers=user_token_headers(user_token))
+    return RequestSpec(
+        "POST", "/search/subject", json_body=body, headers=user_token_headers(user_token, delegated_token)
+    )

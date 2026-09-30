@@ -33,8 +33,10 @@ _STATUS_TO_ERROR: dict[int, type[APIStatusError]] = {
 _HINTS: dict[int, dict[str, str]] = {
     401: {
         "app_agent": (
-            "The X-IK-ClientKey token was rejected. Ensure INDYKITE_APPLICATION_CREDENTIALS holds an "
-            "application-agent credential JSON (not a service-account one) and that it has not expired."
+            "The X-IK-ClientKey token was rejected. Ensure INDYKITE_APPLICATION_CREDENTIALS holds the "
+            "application-agent credential token (not a service-account credential) and that it has not expired. "
+            "An 'insufficient API access level' message means the agent lacks the API permission this endpoint "
+            "needs (e.g. Audit for /audit/v1, ReadAuthZConfigs for /access/v1/policies)."
         ),
         "service_account": (
             "The bearer token was rejected. Ensure INDYKITE_SERVICE_ACCOUNT_CREDENTIALS holds a service-account "
@@ -43,8 +45,9 @@ _HINTS: dict[int, dict[str, str]] = {
     },
     403: {
         "app_agent": (
-            "The application agent lacks the required API permission. Check its apiPermissions "
-            "(e.g. Capture, Authorization, ContXIQ, EntityMatching) in the IndyKite Hub."
+            "The application agent is not allowed to access this resource. A project_id you passed must be the "
+            "project the agent belongs to; the agent's API permissions (Audit, Authorization, Capture, ContXIQ, "
+            "EntityMatching, ReadAuthZConfigs, ReadDataSchema) are managed in the IndyKite Hub."
         ),
         "service_account": "The service account is not allowed to manage this resource.",
     },

@@ -22,12 +22,22 @@ class RequestSpec:
     headers: dict[str, str] = field(default_factory=dict)
 
 
-def user_token_headers(user_token: str | None) -> dict[str, str]:
-    """Headers for an optional end-user access token on AuthZEN/ContX IQ calls.
+def user_token_headers(user_token: str | None, delegated_token: str | None = None) -> dict[str, str]:
+    """Headers for the optional request tokens on AuthZEN/ContX IQ calls.
 
-    The end-user token rides in ``Authorization: Bearer`` *alongside* the
-    application-agent ``X-IK-ClientKey`` header.
+    Both ride *alongside* the application-agent ``X-IK-ClientKey`` header, and
+    the platform publishes their claim sets to policy conditions under the
+    reserved parameter names ``token`` and ``ik_token``:
+
+    - the end-user access token in ``Authorization: Bearer``; its claims are
+      readable by policies as ``$token`` (e.g. ``$token.sub``);
+    - the IndyKite delegated token in ``X-IK-Token``; its claims, including
+      the RFC 8693 ``act`` delegation chain, are readable as ``$ik_token``
+      (e.g. ``$ik_token.act.sub``).
     """
-    if not user_token:
-        return {}
-    return {"Authorization": f"Bearer {user_token}"}
+    headers: dict[str, str] = {}
+    if user_token:
+        headers["Authorization"] = f"Bearer {user_token}"
+    if delegated_token:
+        headers["X-IK-Token"] = delegated_token
+    return headers

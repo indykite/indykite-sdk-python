@@ -12,9 +12,11 @@ These tests hit a live IndyKite environment and are deselected by default
 - ``INDYKITE_TEST_ENTITY_MATCHING_PIPELINE_ID`` — an entity-matching pipeline
 
 The application agent must belong to ``INDYKITE_TEST_PROJECT_ID`` and hold the
-``Authorization``, ``Capture``, ``ContXIQ`` and ``ReadAuthZConfigs`` API
-permissions: the policy listing and whoami tests create their fixtures in that
-project with the service account and read them back through the agent.
+``Audit``, ``Authorization``, ``Capture``, ``ContXIQ``, ``EntityMatching``,
+``ReadAuthZConfigs`` and ``ReadDataSchema`` API permissions: the policy listing
+and whoami tests create their fixtures in that project with the service account
+and read them back through the agent, and the audit test reads that project's
+audit trail.
 
 Tests skip themselves when their prerequisites are missing, so a partial
 environment still runs what it can.
@@ -29,7 +31,15 @@ from collections.abc import Callable, Iterator
 
 import pytest
 
-from indykite_sdk import AuthZENClient, CaptureClient, CIQClient, ConfigClient, DataSchemaClient, EntityMatchingClient
+from indykite_sdk import (
+    AuditClient,
+    AuthZENClient,
+    CaptureClient,
+    CIQClient,
+    ConfigClient,
+    DataSchemaClient,
+    EntityMatchingClient,
+)
 
 _INTEGRATION_DIR = os.path.dirname(__file__)
 
@@ -138,6 +148,14 @@ def data_schema_client() -> Iterator[DataSchemaClient]:
     """A DataSchemaClient authenticated from the environment."""
     require_env("INDYKITE_APPLICATION_CREDENTIALS", "INDYKITE_APPLICATION_CREDENTIALS_FILE")
     with DataSchemaClient() as client:
+        yield client
+
+
+@pytest.fixture
+def audit_client() -> Iterator[AuditClient]:
+    """An AuditClient authenticated from the environment."""
+    require_env("INDYKITE_APPLICATION_CREDENTIALS", "INDYKITE_APPLICATION_CREDENTIALS_FILE")
+    with AuditClient() as client:
         yield client
 
 

@@ -22,7 +22,7 @@ it becomes the squash-commit message that drives the release version.
 ## Affected client(s)
 
 <!-- ConfigClient, CaptureClient, AuthZENClient, CIQClient, DataSchemaClient,
-EntityMatchingClient, core (auth/transport), packaging/CI, ... -->
+EntityMatchingClient, AuditClient, core (auth/transport), packaging/CI, ... -->
 
 ## Description of change
 

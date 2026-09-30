@@ -216,9 +216,12 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
     ) -> CreateResult:
         """Create an application agent restricted to the given API permissions.
 
-        ``api_permissions`` values: ``Authorization``, ``Capture``, ``ContXIQ``,
-        ``EntityMatching``, ``ReadAuthZConfigs`` (lets the agent list the
+        ``api_permissions`` values: ``Audit`` (read the project's tamper-proof
+        audit trail via the Audit Log API), ``Authorization``, ``Capture``,
+        ``ContXIQ``, ``EntityMatching``, ``ReadAuthZConfigs`` (list the
         project's authorization policies via the AuthZEN API), ``ReadDataSchema``.
+        A permission granted or changed later takes a moment to reach the data
+        plane, so a just-updated agent can briefly keep answering 401.
         """
         body = {
             "name": name,
