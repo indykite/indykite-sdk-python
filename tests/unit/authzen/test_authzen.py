@@ -54,6 +54,47 @@ def test_evaluation_context_and_user_token(make_client, mock_api) -> None:
     assert mock_api.last.headers["X-IK-ClientKey"] == "app-agent-token-value"
 
 
+def test_evaluation_sends_delegated_token_header(make_client, mock_api) -> None:
+    """Evaluation sends delegated token header."""
+    client = make_client(AuthZENClient)
+    client.evaluation(("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"), user_token="user-jwt", delegated_token="ik")
+    assert mock_api.last.headers["Authorization"] == "Bearer user-jwt"
+    assert mock_api.last.headers["X-IK-Token"] == "ik"
+    assert "context" not in sent_json(mock_api.last)
+
+
+def test_delegated_token_alone_sends_only_ik_token_header(make_client, mock_api) -> None:
+    """Delegated token alone sends only ik token header."""
+    client = make_client(AuthZENClient)
+    client.evaluation(("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"), delegated_token="ik")
+    assert mock_api.last.headers["X-IK-Token"] == "ik"
+    assert "Authorization" not in mock_api.last.headers
+
+
+def test_reserved_claim_params_are_passed_through_for_the_platform_to_replace(make_client, mock_api) -> None:
+    """Reserved claim params are passed through for the platform to replace."""
+    client = make_client(AuthZENClient)
+    client.evaluation(
+        ("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"), context={"input_params": {"ik_token": {"act": {"sub": "x"}}}}
+    )
+    assert sent_json(mock_api.last)["context"] == {"input_params": {"ik_token": {"act": {"sub": "x"}}}}
+
+
+@pytest.mark.parametrize("method", ["evaluations", "search_action", "search_resource", "search_subject"])
+def test_every_decision_method_forwards_delegated_token(make_client, mock_api, method) -> None:
+    """Every decision method forwards delegated token."""
+    mock_api.respond({"evaluations": [], "results": []})
+    client = make_client(AuthZENClient)
+    call = {
+        "evaluations": lambda: client.evaluations([{"resource": ("Car", "kitt")}], delegated_token="ik"),
+        "search_action": lambda: client.search_action(("Person", "ada"), ("Car", "kitt"), delegated_token="ik"),
+        "search_resource": lambda: client.search_resource(("Person", "ada"), "CAN_DRIVE", "Car", delegated_token="ik"),
+        "search_subject": lambda: client.search_subject(("Car", "kitt"), "CAN_DRIVE", "Person", delegated_token="ik"),
+    }[method]
+    call()
+    assert mock_api.last.headers["X-IK-Token"] == "ik"
+
+
 def test_evaluation_default_decision_false(make_client, mock_api) -> None:
     """Evaluation default decision false."""
     mock_api.respond({})

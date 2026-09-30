@@ -45,10 +45,11 @@ class AsyncAuthZENClient(BaseAsyncClient):
         context: _ops.ContextInput = None,
         *,
         user_token: str | None = None,
+        delegated_token: str | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> EvaluationResponse:
         """Decide whether ``subject`` may perform ``action`` on ``resource`` (``POST /evaluation``)."""
-        spec = _ops.evaluation_spec(subject, action, resource, context, user_token)
+        spec = _ops.evaluation_spec(subject, action, resource, context, user_token, delegated_token)
         return EvaluationResponse.model_validate((await self._send(spec, timeout=timeout)).json())
 
     async def evaluations(
@@ -60,10 +61,11 @@ class AsyncAuthZENClient(BaseAsyncClient):
         resource: _ops.NodeInput | None = None,
         context: _ops.ContextInput = None,
         user_token: str | None = None,
+        delegated_token: str | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> EvaluationsResponse:
         """Batch decisions in one call (``POST /evaluations``)."""
-        spec = _ops.evaluations_spec(evaluations, subject, action, resource, context, user_token)
+        spec = _ops.evaluations_spec(evaluations, subject, action, resource, context, user_token, delegated_token)
         return EvaluationsResponse.model_validate((await self._send(spec, timeout=timeout)).json())
 
     async def search_action(
@@ -73,10 +75,11 @@ class AsyncAuthZENClient(BaseAsyncClient):
         context: _ops.ContextInput = None,
         *,
         user_token: str | None = None,
+        delegated_token: str | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> ActionSearchResponse:
         """List the actions ``subject`` may perform on ``resource`` (``POST /search/action``)."""
-        spec = _ops.search_action_spec(subject, resource, context, user_token)
+        spec = _ops.search_action_spec(subject, resource, context, user_token, delegated_token)
         return ActionSearchResponse.model_validate((await self._send(spec, timeout=timeout)).json())
 
     async def search_resource(
@@ -87,10 +90,11 @@ class AsyncAuthZENClient(BaseAsyncClient):
         context: _ops.ContextInput = None,
         *,
         user_token: str | None = None,
+        delegated_token: str | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> ResourceSearchResponse:
         """List the resources of ``resource_type`` on which ``subject`` may perform ``action``."""
-        spec = _ops.search_resource_spec(subject, action, resource_type, context, user_token)
+        spec = _ops.search_resource_spec(subject, action, resource_type, context, user_token, delegated_token)
         return ResourceSearchResponse.model_validate((await self._send(spec, timeout=timeout)).json())
 
     async def search_subject(
@@ -101,10 +105,11 @@ class AsyncAuthZENClient(BaseAsyncClient):
         context: _ops.ContextInput = None,
         *,
         user_token: str | None = None,
+        delegated_token: str | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> SubjectSearchResponse:
         """List the subjects of ``subject_type`` allowed to perform ``action`` on ``resource``."""
-        spec = _ops.search_subject_spec(resource, action, subject_type, context, user_token)
+        spec = _ops.search_subject_spec(resource, action, subject_type, context, user_token, delegated_token)
         return SubjectSearchResponse.model_validate((await self._send(spec, timeout=timeout)).json())
 
     async def policies(

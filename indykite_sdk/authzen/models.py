@@ -78,6 +78,15 @@ class Context(IKModel):
 
     ``input_params`` feeds policy input parameters; ``policy_tags`` limits
     evaluation to policies carrying those tags.
+
+    The names ``token`` and ``ik_token`` are reserved: the platform binds them
+    to the claims of the request tokens (the ``user_token`` sent as
+    ``Authorization: Bearer`` and the ``delegated_token`` sent as
+    ``X-IK-Token``), so a policy condition reads ``$token.sub`` or
+    ``$ik_token.act.sub`` directly. A policy never asks for them as input
+    params, and a value supplied under either name is replaced by the real
+    claims. A token that was not sent binds an empty claim set, so a policy
+    reading it denies rather than fails.
     """
 
     input_params: dict[str, Any] | None = None

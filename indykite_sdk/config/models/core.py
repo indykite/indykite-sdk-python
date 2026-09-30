@@ -31,8 +31,14 @@ __all__ = [
     "ServiceAccountRole",
 ]
 
-#: API permission grantable to an application agent.
-ApiPermission = Literal["Authorization", "Capture", "ContXIQ", "EntityMatching", "ReadAuthZConfigs", "ReadDataSchema"]
+#: API permission grantable to an application agent. Each guards one data-plane API:
+#: ``Audit`` the Audit Log API (``/audit/v1``), ``Authorization`` AuthZEN decisions and
+#: searches, ``Capture`` the Capture API, ``ContXIQ`` knowledge-query execution,
+#: ``EntityMatching`` the Entity Matching API, ``ReadAuthZConfigs`` the AuthZEN policy
+#: listing and ``ReadDataSchema`` the Data Schema API.
+ApiPermission = Literal[
+    "Audit", "Authorization", "Capture", "ContXIQ", "EntityMatching", "ReadAuthZConfigs", "ReadDataSchema"
+]
 
 #: Lifecycle status of policies and knowledge queries.
 ConfigStatus = Literal["ACTIVE", "INACTIVE", "DRAFT"]

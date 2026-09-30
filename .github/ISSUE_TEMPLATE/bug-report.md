@@ -16,7 +16,7 @@ SDK version: `python -c "import indykite_sdk; print(indykite_sdk.__version__)"`
 Python version: `python --version`
 Platform: output of `uname -a` (UNIX), or Windows version and 32/64-bit
 Client: the SDK client involved (ConfigClient, CaptureClient, AuthZENClient,
-CIQClient, DataSchemaClient, EntityMatchingClient - sync or async)
+CIQClient, DataSchemaClient, EntityMatchingClient, AuditClient - sync or async)
 -->
 
 * **SDK version**:

@@ -40,6 +40,7 @@ jobs:
           pipenv run pdoc
           indykite_sdk
           indykite_sdk.errors
+          indykite_sdk.audit
           indykite_sdk.capture
           indykite_sdk.authzen
           indykite_sdk.ciq

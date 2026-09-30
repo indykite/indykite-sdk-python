@@ -38,6 +38,7 @@ class AsyncCIQClient(BaseAsyncClient):
         page_size: int | None = None,
         page_token: int | None = None,
         user_token: str | None = None,
+        delegated_token: str | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> ExecuteResponse:
         """Execute one page of a knowledge query (``POST /execute``)."""
@@ -45,7 +46,7 @@ class AsyncCIQClient(BaseAsyncClient):
             "POST",
             "/execute",
             json_body=_execute_body(query, input_params, preprocess_params, page_size, page_token),
-            headers=user_token_headers(user_token),
+            headers=user_token_headers(user_token, delegated_token),
         )
         return ExecuteResponse.model_validate((await self._send(spec, timeout=timeout)).json())
 
@@ -57,6 +58,7 @@ class AsyncCIQClient(BaseAsyncClient):
         preprocess_params: dict[str, str] | None = None,
         page_size: int = 100,
         user_token: str | None = None,
+        delegated_token: str | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> AsyncIterator[ExecuteRecord]:
         """Iterate over all records of a query, fetching pages transparently."""
@@ -69,6 +71,7 @@ class AsyncCIQClient(BaseAsyncClient):
                 page_size=page_size,
                 page_token=page_token,
                 user_token=user_token,
+                delegated_token=delegated_token,
                 timeout=timeout,
             )
             for record in response.data:

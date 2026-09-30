@@ -14,6 +14,7 @@ CLIENT_PAIRS = [
     (indykite_sdk.CIQClient, indykite_sdk.AsyncCIQClient),
     (indykite_sdk.DataSchemaClient, indykite_sdk.AsyncDataSchemaClient),
     (indykite_sdk.EntityMatchingClient, indykite_sdk.AsyncEntityMatchingClient),
+    (indykite_sdk.AuditClient, indykite_sdk.AsyncAuditClient),
     (indykite_sdk.ConfigClient, indykite_sdk.AsyncConfigClient),
 ]
 

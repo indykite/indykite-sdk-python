@@ -41,6 +41,34 @@ def test_execute_full_body(make_client, mock_api) -> None:
     assert mock_api.last.headers["Authorization"] == "Bearer user-jwt"
 
 
+def test_execute_sends_delegated_token_header(make_client, mock_api) -> None:
+    """Execute sends delegated token header."""
+    client = make_client(CIQClient)
+    client.execute("gid:query-1", user_token="user-jwt", delegated_token="ik-jwt")
+    assert mock_api.last.headers["Authorization"] == "Bearer user-jwt"
+    assert mock_api.last.headers["X-IK-Token"] == "ik-jwt"
+    assert mock_api.last.headers["X-IK-ClientKey"] == "app-agent-token-value"
+    # The tokens travel as headers only; the body never carries them.
+    assert sent_json(mock_api.last) == {"id": "gid:query-1"}
+
+
+def test_execute_without_tokens_sends_no_token_headers(make_client, mock_api) -> None:
+    """Execute without tokens sends no token headers."""
+    client = make_client(CIQClient)
+    client.execute("gid:query-1", delegated_token="")
+    assert "Authorization" not in mock_api.last.headers
+    assert "X-IK-Token" not in mock_api.last.headers
+
+
+def test_execute_iter_forwards_delegated_token(make_client, mock_api) -> None:
+    """Execute iter forwards delegated token."""
+    mock_api.respond({"data": [RECORD, RECORD]})
+    mock_api.respond({"data": []})
+    client = make_client(CIQClient)
+    list(client.execute_iter("gid:query-1", page_size=2, delegated_token="ik-jwt"))
+    assert all(request.headers["X-IK-Token"] == "ik-jwt" for request in mock_api.requests)
+
+
 def test_execute_empty_result(make_client, mock_api) -> None:
     """Execute empty result."""
     mock_api.respond({})
@@ -128,5 +156,6 @@ async def test_async_ciq_execute_iter(make_async_client, mock_api) -> None:
     mock_api.respond({"data": [RECORD, RECORD]})
     mock_api.respond({"data": []})
     async with make_async_client(AsyncCIQClient) as client:
-        records = [record async for record in client.execute_iter("gid:query-1", page_size=2)]
+        records = [record async for record in client.execute_iter("gid:query-1", page_size=2, delegated_token="ik")]
     assert len(records) == 2
+    assert all(request.headers["X-IK-Token"] == "ik" for request in mock_api.requests)
