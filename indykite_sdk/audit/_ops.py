@@ -31,8 +31,8 @@ def list_spec(path: str, project_id: str, cursor: str | None, page_size: int | N
     if cursor:
         params["cursor"] = cursor
     if page_size is not None:
-        if not 1 <= page_size <= 50:
-            raise RequestValidationError(f"page_size must be 1 to 50, got {page_size}.")
+        if isinstance(page_size, bool) or not isinstance(page_size, int) or not 1 <= page_size <= 50:
+            raise RequestValidationError(f"page_size must be an integer from 1 to 50, got {page_size!r}.")
         params["pagesize"] = page_size
     return RequestSpec("GET", path, params=params)
 

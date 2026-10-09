@@ -86,12 +86,10 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
     def _read(self, path: str, resource_id: str, model: type, timeout: Timeout, **kwargs: Any) -> Any:
         return ops.parse_one(model, self._send(ops.read_spec(path, resource_id, **kwargs), timeout=timeout))
 
-    def _update(
-        self, path: str, resource_id: str, body: dict[str, Any], etag: str | None, timeout: Timeout
-    ) -> UpdateResult:
+    def _update(self, path: str, resource_id: str, body: dict[str, Any], etag: str, timeout: Timeout) -> UpdateResult:
         return ops.parse_one(UpdateResult, self._send(ops.update_spec(path, resource_id, body, etag), timeout=timeout))
 
-    def _delete(self, path: str, resource_id: str, etag: str | None, timeout: Timeout) -> DeleteResult:
+    def _delete(self, path: str, resource_id: str, etag: str, timeout: Timeout) -> DeleteResult:
         response = self._send(ops.delete_spec(path, resource_id, etag), timeout=timeout)
         return DeleteResult.model_validate(response.json() if response.content else {})
 
@@ -146,13 +144,13 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         self,
         project_id: str,
         *,
-        etag: str | None = None,
+        etag: str,
         display_name: str | None = None,
         description: str | None = None,
         db_connection: dict[str, Any] | None = None,
         timeout: Timeout = None,
     ) -> UpdateResult:
-        """Update a project's display name, description or database connection (pass ``etag`` to send ``If-Match``).
+        """Update a project's display name, description or database connection (``If-Match`` guarded).
 
         ``db_connection`` is the self-hosted database connection: ``url``,
         ``username`` and ``password`` are required; ``name``,
@@ -161,8 +159,8 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         body = {"display_name": display_name, "description": description, "db_connection": db_connection}
         return self._update("/projects", project_id, body, etag, timeout)
 
-    def delete_project(self, project_id: str, *, etag: str | None = None, timeout: Timeout = None) -> DeleteResult:
-        """Delete a project and everything in it (pass ``etag`` to send ``If-Match``)."""
+    def delete_project(self, project_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete a project and everything in it (``If-Match`` guarded)."""
         return self._delete("/projects", project_id, etag, timeout)
 
     # -- applications -------------------------------------------------------
@@ -199,19 +197,17 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         self,
         application_id: str,
         *,
-        etag: str | None = None,
+        etag: str,
         display_name: str | None = None,
         description: str | None = None,
         timeout: Timeout = None,
     ) -> UpdateResult:
-        """Update an application (pass ``etag`` to send ``If-Match``)."""
+        """Update an application (``If-Match`` guarded)."""
         body = {"display_name": display_name, "description": description}
         return self._update("/applications", application_id, body, etag, timeout)
 
-    def delete_application(
-        self, application_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete an application (pass ``etag`` to send ``If-Match``)."""
+    def delete_application(self, application_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete an application (``If-Match`` guarded)."""
         return self._delete("/applications", application_id, etag, timeout)
 
     # -- application agents -------------------------------------------------
@@ -267,13 +263,13 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         self,
         agent_id: str,
         *,
-        etag: str | None = None,
+        etag: str,
         api_permissions: list[ApiPermission | str] | None = None,
         display_name: str | None = None,
         description: str | None = None,
         timeout: Timeout = None,
     ) -> UpdateResult:
-        """Update an application agent (pass ``etag`` to send ``If-Match``)."""
+        """Update an application agent (``If-Match`` guarded)."""
         body = {
             "api_permissions": list(api_permissions) if api_permissions is not None else None,
             "display_name": display_name,
@@ -281,10 +277,8 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         }
         return self._update("/application-agents", agent_id, body, etag, timeout)
 
-    def delete_application_agent(
-        self, agent_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete an application agent (pass ``etag`` to send ``If-Match``)."""
+    def delete_application_agent(self, agent_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete an application agent (``If-Match`` guarded)."""
         return self._delete("/application-agents", agent_id, etag, timeout)
 
     # -- application agent credentials (no update) --------------------------
@@ -379,19 +373,17 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         self,
         service_account_id: str,
         *,
-        etag: str | None = None,
+        etag: str,
         display_name: str | None = None,
         description: str | None = None,
         timeout: Timeout = None,
     ) -> UpdateResult:
-        """Update a service account (pass ``etag`` to send ``If-Match``)."""
+        """Update a service account (``If-Match`` guarded)."""
         body = {"display_name": display_name, "description": description}
         return self._update("/service-accounts", service_account_id, body, etag, timeout)
 
-    def delete_service_account(
-        self, service_account_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete a service account (pass ``etag`` to send ``If-Match``)."""
+    def delete_service_account(self, service_account_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete a service account (``If-Match`` guarded)."""
         return self._delete("/service-accounts", service_account_id, etag, timeout)
 
     # -- service account credentials (no update) ----------------------------
@@ -489,7 +481,7 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         self,
         policy_id: str,
         *,
-        etag: str | None = None,
+        etag: str,
         policy: str,
         status: ConfigStatus | str,
         tags: list[str] | None = None,
@@ -497,7 +489,7 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         description: str | None = None,
         timeout: Timeout = None,
     ) -> UpdateResult:
-        """Update an authorization policy (pass ``etag`` to send ``If-Match``)."""
+        """Update an authorization policy (``If-Match`` guarded)."""
         body = {
             "policy": policy,
             "status": status,
@@ -507,10 +499,8 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         }
         return self._update("/authorization-policies", policy_id, body, etag, timeout)
 
-    def delete_authorization_policy(
-        self, policy_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete an authorization policy (pass ``etag`` to send ``If-Match``)."""
+    def delete_authorization_policy(self, policy_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete an authorization policy (``If-Match`` guarded)."""
         return self._delete("/authorization-policies", policy_id, etag, timeout)
 
     # -- knowledge queries ---------------------------------------------------
@@ -570,7 +560,7 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         self,
         query_id: str,
         *,
-        etag: str | None = None,
+        etag: str,
         query: str,
         status: ConfigStatus | str,
         policy_id: str,
@@ -578,7 +568,7 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         description: str | None = None,
         timeout: Timeout = None,
     ) -> UpdateResult:
-        """Update a knowledge query (pass ``etag`` to send ``If-Match``)."""
+        """Update a knowledge query (``If-Match`` guarded)."""
         body = {
             "query": query,
             "status": status,
@@ -588,10 +578,8 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         }
         return self._update("/knowledge-queries", query_id, body, etag, timeout)
 
-    def delete_knowledge_query(
-        self, query_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete a knowledge query (pass ``etag`` to send ``If-Match``)."""
+    def delete_knowledge_query(self, query_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete a knowledge query (``If-Match`` guarded)."""
         return self._delete("/knowledge-queries", query_id, etag, timeout)
 
     # -- audit signings -----------------------------------------------------
@@ -668,7 +656,7 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         self,
         audit_signing_id: str,
         *,
-        etag: str | None = None,
+        etag: str,
         provider: AuditSigningProvider | str,
         key_resource: str | None = None,
         kid: str | None = None,
@@ -677,7 +665,7 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         description: str | None = None,
         timeout: Timeout = None,
     ) -> UpdateResult:
-        """Update an audit-signing configuration (pass ``etag`` to send ``If-Match``).
+        """Update an audit-signing configuration (``If-Match`` guarded).
 
         ``provider`` is always required.
 
@@ -694,10 +682,8 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         }
         return self._update("/audit-signings", audit_signing_id, body, etag, timeout)
 
-    def delete_audit_signing(
-        self, audit_signing_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete an audit-signing configuration (pass ``etag`` to send ``If-Match``)."""
+    def delete_audit_signing(self, audit_signing_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete an audit-signing configuration (``If-Match`` guarded)."""
         return self._delete("/audit-signings", audit_signing_id, etag, timeout)
 
     # -- dict-payload resources ---------------------------------------------
@@ -726,13 +712,13 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         return self._read("/event-sinks", sink_id, ConfigResource, timeout, project_id=project_id, version=version)
 
     def update_event_sink(
-        self, sink_id: str, body: dict[str, Any], *, etag: str | None = None, timeout: Timeout = None
+        self, sink_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
     ) -> UpdateResult:
-        """Update an event sink (pass ``etag`` to send ``If-Match``)."""
+        """Update an event sink (``If-Match`` guarded)."""
         return self._update("/event-sinks", sink_id, body, etag, timeout)
 
-    def delete_event_sink(self, sink_id: str, *, etag: str | None = None, timeout: Timeout = None) -> DeleteResult:
-        """Delete an event sink (pass ``etag`` to send ``If-Match``)."""
+    def delete_event_sink(self, sink_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete an event sink (``If-Match`` guarded)."""
         return self._delete("/event-sinks", sink_id, etag, timeout)
 
     def list_external_data_resolvers(
@@ -758,15 +744,13 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         )
 
     def update_external_data_resolver(
-        self, resolver_id: str, body: dict[str, Any], *, etag: str | None = None, timeout: Timeout = None
+        self, resolver_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
     ) -> UpdateResult:
-        """Update an external data resolver (pass ``etag`` to send ``If-Match``)."""
+        """Update an external data resolver (``If-Match`` guarded)."""
         return self._update("/external-data-resolvers", resolver_id, body, etag, timeout)
 
-    def delete_external_data_resolver(
-        self, resolver_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete an external data resolver (pass ``etag`` to send ``If-Match``)."""
+    def delete_external_data_resolver(self, resolver_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete an external data resolver (``If-Match`` guarded)."""
         return self._delete("/external-data-resolvers", resolver_id, etag, timeout)
 
     def list_token_introspects(
@@ -792,15 +776,13 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         )
 
     def update_token_introspect(
-        self, introspect_id: str, body: dict[str, Any], *, etag: str | None = None, timeout: Timeout = None
+        self, introspect_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
     ) -> UpdateResult:
-        """Update a token-introspect configuration (pass ``etag`` to send ``If-Match``)."""
+        """Update a token-introspect configuration (``If-Match`` guarded)."""
         return self._update("/token-introspects", introspect_id, body, etag, timeout)
 
-    def delete_token_introspect(
-        self, introspect_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete a token-introspect configuration (pass ``etag`` to send ``If-Match``)."""
+    def delete_token_introspect(self, introspect_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete a token-introspect configuration (``If-Match`` guarded)."""
         return self._delete("/token-introspects", introspect_id, etag, timeout)
 
     def list_trust_score_profiles(
@@ -826,15 +808,13 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         )
 
     def update_trust_score_profile(
-        self, profile_id: str, body: dict[str, Any], *, etag: str | None = None, timeout: Timeout = None
+        self, profile_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
     ) -> UpdateResult:
-        """Update a trust-score profile (pass ``etag`` to send ``If-Match``)."""
+        """Update a trust-score profile (``If-Match`` guarded)."""
         return self._update("/trust-score-profiles", profile_id, body, etag, timeout)
 
-    def delete_trust_score_profile(
-        self, profile_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete a trust-score profile (pass ``etag`` to send ``If-Match``)."""
+    def delete_trust_score_profile(self, profile_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete a trust-score profile (``If-Match`` guarded)."""
         return self._delete("/trust-score-profiles", profile_id, etag, timeout)
 
     def list_entity_matching_pipelines(
@@ -860,15 +840,13 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         )
 
     def update_entity_matching_pipeline(
-        self, pipeline_id: str, body: dict[str, Any], *, etag: str | None = None, timeout: Timeout = None
+        self, pipeline_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
     ) -> UpdateResult:
-        """Update an entity-matching pipeline (pass ``etag`` to send ``If-Match``)."""
+        """Update an entity-matching pipeline (``If-Match`` guarded)."""
         return self._update("/entity-matching-pipelines", pipeline_id, body, etag, timeout)
 
-    def delete_entity_matching_pipeline(
-        self, pipeline_id: str, *, etag: str | None = None, timeout: Timeout = None
-    ) -> DeleteResult:
-        """Delete an entity-matching pipeline (pass ``etag`` to send ``If-Match``)."""
+    def delete_entity_matching_pipeline(self, pipeline_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete an entity-matching pipeline (``If-Match`` guarded)."""
         return self._delete("/entity-matching-pipelines", pipeline_id, etag, timeout)
 
     def list_mcp_servers(
@@ -892,11 +870,11 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         return self._read("/mcp-servers", server_id, ConfigResource, timeout, project_id=project_id, version=version)
 
     def update_mcp_server(
-        self, server_id: str, body: dict[str, Any], *, etag: str | None = None, timeout: Timeout = None
+        self, server_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
     ) -> UpdateResult:
-        """Update an MCP server configuration (pass ``etag`` to send ``If-Match``)."""
+        """Update an MCP server configuration (``If-Match`` guarded)."""
         return self._update("/mcp-servers", server_id, body, etag, timeout)
 
-    def delete_mcp_server(self, server_id: str, *, etag: str | None = None, timeout: Timeout = None) -> DeleteResult:
-        """Delete an MCP server configuration (pass ``etag`` to send ``If-Match``)."""
+    def delete_mcp_server(self, server_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
+        """Delete an MCP server configuration (``If-Match`` guarded)."""
         return self._delete("/mcp-servers", server_id, etag, timeout)

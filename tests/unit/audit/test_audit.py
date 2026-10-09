@@ -293,7 +293,18 @@ def test_page_size_is_1_to_50(make_client, mock_api, page_size: int, valid: bool
             client.list_logs("gid:project-1", page_size=page_size)
 
 
-def test_log_entry_data_accepts_object_or_array() -> None:
-    """Log entry data accepts object or array."""
-    assert LogEntry.model_validate({"data": {"eventType": "x"}}).data == {"eventType": "x"}
+def test_log_entry_data_object_becomes_one_event_list() -> None:
+    """Log entry data object becomes one event list."""
+    assert LogEntry.model_validate({"data": {"eventType": "x", "actor": "y"}}).data == [
+        {"eventType": "x", "actor": "y"}
+    ]
     assert LogEntry.model_validate({"data": [{"eventType": "x"}]}).data == [{"eventType": "x"}]
+    assert LogEntry.model_validate({"data": None}).data == []
+
+
+@pytest.mark.parametrize("page_size", [True, 1.5, "10"])
+def test_page_size_must_be_an_integer(make_client, mock_api, page_size) -> None:
+    """Page size must be an integer."""
+    with pytest.raises(RequestValidationError, match="integer from 1 to 50"):
+        make_client(AuditClient).list_logs("gid:project-1", page_size=page_size)
+    assert mock_api.requests == []

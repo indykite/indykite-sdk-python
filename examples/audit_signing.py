@@ -37,7 +37,7 @@ def main() -> None:
         configs = config.list_audit_signings(project_id, full_fetch=True)
         print(f"Audit signings in project: {[(item.name, item.provider) for item in configs]}")
 
-        # Clean up, passing the current etag so a concurrent change is not lost.
+        # Clean up (delete also requires the current etag).
         config.delete_audit_signing(created.id, etag=signing.etag)
         print("Deleted example audit signing")
 

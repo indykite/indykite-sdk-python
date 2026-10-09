@@ -57,7 +57,8 @@ class CIQClient(BaseSyncClient):
     ``Authorization: Bearer``) as ``$token``, e.g. ``$token.sub``, and the
     IndyKite delegated token (``delegated_token``, ``X-IK-Token``) as
     ``$ik_token``, e.g. ``$ik_token.act.sub`` for the acting agent of the
-    RFC 8693 delegation chain. ``token`` and ``ik_token`` are therefore
+    RFC 8693 delegation chain; the delegated token is only accepted together
+    with ``user_token``. ``token`` and ``ik_token`` are therefore
     reserved names in ``input_params``: a value sent under them is replaced by
     the real claims, and a token that was not sent binds an empty claim set,
     so a policy reading it returns nothing rather than failing.
@@ -103,7 +104,7 @@ class CIQClient(BaseSyncClient):
                 context; its claims are ``$token`` to the policy.
             delegated_token: Optional IndyKite delegated token (minted by the
                 IndyKite Token Service); its claims are ``$ik_token`` to the
-                policy. When both tokens are supplied, their ``sub`` claims must match.
+                policy. Requires ``user_token``; both tokens' ``sub`` claims must match.
         """
         spec = RequestSpec(
             "POST",
@@ -130,8 +131,8 @@ class CIQClient(BaseSyncClient):
         (the API exposes no next-page marker). Takes the same arguments as
         :meth:`execute` except ``page_token``.
         """
-        if page_size < 1:
-            raise RequestValidationError(f"page_size must be at least 1, got {page_size}.")
+        if isinstance(page_size, bool) or not isinstance(page_size, int) or page_size < 1:
+            raise RequestValidationError(f"page_size must be a positive integer, got {page_size!r}.")
         page_token = 1
         while True:
             response = self.execute(

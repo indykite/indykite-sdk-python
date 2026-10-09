@@ -63,8 +63,8 @@ class AsyncCIQClient(BaseAsyncClient):
         timeout: httpx.Timeout | float | None = None,
     ) -> AsyncIterator[ExecuteRecord]:
         """Iterate over all records of a query, fetching pages transparently."""
-        if page_size < 1:
-            raise RequestValidationError(f"page_size must be at least 1, got {page_size}.")
+        if isinstance(page_size, bool) or not isinstance(page_size, int) or page_size < 1:
+            raise RequestValidationError(f"page_size must be a positive integer, got {page_size!r}.")
         page_token = 1
         while True:
             response = await self.execute(
