@@ -38,8 +38,8 @@ class AuthZENClient(BaseSyncClient):
     - ``delegated_token`` - an IndyKite delegated token minted by the IndyKite
       Token Service, sent as ``X-IK-Token``. Its claims, including the
       RFC 8693 ``act`` delegation chain, are ``$ik_token`` to the policy,
-      e.g. ``$ik_token.act.sub``. When both tokens are supplied, their ``sub``
-      claims must match.
+      e.g. ``$ik_token.act.sub``. It is only accepted together with
+      ``user_token``, and both tokens' ``sub`` claims must match.
 
     ``token`` and ``ik_token`` are therefore reserved names in
     ``context.input_params``: a value sent under them is replaced by the real

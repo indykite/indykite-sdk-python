@@ -10,6 +10,7 @@ from indykite_sdk import (
     ConfigClient,
     CredentialsError,
     ETagMismatchError,
+    RequestValidationError,
 )
 from tests.unit.conftest import sent_json
 
@@ -86,12 +87,15 @@ def test_project_crud_delete_sends_if_match(make_client, mock_api) -> None:
     assert mock_api.last.headers["If-Match"] == "etag-2"
 
 
-def test_update_and_delete_without_etag_send_no_if_match(make_client, mock_api) -> None:
-    """Update and delete without etag send no if match."""
+@pytest.mark.parametrize("etag", ["", None])
+def test_update_and_delete_without_etag_are_client_side_errors(make_client, mock_api, etag: object) -> None:
+    """Update and delete without etag are client side errors."""
     client = make_client(ConfigClient)
-    client.update_project("gid:project-1", display_name="x")
-    client.delete_project("gid:project-1")
-    assert all("If-Match" not in request.headers for request in mock_api.requests)
+    with pytest.raises(RequestValidationError, match="etag is required"):
+        client.update_project("gid:project-1", etag=etag, display_name="x")
+    with pytest.raises(RequestValidationError, match="etag is required"):
+        client.delete_project("gid:project-1", etag=etag)
+    assert mock_api.requests == []
 
 
 def test_project_crud_stale_etag_maps_to_etag_mismatch(make_client, mock_api) -> None:
@@ -447,7 +451,7 @@ def test_ids_are_encoded_as_one_path_segment(make_client, mock_api) -> None:
     client = make_client(ConfigClient)
     client.read_application("a/b?c", project_id="gid:project-1")
     client.update_application("a/b?c", etag="e1", display_name="Renamed")
-    client.delete_application("a/b?c")
+    client.delete_application("a/b?c", etag="e1")
     client.delete_application_agent_credential("gid:cred/1")
     assert [request.url.raw_path for request in mock_api.requests] == [
         b"/configs/v1/applications/a%2Fb%3Fc?project_id=gid%3Aproject-1",

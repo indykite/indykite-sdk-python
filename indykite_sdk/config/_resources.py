@@ -9,6 +9,7 @@ import httpx
 
 from indykite_sdk._core.ops import RequestSpec
 from indykite_sdk.config.models.common import _ETagged
+from indykite_sdk.errors import RequestValidationError
 
 
 def clean_body(body: dict[str, Any]) -> dict[str, Any]:
@@ -37,15 +38,15 @@ def read_spec(path: str, resource_id: str, *, version: int | None = None, projec
     return RequestSpec("GET", f"{path}/{quote(resource_id, safe=':')}", params=params)
 
 
-def update_spec(path: str, resource_id: str, body: dict[str, Any], etag: str | None) -> RequestSpec:
-    """Build an update request, sent with ``If-Match`` when an etag is given."""
+def update_spec(path: str, resource_id: str, body: dict[str, Any], etag: str) -> RequestSpec:
+    """Build an ``If-Match``-guarded update request."""
     return RequestSpec(
         "PUT", f"{path}/{quote(resource_id, safe=':')}", json_body=clean_body(body), headers=_if_match(etag)
     )
 
 
-def delete_spec(path: str, resource_id: str, etag: str | None) -> RequestSpec:
-    """Build a delete request, sent with ``If-Match`` when an etag is given."""
+def delete_spec(path: str, resource_id: str, etag: str) -> RequestSpec:
+    """Build an ``If-Match``-guarded delete request."""
     return RequestSpec("DELETE", f"{path}/{quote(resource_id, safe=':')}", headers=_if_match(etag))
 
 
@@ -54,9 +55,14 @@ def unguarded_delete_spec(path: str, resource_id: str) -> RequestSpec:
     return RequestSpec("DELETE", f"{path}/{quote(resource_id, safe=':')}")
 
 
-def _if_match(etag: str | None) -> dict[str, str]:
+def _if_match(etag: str) -> dict[str, str]:
     """``If-Match`` makes the API reject the change when the resource changed since ``etag`` was read."""
-    return {"If-Match": etag} if etag else {}
+    if not etag or not isinstance(etag, str):
+        raise RequestValidationError(
+            "An etag is required for updates and deletes. Read the resource first and pass its "
+            "`.etag` (from the ETag response header) so concurrent changes are detected."
+        )
+    return {"If-Match": etag}
 
 
 def parse_one[ModelT: _ETagged](model: type[ModelT], response: httpx.Response) -> ModelT:

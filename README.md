@@ -208,8 +208,7 @@ with ConfigClient() as config:
     agent_credentials = credential.as_credentials()  # shown once - store it securely
 ```
 
-Updates and deletes accept an optional etag, sent as `If-Match` so a change
-made since you read the resource is not overwritten: read the resource, then
+Updates and deletes are guarded by etags (`If-Match`): read the resource, then
 pass its `.etag`:
 
 ```python

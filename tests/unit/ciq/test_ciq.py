@@ -204,3 +204,14 @@ def test_null_collections_in_response_are_empty(make_client, mock_api) -> None:
     record = client.execute("gid:kq-1").data[0]
     assert (record.nodes, record.relationships) == ({}, {})
     assert client.execute("gid:kq-1").data == []
+
+
+@pytest.mark.parametrize("page_size", [True, 1.5, "10"])
+async def test_execute_iter_rejects_non_integer_page_size(make_client, make_async_client, mock_api, page_size) -> None:
+    """Execute iter rejects non integer page size."""
+    with pytest.raises(RequestValidationError, match="positive integer"):
+        list(make_client(CIQClient).execute_iter("gid:kq-1", page_size=page_size))
+    async with make_async_client(AsyncCIQClient) as client:
+        with pytest.raises(RequestValidationError, match="positive integer"):
+            [record async for record in client.execute_iter("gid:kq-1", page_size=page_size)]
+    assert mock_api.requests == []
