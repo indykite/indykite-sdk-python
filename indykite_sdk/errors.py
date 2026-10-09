@@ -36,6 +36,7 @@ __all__ = [
     "PipelineTimeoutError",
     "RateLimitError",
     "RequestValidationError",
+    "UnprocessableEntityError",
 ]
 
 
@@ -122,6 +123,10 @@ class NotFoundError(APIStatusError):
 
 class ConflictError(APIStatusError):
     """HTTP 409 - the request conflicts with the current state (e.g. duplicate name)."""
+
+
+class UnprocessableEntityError(BadRequestError):
+    """HTTP 422 - the request is well-formed but failed validation; ``errors`` lists why."""
 
 
 class ETagMismatchError(APIStatusError):

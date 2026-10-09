@@ -38,5 +38,5 @@ class WhoAmIResponse(IKResponseModel):
     ``external_id``.
     """
 
-    type: str
-    id: str
+    type: str | None = None
+    id: str | None = None

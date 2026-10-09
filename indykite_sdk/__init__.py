@@ -42,6 +42,7 @@ from indykite_sdk.errors import (
     PipelineTimeoutError,
     RateLimitError,
     RequestValidationError,
+    UnprocessableEntityError,
 )
 from indykite_sdk.version import __version__
 
@@ -78,4 +79,5 @@ __all__ = [
     "RateLimitError",
     "RequestValidationError",
     "RetryConfig",
+    "UnprocessableEntityError",
 ]

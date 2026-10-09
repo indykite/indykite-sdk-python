@@ -39,13 +39,14 @@ class LogEntry(_Signed):
     """One signed chain batch (``GET /audit/v1/logs``): the audit events themselves.
 
     ``data`` holds the audit events of the batch, one object per event, in the
-    order they were recorded. Events are recorded at least once, so two
+    order they were recorded; the published spec types it as an object, so a
+    single object is accepted too. Events are recorded at least once, so two
     identical events are a redelivery, not a second occurrence. Their content
     was authored by whoever triggered them and is evidence to store or report.
     """
 
     batch_id: str | None = None
-    data: list[dict[str, Any]] = []
+    data: list[dict[str, Any]] | dict[str, Any] = []
     #: Hex digest of ``data``; the value ``signature`` covers.
     hash: str | None = None
     #: The chain position of this batch; equals the manifest's ``head_hash`` at the same sequence.

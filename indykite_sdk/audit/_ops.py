@@ -25,14 +25,14 @@ def _project_id(project_id: str) -> str:
 def list_spec(path: str, project_id: str, cursor: str | None, page_size: int | None) -> RequestSpec:
     """Build one page request of a listing endpoint (``project_id``, ``cursor``, ``pagesize``).
 
-    ``page_size`` must be positive; the platform caps values above 50 to 50.
+    ``page_size`` must be 1 to 50.
     """
     params: dict[str, Any] = {"project_id": _project_id(project_id)}
     if cursor:
         params["cursor"] = cursor
     if page_size is not None:
-        if page_size < 1:
-            raise RequestValidationError(f"page_size must be a positive integer, got {page_size}.")
+        if not 1 <= page_size <= 50:
+            raise RequestValidationError(f"page_size must be 1 to 50, got {page_size}.")
         params["pagesize"] = page_size
     return RequestSpec("GET", path, params=params)
 

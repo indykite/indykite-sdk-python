@@ -1,6 +1,6 @@
 """Config API models."""
 
-from indykite_sdk.config.models.common import ConfigResource, CreateResult, UpdateResult
+from indykite_sdk.config.models.common import ConfigResource, CreateResult, DeleteResult, UpdateResult
 from indykite_sdk.config.models.core import (
     ApiPermission,
     Application,
@@ -32,6 +32,7 @@ __all__ = [
     "ConfigResource",
     "ConfigStatus",
     "CreateResult",
+    "DeleteResult",
     "KnowledgeQuery",
     "Organization",
     "Project",

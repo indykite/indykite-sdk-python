@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 
 
 class IKModel(BaseModel):
@@ -24,3 +24,16 @@ class IKResponseModel(BaseModel):
     """
 
     model_config = ConfigDict(populate_by_name=True, extra="allow")
+
+    @model_validator(mode="before")
+    @classmethod
+    def _null_collections_take_defaults(cls, data: Any) -> Any:
+        """A ``null`` sent for a list or dict field means "empty", not an error."""
+        if not isinstance(data, dict):
+            return data
+        nulls = {
+            field.alias or name
+            for name, field in cls.model_fields.items()
+            if isinstance(field.default, list | dict) and data.get(field.alias or name, ...) is None
+        }
+        return {key: value for key, value in data.items() if key not in nulls} if nulls else data

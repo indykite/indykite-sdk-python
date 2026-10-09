@@ -85,24 +85,6 @@ class CaptureClient(BaseSyncClient):
         items = _ops.coerce_items(nodes, UpsertNode, "node")
         return self._send_batches(_ops.batch_specs("/nodes", "nodes", items, auto_chunk=auto_chunk), timeout=timeout)
 
-    def upsert_node(
-        self,
-        node: UpsertNode | dict[str, Any],
-        *,
-        timeout: httpx.Timeout | float | None = None,
-    ) -> BatchResult:
-        """Create or update a single node (``PUT /nodes/{type}:{external_id}``).
-
-        **Experimental**: this endpoint is live but not yet in the published
-        OpenAPI spec; prefer :meth:`upsert_nodes` for portability.
-        """
-        item = _ops.coerce_items([node], UpsertNode, "node")[0]
-        body = item.to_wire()
-        path = f"/nodes/{body.pop('type')}:{body.pop('external_id')}"
-        response = self._send(RequestSpec("PUT", path, json_body=body), timeout=timeout)
-        data = response.json() if response.content else {}
-        return BatchResult.model_validate(data if isinstance(data, dict) else {})
-
     def delete_nodes(
         self,
         nodes: Sequence[NodeRef | dict[str, Any]],

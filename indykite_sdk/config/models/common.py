@@ -13,7 +13,7 @@ from typing import Any
 
 from indykite_sdk._core.models import IKResponseModel
 
-__all__ = ["ConfigResource", "CreateResult", "UpdateResult"]
+__all__ = ["ConfigResource", "CreateResult", "DeleteResult", "UpdateResult"]
 
 
 class _ETagged(IKResponseModel):
@@ -30,6 +30,14 @@ class CreateResult(_ETagged):
     id: str | None = None
     create_time: str | None = None
     created_by: str | None = None
+    update_time: str | None = None
+    updated_by: str | None = None
+
+
+class DeleteResult(IKResponseModel):
+    """Confirmation of a deleted configuration."""
+
+    id: str | None = None
 
 
 class UpdateResult(_ETagged):

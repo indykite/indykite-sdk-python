@@ -6,12 +6,13 @@ import asyncio
 import time
 from collections.abc import Sequence
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
 from indykite_sdk._core.http import BaseAsyncClient
 from indykite_sdk._core.ops import RequestSpec
-from indykite_sdk.entity_matching.client import _is_complete, _run_body
+from indykite_sdk.entity_matching.client import _is_complete, _parse_property_mappings, _run_body
 from indykite_sdk.entity_matching.models import (
     CustomPropertyMapping,
     PipelineRun,
@@ -33,8 +34,10 @@ class AsyncEntityMatchingClient(BaseAsyncClient):
         self, pipeline_id: str, *, timeout: httpx.Timeout | float | None = None
     ) -> PropertyMappings:
         """Read system-suggested property mappings (``GET /pipelines/{id}/property-mappings``)."""
-        response = await self._send(RequestSpec("GET", f"/pipelines/{pipeline_id}/property-mappings"), timeout=timeout)
-        return PropertyMappings.model_validate(response.json())
+        response = await self._send(
+            RequestSpec("GET", f"/pipelines/{quote(pipeline_id, safe=':')}/property-mappings"), timeout=timeout
+        )
+        return _parse_property_mappings(pipeline_id, response)
 
     async def run_pipeline(
         self,
@@ -44,17 +47,19 @@ class AsyncEntityMatchingClient(BaseAsyncClient):
         custom_property_mappings: Sequence[CustomPropertyMapping | dict[str, Any]] | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> PipelineRun:
-        """Trigger a pipeline run (``POST /pipelines/{id}/runs``). **Experimental** (not in public spec)."""
+        """Trigger a pipeline run (``POST /pipelines/{id}/runs``)."""
         spec = RequestSpec(
             "POST",
-            f"/pipelines/{pipeline_id}/runs",
+            f"/pipelines/{quote(pipeline_id, safe=':')}/runs",
             json_body=_run_body(similarity_score_cutoff, custom_property_mappings),
         )
         return PipelineRun.model_validate((await self._send(spec, timeout=timeout)).json())
 
     async def read_status(self, pipeline_id: str, *, timeout: httpx.Timeout | float | None = None) -> PipelineStatus:
-        """Read the pipeline's step statuses (``GET /pipelines/{id}/status``). **Experimental** (not in public spec)."""
-        response = await self._send(RequestSpec("GET", f"/pipelines/{pipeline_id}/status"), timeout=timeout)
+        """Read the pipeline's step statuses (``GET /pipelines/{id}/status``)."""
+        response = await self._send(
+            RequestSpec("GET", f"/pipelines/{quote(pipeline_id, safe=':')}/status"), timeout=timeout
+        )
         return PipelineStatus.model_validate(response.json())
 
     async def wait_for_completion(

@@ -30,6 +30,9 @@ def _execute_body(
     page_token: int | None,
 ) -> dict[str, Any]:
     body: dict[str, Any] = {"id": query}
+    for name, value in (input_params or {}).items():
+        if isinstance(value, str) and not 1 <= len(value) <= 256:
+            raise RequestValidationError(f"input_params[{name!r}] must be 1 to 256 characters long.")
     if input_params:
         body["input_params"] = input_params
     if preprocess_params:
@@ -127,6 +130,8 @@ class CIQClient(BaseSyncClient):
         (the API exposes no next-page marker). Takes the same arguments as
         :meth:`execute` except ``page_token``.
         """
+        if page_size < 1:
+            raise RequestValidationError(f"page_size must be at least 1, got {page_size}.")
         page_token = 1
         while True:
             response = self.execute(

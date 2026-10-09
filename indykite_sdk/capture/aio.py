@@ -72,20 +72,6 @@ class AsyncCaptureClient(BaseAsyncClient):
             _ops.batch_specs("/nodes", "nodes", items, auto_chunk=auto_chunk), timeout=timeout
         )
 
-    async def upsert_node(
-        self,
-        node: UpsertNode | dict[str, Any],
-        *,
-        timeout: httpx.Timeout | float | None = None,
-    ) -> BatchResult:
-        """Create or update a single node (``PUT /nodes/{type}:{external_id}``). **Experimental.**"""
-        item = _ops.coerce_items([node], UpsertNode, "node")[0]
-        body = item.to_wire()
-        path = f"/nodes/{body.pop('type')}:{body.pop('external_id')}"
-        response = await self._send(RequestSpec("PUT", path, json_body=body), timeout=timeout)
-        data = response.json() if response.content else {}
-        return BatchResult.model_validate(data if isinstance(data, dict) else {})
-
     async def delete_nodes(
         self,
         nodes: Sequence[NodeRef | dict[str, Any]],

@@ -1,7 +1,6 @@
 """Models for the Entity Matching API (``/entity-matching/v1``).
 
-Spec: https://openapi.indykite.com/v1/entitymatching.yaml (the run/status
-endpoints are live but not yet published in the spec).
+Spec: https://openapi.indykite.com/v1/entitymatching.yaml
 """
 
 from __future__ import annotations
@@ -43,6 +42,12 @@ class PropertyMappings(IKResponseModel):
 
     id: str | None = None
     suggested_property_mappings: list[SuggestedPropertyMapping] = []
+    #: True when the API answered 202 Accepted: the mappings are not ready yet.
+    pending: bool = False
+    #: The API's message while ``pending`` is true.
+    message: str | None = None
+    #: The API's details while ``pending`` is true.
+    details: list[str] = []
 
 
 class PipelineRun(IKResponseModel):
@@ -56,7 +61,7 @@ class PipelineRun(IKResponseModel):
 class PipelineStatus(IKResponseModel):
     """Statuses of the pipeline's two steps.
 
-    Values are ``INVALID``, ``PENDING``, ``IN_PROGRESS``, ``SUCCESS``, or ``ERROR``.
+    Values are ``PENDING``, ``IN_PROGRESS``, ``SUCCESS`` or ``ERROR``.
     """
 
     id: str | None = None

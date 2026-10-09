@@ -10,6 +10,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+from indykite_sdk.errors import RequestValidationError
+
 
 @dataclass(slots=True)
 class RequestSpec:
@@ -34,7 +36,11 @@ def user_token_headers(user_token: str | None, delegated_token: str | None = Non
     - the IndyKite delegated token in ``X-IK-Token``; its claims, including
       the RFC 8693 ``act`` delegation chain, are readable as ``$ik_token``
       (e.g. ``$ik_token.act.sub``).
+
+    The delegated token is only accepted together with the end-user token.
     """
+    if delegated_token and not user_token:
+        raise RequestValidationError("delegated_token requires user_token: X-IK-Token is sent with the end-user token.")
     headers: dict[str, str] = {}
     if user_token:
         headers["Authorization"] = f"Bearer {user_token}"

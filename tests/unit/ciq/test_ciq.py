@@ -65,7 +65,7 @@ def test_execute_iter_forwards_delegated_token(make_client, mock_api) -> None:
     mock_api.respond({"data": [RECORD, RECORD]})
     mock_api.respond({"data": []})
     client = make_client(CIQClient)
-    list(client.execute_iter("gid:query-1", page_size=2, delegated_token="ik-jwt"))
+    list(client.execute_iter("gid:query-1", page_size=2, user_token="u", delegated_token="ik-jwt"))
     assert all(request.headers["X-IK-Token"] == "ik-jwt" for request in mock_api.requests)
 
 
@@ -156,6 +156,51 @@ async def test_async_ciq_execute_iter(make_async_client, mock_api) -> None:
     mock_api.respond({"data": [RECORD, RECORD]})
     mock_api.respond({"data": []})
     async with make_async_client(AsyncCIQClient) as client:
-        records = [record async for record in client.execute_iter("gid:query-1", page_size=2, delegated_token="ik")]
+        records = [
+            record
+            async for record in client.execute_iter("gid:query-1", page_size=2, user_token="u", delegated_token="ik")
+        ]
     assert len(records) == 2
     assert all(request.headers["X-IK-Token"] == "ik" for request in mock_api.requests)
+
+
+@pytest.mark.parametrize("value", ["", "v" * 257])
+def test_execute_rejects_input_param_strings_outside_1_to_256(make_client, mock_api, value: str) -> None:
+    """Execute rejects input param strings outside 1 to 256."""
+    with pytest.raises(RequestValidationError, match="input_params"):
+        make_client(CIQClient).execute("gid:kq-1", input_params={"name": value})
+    assert mock_api.requests == []
+
+
+def test_execute_accepts_non_string_input_params(make_client, mock_api) -> None:
+    """Execute accepts non string input params."""
+    make_client(CIQClient).execute("gid:kq-1", input_params={"limit": 5, "name": "v" * 256})
+    assert sent_json(mock_api.last)["input_params"] == {"limit": 5, "name": "v" * 256}
+
+
+def test_whoami_fields_are_optional(make_client, mock_api) -> None:
+    """Whoami fields are optional."""
+    mock_api.respond({})
+    result = make_client(CIQClient).whoami("user-jwt")
+    assert result.type is None
+    assert result.id is None
+
+
+@pytest.mark.parametrize("page_size", [0, -1])
+async def test_execute_iter_rejects_page_size_below_1(make_client, make_async_client, mock_api, page_size: int) -> None:
+    """Execute iter rejects page size below 1."""
+    with pytest.raises(RequestValidationError, match="page_size"):
+        list(make_client(CIQClient).execute_iter("gid:kq-1", page_size=page_size))
+    async with make_async_client(AsyncCIQClient) as client:
+        with pytest.raises(RequestValidationError, match="page_size"):
+            [record async for record in client.execute_iter("gid:kq-1", page_size=page_size)]
+    assert mock_api.requests == []
+
+
+def test_null_collections_in_response_are_empty(make_client, mock_api) -> None:
+    """Null collections in response are empty."""
+    mock_api.respond({"data": [{"nodes": None, "relationships": None}]}, {"data": None})
+    client = make_client(CIQClient)
+    record = client.execute("gid:kq-1").data[0]
+    assert (record.nodes, record.relationships) == ({}, {})
+    assert client.execute("gid:kq-1").data == []

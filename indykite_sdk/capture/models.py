@@ -12,6 +12,7 @@ from pydantic import Field
 from indykite_sdk._core.models import IKModel, IKResponseModel
 
 __all__ = [
+    "BaseProperty",
     "BatchResult",
     "DeleteNodeProperties",
     "DeleteNodePropertyMetadata",
@@ -43,6 +44,14 @@ class Metadata(IKModel):
     verified_time: str | None = None
     source: str | None = None
     custom_metadata: dict[str, Any] | None = None
+
+
+class BaseProperty(IKModel):
+    """A relationship property: a direct ``value`` or an ``external_value`` reference, without metadata."""
+
+    type: _PropertyType
+    value: PropertyValue | None = None
+    external_value: str | None = None
 
 
 class Property(IKModel):
@@ -89,7 +98,7 @@ class Relationship(IKModel):
     type: _PropertyType
     source: NodeRef
     target: NodeRef
-    properties: list[Property] | None = None
+    properties: list[BaseProperty] | None = None
 
 
 class DeleteNodeProperties(IKModel):
@@ -118,6 +127,7 @@ class DeleteRelationshipProperties(IKModel):
     source: NodeRef
     target: NodeRef
     property_types: list[str] = Field(min_length=1, max_length=250)
+    properties: list[BaseProperty] | None = None
 
 
 class BatchResult(IKResponseModel):

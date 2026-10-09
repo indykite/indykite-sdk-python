@@ -63,12 +63,12 @@ def test_evaluation_sends_delegated_token_header(make_client, mock_api) -> None:
     assert "context" not in sent_json(mock_api.last)
 
 
-def test_delegated_token_alone_sends_only_ik_token_header(make_client, mock_api) -> None:
-    """Delegated token alone sends only ik token header."""
+def test_delegated_token_requires_user_token(make_client, mock_api) -> None:
+    """Delegated token requires user token."""
     client = make_client(AuthZENClient)
-    client.evaluation(("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"), delegated_token="ik")
-    assert mock_api.last.headers["X-IK-Token"] == "ik"
-    assert "Authorization" not in mock_api.last.headers
+    with pytest.raises(RequestValidationError, match="delegated_token requires user_token"):
+        client.evaluation(("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"), delegated_token="ik")
+    assert mock_api.requests == []
 
 
 def test_reserved_claim_params_are_passed_through_for_the_platform_to_replace(make_client, mock_api) -> None:
@@ -86,10 +86,18 @@ def test_every_decision_method_forwards_delegated_token(make_client, mock_api, m
     mock_api.respond({"evaluations": [], "results": []})
     client = make_client(AuthZENClient)
     call = {
-        "evaluations": lambda: client.evaluations([{"resource": ("Car", "kitt")}], delegated_token="ik"),
-        "search_action": lambda: client.search_action(("Person", "ada"), ("Car", "kitt"), delegated_token="ik"),
-        "search_resource": lambda: client.search_resource(("Person", "ada"), "CAN_DRIVE", "Car", delegated_token="ik"),
-        "search_subject": lambda: client.search_subject(("Car", "kitt"), "CAN_DRIVE", "Person", delegated_token="ik"),
+        "evaluations": lambda: client.evaluations(
+            [{"resource": ("Car", "kitt")}], user_token="u", delegated_token="ik"
+        ),
+        "search_action": lambda: client.search_action(
+            ("Person", "ada"), ("Car", "kitt"), user_token="u", delegated_token="ik"
+        ),
+        "search_resource": lambda: client.search_resource(
+            ("Person", "ada"), "CAN_DRIVE", "Car", user_token="u", delegated_token="ik"
+        ),
+        "search_subject": lambda: client.search_subject(
+            ("Car", "kitt"), "CAN_DRIVE", "Person", user_token="u", delegated_token="ik"
+        ),
     }[method]
     call()
     assert mock_api.last.headers["X-IK-Token"] == "ik"
@@ -131,18 +139,14 @@ def test_evaluations_defaults_and_items(make_client, mock_api) -> None:
     assert result.decisions == [True, False]
 
 
-def test_evaluations_empty_items_raise(make_client) -> None:
-    """Evaluations empty items raise."""
+def test_evaluations_empty_list_and_items_are_sent(make_client, mock_api) -> None:
+    """Evaluations empty list and items are sent."""
+    mock_api.respond({"evaluations": []}, {"evaluations": [{"decision": False}]})
     client = make_client(AuthZENClient)
-    with pytest.raises(RequestValidationError, match="At least one"):
-        client.evaluations([])
-
-
-def test_evaluations_item_with_no_overrides_raises(make_client) -> None:
-    """Evaluations item with no overrides raises."""
-    client = make_client(AuthZENClient)
-    with pytest.raises(RequestValidationError, match="at least one"):
-        client.evaluations([{}], subject=("Person", "ada"))
+    client.evaluations([])
+    assert sent_json(mock_api.last) == {"evaluations": []}
+    client.evaluations([{}], subject=("Person", "ada"))
+    assert sent_json(mock_api.last)["evaluations"] == [{}]
 
 
 def test_searches_search_action(make_client, mock_api) -> None:
@@ -280,3 +284,18 @@ async def test_async_authzen_remaining_endpoints_round_trip(make_async_client, m
     assert batch.decisions == [True]
     paths = [request.url.path.removeprefix("/access/v1") for request in mock_api.requests]
     assert paths == ["/evaluations", "/search/action", "/search/subject"]
+
+
+@pytest.mark.parametrize("tag", ["", "t" * 21])
+def test_policy_tags_are_1_to_20_characters(make_client, mock_api, tag: str) -> None:
+    """Policy tags are 1 to 20 characters."""
+    with pytest.raises(RequestValidationError):
+        make_client(AuthZENClient).evaluation(("Person", "ada"), "CAN_DRIVE", ("Car", "kitt"), {"policy_tags": [tag]})
+    assert mock_api.requests == []
+
+
+def test_null_collections_in_policies_response_are_empty(make_client, mock_api) -> None:
+    """Null collections in policies response are empty."""
+    mock_api.respond({"results": [{"policy": None, "tags": None}]})
+    policy = make_client(AuthZENClient).policies().results[0]
+    assert (policy.policy, policy.tags) == ({}, [])

@@ -123,7 +123,10 @@ def _load_signing_key(credentials: Credentials) -> Any:
 def _infer_algorithm(key: Any) -> str:
     """Choose the signing algorithm the way the platform expects."""
     if key.key_type == "EC":
-        return {"P-256": "ES256", "P-384": "ES384", "P-521": "ES512"}.get(key.curve_name, "ES256")
+        algorithm = {"P-256": "ES256", "P-384": "ES384", "P-521": "ES512"}.get(key.curve_name)
+        if algorithm is None:
+            raise CredentialsError(f"Unsupported EC curve {key.curve_name!r} in credentials.")
+        return algorithm
     if key.key_type == "RSA":
         return "RS256"
     if key.key_type == "OKP":

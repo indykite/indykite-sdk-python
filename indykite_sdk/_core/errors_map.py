@@ -1,7 +1,7 @@
 """Map non-success HTTP responses to typed SDK exceptions.
 
 Error bodies follow the platform shape ``{"message": "...", "errors": ["..."]}``
-(e.g. 412 → ``{"message": "Precondition Failed", "errors": [...]}``).
+(e.g. 422 → ``{"message": "Unprocessable Entity", "errors": [...]}``).
 """
 
 from __future__ import annotations
@@ -18,6 +18,7 @@ from indykite_sdk.errors import (
     NotFoundError,
     PermissionDeniedError,
     RateLimitError,
+    UnprocessableEntityError,
 )
 
 _STATUS_TO_ERROR: dict[int, type[APIStatusError]] = {
@@ -27,6 +28,7 @@ _STATUS_TO_ERROR: dict[int, type[APIStatusError]] = {
     404: NotFoundError,
     409: ConflictError,
     412: ETagMismatchError,
+    422: UnprocessableEntityError,
     429: RateLimitError,
 }
 
