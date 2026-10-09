@@ -30,6 +30,6 @@ class DataSchemaClient(BaseSyncClient):
     _auth_kind = "app_agent"
 
     def read(self, *, timeout: httpx.Timeout | float | None = None) -> DataSchema:
-        """Read the data schema in JGF v2 format (``GET /``)."""
+        """Read the data schema in JGF v2 format (``GET /data-schema/v1``)."""
         response = self._send(RequestSpec("GET", ""), timeout=timeout)
         return DataSchema.model_validate(response.json())

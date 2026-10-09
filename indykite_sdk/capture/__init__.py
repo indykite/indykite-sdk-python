@@ -3,6 +3,7 @@
 from indykite_sdk.capture.aio import AsyncCaptureClient
 from indykite_sdk.capture.client import CaptureClient
 from indykite_sdk.capture.models import (
+    BaseProperty,
     BatchResult,
     DeleteNodeProperties,
     DeleteNodePropertyMetadata,
@@ -17,6 +18,7 @@ from indykite_sdk.capture.models import (
 
 __all__ = [
     "AsyncCaptureClient",
+    "BaseProperty",
     "BatchResult",
     "CaptureClient",
     "DeleteNodeProperties",

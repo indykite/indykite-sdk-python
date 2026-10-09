@@ -11,12 +11,14 @@ import pytest
 
 from indykite_sdk import (
     AuthenticationError,
+    BadRequestError,
     Credentials,
     ETagMismatchError,
     IndyKiteConnectionError,
     NotFoundError,
     RateLimitError,
     RetryConfig,
+    UnprocessableEntityError,
 )
 from indykite_sdk._core import http as http_module
 from indykite_sdk._core.http import USER_AGENT, BaseAsyncClient, BaseSyncClient
@@ -284,3 +286,16 @@ def test_raw_token_string_accepted_by_app_agent_clients(app_agent_credentials: C
     client = DemoClient("raw-token-string", http_client=httpx.Client(transport=httpx.MockTransport(handler)))
     client._send(RequestSpec("GET", "/nodes"))
     assert seen[0].headers["X-IK-ClientKey"] == "raw-token-string"
+
+
+def test_error_mapping_422_raises_unprocessable_entity(app_agent_credentials: Credentials) -> None:
+    """Error mapping 422 raises unprocessable entity."""
+
+    def handler(_request: httpx.Request) -> httpx.Response:
+        return httpx.Response(422, json={"message": "Unprocessable Entity", "errors": ["name: too short"]})
+
+    client = _sync_client(handler, app_agent_credentials)
+    with pytest.raises(UnprocessableEntityError) as exc_info:
+        client._send(RequestSpec("POST", "/nodes", json_body={}))
+    assert isinstance(exc_info.value, BadRequestError)
+    assert exc_info.value.errors == ["name: too short"]

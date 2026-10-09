@@ -32,9 +32,8 @@ def main() -> None:
         app_read = config.read_application(app.id)
         config.update_application(app.id, etag=app_read.etag, display_name="SDK Example App")
 
-        # Clean up (delete also requires the current etag).
-        credential_meta = config.read_application_agent_credential(credential.id)
-        config.delete_application_agent_credential(credential.id, etag=credential_meta.etag)
+        # Clean up: revoke the credential, then etag-guarded deletes of the agent and application.
+        config.delete_application_agent_credential(credential.id)
         agent_read = config.read_application_agent(agent.id)
         config.delete_application_agent(agent.id, etag=agent_read.etag)
         app_read = config.read_application(app.id)

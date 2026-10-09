@@ -5,6 +5,7 @@ from __future__ import annotations
 import time
 from collections.abc import Sequence
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -16,12 +17,12 @@ from indykite_sdk.entity_matching.models import (
     PipelineStatus,
     PropertyMappings,
 )
-from indykite_sdk.errors import PipelineTimeoutError
+from indykite_sdk.errors import PipelineTimeoutError, RequestValidationError
 
 __all__ = ["EntityMatchingClient"]
 
 #: Step statuses that mean the step is no longer running. The API reports
-#: INVALID, PENDING, IN_PROGRESS, SUCCESS, or ERROR.
+#: PENDING, IN_PROGRESS, SUCCESS or ERROR.
 FINAL_STATUSES = frozenset({"SUCCESS", "ERROR"})
 
 
@@ -29,6 +30,14 @@ def _run_body(
     similarity_score_cutoff: float,
     custom_property_mappings: Sequence[CustomPropertyMapping | dict[str, Any]] | None,
 ) -> dict[str, Any]:
+    if (
+        isinstance(similarity_score_cutoff, bool)
+        or not isinstance(similarity_score_cutoff, int | float)
+        or not 0 <= similarity_score_cutoff <= 1
+    ):
+        raise RequestValidationError(
+            f"similarity_score_cutoff must be a number from 0 to 1, got {similarity_score_cutoff!r}."
+        )
     body: dict[str, Any] = {"similarity_score_cutoff": similarity_score_cutoff}
     if custom_property_mappings:
         mappings = [
@@ -37,6 +46,16 @@ def _run_body(
         ]
         body["custom_property_mappings"] = [mapping.to_wire() for mapping in mappings]
     return body
+
+
+def _parse_property_mappings(pipeline_id: str, response: httpx.Response) -> PropertyMappings:
+    """Parse the mappings, or mark them pending when the API answers 202 Accepted."""
+    data = response.json() if response.content else {}
+    if response.status_code == httpx.codes.ACCEPTED:
+        return PropertyMappings(
+            id=pipeline_id, pending=True, message=data.get("message"), details=data.get("details") or []
+        )
+    return PropertyMappings.model_validate(data)
 
 
 def _is_complete(status: PipelineStatus) -> bool:
@@ -67,9 +86,15 @@ class EntityMatchingClient(BaseSyncClient):
     def read_property_mappings(
         self, pipeline_id: str, *, timeout: httpx.Timeout | float | None = None
     ) -> PropertyMappings:
-        """Read system-suggested property mappings (``GET /pipelines/{id}/property-mappings``)."""
-        response = self._send(RequestSpec("GET", f"/pipelines/{pipeline_id}/property-mappings"), timeout=timeout)
-        return PropertyMappings.model_validate(response.json())
+        """Read system-suggested property mappings (``GET /pipelines/{id}/property-mappings``).
+
+        While the mappings are not ready the API answers 202 Accepted; the
+        result then has ``pending=True`` and no suggestions.
+        """
+        response = self._send(
+            RequestSpec("GET", f"/pipelines/{quote(pipeline_id, safe=':')}/property-mappings"), timeout=timeout
+        )
+        return _parse_property_mappings(pipeline_id, response)
 
     def run_pipeline(
         self,
@@ -79,7 +104,7 @@ class EntityMatchingClient(BaseSyncClient):
         custom_property_mappings: Sequence[CustomPropertyMapping | dict[str, Any]] | None = None,
         timeout: httpx.Timeout | float | None = None,
     ) -> PipelineRun:
-        """Trigger a pipeline run (``POST /pipelines/{id}/runs``). **Experimental** (not in public spec).
+        """Trigger a pipeline run (``POST /pipelines/{id}/runs``).
 
         Args:
             similarity_score_cutoff: Threshold in [0, 1] above which entities
@@ -89,14 +114,14 @@ class EntityMatchingClient(BaseSyncClient):
         """
         spec = RequestSpec(
             "POST",
-            f"/pipelines/{pipeline_id}/runs",
+            f"/pipelines/{quote(pipeline_id, safe=':')}/runs",
             json_body=_run_body(similarity_score_cutoff, custom_property_mappings),
         )
         return PipelineRun.model_validate(self._send(spec, timeout=timeout).json())
 
     def read_status(self, pipeline_id: str, *, timeout: httpx.Timeout | float | None = None) -> PipelineStatus:
-        """Read the pipeline's step statuses (``GET /pipelines/{id}/status``). **Experimental** (not in public spec)."""
-        response = self._send(RequestSpec("GET", f"/pipelines/{pipeline_id}/status"), timeout=timeout)
+        """Read the pipeline's step statuses (``GET /pipelines/{id}/status``)."""
+        response = self._send(RequestSpec("GET", f"/pipelines/{quote(pipeline_id, safe=':')}/status"), timeout=timeout)
         return PipelineStatus.model_validate(response.json())
 
     def wait_for_completion(

@@ -66,8 +66,7 @@ def test_agent_and_credential_bootstrap(config_client: ConfigClient, project_id:
                 assert bootstrapped.token
                 assert bootstrapped.app_agent_id
             finally:
-                meta = config_client.read_application_agent_credential(credential.id)
-                config_client.delete_application_agent_credential(credential.id, etag=meta.etag or credential.etag)
+                config_client.delete_application_agent_credential(credential.id)
         finally:
             agent_read = config_client.read_application_agent(agent.id)
             config_client.delete_application_agent(agent.id, etag=agent_read.etag)
