@@ -279,3 +279,32 @@ async def test_async_iter_guards_against_stuck_cursor(make_async_client, mock_ap
     async with make_async_client(AsyncAuditClient) as client:
         with pytest.raises(IndyKiteError, match="does not advance"):
             _ = [batch async for batch in client.iter_logs(PROJECT)]
+
+
+@pytest.mark.parametrize(("page_size", "valid"), [(50, True), (51, False), (0, False)])
+def test_page_size_is_1_to_50(make_client, mock_api, page_size: int, valid: bool) -> None:
+    """Page size is 1 to 50."""
+    client = make_client(AuditClient)
+    if valid:
+        client.list_logs("gid:project-1", page_size=page_size)
+        assert mock_api.last.url.params["pagesize"] == "50"
+    else:
+        with pytest.raises(RequestValidationError, match="1 to 50"):
+            client.list_logs("gid:project-1", page_size=page_size)
+
+
+def test_log_entry_data_object_becomes_one_event_list() -> None:
+    """Log entry data object becomes one event list."""
+    assert LogEntry.model_validate({"data": {"eventType": "x", "actor": "y"}}).data == [
+        {"eventType": "x", "actor": "y"}
+    ]
+    assert LogEntry.model_validate({"data": [{"eventType": "x"}]}).data == [{"eventType": "x"}]
+    assert LogEntry.model_validate({"data": None}).data == []
+
+
+@pytest.mark.parametrize("page_size", [True, 1.5, "10"])
+def test_page_size_must_be_an_integer(make_client, mock_api, page_size) -> None:
+    """Page size must be an integer."""
+    with pytest.raises(RequestValidationError, match="integer from 1 to 50"):
+        make_client(AuditClient).list_logs("gid:project-1", page_size=page_size)
+    assert mock_api.requests == []

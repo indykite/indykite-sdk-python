@@ -25,6 +25,7 @@ from indykite_sdk.config.models import (
     ConfigResource,
     ConfigStatus,
     CreateResult,
+    DeleteResult,
     KnowledgeQuery,
     Organization,
     Project,
@@ -72,8 +73,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
             UpdateResult, await self._send(ops.update_spec(path, resource_id, body, etag), timeout=timeout)
         )
 
-    async def _delete(self, path: str, resource_id: str, etag: str, timeout: Timeout) -> None:
-        await self._send(ops.delete_spec(path, resource_id, etag), timeout=timeout)
+    async def _delete(self, path: str, resource_id: str, etag: str, timeout: Timeout) -> DeleteResult:
+        response = await self._send(ops.delete_spec(path, resource_id, etag), timeout=timeout)
+        return DeleteResult.model_validate(response.json() if response.content else {})
 
     # -- organizations ------------------------------------------------------
 
@@ -117,7 +119,10 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         return await self._create("/projects", body, timeout)
 
     async def read_project(self, project_id: str, *, version: int | None = None, timeout: Timeout = None) -> Project:
-        """Read a project by ID."""
+        """Read a project by GID, or by name within the caller's organization.
+
+        ``version`` reads an earlier version of the configuration.
+        """
         return await self._read("/projects", project_id, Project, timeout, version=version)
 
     async def update_project(
@@ -127,16 +132,16 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         etag: str,
         display_name: str | None = None,
         description: str | None = None,
+        db_connection: dict[str, Any] | None = None,
         timeout: Timeout = None,
     ) -> UpdateResult:
-        """Update a project (``If-Match`` guarded)."""
-        return await self._update(
-            "/projects", project_id, {"display_name": display_name, "description": description}, etag, timeout
-        )
+        """Update a project's display name, description or database connection (``If-Match`` guarded)."""
+        body = {"display_name": display_name, "description": description, "db_connection": db_connection}
+        return await self._update("/projects", project_id, body, etag, timeout)
 
-    async def delete_project(self, project_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_project(self, project_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete a project (``If-Match`` guarded)."""
-        await self._delete("/projects", project_id, etag, timeout)
+        return await self._delete("/projects", project_id, etag, timeout)
 
     # -- applications -------------------------------------------------------
 
@@ -159,9 +164,16 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         body = {"name": name, "project_id": project_id, "display_name": display_name, "description": description}
         return await self._create("/applications", body, timeout)
 
-    async def read_application(self, application_id: str, *, timeout: Timeout = None) -> Application:
-        """Read an application by ID."""
-        return await self._read("/applications", application_id, Application, timeout)
+    async def read_application(
+        self, application_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> Application:
+        """Read an application by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/applications", application_id, Application, timeout, project_id=project_id, version=version
+        )
 
     async def update_application(
         self,
@@ -177,9 +189,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
             "/applications", application_id, {"display_name": display_name, "description": description}, etag, timeout
         )
 
-    async def delete_application(self, application_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_application(self, application_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete an application (``If-Match`` guarded)."""
-        await self._delete("/applications", application_id, etag, timeout)
+        return await self._delete("/applications", application_id, etag, timeout)
 
     # -- application agents -------------------------------------------------
 
@@ -211,9 +223,16 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._create("/application-agents", body, timeout)
 
-    async def read_application_agent(self, agent_id: str, *, timeout: Timeout = None) -> ApplicationAgent:
-        """Read an application agent by ID."""
-        return await self._read("/application-agents", agent_id, ApplicationAgent, timeout)
+    async def read_application_agent(
+        self, agent_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> ApplicationAgent:
+        """Read an application agent by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/application-agents", agent_id, ApplicationAgent, timeout, project_id=project_id, version=version
+        )
 
     async def update_application_agent(
         self,
@@ -233,9 +252,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._update("/application-agents", agent_id, body, etag, timeout)
 
-    async def delete_application_agent(self, agent_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_application_agent(self, agent_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete an application agent (``If-Match`` guarded)."""
-        await self._delete("/application-agents", agent_id, etag, timeout)
+        return await self._delete("/application-agents", agent_id, etag, timeout)
 
     # -- application agent credentials (no update) --------------------------
 
@@ -272,11 +291,12 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Read credential metadata (never the secret) by ID."""
         return await self._read("/application-agent-credentials", credential_id, ApplicationAgentCredential, timeout)
 
-    async def delete_application_agent_credential(
-        self, credential_id: str, *, etag: str, timeout: Timeout = None
-    ) -> None:
-        """Revoke an application-agent credential (``If-Match`` guarded)."""
-        await self._delete("/application-agent-credentials", credential_id, etag, timeout)
+    async def delete_application_agent_credential(self, credential_id: str, *, timeout: Timeout = None) -> DeleteResult:
+        """Revoke an application-agent credential."""
+        response = await self._send(
+            ops.unguarded_delete_spec("/application-agent-credentials", credential_id), timeout=timeout
+        )
+        return DeleteResult.model_validate(response.json() if response.content else {})
 
     # -- service accounts ---------------------------------------------------
 
@@ -308,9 +328,14 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._create("/service-accounts", body, timeout)
 
-    async def read_service_account(self, service_account_id: str, *, timeout: Timeout = None) -> ServiceAccount:
-        """Read a service account by ID."""
-        return await self._read("/service-accounts", service_account_id, ServiceAccount, timeout)
+    async def read_service_account(
+        self, service_account_id: str, *, version: int | None = None, timeout: Timeout = None
+    ) -> ServiceAccount:
+        """Read a service account by GID, or by name within the caller's organization.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read("/service-accounts", service_account_id, ServiceAccount, timeout, version=version)
 
     async def update_service_account(
         self,
@@ -330,9 +355,11 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
             timeout,
         )
 
-    async def delete_service_account(self, service_account_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_service_account(
+        self, service_account_id: str, *, etag: str, timeout: Timeout = None
+    ) -> DeleteResult:
         """Delete a service account (``If-Match`` guarded)."""
-        await self._delete("/service-accounts", service_account_id, etag, timeout)
+        return await self._delete("/service-accounts", service_account_id, etag, timeout)
 
     # -- service account credentials (no update) ----------------------------
 
@@ -365,11 +392,12 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Read credential metadata (never the secret) by ID."""
         return await self._read("/service-account-credentials", credential_id, ServiceAccountCredential, timeout)
 
-    async def delete_service_account_credential(
-        self, credential_id: str, *, etag: str, timeout: Timeout = None
-    ) -> None:
-        """Revoke a service-account credential (``If-Match`` guarded)."""
-        await self._delete("/service-account-credentials", credential_id, etag, timeout)
+    async def delete_service_account_credential(self, credential_id: str, *, timeout: Timeout = None) -> DeleteResult:
+        """Revoke a service-account credential."""
+        response = await self._send(
+            ops.unguarded_delete_spec("/service-account-credentials", credential_id), timeout=timeout
+        )
+        return DeleteResult.model_validate(response.json() if response.content else {})
 
     # -- authorization policies ---------------------------------------------
 
@@ -410,17 +438,24 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._create("/authorization-policies", body, timeout)
 
-    async def read_authorization_policy(self, policy_id: str, *, timeout: Timeout = None) -> AuthorizationPolicy:
-        """Read an authorization policy by ID."""
-        return await self._read("/authorization-policies", policy_id, AuthorizationPolicy, timeout)
+    async def read_authorization_policy(
+        self, policy_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> AuthorizationPolicy:
+        """Read an authorization policy by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/authorization-policies", policy_id, AuthorizationPolicy, timeout, project_id=project_id, version=version
+        )
 
     async def update_authorization_policy(
         self,
         policy_id: str,
         *,
         etag: str,
-        policy: str | None = None,
-        status: ConfigStatus | str | None = None,
+        policy: str,
+        status: ConfigStatus | str,
         tags: list[str] | None = None,
         display_name: str | None = None,
         description: str | None = None,
@@ -436,9 +471,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._update("/authorization-policies", policy_id, body, etag, timeout)
 
-    async def delete_authorization_policy(self, policy_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_authorization_policy(self, policy_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete an authorization policy (``If-Match`` guarded)."""
-        await self._delete("/authorization-policies", policy_id, etag, timeout)
+        return await self._delete("/authorization-policies", policy_id, etag, timeout)
 
     # -- knowledge queries ---------------------------------------------------
 
@@ -478,18 +513,25 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._create("/knowledge-queries", body, timeout)
 
-    async def read_knowledge_query(self, query_id: str, *, timeout: Timeout = None) -> KnowledgeQuery:
-        """Read a knowledge query by ID."""
-        return await self._read("/knowledge-queries", query_id, KnowledgeQuery, timeout)
+    async def read_knowledge_query(
+        self, query_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> KnowledgeQuery:
+        """Read a knowledge query by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/knowledge-queries", query_id, KnowledgeQuery, timeout, project_id=project_id, version=version
+        )
 
     async def update_knowledge_query(
         self,
         query_id: str,
         *,
         etag: str,
-        query: str | None = None,
-        status: ConfigStatus | str | None = None,
-        policy_id: str | None = None,
+        query: str,
+        status: ConfigStatus | str,
+        policy_id: str,
         display_name: str | None = None,
         description: str | None = None,
         timeout: Timeout = None,
@@ -504,9 +546,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._update("/knowledge-queries", query_id, body, etag, timeout)
 
-    async def delete_knowledge_query(self, query_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_knowledge_query(self, query_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete a knowledge query (``If-Match`` guarded)."""
-        await self._delete("/knowledge-queries", query_id, etag, timeout)
+        return await self._delete("/knowledge-queries", query_id, etag, timeout)
 
     # -- audit signings -----------------------------------------------------
 
@@ -548,9 +590,23 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._create("/audit-signings", body, timeout)
 
-    async def read_audit_signing(self, audit_signing_id: str, *, timeout: Timeout = None) -> AuditSigning:
-        """Read an audit-signing configuration by ID (``auth_params`` values come back masked)."""
-        return await self._read("/audit-signings", audit_signing_id, AuditSigning, timeout)
+    async def read_audit_signing(
+        self,
+        audit_signing_id: str,
+        *,
+        project_id: str | None = None,
+        version: int | None = None,
+        timeout: Timeout = None,
+    ) -> AuditSigning:
+        """Read an audit-signing configuration by GID, or by name together with ``project_id``.
+
+        ``auth_params`` values come back masked.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/audit-signings", audit_signing_id, AuditSigning, timeout, project_id=project_id, version=version
+        )
 
     async def update_audit_signing(
         self,
@@ -567,9 +623,7 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
     ) -> UpdateResult:
         """Update an audit-signing configuration (``If-Match`` guarded).
 
-        The signing fields are replaced as a set: ``provider`` is always
-        required, and an unset ``key_resource``/``kid``/``auth_params`` is
-        cleared. See :meth:`indykite_sdk.ConfigClient.update_audit_signing`.
+        ``provider`` is always required. See :meth:`indykite_sdk.ConfigClient.update_audit_signing`.
         """
         body = {
             "provider": provider,
@@ -581,9 +635,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         }
         return await self._update("/audit-signings", audit_signing_id, body, etag, timeout)
 
-    async def delete_audit_signing(self, audit_signing_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_audit_signing(self, audit_signing_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete an audit-signing configuration (``If-Match`` guarded)."""
-        await self._delete("/audit-signings", audit_signing_id, etag, timeout)
+        return await self._delete("/audit-signings", audit_signing_id, etag, timeout)
 
     # -- dict-payload resources ---------------------------------------------
 
@@ -598,9 +652,16 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Create an event sink from its documented JSON body."""
         return await self._create("/event-sinks", body, timeout)
 
-    async def read_event_sink(self, sink_id: str, *, timeout: Timeout = None) -> ConfigResource:
-        """Read an event sink by ID."""
-        return await self._read("/event-sinks", sink_id, ConfigResource, timeout)
+    async def read_event_sink(
+        self, sink_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> ConfigResource:
+        """Read an event sink by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/event-sinks", sink_id, ConfigResource, timeout, project_id=project_id, version=version
+        )
 
     async def update_event_sink(
         self, sink_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
@@ -608,9 +669,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Update an event sink (``If-Match`` guarded)."""
         return await self._update("/event-sinks", sink_id, body, etag, timeout)
 
-    async def delete_event_sink(self, sink_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_event_sink(self, sink_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete an event sink (``If-Match`` guarded)."""
-        await self._delete("/event-sinks", sink_id, etag, timeout)
+        return await self._delete("/event-sinks", sink_id, etag, timeout)
 
     async def list_external_data_resolvers(
         self, project_id: str, *, full_fetch: bool = False, search: str | None = None, timeout: Timeout = None
@@ -623,9 +684,16 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Create an external data resolver from its documented JSON body."""
         return await self._create("/external-data-resolvers", body, timeout)
 
-    async def read_external_data_resolver(self, resolver_id: str, *, timeout: Timeout = None) -> ConfigResource:
-        """Read an external data resolver by ID."""
-        return await self._read("/external-data-resolvers", resolver_id, ConfigResource, timeout)
+    async def read_external_data_resolver(
+        self, resolver_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> ConfigResource:
+        """Read an external data resolver by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/external-data-resolvers", resolver_id, ConfigResource, timeout, project_id=project_id, version=version
+        )
 
     async def update_external_data_resolver(
         self, resolver_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
@@ -633,9 +701,11 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Update an external data resolver (``If-Match`` guarded)."""
         return await self._update("/external-data-resolvers", resolver_id, body, etag, timeout)
 
-    async def delete_external_data_resolver(self, resolver_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_external_data_resolver(
+        self, resolver_id: str, *, etag: str, timeout: Timeout = None
+    ) -> DeleteResult:
         """Delete an external data resolver (``If-Match`` guarded)."""
-        await self._delete("/external-data-resolvers", resolver_id, etag, timeout)
+        return await self._delete("/external-data-resolvers", resolver_id, etag, timeout)
 
     async def list_token_introspects(
         self, project_id: str, *, full_fetch: bool = False, search: str | None = None, timeout: Timeout = None
@@ -648,9 +718,16 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Create a token-introspect configuration from its documented JSON body."""
         return await self._create("/token-introspects", body, timeout)
 
-    async def read_token_introspect(self, introspect_id: str, *, timeout: Timeout = None) -> ConfigResource:
-        """Read a token-introspect configuration by ID."""
-        return await self._read("/token-introspects", introspect_id, ConfigResource, timeout)
+    async def read_token_introspect(
+        self, introspect_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> ConfigResource:
+        """Read a token-introspect configuration by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/token-introspects", introspect_id, ConfigResource, timeout, project_id=project_id, version=version
+        )
 
     async def update_token_introspect(
         self, introspect_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
@@ -658,9 +735,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Update a token-introspect configuration (``If-Match`` guarded)."""
         return await self._update("/token-introspects", introspect_id, body, etag, timeout)
 
-    async def delete_token_introspect(self, introspect_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_token_introspect(self, introspect_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete a token-introspect configuration (``If-Match`` guarded)."""
-        await self._delete("/token-introspects", introspect_id, etag, timeout)
+        return await self._delete("/token-introspects", introspect_id, etag, timeout)
 
     async def list_trust_score_profiles(
         self, project_id: str, *, full_fetch: bool = False, search: str | None = None, timeout: Timeout = None
@@ -673,9 +750,16 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Create a trust-score profile from its documented JSON body."""
         return await self._create("/trust-score-profiles", body, timeout)
 
-    async def read_trust_score_profile(self, profile_id: str, *, timeout: Timeout = None) -> ConfigResource:
-        """Read a trust-score profile by ID."""
-        return await self._read("/trust-score-profiles", profile_id, ConfigResource, timeout)
+    async def read_trust_score_profile(
+        self, profile_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> ConfigResource:
+        """Read a trust-score profile by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/trust-score-profiles", profile_id, ConfigResource, timeout, project_id=project_id, version=version
+        )
 
     async def update_trust_score_profile(
         self, profile_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
@@ -683,9 +767,9 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Update a trust-score profile (``If-Match`` guarded)."""
         return await self._update("/trust-score-profiles", profile_id, body, etag, timeout)
 
-    async def delete_trust_score_profile(self, profile_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_trust_score_profile(self, profile_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete a trust-score profile (``If-Match`` guarded)."""
-        await self._delete("/trust-score-profiles", profile_id, etag, timeout)
+        return await self._delete("/trust-score-profiles", profile_id, etag, timeout)
 
     async def list_entity_matching_pipelines(
         self, project_id: str, *, full_fetch: bool = False, search: str | None = None, timeout: Timeout = None
@@ -698,9 +782,16 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Create an entity-matching pipeline from its documented JSON body."""
         return await self._create("/entity-matching-pipelines", body, timeout)
 
-    async def read_entity_matching_pipeline(self, pipeline_id: str, *, timeout: Timeout = None) -> ConfigResource:
-        """Read an entity-matching pipeline by ID."""
-        return await self._read("/entity-matching-pipelines", pipeline_id, ConfigResource, timeout)
+    async def read_entity_matching_pipeline(
+        self, pipeline_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> ConfigResource:
+        """Read an entity-matching pipeline by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/entity-matching-pipelines", pipeline_id, ConfigResource, timeout, project_id=project_id, version=version
+        )
 
     async def update_entity_matching_pipeline(
         self, pipeline_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
@@ -708,21 +799,33 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Update an entity-matching pipeline (``If-Match`` guarded)."""
         return await self._update("/entity-matching-pipelines", pipeline_id, body, etag, timeout)
 
-    async def delete_entity_matching_pipeline(self, pipeline_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_entity_matching_pipeline(
+        self, pipeline_id: str, *, etag: str, timeout: Timeout = None
+    ) -> DeleteResult:
         """Delete an entity-matching pipeline (``If-Match`` guarded)."""
-        await self._delete("/entity-matching-pipelines", pipeline_id, etag, timeout)
+        return await self._delete("/entity-matching-pipelines", pipeline_id, etag, timeout)
 
-    async def list_mcp_servers(self, project_id: str, *, timeout: Timeout = None) -> list[ConfigResource]:
+    async def list_mcp_servers(
+        self, project_id: str, *, full_fetch: bool = False, search: str | None = None, timeout: Timeout = None
+    ) -> list[ConfigResource]:
         """List MCP server configurations in a project."""
-        return await self._list("/mcp-servers", ConfigResource, {"project_id": project_id}, timeout)
+        params = {"project_id": project_id, "full_fetch": full_fetch, "search": search}
+        return await self._list("/mcp-servers", ConfigResource, params, timeout)
 
     async def create_mcp_server(self, body: dict[str, Any], *, timeout: Timeout = None) -> CreateResult:
         """Create an MCP server configuration from its documented JSON body."""
         return await self._create("/mcp-servers", body, timeout)
 
-    async def read_mcp_server(self, server_id: str, *, timeout: Timeout = None) -> ConfigResource:
-        """Read an MCP server configuration by ID."""
-        return await self._read("/mcp-servers", server_id, ConfigResource, timeout)
+    async def read_mcp_server(
+        self, server_id: str, *, project_id: str | None = None, version: int | None = None, timeout: Timeout = None
+    ) -> ConfigResource:
+        """Read an MCP server configuration by GID, or by name together with ``project_id``.
+
+        ``version`` reads an earlier version of the configuration.
+        """
+        return await self._read(
+            "/mcp-servers", server_id, ConfigResource, timeout, project_id=project_id, version=version
+        )
 
     async def update_mcp_server(
         self, server_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
@@ -730,54 +833,6 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         """Update an MCP server configuration (``If-Match`` guarded)."""
         return await self._update("/mcp-servers", server_id, body, etag, timeout)
 
-    async def delete_mcp_server(self, server_id: str, *, etag: str, timeout: Timeout = None) -> None:
+    async def delete_mcp_server(self, server_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:
         """Delete an MCP server configuration (``If-Match`` guarded)."""
-        await self._delete("/mcp-servers", server_id, etag, timeout)
-
-    # -- capture pipelines (no update) --------------------------------------
-
-    async def list_capture_pipelines(
-        self, project_id: str, *, full_fetch: bool = False, search: str | None = None, timeout: Timeout = None
-    ) -> list[ConfigResource]:
-        """List capture pipelines in a project."""
-        params = {"project_id": project_id, "full_fetch": full_fetch, "search": search}
-        return await self._list("/capture-pipelines", ConfigResource, params, timeout)
-
-    async def create_capture_pipeline(self, body: dict[str, Any], *, timeout: Timeout = None) -> CreateResult:
-        """Create a capture pipeline from its documented JSON body."""
-        return await self._create("/capture-pipelines", body, timeout)
-
-    async def read_capture_pipeline(self, pipeline_id: str, *, timeout: Timeout = None) -> ConfigResource:
-        """Read a capture pipeline by ID."""
-        return await self._read("/capture-pipelines", pipeline_id, ConfigResource, timeout)
-
-    async def delete_capture_pipeline(self, pipeline_id: str, *, etag: str, timeout: Timeout = None) -> None:
-        """Delete a capture pipeline (``If-Match`` guarded)."""
-        await self._delete("/capture-pipelines", pipeline_id, etag, timeout)
-
-    async def list_capture_pipeline_topics(
-        self, project_id: str, *, full_fetch: bool = False, search: str | None = None, timeout: Timeout = None
-    ) -> list[ConfigResource]:
-        """List capture-pipeline topics in a project."""
-        params = {"project_id": project_id, "full_fetch": full_fetch, "search": search}
-        return await self._list("/capture-pipeline-topics", ConfigResource, params, timeout)
-
-    async def create_capture_pipeline_topic(self, body: dict[str, Any], *, timeout: Timeout = None) -> CreateResult:
-        """Create a capture-pipeline topic from its documented JSON body."""
-        return await self._create("/capture-pipeline-topics", body, timeout)
-
-    async def read_capture_pipeline_topic(self, topic_id: str, *, timeout: Timeout = None) -> ConfigResource:
-        """Read a capture-pipeline topic by ID."""
-        return await self._read("/capture-pipeline-topics", topic_id, ConfigResource, timeout)
-
-    async def delete_capture_pipeline_topic(self, topic_id: str, *, etag: str, timeout: Timeout = None) -> None:
-        """Delete a capture-pipeline topic (``If-Match`` guarded)."""
-        await self._delete("/capture-pipeline-topics", topic_id, etag, timeout)
-
-    # -- data schema --------------------------------------------------------
-
-    async def rebuild_data_schema(self, project_id: str, *, timeout: Timeout = None) -> None:
-        """Trigger a rebuild of the project's IKG data schema. **Experimental** (not in public spec)."""
-        await self._send(
-            RequestSpec("POST", "/data-schema/rebuild", json_body={"project_id": project_id}), timeout=timeout
-        )
+        return await self._delete("/mcp-servers", server_id, etag, timeout)

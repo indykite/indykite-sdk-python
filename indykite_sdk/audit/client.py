@@ -27,7 +27,7 @@ class AuditClient(BaseSyncClient):
     Every listing returns one :class:`~indykite_sdk.audit.Page`; the ``iter_*``
     methods follow ``next_cursor`` through every page. Logs and manifests page
     in sequence order from the start of the chain, checkpoints newest first.
-    ``page_size`` is 1 to 50; the platform caps larger values to 50.
+    ``page_size`` is 1 to 50.
 
     Example::
 

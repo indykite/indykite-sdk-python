@@ -185,3 +185,15 @@ def test_service_account_minting_missing_subject_raises(jwk_credentials_dict: di
 def test_parse_lifetime_lifetimes(lifetime: str | None, expected: int) -> None:
     """Parse lifetime lifetimes."""
     assert _parse_lifetime_seconds(lifetime) == expected
+
+
+def test_service_account_minting_unsupported_ec_curve_raises() -> None:
+    """Service account minting unsupported ec curve raises."""
+    from cryptography.hazmat.primitives.asymmetric import ec
+    from cryptography.hazmat.primitives.serialization import Encoding, NoEncryption, PrivateFormat
+
+    key = ec.generate_private_key(ec.SECP256K1())
+    pem = key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption()).decode()
+    credentials = Credentials.from_json({"serviceAccountId": "gid:sa", "privateKeyPKCS8": pem})
+    with pytest.raises(CredentialsError, match="Unsupported EC curve"):
+        _apply(ServiceAccountAuth(credentials))

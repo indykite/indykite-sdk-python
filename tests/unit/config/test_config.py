@@ -87,11 +87,14 @@ def test_project_crud_delete_sends_if_match(make_client, mock_api) -> None:
     assert mock_api.last.headers["If-Match"] == "etag-2"
 
 
-def test_project_crud_update_without_etag_is_client_side_error(make_client, mock_api) -> None:
-    """Project crud update without etag is client side error."""
+@pytest.mark.parametrize("etag", ["", None])
+def test_update_and_delete_without_etag_are_client_side_errors(make_client, mock_api, etag: object) -> None:
+    """Update and delete without etag are client side errors."""
     client = make_client(ConfigClient)
-    with pytest.raises(RequestValidationError, match="etag"):
-        client.update_project("gid:project-1", etag="", display_name="x")
+    with pytest.raises(RequestValidationError, match="etag is required"):
+        client.update_project("gid:project-1", etag=etag, display_name="x")
+    with pytest.raises(RequestValidationError, match="etag is required"):
+        client.delete_project("gid:project-1", etag=etag)
     assert mock_api.requests == []
 
 
@@ -182,8 +185,6 @@ def test_credentials_have_no_update_method() -> None:
     """Credentials have no update method."""
     assert not hasattr(ConfigClient, "update_application_agent_credential")
     assert not hasattr(ConfigClient, "update_service_account_credential")
-    assert not hasattr(ConfigClient, "update_capture_pipeline")
-    assert not hasattr(ConfigClient, "update_capture_pipeline_topic")
 
 
 def test_authorization_policies_list_filters(make_client, mock_api) -> None:
@@ -334,15 +335,6 @@ def test_dict_resources_mcp_server_list(make_client, mock_api) -> None:
     assert servers[0].field("enabled") is True
 
 
-def test_dict_resources_rebuild_data_schema(make_client, mock_api) -> None:
-    """Dict resources rebuild data schema."""
-    mock_api.respond((202, {"status": "Rebuilding..."}))
-    client = make_client(ConfigClient)
-    client.rebuild_data_schema("gid:project-1")
-    assert mock_api.last.url.path == "/configs/v1/data-schema/rebuild"
-    assert sent_json(mock_api.last) == {"project_id": "gid:project-1"}
-
-
 async def test_async_config_lifecycle(make_async_client, mock_api) -> None:
     """Async config lifecycle."""
     mock_api.respond(httpx.Response(201, json={"id": "gid:app-1"}, headers={"ETag": "e1"}))
@@ -356,3 +348,123 @@ async def test_async_config_lifecycle(make_async_client, mock_api) -> None:
         await client.delete_application(created.id, etag=updated.etag)
     assert [request.method for request in mock_api.requests] == ["POST", "GET", "PUT", "DELETE"]
     assert mock_api.requests[3].headers["If-Match"] == "e2"
+
+
+PROJECT_SCOPED_READS = [
+    ("read_application", "/applications"),
+    ("read_application_agent", "/application-agents"),
+    ("read_authorization_policy", "/authorization-policies"),
+    ("read_knowledge_query", "/knowledge-queries"),
+    ("read_audit_signing", "/audit-signings"),
+    ("read_event_sink", "/event-sinks"),
+    ("read_external_data_resolver", "/external-data-resolvers"),
+    ("read_token_introspect", "/token-introspects"),
+    ("read_trust_score_profile", "/trust-score-profiles"),
+    ("read_entity_matching_pipeline", "/entity-matching-pipelines"),
+    ("read_mcp_server", "/mcp-servers"),
+]
+
+
+@pytest.mark.parametrize(("method", "path"), PROJECT_SCOPED_READS)
+def test_read_by_name_sends_project_id_and_version(make_client, mock_api, method: str, path: str) -> None:
+    """Read by name sends project id and version."""
+    client = make_client(ConfigClient)
+    getattr(client, method)("my-config", project_id="gid:project-1", version=3)
+    assert mock_api.last.url.path == f"/configs/v1{path}/my-config"
+    assert dict(mock_api.last.url.params) == {"project_id": "gid:project-1", "version": "3"}
+
+
+@pytest.mark.parametrize(("method", "path"), PROJECT_SCOPED_READS)
+def test_read_by_id_sends_no_query(make_client, mock_api, method: str, path: str) -> None:
+    """Read by id sends no query."""
+    client = make_client(ConfigClient)
+    getattr(client, method)("gid:config-1")
+    assert not mock_api.last.url.params
+
+
+async def test_async_read_service_account_version(make_async_client, mock_api) -> None:
+    """Async read service account version."""
+    async with make_async_client(AsyncConfigClient) as client:
+        await client.read_service_account("my-sa", version=2)
+    assert mock_api.last.url.path == "/configs/v1/service-accounts/my-sa"
+    assert dict(mock_api.last.url.params) == {"version": "2"}
+
+
+def test_list_mcp_servers_filters(make_client, mock_api) -> None:
+    """List mcp servers filters."""
+    mock_api.respond({"data": []})
+    make_client(ConfigClient).list_mcp_servers("gid:project-1", full_fetch=True, search="mcp")
+    assert dict(mock_api.last.url.params) == {"project_id": "gid:project-1", "full_fetch": "true", "search": "mcp"}
+
+
+def test_update_project_db_connection(make_client, mock_api) -> None:
+    """Update project db connection."""
+    connection = {"url": "neo4j+s://db.example.com", "username": "neo4j", "password": "secret"}
+    make_client(ConfigClient).update_project("gid:project-1", etag="e1", db_connection=connection)
+    assert sent_json(mock_api.last) == {"db_connection": connection}
+
+
+async def test_delete_returns_deleted_id(make_client, make_async_client, mock_api) -> None:
+    """Delete returns deleted id."""
+    mock_api.respond({"id": "gid:app-1"}, {"id": "gid:app-2"})
+    assert make_client(ConfigClient).delete_application("gid:app-1", etag="e1").id == "gid:app-1"
+    async with make_async_client(AsyncConfigClient) as client:
+        assert (await client.delete_application("gid:app-2", etag="e1")).id == "gid:app-2"
+
+
+@pytest.mark.parametrize(
+    ("method", "path"),
+    [
+        ("delete_application_agent_credential", "/application-agent-credentials"),
+        ("delete_service_account_credential", "/service-account-credentials"),
+    ],
+)
+def test_credential_deletes_send_no_if_match(make_client, mock_api, method: str, path: str) -> None:
+    """Credential deletes send no if match."""
+    mock_api.respond({"id": "gid:cred-1"})
+    result = getattr(make_client(ConfigClient), method)("gid:cred-1")
+    assert mock_api.last.method == "DELETE"
+    assert mock_api.last.url.path == f"/configs/v1{path}/gid:cred-1"
+    assert "If-Match" not in mock_api.last.headers
+    assert result.id == "gid:cred-1"
+
+
+def test_updates_require_spec_required_fields() -> None:
+    """Updates require spec required fields."""
+    import inspect
+
+    policy = inspect.signature(ConfigClient.update_authorization_policy).parameters
+    query = inspect.signature(ConfigClient.update_knowledge_query).parameters
+    for parameters, required in ((policy, ("policy", "status")), (query, ("query", "status", "policy_id"))):
+        assert all(parameters[name].default is inspect.Parameter.empty for name in required)
+
+
+def test_service_account_model_has_no_role() -> None:
+    """Service account model has no role."""
+    from indykite_sdk.config.models import ServiceAccount
+
+    assert "role" not in ServiceAccount.model_fields
+
+
+def test_ids_are_encoded_as_one_path_segment(make_client, mock_api) -> None:
+    """Ids are encoded as one path segment."""
+    client = make_client(ConfigClient)
+    client.read_application("a/b?c", project_id="gid:project-1")
+    client.update_application("a/b?c", etag="e1", display_name="Renamed")
+    client.delete_application("a/b?c", etag="e1")
+    client.delete_application_agent_credential("gid:cred/1")
+    assert [request.url.raw_path for request in mock_api.requests] == [
+        b"/configs/v1/applications/a%2Fb%3Fc?project_id=gid%3Aproject-1",
+        b"/configs/v1/applications/a%2Fb%3Fc",
+        b"/configs/v1/applications/a%2Fb%3Fc",
+        b"/configs/v1/application-agent-credentials/gid:cred%2F1",
+    ]
+
+
+def test_create_result_has_update_fields(make_client, mock_api) -> None:
+    """Create result has update fields."""
+    mock_api.respond(
+        httpx.Response(201, json={"id": "gid:app-1", "update_time": "2026-10-09T10:00:00Z", "updated_by": "gid:sa-1"})
+    )
+    created = make_client(ConfigClient).create_application("my-app", "gid:project-1")
+    assert (created.update_time, created.updated_by) == ("2026-10-09T10:00:00Z", "gid:sa-1")

@@ -95,20 +95,6 @@ def test_upsert_nodes_auto_chunk_partial_failure(make_client, mock_api) -> None:
     assert isinstance(error.__cause__, NotFoundError)
 
 
-def test_upsert_single_node_put_path_and_body(make_client, mock_api) -> None:
-    """Upsert single node put path and body."""
-    mock_api.respond({"id": "gid:node-1"})
-    client = make_client(CaptureClient)
-    result = client.upsert_node(NODE)
-    assert mock_api.last.method == "PUT"
-    assert mock_api.last.url.path == "/capture/v1/nodes/Person:captureRest_knightrider"
-    body = sent_json(mock_api.last)
-    assert "external_id" not in body
-    assert "type" not in body
-    assert body["is_identity"] is True
-    assert result.id == "gid:node-1"
-
-
 def test_deletes_delete_nodes_path(make_client, mock_api) -> None:
     """Deletes delete nodes path."""
     client = make_client(CaptureClient)
@@ -185,7 +171,7 @@ async def test_async_capture_auto_chunk_partial_failure(make_async_client, mock_
 async def test_async_capture_all_endpoints_round_trip(make_async_client, mock_api) -> None:
     """Async capture all endpoints round trip."""
     async with make_async_client(AsyncCaptureClient) as client:
-        await client.upsert_node(NODE)
+        await client.upsert_nodes([NODE])
         await client.delete_nodes([{"external_id": "ada", "type": "Person"}])
         await client.delete_node_properties([{"external_id": "ada", "type": "Person", "property_types": ["email"]}])
         await client.delete_node_property_metadata(
@@ -196,7 +182,7 @@ async def test_async_capture_all_endpoints_round_trip(make_async_client, mock_ap
         await client.delete_relationship_properties([dict(RELATIONSHIP, property_types=["since"])])
     paths = [request.url.path.removeprefix("/capture/v1") for request in mock_api.requests]
     assert paths == [
-        "/nodes/Person:captureRest_knightrider",
+        "/nodes",
         "/nodes/delete",
         "/nodes/properties/delete",
         "/nodes/properties/metadata/delete",
@@ -204,3 +190,19 @@ async def test_async_capture_all_endpoints_round_trip(make_async_client, mock_ap
         "/relationships/delete",
         "/relationships/properties/delete",
     ]
+
+
+def test_delete_relationship_properties_sends_properties(make_client, mock_api) -> None:
+    """Delete relationship properties sends properties."""
+    make_client(CaptureClient).delete_relationship_properties(
+        [dict(RELATIONSHIP, property_types=["since"], properties=[{"type": "since", "value": "2026"}])]
+    )
+    assert sent_json(mock_api.last)["relationships"][0]["properties"] == [{"type": "since", "value": "2026"}]
+
+
+def test_relationship_property_metadata_is_rejected(make_client, mock_api) -> None:
+    """Relationship property metadata is rejected."""
+    relationship = dict(RELATIONSHIP, properties=[{"type": "since", "value": "2026", "metadata": {"source": "x"}}])
+    with pytest.raises(RequestValidationError):
+        make_client(CaptureClient).upsert_relationships([relationship])
+    assert mock_api.requests == []

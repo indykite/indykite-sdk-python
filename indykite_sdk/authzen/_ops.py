@@ -59,8 +59,6 @@ def evaluations_spec(
     delegated_token: str | None,
 ) -> RequestSpec:
     """Build a batch-decision request body (top-level fields act as defaults)."""
-    if not evaluations:
-        raise RequestValidationError("At least one evaluation item is required.")
     body: dict[str, Any] = {
         "evaluations": [
             _coerce(item, EvaluationItem, f"evaluation item at index {index}").to_wire()

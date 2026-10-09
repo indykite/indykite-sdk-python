@@ -6,9 +6,9 @@ AuthZEN specification over IndyKite KBAC policies.
 
 from __future__ import annotations
 
-from typing import Any, Self
+from typing import Annotated, Any
 
-from pydantic import model_validator
+from pydantic import StringConstraints, model_validator
 
 from indykite_sdk._core.models import IKModel, IKResponseModel
 
@@ -90,7 +90,7 @@ class Context(IKModel):
     """
 
     input_params: dict[str, Any] | None = None
-    policy_tags: list[str] | None = None
+    policy_tags: list[Annotated[str, StringConstraints(min_length=1, max_length=20)]] | None = None
 
 
 class EvaluationItem(IKModel):
@@ -100,12 +100,6 @@ class EvaluationItem(IKModel):
     action: Action | None = None
     resource: Node | None = None
     context: Context | None = None
-
-    @model_validator(mode="after")
-    def _not_empty(self) -> Self:
-        if self.subject is None and self.action is None and self.resource is None and self.context is None:
-            raise ValueError("an evaluation item must override at least one of subject/action/resource/context")
-        return self
 
 
 class ResponseContext(IKResponseModel):

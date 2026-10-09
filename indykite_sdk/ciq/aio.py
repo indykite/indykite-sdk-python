@@ -11,6 +11,7 @@ from indykite_sdk._core.http import BaseAsyncClient
 from indykite_sdk._core.ops import RequestSpec, user_token_headers
 from indykite_sdk.ciq.client import _execute_body, _whoami_spec
 from indykite_sdk.ciq.models import ExecuteRecord, ExecuteResponse, WhoAmIResponse
+from indykite_sdk.errors import RequestValidationError
 
 __all__ = ["AsyncCIQClient"]
 
@@ -62,6 +63,8 @@ class AsyncCIQClient(BaseAsyncClient):
         timeout: httpx.Timeout | float | None = None,
     ) -> AsyncIterator[ExecuteRecord]:
         """Iterate over all records of a query, fetching pages transparently."""
+        if isinstance(page_size, bool) or not isinstance(page_size, int) or page_size < 1:
+            raise RequestValidationError(f"page_size must be a positive integer, got {page_size!r}.")
         page_token = 1
         while True:
             response = await self.execute(

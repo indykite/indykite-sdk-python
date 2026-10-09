@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -27,34 +28,41 @@ def create_spec(path: str, body: dict[str, Any]) -> RequestSpec:
     return RequestSpec("POST", path, json_body=clean_body(body))
 
 
-def read_spec(path: str, resource_id: str, *, version: int | None = None, location: str | None = None) -> RequestSpec:
-    """Build a read-by-id request."""
+def read_spec(path: str, resource_id: str, *, version: int | None = None, project_id: str | None = None) -> RequestSpec:
+    """Build a read request for an ID, or for a name scoped by ``project_id``."""
     params: dict[str, Any] = {}
     if version is not None:
         params["version"] = version
-    if location is not None:
-        params["location"] = location
-    return RequestSpec("GET", f"{path}/{resource_id}", params=params)
+    if project_id is not None:
+        params["project_id"] = project_id
+    return RequestSpec("GET", f"{path}/{quote(resource_id, safe=':')}", params=params)
 
 
 def update_spec(path: str, resource_id: str, body: dict[str, Any], etag: str) -> RequestSpec:
     """Build an ``If-Match``-guarded update request."""
-    _require_etag(etag)
-    return RequestSpec("PUT", f"{path}/{resource_id}", json_body=clean_body(body), headers={"If-Match": etag})
+    return RequestSpec(
+        "PUT", f"{path}/{quote(resource_id, safe=':')}", json_body=clean_body(body), headers=_if_match(etag)
+    )
 
 
 def delete_spec(path: str, resource_id: str, etag: str) -> RequestSpec:
     """Build an ``If-Match``-guarded delete request."""
-    _require_etag(etag)
-    return RequestSpec("DELETE", f"{path}/{resource_id}", headers={"If-Match": etag})
+    return RequestSpec("DELETE", f"{path}/{quote(resource_id, safe=':')}", headers=_if_match(etag))
 
 
-def _require_etag(etag: str) -> None:
+def unguarded_delete_spec(path: str, resource_id: str) -> RequestSpec:
+    """Build a delete request without ``If-Match``, for resources whose delete takes no etag."""
+    return RequestSpec("DELETE", f"{path}/{quote(resource_id, safe=':')}")
+
+
+def _if_match(etag: str) -> dict[str, str]:
+    """``If-Match`` makes the API reject the change when the resource changed since ``etag`` was read."""
     if not etag or not isinstance(etag, str):
         raise RequestValidationError(
             "An etag is required for updates and deletes. Read the resource first and pass its "
             "`.etag` (from the ETag response header) so concurrent changes are detected."
         )
+    return {"If-Match": etag}
 
 
 def parse_one[ModelT: _ETagged](model: type[ModelT], response: httpx.Response) -> ModelT:

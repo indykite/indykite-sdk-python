@@ -153,7 +153,6 @@ class ServiceAccount(_AuditedResource):
     """A service account for managing configuration at the organization level."""
 
     organization_id: str | None = None
-    role: str | None = None
 
 
 class ServiceAccountCredential(_ETagged):
