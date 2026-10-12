@@ -39,7 +39,7 @@ jobs:
       - name: setup/python3
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0 - https://github.com/actions/setup-python/releases
         with:
-          python-version: "3.14"
+          python-version: "3.15"
           cache: "pipenv"
 
       - name: setup/pipenv
@@ -77,7 +77,7 @@ jobs:
       - name: setup/python3
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0 - https://github.com/actions/setup-python/releases
         with:
-          python-version: "3.14"
+          python-version: "3.15"
           cache: "pipenv"
 
       - name: setup/pipenv
