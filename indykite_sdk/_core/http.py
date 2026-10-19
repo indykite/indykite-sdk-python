@@ -135,18 +135,31 @@ def new_async_client(http_client: httpx.Client | httpx.AsyncClient | None) -> ht
     return http_client
 
 
-def _request_kwargs(spec: RequestSpec, base_url: str, timeout: httpx.Timeout | float | None) -> dict[str, Any]:
-    return {
-        "method": spec.method,
+#: Headers that carry a credential; stripped from requests to public endpoints.
+CREDENTIAL_HEADERS = ("Authorization", "X-IK-ClientKey", "X-IK-Token")
+
+
+def _build_request(
+    client: httpx.Client | httpx.AsyncClient,
+    spec: RequestSpec,
+    base_url: str,
+    timeout: httpx.Timeout | float | None,
+) -> httpx.Request:
+    request = client.build_request(
+        spec.method,
         # An empty path must hit the API prefix exactly, without a trailing slash.
-        "url": spec.path or base_url,
-        "params": spec.params or None,
-        "json": spec.json_body,
-        "headers": spec.headers or None,
-        "timeout": timeout if timeout is not None else httpx.USE_CLIENT_DEFAULT,
-        # ``None`` sends the request without the client's credential.
-        "auth": httpx.USE_CLIENT_DEFAULT if spec.authenticated else None,
-    }
+        spec.path or base_url,
+        params=spec.params or None,
+        json=spec.json_body,
+        headers=spec.headers or None,
+        timeout=timeout if timeout is not None else httpx.USE_CLIENT_DEFAULT,
+    )
+    if not spec.authenticated:
+        # Covers credentials preconfigured on a caller's client; sending with
+        # ``auth=None`` keeps the SDK's own auth flow off the request too.
+        for name in CREDENTIAL_HEADERS:
+            request.headers.pop(name, None)
+    return request
 
 
 def send_sync(
@@ -161,8 +174,9 @@ def send_sync(
     """Send ``spec``, retrying per ``retries``; raise the typed error on failure."""
     attempt = 1
     while True:
+        request = _build_request(client, spec, base_url, timeout)
         try:
-            response = client.request(**_request_kwargs(spec, base_url, timeout))
+            response = client.send(request, auth=httpx.USE_CLIENT_DEFAULT if spec.authenticated else None)
         except httpx.TransportError as exc:
             raise IndyKiteConnectionError(f"Could not reach {base_url}: {exc}") from exc
         if response.is_success:
@@ -187,8 +201,9 @@ async def send_async(
     """Async variant of :func:`send_sync`."""
     attempt = 1
     while True:
+        request = _build_request(client, spec, base_url, timeout)
         try:
-            response = await client.request(**_request_kwargs(spec, base_url, timeout))
+            response = await client.send(request, auth=httpx.USE_CLIENT_DEFAULT if spec.authenticated else None)
         except httpx.TransportError as exc:
             raise IndyKiteConnectionError(f"Could not reach {base_url}: {exc}") from exc
         if response.is_success:

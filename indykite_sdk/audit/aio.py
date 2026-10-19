@@ -9,7 +9,6 @@ import httpx
 from indykite_sdk._core.http import (
     DEFAULT_TIMEOUT,
     BaseAsyncClient,
-    configure_client,
     new_async_client,
     send_async,
 )
@@ -122,12 +121,17 @@ async def fetch_jwks_async(
     http_client: httpx.AsyncClient | None = None,
 ) -> KeySet:
     """Async variant of :func:`indykite_sdk.audit.fetch_jwks`."""
-    spec = _ops.jwks_spec(project_id)
-    api_url = _ops.public_api_url(base_url, region)
+    spec, api_url = _ops.public_jwks_spec(project_id, base_url, region)
     client = new_async_client(http_client)
-    configure_client(client, base_url=api_url, auth=None, timeout=timeout if timeout is not None else DEFAULT_TIMEOUT)
     try:
-        response = await send_async(client, spec, base_url=api_url, retries=retries, auth_kind="public")
+        response = await send_async(
+            client,
+            spec,
+            base_url=api_url,
+            retries=retries,
+            auth_kind="public",
+            timeout=timeout if timeout is not None else DEFAULT_TIMEOUT,
+        )
     finally:
         if http_client is None:
             await client.aclose()

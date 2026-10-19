@@ -338,3 +338,57 @@ async def test_async_transport_error_raises_connection_error(app_agent_credentia
     ) as client:
         with pytest.raises(IndyKiteConnectionError, match="eu.api.indykite.com"):
             await client._send(RequestSpec("GET", "/nodes"))
+
+
+PRECONFIGURED_CREDENTIALS = {
+    "Authorization": "Bearer caller",
+    "X-IK-ClientKey": "caller-key",
+    "X-IK-Token": "caller-ik",
+}
+
+
+def _sent_headers(requests: list[httpx.Request]) -> list[set[str]]:
+    credential_names = {name.lower() for name in PRECONFIGURED_CREDENTIALS}
+    return [{name for name in request.headers if name.lower() in credential_names} for request in requests]
+
+
+def test_unauthenticated_spec_strips_preconfigured_credential_headers(app_agent_credentials: Credentials) -> None:
+    """Credentials set as client defaults or in spec.headers never reach a public endpoint."""
+    seen: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, json={})
+
+    http_client = httpx.Client(
+        transport=httpx.MockTransport(handler), headers={**PRECONFIGURED_CREDENTIALS, "X-Trace": "t-1"}
+    )
+    with DemoClient(app_agent_credentials, http_client=http_client) as client:
+        client._send(RequestSpec("GET", "/public", headers={"Authorization": "Bearer spec"}, authenticated=False))
+        client._send(RequestSpec("GET", "/private"))
+        assert dict(client._client.headers).items() >= {"x-ik-token": "caller-ik", "x-trace": "t-1"}.items()
+    assert _sent_headers(seen)[0] == set()
+    assert seen[0].headers["X-Trace"] == "t-1"
+    assert _sent_headers(seen)[1] == {"authorization", "x-ik-clientkey", "x-ik-token"}
+    assert seen[1].headers["X-IK-ClientKey"] == "app-agent-token-value"
+
+
+async def test_async_unauthenticated_spec_strips_preconfigured_credential_headers(
+    app_agent_credentials: Credentials,
+) -> None:
+    """Async: credentials set as client defaults or in spec.headers never reach a public endpoint."""
+    seen: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, json={})
+
+    http_client = httpx.AsyncClient(
+        transport=httpx.MockTransport(handler), headers={**PRECONFIGURED_CREDENTIALS, "X-Trace": "t-1"}
+    )
+    async with AsyncDemoClient(app_agent_credentials, http_client=http_client) as client:
+        await client._send(RequestSpec("GET", "/public", headers={"X-IK-Token": "spec"}, authenticated=False))
+        await client._send(RequestSpec("GET", "/private"))
+    assert _sent_headers(seen)[0] == set()
+    assert seen[0].headers["X-Trace"] == "t-1"
+    assert _sent_headers(seen)[1] == {"authorization", "x-ik-clientkey", "x-ik-token"}
