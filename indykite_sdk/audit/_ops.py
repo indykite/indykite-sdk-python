@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from typing import Any
 
+from indykite_sdk._core.endpoints import resolve_base_url
 from indykite_sdk._core.ops import RequestSpec
 from indykite_sdk.errors import IndyKiteError, RequestValidationError
 
+API_PREFIX = "/audit"
 LOGS_PATH = "/v1/logs"
 MANIFESTS_PATH = "/v1/manifests"
 CHECKPOINTS_PATH = "/v1/checkpoints"
@@ -38,8 +40,16 @@ def list_spec(path: str, project_id: str, cursor: str | None, page_size: int | N
 
 
 def jwks_spec(project_id: str) -> RequestSpec:
-    """Build the JWKS request; ``project_id`` is required but does not select a key today."""
-    return RequestSpec("GET", JWKS_PATH, params={"project_id": _project_id(project_id)})
+    """Build the JWKS request; ``project_id`` is required but does not select a key today.
+
+    The endpoint is public, so the request carries no credential.
+    """
+    return RequestSpec("GET", JWKS_PATH, params={"project_id": _project_id(project_id)}, authenticated=False)
+
+
+def public_api_url(base_url: str | None, region: str | None) -> str:
+    """The Audit Log API URL for credential-free calls, resolved like the clients' base URL."""
+    return f"{resolve_base_url(base_url=base_url, region=region)}{API_PREFIX}"
 
 
 def next_cursor(cursor: str | None, page_next_cursor: str | None, has_more: bool) -> str | None:

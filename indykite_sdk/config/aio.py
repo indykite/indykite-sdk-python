@@ -26,6 +26,7 @@ from indykite_sdk.config.models import (
     ConfigStatus,
     CreateResult,
     DeleteResult,
+    IkgSchemaVersion,
     KnowledgeQuery,
     Organization,
     Project,
@@ -101,6 +102,7 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         display_name: str | None = None,
         description: str | None = None,
         ikg_size: str | None = None,
+        ikg_schema_version: IkgSchemaVersion | None = None,
         replica_region: str | None = None,
         db_connection: dict[str, Any] | None = None,
         timeout: Timeout = None,
@@ -113,6 +115,7 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
             "display_name": display_name,
             "description": description,
             "ikg_size": ikg_size,
+            "ikg_schema_version": ikg_schema_version,
             "replica_region": replica_region,
             "db_connection": db_connection,
         }

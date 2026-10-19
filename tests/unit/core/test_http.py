@@ -299,3 +299,42 @@ def test_error_mapping_422_raises_unprocessable_entity(app_agent_credentials: Cr
         client._send(RequestSpec("POST", "/nodes", json_body={}))
     assert isinstance(exc_info.value, BadRequestError)
     assert exc_info.value.errors == ["name: too short"]
+
+
+async def test_unauthenticated_spec_omits_credential(app_agent_credentials) -> None:
+    """A RequestSpec marked unauthenticated carries no credential header; others still do."""
+    seen: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, json={})
+
+    with DemoClient(app_agent_credentials, http_client=httpx.Client(transport=httpx.MockTransport(handler))) as client:
+        client._send(RequestSpec("GET", "/public", authenticated=False))
+        client._send(RequestSpec("GET", "/private"))
+    async with AsyncDemoClient(
+        app_agent_credentials, http_client=httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    ) as async_client:
+        await async_client._send(RequestSpec("GET", "/public", authenticated=False))
+        await async_client._send(RequestSpec("GET", "/private"))
+    assert ["X-IK-ClientKey" in request.headers for request in seen] == [False, True, False, True]
+    assert all(request.headers["User-Agent"] == USER_AGENT for request in seen)
+
+
+def test_async_wrong_http_client_type_raises(app_agent_credentials: Credentials) -> None:
+    """Async clients reject a sync httpx client."""
+    with pytest.raises(TypeError, match="httpx.AsyncClient"), httpx.Client() as sync_client:
+        AsyncDemoClient(app_agent_credentials, http_client=sync_client)
+
+
+async def test_async_transport_error_raises_connection_error(app_agent_credentials: Credentials) -> None:
+    """Async transport errors raise IndyKiteConnectionError."""
+
+    def handler(_request: httpx.Request) -> httpx.Response:
+        raise httpx.ConnectError("dns failure")
+
+    async with AsyncDemoClient(
+        app_agent_credentials, http_client=httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    ) as client:
+        with pytest.raises(IndyKiteConnectionError, match="eu.api.indykite.com"):
+            await client._send(RequestSpec("GET", "/nodes"))

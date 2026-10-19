@@ -97,9 +97,108 @@ class _ClientBase:
         """The resolved API base URL, including the API path prefix."""
         return self._base_url
 
-    @staticmethod
-    def _default_headers() -> dict[str, str]:
-        return {"User-Agent": USER_AGENT, "Accept": "application/json"}
+
+def default_headers() -> dict[str, str]:
+    """Headers sent with every request."""
+    return {"User-Agent": USER_AGENT, "Accept": "application/json"}
+
+
+def configure_client(
+    client: httpx.Client | httpx.AsyncClient,
+    *,
+    base_url: str,
+    auth: httpx.Auth | None,
+    timeout: httpx.Timeout | float,
+) -> None:
+    """Point ``client`` at ``base_url`` with the SDK's auth, default headers and timeout."""
+    client.auth = auth
+    client.base_url = httpx.URL(base_url)
+    client.headers.update(default_headers())
+    client.timeout = timeout if isinstance(timeout, httpx.Timeout) else httpx.Timeout(timeout)
+
+
+def new_sync_client(http_client: httpx.Client | httpx.AsyncClient | None) -> httpx.Client:
+    """The caller's sync client, or a new one with connect retries."""
+    if http_client is None:
+        return httpx.Client(transport=httpx.HTTPTransport(retries=_CONNECT_RETRIES))
+    if not isinstance(http_client, httpx.Client):
+        raise TypeError("http_client must be an httpx.Client for sync clients")
+    return http_client
+
+
+def new_async_client(http_client: httpx.Client | httpx.AsyncClient | None) -> httpx.AsyncClient:
+    """The caller's async client, or a new one with connect retries."""
+    if http_client is None:
+        return httpx.AsyncClient(transport=httpx.AsyncHTTPTransport(retries=_CONNECT_RETRIES))
+    if not isinstance(http_client, httpx.AsyncClient):
+        raise TypeError("http_client must be an httpx.AsyncClient for async clients")
+    return http_client
+
+
+def _request_kwargs(spec: RequestSpec, base_url: str, timeout: httpx.Timeout | float | None) -> dict[str, Any]:
+    return {
+        "method": spec.method,
+        # An empty path must hit the API prefix exactly, without a trailing slash.
+        "url": spec.path or base_url,
+        "params": spec.params or None,
+        "json": spec.json_body,
+        "headers": spec.headers or None,
+        "timeout": timeout if timeout is not None else httpx.USE_CLIENT_DEFAULT,
+        # ``None`` sends the request without the client's credential.
+        "auth": httpx.USE_CLIENT_DEFAULT if spec.authenticated else None,
+    }
+
+
+def send_sync(
+    client: httpx.Client,
+    spec: RequestSpec,
+    *,
+    base_url: str,
+    retries: RetryConfig | None,
+    auth_kind: str,
+    timeout: httpx.Timeout | float | None = None,
+) -> httpx.Response:
+    """Send ``spec``, retrying per ``retries``; raise the typed error on failure."""
+    attempt = 1
+    while True:
+        try:
+            response = client.request(**_request_kwargs(spec, base_url, timeout))
+        except httpx.TransportError as exc:
+            raise IndyKiteConnectionError(f"Could not reach {base_url}: {exc}") from exc
+        if response.is_success:
+            return response
+        if retries is not None and should_retry(retries, spec.method, response.status_code, attempt):
+            time.sleep(retry_delay(retries, attempt, response.headers.get("Retry-After")))
+            attempt += 1
+            continue
+        raise_for_status(response, auth_kind=auth_kind)
+        return response  # pragma: no cover - raise_for_status always raises here
+
+
+async def send_async(
+    client: httpx.AsyncClient,
+    spec: RequestSpec,
+    *,
+    base_url: str,
+    retries: RetryConfig | None,
+    auth_kind: str,
+    timeout: httpx.Timeout | float | None = None,
+) -> httpx.Response:
+    """Async variant of :func:`send_sync`."""
+    attempt = 1
+    while True:
+        try:
+            response = await client.request(**_request_kwargs(spec, base_url, timeout))
+        except httpx.TransportError as exc:
+            raise IndyKiteConnectionError(f"Could not reach {base_url}: {exc}") from exc
+        if response.is_success:
+            return response
+        if retries is not None and should_retry(retries, spec.method, response.status_code, attempt):
+            await asyncio.sleep(retry_delay(retries, attempt, response.headers.get("Retry-After")))
+            attempt += 1
+            continue
+        raise_for_status(response, auth_kind=auth_kind)
+        return response  # pragma: no cover - raise_for_status always raises here
 
 
 class BaseSyncClient(_ClientBase):
@@ -107,16 +206,8 @@ class BaseSyncClient(_ClientBase):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
-        client = self._provided_client
-        if client is None:
-            client = httpx.Client(transport=httpx.HTTPTransport(retries=_CONNECT_RETRIES))
-        elif not isinstance(client, httpx.Client):
-            raise TypeError("http_client must be an httpx.Client for sync clients")
-        client.auth = self._auth
-        client.base_url = httpx.URL(self._base_url)
-        client.headers.update(self._default_headers())
-        client.timeout = self._timeout if isinstance(self._timeout, httpx.Timeout) else httpx.Timeout(self._timeout)
-        self._client = client
+        self._client = new_sync_client(self._provided_client)
+        configure_client(self._client, base_url=self._base_url, auth=self._auth, timeout=self._timeout)
 
     def close(self) -> None:
         """Release the underlying HTTP connection pool."""
@@ -129,29 +220,14 @@ class BaseSyncClient(_ClientBase):
         self.close()
 
     def _send(self, spec: RequestSpec, *, timeout: httpx.Timeout | float | None = None) -> httpx.Response:
-        attempt = 1
-        while True:
-            try:
-                response = self._client.request(
-                    spec.method,
-                    # An empty path must hit the API prefix exactly, without a trailing slash.
-                    spec.path or self._base_url,
-                    params=spec.params or None,
-                    json=spec.json_body,
-                    headers=spec.headers or None,
-                    timeout=timeout if timeout is not None else httpx.USE_CLIENT_DEFAULT,
-                )
-            except httpx.TransportError as exc:
-                raise IndyKiteConnectionError(f"Could not reach {self._base_url}: {exc}") from exc
-            if response.is_success:
-                return response
-            retries = self._retries
-            if retries is not None and should_retry(retries, spec.method, response.status_code, attempt):
-                time.sleep(retry_delay(retries, attempt, response.headers.get("Retry-After")))
-                attempt += 1
-                continue
-            raise_for_status(response, auth_kind=self._auth_kind)
-            return response  # pragma: no cover - raise_for_status always raises here
+        return send_sync(
+            self._client,
+            spec,
+            base_url=self._base_url,
+            retries=self._retries,
+            auth_kind=self._auth_kind,
+            timeout=timeout,
+        )
 
 
 class BaseAsyncClient(_ClientBase):
@@ -159,16 +235,8 @@ class BaseAsyncClient(_ClientBase):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
-        client = self._provided_client
-        if client is None:
-            client = httpx.AsyncClient(transport=httpx.AsyncHTTPTransport(retries=_CONNECT_RETRIES))
-        elif not isinstance(client, httpx.AsyncClient):
-            raise TypeError("http_client must be an httpx.AsyncClient for async clients")
-        client.auth = self._auth
-        client.base_url = httpx.URL(self._base_url)
-        client.headers.update(self._default_headers())
-        client.timeout = self._timeout if isinstance(self._timeout, httpx.Timeout) else httpx.Timeout(self._timeout)
-        self._client = client
+        self._client = new_async_client(self._provided_client)
+        configure_client(self._client, base_url=self._base_url, auth=self._auth, timeout=self._timeout)
 
     async def aclose(self) -> None:
         """Release the underlying HTTP connection pool."""
@@ -181,26 +249,11 @@ class BaseAsyncClient(_ClientBase):
         await self.aclose()
 
     async def _send(self, spec: RequestSpec, *, timeout: httpx.Timeout | float | None = None) -> httpx.Response:
-        attempt = 1
-        while True:
-            try:
-                response = await self._client.request(
-                    spec.method,
-                    # An empty path must hit the API prefix exactly, without a trailing slash.
-                    spec.path or self._base_url,
-                    params=spec.params or None,
-                    json=spec.json_body,
-                    headers=spec.headers or None,
-                    timeout=timeout if timeout is not None else httpx.USE_CLIENT_DEFAULT,
-                )
-            except httpx.TransportError as exc:
-                raise IndyKiteConnectionError(f"Could not reach {self._base_url}: {exc}") from exc
-            if response.is_success:
-                return response
-            retries = self._retries
-            if retries is not None and should_retry(retries, spec.method, response.status_code, attempt):
-                await asyncio.sleep(retry_delay(retries, attempt, response.headers.get("Retry-After")))
-                attempt += 1
-                continue
-            raise_for_status(response, auth_kind=self._auth_kind)
-            return response  # pragma: no cover - raise_for_status always raises here
+        return await send_async(
+            self._client,
+            spec,
+            base_url=self._base_url,
+            retries=self._retries,
+            auth_kind=self._auth_kind,
+            timeout=timeout,
+        )

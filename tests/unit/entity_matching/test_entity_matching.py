@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 
 from indykite_sdk import AsyncEntityMatchingClient, EntityMatchingClient, PipelineTimeoutError, RequestValidationError
+from indykite_sdk.entity_matching import CustomPropertyMapping
 from indykite_sdk.entity_matching import client as em_client_module
 from tests.unit.conftest import sent_json
 
@@ -153,3 +154,98 @@ async def test_pipeline_id_is_encoded_as_one_path_segment(make_client, make_asyn
         b"/entity-matching/v1/pipelines/gid:a%2Fb/runs",
         b"/entity-matching/v1/pipelines/gid:a%3Fb/status",
     ]
+
+
+@pytest.mark.parametrize(
+    "mapping",
+    [
+        {"source_node_property": "email"},
+        {"source_node_property": "email", "target_node_property": 7},
+        "email",
+    ],
+)
+async def test_run_pipeline_rejects_invalid_custom_mapping(make_client, make_async_client, mock_api, mapping) -> None:
+    """An invalid custom mapping raises RequestValidationError naming its index, before any request."""
+    valid = {"source_node_property": "email", "target_node_property": "mail"}
+    with pytest.raises(RequestValidationError, match="custom_property_mappings at index 1"):
+        make_client(EntityMatchingClient).run_pipeline(
+            PIPELINE_ID, similarity_score_cutoff=0.5, custom_property_mappings=[valid, mapping]
+        )
+    async with make_async_client(AsyncEntityMatchingClient) as client:
+        with pytest.raises(RequestValidationError, match="custom_property_mappings at index 1"):
+            await client.run_pipeline(
+                PIPELINE_ID, similarity_score_cutoff=0.5, custom_property_mappings=[valid, mapping]
+            )
+    assert mock_api.requests == []
+
+
+def test_run_pipeline_accepts_model_mappings(make_client, mock_api) -> None:
+    """Typed CustomPropertyMapping instances are sent as-is."""
+    mapping = CustomPropertyMapping(source_node_property="email", target_node_property="mail")
+    make_client(EntityMatchingClient).run_pipeline(
+        PIPELINE_ID, similarity_score_cutoff=0.5, custom_property_mappings=[mapping]
+    )
+    assert sent_json(mock_api.last)["custom_property_mappings"] == [
+        {"source_node_property": "email", "target_node_property": "mail"}
+    ]
+
+
+def test_wait_for_completion_stops_when_property_mapping_fails(make_client, mock_api) -> None:
+    """A failed property-mapping step ends the wait instead of polling until the timeout."""
+    mock_api.respond({"property_mapping_status": "IN_PROGRESS", "entity_matching_status": "PENDING"})
+    mock_api.respond({"property_mapping_status": "ERROR", "entity_matching_status": "PENDING"})
+    client = make_client(EntityMatchingClient)
+    status = client.wait_for_completion(PIPELINE_ID, timeout=600, poll_interval=1)
+    assert status.property_mapping_status == "ERROR"
+    assert len(mock_api.requests) == 2
+
+
+def test_wait_for_completion_keeps_polling_after_property_mapping_succeeds(make_client, mock_api) -> None:
+    """A successful property-mapping step alone does not end the wait."""
+    mock_api.respond({"property_mapping_status": "SUCCESS", "entity_matching_status": "IN_PROGRESS"})
+    mock_api.respond({"property_mapping_status": "SUCCESS", "entity_matching_status": "ERROR"})
+    client = make_client(EntityMatchingClient)
+    status = client.wait_for_completion(PIPELINE_ID, timeout=600, poll_interval=1)
+    assert status.entity_matching_status == "ERROR"
+    assert len(mock_api.requests) == 2
+
+
+async def test_async_wait_for_completion_stops_when_property_mapping_fails(make_async_client, mock_api) -> None:
+    """Async wait ends on a failed property-mapping step."""
+    mock_api.respond({"property_mapping_status": "error", "entity_matching_status": "PENDING"})
+    async with make_async_client(AsyncEntityMatchingClient) as client:
+        status = await client.wait_for_completion(PIPELINE_ID, timeout=600, poll_interval=1)
+    assert status.property_mapping_status == "error"
+    assert len(mock_api.requests) == 1
+
+
+@pytest.mark.parametrize("pipeline_id", ["", "   ", None])
+async def test_pipeline_id_is_required(make_client, make_async_client, mock_api, pipeline_id) -> None:
+    """A blank pipeline_id is rejected by every method before any request."""
+    client = make_client(EntityMatchingClient)
+    calls = [
+        lambda: client.read_property_mappings(pipeline_id),
+        lambda: client.run_pipeline(pipeline_id, similarity_score_cutoff=0.5),
+        lambda: client.read_status(pipeline_id),
+        lambda: client.wait_for_completion(pipeline_id),
+    ]
+    for call in calls:
+        with pytest.raises(RequestValidationError, match="pipeline_id is required"):
+            call()
+    async with make_async_client(AsyncEntityMatchingClient) as async_client:
+        async_calls = [
+            lambda: async_client.read_property_mappings(pipeline_id),
+            lambda: async_client.run_pipeline(pipeline_id, similarity_score_cutoff=0.5),
+            lambda: async_client.read_status(pipeline_id),
+            lambda: async_client.wait_for_completion(pipeline_id),
+        ]
+        for async_call in async_calls:
+            with pytest.raises(RequestValidationError, match="pipeline_id is required"):
+                await async_call()
+    assert mock_api.requests == []
+
+
+def test_pipeline_id_is_stripped(make_client, mock_api) -> None:
+    """Surrounding whitespace is dropped from pipeline_id."""
+    make_client(EntityMatchingClient).read_status(f"  {PIPELINE_ID}\n")
+    assert mock_api.last.url.path == f"/entity-matching/v1/pipelines/{PIPELINE_ID}/status"

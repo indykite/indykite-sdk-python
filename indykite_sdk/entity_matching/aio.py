@@ -6,13 +6,17 @@ import asyncio
 import time
 from collections.abc import Sequence
 from typing import Any
-from urllib.parse import quote
 
 import httpx
 
 from indykite_sdk._core.http import BaseAsyncClient
 from indykite_sdk._core.ops import RequestSpec
-from indykite_sdk.entity_matching.client import _is_complete, _parse_property_mappings, _run_body
+from indykite_sdk.entity_matching.client import (
+    _is_complete,
+    _parse_property_mappings,
+    _pipeline_path,
+    _run_body,
+)
 from indykite_sdk.entity_matching.models import (
     CustomPropertyMapping,
     PipelineRun,
@@ -35,7 +39,7 @@ class AsyncEntityMatchingClient(BaseAsyncClient):
     ) -> PropertyMappings:
         """Read system-suggested property mappings (``GET /pipelines/{id}/property-mappings``)."""
         response = await self._send(
-            RequestSpec("GET", f"/pipelines/{quote(pipeline_id, safe=':')}/property-mappings"), timeout=timeout
+            RequestSpec("GET", _pipeline_path(pipeline_id, "property-mappings")), timeout=timeout
         )
         return _parse_property_mappings(pipeline_id, response)
 
@@ -50,16 +54,14 @@ class AsyncEntityMatchingClient(BaseAsyncClient):
         """Trigger a pipeline run (``POST /pipelines/{id}/runs``)."""
         spec = RequestSpec(
             "POST",
-            f"/pipelines/{quote(pipeline_id, safe=':')}/runs",
+            _pipeline_path(pipeline_id, "runs"),
             json_body=_run_body(similarity_score_cutoff, custom_property_mappings),
         )
         return PipelineRun.model_validate((await self._send(spec, timeout=timeout)).json())
 
     async def read_status(self, pipeline_id: str, *, timeout: httpx.Timeout | float | None = None) -> PipelineStatus:
         """Read the pipeline's step statuses (``GET /pipelines/{id}/status``)."""
-        response = await self._send(
-            RequestSpec("GET", f"/pipelines/{quote(pipeline_id, safe=':')}/status"), timeout=timeout
-        )
+        response = await self._send(RequestSpec("GET", _pipeline_path(pipeline_id, "status")), timeout=timeout)
         return PipelineStatus.model_validate(response.json())
 
     async def wait_for_completion(
@@ -69,7 +71,7 @@ class AsyncEntityMatchingClient(BaseAsyncClient):
         timeout: float = 600.0,
         poll_interval: float = 10.0,
     ) -> PipelineStatus:
-        """Poll :meth:`read_status` until the matching step reaches a final status.
+        """Poll :meth:`read_status` until the run is over (see the sync client).
 
         Raises:
             PipelineTimeoutError: no final status within ``timeout`` seconds.

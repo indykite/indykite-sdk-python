@@ -7,12 +7,17 @@ checkpoints.json and jwks.json to the current directory, which together form
 a self-describing export: the manifests link the batches through
 prev_hash / head_hash, the checkpoints fix the chain head at known times, and
 the JWKS names the keys every signature was made with.
+
+It then checks the export the way a verifier without credentials would: it
+reads the public signing keys with ``fetch_jwks`` and confirms every manifest
+names a key from that set.
 """
 
 import json
 import os
 
 from indykite_sdk import AuditClient
+from indykite_sdk.audit import Manifest, fetch_jwks
 
 
 def main() -> None:
@@ -52,6 +57,18 @@ def main() -> None:
             payload = items.model_dump() if hasattr(items, "model_dump") else [item.model_dump() for item in items]
             json.dump(payload, handle, indent=2)
         print(f"Wrote {name}")
+
+    check_signing_keys(project_id, manifests)
+
+
+def check_signing_keys(project_id: str, manifests: list[Manifest]) -> None:
+    """Confirm every manifest names a published key; needs no credentials."""
+    keys = fetch_jwks(project_id)  # same host resolution as the clients, e.g. INDYKITE_BASE_URL
+    unknown = sorted({manifest.kid or "" for manifest in manifests if keys.find(manifest.kid or "") is None})
+    if unknown:
+        print(f"Manifests signed with keys outside the current set (rotated out?): {unknown}")
+    else:
+        print(f"All {len(manifests)} manifests name a key from the current set.")
 
 
 if __name__ == "__main__":

@@ -34,8 +34,8 @@ scan:
     - secret
     - misconfig
     - license # while enabled but run via the separate 'trivy-license' action
-  skip-dirs: ["**/.terraform/**", "**/.terragrunt-cache/**", "openapi/**"]
-  # skip-files: []
+  skip-dirs: ["**/.terraform/**", "**/.terragrunt-cache/**", "openapi/**", ".venv/**"] # .venv: local-only; dependency licenses are covered by trivy-licenses
+  skip-files: ["LICENSE"] # the project's own license, not a third-party finding
   show-suppressed: true
 
 vulnerability:

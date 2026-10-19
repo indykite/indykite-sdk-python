@@ -22,6 +22,7 @@ from indykite_sdk.config.models import (
     ConfigStatus,
     CreateResult,
     DeleteResult,
+    IkgSchemaVersion,
     KnowledgeQuery,
     Organization,
     Project,
@@ -116,11 +117,15 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         display_name: str | None = None,
         description: str | None = None,
         ikg_size: str | None = None,
+        ikg_schema_version: IkgSchemaVersion | None = None,
         replica_region: str | None = None,
         db_connection: dict[str, Any] | None = None,
         timeout: Timeout = None,
     ) -> CreateResult:
-        """Create a project with its own IKG."""
+        """Create a project with its own IKG.
+
+        ``ikg_schema_version`` defaults to ``v1`` and cannot be changed after creation.
+        """
         body = {
             "name": name,
             "organization_id": organization_id,
@@ -128,6 +133,7 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
             "display_name": display_name,
             "description": description,
             "ikg_size": ikg_size,
+            "ikg_schema_version": ikg_schema_version,
             "replica_region": replica_region,
             "db_connection": db_connection,
         }
