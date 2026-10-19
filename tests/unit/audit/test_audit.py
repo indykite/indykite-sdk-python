@@ -7,7 +7,7 @@ import pytest
 
 from indykite_sdk import AsyncAuditClient, AuditClient, BadRequestError, IndyKiteError, RequestValidationError
 from indykite_sdk._core import http as http_module
-from indykite_sdk._core.http import USER_AGENT
+from indykite_sdk._core.http import DEFAULT_TIMEOUT, USER_AGENT
 from indykite_sdk.audit import Checkpoint, KeySet, LogEntry, Manifest, Page, fetch_jwks, fetch_jwks_async
 from indykite_sdk.audit import aio as audit_aio_module
 from indykite_sdk.audit import client as audit_client_module
@@ -435,3 +435,76 @@ async def test_fetch_jwks_async_closes_its_own_client(monkeypatch) -> None:
     monkeypatch.setattr(audit_aio_module, "new_async_client", new_client)
     assert (await fetch_jwks_async(PROJECT)).find("platform-key-1") is not None
     assert created[0].is_closed
+
+
+class _CallerAuth(httpx.Auth):
+    """The caller's own auth on a borrowed client."""
+
+    def auth_flow(self, request: httpx.Request):
+        request.headers["X-Caller-Auth"] = "yes"
+        yield request
+
+
+def _borrowed_client_state(client: httpx.Client | httpx.AsyncClient) -> tuple:
+    return client.base_url, client.auth, dict(client.headers), client.timeout
+
+
+def _assert_borrowed_jwks_request(request: httpx.Request) -> None:
+    assert (request.url.host, request.url.path) == ("eu.api.indykite.com", "/audit/.well-known/jwks.json")
+    assert {"authorization", "x-ik-clientkey", "x-caller-auth"}.isdisjoint(name.lower() for name in request.headers)
+    assert request.headers["User-Agent"] == USER_AGENT
+    assert request.headers["X-Trace"] == "t-1"
+
+
+def _assert_borrowed_client_still_works(request: httpx.Request) -> None:
+    assert str(request.url) == "https://caller.test/api/things"
+    assert request.headers["Authorization"] == "Bearer caller"
+    assert request.headers["X-Caller-Auth"] == "yes"
+
+
+@pytest.mark.parametrize("fails", [False, True])
+def test_fetch_jwks_leaves_borrowed_client_unchanged(mock_api, fails: bool) -> None:
+    """A borrowed client keeps its configuration and still works after fetch_jwks returns or raises."""
+    mock_api.respond((400, {"message": "bad"}) if fails else JWKS, {})
+    http_client = httpx.Client(
+        transport=httpx.MockTransport(mock_api.handler),
+        base_url="https://caller.test/api",
+        auth=_CallerAuth(),
+        headers={"Authorization": "Bearer caller", "X-Trace": "t-1"},
+        timeout=7.0,
+    )
+    before = _borrowed_client_state(http_client)
+    if fails:
+        with pytest.raises(BadRequestError):
+            fetch_jwks(PROJECT, http_client=http_client, retries=None)
+    else:
+        fetch_jwks(PROJECT, http_client=http_client)
+    assert _borrowed_client_state(http_client) == before
+    _assert_borrowed_jwks_request(mock_api.requests[0])
+    assert mock_api.requests[0].extensions["timeout"] == DEFAULT_TIMEOUT.as_dict()
+    http_client.get("/things")
+    _assert_borrowed_client_still_works(mock_api.last)
+    assert mock_api.last.extensions["timeout"] == httpx.Timeout(7.0).as_dict()
+
+
+@pytest.mark.parametrize("fails", [False, True])
+async def test_fetch_jwks_async_leaves_borrowed_client_unchanged(mock_api, fails: bool) -> None:
+    """Async: a borrowed client keeps its configuration and still works after fetch_jwks_async."""
+    mock_api.respond((400, {"message": "bad"}) if fails else JWKS, {})
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(mock_api.handler),
+        base_url="https://caller.test/api",
+        auth=_CallerAuth(),
+        headers={"Authorization": "Bearer caller", "X-Trace": "t-1"},
+        timeout=7.0,
+    ) as http_client:
+        before = _borrowed_client_state(http_client)
+        if fails:
+            with pytest.raises(BadRequestError):
+                await fetch_jwks_async(PROJECT, http_client=http_client, retries=None)
+        else:
+            await fetch_jwks_async(PROJECT, http_client=http_client)
+        assert _borrowed_client_state(http_client) == before
+        _assert_borrowed_jwks_request(mock_api.requests[0])
+        await http_client.get("/things")
+        _assert_borrowed_client_still_works(mock_api.last)

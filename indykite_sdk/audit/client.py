@@ -9,7 +9,6 @@ import httpx
 from indykite_sdk._core.http import (
     DEFAULT_TIMEOUT,
     BaseSyncClient,
-    configure_client,
     new_sync_client,
     send_sync,
 )
@@ -163,7 +162,8 @@ def fetch_jwks(
     no application agent. The host resolves like the clients' base URL:
     ``base_url``, then ``INDYKITE_BASE_URL``, then ``region`` or
     ``INDYKITE_REGION``, then the default region. A passed ``http_client`` is
-    left open.
+    used as-is - its base URL, auth, headers and timeout are left unchanged -
+    and left open; credential headers it carries are not sent.
 
     Example::
 
@@ -171,12 +171,17 @@ def fetch_jwks(
 
         keys = fetch_jwks("gid:project", region="eu")
     """
-    spec = _ops.jwks_spec(project_id)
-    api_url = _ops.public_api_url(base_url, region)
+    spec, api_url = _ops.public_jwks_spec(project_id, base_url, region)
     client = new_sync_client(http_client)
-    configure_client(client, base_url=api_url, auth=None, timeout=timeout if timeout is not None else DEFAULT_TIMEOUT)
     try:
-        response = send_sync(client, spec, base_url=api_url, retries=retries, auth_kind="public")
+        response = send_sync(
+            client,
+            spec,
+            base_url=api_url,
+            retries=retries,
+            auth_kind="public",
+            timeout=timeout if timeout is not None else DEFAULT_TIMEOUT,
+        )
     finally:
         if http_client is None:
             client.close()
