@@ -22,6 +22,8 @@ class RequestSpec:
     params: dict[str, Any] = field(default_factory=dict)
     json_body: Any = None
     headers: dict[str, str] = field(default_factory=dict)
+    #: ``False`` for public endpoints: the request carries no credential.
+    authenticated: bool = True
 
 
 def user_token_headers(user_token: str | None, delegated_token: str | None = None) -> dict[str, str]:

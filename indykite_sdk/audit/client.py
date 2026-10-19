@@ -6,11 +6,18 @@ from collections.abc import Callable, Iterator
 
 import httpx
 
-from indykite_sdk._core.http import BaseSyncClient
+from indykite_sdk._core.http import (
+    DEFAULT_TIMEOUT,
+    BaseSyncClient,
+    configure_client,
+    new_sync_client,
+    send_sync,
+)
+from indykite_sdk._core.retry import DEFAULT_RETRY, RetryConfig
 from indykite_sdk.audit import _ops
 from indykite_sdk.audit.models import Checkpoint, KeySet, LogEntry, Manifest, Page
 
-__all__ = ["AuditClient"]
+__all__ = ["AuditClient", "fetch_jwks"]
 
 type Timeout = httpx.Timeout | float | None
 
@@ -40,7 +47,7 @@ class AuditClient(BaseSyncClient):
             keys = client.jwks("gid:project")  # the public keys behind every signature
     """
 
-    _api_prefix = "/audit"
+    _api_prefix = _ops.API_PREFIX
     _auth_kind = "app_agent"
 
     def _list[ItemT](
@@ -132,9 +139,45 @@ class AuditClient(BaseSyncClient):
     def jwks(self, project_id: str, *, timeout: Timeout = None) -> KeySet:
         """The public keys behind the batch, manifest and checkpoint signatures (``GET /.well-known/jwks.json``).
 
-        The endpoint is public and ignores the credential this client sends
-        with it. ``project_id`` is required but does not select a key today.
+        The endpoint is public: the request carries no credential, and
+        :func:`fetch_jwks` reads the same keys without a client.
+        ``project_id`` is required but does not select a key today.
         Keep the set next to an exported trail: it names the keys the export
         was signed with, and a ``kid`` missing from a later set was rotated out.
         """
         return KeySet.model_validate(self._send(_ops.jwks_spec(project_id), timeout=timeout).json())
+
+
+def fetch_jwks(
+    project_id: str,
+    *,
+    base_url: str | None = None,
+    region: str | None = None,
+    timeout: Timeout = None,
+    retries: RetryConfig | None = DEFAULT_RETRY,
+    http_client: httpx.Client | None = None,
+) -> KeySet:
+    """Read the audit signing keys without credentials (``GET /audit/.well-known/jwks.json``).
+
+    The endpoint is public, so a system that verifies an exported trail needs
+    no application agent. The host resolves like the clients' base URL:
+    ``base_url``, then ``INDYKITE_BASE_URL``, then ``region`` or
+    ``INDYKITE_REGION``, then the default region. A passed ``http_client`` is
+    left open.
+
+    Example::
+
+        from indykite_sdk.audit import fetch_jwks
+
+        keys = fetch_jwks("gid:project", region="eu")
+    """
+    spec = _ops.jwks_spec(project_id)
+    api_url = _ops.public_api_url(base_url, region)
+    client = new_sync_client(http_client)
+    configure_client(client, base_url=api_url, auth=None, timeout=timeout if timeout is not None else DEFAULT_TIMEOUT)
+    try:
+        response = send_sync(client, spec, base_url=api_url, retries=retries, auth_kind="public")
+    finally:
+        if http_client is None:
+            client.close()
+    return KeySet.model_validate(response.json())

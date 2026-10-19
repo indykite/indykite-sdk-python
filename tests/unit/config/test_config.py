@@ -468,3 +468,23 @@ def test_create_result_has_update_fields(make_client, mock_api) -> None:
     )
     created = make_client(ConfigClient).create_application("my-app", "gid:project-1")
     assert (created.update_time, created.updated_by) == ("2026-10-09T10:00:00Z", "gid:sa-1")
+
+
+@pytest.mark.parametrize("version", ["v1", "v2"])
+async def test_create_project_sends_ikg_schema_version(make_client, make_async_client, mock_api, version) -> None:
+    """ikg_schema_version is sent on create by both clients."""
+    mock_api.respond(
+        httpx.Response(201, json={"id": "gid:project-1"}), httpx.Response(201, json={"id": "gid:project-2"})
+    )
+    make_client(ConfigClient).create_project("my-project", "gid:org-1", "europe-west1", ikg_schema_version=version)
+    async with make_async_client(AsyncConfigClient) as client:
+        await client.create_project("my-project", "gid:org-1", "europe-west1", ikg_schema_version=version)
+    for request in mock_api.requests:
+        assert sent_json(request)["ikg_schema_version"] == version
+
+
+def test_read_project_parses_ikg_schema_version(make_client, mock_api) -> None:
+    """The project's IKG schema version is a typed field."""
+    mock_api.respond({**PROJECT, "ikg_schema_version": "v1"})
+    project = make_client(ConfigClient).read_project("gid:project-1")
+    assert project.ikg_schema_version == "v1"

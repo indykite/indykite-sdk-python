@@ -1,11 +1,16 @@
-"""Audit Log client: query parameters, envelope parsing, cursor paging, JWKS."""
+"""Audit Log client: query parameters, envelope parsing, cursor paging, JWKS (with and without credentials)."""
 
 from __future__ import annotations
 
+import httpx
 import pytest
 
-from indykite_sdk import AsyncAuditClient, AuditClient, IndyKiteError, RequestValidationError
-from indykite_sdk.audit import Checkpoint, KeySet, LogEntry, Manifest, Page
+from indykite_sdk import AsyncAuditClient, AuditClient, BadRequestError, IndyKiteError, RequestValidationError
+from indykite_sdk._core import http as http_module
+from indykite_sdk._core.http import USER_AGENT
+from indykite_sdk.audit import Checkpoint, KeySet, LogEntry, Manifest, Page, fetch_jwks, fetch_jwks_async
+from indykite_sdk.audit import aio as audit_aio_module
+from indykite_sdk.audit import client as audit_client_module
 
 PROJECT = "gid:AAAAAmluZHlraURlgAABDwAAAAA"
 
@@ -308,3 +313,125 @@ def test_page_size_must_be_an_integer(make_client, mock_api, page_size) -> None:
     with pytest.raises(RequestValidationError, match="integer from 1 to 50"):
         make_client(AuditClient).list_logs("gid:project-1", page_size=page_size)
     assert mock_api.requests == []
+
+
+def test_jwks_is_sent_without_credential(make_client, mock_api) -> None:
+    """The JWKS endpoint is public: the client's credential stays off that request only."""
+    mock_api.respond(EMPTY_PAGE, JWKS)
+    client = make_client(AuditClient)
+    client.list_logs(PROJECT)
+    client.jwks(PROJECT)
+    assert "X-IK-ClientKey" in mock_api.requests[0].headers
+    assert "X-IK-ClientKey" not in mock_api.requests[1].headers
+    assert "Authorization" not in mock_api.requests[1].headers
+
+
+async def test_async_jwks_is_sent_without_credential(make_async_client, mock_api) -> None:
+    """Async jwks is sent without credential."""
+    mock_api.respond(JWKS)
+    async with make_async_client(AsyncAuditClient) as client:
+        await client.jwks(PROJECT)
+    assert "X-IK-ClientKey" not in mock_api.last.headers
+
+
+def test_fetch_jwks_needs_no_credentials(mock_api) -> None:
+    """fetch_jwks works with no credential configured and leaves a passed client open."""
+    mock_api.respond(JWKS)
+    http_client = httpx.Client(transport=httpx.MockTransport(mock_api.handler))
+    keys = fetch_jwks(PROJECT, base_url="https://api.example.test", http_client=http_client)
+    request = mock_api.last
+    assert request.method == "GET"
+    assert (request.url.host, request.url.path) == ("api.example.test", "/audit/.well-known/jwks.json")
+    assert dict(request.url.params) == {"project_id": PROJECT}
+    assert "X-IK-ClientKey" not in request.headers
+    assert "Authorization" not in request.headers
+    assert request.headers["User-Agent"] == USER_AGENT
+    assert keys.find("platform-key-1") is not None
+    assert not http_client.is_closed
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "env", "host"),
+    [
+        ({}, {}, "eu.api.indykite.com"),
+        ({"region": "us"}, {}, "us.api.indykite.com"),
+        ({}, {"INDYKITE_BASE_URL": "https://api.env.test"}, "api.env.test"),
+    ],
+)
+def test_fetch_jwks_resolves_host(mock_api, monkeypatch, kwargs, env, host) -> None:
+    """fetch_jwks resolves the host like the clients do."""
+    for name, value in env.items():
+        monkeypatch.setenv(name, value)
+    http_client = httpx.Client(transport=httpx.MockTransport(mock_api.handler))
+    fetch_jwks(PROJECT, http_client=http_client, **kwargs)
+    assert mock_api.last.url.host == host
+
+
+@pytest.mark.parametrize("project_id", ["", "   "])
+def test_fetch_jwks_requires_project_id(mock_api, project_id) -> None:
+    """fetch_jwks validates project_id before sending anything."""
+    http_client = httpx.Client(transport=httpx.MockTransport(mock_api.handler))
+    with pytest.raises(RequestValidationError):
+        fetch_jwks(project_id, http_client=http_client)
+    assert mock_api.requests == []
+
+
+def test_fetch_jwks_maps_error_status(mock_api) -> None:
+    """fetch_jwks raises the typed error for a failed response."""
+    mock_api.respond((400, {"message": "invalid project_id"}))
+    http_client = httpx.Client(transport=httpx.MockTransport(mock_api.handler))
+    with pytest.raises(BadRequestError) as exc_info:
+        fetch_jwks(PROJECT, http_client=http_client, retries=None)
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.message == "invalid project_id"
+
+
+def test_fetch_jwks_retries_server_errors(mock_api, monkeypatch) -> None:
+    """fetch_jwks applies the retry policy to the idempotent GET."""
+    monkeypatch.setattr(http_module.time, "sleep", lambda _s: None)
+    mock_api.respond((503, {"message": "unavailable"}), JWKS)
+    http_client = httpx.Client(transport=httpx.MockTransport(mock_api.handler))
+    keys = fetch_jwks(PROJECT, http_client=http_client)
+    assert len(mock_api.requests) == 2
+    assert keys.find("platform-key-1") is not None
+
+
+def test_fetch_jwks_closes_its_own_client(monkeypatch) -> None:
+    """Without http_client, fetch_jwks creates a client and closes it afterwards."""
+    created: list[httpx.Client] = []
+
+    def new_client(http_client):
+        client = httpx.Client(transport=httpx.MockTransport(lambda _request: httpx.Response(200, json=JWKS)))
+        created.append(client)
+        return client
+
+    monkeypatch.setattr(audit_client_module, "new_sync_client", new_client)
+    assert fetch_jwks(PROJECT).find("platform-key-1") is not None
+    assert created[0].is_closed
+
+
+async def test_fetch_jwks_async_needs_no_credentials(mock_api) -> None:
+    """Async fetch_jwks works with no credential configured."""
+    mock_api.respond(JWKS)
+    http_client = httpx.AsyncClient(transport=httpx.MockTransport(mock_api.handler))
+    keys = await fetch_jwks_async(PROJECT, region="us", http_client=http_client)
+    assert mock_api.last.url.host == "us.api.indykite.com"
+    assert mock_api.last.url.path == "/audit/.well-known/jwks.json"
+    assert "X-IK-ClientKey" not in mock_api.last.headers
+    assert keys.find("platform-key-1") is not None
+    assert not http_client.is_closed
+    await http_client.aclose()
+
+
+async def test_fetch_jwks_async_closes_its_own_client(monkeypatch) -> None:
+    """Without http_client, async fetch_jwks closes the client it created."""
+    created: list[httpx.AsyncClient] = []
+
+    def new_client(http_client):
+        client = httpx.AsyncClient(transport=httpx.MockTransport(lambda _request: httpx.Response(200, json=JWKS)))
+        created.append(client)
+        return client
+
+    monkeypatch.setattr(audit_aio_module, "new_async_client", new_client)
+    assert (await fetch_jwks_async(PROJECT)).find("platform-key-1") is not None
+    assert created[0].is_closed

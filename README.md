@@ -192,6 +192,16 @@ Listings return a `Page` (`items`, `has_more`, `next_cursor`); `iter_*` follows
 the cursor for you. The signing key itself is configured with
 `ConfigClient.create_audit_signing` (see below).
 
+The signing keys are public, so a system that only verifies an export can read
+them without any IndyKite credential:
+
+```python
+from indykite_sdk.audit import fetch_jwks  # fetch_jwks_async for asyncio
+
+keys = fetch_jwks(project_id, region="eu")  # or base_url=..., or INDYKITE_BASE_URL
+key = keys.find(manifests[0].kid)  # None: the key was rotated out of the set
+```
+
 ### Manage platform configuration
 
 ```python

@@ -1,8 +1,8 @@
 # Third-Party License Report
 
-IndyKite Platform SDK for Python
+Python clients for the IndyKite platform REST APIs: the Identity Knowledge Graph (IKG), KBAC authorization (AuthZEN), ContX IQ knowledge queries, data capture, entity matching, the tamper-proof audit trail, and platform configuration.
 
-Generated at: 2026-10-09T16:01:47Z
+Generated at: 2026-10-19T20:31:15Z
 
 DO NOT EDIT!!
 
@@ -15,40 +15,37 @@ Regenerate with `ops-common/.github/actions/trivy-license/script.sh (clone 'ops-
 | License | Classification | Severity | Count |
 | --- | --- | --- | ---: |
 | MIT | notice | LOW | 20 |
-| BSD-3-Clause | notice | LOW | 10 |
-| Apache-2.0 | notice | LOW | 6 |
-| BSD-2-Clause | notice | LOW | 2 |
-| BeOpen | unknown | UNKNOWN | 2 |
-| CNRI-Python-GPL-Compatible | unknown | UNKNOWN | 2 |
-| MPL-2.0 | reciprocal | MEDIUM | 2 |
-| Python-2.0 | notice | LOW | 2 |
+| BSD-3-Clause | notice | LOW | 9 |
+| Apache-2.0 | notice | LOW | 5 |
 | BSD-0-Clause | unknown | UNKNOWN | 1 |
+| BSD-2-Clause | notice | LOW | 1 |
+| BeOpen | unknown | UNKNOWN | 1 |
+| CNRI-Python-GPL-Compatible | unknown | UNKNOWN | 1 |
 | GPL-2.0 | restricted | HIGH | 1 |
-| ISC | notice | LOW | 1 |
 | LGPL-2.1 | restricted | HIGH | 1 |
+| MPL-2.0 | reciprocal | MEDIUM | 1 |
+| Python-2.0 | notice | LOW | 1 |
 
-**Total packages scanned:** 50
+**Total packages scanned:** 42
 
 ## Report Summary (by target)
 
 | Target | Type | Licenses |
 | --- | --- | ---: |
-| Loose File License(s) | - | 50 |
+| Loose File License(s) | - | 42 |
 
 ## Details
 
-### `Loose File License(s)` (-) -- 50 licenses
+### `Loose File License(s)` (-) -- 42 licenses
 
 | Package | License | Classification | Severity |
 | --- | --- | --- | --- |
-| LICENSE | Apache-2.0 | notice | LOW |
 | coverage | Apache-2.0 | notice | LOW |
 | indykite\_sdk\_python | Apache-2.0 | notice | LOW |
 | pip | Apache-2.0 | notice | LOW |
 | pygments | Apache-2.0 | notice | LOW |
 | pytest\_asyncio | Apache-2.0 | notice | LOW |
 | typing\_extensions | BSD-0-Clause | unknown | UNKNOWN |
-| pip | BSD-2-Clause | notice | LOW |
 | pygments | BSD-2-Clause | notice | LOW |
 | dill | BSD-3-Clause | notice | LOW |
 | httpcore | BSD-3-Clause | notice | LOW |
@@ -57,15 +54,11 @@ Regenerate with `ops-common/.github/actions/trivy-license/script.sh (clone 'ops-
 | jinja2 | BSD-3-Clause | notice | LOW |
 | joserfc | BSD-3-Clause | notice | LOW |
 | markupsafe | BSD-3-Clause | notice | LOW |
-| pip | BSD-3-Clause | notice | LOW |
 | pycparser | BSD-3-Clause | notice | LOW |
 | respx | BSD-3-Clause | notice | LOW |
-| pip | BeOpen | unknown | UNKNOWN |
 | typing\_extensions | BeOpen | unknown | UNKNOWN |
-| pip | CNRI-Python-GPL-Compatible | unknown | UNKNOWN |
 | typing\_extensions | CNRI-Python-GPL-Compatible | unknown | UNKNOWN |
 | pylint | GPL-2.0 | restricted | HIGH |
-| pip | ISC | notice | LOW |
 | astroid | LGPL-2.1 | restricted | HIGH |
 | annotated\_types | MIT | notice | LOW |
 | anyio | MIT | notice | LOW |
@@ -88,6 +81,4 @@ Regenerate with `ops-common/.github/actions/trivy-license/script.sh (clone 'ops-
 | tomlkit | MIT | notice | LOW |
 | typing\_inspection | MIT | notice | LOW |
 | certifi | MPL-2.0 | reciprocal | MEDIUM |
-| pip | MPL-2.0 | reciprocal | MEDIUM |
-| pip | Python-2.0 | notice | LOW |
 | typing\_extensions | Python-2.0 | notice | LOW |

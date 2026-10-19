@@ -8,6 +8,7 @@ from typing import Any
 from urllib.parse import quote
 
 import httpx
+from pydantic import ValidationError
 
 from indykite_sdk._core.http import BaseSyncClient
 from indykite_sdk._core.ops import RequestSpec
@@ -40,12 +41,24 @@ def _run_body(
         )
     body: dict[str, Any] = {"similarity_score_cutoff": similarity_score_cutoff}
     if custom_property_mappings:
-        mappings = [
-            item if isinstance(item, CustomPropertyMapping) else CustomPropertyMapping.model_validate(item)
-            for item in custom_property_mappings
-        ]
+        mappings: list[CustomPropertyMapping] = []
+        for index, item in enumerate(custom_property_mappings):
+            try:
+                mappings.append(
+                    item if isinstance(item, CustomPropertyMapping) else CustomPropertyMapping.model_validate(item)
+                )
+            except ValidationError as exc:
+                raise RequestValidationError(f"Invalid custom_property_mappings at index {index}: {exc}") from exc
         body["custom_property_mappings"] = [mapping.to_wire() for mapping in mappings]
     return body
+
+
+def _pipeline_path(pipeline_id: str, suffix: str) -> str:
+    """``/pipelines/{id}/{suffix}``, with the ID encoded as one path segment."""
+    pipeline_id = (pipeline_id or "").strip()
+    if not pipeline_id:
+        raise RequestValidationError("pipeline_id is required: the entity-matching pipeline GID (``gid:...``).")
+    return f"/pipelines/{quote(pipeline_id, safe=':')}/{suffix}"
 
 
 def _parse_property_mappings(pipeline_id: str, response: httpx.Response) -> PropertyMappings:
@@ -59,6 +72,9 @@ def _parse_property_mappings(pipeline_id: str, response: httpx.Response) -> Prop
 
 
 def _is_complete(status: PipelineStatus) -> bool:
+    """A run is over once matching finishes, or as soon as the property-mapping step fails."""
+    if (status.property_mapping_status or "").upper() == "ERROR":
+        return True
     return (status.entity_matching_status or "").upper() in FINAL_STATUSES
 
 
@@ -91,9 +107,7 @@ class EntityMatchingClient(BaseSyncClient):
         While the mappings are not ready the API answers 202 Accepted; the
         result then has ``pending=True`` and no suggestions.
         """
-        response = self._send(
-            RequestSpec("GET", f"/pipelines/{quote(pipeline_id, safe=':')}/property-mappings"), timeout=timeout
-        )
+        response = self._send(RequestSpec("GET", _pipeline_path(pipeline_id, "property-mappings")), timeout=timeout)
         return _parse_property_mappings(pipeline_id, response)
 
     def run_pipeline(
@@ -114,14 +128,14 @@ class EntityMatchingClient(BaseSyncClient):
         """
         spec = RequestSpec(
             "POST",
-            f"/pipelines/{quote(pipeline_id, safe=':')}/runs",
+            _pipeline_path(pipeline_id, "runs"),
             json_body=_run_body(similarity_score_cutoff, custom_property_mappings),
         )
         return PipelineRun.model_validate(self._send(spec, timeout=timeout).json())
 
     def read_status(self, pipeline_id: str, *, timeout: httpx.Timeout | float | None = None) -> PipelineStatus:
         """Read the pipeline's step statuses (``GET /pipelines/{id}/status``)."""
-        response = self._send(RequestSpec("GET", f"/pipelines/{quote(pipeline_id, safe=':')}/status"), timeout=timeout)
+        response = self._send(RequestSpec("GET", _pipeline_path(pipeline_id, "status")), timeout=timeout)
         return PipelineStatus.model_validate(response.json())
 
     def wait_for_completion(
@@ -131,7 +145,11 @@ class EntityMatchingClient(BaseSyncClient):
         timeout: float = 600.0,
         poll_interval: float = 10.0,
     ) -> PipelineStatus:
-        """Poll :meth:`read_status` until the matching step reaches a final status.
+        """Poll :meth:`read_status` until the run is over.
+
+        The run is over when the matching step reaches ``SUCCESS`` or ``ERROR``,
+        or when the property-mapping step reports ``ERROR``. Check both
+        statuses on the result.
 
         Raises:
             PipelineTimeoutError: no final status within ``timeout`` seconds.

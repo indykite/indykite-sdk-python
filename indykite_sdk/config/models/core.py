@@ -22,6 +22,7 @@ __all__ = [
     "AuditSigningProvider",
     "AuthorizationPolicy",
     "ConfigStatus",
+    "IkgSchemaVersion",
     "KnowledgeQuery",
     "Organization",
     "Project",
@@ -42,6 +43,9 @@ ApiPermission = Literal[
 
 #: Lifecycle status of policies and knowledge queries.
 ConfigStatus = Literal["ACTIVE", "INACTIVE", "DRAFT"]
+
+#: IKG schema version of a project; set once at creation (default ``v1``).
+IkgSchemaVersion = Literal["v1", "v2"]
 
 #: Role of a service account.
 ServiceAccountRole = Literal["all_editor", "all_viewer"]
@@ -74,6 +78,7 @@ class Project(_AuditedResource):
     replica_region: str | None = None
     ikg_size: str | None = None
     ikg_status: str | None = None
+    ikg_schema_version: str | None = None
     db_connection: dict[str, Any] | None = None
 
 
