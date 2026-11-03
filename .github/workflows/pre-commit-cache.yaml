@@ -8,6 +8,8 @@ on: # yamllint disable-line rule:truthy
     # GitHub Actions does not support the non-standard syntax @monthly, @weekly, @daily, etc.
     # - cron: "15 0 * * *" # daily at 00:15 UTC
     - cron: "15 0 1 * *" # low activity repos can do just the first day of the month at 00:15 UTC
+  # to have an ability to run the workflow manually
+  workflow_dispatch: # yamllint disable-line rule:empty-values
 
 permissions:
   contents: write # required for trivy to upload artifacts
@@ -21,7 +23,7 @@ jobs:
     steps:
       - name: Mint ik-code-reader installation token
         id: code_reader_token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0 - https://github.com/actions/create-github-app-token/releases
         with:
           client-id: ${{ vars.IK_CODE_READER_CLIENT_ID }}
           private-key: ${{ secrets.IK_CODE_READER_PEM }}

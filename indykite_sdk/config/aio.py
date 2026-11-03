@@ -107,7 +107,12 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         db_connection: dict[str, Any] | None = None,
         timeout: Timeout = None,
     ) -> CreateResult:
-        """Create a project."""
+        """Create a project with its own IKG.
+
+        ``ikg_schema_version`` defaults to ``v1`` and cannot be changed after
+        creation. :data:`~indykite_sdk.config.IkgSchemaVersion` lists the values
+        the API defines; only ``v1`` is accepted today.
+        """
         body = {
             "name": name,
             "organization_id": organization_id,
@@ -580,7 +585,12 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         description: str | None = None,
         timeout: Timeout = None,
     ) -> CreateResult:
-        """Create an audit-signing configuration for a project."""
+        """Create an audit-signing configuration for a project.
+
+        A project holds at most one: creating a second one raises
+        :class:`~indykite_sdk.ConflictError` (HTTP 409), so change the existing
+        one with :meth:`update_audit_signing` instead.
+        """
         body = {
             "name": name,
             "project_id": project_id,
@@ -718,7 +728,17 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
         return await self._list("/token-introspects", ConfigResource, params, timeout)
 
     async def create_token_introspect(self, body: dict[str, Any], *, timeout: Timeout = None) -> CreateResult:
-        """Create a token-introspect configuration from its documented JSON body."""
+        """Create a token-introspect configuration from its documented JSON body.
+
+        ``ikg_node_type`` is required in projects on IKG schema ``v1``; projects
+        on schema ``v2`` require ``label`` and ``id_key`` instead. The body pairs
+        one matcher (``jwt_matcher`` or ``opaque_matcher``) with at most one
+        validation mode: ``offline_validation`` (local JWT signature
+        checks; ``discovery`` is ``oidc`` or ``rfc8414``), ``online_validation``
+        (userinfo endpoint) or ``online_oauth2_validation`` (RFC 7662
+        introspection endpoint with write-only ``secret_basic.client_secret``).
+        See :meth:`indykite_sdk.ConfigClient.create_token_introspect`.
+        """
         return await self._create("/token-introspects", body, timeout)
 
     async def read_token_introspect(
@@ -735,7 +755,12 @@ class AsyncConfigClient(BaseAsyncClient):  # skipcq: PYL-R0904 - one method per 
     async def update_token_introspect(
         self, introspect_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
     ) -> UpdateResult:
-        """Update a token-introspect configuration (``If-Match`` guarded)."""
+        """Update a token-introspect configuration (``If-Match`` guarded).
+
+        An ``online_oauth2_validation`` update may leave ``client_secret`` out
+        to keep the stored secret, unless ``introspection_endpoint`` or
+        ``client_id`` changes.
+        """
         return await self._update("/token-introspects", introspect_id, body, etag, timeout)
 
     async def delete_token_introspect(self, introspect_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:

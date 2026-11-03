@@ -124,7 +124,9 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
     ) -> CreateResult:
         """Create a project with its own IKG.
 
-        ``ikg_schema_version`` defaults to ``v1`` and cannot be changed after creation.
+        ``ikg_schema_version`` defaults to ``v1`` and cannot be changed after
+        creation. :data:`~indykite_sdk.config.IkgSchemaVersion` lists the values
+        the API defines; only ``v1`` is accepted today.
         """
         body = {
             "name": name,
@@ -627,6 +629,10 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         require ``key_resource`` and ``kid``, plus whatever ``auth_params`` the
         provider needs to reach the key. ``auth_params`` values are write-only:
         reads return the keys with blank values.
+
+        A project holds at most one audit-signing configuration: creating a
+        second one raises :class:`~indykite_sdk.ConflictError` (HTTP 409), so
+        change the existing one with :meth:`update_audit_signing` instead.
         """
         body = {
             "name": name,
@@ -767,7 +773,30 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
         return self._list("/token-introspects", ConfigResource, params, timeout)
 
     def create_token_introspect(self, body: dict[str, Any], *, timeout: Timeout = None) -> CreateResult:
-        """Create a token-introspect configuration from its documented JSON body."""
+        """Create a token-introspect configuration from its documented JSON body.
+
+        ``ikg_node_type`` names the IKG node type the token's subject is matched
+        to; it is required in projects on IKG schema ``v1``. Projects on schema
+        ``v2`` instead require ``label`` (the node label) and ``id_key`` (the
+        node property holding the subject claim), and ignore ``ikg_node_type``.
+
+        The body pairs one matcher (``jwt_matcher`` or ``opaque_matcher``) with
+        at most one validation mode:
+
+        - ``offline_validation`` checks JWT signatures locally against
+          ``public_jwks``, or against the keys published by the issuer when no
+          keys are given. ``discovery`` names the metadata document that
+          locates them: ``oidc`` (the default, OpenID Connect discovery) or
+          ``rfc8414`` (OAuth 2.0 authorization-server metadata). JWT tokens only.
+        - ``online_validation`` calls the issuer's userinfo endpoint; works with
+          JWT and opaque tokens.
+        - ``online_oauth2_validation`` calls an RFC 7662 introspection endpoint
+          with HTTP Basic client credentials, e.g.
+          ``{"introspection_endpoint": "https://idp.example.com/introspect",
+          "secret_basic": {"client_id": "...", "client_secret": "..."}, "cache_ttl": 300}``.
+          Works with JWT and opaque tokens. ``client_secret`` is write-only and
+          required on create; reads return ``secret_basic`` with ``client_id`` only.
+        """
         return self._create("/token-introspects", body, timeout)
 
     def read_token_introspect(
@@ -784,7 +813,12 @@ class ConfigClient(BaseSyncClient):  # skipcq: PYL-R0904 - one method per REST o
     def update_token_introspect(
         self, introspect_id: str, body: dict[str, Any], *, etag: str, timeout: Timeout = None
     ) -> UpdateResult:
-        """Update a token-introspect configuration (``If-Match`` guarded)."""
+        """Update a token-introspect configuration (``If-Match`` guarded).
+
+        An ``online_oauth2_validation`` update may leave ``client_secret`` out
+        to keep the stored secret, unless ``introspection_endpoint`` or
+        ``client_id`` changes.
+        """
         return self._update("/token-introspects", introspect_id, body, etag, timeout)
 
     def delete_token_introspect(self, introspect_id: str, *, etag: str, timeout: Timeout = None) -> DeleteResult:

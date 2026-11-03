@@ -3,6 +3,8 @@ name: Release notes
 on: # yamllint disable-line rule:truthy
   push:
     branches: ["dev", "develop", "main", "master"]
+  # to have an ability to run the workflow manually
+  workflow_dispatch: # yamllint disable-line rule:empty-values
 
 # https://github.com/googleapis/release-please-action?tab=readme-ov-file#workflow-permissions
 permissions:
@@ -19,7 +21,7 @@ jobs:
     steps:
       - name: Mint ik-code-writer installation token
         id: code_writer_token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0 - https://github.com/actions/create-github-app-token/releases
         with:
           client-id: ${{ vars.IK_CODE_WRITER_CLIENT_ID }}
           private-key: ${{ secrets.IK_CODE_WRITER_PEM }}
@@ -44,6 +46,15 @@ jobs:
           PR_NUMBER=$(echo "${PR_JSON}" | jq -r '.number')
           PR_TITLE=$(echo "${PR_JSON}" | jq -r '.title')
 
+          if [[ -z "${RELEASE_VERSION}" && -z "${PR_JSON}" ]]; then
+            echo "no release pending"
+            {
+              echo "version="
+              echo "pr_number="
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           if [[ -z "${RELEASE_VERSION}" ]]; then
             # RELEASE_VERSION="$(jq -r '.["."]' .release-please-manifest.json)" # <- requires code checkout
             RELEASE_VERSION="$(echo "${PR_TITLE}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" # another option: | awk '{print $NF}'
@@ -56,7 +67,7 @@ jobs:
 
       - name: actions/slack-notification
         uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0 - https://github.com/slackapi/slack-github-action/releases
-        if: steps.release.outputs.releases_created || steps.release.outputs.prs_created
+        if: steps.release.outputs.releases_created == 'true' || steps.release.outputs.prs_created == 'true'
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           method: chat.postMessage
