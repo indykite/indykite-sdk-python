@@ -41,7 +41,7 @@ def list_spec(path: str, project_id: str, cursor: str | None, page_size: int | N
 
 
 def jwks_spec(project_id: str) -> RequestSpec:
-    """Build the JWKS request; ``project_id`` is required but does not select a key today.
+    """Build the JWKS request for the keys that signed for ``project_id``.
 
     The endpoint is public, so the request carries no credential.
     """

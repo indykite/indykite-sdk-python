@@ -139,10 +139,16 @@ class AuditClient(BaseSyncClient):
         """The public keys behind the batch, manifest and checkpoint signatures (``GET /.well-known/jwks.json``).
 
         The endpoint is public: the request carries no credential, and
-        :func:`fetch_jwks` reads the same keys without a client.
-        ``project_id`` is required but does not select a key today.
-        Keep the set next to an exported trail: it names the keys the export
-        was signed with, and a ``kid`` missing from a later set was rotated out.
+        :func:`fetch_jwks` reads the same keys without a client. The set holds
+        every key that ever signed for ``project_id``, current and retired, by
+        ``kid``, so any item of the trail can be verified against it. A project
+        with no signed data yet has no keys, and a project's first key, or one
+        added by a rotation, can take up to two minutes to appear. Keep the set
+        next to an exported trail.
+
+        The platform answers 503 with ``Retry-After`` while it loads a large key
+        set; the client retries those on its own, waiting the time the header
+        asks for, up to its ``max_attempts``.
         """
         return KeySet.model_validate(self._send(_ops.jwks_spec(project_id), timeout=timeout).json())
 

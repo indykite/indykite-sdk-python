@@ -45,6 +45,7 @@ ApiPermission = Literal[
 ConfigStatus = Literal["ACTIVE", "INACTIVE", "DRAFT"]
 
 #: IKG schema version of a project; set once at creation (default ``v1``).
+#: ``v2`` is rejected until the platform supports it.
 IkgSchemaVersion = Literal["v1", "v2"]
 
 #: Role of a service account.
@@ -78,6 +79,7 @@ class Project(_AuditedResource):
     replica_region: str | None = None
     ikg_size: str | None = None
     ikg_status: str | None = None
+    #: One of :data:`IkgSchemaVersion`; cannot change after creation.
     ikg_schema_version: str | None = None
     db_connection: dict[str, Any] | None = None
 

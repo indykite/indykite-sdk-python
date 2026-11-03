@@ -106,7 +106,11 @@ class AsyncAuditClient(BaseAsyncClient):
         )
 
     async def jwks(self, project_id: str, *, timeout: Timeout = None) -> KeySet:
-        """The public keys behind every signature (``GET /.well-known/jwks.json``); sent without a credential."""
+        """The public keys behind every signature (``GET /.well-known/jwks.json``); sent without a credential.
+
+        Every key that ever signed for ``project_id``, current and retired, by
+        ``kid``; see :meth:`indykite_sdk.AuditClient.jwks`.
+        """
         response = await self._send(_ops.jwks_spec(project_id), timeout=timeout)
         return KeySet.model_validate(response.json())
 
