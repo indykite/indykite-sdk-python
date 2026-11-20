@@ -90,5 +90,7 @@ def test_capture_routes_nodes_and_relationships_by_location(
     finally:
         if not deleted:
             # Always try to clean up, even on failure part-way.
-            client.delete_relationships([owns, knows])
-            client.delete_nodes(nodes)
+            try:
+                client.delete_relationships([owns, knows])
+            finally:
+                client.delete_nodes(nodes)
