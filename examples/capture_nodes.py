@@ -26,7 +26,7 @@ def main() -> None:
                 {"external_id": "kitt", "type": "Car", "properties": [{"type": "model", "value": "K.I.T.T."}]},
             ]
         )
-        print(f"Upserted {len(results)} nodes")
+        print(f"Upserted {len(results.results)} nodes")
 
         client.upsert_relationships(
             [

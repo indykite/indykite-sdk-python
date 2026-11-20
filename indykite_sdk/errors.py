@@ -160,15 +160,15 @@ class ChunkedCaptureError(IndyKiteError):
     """An ``auto_chunk`` capture call failed partway through.
 
     Attributes:
-        completed: Results of the chunks that succeeded before the failure,
-            in request order.
+        completed: The merged :class:`~indykite_sdk.capture.BatchResults` of
+            the chunks that succeeded before the failure.
         failed_at: Index (0-based, in items) of the first item of the chunk
             that failed.
 
     The failure that stopped the run is available as ``__cause__``.
     """
 
-    def __init__(self, message: str, *, completed: list[Any], failed_at: int) -> None:
+    def __init__(self, message: str, *, completed: Any, failed_at: int) -> None:
         super().__init__(message)
         self.completed = completed
         self.failed_at = failed_at
