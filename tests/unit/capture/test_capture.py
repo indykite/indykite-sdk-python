@@ -11,7 +11,7 @@ from indykite_sdk import (
     NotFoundError,
     RequestValidationError,
 )
-from indykite_sdk.capture import Property, UpsertNode
+from indykite_sdk.capture import LOCATION_DEFAULT, LOCATION_GLOBAL, Property, UpsertNode
 from tests.unit.conftest import sent_json
 
 NODE = {
@@ -35,7 +35,7 @@ def test_upsert_nodes_sends_expected_body_and_parses_results(make_client, mock_a
     assert mock_api.last.method == "POST"
     assert mock_api.last.url.path == "/capture/v1/nodes"
     assert sent_json(mock_api.last) == {"nodes": [NODE]}
-    assert results[0].id == "gid:node-1"
+    assert results.results[0].id == "gid:node-1"
 
 
 def test_upsert_nodes_accepts_models(make_client, mock_api) -> None:
@@ -78,7 +78,7 @@ def test_upsert_nodes_auto_chunk_splits_and_concatenates(make_client, mock_api) 
     results = client.upsert_nodes(nodes, auto_chunk=True)
     assert len(mock_api.requests) == 3
     assert [len(sent_json(r)["nodes"]) for r in mock_api.requests] == [250, 250, 100]
-    assert len(results) == 600
+    assert len(results.results) == 600
 
 
 def test_upsert_nodes_auto_chunk_partial_failure(make_client, mock_api) -> None:
@@ -90,7 +90,7 @@ def test_upsert_nodes_auto_chunk_partial_failure(make_client, mock_api) -> None:
     with pytest.raises(ChunkedCaptureError) as exc_info:
         client.upsert_nodes(nodes, auto_chunk=True)
     error = exc_info.value
-    assert len(error.completed) == 250
+    assert len(error.completed.results) == 250
     assert error.failed_at == 250
     assert isinstance(error.__cause__, NotFoundError)
 
@@ -134,19 +134,74 @@ def test_relationships_upsert_relationships_body(make_client, mock_api) -> None:
     assert sent_json(mock_api.last) == {"relationships": [RELATIONSHIP]}
 
 
-def test_relationships_use_global_db_flag(make_client, mock_api) -> None:
-    """Relationships use global db flag."""
+def test_delete_relationships_path(make_client, mock_api) -> None:
+    """Delete relationships path."""
     client = make_client(CaptureClient)
-    client.delete_relationships([RELATIONSHIP], use_global_db=True)
+    client.delete_relationships([RELATIONSHIP])
     assert mock_api.last.url.path == "/capture/v1/relationships/delete"
-    assert sent_json(mock_api.last)["use_global_db"] is True
+    assert sent_json(mock_api.last) == {"relationships": [RELATIONSHIP]}
 
 
-def test_relationships_use_global_db_omitted_when_false(make_client, mock_api) -> None:
-    """Relationships use global db omitted when false."""
-    client = make_client(CaptureClient)
-    client.upsert_relationships([RELATIONSHIP])
-    assert "use_global_db" not in sent_json(mock_api.last)
+def test_upsert_nodes_with_locations_returns_results_by_location(make_client, mock_api) -> None:
+    """A request with a location is answered per location; create_proxy is sent."""
+    nodes = [
+        {"external_id": "ada", "type": "Person", "location": "east", "create_proxy": True},
+        {"external_id": "bob", "type": "Person", "location": "west"},
+        {"external_id": "kitt", "type": "Car"},
+    ]
+    mock_api.respond(
+        {
+            "east": ["gid:ada"],
+            "west": None,
+            "__default": ["gid:kitt"],
+            "global": ["gid:ada-proxy"],
+            "request_id": "not-a-location",
+        }
+    )
+    results = make_client(CaptureClient).upsert_nodes(nodes)
+    assert sent_json(mock_api.last) == {"nodes": nodes}
+    assert results.results == []
+    assert results.by_location == {
+        "east": ["gid:ada"],
+        "west": [],
+        LOCATION_DEFAULT: ["gid:kitt"],
+        LOCATION_GLOBAL: ["gid:ada-proxy"],
+    }
+
+
+def test_relationship_locations_select_the_per_location_shape(make_client, mock_api) -> None:
+    """A relationship is routed by the locations of its source and target nodes."""
+    relationship = {
+        "type": "OWNS",
+        "source": {"external_id": "ada", "type": "Person", "location": "east"},
+        "target": {"external_id": "kitt", "type": "Car", "location": "west"},
+    }
+    mock_api.respond({"global": ["gid:rel"]})
+    results = make_client(CaptureClient).upsert_relationships([relationship])
+    assert sent_json(mock_api.last) == {"relationships": [relationship]}
+    assert results.by_location == {LOCATION_GLOBAL: ["gid:rel"]}
+
+
+def test_request_without_locations_keeps_plain_results(make_client, mock_api) -> None:
+    """Without a location the plain shape is parsed and by_location stays unset."""
+    mock_api.respond({"results": [{"id": "gid:node-1"}]})
+    results = make_client(CaptureClient).upsert_nodes([NODE])
+    assert [result.id for result in results.results] == ["gid:node-1"]
+    assert results.by_location is None
+
+
+def test_auto_chunk_merges_plain_and_per_location_chunks(make_client, mock_api) -> None:
+    """Chunks of one call can mix both shapes; plain results move under the default key."""
+    nodes = [{"external_id": f"n{i}", "type": "Person"} for i in range(250)]
+    nodes += [{"external_id": "east-1", "type": "Person", "location": "east"}, {"external_id": "p", "type": "Person"}]
+    mock_api.respond({"results": [{"id": f"gid:{i}"} for i in range(250)]})
+    mock_api.respond({"east": ["gid:east-1"], "__default": ["gid:p"]})
+    results = make_client(CaptureClient).upsert_nodes(nodes, auto_chunk=True)
+    assert results.results == []
+    assert results.by_location == {
+        LOCATION_DEFAULT: [f"gid:{i}" for i in range(250)] + ["gid:p"],
+        "east": ["gid:east-1"],
+    }
 
 
 async def test_async_capture_upsert_nodes(make_async_client, mock_api) -> None:
@@ -154,7 +209,7 @@ async def test_async_capture_upsert_nodes(make_async_client, mock_api) -> None:
     mock_api.respond({"results": [{"id": "gid:node-1"}]})
     async with make_async_client(AsyncCaptureClient) as client:
         results = await client.upsert_nodes([NODE])
-    assert results[0].id == "gid:node-1"
+    assert results.results[0].id == "gid:node-1"
     assert mock_api.last.headers["X-IK-ClientKey"] == "app-agent-token-value"
 
 
@@ -178,7 +233,7 @@ async def test_async_capture_all_endpoints_round_trip(make_async_client, mock_ap
             [{"external_id": "ada", "type": "Person", "property_type": "email", "metadata_fields": ["source"]}]
         )
         await client.upsert_relationships([RELATIONSHIP])
-        await client.delete_relationships([RELATIONSHIP], use_global_db=True)
+        await client.delete_relationships([RELATIONSHIP])
         await client.delete_relationship_properties([dict(RELATIONSHIP, property_types=["since"])])
     paths = [request.url.path.removeprefix("/capture/v1") for request in mock_api.requests]
     assert paths == [
