@@ -10,6 +10,8 @@ These tests hit a live IndyKite environment and are deselected by default
 - ``INDYKITE_TEST_ORGANIZATION_ID`` / ``INDYKITE_TEST_PROJECT_ID`` — existing IDs
 - ``INDYKITE_TEST_KNOWLEDGE_QUERY_ID`` — an ACTIVE knowledge query (CIQ test)
 - ``INDYKITE_TEST_ENTITY_MATCHING_PIPELINE_ID`` — an entity-matching pipeline
+- ``INDYKITE_TEST_COMPOSITE_LOCATIONS`` — optional, two location names of a
+  composite IKG (see ``test_capture_composite.py``)
 
 The application agent must belong to ``INDYKITE_TEST_PROJECT_ID`` and hold the
 ``Audit``, ``Authorization``, ``Capture``, ``ContXIQ``, ``EntityMatching``,

@@ -21,7 +21,7 @@ def test_capture_roundtrip(capture_client: CaptureClient, unique_suffix: str) ->
                 car,
             ]
         )
-        assert len(results) == 2
+        assert len(results.results) == 2
 
         capture_client.upsert_relationships([relationship])
 

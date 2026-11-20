@@ -150,6 +150,27 @@ with CaptureClient() as client:
     )
 ```
 
+On a composite IKG, set `location` on the nodes. Each node is written to the
+database of its location, and `create_proxy=True` also puts a proxy of it in the
+global database. A relationship goes to the database its source and target
+share, or to the global database when their locations differ. Such calls return
+the GIDs per location in `BatchResults.by_location` (nodes without a location
+under `LOCATION_DEFAULT`, proxies and cross-location relationships under
+`LOCATION_GLOBAL`); calls without any location fill `BatchResults.results`.
+
+```python
+from indykite_sdk import CaptureClient
+
+with CaptureClient() as client:
+    results = client.upsert_nodes(
+        [
+            {"external_id": "ada", "type": "Person", "location": "east", "create_proxy": True},
+            {"external_id": "kitt", "type": "Car", "location": "west"},
+        ]
+    )
+    print(results.by_location)  # {"east": ["gid:..."], "west": ["gid:..."], "global": ["gid:..."]}
+```
+
 ### Read the graph with a knowledge query (ContX IQ)
 
 ```python
