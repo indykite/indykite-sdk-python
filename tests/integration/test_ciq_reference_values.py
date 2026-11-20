@@ -95,8 +95,10 @@ def test_ciq_upserts_values_referenced_from_the_matched_graph(
                 assert nodes["server.property.owner_id"] == owner["external_id"]
                 assert nodes["server.property.owner_email"] == owner_email
             finally:
-                capture_client.delete_relationships([owns])
-                capture_client.delete_nodes([owner, server])
+                try:
+                    capture_client.delete_relationships([owns])
+                finally:
+                    capture_client.delete_nodes([owner, server])
         finally:
             # The query references the policy, so it goes first.
             current_query = config_client.read_knowledge_query(query.id)
